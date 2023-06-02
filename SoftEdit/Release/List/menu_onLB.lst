@@ -1,0 +1,741 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:52:05 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\menu_ #
+#                       onLB.cpp                                             #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\menu_ #
+#                       onLB.cpp -D NDEBUG -lC Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\SoftEdit\Release\List\ -o                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\List\menu_onLB.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\menu_onLB.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\menu_onLB.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          #include "header\structs.h"
+      4          #include "header\extern.h"
+      5          
+      6          int isSoftEditBook(BOOK *bk);
+      7          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          int GetStrID(wchar_t *txt)
+      9          {
+   \                     ??GetStrID:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     10            int id=EMPTY_TEXTID;
+   \   00000008   9024E0E3           MVN      R2,#-1879048192
+   \   0000000C   00208DE5           STR      R2,[SP, #+0]
+     11            textidname2id(txt,0xFFFFFFFF,&id);
+   \   00000010   0D20A0E1           MOV      R2,SP
+   \   00000014   0010E0E3           MVN      R1,#+0
+   \   00000018   870200EF           SWI      +647
+     12            return id;
+   \   0000001C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000020   0280BDE8           POP      {R1,PC}          ;; return
+     13          };
+     14          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     15          int GetIconID(wchar_t *txt)
+     16          {
+   \                     ??GetIconID:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     17            int id=NOIMAGE;
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000010   00208DE5           STR      R2,[SP, #+0]
+     18            iconidname2id(txt,0xFFFFFFFF,&id);
+   \   00000014   0D20A0E1           MOV      R2,SP
+   \   00000018   0010E0E3           MVN      R1,#+0
+   \   0000001C   860200EF           SWI      +646
+     19            return id;
+   \   00000020   00009DE5           LDR      R0,[SP, #+0]
+   \   00000024   0280BDE8           POP      {R1,PC}          ;; return
+     20          };
+     21          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     22          int onLBMessage(GUI_MESSAGE * msg)
+     23          {
+   \                     ??onLBMessage:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     24            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   2B00001A           BNE      ??onLBMessage_1
+     25            {
+     26            case 1:
+     27              int item=GUIonMessage_GetCreatedItemIndex(msg);
+     28              if (customsofts)
+   \   00000014   ........           LDR      R5,??DataTable1  ;; `?<Constant L"\\x2d\\x65\\x6d\\x70\\x74\\x79\\x2d">`
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   370100EF           SWI      +311
+   \   00000020   A4109FE5           LDR      R1,??onLBMessage_2  ;; customsofts
+   \   00000024   FF60A0E3           MOV      R6,#+255
+   \   00000028   002091E5           LDR      R2,[R1, #+0]
+   \   0000002C   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000030   000052E3           CMP      R2,#+0
+   \   00000034   1400000A           BEQ      ??onLBMessage_3
+     29              {
+     30                if (item<customsofts->FirstFree && item>=0)
+   \   00000038   B210D2E1           LDRH     R1,[R2, #+2]
+   \   0000003C   010050E1           CMP      R0,R1
+   \   00000040   110000AA           BGE      ??onLBMessage_4
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   0F00004A           BMI      ??onLBMessage_4
+     31                {
+     32                  ITEM *it=(ITEM *)List_Get(customsofts,item);
+   \   0000004C   0010A0E1           MOV      R1,R0
+   \   00000050   0200A0E1           MOV      R0,R2
+   \   00000054   AD0100EF           SWI      +429
+     33                  if (it)
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   1800000A           BEQ      ??onLBMessage_1
+     34                  {
+     35                    if (it->name)
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   0620A0E1           MOV      R2,R6
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   0010A0E3           MOV      R1,#+0
+     36                    {
+     37                      GUIonMessage_SetMenuItemText(msg,TextID_Create(it->name,ENC_UCS2,TEXTID_ANY_LEN));
+     38                    }
+     39                    else
+     40                    {
+     41                      GUIonMessage_SetMenuItemText(msg,TextID_Create(L"-empty-",ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000070   0500A001           MOVEQ    R0,R5
+   \   00000074   5D0100EF           SWI      +349
+   \   00000078   0010A0E1           MOV      R1,R0
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   380100EF           SWI      +312
+     42                    }
+     43                    GUIonMessage_SetMenuItemIcon(msg,0,GetIconID(L"HPB_PHONEBOOK_MENU_ICN"));
+   \   00000084   100085E2           ADD      R0,R5,#+16
+   \   00000088   070000EA           B        ??onLBMessage_5
+     44                  }
+     45                }
+     46                else
+     47                {
+     48                  GUIonMessage_SetMenuItemText(msg,TextID_Create(L"Create",ENC_UCS2,TEXTID_ANY_LEN));
+     49                  GUIonMessage_SetMenuItemIcon(msg,0,GetIconID(L"RN_SHORTCUT_LIST_SETTINGS_ICN"));
+     50                }
+     51              }
+     52              else
+     53              {
+     54                GUIonMessage_SetMenuItemText(msg,TextID_Create(L"Create",ENC_UCS2,TEXTID_ANY_LEN));
+   \                     ??onLBMessage_4:
+   \                     ??onLBMessage_3:
+   \   0000008C   0620A0E1           MOV      R2,R6
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   400085E2           ADD      R0,R5,#+64
+   \   00000098   5D0100EF           SWI      +349
+   \   0000009C   0010A0E1           MOV      R1,R0
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   380100EF           SWI      +312
+     55                GUIonMessage_SetMenuItemIcon(msg,0,GetIconID(L"RN_SHORTCUT_LIST_SETTINGS_ICN"));
+   \   000000A8   500085E2           ADD      R0,R5,#+80
+   \                     ??onLBMessage_5:
+   \   000000AC   ........           BL       ??GetIconID
+   \   000000B0   0028A0E1           MOV      R2,R0, LSL #+16
+   \   000000B4   2228A0E1           MOV      R2,R2, LSR #+16
+   \   000000B8   0010A0E3           MOV      R1,#+0
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   3C0100EF           SWI      +316
+     56              }
+     57              break;
+     58            }
+     59            return(1);
+   \                     ??onLBMessage_1:
+   \   000000C4   0100A0E3           MOV      R0,#+1
+   \   000000C8   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??onLBMessage_2:
+   \   000000CC   ........           DC32     customsofts
+     60          };
+     61          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     62          wchar_t *names[]={L"Book name",L"Left softkey string",L"Middle softkey string", L"Right softkey string",L"Use A2 style "};
+   \                     names:
+   \   00000000                      DS8 20
+   \   00000014                      REQUIRE `?<Initializer for names>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          int onLBMessage2(GUI_MESSAGE * msg)
+     64          {
+   \                     ??onLBMessage2:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     65            MyBOOK * myBook = (MyBOOK*)FindBook(isSoftEditBook);
+   \   00000008   FC029FE5           LDR      R0,??onLBMessage2_1  ;; ??isSoftEditBook
+   \   0000000C   18D04DE2           SUB      SP,SP,#+24
+   \   00000010   300100EF           SWI      +304
+   \   00000014   0050A0E1           MOV      R5,R0
+     66            switch( GUIonMessage_GetMsg(msg) )
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   740300EF           SWI      +884
+   \   00000020   010050E3           CMP      R0,#+1
+   \   00000024   B500001A           BNE      ??onLBMessage2_2
+     67            {
+     68            case 1:
+     69              int item=GUIonMessage_GetCreatedItemIndex(msg);
+     70              bool has=false;
+     71              if (myBook->curit->keys)
+     72              {
+     73                has=true;
+     74              }
+     75              if (item>=0 && item<5)
+   \   00000028   ........           LDR      R7,??DataTable1  ;; `?<Constant L"\\x2d\\x65\\x6d\\x70\\x74\\x79\\x2d">`
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   370100EF           SWI      +311
+   \   00000034   282095E5           LDR      R2,[R5, #+40]
+   \   00000038   0060A0E1           MOV      R6,R0
+   \   0000003C   141092E5           LDR      R1,[R2, #+20]
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   000051E3           CMP      R1,#+0
+   \   00000048   0100A013           MOVNE    R0,#+1
+   \   0000004C   FF80A0E3           MOV      R8,#+255
+   \   00000050   FF8C88E3           ORR      R8,R8,#0xFF00
+   \   00000054   000056E3           CMP      R6,#+0
+   \   00000058   7700004A           BMI      ??onLBMessage2_3
+   \   0000005C   050056E3           CMP      R6,#+5
+   \   00000060   750000AA           BGE      ??onLBMessage2_3
+     76              {
+     77                GUIonMessage_SetMenuItemText(msg,TextID_Create(names[item],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000064   A4029FE5           LDR      R0,??onLBMessage2_1+0x4  ;; names
+   \   00000068   0820A0E1           MOV      R2,R8
+   \   0000006C   060190E7           LDR      R0,[R0, +R6, LSL #+2]
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   5D0100EF           SWI      +349
+   \   00000078   0010A0E1           MOV      R1,R0
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   380100EF           SWI      +312
+     78                if (item==0)
+   \   00000084   000056E3           CMP      R6,#+0
+   \   00000088   1A00001A           BNE      ??onLBMessage2_4
+     79                {
+     80                  if (myBook->curit->name)
+   \   0000008C   280095E5           LDR      R0,[R5, #+40]
+   \   00000090   0820A0E1           MOV      R2,R8
+   \   00000094   001090E5           LDR      R1,[R0, #+0]
+   \   00000098   000051E3           CMP      R1,#+0
+   \   0000009C   5300000A           BEQ      ??onLBMessage2_5
+     81                  {
+     82                    GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(myBook->curit->name,ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000A0   000090E5           LDR      R0,[R0, #+0]
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   5D0100EF           SWI      +349
+   \   000000AC   0010A0E1           MOV      R1,R0
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   390100EF           SWI      +313
+     83                    if (wstrcmp(myBook->curit->name,L"DEFAULT")==0 ||  wstrcmp(myBook->curit->name,L"StandbyBook")==0)
+   \   000000B8   280095E5           LDR      R0,[R5, #+40]
+   \   000000BC   8C1087E2           ADD      R1,R7,#+140
+   \   000000C0   000090E5           LDR      R0,[R0, #+0]
+   \   000000C4   560100EF           SWI      +342
+   \   000000C8   000050E3           CMP      R0,#+0
+   \   000000CC   0500000A           BEQ      ??onLBMessage2_6
+   \   000000D0   280095E5           LDR      R0,[R5, #+40]
+   \   000000D4   9C1087E2           ADD      R1,R7,#+156
+   \   000000D8   000090E5           LDR      R0,[R0, #+0]
+   \   000000DC   560100EF           SWI      +342
+   \   000000E0   000050E3           CMP      R0,#+0
+   \   000000E4   4600001A           BNE      ??onLBMessage2_7
+     84                    {
+     85                      GUIonMessage_SetItemDisabled (msg,1);
+   \                     ??onLBMessage2_6:
+   \   000000E8   0110A0E3           MOV      R1,#+1
+   \   000000EC   0400A0E1           MOV      R0,R4
+   \   000000F0   820200EF           SWI      +642
+   \   000000F4   420000EA           B        ??onLBMessage2_7
+     86                    }
+     87                  }
+     88                  else
+     89                  {
+     90                    GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(L"-empty-",ENC_UCS2,TEXTID_ANY_LEN));
+     91                  }
+     92                }
+     93                else if (item==4)
+   \                     ??onLBMessage2_4:
+   \   000000F8   040056E3           CMP      R6,#+4
+   \   000000FC   2A00001A           BNE      ??onLBMessage2_8
+     94                {
+     95                  int icon_id=NOIMAGE;;
+   \   00000100   00808DE5           STR      R8,[SP, #+0]
+     96                  int ids;
+     97                  int id[2];
+     98                  if (myBook->curit->style==0)
+   \   00000104   280095E5           LDR      R0,[R5, #+40]
+   \   00000108   101090E5           LDR      R1,[R0, #+16]
+   \   0000010C   000051E3           CMP      R1,#+0
+   \   00000110   0A00001A           BNE      ??onLBMessage2_9
+     99                  {
+    100                    iconidname2id(IDN_CHECKBOX_UNCHECKED_ICON,-1,&icon_id);
+   \   00000114   0D20A0E1           MOV      R2,SP
+   \   00000118   0010E0E3           MVN      R1,#+0
+   \   0000011C   B40087E2           ADD      R0,R7,#+180
+   \   00000120   860200EF           SWI      +646
+    101                    id[0] = 0x78000000 + icon_id;
+   \   00000124   00109DE5           LDR      R1,[SP, #+0]
+    102                    id[1] = TextID_Create(L"(Emulator)",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000128   0820A0E1           MOV      R2,R8
+   \   0000012C   781481E2           ADD      R1,R1,#+2013265920
+   \   00000130   04108DE5           STR      R1,[SP, #+4]
+   \   00000134   0010A0E3           MOV      R1,#+0
+   \   00000138   D00087E2           ADD      R0,R7,#+208
+   \   0000013C   140000EA           B        ??onLBMessage2_10
+    103                    ids = TextID_Create(&id[0],ENC_TEXTID,2);
+    104                  }
+    105                  else if (myBook->curit->style==1)
+   \                     ??onLBMessage2_9:
+   \   00000140   010051E3           CMP      R1,#+1
+   \   00000144   0D20A0E1           MOV      R2,SP
+   \   00000148   0010E0E3           MVN      R1,#+0
+   \   0000014C   0800001A           BNE      ??onLBMessage2_11
+    106                  {
+    107                    iconidname2id(IDN_CHECKBOX_CHECKED_ICON,-1,&icon_id);
+   \   00000150   E80087E2           ADD      R0,R7,#+232
+   \   00000154   860200EF           SWI      +646
+    108                    id[0] = 0x78000000 + icon_id;
+   \   00000158   00109DE5           LDR      R1,[SP, #+0]
+    109                    id[1] = TextID_Create(L"Full A2",ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000015C   0820A0E1           MOV      R2,R8
+   \   00000160   781481E2           ADD      R1,R1,#+2013265920
+   \   00000164   04108DE5           STR      R1,[SP, #+4]
+   \   00000168   0010A0E3           MOV      R1,#+0
+   \   0000016C   450F87E2           ADD      R0,R7,#+276
+   \   00000170   070000EA           B        ??onLBMessage2_10
+    110                    ids = TextID_Create(&id[0],ENC_TEXTID,2);
+    111                  }
+    112                  else
+    113                  {
+    114                    iconidname2id(IDN_CHECKBOX_UNCHECKED_ICON,-1,&icon_id);
+   \                     ??onLBMessage2_11:
+   \   00000174   B40087E2           ADD      R0,R7,#+180
+   \   00000178   860200EF           SWI      +646
+    115                    id[0] = 0x78000000 + icon_id;
+   \   0000017C   00109DE5           LDR      R1,[SP, #+0]
+    116                    id[1] = TextID_Create(L"standart",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000180   0820A0E1           MOV      R2,R8
+   \   00000184   781481E2           ADD      R1,R1,#+2013265920
+   \   00000188   04108DE5           STR      R1,[SP, #+4]
+   \   0000018C   0010A0E3           MOV      R1,#+0
+   \   00000190   490F87E2           ADD      R0,R7,#+292
+   \                     ??onLBMessage2_10:
+   \   00000194   5D0100EF           SWI      +349
+   \   00000198   08008DE5           STR      R0,[SP, #+8]
+    117                    ids = TextID_Create(&id[0],ENC_TEXTID,2);
+   \   0000019C   0220A0E3           MOV      R2,#+2
+   \   000001A0   0510A0E3           MOV      R1,#+5
+   \   000001A4   04008DE2           ADD      R0,SP,#+4
+   \   000001A8   110000EA           B        ??onLBMessage2_12
+    118                  }
+    119                  GUIonMessage_SetMenuItemSecondLineText(msg,ids);
+    120                }
+    121                else
+    122                {
+    123                  wchar_t *text=0;
+    124                  if (item==1)
+   \                     ??onLBMessage2_8:
+   \   000001AC   280095E5           LDR      R0,[R5, #+40]
+   \   000001B0   010056E3           CMP      R6,#+1
+    125                  {
+    126                    text=myBook->curit->lsi;
+   \   000001B4   04009005           LDREQ    R0,[R0, #+4]
+   \   000001B8   0500000A           BEQ      ??onLBMessage2_13
+    127                  }
+    128                  else if (item==2)
+   \   000001BC   020056E3           CMP      R6,#+2
+    129                  {
+    130                    text=myBook->curit->msi;
+   \   000001C0   08009005           LDREQ    R0,[R0, #+8]
+   \   000001C4   0200000A           BEQ      ??onLBMessage2_13
+    131                  }
+    132                  else if (item==3)
+   \   000001C8   030056E3           CMP      R6,#+3
+   \   000001CC   0500001A           BNE      ??onLBMessage2_14
+    133                  {
+    134                    text=myBook->curit->rsi;
+   \   000001D0   0C0090E5           LDR      R0,[R0, #+12]
+    135                  }
+    136                  if (text)
+   \                     ??onLBMessage2_13:
+   \   000001D4   000050E3           CMP      R0,#+0
+   \   000001D8   0200000A           BEQ      ??onLBMessage2_14
+    137                  {
+    138                    GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(text,ENC_UCS2,TEXTID_ANY_LEN));
+   \   000001DC   0820A0E1           MOV      R2,R8
+   \   000001E0   0010A0E3           MOV      R1,#+0
+   \   000001E4   020000EA           B        ??onLBMessage2_12
+    139                  }
+    140                  else
+    141                  {
+    142                    GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(L"-empty-",ENC_UCS2,TEXTID_ANY_LEN));
+   \                     ??onLBMessage2_14:
+   \   000001E8   0820A0E1           MOV      R2,R8
+   \   000001EC   0010A0E3           MOV      R1,#+0
+   \                     ??onLBMessage2_5:
+   \   000001F0   0700A0E1           MOV      R0,R7
+   \                     ??onLBMessage2_12:
+   \   000001F4   5D0100EF           SWI      +349
+   \   000001F8   0010A0E1           MOV      R1,R0
+   \   000001FC   0400A0E1           MOV      R0,R4
+   \   00000200   390100EF           SWI      +313
+    143                  }
+    144                }
+    145                if (myBook->curit->style==2 && (item==1 || item==2 || item==3))
+   \                     ??onLBMessage2_7:
+   \   00000204   280095E5           LDR      R0,[R5, #+40]
+   \   00000208   100090E5           LDR      R0,[R0, #+16]
+   \   0000020C   020050E3           CMP      R0,#+2
+   \   00000210   3A00001A           BNE      ??onLBMessage2_2
+   \   00000214   010056E3           CMP      R6,#+1
+   \   00000218   02005613           CMPNE    R6,#+2
+   \   0000021C   03005613           CMPNE    R6,#+3
+   \   00000220   3600001A           BNE      ??onLBMessage2_2
+    146                {
+    147                  GUIonMessage_SetItemDisabled (msg,1);
+   \   00000224   0110A0E3           MOV      R1,#+1
+   \   00000228   0400A0E1           MOV      R0,R4
+   \   0000022C   820200EF           SWI      +642
+   \   00000230   0100A0E3           MOV      R0,#+1
+   \   00000234   18D08DE2           ADD      SP,SP,#+24
+   \   00000238   F081BDE8           POP      {R4-R8,PC}
+    148                }
+    149              }
+    150              else if (item>4)
+   \                     ??onLBMessage2_3:
+   \   0000023C   050056E3           CMP      R6,#+5
+   \   00000240   2E0000BA           BLT      ??onLBMessage2_2
+    151              {
+    152                if (has==true)
+   \   00000244   000050E3           CMP      R0,#+0
+   \   00000248   2500000A           BEQ      ??onLBMessage2_15
+    153                {
+    154                  if (item<myBook->curit->keys->FirstFree+5)
+   \   0000024C   B200D1E1           LDRH     R0,[R1, #+2]
+   \   00000250   050080E2           ADD      R0,R0,#+5
+   \   00000254   000056E1           CMP      R6,R0
+   \   00000258   210000AA           BGE      ??onLBMessage2_16
+    155                  {
+    156                    int ind=item-5;
+    157                    KEY *key=(KEY *)List_Get(myBook->curit->keys,ind);
+   \   0000025C   140092E5           LDR      R0,[R2, #+20]
+   \   00000260   051046E2           SUB      R1,R6,#+5
+   \   00000264   AD0100EF           SWI      +429
+   \   00000268   0060A0E1           MOV      R6,R0
+    158                    int sid[3];
+    159                    if (key->oldkey!=0)
+   \   0000026C   000096E5           LDR      R0,[R6, #+0]
+   \   00000270   4E5FA0E3           MOV      R5,#+312
+   \   00000274   000050E3           CMP      R0,#+0
+   \   00000278   0100000A           BEQ      ??onLBMessage2_17
+    160                    {
+    161                      sid[0]=KeyCode2Name(key->oldkey);
+   \   0000027C   CB0200EF           SWI      +715
+   \   00000280   030000EA           B        ??onLBMessage2_18
+    162                    }
+    163                    else
+    164                    {
+    165                      sid[0]=TextID_Create(L"empty",ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??onLBMessage2_17:
+   \   00000284   0820A0E1           MOV      R2,R8
+   \   00000288   0010A0E3           MOV      R1,#+0
+   \   0000028C   070085E0           ADD      R0,R5,R7
+   \   00000290   5D0100EF           SWI      +349
+   \                     ??onLBMessage2_18:
+   \   00000294   0C008DE5           STR      R0,[SP, #+12]
+    166                    }
+    167                    sid[1]=TextID_Create(L"->",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000298   0820A0E1           MOV      R2,R8
+   \   0000029C   0010A0E3           MOV      R1,#+0
+   \   000002A0   510F87E2           ADD      R0,R7,#+324
+   \   000002A4   5D0100EF           SWI      +349
+   \   000002A8   10008DE5           STR      R0,[SP, #+16]
+    168                    if (key->newkey!=0)
+   \   000002AC   040096E5           LDR      R0,[R6, #+4]
+   \   000002B0   000050E3           CMP      R0,#+0
+   \   000002B4   0100000A           BEQ      ??onLBMessage2_19
+    169                    {
+    170                      sid[2]=KeyCode2Name(key->newkey);
+   \   000002B8   CB0200EF           SWI      +715
+   \   000002BC   030000EA           B        ??onLBMessage2_20
+    171                    }
+    172                    else
+    173                    {
+    174                      sid[2]=TextID_Create(L"empty",ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??onLBMessage2_19:
+   \   000002C0   0820A0E1           MOV      R2,R8
+   \   000002C4   0010A0E3           MOV      R1,#+0
+   \   000002C8   070085E0           ADD      R0,R5,R7
+   \   000002CC   5D0100EF           SWI      +349
+   \                     ??onLBMessage2_20:
+   \   000002D0   14008DE5           STR      R0,[SP, #+20]
+    175                    }
+    176                    GUIonMessage_SetMenuItemText(msg,TextID_Create(sid,ENC_TEXTID,3));
+   \   000002D4   0320A0E3           MOV      R2,#+3
+   \   000002D8   0510A0E3           MOV      R1,#+5
+   \   000002DC   0C008DE2           ADD      R0,SP,#+12
+   \   000002E0   020000EA           B        ??onLBMessage2_21
+    177                  }
+    178                  else
+    179                  {
+    180                    GUIonMessage_SetMenuItemText(msg,TextID_Create(L"Create",ENC_UCS2,TEXTID_ANY_LEN));
+    181                  }
+    182                }
+    183                else
+    184                {
+    185                  GUIonMessage_SetMenuItemText(msg,TextID_Create(L"Create",ENC_UCS2,TEXTID_ANY_LEN));
+   \                     ??onLBMessage2_16:
+   \                     ??onLBMessage2_15:
+   \   000002E4   0820A0E1           MOV      R2,R8
+   \   000002E8   0010A0E3           MOV      R1,#+0
+   \   000002EC   400087E2           ADD      R0,R7,#+64
+   \                     ??onLBMessage2_21:
+   \   000002F0   5D0100EF           SWI      +349
+   \   000002F4   0010A0E1           MOV      R1,R0
+   \   000002F8   0400A0E1           MOV      R0,R4
+   \   000002FC   380100EF           SWI      +312
+    186                }
+    187              }
+    188          
+    189              break;
+    190            }
+    191            return(1);
+   \                     ??onLBMessage2_2:
+   \   00000300   0100A0E3           MOV      R0,#+1
+   \   00000304   18D08DE2           ADD      SP,SP,#+24
+   \   00000308   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??onLBMessage2_1:
+   \   0000030C   ........           DC32     ??isSoftEditBook
+   \   00000310   ........           DC32     names
+    192          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     `?<Constant L"\\x2d\\x65\\x6d\\x70\\x74\\x79\\x2d">`
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for names>`:
+   \   00000000   ........           DC32 `?<Constant L"\\x42\\x6f\\x6f\\x6b\\x20\\x6e\\x61\\x6d\\`
+   \   00000004   ........           DC32 `?<Constant L"\\x4c\\x65\\x66\\x74\\x20\\x73\\x6f\\x66\\`
+   \   00000008   ........           DC32 `?<Constant L"\\x4d\\x69\\x64\\x64\\x6c\\x65\\x20\\x73\\`
+   \   0000000C   ........           DC32 `?<Constant L"\\x52\\x69\\x67\\x68\\x74\\x20\\x73\\x6f\\`
+   \   00000010   ........           DC32 `?<Constant L"\\x55\\x73\\x65\\x20\\x41\\x32\\x20\\x73\\`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x42\\x6f\\x6f\\x6b\\x20\\x6e\\x61\\x6d\\`:
+   \   00000000   42006F006F00       DC8 42H, 0, 6FH, 0, 6FH, 0, 6BH, 0
+   \              6B00        
+   \   00000008   20006E006100       DC8 20H, 0, 6EH, 0, 61H, 0, 6DH, 0
+   \              6D00        
+   \   00000010   65000000           DC8 65H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4c\\x65\\x66\\x74\\x20\\x73\\x6f\\x66\\`:
+   \   00000000   4C0065006600       DC8 4CH, 0, 65H, 0, 66H, 0, 74H, 0
+   \              7400        
+   \   00000008   200073006F00       DC8 20H, 0, 73H, 0, 6FH, 0, 66H, 0
+   \              6600        
+   \   00000010   74006B006500       DC8 74H, 0, 6BH, 0, 65H, 0, 79H, 0
+   \              7900        
+   \   00000018   200073007400       DC8 20H, 0, 73H, 0, 74H, 0, 72H, 0
+   \              7200        
+   \   00000020   69006E006700       DC8 69H, 0, 6EH, 0, 67H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x69\\x64\\x64\\x6c\\x65\\x20\\x73\\`:
+   \   00000000   4D0069006400       DC8 4DH, 0, 69H, 0, 64H, 0, 64H, 0
+   \              6400        
+   \   00000008   6C0065002000       DC8 6CH, 0, 65H, 0, 20H, 0, 73H, 0
+   \              7300        
+   \   00000010   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000018   650079002000       DC8 65H, 0, 79H, 0, 20H, 0, 73H, 0
+   \              7300        
+   \   00000020   740072006900       DC8 74H, 0, 72H, 0, 69H, 0, 6EH, 0
+   \              6E00        
+   \   00000028   67000000           DC8 67H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x69\\x67\\x68\\x74\\x20\\x73\\x6f\\`:
+   \   00000000   520069006700       DC8 52H, 0, 69H, 0, 67H, 0, 68H, 0
+   \              6800        
+   \   00000008   740020007300       DC8 74H, 0, 20H, 0, 73H, 0, 6FH, 0
+   \              6F00        
+   \   00000010   660074006B00       DC8 66H, 0, 74H, 0, 6BH, 0, 65H, 0
+   \              6500        
+   \   00000018   790020007300       DC8 79H, 0, 20H, 0, 73H, 0, 74H, 0
+   \              7400        
+   \   00000020   720069006E00       DC8 72H, 0, 69H, 0, 6EH, 0, 67H, 0
+   \              6700        
+   \   00000028   0000               DC8 0, 0
+   \   0000002A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x55\\x73\\x65\\x20\\x41\\x32\\x20\\x73\\`:
+   \   00000000   550073006500       DC8 55H, 0, 73H, 0, 65H, 0, 20H, 0
+   \              2000        
+   \   00000008   410032002000       DC8 41H, 0, 32H, 0, 20H, 0, 73H, 0
+   \              7300        
+   \   00000010   740079006C00       DC8 74H, 0, 79H, 0, 6CH, 0, 65H, 0
+   \              6500        
+   \   00000018   20000000           DC8 20H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x2d\\x65\\x6d\\x70\\x74\\x79\\x2d">`:
+   \   00000000   2D0065006D00       DC8 2DH, 0, 65H, 0, 6DH, 0, 70H, 0
+   \              7000        
+   \   00000008   740079002D00       DC8 74H, 0, 79H, 0, 2DH, 0, 0, 0
+   \              0000        
+   \   00000010   480050004200       DC8 48H, 0, 50H, 0, 42H, 0, 5FH, 0
+   \              5F00        
+   \   00000018   500048004F00       DC8 50H, 0, 48H, 0, 4FH, 0, 4EH, 0
+   \              4E00        
+   \   00000020   450042004F00       DC8 45H, 0, 42H, 0, 4FH, 0, 4FH, 0
+   \              4F00        
+   \   00000028   4B005F004D00       DC8 4BH, 0, 5FH, 0, 4DH, 0, 45H, 0
+   \              4500        
+   \   00000030   4E0055005F00       DC8 4EH, 0, 55H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000038   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   0000003E   0000               DC8 0, 0
+   \   00000040   430072006500       DC8 43H, 0, 72H, 0, 65H, 0, 61H, 0
+   \              6100        
+   \   00000048   740065000000       DC8 74H, 0, 65H, 0, 0, 0
+   \   0000004E   0000               DC8 0, 0
+   \   00000050   52004E005F00       DC8 52H, 0, 4EH, 0, 5FH, 0, 53H, 0
+   \              5300        
+   \   00000058   48004F005200       DC8 48H, 0, 4FH, 0, 52H, 0, 54H, 0
+   \              5400        
+   \   00000060   430055005400       DC8 43H, 0, 55H, 0, 54H, 0, 5FH, 0
+   \              5F00        
+   \   00000068   4C0049005300       DC8 4CH, 0, 49H, 0, 53H, 0, 54H, 0
+   \              5400        
+   \   00000070   5F0053004500       DC8 5FH, 0, 53H, 0, 45H, 0, 54H, 0
+   \              5400        
+   \   00000078   540049004E00       DC8 54H, 0, 49H, 0, 4EH, 0, 47H, 0
+   \              4700        
+   \   00000080   53005F004900       DC8 53H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000088   4E000000           DC8 4EH, 0, 0, 0
+   \   0000008C   440045004600       DC8 44H, 0, 45H, 0, 46H, 0, 41H, 0
+   \              4100        
+   \   00000094   55004C005400       DC8 55H, 0, 4CH, 0, 54H, 0, 0, 0
+   \              0000        
+   \   0000009C   530074006100       DC8 53H, 0, 74H, 0, 61H, 0, 6EH, 0
+   \              6E00        
+   \   000000A4   640062007900       DC8 64H, 0, 62H, 0, 79H, 0, 42H, 0
+   \              4200        
+   \   000000AC   6F006F006B00       DC8 6FH, 0, 6FH, 0, 6BH, 0, 0, 0
+   \              0000        
+   \   000000B4   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   000000BC   4B0042004F00       DC8 4BH, 0, 42H, 0, 4FH, 0, 58H, 0
+   \              5800        
+   \   000000C4   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   000000CC   0000               DC8 0, 0
+   \   000000CE   0000               DC8 0, 0
+   \   000000D0   280045006D00       DC8 28H, 0, 45H, 0, 6DH, 0, 75H, 0
+   \              7500        
+   \   000000D8   6C0061007400       DC8 6CH, 0, 61H, 0, 74H, 0, 6FH, 0
+   \              6F00        
+   \   000000E0   720029000000       DC8 72H, 0, 29H, 0, 0, 0
+   \   000000E6   0000               DC8 0, 0
+   \   000000E8   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   000000F0   4B004D004100       DC8 4BH, 0, 4DH, 0, 41H, 0, 52H, 0
+   \              5200        
+   \   000000F8   4B005F004900       DC8 4BH, 0, 5FH, 0, 49H, 0, 4EH, 0
+   \              4E00        
+   \   00000100   5F0042004F00       DC8 5FH, 0, 42H, 0, 4FH, 0, 58H, 0
+   \              5800        
+   \   00000108   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000110   0000               DC8 0, 0
+   \   00000112   0000               DC8 0, 0
+   \   00000114   460075006C00       DC8 46H, 0, 75H, 0, 6CH, 0, 6CH, 0
+   \              6C00        
+   \   0000011C   200041003200       DC8 20H, 0, 41H, 0, 32H, 0, 0, 0
+   \              0000        
+   \   00000124   730074006100       DC8 73H, 0, 74H, 0, 61H, 0, 6EH, 0
+   \              6E00        
+   \   0000012C   640061007200       DC8 64H, 0, 61H, 0, 72H, 0, 74H, 0
+   \              7400        
+   \   00000134   0000               DC8 0, 0
+   \   00000136   0000               DC8 0, 0
+   \   00000138   65006D007000       DC8 65H, 0, 6DH, 0, 70H, 0, 74H, 0
+   \              7400        
+   \   00000140   79000000           DC8 79H, 0, 0, 0
+   \   00000144   2D003E000000       DC8 2DH, 0, 3EH, 0, 0, 0
+   \   0000014A   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                    CSTACK
+     --------                    ------
+     GetIconID(wchar_t *)            8
+     GetStrID(wchar_t *)             8
+     onLBMessage(GUI_MESSAGE *)     16
+     onLBMessage2(GUI_MESSAGE *)    48
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     GetStrID(wchar_t *)              36
+     GetIconID(wchar_t *)             40
+     onLBMessage(GUI_MESSAGE *)      208
+     names                            20
+     onLBMessage2(GUI_MESSAGE *)     788
+     ??DataTable1                      4
+     ?<Initializer for names>         20
+     ?<Constant L"\x42\x6f\x6f\x6b\x20\x6e\x61\x6d\
+                                      20
+     ?<Constant L"\x4c\x65\x66\x74\x20\x73\x6f\x66\
+                                      40
+     ?<Constant L"\x4d\x69\x64\x64\x6c\x65\x20\x73\
+                                      44
+     ?<Constant L"\x52\x69\x67\x68\x74\x20\x73\x6f\
+                                      44
+     ?<Constant L"\x55\x73\x65\x20\x41\x32\x20\x73\
+                                      28
+     ?<Constant L"\x2d\x65\x6d\x70\x74\x79\x2d">
+                                     332
+      Others                          28
+
+ 
+ 1 092 bytes in segment CODE
+   508 bytes in segment DATA_C
+    20 bytes in segment DATA_I
+    20 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 1 076 bytes of CODE  memory (+ 28 bytes shared)
+   528 bytes of CONST memory
+    20 bytes of DATA  memory
+
+Errors: none
+Warnings: none

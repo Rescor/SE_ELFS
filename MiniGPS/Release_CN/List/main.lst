@@ -1,0 +1,1207 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:06:44 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\main.c #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\main.c #
+#                        -D NDEBUG -D LANG_CN -D OLDFUNCTIONS -lCN           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_CN\List\ -la Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \MiniGPS\Release_CN\List\ -o                         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_CN\Obj\ -s9 --no_unroll --no_code_motion           #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_CN\List\main.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_CN\Obj\main.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\main.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          #include "..\\include\cfg_items.h"
+      5          #include "main.h"
+      6          #include "menu.h"
+      7          #include "conf_loader.h"
+      8          #include "config_data.h"
+      9          #include "language.h"
+     10          #include "util.h"
+     11          
+     12          extern "C" unsigned long wcstoul(const wchar_t *, wchar_t **, int);
+     13          void onTimerNewAction(u16 timerID, LPARAM lparam);
+     14          
+     15          #define place(num) \
+     16            {  &cfg_place_enable##num, \
+     17                cfg_place_name##num, \
+     18               &cfg_place_profile##num, \
+     19               &cfg_place_vibrate##num, \
+     20               &cfg_place_sound_enable##num, \
+     21                cfg_sound_file##num}
+     22          
+     23          MyBOOK *MiniGPSBook = 0;
+     24          
+     25          DISP_OBJ_ONREDRAW_METHOD Status_oldReDraw = 0;
+     26          DISP_OBJ ** GUI_status = 0;
+     27          DISP_DESC * Status_desc = 0;
+     28          
+     29          DISP_OBJ_ONREDRAW_METHOD Display_oldReDraw = 0;
+     30          DISP_OBJ * GUI_display = 0;
+     31          DISP_DESC * Display_desc = 0;
+     32          
+     33          DISP_OBJ_ONREDRAW_METHOD Soft_oldReDraw = 0;
+     34          DISP_OBJ * GUI_soft = 0;
+     35          DISP_DESC * Soft_desc = 0;
+     36          
+     37          int DisplayWidth  = 0; //ширина дисплея в пикселях
+     38          int DisplayHeight = 0; //высота дисплея в пикселях
+     39          int SoftBarY   = 0;
+     40          int StatusBarY = 0;
+     41          
+     42          wchar_t logFolder[256] = {0,};
+     43          
+     44          char logCellName[256] = {0,};
+     45          wchar_t CellName[256]={0,};
+     46          wchar_t CellNameAction[256]={0,};
+     47          wchar_t prevCellName[256]={0,};
+     48          wchar_t prevCellNameAction[256]={0,};
+     49          wchar_t CellNameStatus[256]={0,};
+     50          
+     51          wchar_t tmppath[256] = {0,};
+     52          wchar_t tmpname[256] = {0,};
+     53          
+     54          u16 timer_disable = 0;
+     55          bool IsInStandby = false;
+     56          
+     57          bool visible = true;
+     58          bool showCellID   = false;
+     59          bool AutoLocation = false;
+     60          
+     61          wchar_t SIwstr[MAX_AUTOLOCATION_LEN] = {0,};
+     62          wchar_t  wsnewdb[MAX_AUTOLOCATION_LEN];
+     63          char snewdb[MAX_AUTOLOCATION_LEN];
+     64          
+     65          u16 currentLAC = 0;
+     66          u16 currentCID = 0;
+     67          u16 prevLAC = 0;
+     68          u16 prevCID = 0;
+     69          u16 prevLAC_action = 0;
+     70          u16 prevCID_action = 0;
+     71          
+     72          int prevLocFound = -1;
+     73          
+     74          u16 timer = 0;
+     75          u16 timerNewAction = 0;
+     76          
+     77          int NewActionTimeout = 600000;
+     78          
+     79          int encode_type = 0;
+     80          int CODEMAP_ADDR = 0x45D40000;
+     81          wchar_t encode_buf[256];
+     82          bool isUCodeFile = false;
+     83          
+     84          char * db_buf = 0;
+     85          
+     86          IMAGEID auto_image = NOIMAGE;
+     87          TEXTID CellNameID = empty;
+     88          
+     89          IMAGEID location_image = NOIMAGE;
+     90          int imageWidth = 0;
+     91          int imageHeight = 0;
+     92          
+     93          int wnd = 0x06;
+     94          const int items[10] = {0x07, 0x06, 0x00, 0x09, 0x0D, 0x0B, 0x0C, 0x0F, 0x0E, 0x06};
+     95          
+     96          static char myappname[]=ELFNAME;
+     97          
+     98          const int *cfg_manual_profile[MAX_MANUAL_PROFILE_NUM] = {
+     99            &cfg_manual_profile1, &cfg_manual_profile2,
+    100            &cfg_manual_profile3, &cfg_manual_profile4,
+    101            &cfg_manual_profile5, &cfg_manual_profile6,
+    102            &cfg_manual_profile7
+    103          };
+    104          
+    105          cfg_place_t cfg_place[MAX_PLACE_NUM] = {
+    106            place(1),  place(2),  place(3),  place(4),
+    107            place(5),  place(6),  place(7),  place(8),
+    108            place(9),  place(10), place(11), place(12),
+    109            place(13), place(14), place(15), place(16)
+    110          };
+    111          
+    112          int isImageViewerBook(BOOK * book)
+    113          {
+    114            if(!strcmp(book->xbook->name,"ImageViewerBook")) return(1);
+    115            return(0);
+    116          }
+    117          
+    118          int myModifyUIHook(int event1 , int event2 , int (*PROC)(void *msg, BOOK * book, PAGE_DESC * page_desc, LPARAM ClientData, u16 event), int mode)
+    119          {
+    120            if((event1) && (event1 != 0xFFFFFFFF)) return ModifyUIPageHook(event1, PROC, 0, mode);
+    121            return ModifyUIPageHook(event2, PROC, 0, mode);
+    122          }
+    123          
+    124          int load_encode_file()
+    125          {
+    126            int f;
+    127            W_FSTAT _fstat;
+    128          
+    129            isUCodeFile = false;
+    130            getdir(tmpname, cfg_encode_file);
+    131            if(w_fstat(tmpname, &_fstat) == 0)
+    132            {
+    133              if( ((f = w_fopen(tmpname, WA_Read, 0x1FF, NULL)) >= 0) && _fstat.st_size == 512 )
+    134              {
+    135                char*buf=(char*)malloc(512);
+    136                w_fread(f, buf, 512);
+    137                for(int i=0; i<256; i++)
+    138                {
+    139                  encode_buf[i] = (buf[2 * i] << 8)  | buf[2 * i + 1];
+    140                }
+    141                mfree(buf);
+    142                isUCodeFile=true;
+    143              }
+    144              w_fclose(f);
+    145            }
+    146            return isUCodeFile;
+    147          }
+    148          
+    149          wchar_t *char2unicode(wchar_t *ws, char *s, int len)
+    150          {
+    151            int c;
+    152            wchar_t *ws_ret = ws;
+    153            while((c = *s++) && ((len--) > 0))
+    154            {
+    155              if (c == 0x7E) c = 0x0A;
+    156              if (isUCodeFile) c = encode_buf[c];
+    157              *ws++ = c;
+    158            }
+    159            *ws=0;
+    160            return ws_ret;
+    161          }
+    162          
+    163          char w2c(wchar_t s)
+    164          {
+    165            if (isUCodeFile)
+    166            {
+    167              for(char i=0; i<256; i++)
+    168              {
+    169                if(encode_buf[i] == s) return i;
+    170              }
+    171            }
+    172            return s;
+    173          }
+    174          
+    175          char *unicode2char(char *s, wchar_t *ws, int len)
+    176          {
+    177            wchar_t x;
+    178            char *s_ret = s;
+    179            while((x = *ws++) && ((len--) > 0))
+    180            {
+    181              *s++ = w2c(x);
+    182            }
+    183            *s=0;
+    184            return s_ret;
+    185          }
+    186          
+    187          void gb2un(wchar_t *des, char *sou, int len)
+    188          {
+    189            size_t i = 0;
+    190            size_t j = 0;
+    191            unsigned char *sour = (unsigned char *)sou;
+    192            SWAP_T a;
+    193            int sou_len = strlen(sou);
+    194            while((i < sou_len) && ((len--) > 0))
+    195            {
+    196              if(sour[i] < 0x80)
+    197              {
+    198                des[j] = sour[i];
+    199                i++;
+    200              }
+    201              else if((sour[i] > 0x80) || (sour[i] == 0x80 && sour[i+1] >= 0x41))
+    202              {
+    203                a.low = sour[i];
+    204                a.high = sour[i + 1];
+    205                long tmp = a.data - BASE_CODE;
+    206                des[j] = *((wchar_t *)CODEMAP_ADDR + tmp);
+    207                i += 2;
+    208              }
+    209              else
+    210              {
+    211                des[j] = '?';
+    212          
+    213              }
+    214              j++;
+    215            }
+    216            des[j] = 0;
+    217          }
+    218          
+    219          void un2gb(char *des, wchar_t *sou, int len)
+    220          {
+    221            int i;
+    222            int j = 0;
+    223            SWAP_T a;
+    224            int sou_len = wstrlen(sou);
+    225            if(sou_len > len) sou_len = len;
+    226          
+    227            for(i = 0; i < sou_len; i++)
+    228            {
+    229              if(*(sou + i) <= 0x80)
+    230              {
+    231                des[j] = sou[i];
+    232                j++;
+    233              }
+    234              /*
+    235              else if(*(sou + i) == 0x3000)
+    236              {
+    237                des[j] = 0xA1;
+    238                des[j + 1] = 0xA1;
+    239                j += 2;
+    240              }
+    241              */
+    242              else if(*(sou + i) >= BASE_MIN)
+    243              {
+    244                int k = 0;
+    245                a.data = *(sou + i);
+    246                while(k <= BASE_LEN)
+    247                {
+    248                  if(*((wchar_t*)CODEMAP_ADDR + k) == a.data)
+    249                  {
+    250                    a.data = k + BASE_CODE;
+    251                    des[j] = a.low;
+    252                    des[j + 1] = a.high;
+    253                    j += 2;
+    254                    break;
+    255                  }
+    256                  k++;
+    257                }
+    258              }
+    259              else
+    260              {
+    261                des[j] = '?';
+    262                j++;
+    263              }
+    264            }
+    265            des[j] = 0;
+    266          }
+    267          
+    268          void DrawHighlightID(int Font,int StrID,int CEN, int XPos, int YPos, int MaxXPos, int MaxYPos, int borderColor, int NormalColor)
+    269          {
+    270               SetFont(Font);
+    271               if(cfg_highlight)
+    272               {
+    273                   DrawString(StrID,CEN,XPos-1,YPos-1,MaxXPos-1,MaxYPos,0,1,borderColor,borderColor);
+    274                   DrawString(StrID,CEN,XPos-1,YPos+1,MaxXPos-1,MaxYPos,0,1,borderColor,borderColor);
+    275                   DrawString(StrID,CEN,XPos+1,YPos-1,MaxXPos+1,MaxYPos,0,1,borderColor,borderColor);
+    276                   DrawString(StrID,CEN,XPos+1,YPos+1,MaxXPos+1,MaxYPos,0,1,borderColor,borderColor);
+    277               }
+    278               DrawString(StrID,CEN,XPos,YPos,MaxXPos,MaxYPos,0,1,NormalColor,NormalColor);
+    279          }
+    280          
+    281          char *load_db_file()
+    282          {
+    283            int f;
+    284            W_FSTAT _fstat;
+    285            getdir(tmpname, cfg_location_file);
+    286            if (w_fstat(tmpname, &_fstat) == 0) {
+    287              if ((f = w_fopen(tmpname, WA_Read, 0x1FF, NULL)) >= 0) {
+    288                char * buffer = new char[_fstat.st_size + 1];
+    289                if(buffer) {
+    290                  buffer[w_fread(f, buffer, _fstat.st_size)] = 0;
+    291                  w_fclose(f);
+    292                  if(db_buf) delete(db_buf);
+    293                  db_buf = buffer;
+    294                  return db_buf;
+    295                }
+    296              }
+    297            }
+    298          
+    299            if(db_buf) delete(db_buf);
+    300            db_buf = 0;
+    301            return db_buf;
+    302          }
+    303          
+    304          int AddTo_db()
+    305          {
+    306            int status = 0;
+    307            int f;
+    308          
+    309            getdir(tmpname, cfg_location_file);
+    310            if ((f = w_fopen(tmpname, WA_Append, 0x1FF, NULL)) >= 0)
+    311            {
+    312              if(cfg_cellidmode == 0){
+    313                snwprintf(wsnewdb, MAX_AUTOLOCATION_LEN - 1, L"[%04X:%04X]:%ls\r\n", currentLAC, currentCID, SIwstr);
+    314              }
+    315              else {
+    316                snwprintf(wsnewdb, MAX_AUTOLOCATION_LEN - 1, L"[%05d:%05d]:%ls\r\n", currentLAC, currentCID, SIwstr);
+    317              }
+    318              if(encode_type == 0)
+    319              {
+    320                unicode2char(snewdb, wsnewdb, MAX_AUTOLOCATION_LEN - 1);
+    321              }
+    322              else
+    323              {
+    324                un2gb(snewdb, wsnewdb, MAX_AUTOLOCATION_LEN - 1);
+    325              }
+    326              w_fwrite(f, snewdb, strlen(snewdb));
+    327              w_fclose(f);
+    328              status = 1;
+    329            }
+    330            load_db_file();
+    331            if (!showCellID) wstrcpy(CellNameStatus, SIwstr);
+    332            return status;
+    333          }
+    334          
+    335          void vibrate(int mode)
+    336          {
+    337            if (mode > 0) {
+    338              PAudioControl pAC = AudioControl_Init();
+    339              if( !pAC ) pAC = *GetAudioControlPtr();
+    340              if (cfg_vibrate == 1) AudioControl_Vibrate(pAC, 70, 70, 350);
+    341              if (cfg_vibrate == 2) AudioControl_Vibrate(pAC, 250, 0, 250);
+    342              if (cfg_vibrate == 3) AudioControl_Vibrate(pAC, 500, 0, 500);
+    343            }
+    344          }
+    345          
+    346          void GetLocationImage(wchar_t *path, wchar_t *name)
+    347          {
+    348            if(ImageID_Get(path,name,&location_image)<0)
+    349            {
+    350              location_image = NOIMAGE;
+    351            }
+    352            else
+    353            {
+    354              int Width  = GetImageWidth(location_image);
+    355              int Height = GetImageHeight(location_image);
+    356              int Width0  = cfg_location_image.x2 - cfg_location_image.x1;
+    357              int Height0 = cfg_location_image.y2 - cfg_location_image.y1;
+    358              if((imageWidth = (Width * Height0) / Height) <= Width0)
+    359              {
+    360                imageHeight = Height0;
+    361              }
+    362              else
+    363              {
+    364                imageWidth  = Width0;
+    365                imageHeight = (Height * Width0) / Width;
+    366              }
+    367            }
+    368          }
+    369          
+    370          void UpdateLocationImage()
+    371          {
+    372            FSTAT _fstat;
+    373            imageWidth = imageHeight = 0;
+    374            if(location_image != NOIMAGE)
+    375            {
+    376              ImageID_Free(location_image);
+    377              location_image = NOIMAGE;
+    378            }
+    379          
+    380            if(cfg_show_type & 2)
+    381            {
+    382              getdir(tmppath, cfg_images_path);
+    383              wstrcpy(tmpname,CellName);
+    384              wstrcat(tmpname,L".png");
+    385          
+    386              if (fstat(tmppath,tmpname,&_fstat) == 0)
+    387              {
+    388                GetLocationImage(tmppath,tmpname);
+    389              }
+    390              else
+    391              {
+    392                wstrcpy(tmpname,CellName);
+    393                wstrcat(tmpname,L".jpg");
+    394                if (fstat(tmppath,tmpname,&_fstat) == 0)
+    395                {
+    396                  GetLocationImage(tmppath,tmpname);
+    397                }
+    398              }
+    399            }
+    400          }
+    401          
+    402          void InitVar()
+    403          {
+    404            InitConfig();
+    405          
+    406            StatusIndication_SetItemText(SBY_GetStatusIndication(Find_StandbyBook()), wnd, empty);
+    407            wnd = items[cfg_location];
+    408          
+    409            NewActionTimeout = cfg_new_action_timeout * 60000;
+    410          
+    411            DisplayWidth  = Display_GetWidth(0);
+    412            DisplayHeight = Display_GetHeight(0);
+    413          
+    414            StatusBarY    = DispObject_GetWindowHeight(*StatusRow_p());
+    415            SoftBarY      = DisplayHeight - DispObject_GetWindowHeight(DispObject_SoftKeys_Get());
+    416          
+    417            FSTAT _fstat;
+    418            if(auto_image != NOIMAGE)
+    419            {
+    420              ImageID_Free(auto_image);
+    421              auto_image = NOIMAGE;
+    422            }
+    423          
+    424            if(cfg_auto_image_show)
+    425            {
+    426              extractdir(tmppath, tmpname, cfg_auto_file);
+    427              if(fstat(tmppath,tmpname,&_fstat)!=0)
+    428              {
+    429                MessageBox(EMPTY_TEXTID, TextID_Create(LG_AUTOLOCATIONIMG,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    430              }
+    431              else if(ImageID_Get(tmppath,tmpname,&auto_image)<0) auto_image = NOIMAGE;
+    432            }
+    433          
+    434            isUCodeFile = false;
+    435            if(cfg_encode_type == 0)
+    436            {
+    437              encode_type = 0;
+    438              if(!load_encode_file())
+    439              {
+    440                MessageBox(EMPTY_TEXTID, TextID_Create(LG_GFGENCODEFILENOTFOUND,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    441              }
+    442            }
+    443            else
+    444            {
+    445              encode_type = 1;
+    446              CODEMAP_ADDR = (int)wcstoul(cfg_codemap_addr,0,0);
+    447              if(CODEMAP_ADDR == 0)
+    448              {
+    449                encode_type = 0;
+    450                MessageBox(EMPTY_TEXTID, TextID_Create(LG_GFGINCORRECTCODEMAPADDR,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    451              }
+    452            }
+    453          
+    454            if(!load_db_file())
+    455            {
+    456              MessageBox(EMPTY_TEXTID, TextID_Create(LG_DBLOADERROR,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    457            }
+    458          
+    459            getdir(logFolder, cfg_logs_path);
+    460          }
+    461          
+    462          int getPlaceIndex(const wchar_t *name)
+    463          {
+    464            for(unsigned int i=0; i<MAX_PLACE_NUM; i++)
+    465            {
+    466              if(*cfg_place[i].enable)
+    467              {
+    468                if(wstrcmp(cfg_place[i].name, name) == 0) return i;
+    469              }
+    470            }
+    471            return -1;
+    472          }
+    473          
+    474          int getProfile(int indx)
+    475          {
+    476            if((indx >= 0) && (indx < MAX_PLACE_NUM))
+    477            {
+    478              if(*cfg_place[indx].profile) return *cfg_place[indx].profile - 1;
+    479            }
+    480            return -1;
+    481          }
+    482          
+    483          int getVibrate(int indx)
+    484          {
+    485            if((indx >= 0) && (indx < MAX_PLACE_NUM)) return *cfg_place[indx].vibrate;
+    486            return -1;
+    487          }
+    488          
+    489          const wchar_t * getSoundFile(int indx)
+    490          {
+    491            if((indx >= 0) && (indx < MAX_PLACE_NUM))
+    492            {
+    493              if(*cfg_place[indx].sound_enable) return cfg_place[indx].sound_file;
+    494            }
+    495            return 0;
+    496          }
+    497          
+    498          int equ2manual_profile(int profile)
+    499          {
+    500            for(unsigned int i=0; i<MAX_MANUAL_PROFILE_NUM; i++)
+    501            {
+    502              if(*cfg_manual_profile[i])
+    503              {
+    504                if((*cfg_manual_profile[i] - 1) == profile) return 1;
+    505              }
+    506            }
+    507            return 0;
+    508          }
+    509          
+    510          void DrawParams(int y)
+    511          {
+    512            GC *GC_DISP=get_DisplayGC ();
+    513          
+    514            if ((cfg_show_type & 2) && visible && (location_image != NOIMAGE))
+    515            {
+    516              GC_PutChar(GC_DISP, cfg_location_image.x1, cfg_location_image.y1 - y, imageWidth, imageHeight, location_image);
+    517            }
+    518          
+    519            if(cfg_auto_image_show && AutoLocation && (auto_image != NOIMAGE))
+    520            {
+    521              GC_PutChar(GC_DISP, cfg_auto_image_x, cfg_auto_image_y - y, 0, 0, auto_image);
+    522            }
+    523          
+    524            if((cfg_location == 9) && (cfg_show_type & 1) && visible && (CellNameID != empty))
+    525            {
+    526              if(cfg_cell_align == RIGHT)
+    527                DrawHighlightID(cfg_cell_font, CellNameID, cfg_cell_align, 1, cfg_cell_y - y, cfg_cell_x, DisplayHeight, cfg_cell_border, cfg_cell_color);
+    528              else
+    529                DrawHighlightID(cfg_cell_font, CellNameID, cfg_cell_align, cfg_cell_x, cfg_cell_y - y, DisplayWidth, DisplayHeight, cfg_cell_border, cfg_cell_color);
+    530            }
+    531          
+    532          }
+    533          
+    534          void onTimer_disable (u16 timerID, LPARAM lparam)
+    535          {
+    536            IsInStandby = false;
+    537          }
+    538          
+    539          void Display_ReDraw(DISP_OBJ* DO,int a,int b,int c)
+    540          {
+    541            IsInStandby = true;
+    542            Timer_ReSet(&timer_disable,cfg_update_interval << 1, onTimer_disable,0);
+    543            DrawParams(StatusBarY);
+    544            if (Display_oldReDraw) Display_oldReDraw(DO,a,b,c);
+    545          }
+    546          
+    547          void Status_ReDraw(DISP_OBJ * d, int a, int b, int c)
+    548          {
+    549            Status_oldReDraw(d, a, b, c);
+    550            if(IsInStandby || (!cfg_standby_only)) DrawParams(0);
+    551          }
+    552          
+    553          void Soft_ReDraw(DISP_OBJ* DO,int a,int b,int c)
+    554          {
+    555            BOOK *bk1 = FindBook(isImageViewerBook);
+    556            BOOK *bk2 = FindBook(get_IsCameraBook());
+    557            bool flag = (!cfg_standby_only) && (!bk1) && (!bk2);
+    558          
+    559            if(IsInStandby)
+    560            {
+    561              DrawParams(SoftBarY);
+    562              Soft_oldReDraw(DO,a,b,c);
+    563            }
+    564            else
+    565            {
+    566              if(flag) DrawParams(SoftBarY);
+    567              Soft_oldReDraw(DO,a,b,c);
+    568            }
+    569          }
+    570          
+    571          void InvalidateAll()
+    572          {
+    573              if(GUI_display) DispObject_InvalidateRect(GUI_display,0);
+    574              if(GUI_status)  DispObject_InvalidateRect(*GUI_status,0);
+    575              if(GUI_soft)    DispObject_InvalidateRect(GUI_soft,0);
+    576          }
+    577          
+    578          int CheckCurrentCell()
+    579          {
+    580            if(cfg_cellidmode == 0){
+    581              snwprintf(CellName, 16, L"%04X:%04X", currentLAC, currentCID);
+    582            }
+    583            else {
+    584              snwprintf(CellName, 16, L"%05d:%05d", currentLAC, currentCID);
+    585            }
+    586          
+    587            wstrcpy(CellNameStatus, CellName);
+    588            wstr2strn(logCellName, CellName, 15);
+    589          
+    590            char lacCidKey[20];
+    591            sprintf(lacCidKey, "[%s]", logCellName);
+    592          
+    593            int LocFound = 0;
+    594            if(db_buf)
+    595            {
+    596              if (char * param = manifest_GetParam(db_buf, lacCidKey, 0)) {
+    597                strcpy(logCellName, param);
+    598                if(encode_type == 0)
+    599                {
+    600                  char2unicode(CellName, param, 255);
+    601                }
+    602                else
+    603                {
+    604                  gb2un(CellName, param, 255);
+    605                }
+    606                if (!showCellID) wstrcpy(CellNameStatus, CellName);
+    607                LocFound = 1;
+    608                mfree(param);
+    609              }
+    610            }
+    611          
+    612            if ((LocFound == 0) && (AutoLocation == true)) {
+    613              if(AddTo_db()) LocFound = 1;
+    614            }
+    615          
+    616            if(CellNameID != empty) TextID_Destroy(CellNameID);
+    617            CellNameID = TextID_Create(CellNameStatus,ENC_UCS2,TEXTID_ANY_LEN);
+    618          
+    619            UpdateLocationImage();
+    620          
+    621            if(cfg_show_type) InvalidateAll();
+    622          
+    623            return LocFound;
+    624          }
+    625          
+    626          void CheckCellName()
+    627          {
+    628            int file;
+    629          
+    630            vibrate(cfg_vibrate);
+    631          
+    632            prevLAC = currentLAC;
+    633            prevCID = currentCID;
+    634            wstrcpy(prevCellName, CellName);
+    635          
+    636          
+    637            int LocFound = CheckCurrentCell();
+    638          
+    639            if((( wstrcmp(CellName, prevCellName) != 0) && (LocFound == 1)) || (LocFound != prevLocFound))
+    640            {
+    641              Timer_ReSet(&timerNewAction, NewActionTimeout, onTimerNewAction, 0);
+    642            }
+    643          
+    644            prevLocFound = LocFound;
+    645          
+    646            if(cfg_log_mode == 0) return;
+    647            if((cfg_log_mode == 0x02) && (wstrcmp(CellName, prevCellName) == 0)) return;
+    648            if((cfg_log_mode == 0x03) && (LocFound == 0)) return;
+    649            if((cfg_log_mode == 0x04) && (LocFound == 1)) return;
+    650          
+    651            DATETIME dt;
+    652            REQUEST_DATEANDTIME_GET(SYNC, &dt);
+    653          
+    654            wchar_t * logFile = new wchar_t[16];
+    655            if (cfg_date_format)
+    656              snwprintf(logFile, 11, _T("%02d-%02d-%04d."), dt.date.day, dt.date.mon, dt.date.year);
+    657            else
+    658              snwprintf(logFile, 11, _T("%04d-%02d-%02d."), dt.date.year, dt.date.mon, dt.date.day);
+    659            wstrcat(logFile, (cfg_log_ext ? _T("ini"):_T("txt")));
+    660          
+    661            if ((file = _fopen(logFolder, logFile, FSX_O_CREAT|FSX_O_APPEND|FSX_O_RDWR, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0)
+    662            {
+    663              char * newlog = new char[strlen(logCellName) + 32];
+    664              if(cfg_cellidmode == 0){
+    665                sprintf(newlog, "%02d:%02d:%02d - [%04X:%04X] %s\n", dt.time.hour, dt.time.min, dt.time.sec, currentLAC, currentCID, logCellName);
+    666              }
+    667              else {
+    668                sprintf(newlog, "%02d:%02d:%02d - [%05d:%05d] %s\n", dt.time.hour, dt.time.min, dt.time.sec, currentLAC, currentCID, logCellName);
+    669              }
+    670          
+    671              fwrite(file, newlog, strlen(newlog));
+    672              fclose(file);
+    673              delete(newlog);
+    674            }
+    675            delete(logFile);
+    676            return;
+    677          }
+    678          
+    679          void onTimerNewAction(u16 timerID, LPARAM lparam)
+    680          {
+    681            wstrcpy(prevCellNameAction, CellNameAction);
+    682            wstrcpy(CellNameAction, CellName);
+    683          
+    684            int indx = getPlaceIndex(CellNameAction);
+    685            if ( wstrcmp(CellNameAction, prevCellNameAction) != 0)
+    686            {
+    687              vibrate(getVibrate(indx));
+    688          
+    689              const wchar_t *soundFile = getSoundFile(indx);
+    690              if(soundFile && (!GetSilent() || (cfg_silent==1)))
+    691              {
+    692                char vol;
+    693                GetAudioSettings(2,&vol);
+    694                extractdir(tmppath, tmpname, soundFile);
+    695                PlayFileV(tmppath, tmpname, vol);
+    696              }
+    697            }
+    698          
+    699            int req_profile = getProfile(indx);
+    700            int cur_profile;
+    701            REQUEST_PROFILE_GETACTIVEPROFILE(SYNC , &cur_profile);
+    702            if(req_profile >= 0)
+    703            {
+    704              if(!equ2manual_profile(cur_profile))
+    705              {
+    706                Profile_SetActive(req_profile,cfg_set_in_gdfs);
+    707              }
+    708            }
+    709            else if(cfg_default_profile > 0)
+    710            {
+    711              req_profile = cfg_default_profile - 1;
+    712              if(!equ2manual_profile(cur_profile))
+    713              {
+    714                Profile_SetActive(req_profile,cfg_set_in_gdfs);
+    715              }
+    716            }
+    717          
+    718            Timer_ReSet(&timerNewAction, NewActionTimeout, onTimerNewAction, 0);
+    719          }
+    720          
+    721          void onTimer(u16 timerID, LPARAM lparam)
+    722          {
+    723            PLMN_LAC_DESC plmn_lac;
+    724            RAT_CI_DESC rat_ci;
+    725            char CSReg;
+    726            get_CellData(&plmn_lac,&rat_ci,&CSReg);
+    727            currentLAC = plmn_lac.LAC[0]<<8|plmn_lac.LAC[1];
+    728            currentCID  = rat_ci.CI;
+    729            if((currentLAC != prevLAC) || (currentCID != prevCID)) CheckCellName();
+    730            if (visible && (cfg_location < 9)) {
+    731              StatusIndication_SetItemText(SBY_GetStatusIndication(Find_StandbyBook()), wnd, TextID_Create(CellNameStatus,ENC_UCS2,TEXTID_ANY_LEN));
+    732            }
+    733            Timer_ReSet(&timer, cfg_update_interval, onTimer, 0);
+    734          }
+    735          
+    736          void Send_REDRAW_RELEASE()
+    737          {
+    738            REDRAW_RELEASE_MESSAGE * sbm = new REDRAW_RELEASE_MESSAGE;
+    739          
+    740            // Status
+    741            sbm->SI_OldOnRedraw = Status_oldReDraw;
+    742            sbm->SI_NewOnRedraw = Status_ReDraw;
+    743            // Screen
+    744            sbm->SB_OldOnRedraw = Display_oldReDraw;
+    745            sbm->SB_NewOnRedraw = Display_ReDraw;
+    746            // Soft
+    747            sbm->SK_OldOnRedraw = Soft_oldReDraw;
+    748            sbm->SK_NewOnRedraw = Soft_ReDraw;
+    749          
+    750            // посылаем всем  мессагу со старыми и своими методами Redraw
+    751            UI_Event_wData(SBY_REDRAW_RELEASE_EVENT, sbm, (void (*)(void*))mfree_adr());
+    752          }
+    753          
+    754          int SB_ELF_Killed(void *mess ,BOOK* book)
+    755          {
+    756            // если был убит эльф рисующий на ГЭ или просто нужно перетосовать методы
+    757            REDRAW_RELEASE_MESSAGE * sbm =(REDRAW_RELEASE_MESSAGE*)mess;
+    758            REDRAW_RELEASE_MESSAGE * ms = 0;
+    759          
+    760            //Проверим статус
+    761            //его ли метод мы используем в качестве oldRedraw?
+    762            if (sbm->SI_NewOnRedraw == Status_oldReDraw)
+    763            {
+    764              ms = new REDRAW_RELEASE_MESSAGE;
+    765              memcpy(ms, sbm, sizeof(REDRAW_RELEASE_MESSAGE));
+    766          
+    767              // если он был убит, то заменяем свой oldRedraw на его..
+    768              if (sbm->SI_OldOnRedraw!=EMPTY_REDRAW_METHOD) Status_oldReDraw = sbm->SI_OldOnRedraw;
+    769          
+    770              // ставим свой метод наверх
+    771              DISP_DESC_SetOnRedraw(DispObject_GetDESC(*GUI_status), Status_ReDraw);
+    772          
+    773              // и шлём мессагу снова, чтоб следующие ельфы сделали тоже самое
+    774              ms->SI_OldOnRedraw = EMPTY_REDRAW_METHOD;
+    775              ms->SI_NewOnRedraw = Status_ReDraw;
+    776            }
+    777          
+    778            //Проверим главный экран
+    779            //его ли метод мы используем в качестве oldRedraw?
+    780            if (sbm->SB_NewOnRedraw == Display_oldReDraw)
+    781            {
+    782              if(!ms)
+    783              {
+    784                ms = new REDRAW_RELEASE_MESSAGE;
+    785                memcpy(ms, sbm, sizeof(REDRAW_RELEASE_MESSAGE));
+    786              }
+    787          
+    788              // если он был убит, то заменяем свой oldRedraw на его..
+    789              if (sbm->SB_OldOnRedraw!=EMPTY_REDRAW_METHOD) Display_oldReDraw = sbm->SB_OldOnRedraw;
+    790          
+    791              // ставим свой метод наверх
+    792              DISP_DESC_SetOnRedraw(DispObject_GetDESC(GUI_display), Display_ReDraw);
+    793          
+    794              // и шлём мессагу снова, чтоб следующие ельфы сделали тоже самое
+    795              ms->SB_OldOnRedraw = EMPTY_REDRAW_METHOD;
+    796              ms->SB_NewOnRedraw = Display_ReDraw;
+    797            }
+    798          
+    799            //Проверим софт
+    800            //его ли метод мы используем в качестве oldRedraw?
+    801            if (sbm->SK_NewOnRedraw == Soft_oldReDraw)
+    802            {
+    803              if(!ms)
+    804              {
+    805                ms = new REDRAW_RELEASE_MESSAGE;
+    806                memcpy(ms, sbm, sizeof(REDRAW_RELEASE_MESSAGE));
+    807              }
+    808          
+    809              // если он был убит, то заменяем свой oldRedraw на его..
+    810              if (sbm->SK_OldOnRedraw!=EMPTY_REDRAW_METHOD) Soft_oldReDraw = sbm->SK_OldOnRedraw;
+    811          
+    812              // ставим свой метод наверх
+    813              DISP_DESC_SetOnRedraw(DispObject_GetDESC(GUI_soft), Soft_ReDraw);
+    814          
+    815              // и шлём мессагу снова, чтоб следующие ельфы сделали тоже самое
+    816              ms->SK_OldOnRedraw = EMPTY_REDRAW_METHOD;
+    817              ms->SK_NewOnRedraw = Soft_ReDraw;
+    818            }
+    819            if(ms)
+    820            {
+    821              UI_Event_wData(SBY_REDRAW_RELEASE_EVENT ,ms,(void (*)(void*))mfree_adr());
+    822              return(BLOCK_EVENT_GLOBALLY);
+    823            }
+    824            return(0);
+    825          }
+    826          int TerminateElf(void * ,BOOK* book)
+    827          {
+    828            Send_REDRAW_RELEASE();
+    829            FreeBook(book);
+    830            return(1);
+    831          }
+    832          
+    833          int ShowAuthorInfo(void *mess ,BOOK* book)
+    834          {
+    835          #if (!defined(LANG_RU) && !defined(LANG_EN))
+    836            MessageBox(EMPTY_TEXTID,TextID_Create( LELFNAME _T("\n") LELFVERSION _T("\n") LAUTHORINFO _T("\n") LTRANSLATED TRANSLATED_BY,0,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    837          #else
+    838            MessageBox(EMPTY_TEXTID,TextID_Create( LELFNAME _T("\n") LELFVERSION _T("\n") LAUTHORINFO,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    839          #endif
+    840            return(1);
+    841          }
+    842          
+    843          static int onReconfigElf(void *mess , BOOK *book)
+    844          {
+    845            RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+    846            int result=0;
+    847            if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+    848            {
+    849              MessageBox(EMPTY_TEXTID, TextID_Create(LG_UPDSETTING,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    850              InitVar();
+    851              CheckCurrentCell();
+    852          
+    853              if (visible && (cfg_location < 9)) {
+    854                StatusIndication_SetItemText(SBY_GetStatusIndication(Find_StandbyBook()), wnd, TextID_Create(CellNameStatus,ENC_UCS2,TEXTID_ANY_LEN));
+    855              }
+    856          
+    857              result=1;
+    858            }
+    859            return(result);
+    860          }
+    861          
+    862          int onBcfgConfig(void* mess, BOOK* bk)
+    863          {
+    864            FSTAT _fstat;
+    865          
+    866            extractdir(tmppath, tmpname, cfg_bcfgedit);
+    867            if(fstat(tmppath,tmpname,&_fstat)==0)
+    868            {
+    869            }
+    870            else if(fstat(GetDir(DIR_ELFS|MEM_INTERNAL), tmpname,&_fstat)==0)
+    871            {
+    872              wstrcpy(tmppath,GetDir(DIR_ELFS|MEM_INTERNAL));
+    873            }
+    874            else if(fstat(GetDir(DIR_ELFS|MEM_EXTERNAL), tmpname,&_fstat)==0)
+    875            {
+    876              wstrcpy(tmppath,GetDir(DIR_ELFS|MEM_EXTERNAL));
+    877            }
+    878            else
+    879            {
+    880              MessageBox(EMPTY_TEXTID, TextID_Create(LG_GFGBCFGEDITNOTFOUND,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+    881              return 1;
+    882            }
+    883            wstrcat(tmppath,L"/");
+    884            wstrcat(tmppath, tmpname);
+    885            elfload(tmppath, (void*)successed_config_path, (void*)successed_config_name,0);
+    886            return 1;
+    887          }
+    888          
+    889          const PAGE_MSG MiniGPS_BasePageEvents[]@ "DYN_PAGE" ={
+    890            SBY_REDRAW_RELEASE_EVENT,  SB_ELF_Killed,
+    891            ELF_TERMINATE_EVENT,       TerminateElf,
+    892            ELF_SHOW_INFO_EVENT,       ShowAuthorInfo,
+    893            ELF_RECONFIG_EVENT,        onReconfigElf,
+    894            NIL_EVENT_TAG,             NULL
+    895          };
+    896          
+    897          PAGE_DESC base_page ={"MiniGPS_BasePage",0,MiniGPS_BasePageEvents};
+    898          
+    899          
+    900          void elf_exit(void)
+    901          {
+    902            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+    903          }
+    904          
+    905          int isMiniGPSBook(BOOK * book)
+    906          {
+    907            if(!strcmp(book->xbook->name,myappname)) return 1;
+    908            return 0;
+    909          }
+    910          
+    911          void ShowHideProc()
+    912          {
+    913            if(cfg_location < 9)
+    914            {
+    915              if (visible)
+    916              {
+    917                StatusIndication_SetItemText(SBY_GetStatusIndication(Find_StandbyBook()), wnd, empty);
+    918              }
+    919              else
+    920              {
+    921                StatusIndication_SetItemText(SBY_GetStatusIndication(Find_StandbyBook()), wnd, TextID_Create(CellNameStatus,ENC_UCS2,TEXTID_ANY_LEN));
+    922              }
+    923            }
+    924            visible = !visible;
+    925          }
+    926          
+    927          void CellIdProc()
+    928          {
+    929            showCellID = !showCellID;
+    930            CheckCurrentCell();
+    931          }
+    932          
+    933          void OKPressed(BOOK * bk, wchar_t *string, int len)
+    934          {
+    935            MyBOOK * myBook=(MyBOOK *)bk;
+    936            wstrcpy(SIwstr, string);
+    937            FREE_GUI(myBook->text_input);
+    938            AutoLocation=true;
+    939            CheckCurrentCell();
+    940            BookObj_Hide((BOOK*)myBook,0);
+    941          //  BookObj_SetFocus(Find_StandbyBook(),0);
+    942            return;
+    943          }
+    944          
+    945          void BackPressed(BOOK * bk, u16 *string, int len)
+    946          {
+    947            MyBOOK * myBook=(MyBOOK *)bk;
+    948            FREE_GUI(myBook->text_input);
+    949            BookObj_Hide((BOOK*)myBook,0);
+    950          //  BookObj_SetFocus(Find_StandbyBook(),0);
+    951            return;
+    952          }
+    953          
+    954          int NewKey(int key, int r1, int mode, LPARAM, DISP_OBJ*)
+    955          {
+    956            if(!isKeylocked() || cfg_ignore_keylock)
+    957            {
+    958              if(Display_GetTopBook(0)==Find_StandbyBook())
+    959              {
+    960                if(cfg_ctrlmode == 0)
+    961                {
+    962                  if((key == cfg_menukey) && (mode == cfg_menukeymode))
+    963                  {
+    964                    ShowMenu(&MiniGPSBook->book);
+    965                  }
+    966                }
+    967                else
+    968                {
+    969                  if((key == cfg_showkey) && (mode == cfg_showkeymode))
+    970                  {
+    971                    ShowHideProc();
+    972                  }
+    973                  else if((key == cfg_showcellid) && (mode == cfg_chowcellidmode))
+    974                  {
+    975                    CellIdProc();
+    976                  }
+    977                  else if((key == cfg_autolocation) && (mode == cfg_autolocationmode))
+    978                  {
+    979                    if (AutoLocation == false)
+    980                    {
+    981                      if(MiniGPSBook->text_input) GUIObject_Destroy(MiniGPSBook->text_input);
+    982                      TEXTID text = TextID_Create(SIwstr,ENC_UCS2,TEXTID_ANY_LEN);
+    983                      MiniGPSBook->text_input = CreateStringInputVA(0,
+    984                                                    VAR_BOOK(MiniGPSBook),
+    985                                                    VAR_STRINP_FIXED_TEXT(TextID_Create(LG_CURRENTLOCATION,ENC_UCS2,TEXTID_ANY_LEN)),
+    986                                                    VAR_STRINP_TEXT(text),
+    987                                                    VAR_STRINP_NEW_LINE(0),
+    988                                                    VAR_STRINP_ENABLE_EMPTY_STR(0),
+    989                                                    VAR_STRINP_MAX_LEN(MAX_AUTOLOCATION_LEN - 1),
+    990                                                    VAR_STRINP_MODE(IT_STRING),
+    991                                                    VAR_OK_PROC(OKPressed),
+    992                                                    VAR_PREV_ACTION_PROC(BackPressed),
+    993                                                    0);
+    994                      BookObj_SetFocus( &MiniGPSBook->book,0);
+    995                      GUIObject_Show(MiniGPSBook->text_input);
+    996                    }
+    997                    else
+    998                    {
+    999                      AutoLocation = false;
+   1000                      MessageBox(EMPTY_TEXTID, TextID_Create(LG_AUTOLOCATIONOFF,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+   1001                    }
+   1002                  }
+   1003                  InvalidateAll();
+   1004                }
+   1005              }
+   1006            }
+   1007            return 0;
+   1008          }
+   1009          
+   1010          int StandbyModeActivatedHook(void *msg, BOOK * book, PAGE_DESC * page_desc, LPARAM ClientData, u16 event)
+   1011          {
+   1012              IsInStandby = true;
+   1013              return(0);
+   1014          }
+   1015          
+   1016          int StandbyModeDeactivatedHook(void *msg, BOOK * book, PAGE_DESC * page_desc, LPARAM ClientData, u16 event)
+   1017          {
+   1018              IsInStandby = false;
+   1019              return(0);
+   1020          }
+   1021          
+   1022          void onCloseMiniGPSBook(BOOK * book)
+   1023          {
+   1024            MyBOOK *mbk = (MyBOOK *)book;
+   1025            if (mbk)
+   1026            {
+   1027              myModifyUIHook(STANDBY_NOT_IDLE_EVENT,UI_STANDBY_UNFOCUS_EVENT,StandbyModeDeactivatedHook,0);
+   1028              myModifyUIHook(STANDBY_IDLE_EVENT,PHONE_IN_STBY_EVENT,StandbyModeActivatedHook,0);
+   1029          
+   1030              if(Display_desc) DISP_DESC_SetOnRedraw(Display_desc, Display_oldReDraw);
+   1031              if(Status_desc)  DISP_DESC_SetOnRedraw(Status_desc, Status_oldReDraw);
+   1032              if(Soft_desc)    DISP_DESC_SetOnRedraw(Soft_desc, Soft_oldReDraw);
+   1033          
+   1034              if(timer_disable) Timer_Kill(&timer_disable);
+   1035              if(timer) Timer_Kill(&timer);
+   1036              if(timerNewAction) Timer_Kill(&timerNewAction);
+   1037              ModifyKeyHook(NewKey, KEY_HOOK_REMOVE, NULL);
+   1038          
+   1039              StatusIndication_SetItemText(SBY_GetStatusIndication(Find_StandbyBook()), wnd, empty);
+   1040          
+   1041              FREE_GUI(mbk->menu);
+   1042              FREE_GUI(mbk->text_input);
+   1043          
+   1044              if(auto_image != NOIMAGE)
+   1045              {
+   1046                ImageID_Free(auto_image);
+   1047                auto_image = NOIMAGE;
+   1048              }
+   1049          
+   1050              if(location_image != NOIMAGE)
+   1051              {
+   1052                ImageID_Free(location_image);
+   1053                location_image = NOIMAGE;
+   1054              }
+   1055          
+   1056              if(CellNameID != empty)
+   1057              {
+   1058                TextID_Destroy(CellNameID);
+   1059                CellNameID = empty;
+   1060              }
+   1061          
+   1062              if(db_buf) delete(db_buf);
+   1063              SUBPROC(elf_exit);
+   1064            }
+   1065          }
+   1066          
+   1067          int MainPageEnter(void *, BOOK *bk)
+   1068          {
+   1069            myModifyUIHook(STANDBY_NOT_IDLE_EVENT,UI_STANDBY_UNFOCUS_EVENT,StandbyModeDeactivatedHook,1);
+   1070            myModifyUIHook(STANDBY_IDLE_EVENT,PHONE_IN_STBY_EVENT,StandbyModeActivatedHook,1);
+   1071            
+   1072            GUI_status = StatusRow_p();
+   1073            Status_desc = DispObject_GetDESC (* GUI_status);
+   1074            Status_oldReDraw = DispObject_GetOnRedraw (* GUI_status);
+   1075            DISP_DESC_SetOnRedraw (Status_desc, (DISP_OBJ_ONREDRAW_METHOD)Status_ReDraw);
+   1076            
+   1077            GUI_soft = DispObject_SoftKeys_Get();
+   1078            Soft_desc = DispObject_GetDESC (GUI_soft);
+   1079            Soft_oldReDraw = DispObject_GetOnRedraw(GUI_soft);
+   1080            DISP_DESC_SetOnRedraw(Soft_desc, (DISP_OBJ_ONREDRAW_METHOD)Soft_ReDraw);
+   1081            
+   1082            GUI_display = GUIObject_GetDispObject( SBY_GetStatusIndication(Find_StandbyBook()) );
+   1083            Display_oldReDraw = DispObject_GetOnRedraw(GUI_display);
+   1084            Display_desc = DispObject_GetDESC (GUI_display);
+   1085            DISP_DESC_SetOnRedraw(Display_desc, Display_ReDraw);
+   1086            
+   1087            ModifyKeyHook(NewKey, KEY_HOOK_ADD, NULL);
+   1088            Timer_ReSet(&timer, 1000, onTimer, 0);
+   1089            Timer_ReSet(&timerNewAction, NewActionTimeout, onTimerNewAction, 0);
+   1090            return(0);
+   1091          }
+   1092          
+   1093          const PAGE_MSG MiniGPS_MainPageEvents[]@ "DYN_PAGE" ={
+   1094            PAGE_ENTER_EVENT_TAG,      MainPageEnter,
+   1095            NIL_EVENT_TAG,             NULL
+   1096          };
+   1097          
+   1098          PAGE_DESC main_page ={"MiniGPS_MainPage",0,MiniGPS_MainPageEvents};
+   1099          
+   1100          int main (void)
+   1101          {
+   1102            if(FindBook(isMiniGPSBook))
+   1103            {
+   1104              MessageBox(EMPTY_TEXTID, TextID_Create(LELFNAME _T("\n") LG_ALREADY_STARTED,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+   1105              SUBPROC(elf_exit);
+   1106            }
+   1107            else
+   1108            {
+   1109          
+   1110              InitVar();
+   1111              MiniGPSBook = new MyBOOK;
+   1112              memset(MiniGPSBook,0,sizeof(MyBOOK));
+   1113              if(!CreateBook((BOOK*)MiniGPSBook,onCloseMiniGPSBook,&base_page,ELFNAME,-1,0))
+   1114              {
+   1115                delete MiniGPSBook;
+   1116                SUBPROC(elf_exit);
+   1117                return 0;
+   1118              }
+   1119              
+   1120              BookObj_GotoPage((BOOK*)MiniGPSBook,&main_page);
+   1121          
+   1122            }
+   1123            return 0;
+   1124          }
+   1125          
+   1126          /*
+   1127          Revision history:
+   1128            2.6
+   1129                + Изменения в структуре конфигурационного файла.
+   1130                + Возможность вкл/выкл меню.
+   1131                + Возможность выбора где отображать местополжение - только в режиме ожидания или везде.
+   1132                + В меню добавлен пункт "Об эльфе".
+   1133                + Исправлена ошибка с отображением "софтов" в альбомной ориентации в камере и при просмотре изображений.
+   1134            2.5.1
+   1135                + Исправлена мелкая ошибка
+   1136            2.5
+   1137                + Изменения в структуре конфигурационного файла.
+   1138                + Добавлено меню
+   1139                + Формат картинки, соответсвующей данному месту, может быть как png, так и jpg
+   1140                  Примечание. Если если есть картинки обоих форматов, то будет загружена в формате png.
+   1141            2.4
+   1142                + Возвращена возможность вывода имени в фиксированные места.
+   1143                + Добавлена поддержка китайского языка.
+   1144                + Исправлены мелкие ошибки
+   1145            2.3
+   1146                + Немного переделан алгоритм перерисовки.
+   1147                + Исправлены мелкие ошибки
+   1148            2.2
+   1149                + Изменения в структуре конфигурационного файла.
+   1150                + Возможность задать шрифт, цвет, выравнивание и координаты для выводимого
+   1151                  на ГЭ имени местоположения.
+   1152                + Отображение на экране в виде иконки включенного режима "автодобавления места".
+   1153                + Отображение на экране картинки соответсвующей данному месту.
+   1154                  Имя картинки в виде <имя места>.png (например, дом.png)
+   1155                + Возможность выбора что отображать.
+   1156                + Немного изменен алгоритм переключения профиля в зависимости от местоположения.
+   1157                  Теперь переключение происходит не только при смене места, но и при выключении
+   1158                  профиля, включенного "вручную".
+   1159                + Немного изменен алгоритм включения профиля по умолчанию. Теперь он так же
+   1160                  включается если в течении времени "Задержка действия (мин)" телефон не был
+   1161                  подключен ни к одной из базовых станций, имена которых введены в "Места"
+   1162                + Небольшая оптипизация кода
+   1163            2.1
+   1164                + Исправлена проблема с некорректным сохранением и последущем выводом на
+   1165                  экран имени места, введенного не латинскими сиволами (например, русскими т.д.)
+   1166                + Теперь при включении режима "автодобавления места" в базу добавляются не
+   1167                  только вновь найденные станции, но и текущая (если ее там не было)
+   1168                + Небольшая оптипизация кода и исправление ошибок
+   1169            2.0
+   1170                + Переход на bcfg (за основу взята версия 1.19.2)
+   1171                + Автоматический выбор громкости воспроизведения звуков
+   1172                + Небольшая оптипизация кода и исправление ошибок
+   1173          
+   1174          */
+
+Errors: 1
+Warnings: none

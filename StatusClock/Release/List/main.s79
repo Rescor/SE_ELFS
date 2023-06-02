@@ -1,0 +1,305 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:50:45 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\m /
+//                       ain.cpp                                             /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\m /
+//                       ain.cpp -D NDEBUG -D OLDFUNCTIONS -lC               /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\R /
+//                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn /
+//                       \SE\StatusClock\Release\List\ -o                    /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\R /
+//                       elease\Obj\ -s9 --cpu_mode arm --endian little      /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\R /
+//                       elease\List\main.s79                                /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME main
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+        MULTWEAK ??InitConfig??rA
+        MULTWEAK ??MyBook_Create??rA
+        MULTWEAK ??main??rT
+        PUBLIC ??onTimer
+        FUNCTION ??onTimer,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??onTimer??rT
+        MULTWEAK ??redraw_init??rA
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC main
+        FUNCTION main,0a03H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC timer
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+??InitConfig??rA    SYMBOL "??rA", ??InitConfig
+??MyBook_Create??rA SYMBOL "??rA", ??MyBook_Create
+main                SYMBOL "main"
+??main??rT          SYMBOL "??rT", main
+
+??onTimer??rT       SYMBOL "??rT", ??onTimer
+??redraw_init??rA   SYMBOL "??rA", ??redraw_init
+
+        EXTERN ??InitConfig
+        FUNCTION ??InitConfig,0202H
+        EXTERN ??MyBook_Create
+        FUNCTION ??MyBook_Create,0202H
+        EXTERN ??redraw_init
+        FUNCTION ??redraw_init,0202H
+        EXTERN SYNC
+
+// Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\main.cpp
+//    1 #include "..\include\Lib_Clara.h"
+//    2 #include "..\include\Dir.h"
+//    3 #include "conf_loader.h"
+//    4 
+//    5 void redraw_init();
+//    6 BOOK * MyBook_Create();
+//    7 
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(1)
+//    8 u16 timer;
+timer:
+        DS8 2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onTimer??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??onTimer
+//    9 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??onTimer
+        ARM
+//   10 void onTimer (u16 tmr, LPARAM lparam)
+//   11 {
+//   12   DATETIME dt;
+//   13   REQUEST_DATEANDTIME_GET(SYNC,&dt);
+??onTimer:
+        LDR      R0,??onTimer_1   ;; SYNC
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+8
+        CFI CFA R13+12
+        LDR      R0,[R0, #+0]
+        MOV      R1,SP
+        SWI      +366
+//   14   if (dt.time.sec==0)
+        LDRB     R0,[SP, #+6]
+        CMP      R0,#+0
+        BNE      ??onTimer_2
+//   15   {
+//   16     DispObject_InvalidateRect(*StatusRow_p(),0);
+        SWI      +33266
+        LDR      R0,[R0, #+0]
+        MOV      R1,#+0
+        SWI      +495
+//   17   }
+//   18   Timer_ReSet(&timer,1000,onTimer,0);
+??onTimer_2:
+        LDR      R2,??DataTable2  ;; ??onTimer
+        LDR      R0,??DataTable3  ;; timer
+        MOV      R3,#+0
+        MOV      R1,#+1000
+        SWI      +296
+//   19 }
+        POP      {R0,R1,PC}       ;; return
+        DATA
+??onTimer_1:
+        DC32     SYNC
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??main??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE main
+//   20 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function main
+        ARM
+//   21 int main()
+//   22 {
+main:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+//   23   MyBook_Create();
+        _BLF     ??MyBook_Create,??MyBook_Create??rA
+//   24   timer=Timer_Set(1000,onTimer,0);
+        LDR      R1,??DataTable2  ;; ??onTimer
+        MOV      R2,#+0
+        MOV      R0,#+1000
+        SWI      +297
+        LDR      R1,??DataTable3  ;; timer
+        STRH     R0,[R1, #+0]
+//   25   InitConfig();
+        _BLF     ??InitConfig,??InitConfig??rA
+//   26   redraw_init();
+        _BLF     ??redraw_init,??redraw_init??rA
+//   27   return 0;
+        MOV      R0,#+0
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+//   28 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     ??onTimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable3:
+        DC32     timer
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??MyBook_Create??rA:
+        LDR      R12,??Subroutine2_0  ;; ??MyBook_Create
+        BX       R12
+        DATA
+??Subroutine2_0:
+        DC32     ??MyBook_Create
+        CFI EndBlock cfiBlock4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??InitConfig??rA:
+        LDR      R12,??Subroutine3_0  ;; ??InitConfig
+        BX       R12
+        DATA
+??Subroutine3_0:
+        DC32     ??InitConfig
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??redraw_init??rA:
+        LDR      R12,??Subroutine4_0  ;; ??redraw_init
+        BX       R12
+        DATA
+??Subroutine4_0:
+        DC32     ??redraw_init
+        CFI EndBlock cfiBlock6
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        END
+// 
+// 180 bytes in segment CODE
+//   2 bytes in segment DATA_Z
+//  12 bytes in segment INITTAB
+// 
+// 136 bytes of CODE memory (+ 56 bytes shared)
+//   2 bytes of DATA memory
+//
+//Errors: none
+//Warnings: none

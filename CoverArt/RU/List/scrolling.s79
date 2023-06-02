@@ -1,0 +1,536 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:02:34 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\scro /
+//                       lling.c                                             /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\scro /
+//                       lling.c -D NDEBUG -D OLDFUNCTIONS -lC               /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\L /
+//                       ist\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Cove /
+//                       rArt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn /
+//                       \SE\CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian    /
+//                       little --cpu ARM926EJ-S --stack_align 4             /
+//                       --interwork -e --enable_multibytes --fpu None       /
+//                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\d /
+//                       l5tpainl8n.h --preinclude                           /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\LNG- /
+//                       RU.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\L /
+//                       ist\scrolling.s79                                   /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME scrolling
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+        PUBLIC ??NextScrollFrame
+        FUNCTION ??NextScrollFrame,0203H
+        LOCFRAME CSTACK, 40, STACK
+        MULTWEAK ??NextScrollFrame??rT
+        PUBLIC ??isScrollable
+        FUNCTION ??isScrollable,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??isScrollable??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??NextScrollFrame??rT SYMBOL "??rT", ??NextScrollFrame
+
+??isScrollable??rT  SYMBOL "??rT", ??isScrollable
+
+        EXTERN ScrollWhenNot
+        EXTERN ScrollingMode
+        EXTERN labels
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isScrollable??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??isScrollable
+// Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\scrolling.c
+//    1 #include "..\include\Lib_Clara.h"
+//    2 #include "..\include\dir.h"
+//    3 #include "config_data.h"
+//    4 #include "structs.h"
+//    5 
+//    6 #define NUM 10
+//    7 #define LEFT 0
+//    8 #define RIGHT 1
+//    9 #define NMODE 2
+//   10 #define NMODE2 3
+//   11 
+//   12 extern LABEL labels[NUM];
+//   13 extern bool isInStandby;
+//   14 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??isScrollable
+        ARM
+//   15 int isScrollable(LABEL *lbl, int mode)
+//   16 {
+??isScrollable:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+//   17    if (lbl->SHOW==true && lbl->scr.SCROLL_USE==true)
+        LDRB     R0,[R4, #+516]
+        MOV      R5,R1
+        CMP      R0,#+0
+        LDRBNE   R0,[R4, #+552]
+        CMPNE    R0,#+0
+        POPEQ    {R4,R5,PC}
+//   18    {
+//   19      // ДравЛайну надо знать, скроллить или нет :-)
+//   20      int len=0;
+//   21      if (ScrollingMode==true)
+        LDR      R0,??DataTable1  ;; ScrollingMode
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+//   22      {
+//   23        len=lbl->scr.SCROLL_FLEN;
+        LDREQ    R0,[R4, #+584]
+        BEQ      ??isScrollable_1
+//   24      }
+//   25      else
+//   26      {
+//   27        len=wstrlen(lbl->label);
+        MOV      R0,R4
+        SWI      +343
+//   28      }
+//   29      if ((mode==1 || ScrollWhenNot==true) || (mode==1 && ScrollWhenNot==true))
+??isScrollable_1:
+        CMP      R5,#+1
+        BEQ      ??isScrollable_2
+        LDR      R1,??isScrollable_3  ;; ScrollWhenNot
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+1
+        BNE      ??isScrollable_4
+//   30      {
+//   31         // Если надо скроллить и если мы находимся в правильном месте
+//   32         if (len>=lbl->scr.SCROLL_STRLEN)
+??isScrollable_2:
+        LDR      R1,[R4, #+580]
+        CMP      R0,R1
+//   33         {
+//   34           return 1;
+        MOVGE    R0,#+1
+        POPGE    {R4,R5,PC}
+//   35         }
+//   36      }
+//   37    }
+//   38    return 0;
+??isScrollable_4:
+        MOV      R0,#+0
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??isScrollable_3:
+        DC32     ScrollWhenNot
+        CFI EndBlock cfiBlock1
+//   39 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??NextScrollFrame??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??NextScrollFrame
+//   40 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??NextScrollFrame
+        ARM
+//   41 void NextScrollFrame(int mode)
+//   42 {
+??NextScrollFrame:
+        PUSH     {R0,R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+40
+//   43   int x=0;
+//   44   for (x=0;x<NUM;x++)
+        MOV      R4,#+0
+        MOV      R6,#+1
+        MOV      R8,#+572
+        MOV      R9,#+568
+        MOV      R10,#+588
+        MOV      R11,#+576
+//   45   {
+//   46     if (isScrollable(&labels[x],mode))
+??NextScrollFrame_1:
+        LDR      R1,??NextScrollFrame_2  ;; labels
+        MOV      R0,#+620
+        MLA      R5,R0,R4,R1
+        LDR      R1,[SP, #+0]
+        MOV      R7,#+592
+        MOV      R0,R5
+        BL       ??isScrollable
+        CMP      R0,#+0
+        BEQ      ??NextScrollFrame_3
+//   47     {
+//   48           labels[x].scr.SCROLL_NEED_SCROLL=true;
+        STR      R6,[R7, +R5]
+        LDR      R0,[R5, #+560]
+        MOV      R7,#+564
+        CMP      R0,#+1
+        BNE      ??NextScrollFrame_4
+//   49           if (labels[x].scr.SCROLL_WHERETO==RIGHT)
+//   50           {
+//   51             //Скролл идёт вправо
+//   52             if (labels[x].X<=labels[x].scr.SCROLL_RIGHT)
+        LDR      R0,[R5, #+520]
+        LDR      R1,[R9, +R5]
+        CMP      R1,R0
+//   53             {
+//   54               labels[x].X=labels[x].X+labels[x].scr.SCROLL_SPEED;
+        LDRGE    R1,[R8, +R5]
+        ADDGE    R0,R1,R0
+        BGE      ??NextScrollFrame_5
+//   55             }
+//   56             else
+//   57             {
+//   58               labels[x].X=labels[x].scr.SCROLL_LEFT-(labels[x].scr.SCROLL_LENGTH*wstrlen(labels[x].label));
+        MOV      R0,R5
+        SWI      +343
+        LDR      R2,[R11, +R5]
+        LDR      R1,[R7, +R5]
+        MUL      R2,R0,R2
+        SUB      R0,R1,R2
+        B        ??NextScrollFrame_5
+//   59             }
+//   60           }
+//   61           else if (labels[x].scr.SCROLL_WHERETO==LEFT)
+??NextScrollFrame_4:
+        CMP      R0,#+0
+        BNE      ??NextScrollFrame_6
+//   62           {
+//   63             //Скролл идёт вправо
+//   64             if (labels[x].X>=labels[x].scr.SCROLL_LEFT-(labels[x].scr.SCROLL_LENGTH*wstrlen(labels[x].label)))
+        MOV      R0,R5
+        SWI      +343
+        LDR      R3,[R11, +R5]
+        LDR      R1,[R5, #+520]
+        LDR      R2,[R7, +R5]
+        MUL      R3,R0,R3
+        SUB      R0,R2,R3
+        CMP      R1,R0
+        BLT      ??NextScrollFrame_7
+//   65             {
+//   66               labels[x].X=labels[x].X-labels[x].scr.SCROLL_SPEED;
+        MOV      R0,R1
+??NextScrollFrame_8:
+        LDR      R1,[R8, +R5]
+        SUB      R0,R0,R1
+        B        ??NextScrollFrame_5
+//   67             }
+//   68             else
+//   69             {
+//   70               labels[x].X=labels[x].scr.SCROLL_RIGHT;
+??NextScrollFrame_7:
+        LDR      R0,[R9, +R5]
+        B        ??NextScrollFrame_5
+//   71             }
+//   72           }
+//   73           else if (labels[x].scr.SCROLL_WHERETO==NMODE)
+??NextScrollFrame_6:
+        LDR      R1,??DataTable1  ;; ScrollingMode
+        MOV      R2,#+584
+        LDR      R1,[R1, #+0]
+        CMP      R0,#+2
+        BNE      ??NextScrollFrame_9
+//   74           {
+//   75             //Режим "от X до X"
+//   76             int len2=0;
+//   77             if (ScrollingMode==true)
+        CMP      R1,#+1
+//   78             {
+//   79               len2=labels[x].scr.SCROLL_FLEN;
+        LDREQ    R0,[R2, +R5]
+        BEQ      ??NextScrollFrame_10
+//   80             }
+//   81             else
+//   82             {
+//   83               len2=wstrlen(labels[x].label)*labels[x].scr.SCROLL_LENGTH;
+        MOV      R0,R5
+        SWI      +343
+        LDR      R1,[R11, +R5]
+        MUL      R0,R1,R0
+//   84             }
+//   85             if (labels[x].scr.SCROLL_WHERE==LEFT)
+??NextScrollFrame_10:
+        LDR      R1,[R10, +R5]
+        CMP      R1,#+0
+        BNE      ??NextScrollFrame_11
+//   86             {
+//   87               //Сейчас скролл идёт влево
+//   88               if (labels[x].X > labels[x].scr.SCROLL_LEFT)
+        LDR      R0,[R5, #+520]
+        LDR      R1,[R7, +R5]
+        CMP      R1,R0
+//   89               {
+//   90                 labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+        LDRLT    R1,[R8, +R5]
+        SUBLT    R0,R0,R1
+        BLT      ??NextScrollFrame_5
+//   91               }
+//   92               else if (labels[x].X <= labels[x].scr.SCROLL_LEFT)
+        CMP      R1,R0
+        BLT      ??NextScrollFrame_12
+//   93               {
+//   94                 //Дошло до последней черты, идём влево
+//   95                 labels[x].scr.SCROLL_WHERE=RIGHT;
+??NextScrollFrame_13:
+        STR      R6,[R10, +R5]
+//   96                 labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+??NextScrollFrame_14:
+        LDR      R0,[R5, #+520]
+        LDR      R1,[R8, +R5]
+        ADD      R0,R1,R0
+        B        ??NextScrollFrame_5
+//   97               }
+//   98             }
+//   99             else if (labels[x].scr.SCROLL_WHERE==RIGHT)
+??NextScrollFrame_11:
+        CMP      R1,#+1
+        BNE      ??NextScrollFrame_12
+//  100             {
+//  101               //Идёт скролл вправо
+//  102               if ((labels[x].X + len2) < labels[x].scr.SCROLL_RIGHT)
+        LDR      R1,[R5, #+520]
+        LDR      R2,[R9, +R5]
+        ADD      R1,R0,R1
+        CMP      R1,R2
+        BLT      ??NextScrollFrame_14
+//  103               {
+//  104                 labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+//  105               }
+//  106               else if ((labels[x].X + len2) >= labels[x].scr.SCROLL_RIGHT)
+??NextScrollFrame_15:
+        LDR      R1,[R5, #+520]
+        ADD      R0,R0,R1
+        CMP      R0,R2
+        BLT      ??NextScrollFrame_12
+//  107               {
+//  108                 //Идём вправо
+//  109                 labels[x].scr.SCROLL_WHERE=LEFT;
+??NextScrollFrame_16:
+        MOV      R0,#+0
+        STR      R0,[R10, +R5]
+//  110                 labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+        LDR      R0,[R5, #+520]
+        B        ??NextScrollFrame_8
+//  111               }
+//  112             }
+//  113           }
+//  114           else if (labels[x].scr.SCROLL_WHERETO==NMODE2)
+??NextScrollFrame_9:
+        CMP      R0,#+3
+        BNE      ??NextScrollFrame_12
+//  115           {
+//  116             //Режим "от X до X" v2
+//  117             int len2=0;
+//  118             if (ScrollingMode==true)
+        CMP      R1,#+1
+//  119             {
+//  120               len2=labels[x].scr.SCROLL_FLEN;
+        LDREQ    R0,[R2, +R5]
+        BEQ      ??NextScrollFrame_17
+//  121             }
+//  122             else
+//  123             {
+//  124               len2=wstrlen(labels[x].label)*labels[x].scr.SCROLL_LENGTH;
+        MOV      R0,R5
+        SWI      +343
+        LDR      R1,[R11, +R5]
+        MUL      R0,R1,R0
+//  125             }
+//  126             if (labels[x].scr.SCROLL_WHERE==LEFT)
+??NextScrollFrame_17:
+        LDR      R1,[R10, +R5]
+        CMP      R1,#+0
+        BNE      ??NextScrollFrame_18
+//  127             {
+//  128               //Сейчас скролл идёт влево
+//  129               if ((labels[x].X + len2) > labels[x].scr.SCROLL_LEFT)
+        LDR      R1,[R5, #+520]
+        LDR      R2,[R7, +R5]
+        ADD      R3,R0,R1
+        CMP      R2,R3
+//  130               {
+//  131                 labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+        LDRLT    R0,[R8, +R5]
+        SUBLT    R0,R1,R0
+        BLT      ??NextScrollFrame_5
+//  132               }
+//  133               else if ((labels[x].X + len2)<= labels[x].scr.SCROLL_LEFT)
+        ADD      R0,R0,R1
+        CMP      R2,R0
+        BLT      ??NextScrollFrame_12
+        B        ??NextScrollFrame_13
+//  134               {
+//  135                 //Дошло до последней черты, идём влево
+//  136                 labels[x].scr.SCROLL_WHERE=RIGHT;
+//  137                 labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+//  138               }
+//  139             }
+//  140             else if (labels[x].scr.SCROLL_WHERE==RIGHT)
+??NextScrollFrame_18:
+        CMP      R1,#+1
+        BNE      ??NextScrollFrame_12
+//  141             {
+//  142               //Идёт скролл вправо
+//  143               if (labels[x].X < labels[x].scr.SCROLL_RIGHT)
+        LDR      R0,[R5, #+520]
+        LDR      R1,[R9, +R5]
+        CMP      R0,R1
+//  144               {
+//  145                 labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+        LDRLT    R1,[R8, +R5]
+        ADDLT    R0,R1,R0
+        BLT      ??NextScrollFrame_5
+//  146               }
+//  147               else if (labels[x].X >= labels[x].scr.SCROLL_RIGHT)
+        CMP      R0,R1
+        BLT      ??NextScrollFrame_12
+        B        ??NextScrollFrame_16
+//  148               {
+//  149                 //Идём вправо
+//  150                 labels[x].scr.SCROLL_WHERE=LEFT;
+//  151                 labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+//  152               }
+//  153             }
+//  154           }
+//  155     }
+//  156     else
+//  157     {
+//  158       labels[x].scr.SCROLL_NEED_SCROLL=false;
+??NextScrollFrame_3:
+        STR      R0,[R7, +R5]
+//  159       labels[x].X=labels[x].scr.SCROLL_DEF_X;
+        LDR      R0,[R5, #+556]
+??NextScrollFrame_5:
+        STR      R0,[R5, #+520]
+//  160     }
+//  161   }
+??NextScrollFrame_12:
+        ADD      R4,R4,#+1
+        CMP      R4,#+10
+        BLT      ??NextScrollFrame_1
+//  162 };
+        POP      {R0,R4-R11,PC}   ;; return
+        DATA
+??NextScrollFrame_2:
+        DC32     labels
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable1:
+        DC32     ScrollingMode
+
+        END
+//  163 
+//  164 
+// 
+// 668 bytes in segment CODE
+// 
+// 660 bytes of CODE memory (+ 8 bytes shared)
+//
+//Errors: none
+//Warnings: none

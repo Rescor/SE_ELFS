@@ -1,0 +1,417 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:54:17 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\book.c #
+#                       pp                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\book.c #
+#                       pp -D NDEBUG -lC Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EvtDesk\Release\List\ -lA                         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Releas #
+#                       e\List\ -o Z:\home\perk11\www\perk11.info\svn\SE\Evt #
+#                       Desk\Release\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --eec++ --dlib_config                  #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Releas #
+#                       e\List\book.lst                                      #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Releas #
+#                       e\Obj\book.r79                                       #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\book.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\cfg_items.h"
+      4          #include "conf_loader.h"
+      5          #include "config_data.h"
+      6          
+      7          typedef struct
+      8          {
+      9            BOOK * book;
+     10          }MSG;
+     11          
+     12          extern DISP_OBJ_ONREDRAW_METHOD Display_oldReDraw;
+     13          extern DISP_OBJ * GUI_display;
+     14          extern DISP_DESC * Display_desc;
+     15          
+     16          extern void Display_ReDraw(DISP_OBJ * db,int r1, int r2,int r3);
+     17          
+     18          extern u16 timer;
+     19          
+     20          void elf_exit(void);
+     21          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     22          void Send_REDRAW_RELEASE()
+     23          {
+   \                     ??Send_REDRAW_RELEASE:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     24            REDRAW_RELEASE_MESSAGE *sbm = new REDRAW_RELEASE_MESSAGE;
+   \   00000004   1800A0E3           MOV      R0,#+24
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000000C   0040A0E1           MOV      R4,R0
+     25          
+     26            sbm->SB_OldOnRedraw = Display_oldReDraw;
+   \   00000010   ........           LDR      R0,??DataTable4  ;; Display_oldReDraw
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   000084E5           STR      R0,[R4, #+0]
+     27            sbm->SB_NewOnRedraw = Display_ReDraw;
+   \   0000001C   ........           LDR      R0,??DataTable3  ;; ??Display_ReDraw
+   \   00000020   040084E5           STR      R0,[R4, #+4]
+     28          
+     29            UI_Event_wData(SBY_REDRAW_RELEASE_EVENT, sbm, (void (*)(void*))mfree_adr());
+   \   00000024   048100EF           SWI      +33028
+   \   00000028   0020A0E1           MOV      R2,R0
+   \   0000002C   0410A0E1           MOV      R1,R4
+   \   00000030   E300A0E3           MOV      R0,#+227
+   \   00000034   C00F80E3           ORR      R0,R0,#0x300
+   \   00000038   A90100EF           SWI      +425
+     30          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+     31          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     32          int TerminateSBDraw(void * ,BOOK* book)
+     33          {
+   \                     ??TerminateSBDraw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     34            Send_REDRAW_RELEASE();
+   \   00000008   ........           BL       ??Send_REDRAW_RELEASE
+     35            FreeBook(book);
+   \   0000000C   0400A0E1           MOV      R0,R4
+   \   00000010   2F0100EF           SWI      +303
+     36            return(1);
+   \   00000014   0100A0E3           MOV      R0,#+1
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+     37          };
+     38          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     39          int ShowAuthorInfo(void *mess ,BOOK* book)
+     40          {
+   \                     ??ShowAuthorInfo:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     41            MSG * msg = (MSG*)mess;
+     42            MessageBox(EMPTY_TEXTID,STR("EvtDesk\n(C) UltraShot"), NOIMAGE, 1, 5000,msg->book);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   3C009FE5           LDR      R0,??ShowAuthorInfo_1  ;; `?<Constant L"\\x45\\x76\\x74\\x44\\x65\\x73\\x6b\\xa\\x`
+   \   00000010   FF50A0E3           MOV      R5,#+255
+   \   00000014   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000018   0520A0E1           MOV      R2,R5
+   \   0000001C   5D0100EF           SWI      +349
+   \   00000020   001094E5           LDR      R1,[R4, #+0]
+   \   00000024   0130A0E3           MOV      R3,#+1
+   \   00000028   02002DE9           PUSH     {R1}
+   \   0000002C   0520A0E1           MOV      R2,R5
+   \   00000030   8810A0E3           MOV      R1,#+136
+   \   00000034   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   9004E0E3           MVN      R0,#-1879048192
+   \   00000044   570200EF           SWI      +599
+     43            return(1);
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   3680BDE8           POP      {R1,R2,R4,R5,PC}  ;; return
+   \                     ??ShowAuthorInfo_1:
+   \   00000050   ........           DC32     `?<Constant L"\\x45\\x76\\x74\\x44\\x65\\x73\\x6b\\xa\\x`
+     44          };
+     45          
+     46          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     47          int SB_ELF_Killed(void *mess, BOOK *book)
+     48          {
+   \                     ??SB_ELF_Killed:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     49            REDRAW_RELEASE_MESSAGE * sbm =(REDRAW_RELEASE_MESSAGE*)mess;
+     50            REDRAW_RELEASE_MESSAGE * ms = 0;
+     51          
+     52            if (sbm->SB_NewOnRedraw == Display_oldReDraw)
+   \   00000004   ........           LDR      R5,??DataTable4  ;; Display_oldReDraw
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   040094E5           LDR      R0,[R4, #+4]
+   \   00000010   001095E5           LDR      R1,[R5, #+0]
+   \   00000014   010050E1           CMP      R0,R1
+   \   00000018   1C00001A           BNE      ??SB_ELF_Killed_1
+     53            {
+     54              if(!ms)
+     55              {
+     56                ms = new REDRAW_RELEASE_MESSAGE;
+   \   0000001C   1800A0E3           MOV      R0,#+24
+   \   00000020   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000024   0060A0E1           MOV      R6,R0
+     57                memcpy(ms, sbm, sizeof(REDRAW_RELEASE_MESSAGE));
+   \   00000028   1820A0E3           MOV      R2,#+24
+   \   0000002C   0410A0E1           MOV      R1,R4
+   \   00000030   130100EF           SWI      +275
+     58              }
+     59          
+     60              if (sbm->SB_OldOnRedraw!=EMPTY_REDRAW_METHOD) Display_oldReDraw = sbm->SB_OldOnRedraw;
+   \   00000034   000094E5           LDR      R0,[R4, #+0]
+     61          
+     62              DISP_DESC_SetOnRedraw(DispObject_GetDESC(GUI_display), Display_ReDraw);
+   \   00000038   ........           LDR      R4,??DataTable3  ;; ??Display_ReDraw
+   \   0000003C   0070E0E3           MVN      R7,#+0
+   \   00000040   070050E1           CMP      R0,R7
+   \   00000044   00008515           STRNE    R0,[R5, #+0]
+   \   00000048   48009FE5           LDR      R0,??SB_ELF_Killed_2  ;; GUI_display
+   \   0000004C   000090E5           LDR      R0,[R0, #+0]
+   \   00000050   1F0200EF           SWI      +543
+   \   00000054   0410A0E1           MOV      R1,R4
+   \   00000058   280200EF           SWI      +552
+     63          
+     64              ms->SB_OldOnRedraw = EMPTY_REDRAW_METHOD;
+   \   0000005C   007086E5           STR      R7,[R6, #+0]
+     65              ms->SB_NewOnRedraw = Display_ReDraw;
+   \   00000060   044086E5           STR      R4,[R6, #+4]
+     66            }
+     67            if(ms)
+   \   00000064   000056E3           CMP      R6,#+0
+   \   00000068   0800000A           BEQ      ??SB_ELF_Killed_1
+     68            {
+     69              UI_Event_wData(SBY_REDRAW_RELEASE_EVENT ,ms,(void (*)(void*))mfree_adr());
+   \   0000006C   048100EF           SWI      +33028
+   \   00000070   0020A0E1           MOV      R2,R0
+   \   00000074   0610A0E1           MOV      R1,R6
+   \   00000078   E300A0E3           MOV      R0,#+227
+   \   0000007C   C00F80E3           ORR      R0,R0,#0x300
+   \   00000080   A90100EF           SWI      +425
+     70              return(BLOCK_EVENT_GLOBALLY);
+   \   00000084   9A00A0E3           MOV      R0,#+154
+   \   00000088   800F80E3           ORR      R0,R0,#0x200
+   \   0000008C   F080BDE8           POP      {R4-R7,PC}
+     71            }
+     72            return(0);
+   \                     ??SB_ELF_Killed_1:
+   \   00000090   0000A0E3           MOV      R0,#+0
+   \   00000094   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??SB_ELF_Killed_2:
+   \   00000098   ........           DC32     GUI_display
+     73          }
+     74          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     75          static int OnReconfig(void *mess ,BOOK *book)
+     76          {
+   \                     ??OnReconfig:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     77            RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+     78            int result=0;
+     79            if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+   \   00000008   3C009FE5           LDR      R0,??OnReconfig_1  ;; successed_config_path
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   001090E5           LDR      R1,[R0, #+0]
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   9F0200EF           SWI      +671
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0700001A           BNE      ??OnReconfig_2
+   \   00000024   24009FE5           LDR      R0,??OnReconfig_1+0x4  ;; successed_config_name
+   \   00000028   001090E5           LDR      R1,[R0, #+0]
+   \   0000002C   800084E2           ADD      R0,R4,#+128
+   \   00000030   9F0200EF           SWI      +671
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0100001A           BNE      ??OnReconfig_2
+     80            {
+     81              InitConfig();
+   \   0000003C   ........           _BLF     ??InitConfig,??InitConfig??rA
+     82              result=1;
+   \   00000040   0150A0E3           MOV      R5,#+1
+     83            }
+     84            return(result);
+   \                     ??OnReconfig_2:
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??OnReconfig_1:
+   \   0000004C   ........           DC32     successed_config_path
+   \   00000050   ........           DC32     successed_config_name
+     85          };
+     86          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+     87          const PAGE_MSG SBDraw_PageEvents[]@ "DYN_PAGE" ={
+   \                     SBDraw_PageEvents:
+   \   00000000   E3030000....       DC32 995, ??SB_ELF_Killed, 997, ??TerminateSBDraw, 998
+   \              ....E5030000
+   \              ........E603
+   \              0000        
+   \   00000014   ........E403       DC32 ??ShowAuthorInfo, 996, ??OnReconfig, 64, 0H
+   \              0000........
+   \              400000000000
+   \              0000        
+     88            SBY_REDRAW_RELEASE_EVENT  , SB_ELF_Killed,
+     89            ELF_TERMINATE_EVENT       , TerminateSBDraw,
+     90            ELF_SHOW_INFO_EVENT       , ShowAuthorInfo,
+     91            ELF_RECONFIG_EVENT        , OnReconfig,
+     92            NIL_EVENT_TAG             , NULL
+     93          
+     94          };
+     95          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     96          PAGE_DESC base_page ={"SBDraw_BasePage",0,SBDraw_PageEvents};
+   \                     base_page:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for base_page>`
+     97          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     98          void onCloseMyBook(BOOK * book)
+     99          {
+   \                     ??onCloseMyBook:
+   \   00000000   00402DE9           PUSH     {LR}
+    100            if (book)
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   0080BD08           POPEQ    {PC}
+    101            {
+    102              Timer_Kill(&timer);
+   \   0000000C   28009FE5           LDR      R0,??onCloseMyBook_1  ;; timer
+   \   00000010   2A0100EF           SWI      +298
+    103              if(Display_desc) DISP_DESC_SetOnRedraw(Display_desc, Display_oldReDraw);
+   \   00000014   24009FE5           LDR      R0,??onCloseMyBook_1+0x4  ;; Display_desc
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0200000A           BEQ      ??onCloseMyBook_2
+   \   00000024   ........           LDR      R1,??DataTable4  ;; Display_oldReDraw
+   \   00000028   001091E5           LDR      R1,[R1, #+0]
+   \   0000002C   280200EF           SWI      +552
+    104              SUBPROC(elf_exit);
+   \                     ??onCloseMyBook_2:
+   \   00000030   0C009FE5           LDR      R0,??onCloseMyBook_1+0x8  ;; ??elf_exit
+   \   00000034   080100EF           SWI      +264
+    105            }
+    106          };
+   \   00000038   0080BDE8           POP      {PC}             ;; return
+   \                     ??onCloseMyBook_1:
+   \   0000003C   ........           DC32     timer
+   \   00000040   ........           DC32     Display_desc
+   \   00000044   ........           DC32     ??elf_exit
+    107          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    108          BOOK * CreateEvtDeskBook()
+    109          {
+   \                     ??CreateEvtDeskBook:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    110            BOOK * EvtDeskBook= new BOOK;
+   \   00000004   1800A0E3           MOV      R0,#+24
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+    111            CreateBook(EvtDeskBook,onCloseMyBook,&base_page,"EvtDesk",-1,0);
+   \   0000000C   28309FE5           LDR      R3,??CreateEvtDeskBook_1  ;; `?<Constant "EvtDesk">`
+   \   00000010   28209FE5           LDR      R2,??CreateEvtDeskBook_1+0x4  ;; base_page
+   \   00000014   28109FE5           LDR      R1,??CreateEvtDeskBook_1+0x8  ;; ??onCloseMyBook
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   0000E0E1           MVN      R0,R0
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   2B0100EF           SWI      +299
+    112            return(EvtDeskBook);
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   1680BDE8           POP      {R1,R2,R4,PC}    ;; return
+   \                     ??CreateEvtDeskBook_1:
+   \   0000003C   ........           DC32     `?<Constant "EvtDesk">`
+   \   00000040   ........           DC32     base_page
+   \   00000044   ........           DC32     ??onCloseMyBook
+    113          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     ??Display_ReDraw
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     Display_oldReDraw
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for base_page>`:
+   \   00000000   ........0000       DC32 `?<Constant "SBDraw_BasePage">`, 0H, SBDraw_PageEvents
+   \              0000........
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SBDraw_BasePage">`:
+   \   00000000   534244726177       DC8 "SBDraw_BasePage"
+   \              5F4261736550
+   \              61676500    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x45\\x76\\x74\\x44\\x65\\x73\\x6b\\xa\\x`:
+   \   00000000   450076007400       DC8 45H, 0, 76H, 0, 74H, 0, 44H, 0
+   \              4400        
+   \   00000008   650073006B00       DC8 65H, 0, 73H, 0, 6BH, 0, 0AH, 0
+   \              0A00        
+   \   00000010   280043002900       DC8 28H, 0, 43H, 0, 29H, 0, 20H, 0
+   \              2000        
+   \   00000018   55006C007400       DC8 55H, 0, 6CH, 0, 74H, 0, 72H, 0
+   \              7200        
+   \   00000020   610053006800       DC8 61H, 0, 53H, 0, 68H, 0, 6FH, 0
+   \              6F00        
+   \   00000028   74000000           DC8 74H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtDesk">`:
+   \   00000000   457674446573       DC8 "EvtDesk"
+   \              6B00        
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateEvtDeskBook()               16
+     OnReconfig(void *, BOOK *)        12
+     SB_ELF_Killed(void *, BOOK *)     20
+     Send_REDRAW_RELEASE()              8
+     ShowAuthorInfo(void *, BOOK *)    20
+     TerminateSBDraw(void *, BOOK *)
+                                        8
+     onCloseMyBook(BOOK *)              4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     Send_REDRAW_RELEASE()            64
+     TerminateSBDraw(void *, BOOK *)
+                                      28
+     ShowAuthorInfo(void *, BOOK *)   84
+     SB_ELF_Killed(void *, BOOK *)   156
+     OnReconfig(void *, BOOK *)       84
+     SBDraw_PageEvents                40
+     base_page                        12
+     onCloseMyBook(BOOK *)            72
+     CreateEvtDeskBook()              72
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ?<Initializer for base_page>     12
+     ?<Constant "SBDraw_BasePage">    16
+     ?<Constant L"\x45\x76\x74\x44\x65\x73\x6b\xa\x
+                                      44
+     ?<Constant "EvtDesk">             8
+      Others                          64
+
+ 
+ 620 bytes in segment CODE
+  68 bytes in segment DATA_C
+  12 bytes in segment DATA_I
+  12 bytes in segment DATA_ID
+  40 bytes in segment DYN_PAGE
+  12 bytes in segment INITTAB
+ 
+ 568 bytes of CODE  memory (+ 64 bytes shared)
+ 120 bytes of CONST memory
+  12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

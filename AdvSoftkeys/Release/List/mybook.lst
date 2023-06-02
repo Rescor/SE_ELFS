@@ -1,0 +1,764 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:49:16 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\my #
+#                       book.cpp                                             #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\my #
+#                       book.cpp -D NDEBUG -D OLDFUNCTIONS -lC               #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\AdvSoftkeys\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\mybook.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\mybook.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\mybook.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          #include "header\structs.h"
+      4          #include "header\main.h"
+      5          #include "header\config_data.h"
+      6          #include "header\conf_loader.h"
+      7          #include "..\\include\cfg_items.h"
+      8          #include "header\iofunc.h"
+      9          #include "revision.h"
+     10          //--------------------------------------------------------------
+     11          #define VERSION_ 0x00AAAA01
+     12          
+     13          #define AuthorInfo L"AdvSoftkeys\n© UltraShot\n"
+     14          //--------------------------------------------------------------
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     15          wchar_t myelfpath[512];
+   \                     myelfpath:
+   \   00000000                      DS8 1024
+     16          MyBOOK *MyBook=0;
+     17          bool works=true;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     18          u16 timer2;
+   \                     timer2:
+   \   00000000                      DS8 2
+   \   00000002                      DS8 2
+     19          int count=0;
+   \                     count:
+   \   00000004                      DS8 4
+     20          //--------------------------------------------------------------
+     21          extern DISP_OBJ_ONREDRAW_METHOD DREDRAW;
+     22          extern u16 timer;
+     23          extern DISP_OBJ_METHOD DREFRESH;
+     24          extern UI_SOFTKEY sk[3];
+     25          extern RECT rect;
+     26          extern DISP_OBJ *soft;
+     27          //--------------------------------------------------------------
+     28          void DispDraw(DISP_OBJ* DO,int a,int b,int c);
+     29          void Init();
+     30          void Send_REDRAW_RELEASE();
+     31          void csofts_destroy();
+     32          void destroy_all_images();
+     33          void Init();
+     34          int NewKey(int key, int r1 , int mode, LPARAM, DISP_OBJ*);
+     35          int onkey(int key);
+     36          int ourredraw(DISP_OBJ *DO, int a, int b, int c);
+     37          int isSoftkeysBook(BOOK *bk);
+     38          //--------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+     39          int MyBook_OnTerminate(void * ,BOOK* book)
+     40          {
+   \                     ??MyBook_OnTerminate:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     41            Send_REDRAW_RELEASE();
+   \   00000008   ........           BL       ??Send_REDRAW_RELEASE
+     42            FreeBook(book);
+   \   0000000C   0400A0E1           MOV      R0,R4
+   \   00000010   2F0100EF           SWI      +303
+     43            return(1);
+   \   00000014   0100A0E3           MOV      R0,#+1
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+     44          };
+     45          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     46          int MyBook_OnShowAuthorInfo(void *mess ,BOOK* book)
+     47          {
+     48            MSG * msg = (MSG*)mess;
+     49            wchar_t text[100];
+     50            snwprintf(text,99,L"%ls\n\nrevision %d", AuthorInfo, __SVN_REVISION__ );
+   \                     ??MyBook_OnShowAuthorInfo:
+   \   00000000   70209FE5           LDR      R2,??MyBook_OnShowAuthorInfo_1  ;; `?<Constant L"\\x25\\x6c\\x73\\xa\\xa\\x72\\x65\\x76\\x6`
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   C8D04DE2           SUB      SP,SP,#+200
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   5500A0E3           MOV      R0,#+85
+   \   00000014   E00E80E3           ORR      R0,R0,#0xE00
+   \   00000018   01002DE9           PUSH     {R0}
+   \   0000001C   243082E2           ADD      R3,R2,#+36
+   \   00000020   6310A0E3           MOV      R1,#+99
+     51            MessageBox(EMPTY_TEXTID,TextID_Create(text, ENC_UCS2, TEXTID_ANY_LEN), NOIMAGE, 1 ,5000, msg->book);
+   \   00000024   FF50A0E3           MOV      R5,#+255
+   \   00000028   04008DE2           ADD      R0,SP,#+4
+   \   0000002C   150100EF           SWI      +277
+   \   00000030   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000034   0520A0E1           MOV      R2,R5
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   04008DE2           ADD      R0,SP,#+4
+   \   00000040   5D0100EF           SWI      +349
+   \   00000044   001094E5           LDR      R1,[R4, #+0]
+   \   00000048   0130A0E3           MOV      R3,#+1
+   \   0000004C   02002DE9           PUSH     {R1}
+   \   00000050   0520A0E1           MOV      R2,R5
+   \   00000054   8810A0E3           MOV      R1,#+136
+   \   00000058   4C1D81E3           ORR      R1,R1,#0x1300
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   0010A0E1           MOV      R1,R0
+   \   00000064   9004E0E3           MVN      R0,#-1879048192
+   \   00000068   570200EF           SWI      +599
+     52            return(1);
+   \   0000006C   0100A0E3           MOV      R0,#+1
+   \   00000070   D4D08DE2           ADD      SP,SP,#+212
+   \   00000074   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MyBook_OnShowAuthorInfo_1:
+   \   00000078   ........           DC32     `?<Constant L"\\x25\\x6c\\x73\\xa\\xa\\x72\\x65\\x76\\x6`
+     53          };
+     54          
+     55          //--------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          void Send_REDRAW_RELEASE()
+     57          {
+   \                     ??Send_REDRAW_RELEASE:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     58            // посылаем всем  мессагу со старым и своим методами Redraw
+     59            REDRAW_RELEASE_MESSAGE * sbm= new REDRAW_RELEASE_MESSAGE;
+   \   00000004   1800A0E3           MOV      R0,#+24
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000000C   0040A0E1           MOV      R4,R0
+     60            memset(sbm,0,sizeof(REDRAW_RELEASE_MESSAGE));
+   \   00000010   1820A0E3           MOV      R2,#+24
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   120100EF           SWI      +274
+     61            sbm->SK_OldOnRedraw=DREDRAW;
+   \   0000001C   ........           LDR      R0,??DataTable4  ;; DREDRAW
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   100084E5           STR      R0,[R4, #+16]
+     62            sbm->SK_NewOnRedraw=DispDraw;
+   \   00000028   ........           LDR      R0,??DataTable3  ;; ??DispDraw
+   \   0000002C   140084E5           STR      R0,[R4, #+20]
+     63            UI_Event_wData(SBY_REDRAW_RELEASE_EVENT ,sbm,(void (*)(void*))mfree_adr());
+   \   00000030   048100EF           SWI      +33028
+   \   00000034   0020A0E1           MOV      R2,R0
+   \   00000038   0410A0E1           MOV      R1,R4
+   \   0000003C   E300A0E3           MOV      R0,#+227
+   \   00000040   C00F80E3           ORR      R0,R0,#0x300
+   \   00000044   A90100EF           SWI      +425
+     64          };
+   \   00000048   1080BDE8           POP      {R4,PC}          ;; return
+     65          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          int onElfKilled(void *mess ,BOOK* book)
+     67          {
+   \                     ??onElfKilled:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     68            // если был убит эльф рисующий на √Ё или просто нужно перетосовать методы
+     69            REDRAW_RELEASE_MESSAGE * sbm=(REDRAW_RELEASE_MESSAGE*)mess;
+     70            // его ли метод мы используем в качестве oldRedraw?
+     71            if (sbm->SK_NewOnRedraw==DREDRAW)
+   \   00000004   ........           LDR      R5,??DataTable4  ;; DREDRAW
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   140094E5           LDR      R0,[R4, #+20]
+   \   00000010   001095E5           LDR      R1,[R5, #+0]
+   \   00000014   010050E1           CMP      R0,R1
+   \   00000018   1900001A           BNE      ??onElfKilled_1
+     72            {
+     73              REDRAW_RELEASE_MESSAGE * ms= new REDRAW_RELEASE_MESSAGE;
+   \   0000001C   1800A0E3           MOV      R0,#+24
+   \   00000020   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000024   0060A0E1           MOV      R6,R0
+     74              memcpy(ms,sbm,sizeof(REDRAW_RELEASE_MESSAGE));
+   \   00000028   1820A0E3           MOV      R2,#+24
+   \   0000002C   0410A0E1           MOV      R1,R4
+   \   00000030   130100EF           SWI      +275
+     75              //memset(ms,0,sizeof(REDRAW_RELEASE_MESSAGE));
+     76              // если он был убит, то замен€ем свой oldRedraw на его..
+     77              if (sbm->SK_OldOnRedraw!=EMPTY_REDRAW_METHOD) DREDRAW=sbm->SK_OldOnRedraw;
+   \   00000034   100094E5           LDR      R0,[R4, #+16]
+     78          
+     79              // ставим свой метод наверх
+     80              DISP_DESC_SetOnRedraw(DispObject_GetDESC(DispObject_SoftKeys_Get()),DispDraw);
+   \   00000038   ........           LDR      R4,??DataTable3  ;; ??DispDraw
+   \   0000003C   0070E0E3           MVN      R7,#+0
+   \   00000040   070050E1           CMP      R0,R7
+   \   00000044   00008515           STRNE    R0,[R5, #+0]
+   \   00000048   A30200EF           SWI      +675
+   \   0000004C   1F0200EF           SWI      +543
+   \   00000050   0410A0E1           MOV      R1,R4
+   \   00000054   280200EF           SWI      +552
+     81          
+     82              // и шлЄм мессагу снова, чтоб следующие эльфы сделали тоже самое
+     83              ms->SK_OldOnRedraw=EMPTY_REDRAW_METHOD;
+   \   00000058   107086E5           STR      R7,[R6, #+16]
+     84              ms->SK_NewOnRedraw=DispDraw;
+   \   0000005C   144086E5           STR      R4,[R6, #+20]
+     85              UI_Event_wData(SBY_REDRAW_RELEASE_EVENT ,ms,(void (*)(void*))mfree_adr());
+   \   00000060   048100EF           SWI      +33028
+   \   00000064   0020A0E1           MOV      R2,R0
+   \   00000068   0610A0E1           MOV      R1,R6
+   \   0000006C   E300A0E3           MOV      R0,#+227
+   \   00000070   C00F80E3           ORR      R0,R0,#0x300
+   \   00000074   A90100EF           SWI      +425
+     86              return BLOCK_EVENT_GLOBALLY;
+   \   00000078   9A00A0E3           MOV      R0,#+154
+   \   0000007C   800F80E3           ORR      R0,R0,#0x200
+   \   00000080   F080BDE8           POP      {R4-R7,PC}
+     87            }
+     88            return 0;
+   \                     ??onElfKilled_1:
+   \   00000084   0000A0E3           MOV      R0,#+0
+   \   00000088   F080BDE8           POP      {R4-R7,PC}       ;; return
+     89          };
+     90          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     91          void MyBook_OnClose(BOOK * book)
+     92          {
+   \                     ??MyBook_OnClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     93            if (book)
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   1180BD08           POPEQ    {R0,R4,PC}
+     94            {
+     95              destroy_all_images();
+   \   00000010   ........           _BLF     ??destroy_all_images,??destroy_all_images??rA
+     96              csofts_destroy();
+   \   00000014   ........           _BLF     ??csofts_destroy,??csofts_destroy??rA
+     97              ModifyKeyHook(NewKey,KEY_HOOK_REMOVE, NULL);
+   \   00000018   44009FE5           LDR      R0,??MyBook_OnClose_1  ;; ??NewKey
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   00108DE5           STR      R1,[SP, #+0]
+   \   00000024   0020A0E3           MOV      R2,#+0
+   \   00000028   070100EF           SWI      +263
+     98              DISP_OBJ *soft=DispObject_SoftKeys_Get();
+   \   0000002C   A30200EF           SWI      +675
+   \   00000030   0040A0E1           MOV      R4,R0
+     99              DISP_DESC_SetOnRedraw(DispObject_GetDESC(soft), DREDRAW);
+   \   00000034   1F0200EF           SWI      +543
+   \   00000038   ........           LDR      R1,??DataTable4  ;; DREDRAW
+   \   0000003C   001091E5           LDR      R1,[R1, #+0]
+   \   00000040   280200EF           SWI      +552
+    100              DISP_DESC_SetOnRefresh(DispObject_GetDESC(soft), DREFRESH);
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   1F0200EF           SWI      +543
+   \   0000004C   14109FE5           LDR      R1,??MyBook_OnClose_1+0x4  ;; DREFRESH
+   \   00000050   001091E5           LDR      R1,[R1, #+0]
+   \   00000054   2C0200EF           SWI      +556
+    101              SUBPROC(elf_exit);
+   \   00000058   0C009FE5           LDR      R0,??MyBook_OnClose_1+0x8  ;; ??elf_exit
+   \   0000005C   080100EF           SWI      +264
+    102            }
+    103          };
+   \   00000060   1180BDE8           POP      {R0,R4,PC}       ;; return
+   \                     ??MyBook_OnClose_1:
+   \   00000064   ........           DC32     ??NewKey
+   \   00000068   ........           DC32     DREFRESH
+   \   0000006C   ........           DC32     ??elf_exit
+    104          //--------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    105          void onTimer2(u16 timerID, LPARAM lparam)
+    106          {
+   \                     ??onTimer2:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    107            wchar_t *extConfig=GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG);
+    108            wchar_t *folder=new wchar_t[wstrlen(extConfig)+1+wstrlen(L"AdvSoftkeys/")+1];
+   \   00000004   C0609FE5           LDR      R6,??onTimer2_1+0x4  ;; `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\_1`
+   \   00000008   1400A0E3           MOV      R0,#+20
+   \   0000000C   050100EF           SWI      +261
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   570100EF           SWI      +343
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   0600A0E1           MOV      R0,R6
+   \   00000020   570100EF           SWI      +343
+   \   00000024   050080E0           ADD      R0,R0,R5
+   \   00000028   020080E2           ADD      R0,R0,#+2
+   \   0000002C   8000A0E1           LSL      R0,R0,#+1
+   \   00000030   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000034   0050A0E1           MOV      R5,R0
+    109            wstrcpy(folder,extConfig);
+   \   00000038   0410A0E1           MOV      R1,R4
+    110            wstrcat(folder,L"/");
+    111            wstrcat(folder,L"AdvSoftkeys/");
+    112            if (cmpfile(L"/tpa/system/settings/",L"current_theme.thm", folder, L"curthm.thm") && count<10)
+   \   0000003C   ........           LDR      R4,??DataTable8  ;; timer2
+   \   00000040   520100EF           SWI      +338
+   \   00000044   1F1F8FE2           ADR      R1,??onTimer2_1  ;; 0x2F, 0x00, 0x00, 0x00
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   540100EF           SWI      +340
+   \   00000050   0610A0E1           MOV      R1,R6
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   540100EF           SWI      +340
+   \   0000005C   6C3086E2           ADD      R3,R6,#+108
+   \   00000060   0520A0E1           MOV      R2,R5
+   \   00000064   481086E2           ADD      R1,R6,#+72
+   \   00000068   1C0086E2           ADD      R0,R6,#+28
+   \   0000006C   ........           _BLF     ??cmpfile,??cmpfile??rA
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   0C00000A           BEQ      ??onTimer2_2
+   \   00000078   040094E5           LDR      R0,[R4, #+4]
+   \   0000007C   0A0050E3           CMP      R0,#+10
+   \   00000080   090000AA           BGE      ??onTimer2_2
+    113            {
+    114              count++;
+   \   00000084   010080E2           ADD      R0,R0,#+1
+   \   00000088   040084E5           STR      R0,[R4, #+4]
+    115              delete(folder);
+   \   0000008C   0500A0E1           MOV      R0,R5
+   \   00000090   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    116              Timer_ReSet(&timer2,100, onTimer2,0);
+   \   00000094   ........           LDR      R2,??DataTable7  ;; ??onTimer2
+   \   00000098   0030A0E3           MOV      R3,#+0
+   \   0000009C   6410A0E3           MOV      R1,#+100
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   280100EF           SWI      +296
+    117              return;
+   \   000000A8   7080BDE8           POP      {R4-R6,PC}
+    118            }
+    119            else
+    120            {
+    121              delete(folder);
+   \                     ??onTimer2_2:
+   \   000000AC   0500A0E1           MOV      R0,R5
+   \   000000B0   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    122              destroy_all_images();
+   \   000000B4   ........           _BLF     ??destroy_all_images,??destroy_all_images??rA
+    123              Init();
+   \   000000B8   ........           _BLF     ??Init,??Init??rA
+    124              Timer_Kill(&timer2);
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   2A0100EF           SWI      +298
+    125            }
+    126          };
+   \   000000C4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??onTimer2_1:
+   \   000000C8   2F000000           DC8      0x2F, 0x00, 0x00, 0x00
+   \   000000CC   ........           DC32     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\_1`
+    127          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    128          int onThemeChange(void *mess,BOOK *bk)
+    129          {
+    130            count=0;
+    131            timer2=Timer_Set(1000, onTimer2, 0);
+   \                     ??onThemeChange:
+   \   00000000   ........           LDR      R1,??DataTable7  ;; ??onTimer2
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   ........           LDR      R4,??DataTable8  ;; timer2
+   \   0000000C   0020A0E3           MOV      R2,#+0
+   \   00000010   042084E5           STR      R2,[R4, #+4]
+   \   00000014   FA0FA0E3           MOV      R0,#+1000
+   \   00000018   290100EF           SWI      +297
+   \   0000001C   B000C4E1           STRH     R0,[R4, #+0]
+    132            return 0;
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+    133          };
+    134          //--------------------------------------------------------------
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    135          const PAGE_MSG HW_PageEvents[]@ "DYN_PAGE" ={
+   \                     HW_PageEvents:
+   \   00000000   E5030000....       DC32 997, ??MyBook_OnTerminate, 998, ??MyBook_OnShowAuthorInfo, 246
+   \              ....E6030000
+   \              ........F600
+   \              0000        
+   \   00000014   ........E303       DC32 ??onThemeChange, 995, ??onElfKilled, 64, 0H
+   \              0000........
+   \              400000000000
+   \              0000        
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     MyBook:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for MyBook>`
+    136            ELF_TERMINATE_EVENT , MyBook_OnTerminate,
+    137            ELF_SHOW_INFO_EVENT  , MyBook_OnShowAuthorInfo,
+    138            THEME_CHANGED_EVENT_TAG, onThemeChange,
+    139            SBY_REDRAW_RELEASE_EVENT, onElfKilled,
+    140            NIL_EVENT_TAG,            NULL
+    141          };
+    142          
+    143          PAGE_DESC base_page ={"SoftkeysPage",0,HW_PageEvents};
+   \                     base_page:
+   \   00000004                      DS8 12
+   \   00000010                      REQUIRE `?<Initializer for base_page>`
+
+   \                                 In segment DATA_I, align 1, align-sorted
+   \                     works:
+   \   00000000                      DS8 1
+   \   00000001                      REQUIRE `?<Initializer for works>`
+    144          //--------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    145          wchar_t* update()
+    146          {
+    147            MyBOOK *mbk=(MyBOOK*)FindBook(isSoftkeysBook);
+   \                     ??update:
+   \   00000000   1C009FE5           LDR      R0,??update_1    ;; ??isSoftkeysBook
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   300100EF           SWI      +304
+   \   0000000C   0040A0E1           MOV      R4,R0
+    148            MyBook_OnTerminate(0,&mbk->bk);
+   \   00000010   ........           BL       ??Send_REDRAW_RELEASE
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   2F0100EF           SWI      +303
+    149            return myelfpath;
+   \   0000001C   04009FE5           LDR      R0,??update_1+0x4  ;; myelfpath
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??update_1:
+   \   00000024   ........           DC32     ??isSoftkeysBook
+   \   00000028   ........           DC32     myelfpath
+    150          };
+    151          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    152          void Change(UI_SOFTKEY *s,int x)
+    153          {
+   \                     ??Change:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0130A0E1           MOV      R3,R1
+    154            memcpy(&sk[x], s, sizeof(UI_SOFTKEY));
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   1C009FE5           LDR      R0,??Change_1    ;; sk
+   \   00000010   2020A0E3           MOV      R2,#+32
+   \   00000014   830280E0           ADD      R0,R0,R3, LSL #+5
+   \   00000018   130100EF           SWI      +275
+    155            DispObject_InvalidateRect(soft,0);
+   \   0000001C   10009FE5           LDR      R0,??Change_1+0x4  ;; soft
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   EF0100EF           SWI      +495
+    156          };
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+   \                     ??Change_1:
+   \   00000030   ........           DC32     sk
+   \   00000034   ........           DC32     soft
+    157          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    158          void SetWorkState(bool state)
+    159          {
+    160            works=state;
+   \                     ??SetWorkState:
+   \   00000000   04109FE5           LDR      R1,??SetWorkState_1  ;; works
+   \   00000004   0000C1E5           STRB     R0,[R1, #+0]
+    161          };
+   \   00000008   1EFF2FE1           BX       LR               ;; return
+   \                     ??SetWorkState_1:
+   \   0000000C   ........           DC32     works
+    162          //--------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    163          MyBOOK * MyBook_Create()
+    164          {
+   \                     ??MyBook_Create:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    165            MyBook= new MyBOOK;
+   \   00000004   C4409FE5           LDR      R4,??MyBook_Create_1  ;; MyBook
+    166            memset(MyBook, 0, sizeof(MyBOOK));
+    167            if (CreateBook(&MyBook->bk,MyBook_OnClose,&base_page,"Softkeys",-1,0))
+   \   00000008   C4509FE5           LDR      R5,??MyBook_Create_1+0x4  ;; `?<Constant L"\\x47\\x55\\x49\\x5f\\x4d\\x4f\\x52\\x45\\`
+   \   0000000C   3C00A0E3           MOV      R0,#+60
+   \   00000010   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000014   000084E5           STR      R0,[R4, #+0]
+   \   00000018   3C20A0E3           MOV      R2,#+60
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   120100EF           SWI      +274
+   \   00000024   AC109FE5           LDR      R1,??MyBook_Create_1+0x8  ;; ??MyBook_OnClose
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   01002DE9           PUSH     {R0}
+   \   00000030   503085E2           ADD      R3,R5,#+80
+   \   00000034   042084E2           ADD      R2,R4,#+4
+   \   00000038   0000E0E1           MVN      R0,R0
+   \   0000003C   01002DE9           PUSH     {R0}
+   \   00000040   000094E5           LDR      R0,[R4, #+0]
+   \   00000044   2B0100EF           SWI      +299
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   08D08DE2           ADD      SP,SP,#+8
+   \   00000050   1C00000A           BEQ      ??MyBook_Create_2
+    168            {
+    169              MyBook->redraw=ourredraw;
+   \   00000054   000094E5           LDR      R0,[R4, #+0]
+   \   00000058   7C109FE5           LDR      R1,??MyBook_Create_1+0xC  ;; ??ourredraw
+    170              MyBook->onkey=onkey;
+    171              MyBook->change=Change;
+    172              MyBook->upd=update;
+    173              MyBook->SetWorkState=SetWorkState;
+    174              MyBook->version=VERSION_;
+    175              textidname2id(L"GUI_MORE_SK",-1,&MyBook->funcstrid);
+   \   0000005C   202080E2           ADD      R2,R0,#+32
+   \   00000060   1C1080E5           STR      R1,[R0, #+28]
+   \   00000064   74109FE5           LDR      R1,??MyBook_Create_1+0x10  ;; ??onkey
+   \   00000068   181080E5           STR      R1,[R0, #+24]
+   \   0000006C   70109FE5           LDR      R1,??MyBook_Create_1+0x14  ;; ??Change
+   \   00000070   301080E5           STR      R1,[R0, #+48]
+   \   00000074   6C109FE5           LDR      R1,??MyBook_Create_1+0x18  ;; ??update
+   \   00000078   2C1080E5           STR      R1,[R0, #+44]
+   \   0000007C   68109FE5           LDR      R1,??MyBook_Create_1+0x1C  ;; ??SetWorkState
+   \   00000080   341080E5           STR      R1,[R0, #+52]
+   \   00000084   64109FE5           LDR      R1,??MyBook_Create_1+0x20  ;; 0xaaaa01
+   \   00000088   381080E5           STR      R1,[R0, #+56]
+   \   0000008C   0010E0E3           MVN      R1,#+0
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   870200EF           SWI      +647
+    176              textidname2id(L"GUI_OK_SK",-1,&MyBook->okstrid);
+   \   00000098   000094E5           LDR      R0,[R4, #+0]
+   \   0000009C   0010E0E3           MVN      R1,#+0
+   \   000000A0   242080E2           ADD      R2,R0,#+36
+   \   000000A4   180085E2           ADD      R0,R5,#+24
+   \   000000A8   870200EF           SWI      +647
+    177              textidname2id(L"SM_KEYX_BACK_TXT",-1,&MyBook->backstrid);
+   \   000000AC   000094E5           LDR      R0,[R4, #+0]
+   \   000000B0   0010E0E3           MVN      R1,#+0
+   \   000000B4   282080E2           ADD      R2,R0,#+40
+   \   000000B8   2C0085E2           ADD      R0,R5,#+44
+   \   000000BC   870200EF           SWI      +647
+    178              return(MyBook);
+   \   000000C0   000094E5           LDR      R0,[R4, #+0]
+   \   000000C4   3080BDE8           POP      {R4,R5,PC}
+    179            }
+    180            return 0;
+   \                     ??MyBook_Create_2:
+   \   000000C8   0000A0E3           MOV      R0,#+0
+   \   000000CC   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MyBook_Create_1:
+   \   000000D0   ........           DC32     MyBook
+   \   000000D4   ........           DC32     `?<Constant L"\\x47\\x55\\x49\\x5f\\x4d\\x4f\\x52\\x45\\`
+   \   000000D8   ........           DC32     ??MyBook_OnClose
+   \   000000DC   ........           DC32     ??ourredraw
+   \   000000E0   ........           DC32     ??onkey
+   \   000000E4   ........           DC32     ??Change
+   \   000000E8   ........           DC32     ??update
+   \   000000EC   ........           DC32     ??SetWorkState
+   \   000000F0   01AAAA00           DC32     0xaaaa01
+    181          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     ??DispDraw
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     DREDRAW
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     ??onTimer2
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     timer2
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for MyBook>`:
+   \   00000000   00000000           DC32 0H
+   \                     `?<Initializer for base_page>`:
+   \   00000004   ........0000       DC32 `?<Constant "SoftkeysPage">`, 0H, HW_PageEvents
+   \              0000........
+
+   \                                 In segment DATA_ID, align 1, align-sorted
+   \                     `?<Initializer for works>`:
+   \   00000000   01                 DC8 1
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SoftkeysPage">`:
+   \   00000000   536F66746B65       DC8 "SoftkeysPage"
+   \              797350616765
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x6c\\x73\\xa\\xa\\x72\\x65\\x76\\x6`:
+   \   00000000   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 0AH, 0
+   \              0A00        
+   \   00000008   0A0072006500       DC8 0AH, 0, 72H, 0, 65H, 0, 76H, 0
+   \              7600        
+   \   00000010   690073006900       DC8 69H, 0, 73H, 0, 69H, 0, 6FH, 0
+   \              6F00        
+   \   00000018   6E0020002500       DC8 6EH, 0, 20H, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+   \   00000024   410064007600       DC8 41H, 0, 64H, 0, 76H, 0, 53H, 0
+   \              5300        
+   \   0000002C   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000034   650079007300       DC8 65H, 0, 79H, 0, 73H, 0, 0AH, 0
+   \              0A00        
+   \   0000003C   A90020005500       DC8 0A9H, 0, 20H, 0, 55H, 0, 6CH, 0
+   \              6C00        
+   \   00000044   740072006100       DC8 74H, 0, 72H, 0, 61H, 0, 53H, 0
+   \              5300        
+   \   0000004C   68006F007400       DC8 68H, 0, 6FH, 0, 74H, 0, 0AH, 0
+   \              0A00        
+   \   00000054   0000               DC8 0, 0
+   \   00000056   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\_1`:
+   \   00000000   410064007600       DC8 41H, 0, 64H, 0, 76H, 0, 53H, 0
+   \              5300        
+   \   00000008   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000010   650079007300       DC8 65H, 0, 79H, 0, 73H, 0, 2FH, 0
+   \              2F00        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+   \   0000001C   2F0074007000       DC8 2FH, 0, 74H, 0, 70H, 0, 61H, 0
+   \              6100        
+   \   00000024   2F0073007900       DC8 2FH, 0, 73H, 0, 79H, 0, 73H, 0
+   \              7300        
+   \   0000002C   740065006D00       DC8 74H, 0, 65H, 0, 6DH, 0, 2FH, 0
+   \              2F00        
+   \   00000034   730065007400       DC8 73H, 0, 65H, 0, 74H, 0, 74H, 0
+   \              7400        
+   \   0000003C   69006E006700       DC8 69H, 0, 6EH, 0, 67H, 0, 73H, 0
+   \              7300        
+   \   00000044   2F000000           DC8 2FH, 0, 0, 0
+   \   00000048   630075007200       DC8 63H, 0, 75H, 0, 72H, 0, 72H, 0
+   \              7200        
+   \   00000050   65006E007400       DC8 65H, 0, 6EH, 0, 74H, 0, 5FH, 0
+   \              5F00        
+   \   00000058   740068006500       DC8 74H, 0, 68H, 0, 65H, 0, 6DH, 0
+   \              6D00        
+   \   00000060   65002E007400       DC8 65H, 0, 2EH, 0, 74H, 0, 68H, 0
+   \              6800        
+   \   00000068   6D000000           DC8 6DH, 0, 0, 0
+   \   0000006C   630075007200       DC8 63H, 0, 75H, 0, 72H, 0, 74H, 0
+   \              7400        
+   \   00000074   68006D002E00       DC8 68H, 0, 6DH, 0, 2EH, 0, 74H, 0
+   \              7400        
+   \   0000007C   68006D000000       DC8 68H, 0, 6DH, 0, 0, 0
+   \   00000082   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   2F000000           DC8 2FH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x47\\x55\\x49\\x5f\\x4d\\x4f\\x52\\x45\\`:
+   \   00000000   470055004900       DC8 47H, 0, 55H, 0, 49H, 0, 5FH, 0
+   \              5F00        
+   \   00000008   4D004F005200       DC8 4DH, 0, 4FH, 0, 52H, 0, 45H, 0
+   \              4500        
+   \   00000010   5F0053004B00       DC8 5FH, 0, 53H, 0, 4BH, 0, 0, 0
+   \              0000        
+   \   00000018   470055004900       DC8 47H, 0, 55H, 0, 49H, 0, 5FH, 0
+   \              5F00        
+   \   00000020   4F004B005F00       DC8 4FH, 0, 4BH, 0, 5FH, 0, 53H, 0
+   \              5300        
+   \   00000028   4B000000           DC8 4BH, 0, 0, 0
+   \   0000002C   53004D005F00       DC8 53H, 0, 4DH, 0, 5FH, 0, 4BH, 0
+   \              4B00        
+   \   00000034   450059005800       DC8 45H, 0, 59H, 0, 58H, 0, 5FH, 0
+   \              5F00        
+   \   0000003C   420041004300       DC8 42H, 0, 41H, 0, 43H, 0, 4BH, 0
+   \              4B00        
+   \   00000044   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   0000004C   0000               DC8 0, 0
+   \   0000004E   0000               DC8 0, 0
+   \   00000050   536F66746B65       DC8 "Softkeys"
+   \              797300      
+   \   00000059   000000             DC8 0, 0, 0
+    182          //--------------------------------------------------------------
+    183          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Change(UI_SOFTKEY *, int)          4
+     MyBook_Create()                   20
+     MyBook_OnClose(BOOK *)            12
+     MyBook_OnShowAuthorInfo(void *, BOOK *)
+                                      224
+     MyBook_OnTerminate(void *, BOOK *)
+                                        8
+     Send_REDRAW_RELEASE()              8
+     SetWorkState(bool)                 0
+     onElfKilled(void *, BOOK *)       20
+     onThemeChange(void *, BOOK *)      8
+     onTimer2(u16, LPARAM)             16
+     update()                           8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     myelfpath                      1024
+     timer2                            8
+     MyBook_OnTerminate(void *, BOOK *)
+                                      28
+     MyBook_OnShowAuthorInfo(void *, BOOK *)
+                                     124
+     Send_REDRAW_RELEASE()            76
+     onElfKilled(void *, BOOK *)     140
+     MyBook_OnClose(BOOK *)          112
+     onTimer2(u16, LPARAM)           208
+     onThemeChange(void *, BOOK *)    40
+     HW_PageEvents                    40
+     MyBook                           16
+     works                             1
+     update()                         44
+     Change(UI_SOFTKEY *, int)        56
+     SetWorkState(bool)               16
+     MyBook_Create()                 244
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ?<Initializer for MyBook>        16
+     ?<Initializer for works>          1
+     ?<Constant "SoftkeysPage">       16
+     ?<Constant L"\x25\x6c\x73\xa\xa\x72\x65\x76\x6
+                                      88
+     ?<Constant L"\x41\x64\x76\x53\x6f\x66\x74\x6b\_1
+                                     132
+     ?<Constant L"\x2f">               4
+     ?<Constant L"\x47\x55\x49\x5f\x4d\x4f\x52\x45\
+                                      92
+      Others                         152
+
+ 
+ 1 232 bytes in segment CODE
+   332 bytes in segment DATA_C
+    17 bytes in segment DATA_I
+    17 bytes in segment DATA_ID
+ 1 032 bytes in segment DATA_Z
+    40 bytes in segment DYN_PAGE
+    24 bytes in segment INITTAB
+ 
+ 1 104 bytes of CODE  memory (+ 152 bytes shared)
+   389 bytes of CONST memory
+ 1 049 bytes of DATA  memory
+
+Errors: none
+Warnings: none

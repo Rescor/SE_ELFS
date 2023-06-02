@@ -1,0 +1,132 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:08:56 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\strn #
+#                       cmpi.c                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\strn #
+#                       cmpi.c -D NDEBUG -D LANG_CN -D OLDFUNCTIONS -lC      #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\Tamagochi\Release_CN\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\Obj\ -s9 --no_unroll --no_inline --cpu_mode   #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --enable_multibytes --fpu None      #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\List\strncmpi.lst                             #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\Obj\strncmpi.r79                              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\strncmpi.c
+      1          #include "misc_util.h"
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs int islower(int)
+   \                     ??islower:
+   \   00000000   610050E3           CMP      R0,#+97
+   \   00000004   020000BA           BLT      ??islower_1
+   \   00000008   7B0050E3           CMP      R0,#+123
+   \   0000000C   0100A0B3           MOVLT    R0,#+1
+   \   00000010   1EFF2FB1           BXLT     LR
+   \                     ??islower_1:
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs int toupper(int)
+   \                     ??toupper:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   ........           _BLF     ??islower,??islower??rA
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   20404412           SUBNE    R4,R4,#+32
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+      2          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      3          int strncmpi(const char* s1, const char* s2, size_t len)
+      4          {
+   \                     ??strncmpi:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   000000EA           B        ??strncmpi_1
+      5              char c1, c2;
+      6              for(; *s1 && *s2 && len; len--, s1++, s2++)
+   \                     ??strncmpi_2:
+   \   00000014   016046E2           SUB      R6,R6,#+1
+   \                     ??strncmpi_1:
+   \   00000018   0010D4E5           LDRB     R1,[R4, #+0]
+   \   0000001C   000051E3           CMP      R1,#+0
+   \   00000020   0010D515           LDRBNE   R1,[R5, #+0]
+   \   00000024   00005113           CMPNE    R1,#+0
+   \   00000028   00005613           CMPNE    R6,#+0
+   \   0000002C   0900000A           BEQ      ??strncmpi_3
+      7              {
+      8                  c1=toupper(*s1);
+   \   00000030   ........           LDRB     R0,[R4], #+1
+   \   00000034   ........           _BLF     ??toupper,??toupper??rA
+   \   00000038   FF7000E2           AND      R7,R0,#0xFF
+      9                  c2=toupper(*s2);
+   \   0000003C   ........           LDRB     R0,[R5], #+1
+   \   00000040   ........           _BLF     ??toupper,??toupper??rA
+   \   00000044   FF0000E2           AND      R0,R0,#0xFF
+     10                  if(c1-c2)return c1-c2;
+   \   00000048   001057E0           SUBS     R1,R7,R0
+   \   0000004C   F0FFFF0A           BEQ      ??strncmpi_2
+   \   00000050   0100A0E1           MOV      R0,R1
+   \   00000054   F080BDE8           POP      {R4-R7,PC}
+     11              }
+     12              if(len)return c1-c2;
+   \                     ??strncmpi_3:
+   \   00000058   000056E3           CMP      R6,#+0
+   \   0000005C   0300000A           BEQ      ??strncmpi_4
+   \   00000060   FF7007E2           AND      R7,R7,#0xFF
+   \   00000064   FF0000E2           AND      R0,R0,#0xFF
+   \   00000068   000047E0           SUB      R0,R7,R0
+   \   0000006C   F080BDE8           POP      {R4-R7,PC}
+     13              return 0;
+   \                     ??strncmpi_4:
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   F080BDE8           POP      {R4-R7,PC}       ;; return
+     14          }
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     islower(int)                       0
+     strncmpi(char const *, char const *, size_t)
+                                       20
+     toupper(int)                       8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     islower(int)                     28
+     toupper(int)                     28
+     strncmpi(char const *, char const *, size_t)
+                                     120
+      Others                          28
+
+ 
+ 204 bytes in segment CODE
+ 
+ 120 bytes of CODE memory (+ 84 bytes shared)
+
+Errors: none
+Warnings: none

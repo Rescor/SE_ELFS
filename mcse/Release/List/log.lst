@@ -1,0 +1,116 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:47:36 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\log.cpp   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\log.cpp   #
+#                       -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN            #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\log.lst                                          #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\log.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\log.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "inc\krnl.h"
+      3          #include "inc\log.h"
+      4          
+      5          #ifdef LOG
+      6          
+      7          void GetDateTime(DATETIME* dt)
+      8          {
+      9          	REQUEST_DATEANDTIME_GET( SYNC, dt);
+     10          }
+     11          
+     12          void StartLog(void)
+     13          {
+     14            int f;
+     15            if (!w_chdir(mcpath))
+     16            {
+     17              if ((f=w_fopen(L"mc.txt",WA_Write|WA_Create|WA_Truncate,0x1FF,0))>=0)
+     18              {
+     19                w_fclose(f);      
+     20              }
+     21            }
+     22          }
+     23          
+     24          void _WriteLog(char *buf)
+     25          {
+     26            int f;
+     27            if (!w_chdir(mcpath))
+     28            {
+     29              if ((f=w_fopen(L"mc.txt",WA_Write|WA_Append,0x1FF,0))>=0)
+     30              {
+     31                w_fwrite(f,buf,strlen(buf));
+     32                w_fclose(f);      
+     33              }
+     34            }
+     35          }
+     36          
+     37          void WriteLog(char *buf)
+     38          {
+     39            char msg[512];
+     40            DATETIME dt;
+     41            GetDateTime(&dt);
+     42            sprintf(msg, "%02d:%02d:%02d %s\n", dt.time.hour,dt.time.min,dt.time.sec,buf);
+     43            _WriteLog(msg);
+     44          }
+     45          
+     46          void WriteLog(wchar_t *buf)
+     47          {
+     48            char msg[512];
+     49            DATETIME dt;
+     50            GetDateTime(&dt);
+     51            sprintf(msg, "%02d:%02d:%02d %ls\n", dt.time.hour,dt.time.min,dt.time.sec,buf);
+     52            _WriteLog(msg);
+     53          }
+     54          
+     55          void WriteLog(int buf)
+     56          {
+     57            char msg[512];
+     58            DATETIME dt;
+     59            GetDateTime(&dt);
+     60            sprintf(msg, "%02d:%02d:%02d %08X\n", dt.time.hour,dt.time.min,dt.time.sec,buf);
+     61            _WriteLog(msg);
+     62          }
+     63          
+     64          void WriteLog(char *buf1, char *buf2)
+     65          {
+     66            char msg[512];
+     67            DATETIME dt;
+     68            GetDateTime(&dt);
+     69            sprintf(msg, "%02d:%02d:%02d %s %s\n", dt.time.hour,dt.time.min,dt.time.sec,buf1, buf2);
+     70            _WriteLog(msg);
+     71          }
+     72          #endif
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+
+ 
+ 
+ 0 bytes of memory
+
+Errors: none
+Warnings: none

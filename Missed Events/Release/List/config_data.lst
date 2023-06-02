@@ -1,0 +1,1579 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:04:27 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Missed         #
+#                       Events\config_data.c                                 #
+#    Command line    =  "Z:\home\perk11\www\perk11.info\svn\SE\Missed        #
+#                       Events\config_data.c" -D NDEBUG -lC                  #
+#                       "Z:\home\perk11\www\perk11.info\svn\SE\Missed        #
+#                       Events\Release\List\" -lA                            #
+#                       "Z:\home\perk11\www\perk11.info\svn\SE\Missed        #
+#                       Events\Release\List\" -o "Z:\home\perk11\www\perk11. #
+#                       info\svn\SE\Missed Events\Release\Obj\" -s9          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None --eec++    #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --segment data=CONFIG -I                         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Missed         #
+#                       Events\Release\List\config_data.lst                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Missed         #
+#                       Events\Release\Obj\config_data.r79                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Missed Events\config_data.c
+      1          #include "..\\include\cfg_items.h"
+      2          #include "config_data.h"
+      3          
+      4          #pragma diag_suppress=Pe177
+      5          
+      6          #ifndef ENG
+      7            #define CHECK_MSG "Интервал между проверками (сек)"
+      8            #define PRE_TIME_MSG "Время до начала (сек)"
+      9            #define PERIOD_MSG "Между напоминаниями (sec)"
+     10            #define SOUND_MSG "Мелодия"
+     11            #define IS_ENABLED_MSG "Напоминать"
+     12            #define SILENT_MSG "В режиме без звука"
+     13            #define FILE_MSG "Звуковой файл"
+     14            #define VIBRA_MSG "Вибрация"
+     15            #define TIME_MSG "Длительность (сек)"
+     16            #define FLASH_MSG "Мигание фонаря"
+     17            #define FREQ_MSG "Скорость миг. (мсек)"
+     18            #define LED_MSG "Светодиоды"
+     19            #define LED_MODE_MSG "Режим мигания"
+     20            #define ONE_LED_MSG "Одним светодиодом"
+     21            #define ALL_LEDS_MSG "Всеми светодиодами"
+     22            #define TIME_LIMIT_MSG "Огран. по врем."
+     23            #define TIME_LIMIT_IS_ENABLED_MSG "Включено"
+     24            #define ON_MISSED_MSG "Начало"
+     25            #define OFF_MISSED_MSG "Конец"
+     26            #define MODE_MSG "Режим работы..."
+     27            #define MODE2_MSG "Режим"
+     28            #define FOREVER_MSG "Постоянно"
+     29            #define DURING_MSG "Опред. время"
+     30            #define N_TIMES_MSG "N кло-во раз"
+     31            #define DURATION_MSG "Продолжительность"
+     32            #define TIMES_MSG "Настройка проверок..."
+     33            #define SCREEN_MSG "Мигание экрана"
+     34            #define SCREEN_LEVEL_MSG "Уровень подсветки экрана"
+     35            #define PHONE_TYPE_MSG "Телефон"
+     36            #define PHONE_TYPE0_MSG "Без светодиодов"
+     37            #define PHONE_TYPE1_MSG "W580"
+     38            #define PHONE_TYPE2_MSG "Другой"
+     39            #define PHONE_W580_MSG "Только для W580..."
+     40            #define LEFT_LED_MSG "Левым светодиодом"
+     41            #define RIGHT_LED_MSG "Правым светодиодом"
+     42            #define COLOR_MSG "Цвет"
+     43            #define PHONE_OTHER_MSG "Для других телефонов..."
+     44            #define ITEMS_MSG "Чем напоминать"
+     45            #define REDLED_MSG "Красный светодиод"
+     46            #define ONTIME_MSG "Время во вкл. сост.(мсек)"
+     47            #define OFFTIME_MSG "Время в выкл. сост.(мсек)"
+     48          #else
+     49            #define CHECK_MSG "Check period (sec)"
+     50            #define PRE_TIME_MSG "Pre Time (sec)"
+     51            #define PERIOD_MSG "Notification period (sec)"
+     52            #define SOUND_MSG "Sound"
+     53            #define IS_ENABLED_MSG "Is enabled"
+     54            #define SILENT_MSG "On silent mode"
+     55            #define FILE_MSG "Notification file"
+     56            #define VIBRA_MSG "Vibration"
+     57            #define TIME_MSG "Duration time (sec)"
+     58            #define FLASH_MSG "Flash"
+     59            #define FREQ_MSG "Blink speed (msec)"
+     60            #define LED_MSG "Leds"
+     61            #define LED_MODE_MSG "Blink mode"
+     62            #define ONE_LED_MSG "One led"
+     63            #define ALL_LEDS_MSG "All leds"
+     64            #define TIME_LIMIT_MSG "Time limit"
+     65            #define TIME_LIMIT_IS_ENABLED_MSG "Is enabled"
+     66            #define ON_MISSED_MSG "On time"
+     67            #define OFF_MISSED_MSG "Off time"
+     68            #define MODE_MSG "Notification mode..."
+     69            #define MODE2_MSG "Mode"
+     70            #define FOREVER_MSG "Forever"
+     71            #define DURING_MSG "During the time"
+     72            #define N_TIMES_MSG "N times"
+     73            #define DURATION_MSG "Duration"
+     74            #define TIMES_MSG "Times..."
+     75            #define SCREEN_MSG "Blink screen"
+     76            #define SCREEN_LEVEL_MSG "Backlight max level"
+     77            #define PHONE_TYPE_MSG "Phone"
+     78            #define PHONE_TYPE0_MSG "Without leds"
+     79            #define PHONE_TYPE1_MSG "W580"
+     80            #define PHONE_TYPE2_MSG "Other"
+     81            #define PHONE_W580_MSG "For W580 only..."
+     82            #define LEFT_LED_MSG "Left led"
+     83            #define RIGHT_LED_MSG "Right led"
+     84            #define COLOR_MSG "Color"
+     85            #define PHONE_OTHER_MSG "For other phone..."
+     86            #define ITEMS_MSG "Items included"
+     87            #define REDLED_MSG "Red LED"
+     88            #define ONTIME_MSG "On time (ms)"
+     89            #define OFFTIME_MSG "Off time (ms)"
+     90          #endif
+     91          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   CDE0F1F2F0EE       DC8 "\315\340\361\362\360\356\351\352\340 \357\360\356\342\345\360\356\352..."
+   \              E9EAE020EFF0
+   \              EEE2E5F0EEEA
+   \              2E2E2E00    
+   \   0000001A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              00000000    
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+     92          __root const CFG_HDR cfghdr_times_0={CFG_LEVEL,TIMES_MSG,1,0};
+     93            //Время (в сек) между проверками на пропущенные вызовы, SMS, EMAIL, MMS
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C8EDF2E5F0E2       DC8 "\310\355\362\345\360\342\340\353 \354\345\346\344\363 \357\360\356\342\345\360\352\340\354\350 (\361\345\352)"
+   \              E0EB20ECE5E6
+   \              E4F320EFF0EE
+   \              E2E5F0EAE0EC
+   \              E82028F1E5EA
+   \              2900        
+   \   00000024   03000000E803       DC32 3, 1000
+   \              0000        
+     94            __root const CFG_HDR cfghdr_check_period={CFG_UINT,CHECK_MSG,3,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     95            __root const unsigned int cfg_checkperiod=10;
+   \                     cfg_checkperiod:
+   \   00000000   0A000000           DC32 10
+     96            
+     97            //Время (в сек) до начала (старта) напоминания после обнаружения пропущенного вызова/сообщения
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C2F0E5ECFF20       DC8 "\302\360\345\354\377 \344\356 \355\340\367\340\353\340 (\361\345\352)"
+   \              E4EE20EDE0F7
+   \              E0EBE02028F1
+   \              E5EA2900    
+   \   0000001A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              00000000    
+   \   00000024   03000000E803       DC32 3, 1000
+   \              0000        
+     98            __root const CFG_HDR cfghdr_pre_time={CFG_UINT,PRE_TIME_MSG,3,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     99            __root const unsigned int cfg_pretime=90;
+   \                     cfg_pretime:
+   \   00000000   5A000000           DC32 90
+    100            
+    101            //Время (в сек) между напоминанием
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   CCE5E6E4F320       DC8 "\314\345\346\344\363 \355\340\357\356\354\350\355\340\355\350\377\354\350 (sec)"
+   \              EDE0EFEEECE8
+   \              EDE0EDE8FFEC
+   \              E82028736563
+   \              2900        
+   \   0000001E   000000000000       DC8 0, 0, 0, 0, 0, 0
+   \   00000024   1E000000E803       DC32 30, 1000
+   \              0000        
+    102            __root const CFG_HDR cfghdr7={CFG_UINT,PERIOD_MSG,30,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    103            __root const unsigned int cfg_period=60;
+   \                     cfg_period:
+   \   00000000   3C000000           DC32 60
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    104          __root const CFG_HDR cfghdr_times_x={CFG_LEVEL,"",0,0};
+    105          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   CCE5EBEEE4E8       DC8 "\314\345\353\356\344\350\377..."
+   \              FF2E2E2E00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    106          __root const CFG_HDR cfghdr_music_0={CFG_LEVEL,SOUND_MSG "...",1,0};
+    107            //Напоминать мелодией (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CDE0EFEEECE8       DC8 "\315\340\357\356\354\350\355\340\362\374"
+   \              EDE0F2FC00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    108            __root const CFG_HDR cfghdr_music_1={CFG_CHECKBOX,IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    109            __root const int cfg_sound=0;
+   \                     cfg_sound:
+   \   00000000   00000000           DC32 0
+    110            //Напоминать или нет мелодией если включен режим "без звука" (1 - напоминать, 0 - нет)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   C220F0E5E6E8       DC8 "\302 \360\345\346\350\354\345 \341\345\347 \347\342\363\352\340"
+   \              ECE520E1E5E7
+   \              20E7E2F3EAE0
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000200       DC32 0, 2
+   \              0000        
+    111            __root const CFG_HDR cfghdr_music_2={CFG_CHECKBOX,SILENT_MSG,0,2};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    112            __root const int cfg_silent=0;
+   \                     cfg_silent:
+   \   00000000   00000000           DC32 0
+    113            //Файл мелодии
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   04000000           DC32 4
+   \   00000004   C7E2F3EAEEE2       DC8 "\307\342\363\352\356\342\356\351 \364\340\351\353"
+   \              EEE920F4E0E9
+   \              EB00        
+   \   00000012   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \   00000024   00000000FF00       DC32 0, 255
+   \              0000        
+    114            __root const CFG_HDR cfghdr_music_file={CFG_STR_WIN1251,FILE_MSG,0,255};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    115            __root const char cfg_music_file[256]="%INI_INT%/notific.mp3";
+   \                     cfg_music_file:
+   \   00000000   25494E495F49       DC8 "%INI_INT%/notific.mp3"
+   \              4E54252F6E6F
+   \              74696669632E
+   \              6D703300    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000026   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000036   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000046   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000056   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000066   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000076   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000086   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000096   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000A6   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000B6   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000C6   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000D6   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000E6   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000F6   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              00000000    
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    116          __root const CFG_HDR cfghdr_music_x={CFG_LEVEL,"",0,0};
+    117          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   C2E8E1F0E0F6       DC8 "\302\350\341\360\340\366\350\377..."
+   \              E8FF2E2E2E00
+   \   00000010   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000        
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    118          __root const CFG_HDR cfghdr_vibra_0={CFG_LEVEL,VIBRA_MSG "...",1,0};
+    119            //Напоминать вибрацией (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CDE0EFEEECE8       DC8 "\315\340\357\356\354\350\355\340\362\374"
+   \              EDE0F2FC00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    120            __root const CFG_HDR cfghdr_vibra_1={CFG_CHECKBOX,IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    121            __root const int cfg_vibra=0;
+   \                     cfg_vibra:
+   \   00000000   00000000           DC32 0
+    122            //Длительность вибры в сек
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C4EBE8F2E5EB       DC8 "\304\353\350\362\345\353\374\355\356\361\362\374 (\361\345\352)"
+   \              FCEDEEF1F2FC
+   \              2028F1E5EA29
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   01000000E803       DC32 1, 1000
+   \              0000        
+    123            __root const CFG_HDR cfghdr_vibra_2={CFG_UINT,TIME_MSG,1,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    124            __root const unsigned int cfg_vibra_time=3;
+   \                     cfg_vibra_time:
+   \   00000000   03000000           DC32 3
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    125          __root const CFG_HDR cfghdr_vibra_x={CFG_LEVEL,"",0,0};
+    126          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   CCE8E3E0EDE8       DC8 "\314\350\343\340\355\350\345 \364\356\355\340\360\377..."
+   \              E520F4EEEDE0
+   \              F0FF2E2E2E00
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    127          __root const CFG_HDR cfghdr_flash_0={CFG_LEVEL,FLASH_MSG "...",1,0};
+    128            //Напоминать миганием фонарика (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CDE0EFEEECE8       DC8 "\315\340\357\356\354\350\355\340\362\374"
+   \              EDE0F2FC00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    129            __root const CFG_HDR cfghdr_flash_1={CFG_CHECKBOX,IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    130            __root const int cfg_flash=0;
+   \                     cfg_flash:
+   \   00000000   00000000           DC32 0
+    131            //;Длительность мигания в сек 
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C4EBE8F2E5EB       DC8 "\304\353\350\362\345\353\374\355\356\361\362\374 (\361\345\352)"
+   \              FCEDEEF1F2FC
+   \              2028F1E5EA29
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   01000000E803       DC32 1, 1000
+   \              0000        
+    132            __root const CFG_HDR cfghdr_flash_2={CFG_UINT,TIME_MSG,1,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    133            __root const unsigned int cfg_flash_time=3;
+   \                     cfg_flash_time:
+   \   00000000   03000000           DC32 3
+    134            //Скорость мигания
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   D1EAEEF0EEF1       DC8 "\321\352\356\360\356\361\362\374 \354\350\343. (\354\361\345\352)"
+   \              F2FC20ECE8E3
+   \              2E2028ECF1E5
+   \              EA2900      
+   \   00000019   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000024   190000007D00       DC32 25, 125
+   \              0000        
+    135            __root const CFG_HDR cfghdr_flash_blink_speed={CFG_UINT,FREQ_MSG,25,125};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    136            __root const int cfg_flash_blink_speed = 75;
+   \                     cfg_flash_blink_speed:
+   \   00000000   4B000000           DC32 75
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    137          __root const CFG_HDR cfghdr_flash_x={CFG_LEVEL,"",0,0};
+    138          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   CAF0E0F1EDFB       DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344..."
+   \              E920F1E2E5F2
+   \              EEE4E8EEE42E
+   \              2E2E00      
+   \   00000019   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    139          __root const CFG_HDR cfghdr_redled_0={CFG_LEVEL,REDLED_MSG "...",1,0};
+    140            //Напоминать миганием светодиода (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CDE0EFEEECE8       DC8 "\315\340\357\356\354\350\355\340\362\374"
+   \              EDE0F2FC00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    141            __root const CFG_HDR cfghdr_redled_1={CFG_CHECKBOX,IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    142            __root const int cfg_redled=0;
+   \                     cfg_redled:
+   \   00000000   00000000           DC32 0
+    143            //Длительность мигания в сек 
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C4EBE8F2E5EB       DC8 "\304\353\350\362\345\353\374\355\356\361\362\374 (\361\345\352)"
+   \              FCEDEEF1F2FC
+   \              2028F1E5EA29
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   01000000E803       DC32 1, 1000
+   \              0000        
+    144            __root const CFG_HDR cfghdr_redled_2={CFG_UINT,TIME_MSG,1,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    145            __root const unsigned int cfg_redled_time=3;
+   \                     cfg_redled_time:
+   \   00000000   03000000           DC32 3
+    146            //Время во вкл. сост.(мсек)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C2F0E5ECFF20       DC8 "\302\360\345\354\377 \342\356 \342\352\353. \361\356\361\362.(\354\361\345\352)"
+   \              E2EE20E2EAEB
+   \              2E20F1EEF1F2
+   \              2E28ECF1E5EA
+   \              2900        
+   \   0000001E   000000000000       DC8 0, 0, 0, 0, 0, 0
+   \   00000024   010000001027       DC32 1, 10000
+   \              0000        
+    147            __root const CFG_HDR cfghdr_opt_redled_3={CFG_UINT,ONTIME_MSG,1,10000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    148            __root const int cfg_redled_ontime = 150;
+   \                     cfg_redled_ontime:
+   \   00000000   96000000           DC32 150
+    149            //Время в выкл. сост.(мсек)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C2F0E5ECFF20       DC8 "\302\360\345\354\377 \342 \342\373\352\353. \361\356\361\362.(\354\361\345\352)"
+   \              E220E2FBEAEB
+   \              2E20F1EEF1F2
+   \              2E28ECF1E5EA
+   \              2900        
+   \   0000001E   000000000000       DC8 0, 0, 0, 0, 0, 0
+   \   00000024   010000001027       DC32 1, 10000
+   \              0000        
+    150            __root const CFG_HDR cfghdr_opt_redled_4={CFG_UINT,OFFTIME_MSG,1,10000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    151            __root const int cfg_redled_offtime = 150;
+   \                     cfg_redled_offtime:
+   \   00000000   96000000           DC32 150
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    152          __root const CFG_HDR cfghdr_redled_x={CFG_LEVEL,"",0,0};
+    153          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   D1E2E5F2EEE4       DC8 "\321\342\345\362\356\344\350\356\344\373..."
+   \              E8EEE4FB2E2E
+   \              2E00        
+   \   00000012   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    154          __root const CFG_HDR cfghdr_led_0={CFG_LEVEL,LED_MSG "...",1,0};
+    155            //Напоминать миганием светодиода (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CDE0EFEEECE8       DC8 "\315\340\357\356\354\350\355\340\362\374"
+   \              EDE0F2FC00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    156            __root const CFG_HDR cfghdr_led_1={CFG_CHECKBOX,IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    157            __root const int cfg_led=0;
+   \                     cfg_led:
+   \   00000000   00000000           DC32 0
+    158            //;Длительность мигания в сек 
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C4EBE8F2E5EB       DC8 "\304\353\350\362\345\353\374\355\356\361\362\374 (\361\345\352)"
+   \              FCEDEEF1F2FC
+   \              2028F1E5EA29
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   01000000E803       DC32 1, 1000
+   \              0000        
+    159            __root const CFG_HDR cfghdr_led_2={CFG_UINT,TIME_MSG,1,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    160            __root const unsigned int cfg_led_time=3;
+   \                     cfg_led_time:
+   \   00000000   03000000           DC32 3
+    161            //Скорость мигания
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   D1EAEEF0EEF1       DC8 "\321\352\356\360\356\361\362\374 \354\350\343. (\354\361\345\352)"
+   \              F2FC20ECE8E3
+   \              2E2028ECF1E5
+   \              EA2900      
+   \   00000019   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000024   01000000E803       DC32 1, 1000
+   \              0000        
+    162            __root const CFG_HDR cfghdr_led_5={CFG_UINT,FREQ_MSG,1,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    163            __root const int cfg_led_blink_speed = 100;
+   \                     cfg_led_blink_speed:
+   \   00000000   64000000           DC32 100
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   05000000           DC32 5
+   \   00000004   D2E5EBE5F4EE       DC8 "\322\345\353\345\364\356\355"
+   \              ED00        
+   \   0000000C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \   00000024   000000000300       DC32 0, 3
+   \              0000        
+    164            __root const CFG_HDR cfghdr_phone_type={CFG_CBOX,PHONE_TYPE_MSG,0,3};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    165            __root const int cfg_phone_type=0;
+   \                     cfg_phone_type:
+   \   00000000   00000000           DC32 0
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   C1E5E720F1E2       DC8 "\301\345\347 \361\342\345\362\356\344\350\356\344\356\342"
+   \              E5F2EEE4E8EE
+   \              E4EEE200    
+   \   00000010   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000020   5735383000         DC8 "W580"
+   \   00000025   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000035   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000040   C4F0F3E3EEE9       DC8 "\304\360\363\343\356\351"
+   \              00          
+   \   00000047   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000057   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000      
+    166            __root const CFG_CBOX_ITEM cfgcbox_phone_type[3]={PHONE_TYPE0_MSG,PHONE_TYPE1_MSG,PHONE_TYPE2_MSG};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   D2EEEBFCEAEE       DC8 "\322\356\353\374\352\356 \344\353\377 W580..."
+   \              20E4EBFF2057
+   \              3538302E2E2E
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    167            __root const CFG_HDR cfghdr_options_1={CFG_LEVEL,PHONE_W580_MSG,1,0};
+    168                // 0 - левым, 1 - правым, 2 - всеми.
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   05000000           DC32 5
+   \   00000004   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \354\350\343\340\355\350\377"
+   \              ECE8E3E0EDE8
+   \              FF00        
+   \   00000012   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \   00000024   000000000300       DC32 0, 3
+   \              0000        
+    169                __root const CFG_HDR cfghdr_opt_led580_3={CFG_CBOX,LED_MODE_MSG,0,3};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    170                __root const int cfg_led580_blink_mode = 2;
+   \                     cfg_led580_blink_mode:
+   \   00000000   02000000           DC32 2
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   CBE5E2FBEC20       DC8 "\313\345\342\373\354 \361\342\345\362\356\344\350\356\344\356\354"
+   \              F1E2E5F2EEE4
+   \              E8EEE4EEEC00
+   \   00000012   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000020   CFF0E0E2FBEC       DC8 "\317\360\340\342\373\354 \361\342\345\362\356\344\350\356\344\356\354"
+   \              20F1E2E5F2EE
+   \              E4E8EEE4EEEC
+   \              00          
+   \   00000033   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000040   C2F1E5ECE820       DC8 "\302\361\345\354\350 \361\342\345\362\356\344\350\356\344\340\354\350"
+   \              F1E2E5F2EEE4
+   \              E8EEE4E0ECE8
+   \              00          
+   \   00000053   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+    171                __root const CFG_CBOX_ITEM cfgcbox_led580_4[3]={LEFT_LED_MSG,RIGHT_LED_MSG,ALL_LEDS_MSG};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0F000000           DC32 15
+   \   00000004   D6E2E5F200         DC8 "\326\342\345\362"
+   \   00000009   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000019   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    172                __root const CFG_HDR cfghdr_led580_5={CFG_COLOR_INT,COLOR_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    173                __root const unsigned int cfg_led580_color=0xFFFFFFFF;
+   \                     cfg_led580_color:
+   \   00000000   FFFFFFFF           DC32 4294967295
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    174            __root const CFG_HDR cfghdr_options_2={CFG_LEVEL,"",0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   C4EBFF20E4F0       DC8 "\304\353\377 \344\360\363\343\350\365 \362\345\353\345\364\356\355\356\342..."
+   \              F3E3E8F520F2
+   \              E5EBE5F4EEED
+   \              EEE22E2E2E00
+   \   0000001C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    175            __root const CFG_HDR cfghdr_options_3={CFG_LEVEL,PHONE_OTHER_MSG,1,0};
+    176                //;Как мигать
+    177                // 0 - одним светодиодом, 1 - всеми.
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   05000000           DC32 5
+   \   00000004   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \354\350\343\340\355\350\377"
+   \              ECE8E3E0EDE8
+   \              FF00        
+   \   00000012   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \   00000024   000000000200       DC32 0, 2
+   \              0000        
+    178                __root const CFG_HDR cfghdr_led_3={CFG_CBOX,LED_MODE_MSG,0,2};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    179                __root const int cfg_led_blink_mode = 0;
+   \                     cfg_led_blink_mode:
+   \   00000000   00000000           DC32 0
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   CEE4EDE8EC20       DC8 "\316\344\355\350\354 \361\342\345\362\356\344\350\356\344\356\354"
+   \              F1E2E5F2EEE4
+   \              E8EEE4EEEC00
+   \   00000012   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000020   C2F1E5ECE820       DC8 "\302\361\345\354\350 \361\342\345\362\356\344\350\356\344\340\354\350"
+   \              F1E2E5F2EEE4
+   \              E8EEE4E0ECE8
+   \              00          
+   \   00000033   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+    180                __root const CFG_CBOX_ITEM cfgcbox_led_4[2]={ONE_LED_MSG,ALL_LEDS_MSG};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    181            __root const CFG_HDR cfghdr_options_4={CFG_LEVEL,"",0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    182          __root const CFG_HDR cfghdr_led_x={CFG_LEVEL,"",0,0};
+    183          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   CCE8E3E0EDE8       DC8 "\314\350\343\340\355\350\345 \375\352\360\340\355\340..."
+   \              E520FDEAF0E0
+   \              EDE02E2E2E00
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    184          __root const CFG_HDR cfghdr_screen_0={CFG_LEVEL,SCREEN_MSG "...",1,0};
+    185            //Напоминать миганием экрана (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CDE0EFEEECE8       DC8 "\315\340\357\356\354\350\355\340\362\374"
+   \              EDE0F2FC00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    186            __root const CFG_HDR cfghdr_screen_1={CFG_CHECKBOX,IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    187            __root const int cfg_screen=0;
+   \                     cfg_screen:
+   \   00000000   00000000           DC32 0
+    188            //Длительность мигания в сек
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   C4EBE8F2E5EB       DC8 "\304\353\350\362\345\353\374\355\356\361\362\374 (\361\345\352)"
+   \              FCEDEEF1F2FC
+   \              2028F1E5EA29
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   01000000E803       DC32 1, 1000
+   \              0000        
+    189            __root const CFG_HDR cfghdr_screen_2={CFG_UINT,TIME_MSG,1,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    190            __root const unsigned int cfg_screen_time=3;
+   \                     cfg_screen_time:
+   \   00000000   03000000           DC32 3
+    191            //Скорость мигания
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   D1EAEEF0EEF1       DC8 "\321\352\356\360\356\361\362\374 \354\350\343. (\354\361\345\352)"
+   \              F2FC20ECE8E3
+   \              2E2028ECF1E5
+   \              EA2900      
+   \   00000019   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000024   14000000E803       DC32 20, 1000
+   \              0000        
+    192            __root const CFG_HDR cfghdr_screen_blink_speed={CFG_UINT,FREQ_MSG,20,1000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    193            __root const int cfg_screen_blink_speed = 500;
+   \                     cfg_screen_blink_speed:
+   \   00000000   F4010000           DC32 500
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   D3F0EEE2E5ED       DC8 "\323\360\356\342\345\355\374 \357\356\344\361\342\345\362\352\350 \375\352\360\340\355\340"
+   \              FC20EFEEE4F1
+   \              E2E5F2EAE820
+   \              FDEAF0E0EDE0
+   \              00          
+   \   0000001D   000000000000       DC8 0, 0, 0, 0, 0, 0, 0
+   \              00          
+   \   00000024   000000006400       DC32 0, 100
+   \              0000        
+    194            __root const CFG_HDR cfghdr_screen_level={CFG_UINT,SCREEN_LEVEL_MSG,0,100};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    195            __root const int cfg_screen_level = 30;
+   \                     cfg_screen_level:
+   \   00000000   1E000000           DC32 30
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    196          __root const CFG_HDR cfghdr_screen_x={CFG_LEVEL,"",0,0};
+    197          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   CEE3F0E0ED2E       DC8 "\316\343\360\340\355. \357\356 \342\360\345\354. 1..."
+   \              20EFEE20E2F0
+   \              E5EC2E20312E
+   \              2E2E00      
+   \   00000019   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    198          __root const CFG_HDR cfghdr_time_1_0={CFG_LEVEL,TIME_LIMIT_MSG " 1...",1,0};
+    199            //Включение режима ограничения работы по времени (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   C2EAEBFEF7E5       DC8 "\302\352\353\376\367\345\355\356"
+   \              EDEE00      
+   \   0000000D   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    200            __root const CFG_HDR cfghdr_time_1_1={CFG_CHECKBOX,TIME_LIMIT_IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    201            __root const int cfg_time1_limit=1;
+   \                     cfg_time1_limit:
+   \   00000000   01000000           DC32 1
+    202            //Время включения
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0C000000           DC32 12
+   \   00000004   CDE0F7E0EBEE       DC8 "\315\340\367\340\353\356"
+   \              00          
+   \   0000000B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    203            __root const CFG_HDR cfghdr_time_1_2={CFG_TIME,ON_MISSED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    204            __root const TIME cfg_on_time1={6,30,0};
+   \                     cfg_on_time1:
+   \   00000000   061E0000           DC8 6, 30, 0, 0
+    205            //Время выключения
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0C000000           DC32 12
+   \   00000004   CAEEEDE5F600       DC8 "\312\356\355\345\366"
+   \   0000000A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              00000000    
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    206            __root const CFG_HDR cfghdr_time_1_3={CFG_TIME,OFF_MISSED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    207            __root const TIME cfg_off_time1={23,0,0};
+   \                     cfg_off_time1:
+   \   00000000   17000000           DC8 23, 0, 0, 0
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   D7E5EC20EDE0       DC8 "\327\345\354 \355\340\357\356\354\350\355\340\362\374"
+   \              EFEEECE8EDE0
+   \              F2FC00      
+   \   00000013   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000000000  
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    208            __root const CFG_HDR cfghdr_time_1_4={CFG_LEVEL,ITEMS_MSG,1,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CCE5EBEEE4E8       DC8 "\314\345\353\356\344\350\377"
+   \              FF00        
+   \   0000000C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    209              __root const CFG_HDR cfghdr_time_1_5={CFG_CHECKBOX,SOUND_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    210              __root const int cfg_time1_sound=1;
+   \                     cfg_time1_sound:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   C2E8E1F0E0F6       DC8 "\302\350\341\360\340\366\350\377"
+   \              E8FF00      
+   \   0000000D   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    211              __root const CFG_HDR cfghdr_time_1_6={CFG_CHECKBOX,VIBRA_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    212              __root const int cfg_time1_vibra=1;
+   \                     cfg_time1_vibra:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CCE8E3E0EDE8       DC8 "\314\350\343\340\355\350\345 \364\356\355\340\360\377"
+   \              E520F4EEEDE0
+   \              F0FF00      
+   \   00000013   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    213              __root const CFG_HDR cfghdr_time_1_7={CFG_CHECKBOX,FLASH_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    214              __root const int cfg_time1_flash=1;
+   \                     cfg_time1_flash:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CAF0E0F1EDFB       DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+   \              E920F1E2E5F2
+   \              EEE4E8EEE400
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    215              __root const CFG_HDR cfghdr_time_1_8={CFG_CHECKBOX,REDLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    216              __root const int cfg_time1_redled=1;
+   \                     cfg_time1_redled:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   D1E2E5F2EEE4       DC8 "\321\342\345\362\356\344\350\356\344\373"
+   \              E8EEE4FB00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    217              __root const CFG_HDR cfghdr_time_1_9={CFG_CHECKBOX,LED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    218              __root const int cfg_time1_leds=1;
+   \                     cfg_time1_leds:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CCE8E3E0EDE8       DC8 "\314\350\343\340\355\350\345 \375\352\360\340\355\340"
+   \              E520FDEAF0E0
+   \              EDE000      
+   \   00000013   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    219              __root const CFG_HDR cfghdr_time_1_10={CFG_CHECKBOX,SCREEN_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    220              __root const int cfg_time1_screen=1;
+   \                     cfg_time1_screen:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    221            __root const CFG_HDR cfghdr_time_1_11={CFG_LEVEL,"",0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    222          __root const CFG_HDR cfghdr_time_1_x={CFG_LEVEL,"",0,0};
+    223          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   CEE3F0E0ED2E       DC8 "\316\343\360\340\355. \357\356 \342\360\345\354. 2..."
+   \              20EFEE20E2F0
+   \              E5EC2E20322E
+   \              2E2E00      
+   \   00000019   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000000000  
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    224          __root const CFG_HDR cfghdr_time_2_0={CFG_LEVEL,TIME_LIMIT_MSG " 2...",1,0};
+    225            //Включение режима ограничения работы по времени (1 - вкл, 0 - выкл)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   C2EAEBFEF7E5       DC8 "\302\352\353\376\367\345\355\356"
+   \              EDEE00      
+   \   0000000D   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    226            __root const CFG_HDR cfghdr_time_2_1={CFG_CHECKBOX,TIME_LIMIT_IS_ENABLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    227            __root const int cfg_time2_limit=0;
+   \                     cfg_time2_limit:
+   \   00000000   00000000           DC32 0
+    228            //Время включения
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0C000000           DC32 12
+   \   00000004   CDE0F7E0EBEE       DC8 "\315\340\367\340\353\356"
+   \              00          
+   \   0000000B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    229            __root const CFG_HDR cfghdr_time_2_2={CFG_TIME,ON_MISSED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    230            __root const TIME cfg_on_time2={23,1,0};
+   \                     cfg_on_time2:
+   \   00000000   17010000           DC8 23, 1, 0, 0
+    231            //Время выключения
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0C000000           DC32 12
+   \   00000004   CAEEEDE5F600       DC8 "\312\356\355\345\366"
+   \   0000000A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              00000000    
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    232            __root const CFG_HDR cfghdr_time_2_3={CFG_TIME,OFF_MISSED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    233            __root const TIME cfg_off_time2={6,29,0};
+   \                     cfg_off_time2:
+   \   00000000   061D0000           DC8 6, 29, 0, 0
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   D7E5EC20EDE0       DC8 "\327\345\354 \355\340\357\356\354\350\355\340\362\374"
+   \              EFEEECE8EDE0
+   \              F2FC00      
+   \   00000013   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000000000  
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    234            __root const CFG_HDR cfghdr_time_2_4={CFG_LEVEL,ITEMS_MSG,1,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CCE5EBEEE4E8       DC8 "\314\345\353\356\344\350\377"
+   \              FF00        
+   \   0000000C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    235              __root const CFG_HDR cfghdr_time_2_5={CFG_CHECKBOX,SOUND_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    236              __root const int cfg_time2_sound=1;
+   \                     cfg_time2_sound:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   C2E8E1F0E0F6       DC8 "\302\350\341\360\340\366\350\377"
+   \              E8FF00      
+   \   0000000D   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    237              __root const CFG_HDR cfghdr_time_2_6={CFG_CHECKBOX,VIBRA_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    238              __root const int cfg_time2_vibra=1;
+   \                     cfg_time2_vibra:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CCE8E3E0EDE8       DC8 "\314\350\343\340\355\350\345 \364\356\355\340\360\377"
+   \              E520F4EEEDE0
+   \              F0FF00      
+   \   00000013   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    239              __root const CFG_HDR cfghdr_time_2_7={CFG_CHECKBOX,FLASH_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    240              __root const int cfg_time2_flash=1;
+   \                     cfg_time2_flash:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CAF0E0F1EDFB       DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+   \              E920F1E2E5F2
+   \              EEE4E8EEE400
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    241              __root const CFG_HDR cfghdr_time_2_8={CFG_CHECKBOX,REDLED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    242              __root const int cfg_time2_redled=1;
+   \                     cfg_time2_redled:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   D1E2E5F2EEE4       DC8 "\321\342\345\362\356\344\350\356\344\373"
+   \              E8EEE4FB00  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    243              __root const CFG_HDR cfghdr_time_2_9={CFG_CHECKBOX,LED_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    244              __root const int cfg_time2_leds=1;
+   \                     cfg_time2_leds:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   0B000000           DC32 11
+   \   00000004   CCE8E3E0EDE8       DC8 "\314\350\343\340\355\350\345 \375\352\360\340\355\340"
+   \              E520FDEAF0E0
+   \              EDE000      
+   \   00000013   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000000000  
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    245              __root const CFG_HDR cfghdr_time_2_10={CFG_CHECKBOX,SCREEN_MSG,0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    246              __root const int cfg_time2_screen=1;
+   \                     cfg_time2_screen:
+   \   00000000   01000000           DC32 1
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    247            __root const CFG_HDR cfghdr_time_2_11={CFG_LEVEL,"",0,0};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    248          __root const CFG_HDR cfghdr_time_2_x={CFG_LEVEL,"",0,0};
+    249          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \360\340\341\356\362\373..."
+   \              F0E0E1EEF2FB
+   \              2E2E2E00    
+   \   00000014   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+    250          __root const CFG_HDR cfghdr_mode_0={CFG_LEVEL,MODE_MSG,1,0};
+    251            //Режим работы
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   05000000           DC32 5
+   \   00000004   D0E5E6E8EC00       DC8 "\320\345\346\350\354"
+   \   0000000A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              00000000    
+   \   00000024   000000000300       DC32 0, 3
+   \              0000        
+    252            __root const CFG_HDR cfghdr_mode_1={CFG_CBOX,MODE2_MSG,0,3};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    253            __root const int cfg_mode=0;
+   \                     cfg_mode:
+   \   00000000   00000000           DC32 0
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   CFEEF1F2EEFF       DC8 "\317\356\361\362\356\377\355\355\356"
+   \              EDEDEE00    
+   \   0000000A   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              00000000    
+   \   00000020   CEEFF0E5E42E       DC8 "\316\357\360\345\344. \342\360\345\354\377"
+   \              20E2F0E5ECFF
+   \              00          
+   \   0000002D   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              00          
+   \   00000040   4E20EAEBEE2D       DC8 "N \352\353\356-\342\356 \360\340\347"
+   \              E2EE20F0E0E7
+   \              00          
+   \   0000004D   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              00          
+    254            __root const CFG_CBOX_ITEM cfgcbox_mode_2[3]={FOREVER_MSG,DURING_MSG,N_TIMES_MSG};
+    255            //Течении какого времени (в мин) или сколько раз напоминать (в зависимости от mode)
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   01000000           DC32 1
+   \   00000004   CFF0EEE4EEEB       DC8 "\317\360\356\344\356\353\346\350\362\345\353\374\355\356\361\362\374"
+   \              E6E8F2E5EBFC
+   \              EDEEF1F2FC00
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   01000000A086       DC32 1, 100000
+   \              0100        
+    256            __root const CFG_HDR cfghdr_mode_3={CFG_UINT,DURATION_MSG,1,100000};
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    257            __root const unsigned int cfg_duration=60;
+   \                     cfg_duration:
+   \   00000000   3C000000           DC32 60
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    258          __root const CFG_HDR cfghdr_mode_x={CFG_LEVEL,"",0,0};
+
+
+   Segment part sizes:
+
+     Function/Label            Bytes
+     --------------            -----
+     cfghdr_times_0              44
+     cfghdr_check_period         44
+     cfg_checkperiod              4
+     cfghdr_pre_time             44
+     cfg_pretime                  4
+     cfghdr7                     44
+     cfg_period                   4
+     cfghdr_times_x              44
+     cfghdr_music_0              44
+     cfghdr_music_1              44
+     cfg_sound                    4
+     cfghdr_music_2              44
+     cfg_silent                   4
+     cfghdr_music_file           44
+     cfg_music_file             256
+     cfghdr_music_x              44
+     cfghdr_vibra_0              44
+     cfghdr_vibra_1              44
+     cfg_vibra                    4
+     cfghdr_vibra_2              44
+     cfg_vibra_time               4
+     cfghdr_vibra_x              44
+     cfghdr_flash_0              44
+     cfghdr_flash_1              44
+     cfg_flash                    4
+     cfghdr_flash_2              44
+     cfg_flash_time               4
+     cfghdr_flash_blink_speed    44
+     cfg_flash_blink_speed        4
+     cfghdr_flash_x              44
+     cfghdr_redled_0             44
+     cfghdr_redled_1             44
+     cfg_redled                   4
+     cfghdr_redled_2             44
+     cfg_redled_time              4
+     cfghdr_opt_redled_3         44
+     cfg_redled_ontime            4
+     cfghdr_opt_redled_4         44
+     cfg_redled_offtime           4
+     cfghdr_redled_x             44
+     cfghdr_led_0                44
+     cfghdr_led_1                44
+     cfg_led                      4
+     cfghdr_led_2                44
+     cfg_led_time                 4
+     cfghdr_led_5                44
+     cfg_led_blink_speed          4
+     cfghdr_phone_type           44
+     cfg_phone_type               4
+     cfgcbox_phone_type          96
+     cfghdr_options_1            44
+     cfghdr_opt_led580_3         44
+     cfg_led580_blink_mode        4
+     cfgcbox_led580_4            96
+     cfghdr_led580_5             44
+     cfg_led580_color             4
+     cfghdr_options_2            44
+     cfghdr_options_3            44
+     cfghdr_led_3                44
+     cfg_led_blink_mode           4
+     cfgcbox_led_4               64
+     cfghdr_options_4            44
+     cfghdr_led_x                44
+     cfghdr_screen_0             44
+     cfghdr_screen_1             44
+     cfg_screen                   4
+     cfghdr_screen_2             44
+     cfg_screen_time              4
+     cfghdr_screen_blink_speed   44
+     cfg_screen_blink_speed       4
+     cfghdr_screen_level         44
+     cfg_screen_level             4
+     cfghdr_screen_x             44
+     cfghdr_time_1_0             44
+     cfghdr_time_1_1             44
+     cfg_time1_limit              4
+     cfghdr_time_1_2             44
+     cfg_on_time1                 4
+     cfghdr_time_1_3             44
+     cfg_off_time1                4
+     cfghdr_time_1_4             44
+     cfghdr_time_1_5             44
+     cfg_time1_sound              4
+     cfghdr_time_1_6             44
+     cfg_time1_vibra              4
+     cfghdr_time_1_7             44
+     cfg_time1_flash              4
+     cfghdr_time_1_8             44
+     cfg_time1_redled             4
+     cfghdr_time_1_9             44
+     cfg_time1_leds               4
+     cfghdr_time_1_10            44
+     cfg_time1_screen             4
+     cfghdr_time_1_11            44
+     cfghdr_time_1_x             44
+     cfghdr_time_2_0             44
+     cfghdr_time_2_1             44
+     cfg_time2_limit              4
+     cfghdr_time_2_2             44
+     cfg_on_time2                 4
+     cfghdr_time_2_3             44
+     cfg_off_time2                4
+     cfghdr_time_2_4             44
+     cfghdr_time_2_5             44
+     cfg_time2_sound              4
+     cfghdr_time_2_6             44
+     cfg_time2_vibra              4
+     cfghdr_time_2_7             44
+     cfg_time2_flash              4
+     cfghdr_time_2_8             44
+     cfg_time2_redled             4
+     cfghdr_time_2_9             44
+     cfg_time2_leds               4
+     cfghdr_time_2_10            44
+     cfg_time2_screen             4
+     cfghdr_time_2_11            44
+     cfghdr_time_2_x             44
+     cfghdr_mode_0               44
+     cfghdr_mode_1               44
+     cfg_mode                     4
+     cfgcbox_mode_2              96
+     cfghdr_mode_3               44
+     cfg_duration                 4
+     cfghdr_mode_x               44
+
+ 
+ 4 044 bytes in segment CONFIG_C
+ 
+ 4 044 bytes of CONST memory
+
+Errors: none
+Warnings: none

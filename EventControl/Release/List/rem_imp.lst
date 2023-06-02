@@ -1,0 +1,246 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:44 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\r #
+#                       em_imp.cpp                                           #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\r #
+#                       em_imp.cpp -D NDEBUG -D OLDFUNCTIONS -lC             #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\rem_imp.lst                              #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\rem_imp.r79                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\rem_imp.cpp
+      1          /*
+      2          *===========================================================================
+      3          *                     Модуль напоминальщика
+      4          *===========================================================================
+      5          */
+      6          #include "..\deleaker\mem2.h"
+      7          #include "..\include\Lib_Clara.h" 
+      8          #include "..\include\Dir.h"
+      9          #include "header\structs.h"
+     10          #include "header\lng.h"
+     11          
+     12          #define MBK(a) MyBOOK *mbk=(MyBOOK*)a
+     13          
+     14          extern MyBOOK *ECBook;
+     15          
+     16          int isEvtBook(BOOK *bk);
+     17          
+     18          GUI_REMIND *GUI_REMIND_Create(BOOK *bk);
+     19          void GuiRemind_AddNote(GUI_REMIND *g, REMIND *rem);
+     20          void kill_rems(LIST *lst, MyBOOK *mbk, bool check);
+     21          //#define DELETE(x) if (x)delete x; x=0
+     22          
+     23          /*
+     24          *===========================================================================
+     25          *                     Создаём напоминальщика...
+     26          *===========================================================================
+     27          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          void CreateReminder(REMINDER_STRUCT * rem_str)
+     29          {
+   \                     ??CreateReminder:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     30            MBK(rem_str->bk);
+     31            if (rem_str->vibra)
+   \   00000008   1000D4E5           LDRB     R0,[R4, #+16]
+   \   0000000C   005094E5           LDR      R5,[R4, #+0]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0900000A           BEQ      ??CreateReminder_1
+     32            {
+     33              PAudioControl pAC = AudioControl_Init();
+   \   00000018   DF0100EF           SWI      +479
+     34              if(!pAC)pAC = *GetAudioControlPtr();
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0100001A           BNE      ??CreateReminder_2
+   \   00000024   D18100EF           SWI      +33233
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+     35              AudioControl_Vibrate(pAC, 500, 50, 3000);
+   \                     ??CreateReminder_2:
+   \   0000002C   B830A0E3           MOV      R3,#+184
+   \   00000030   B03E83E3           ORR      R3,R3,#0xB00
+   \   00000034   3220A0E3           MOV      R2,#+50
+   \   00000038   7D1FA0E3           MOV      R1,#+500
+   \   0000003C   D20100EF           SWI      +466
+     36            }
+     37            bool created=false;
+     38            if (mbk->remind)
+   \                     ??CreateReminder_1:
+   \   00000040   240095E5           LDR      R0,[R5, #+36]
+   \   00000044   0060A0E3           MOV      R6,#+0
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   0C00000A           BEQ      ??CreateReminder_3
+     39            {
+     40              if (rem_str->replace)
+   \   00000050   1100D4E5           LDRB     R0,[R4, #+17]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   1000000A           BEQ      ??CreateReminder_4
+     41              {
+     42                kill_rems(mbk->remlst, mbk, 0);
+   \   0000005C   2C0095E5           LDR      R0,[R5, #+44]
+   \   00000060   0020A0E3           MOV      R2,#+0
+   \   00000064   0510A0E1           MOV      R1,R5
+   \   00000068   ........           _BLF     ??kill_rems,??kill_rems??rA
+     43                GUIObject_Destroy(mbk->remind);
+   \   0000006C   240095E5           LDR      R0,[R5, #+36]
+     44                mbk->remind=GUI_REMIND_Create(rem_str->bk);
+     45                created=true;
+   \   00000070   0160A0E3           MOV      R6,#+1
+   \   00000074   CE0100EF           SWI      +462
+   \   00000078   000094E5           LDR      R0,[R4, #+0]
+   \   0000007C   ........           _BLF     ??GUI_REMIND_Create,??GUI_REMIND_Create??rA
+   \   00000080   240085E5           STR      R0,[R5, #+36]
+     46              }
+     47            }
+     48            if (!mbk->remind)
+   \                     ??CreateReminder_3:
+   \   00000084   240095E5           LDR      R0,[R5, #+36]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0300001A           BNE      ??CreateReminder_4
+     49            {
+     50              mbk->remind=GUI_REMIND_Create(rem_str->bk);
+   \   00000090   000094E5           LDR      R0,[R4, #+0]
+     51              created=true;
+   \   00000094   0160A0E3           MOV      R6,#+1
+   \   00000098   ........           _BLF     ??GUI_REMIND_Create,??GUI_REMIND_Create??rA
+   \   0000009C   240085E5           STR      R0,[R5, #+36]
+     52            }
+     53            GUI *gRemind = mbk->remind;
+     54            if (rem_str->text && rem_str->utext && rem_str->time)
+   \                     ??CreateReminder_4:
+   \   000000A0   040094E5           LDR      R0,[R4, #+4]
+   \   000000A4   247095E5           LDR      R7,[R5, #+36]
+   \   000000A8   000050E3           CMP      R0,#+0
+   \   000000AC   08009415           LDRNE    R0,[R4, #+8]
+   \   000000B0   00005013           CMPNE    R0,#+0
+   \   000000B4   0C009415           LDRNE    R0,[R4, #+12]
+   \   000000B8   00005013           CMPNE    R0,#+0
+   \   000000BC   2000000A           BEQ      ??CreateReminder_5
+     55            {
+     56              REMIND *rem=new REMIND;
+   \   000000C0   1000A0E3           MOV      R0,#+16
+   \   000000C4   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   000000C8   0080A0E1           MOV      R8,R0
+     57              memset(rem,0,sizeof(REMIND));
+   \   000000CC   1020A0E3           MOV      R2,#+16
+   \   000000D0   0010A0E3           MOV      R1,#+0
+   \   000000D4   120100EF           SWI      +274
+     58              rem->text=new wchar_t[wstrlen(rem_str->text)+1];
+   \   000000D8   040094E5           LDR      R0,[R4, #+4]
+   \   000000DC   570100EF           SWI      +343
+   \   000000E0   010080E2           ADD      R0,R0,#+1
+   \   000000E4   8000A0E1           LSL      R0,R0,#+1
+   \   000000E8   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000EC   000088E5           STR      R0,[R8, #+0]
+     59              wstrcpy(rem->text, rem_str->text);
+   \   000000F0   041094E5           LDR      R1,[R4, #+4]
+   \   000000F4   520100EF           SWI      +338
+     60              rem->utext=new wchar_t[wstrlen(rem_str->utext)+1];
+   \   000000F8   080094E5           LDR      R0,[R4, #+8]
+   \   000000FC   570100EF           SWI      +343
+   \   00000100   010080E2           ADD      R0,R0,#+1
+   \   00000104   8000A0E1           LSL      R0,R0,#+1
+   \   00000108   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000010C   040088E5           STR      R0,[R8, #+4]
+     61              wstrcpy(rem->utext,rem_str->utext);
+   \   00000110   081094E5           LDR      R1,[R4, #+8]
+   \   00000114   520100EF           SWI      +338
+     62              rem->time=new wchar_t[wstrlen(rem_str->time)+1];
+   \   00000118   0C0094E5           LDR      R0,[R4, #+12]
+   \   0000011C   570100EF           SWI      +343
+   \   00000120   010080E2           ADD      R0,R0,#+1
+   \   00000124   8000A0E1           LSL      R0,R0,#+1
+   \   00000128   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000012C   080088E5           STR      R0,[R8, #+8]
+     63              wstrcpy(rem->time,rem_str->time);
+   \   00000130   0C1094E5           LDR      R1,[R4, #+12]
+   \   00000134   520100EF           SWI      +338
+     64              GuiRemind_AddNote(mbk->remind, rem);
+   \   00000138   240095E5           LDR      R0,[R5, #+36]
+   \   0000013C   0810A0E1           MOV      R1,R8
+   \   00000140   ........           _BLF     ??GuiRemind_AddNote,??GuiRemind_AddNote??rA
+     65            }
+     66            GUIObject_SetStyle(gRemind, 4);
+   \                     ??CreateReminder_5:
+   \   00000144   0410A0E3           MOV      R1,#+4
+   \   00000148   0700A0E1           MOV      R0,R7
+   \   0000014C   360100EF           SWI      +310
+     67            GUIObject_SetTitleType(gRemind, 1);
+   \   00000150   0110A0E3           MOV      R1,#+1
+   \   00000154   0700A0E1           MOV      R0,R7
+   \   00000158   810200EF           SWI      +641
+     68            GUIObject_SoftKeys_Hide(gRemind);
+   \   0000015C   0700A0E1           MOV      R0,R7
+   \   00000160   A10200EF           SWI      +673
+     69            if (created)
+   \   00000164   000056E3           CMP      R6,#+0
+   \   00000168   0700000A           BEQ      ??CreateReminder_6
+     70            {
+     71              GUIObject_Show(gRemind);
+   \   0000016C   0700A0E1           MOV      R0,R7
+   \   00000170   340100EF           SWI      +308
+     72              BookObj_Show(rem_str->bk, 0);
+   \   00000174   000094E5           LDR      R0,[R4, #+0]
+   \   00000178   0010A0E3           MOV      R1,#+0
+   \   0000017C   720100EF           SWI      +370
+     73              BookObj_SetFocus(rem_str->bk, 0);
+   \   00000180   000094E5           LDR      R0,[R4, #+0]
+   \   00000184   0010A0E3           MOV      R1,#+0
+   \   00000188   320100EF           SWI      +306
+     74            }
+     75            if (rem_str->need_to_destroy==true) delete rem_str;
+   \                     ??CreateReminder_6:
+   \   0000018C   1200D4E5           LDRB     R0,[R4, #+18]
+   \   00000190   000050E3           CMP      R0,#+0
+   \   00000194   F081BD08           POPEQ    {R4-R8,PC}
+   \   00000198   0400A0E1           MOV      R0,R4
+   \   0000019C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     76          };
+   \   000001A0   F081BDE8           POP      {R4-R8,PC}       ;; return
+     77          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateReminder(REMINDER_STRUCT *)
+                                       24
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     CreateReminder(REMINDER_STRUCT *)
+                                     420
+      Others                          76
+
+ 
+ 496 bytes in segment CODE
+ 
+ 420 bytes of CODE memory (+ 76 bytes shared)
+
+Errors: none
+Warnings: none

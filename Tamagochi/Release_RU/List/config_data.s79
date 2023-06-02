@@ -1,0 +1,894 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:06:59 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\con /
+//                       fig_data.c                                          /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\con /
+//                       fig_data.c -D NDEBUG -D LANG_RU -lC                 /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rel /
+//                       ease_RU\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\Tamagochi\Release_RU\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rel /
+//                       ease_RU\Obj\ -s9 --no_unroll --no_inline            /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --enable_multibytes  /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h           /
+//                       --segment data=CONFIG -I                            /
+//                       Z:\home\perk11\IAR2\arm\INC\                        /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rel /
+//                       ease_RU\List\config_data.s79                        /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC ACTIVE_KEY
+        PUBLIC ACTIVE_KEY_STYLE
+        PUBLIC BCFGEDIT_PATH
+        PUBLIC ENA_HELLO_MSG
+        PUBLIC GAMELIST_PATH
+        PUBLIC Is_Screen_Enabled
+        PUBLIC Is_Vibra_Enabled
+        PUBLIC MAXSIZE
+        PUBLIC MAX_PET_COUNT
+        PUBLIC MINSIZE
+        PUBLIC Malware_Ena
+        PUBLIC Motion_Ena
+        PUBLIC Music_Ena
+        PUBLIC Night_Ena
+        PUBLIC Night_begin
+        PUBLIC Night_end
+        PUBLIC PARENT_AGE
+        PUBLIC PET_PATH
+        PUBLIC PIC_PATH
+        PUBLIC PLAYERLIST_PATH
+        PUBLIC POS_X
+        PUBLIC POS_Y
+        PUBLIC REFRESH
+        PUBLIC ROOM_PATH
+        PUBLIC SOUND_PATH
+        PUBLIC Scan_Game_Ena
+        PUBLIC SpeedLife
+        PUBLIC VIBR_TYPE
+        PUBLIC cfg_screen_blink_speed
+        PUBLIC cfg_screen_level
+        PUBLIC cfg_screen_time
+        PUBLIC msgShowTime
+        PUBLIC sndEnable
+        PUBLIC sndOnNight
+        PUBLIC sndOnSilent
+        PUBLIC sndVolume
+        PUBLIC vibraTime
+// Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\config_data.c
+//    1 #include "..\\include\cfg_items.h"
+//    2 #include "Tamagochi.h"
+//    3 #include "language.h"
+//    4 
+//    5 #pragma diag_suppress=Pe177
+//    6 
+//    7 //Конфигурация
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "Приветствие"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//    8 __root const CFG_HDR cfghdr0={CFG_CBOX,LG_GFGHELLO,0,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    9 __root const int ENA_HELLO_MSG=1;
+ENA_HELLO_MSG:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "Нет"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Да"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   10 __root const CFG_CBOX_ITEM cfgcbox1[2]={LG_GFGNO,LG_GFGYES};
+//   11 
+//   12 // -------------------------------------------------------------------------- //
+//   13 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Настройки смайла"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   14 __root const CFG_HDR cfghdr_m11={CFG_LEVEL,LG_GFGSETSCREEN,1,0};
+//   15 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Обновление, 1/10 сек"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 600
+//   16   __root const CFG_HDR cfghdr1={CFG_UINT,LG_GFGUPDATE,1,600};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   17   __root const unsigned int REFRESH=20;
+REFRESH:
+        DATA
+        DC32 20
+//   18 
+//   19 //  __root const CFG_HDR cfghdr1_1 = {CFG_CBOX, LG_GFGVIEW, 0, 3};
+//   20 //  __root const int cfgShowIn = 2;
+//   21 //  __root const CFG_CBOX_ITEM cfgcbox1_0[3] = {LG_GFGLOCK, LG_GFGUNLOCK, LG_GFGBOTH};
+//   22 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 7
+        DC8 "Координаты на экране"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   23   __root const CFG_HDR cfghdr1_2={CFG_COORDINATES,LG_GFGPOSITION,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   24   __root const unsigned int POS_X=10;
+POS_X:
+        DATA
+        DC32 10
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   25   __root const unsigned int POS_Y=100;
+POS_Y:
+        DATA
+        DC32 100
+//   26 
+//   27 //  __root const CFG_HDR cfghdr1_3_1 = {CFG_CHECKBOX, "Enable Effects", 0, 2};
+//   28 //  __root const int Effects_Ena = 1;
+//   29 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Минимальный размер (%)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 500
+//   30   __root const CFG_HDR cfghdr1_3 = {CFG_UINT, LG_GFGMINSIZE, 0, 500};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   31   __root const unsigned int MINSIZE = 25;
+MINSIZE:
+        DATA
+        DC32 25
+//   32 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Максимальный размер (%)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 500
+//   33   __root const CFG_HDR cfghdr1_4 = {CFG_UINT, LG_GFGMAXSIZE, 0, 500};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   34   __root const unsigned int MAXSIZE = 100;
+MAXSIZE:
+        DATA
+        DC32 100
+//   35 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   36 __root const CFG_HDR cfghdr_m10={CFG_LEVEL,"",0,0};
+//   37 
+//   38 // -------------------------------------------------------------------------- //
+//   39 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Настройка путей"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   40 __root const CFG_HDR cfghdr_m21={CFG_LEVEL,LG_GFGSETPATH,1,0};
+//   41 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Путь к Pet.cfg"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+//   42   __root const CFG_HDR cfghdr2_1={CFG_STR_WIN1251,LG_GFGPATHPET,0,63};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   43   __root const char PET_PATH[64]="%ELFS_INT%/Tamagochi";
+PET_PATH:
+        DATA
+        DC8 "%ELFS_INT%/Tamagochi"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   44 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Путь к комнате"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+//   45   __root const CFG_HDR cfghdr2_2={CFG_STR_WIN1251,LG_GFGPATHROOM,0,63};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   46   __root const char ROOM_PATH[64]="%ELFS_INT%/Tamagochi/Room";
+ROOM_PATH:
+        DATA
+        DC8 "%ELFS_INT%/Tamagochi/Room"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   47 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Путь к картинкам"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+//   48   __root const CFG_HDR cfghdr2_3={CFG_STR_WIN1251,LG_GFGPATHIMG,0,63};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   49   __root const char PIC_PATH[64]="%ELFS_INT%/Tamagochi/img";
+PIC_PATH:
+        DATA
+        DC8 "%ELFS_INT%/Tamagochi/img"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   50 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Путь к звукам"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+//   51   __root const CFG_HDR cfghdr2_4={CFG_STR_WIN1251,LG_GFGPATHSOUND,0,63};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   52   __root const char SOUND_PATH[64]="%ELFS_INT%/Tamagochi/Sound";
+SOUND_PATH:
+        DATA
+        DC8 "%ELFS_INT%/Tamagochi/Sound"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   53 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Путь к Game.list"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+//   54   __root const CFG_HDR cfghdr3_2={CFG_STR_WIN1251,LG_GFGPATHGAMELIST,0,63};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   55   __root const char GAMELIST_PATH[64]="%ELFS_INT%/Tamagochi/Game.list";
+GAMELIST_PATH:
+        DATA
+        DC8 "%ELFS_INT%/Tamagochi/Game.list"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   56 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Путь к Player.list"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+//   57   __root const CFG_HDR cfghdr3_3={CFG_STR_WIN1251,LG_GFGPATHPLAYERLIST,0,63};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   58   __root const char PLAYERLIST_PATH[64]="%ELFS_INT%/Tamagochi/Player.list";
+PLAYERLIST_PATH:
+        DATA
+        DC8 "%ELFS_INT%/Tamagochi/Player.list"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   59 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Путь к BcfgEdit.elf"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+//   60   __root const CFG_HDR cfghdr3_4={CFG_STR_WIN1251,LG_GFGPATHBCFGEDIT,0,63};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   61   __root const char BCFGEDIT_PATH[64]="%ELFS_INT%/BcfgEdit.elf";
+BCFGEDIT_PATH:
+        DATA
+        DC8 "%ELFS_INT%/BcfgEdit.elf"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+//   62 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   63 __root const CFG_HDR cfghdr_m20={CFG_LEVEL,"",0,0};
+//   64 
+//   65 // -------------------------------------------------------------------------- //
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Настройки развития"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   66 __root const CFG_HDR cfghdr_m31={CFG_LEVEL,LG_GFGSETPET,1,0};
+//   67 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "Скорость"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//   68   __root const CFG_HDR cfghdr3_1 = {CFG_CBOX, LG_GFGSPEED, 0, 3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   69   __root const int SpeedLife = 1;
+SpeedLife:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "Быстро"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Средне"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Медленно"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   70   __root const CFG_CBOX_ITEM cfgcbox3_0[3] = {LG_GFGFAST, LG_GFGMEDIUM, LG_GFGSLOW};
+//   71 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Родительский возраст"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 600
+//   72   __root const CFG_HDR cfghdr3_1_5={CFG_UINT,LG_GFGPARENT,1,600};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   73   __root const unsigned int PARENT_AGE=19;
+PARENT_AGE:
+        DATA
+        DC32 19
+//   74 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Макимальное кол-во"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 2, 32
+//   75   __root const CFG_HDR cfghdr3_1_6={CFG_UINT,LG_GFGPETCNT,MIN_PET_COUNT_GLB,MAX_PET_COUNT_GLB};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   76   __root const unsigned int MAX_PET_COUNT=8;
+MAX_PET_COUNT:
+        DATA
+        DC32 8
+//   77 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Движение по экрану"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   78   __root const CFG_HDR cfghdr3_1_4 = {CFG_CHECKBOX, LG_GFGMOTION, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   79   __root const int Motion_Ena = 1;
+Motion_Ena:
+        DATA
+        DC32 1
+//   80 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Разрешить включать музыку"
+        DC8 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   81   __root const CFG_HDR cfghdr3_1_3 = {CFG_CHECKBOX, LG_MUSIC, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   82   __root const int Music_Ena = 1;
+Music_Ena:
+        DATA
+        DC32 1
+//   83 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Разрешить пакости"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   84   __root const CFG_HDR cfghdr3_1_2 = {CFG_CHECKBOX, LG_MALWARE, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   85   __root const int Malware_Ena = 1;
+Malware_Ena:
+        DATA
+        DC32 1
+//   86 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Поиск игр"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   87   __root const CFG_HDR cfghdr_m311={CFG_CHECKBOX,LG_SCANGAME,0,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   88   __root const int Scan_Game_Ena = 1;
+Scan_Game_Ena:
+        DATA
+        DC32 1
+//   89 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Ночной сон"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   90   __root const CFG_HDR cfghdr_m321={CFG_LEVEL,LG_GFGNIGHT,1,0};
+//   91 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Включить"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   92       __root const CFG_HDR cfghdr3_31 = {CFG_CHECKBOX, LG_GFGNIGHTENA, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   93       __root const int Night_Ena = 1;
+Night_Ena:
+        DATA
+        DC32 1
+//   94 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Начало"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 23
+//   95       __root const CFG_HDR cfghdr3_32 = {CFG_UINT, LG_GFGNIGHTBEGIN, 0, 23};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   96       __root const unsigned int Night_begin = 22;
+Night_begin:
+        DATA
+        DC32 22
+//   97 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Конец"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 23
+//   98       __root const CFG_HDR cfghdr3_33 = {CFG_UINT, LG_GFGNIGHTEND, 0, 23};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   99       __root const unsigned int Night_end = 7;
+Night_end:
+        DATA
+        DC32 7
+//  100 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  101   __root const CFG_HDR cfghdr_m320={CFG_LEVEL,"",0,0};
+//  102 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  103 __root const CFG_HDR cfghdr_m30={CFG_LEVEL,"",0,0};
+//  104 // -------------------------------------------------------------------------- //
+//  105 
+//  106 // -------------------------------------------------------------------------- //
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Оповещение"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  107 __root const CFG_HDR cfghdr_m41={CFG_LEVEL,LG_GFGSETALARM,1,0};
+//  108 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Настройка сообщений"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  109   __root const CFG_HDR cfghdr_m4_5={CFG_LEVEL,LG_GFGMSGSETUP,1,0};
+//  110 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "Время показа"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//  111     __root const CFG_HDR cfghdr4_51 = {CFG_CBOX, LG_GFGMSGTIME, 0, 3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  112     __root const int msgShowTime = 1;
+msgShowTime:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "Неограничено"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "5 сек"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "10 сек"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+//  113     __root const CFG_CBOX_ITEM cfgcbox4_0[3] = {LG_GFGMSGUNRESTRICTED, LG_GFGMSG5SEC, LG_GFGMSG10SEC};
+//  114 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  115   __root const CFG_HDR cfghdr_m4_50={CFG_LEVEL,"",0,0};
+//  116 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Настройка звуков"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  117   __root const CFG_HDR cfghdr_m4_11={CFG_LEVEL,LG_GFGSNDSETUP,1,0};
+//  118 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Включить звуки"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//  119     __root const CFG_HDR cfghdr4_1 = {CFG_CHECKBOX, LG_GFGSNDENABLE, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  120     __root const int sndEnable = 1;
+sndEnable:
+        DATA
+        DC32 1
+//  121 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "В режиме без звука"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//  122     __root const CFG_HDR cfghdr4_12 = {CFG_CHECKBOX, LG_CFGSILENT, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  123     __root const int sndOnSilent = 1;
+sndOnSilent:
+        DATA
+        DC32 1
+//  124 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Во время ночного сна"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//  125     __root const CFG_HDR cfghdr4_13 = {CFG_CHECKBOX, LG_GFGSNDNIGHT, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  126     __root const int sndOnNight = 1;
+sndOnNight:
+        DATA
+        DC32 1
+//  127 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Громкость звуков"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 99
+//  128     __root const CFG_HDR cfghdr4_14={CFG_UINT,LG_GFGVOLUME,0,99};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  129     __root const unsigned int sndVolume=3;
+sndVolume:
+        DATA
+        DC32 3
+//  130 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  131   __root const CFG_HDR cfghdr_m4_10={CFG_LEVEL,"",0,0};
+//  132 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Настройка вибры"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  133   __root const CFG_HDR cfghdr_m4_21={CFG_LEVEL,LG_GFGVBRSETUP,1,0};
+//  134 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Включить вибру"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//  135     __root const CFG_HDR cfghdr4_2 = {CFG_CHECKBOX, LG_GFGVBRENABLE, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  136     __root const int Is_Vibra_Enabled = 1;
+Is_Vibra_Enabled:
+        DATA
+        DC32 1
+//  137 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Длит. вибры (мсек)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 100, 10000
+//  138     __root const CFG_HDR cfghdr4_21={CFG_UINT,LG_GFGVBRTIME,100,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  139     __root const unsigned int vibraTime=1000;
+vibraTime:
+        DATA
+        DC32 1000
+//  140 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "Тип вибрации"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//  141     __root const CFG_HDR cfghdr4_22={CFG_CBOX,LG_GFGVBRTYPE,0,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  142     __root const int VIBR_TYPE = 0;
+VIBR_TYPE:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "Одиночный"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Двойной"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+//  143     __root const CFG_CBOX_ITEM cfgcbox18_2[2]={LG_GFGVBRTYPE1,LG_GFGVBRTYPE2};
+//  144 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  145   __root const CFG_HDR cfghdr_m4_20={CFG_LEVEL,"",0,0};
+//  146 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Настройка мигания экрана"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  147   __root const CFG_HDR cfghdr_m4_31={CFG_LEVEL,LG_GFGSCRSETUP,1,0};
+//  148 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Включить мигание экрана"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//  149     __root const CFG_HDR cfghdr4_32 = {CFG_CHECKBOX, LG_GFGSCRENABLE, 0, 2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  150     __root const int Is_Screen_Enabled = 1;
+Is_Screen_Enabled:
+        DATA
+        DC32 1
+//  151 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Длительность (сек)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 1000
+//  152     __root const CFG_HDR cfghdr_screen_2={CFG_UINT,LG_GFGSCRTIME,1,1000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  153     __root const unsigned int cfg_screen_time=3;
+cfg_screen_time:
+        DATA
+        DC32 3
+//  154 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Скорость миг. (мсек)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 20, 1000
+//  155     __root const CFG_HDR cfghdr_screen_blink_speed={CFG_UINT,LG_GFGSCRFREQ,20,1000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  156     __root const int cfg_screen_blink_speed = 500;
+cfg_screen_blink_speed:
+        DATA
+        DC32 500
+//  157 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Уровень подсветки экрана"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 100
+//  158     __root const CFG_HDR cfghdr_screen_level={CFG_UINT,LG_GFGSCRLEVEL,0,100};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  159     __root const int cfg_screen_level = 30;
+cfg_screen_level:
+        DATA
+        DC32 30
+//  160 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  161   __root const CFG_HDR cfghdr_m4_30={CFG_LEVEL,"",0,0};
+//  162 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  163 __root const CFG_HDR cfghdr_m40={CFG_LEVEL,"",0,0};
+//  164 // -------------------------------------------------------------------------- //
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Вызов меню"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  165 __root const CFG_HDR cfghdr_m51={CFG_LEVEL,LG_GFGSETKEY,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 17
+        DC8 "Тип вызова"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  166   __root const CFG_HDR cfghdr_button={CFG_KEYCODE,LG_GFGMNUENA,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  167   __root const int ACTIVE_KEY=0x20;
+ACTIVE_KEY:
+        DATA
+        DC32 32
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  168   __root const int ACTIVE_KEY_STYLE=3;
+ACTIVE_KEY_STYLE:
+        DATA
+        DC32 3
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        END
+//  169 __root const CFG_HDR cfghdr_m50={CFG_LEVEL,"",0,0};
+//  170 
+//  171 
+// 
+// 3 308 bytes in segment CONFIG_C
+// 
+// 3 308 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

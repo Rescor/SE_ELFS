@@ -1,0 +1,1103 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:47:20 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\keys.cpp  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\keys.cpp  #
+#                       -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN            #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\keys.lst                                         #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\keys.r79                                          #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\keys.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\krnl.h"
+      3          #include "inc\keys.h"
+      4          #include "inc\bookmarks.h"
+      5          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+      6          const wchar_t keys_file[] = L"mckeys.cfg";
+   \                     keys_file:
+   \   00000000   6D0063006B00       DC8 6DH, 0, 63H, 0, 6BH, 0, 65H, 0
+   \              6500        
+   \   00000008   790073002E00       DC8 79H, 0, 73H, 0, 2EH, 0, 63H, 0
+   \              6300        
+   \   00000010   660067000000       DC8 66H, 0, 67H, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+      7          
+      8          
+      9          
+     10          const KEYNM_MAP keynames[] = 
+     11          {
+     12          	{&KEY_LEFT_SOFT, "lsoft"},  // 0
+     13          	{&KEY_RIGHT_SOFT, "rsoft"},  // 1
+     14          	{&KEY_ENTER, "enter"},  // 2
+     15          	{&KEY_UP, "up"},  // 3
+     16          	{&KEY_DOWN, "down"},  // 4
+     17          	{&KEY_LEFT, "left"},  // 5
+     18          	{&KEY_RIGHT, "right"},  //6
+     19          	{&KEY_VOL_UP, "volup"},  // 7
+     20          	{&KEY_VOL_DOWN, "voldown"},   //8
+     21                  {&KEY_DEL, "del"},  //9
+     22                  {&KEY_ESC, "esc"},  //10
+     23          	{&KEY_STAR, "*"},  //11
+     24          	{&KEY_DIEZ, "#"}, //12
+     25                  
+     26          	{&KEY_DIGITAL_0, "0"}, 
+     27          	{&KEY_DIGITAL_0, "1"},
+     28          	{&KEY_DIGITAL_0, "2"},
+     29          	{&KEY_DIGITAL_0, "3"},
+     30          	{&KEY_DIGITAL_0, "4"},
+     31          	{&KEY_DIGITAL_0, "5"},
+     32          	{&KEY_DIGITAL_0, "6"},
+     33          	{&KEY_DIGITAL_0, "7"},
+     34          	{&KEY_DIGITAL_0, "8"},
+     35          	{&KEY_DIGITAL_0, "9"},
+     36          };
+     37          
+     38          #define KEYS_COUNT (sizeof(keynames)/sizeof(keynames[0]))
+     39          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     40          char keyMap[0xFF];
+     41          
+     42          KEY_PROC procmap[KEYS_COUNT] = 
+   \                     procmap:
+   \   00000000                      DS8 92
+   \   0000005C                      REQUIRE `?<Initializer for procmap>`
+     43          {
+     44          	NULL,
+     45          	NULL,//DoMenu,
+     46          	NULL,//DoOpen,
+     47          	DoUp,
+     48          	DoDwn,
+     49          	DoPrvDrv,
+     50          	DoNxtDrv,
+     51          	NULL,
+     52          	NULL,
+     53          	DoDel,
+     54          	NULL,//DoBackK,
+     55          	NULL,
+     56          	NULL,
+     57          	DoChk,     //0
+     58          	DoSwapTab,  //1
+     59          	DoUp,  //2
+     60          	DoPgUp,   // 3
+     61          	DoPrvDrv,  // 4
+     62          	DoOpen,   //5 
+     63          	DoNxtDrv,  //6
+     64          	NULL,   //7
+     65          	DoDwn,  //8
+     66          	DoPgDwn,
+     67          };
+     68          
+     69          // long press
+     70          KEY_PROC procmapl[KEYS_COUNT] = 
+   \                     procmapl:
+   \   0000005C                      DS8 92
+   \   000000B8                      REQUIRE `?<Initializer for procmapl>`
+   \                     keyMap:
+   \   000000B8                      DS8 256
+   \   000001B8                      REQUIRE `?<Initializer for keyMap>`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     keynames:
+   \   00000000   ............       DC32 KEY_LEFT_SOFT, `?<Constant "lsoft">`, KEY_RIGHT_SOFT
+   \              ............
+   \   0000000C   ............       DC32 `?<Constant "rsoft">`, KEY_ENTER, `?<Constant "enter">`, KEY_UP
+   \              ............
+   \              ........    
+   \   0000001C   ............       DC32 `?<Constant "up">`, KEY_DOWN, `?<Constant "down">`, KEY_LEFT
+   \              ............
+   \              ........    
+   \   0000002C   ............       DC32 `?<Constant "left">`, KEY_RIGHT, `?<Constant "right">`, KEY_VOL_UP
+   \              ............
+   \              ........    
+   \   0000003C   ............       DC32 `?<Constant "volup">`, KEY_VOL_DOWN, `?<Constant "voldown">`
+   \              ............
+   \   00000048   ............       DC32 KEY_DEL, `?<Constant "del">`, KEY_ESC, `?<Constant "esc">`
+   \              ............
+   \              ........    
+   \   00000058   ............       DC32 KEY_STAR, `?<Constant "*">`, KEY_DIEZ, `?<Constant "#">`
+   \              ............
+   \              ........    
+   \   00000068   ............       DC32 KEY_DIGITAL_0, `?<Constant "0">`, KEY_DIGITAL_0, `?<Constant "1">`
+   \              ............
+   \              ........    
+   \   00000078   ............       DC32 KEY_DIGITAL_0, `?<Constant "2">`, KEY_DIGITAL_0, `?<Constant "3">`
+   \              ............
+   \              ........    
+   \   00000088   ............       DC32 KEY_DIGITAL_0, `?<Constant "4">`, KEY_DIGITAL_0, `?<Constant "5">`
+   \              ............
+   \              ........    
+   \   00000098   ............       DC32 KEY_DIGITAL_0, `?<Constant "6">`, KEY_DIGITAL_0, `?<Constant "7">`
+   \              ............
+   \              ........    
+   \   000000A8   ............       DC32 KEY_DIGITAL_0, `?<Constant "8">`, KEY_DIGITAL_0, `?<Constant "9">`
+   \              ............
+   \              ........    
+   \   000000B8   ........0000       DC32 `?<Constant "none">`, 0H, `?<Constant "open">`, ??DoOpen
+   \              0000........
+   \              ........    
+   \   000000C8   ............       DC32 `?<Constant "back">`, ??DoBackK, `?<Constant "rename">`, ??DoRen
+   \              ............
+   \              ........    
+   \   000000D8   ............       DC32 `?<Constant "past">`, ??DoPaste, `?<Constant "copy">`, ??DoCopy
+   \              ............
+   \              ........    
+   \   000000E8   ............       DC32 `?<Constant "move">`, ??DoMove, `?<Constant "del">`, ??DoDel
+   \              ............
+   \              ........    
+   \   000000F8   ............       DC32 `?<Constant "cancel">`, ??DoCancel, `?<Constant "newdir">`
+   \              ............
+   \   00000104   ............       DC32 ??DoNewDir, `?<Constant "menu">`, ??DoMenu
+   \              ............
+   \   00000110   ............       DC32 `?<Constant "swaptab">`, ??DoSwapTab, `?<Constant "prvdrv">`
+   \              ............
+   \   0000011C   ............       DC32 ??DoPrvDrv, `?<Constant "nxtdrv">`, ??DoNxtDrv
+   \              ............
+   \   00000128   ............       DC32 `?<Constant "invchk">`, ??DoInvChk, `?<Constant "chk">`, ??DoChk
+   \              ............
+   \              ........    
+   \   00000138   ............       DC32 `?<Constant "chkall">`, ??DoChkAll, `?<Constant "unchall">`
+   \              ............
+   \   00000144   ............       DC32 ??DoUnCAll, `?<Constant "up">`, ??DoUp, `?<Constant "dwn">`
+   \              ............
+   \              ........    
+   \   00000154   ............       DC32 ??DoDwn, `?<Constant "pgup">`, ??DoPgUp, `?<Constant "pgdn">`
+   \              ............
+   \              ........    
+   \   00000164   ............       DC32 ??DoPgDwn, `?<Constant "bmlist">`, ??DoBMList
+   \              ............
+   \   00000170   ............       DC32 `?<Constant "bmadd">`, ??DoBMAdd, `?<Constant "filter">`
+   \              ............
+   \   0000017C   ............       DC32 ??DoFilter, `?<Constant "refresh">`, ??DoRefresh
+   \              ............
+   \   00000188   ............       DC32 `?<Constant "root">`, ??DoRoot, `?<Constant "exit">`, ??DoExit
+   \              ............
+   \              ........    
+   \   00000198   ............       DC32 `?<Constant "showpath">`, ??DoShowPath, `?<Constant "begin">`
+   \              ............
+   \   000001A4   ............       DC32 ??DoBegin, `?<Constant "sortn">`, ??DoSortN, `?<Constant "sorte">`
+   \              ............
+   \              ........    
+   \   000001B4   ............       DC32 ??DoSortE, `?<Constant "sorts">`, ??DoSortS, `?<Constant "sortd">`
+   \              ............
+   \              ........    
+   \   000001C4   ............       DC32 ??DoSortD, `?<Constant "sortr">`, ??DoSortR
+   \              ............
+   \   000001D0   ............       DC32 `?<Constant "setsort">`, ??DoSetSort, `?<Constant "tabcopy">`
+   \              ............
+   \   000001DC   ............       DC32 ??DoTabCopy, `?<Constant "tabmove">`, ??DoTabMove
+   \              ............
+   \   000001E8   ............       DC32 `?<Constant "sysopen">`, ??DoSysOpen
+   \              ....        
+     71          {
+     72          	NULL,
+     73          	NULL,
+     74          	NULL,
+     75          	NULL,
+     76          	NULL,
+     77          	NULL,
+     78          	NULL,
+     79          	NULL,
+     80          	NULL,
+     81          	NULL,
+     82          	NULL,
+     83          	NULL,
+     84          	NULL,
+     85          	NULL,
+     86          	NULL,
+     87          	NULL,
+     88          	NULL,
+     89          	NULL,
+     90          	NULL,
+     91          	NULL,
+     92          	NULL,
+     93          	NULL,
+     94          	NULL,
+     95          };
+     96          
+     97          
+     98          typedef struct{
+     99          	char* name;
+    100          	KEY_PROC proc;
+    101          } PROC_MAP;
+    102          
+    103          const PROC_MAP keyprocs[]=
+    104          {
+    105          	{"none", NULL},
+    106          	{"open", DoOpen},
+    107          	{"back", DoBackK},
+    108          	{"rename", DoRen},
+    109          	{"past", DoPaste},
+    110          	{"copy", DoCopy},
+    111          	{"move", DoMove},
+    112          	{"del", DoDel},
+    113          	{"cancel", DoCancel},
+    114          	{"newdir", DoNewDir},
+    115          	{"menu", DoMenu},
+    116          	//{"fileprop", (KEY_PROC)DoFileProp},
+    117          	//{"drvinf", DoDrvInf},
+    118          	{"swaptab", DoSwapTab},
+    119          	{"prvdrv", DoPrvDrv},
+    120          	{"nxtdrv", DoNxtDrv},
+    121          	{"invchk", DoInvChk},
+    122          	{"chk", DoChk},
+    123          	{"chkall", DoChkAll},
+    124          	{"unchall", DoUnCAll},
+    125          	{"up", DoUp},
+    126          	{"dwn", DoDwn},
+    127          	{"pgup", DoPgUp},
+    128          	{"pgdn", DoPgDwn},
+    129          	{"bmlist", DoBMList},
+    130          	{"bmadd", DoBMAdd},
+    131          	{"filter", DoFilter},
+    132          	{"refresh", (KEY_PROC)DoRefresh},
+    133          	{"root", DoRoot},
+    134          	{"exit", DoExit},
+    135          	{"showpath", DoShowPath},
+    136          	{"begin", DoBegin},
+    137          	{"sortn", DoSortN},
+    138          	{"sorte", DoSortE},
+    139          	{"sorts", DoSortS},
+    140          	{"sortd", DoSortD},
+    141          	{"sortr", DoSortR},
+    142          	{"setsort", DoSetSort},
+    143          	//{"newfile", DoNewFile},
+    144          	//{"showhid", DoShowHid},
+    145          	//{"showsys", DoShowSys},
+    146          	//{"showhs", DoShowHidSys},
+    147          	//{"showhdrv", DoShowHidDrv},
+    148          	{"tabcopy", DoTabCopy},
+    149          	{"tabmove", DoTabMove},
+    150          	{"sysopen", DoSysOpen},
+    151          };
+    152          
+    153          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    154          void KeysProc(char *name, char *value, int is_utf)
+    155          {
+   \                     ??KeysProc:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    156            strtolower(name, name, -1);
+    157            strtolower(value, value, -1);
+    158            
+    159            int inkey = -1;
+    160            int islong = 0;
+    161            KEY_PROC keyproc = DoErrKey;
+   \   00000004   E4509FE5           LDR      R5,??KeysProc_1  ;; ??DoErrKey
+   \   00000008   0070A0E1           MOV      R7,R0
+   \   0000000C   0140A0E1           MOV      R4,R1
+   \   00000010   0020E0E3           MVN      R2,#+0
+   \   00000014   0710A0E1           MOV      R1,R7
+   \   00000018   ........           _BLF     ??strtolower,??strtolower??rA
+   \   0000001C   0020E0E3           MVN      R2,#+0
+   \   00000020   0410A0E1           MOV      R1,R4
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   ........           _BLF     ??strtolower,??strtolower??rA
+   \   0000002C   0060A0E3           MOV      R6,#+0
+    162            
+    163            int nameLen = strlen(name);
+   \   00000030   0700A0E1           MOV      R0,R7
+   \   00000034   5A0100EF           SWI      +346
+    164            if (nameLen > 0 && name[nameLen - 1] == '+')
+   \   00000038   010050E3           CMP      R0,#+1
+   \   0000003C   070000BA           BLT      ??KeysProc_2
+   \   00000040   071080E0           ADD      R1,R0,R7
+   \   00000044   011051E5           LDRB     R1,[R1, #-1]
+   \   00000048   2B0051E3           CMP      R1,#+43
+   \   0000004C   0300001A           BNE      ??KeysProc_2
+    165            {
+    166              // Последний символ +, значит долгое нажатие
+    167              islong = 1;
+   \   00000050   0160A0E3           MOV      R6,#+1
+    168              name[nameLen - 1] = 0; // Убираем плюс
+   \   00000054   070080E0           ADD      R0,R0,R7
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   011040E5           STRB     R1,[R0, #-1]
+    169            }
+    170            
+    171            for(int cc=0; cc < KEYS_COUNT; cc++)
+   \                     ??KeysProc_2:
+   \   00000060   0080A0E3           MOV      R8,#+0
+   \   00000064   000000EA           B        ??KeysProc_3
+   \                     ??KeysProc_4:
+   \   00000068   018088E2           ADD      R8,R8,#+1
+   \                     ??KeysProc_3:
+   \   0000006C   170058E3           CMP      R8,#+23
+   \   00000070   F081BD28           POPCS    {R4-R8,PC}
+    172            {
+    173              if (strcmp(keynames[cc].name, name)==0)
+   \   00000074   ........           LDR      R0,??DataTable5  ;; keynames
+   \   00000078   0710A0E1           MOV      R1,R7
+   \   0000007C   880180E0           ADD      R0,R0,R8, LSL #+3
+   \   00000080   040090E5           LDR      R0,[R0, #+4]
+   \   00000084   590100EF           SWI      +345
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   F5FFFF1A           BNE      ??KeysProc_4
+    174              {
+    175                inkey = cc;
+    176                break;
+    177              }
+    178            }
+    179            if (inkey == -1) return;
+   \   00000090   010078E3           CMN      R8,#+1
+   \   00000094   F081BD08           POPEQ    {R4-R8,PC}
+    180            
+    181            for(int cc = 0; cc < sizeof(keyprocs) / sizeof(keyprocs[0]); cc++)
+   \   00000098   0070A0E3           MOV      R7,#+0
+   \   0000009C   000000EA           B        ??KeysProc_5
+   \                     ??KeysProc_6:
+   \   000000A0   017087E2           ADD      R7,R7,#+1
+   \                     ??KeysProc_5:
+   \   000000A4   270057E3           CMP      R7,#+39
+   \   000000A8   0900002A           BCS      ??KeysProc_7
+    182            {
+    183              if (strcmp(keyprocs[cc].name, value) == 0)
+   \   000000AC   ........           LDR      R0,??DataTable5  ;; keynames
+   \   000000B0   0410A0E1           MOV      R1,R4
+   \   000000B4   870180E0           ADD      R0,R0,R7, LSL #+3
+   \   000000B8   B80090E5           LDR      R0,[R0, #+184]
+   \   000000BC   590100EF           SWI      +345
+   \   000000C0   000050E3           CMP      R0,#+0
+   \   000000C4   F5FFFF1A           BNE      ??KeysProc_6
+    184              {
+    185                keyproc = keyprocs[cc].proc;
+   \   000000C8   ........           LDR      R0,??DataTable5  ;; keynames
+   \   000000CC   870180E0           ADD      R0,R0,R7, LSL #+3
+   \   000000D0   BC5090E5           LDR      R5,[R0, #+188]
+    186                break;
+    187              }
+    188            }
+    189            
+    190            if (islong)
+   \                     ??KeysProc_7:
+   \   000000D4   ........           LDR      R0,??DataTable12  ;; procmap
+   \   000000D8   000056E3           CMP      R6,#+0
+    191              procmapl[inkey] = keyproc;
+   \   000000DC   08018010           ADDNE    R0,R0,R8, LSL #+2
+   \   000000E0   5C508015           STRNE    R5,[R0, #+92]
+   \   000000E4   F081BD18           POPNE    {R4-R8,PC}
+    192            else
+    193              procmap[inkey] = keyproc;
+   \   000000E8   085180E7           STR      R5,[R0, +R8, LSL #+2]
+   \   000000EC   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??KeysProc_1:
+   \   000000F0   ........           DC32     ??DoErrKey
+    194          }
+    195          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    196          void InitializeKeyMap()
+    197          {
+    198            int k;
+    199            // Инициируем массив, 0xFF - значит нет такой клавиши
+    200            memset(keyMap, 0xFF, sizeof(keyMap));
+   \                     ??InitializeKeyMap:
+   \   00000000   74009FE5           LDR      R0,??InitializeKeyMap_1  ;; procmap + 184
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   FF10A0E3           MOV      R1,#+255
+   \   00000010   120100EF           SWI      +274
+    201            // Сохраняем индексы
+    202            for (int i = 0; i < (KEYS_COUNT-10); i++)
+   \   00000014   ........           LDR      R2,??DataTable9  ;; procmap
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   060000EA           B        ??InitializeKeyMap_2
+    203            {
+    204              k=*keynames[i].key;
+   \                     ??InitializeKeyMap_3:
+   \   00000020   ........           LDR      R1,??DataTable5  ;; keynames
+   \   00000024   801191E7           LDR      R1,[R1, +R0, LSL #+3]
+   \   00000028   001091E5           LDR      R1,[R1, #+0]
+    205              if (k<0xFF)
+   \   0000002C   FF0051E3           CMP      R1,#+255
+    206                keyMap[k] = i;
+   \   00000030   021081B0           ADDLT    R1,R1,R2
+   \   00000034   B800C1B5           STRBLT   R0,[R1, #+184]
+    207            }
+   \   00000038   010080E2           ADD      R0,R0,#+1
+   \                     ??InitializeKeyMap_2:
+   \   0000003C   0D0050E3           CMP      R0,#+13
+   \   00000040   F6FFFF3A           BCC      ??InitializeKeyMap_3
+    208            for (int i = 0; i < 10; i++)
+   \   00000044   0000A0E3           MOV      R0,#+0
+    209            {
+    210              k=KEY_DIGITAL_0+i;
+   \                     ??InitializeKeyMap_4:
+   \   00000048   30109FE5           LDR      R1,??InitializeKeyMap_1+0x4  ;; KEY_DIGITAL_0
+   \   0000004C   001091E5           LDR      R1,[R1, #+0]
+   \   00000050   011080E0           ADD      R1,R0,R1
+    211              if (k<0xFF)
+   \   00000054   FF0051E3           CMP      R1,#+255
+   \   00000058   030000AA           BGE      ??InitializeKeyMap_5
+    212                keyMap[k] = i+(KEYS_COUNT-10);
+   \   0000005C   ........           LDR      R2,??DataTable9  ;; procmap
+   \   00000060   021081E0           ADD      R1,R1,R2
+   \   00000064   0D2080E2           ADD      R2,R0,#+13
+   \   00000068   B820C1E5           STRB     R2,[R1, #+184]
+    213            }  
+   \                     ??InitializeKeyMap_5:
+   \   0000006C   010080E2           ADD      R0,R0,#+1
+   \   00000070   0A0050E3           CMP      R0,#+10
+   \   00000074   F3FFFFBA           BLT      ??InitializeKeyMap_4
+    214          }
+   \   00000078   0080BDE8           POP      {PC}             ;; return
+   \                     ??InitializeKeyMap_1:
+   \   0000007C   ........           DC32     procmap + 184
+   \   00000080   ........           DC32     KEY_DIGITAL_0
+    215          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    216          char GetKeynameIndexByKey(char key)
+    217          {
+    218            if (key >= 0xFF) return 0xFF;
+   \                     ??GetKeynameIndexByKey:
+   \   00000000   FF0050E3           CMP      R0,#+255
+   \   00000004   1EFF2F01           BXEQ     LR
+    219            else return keyMap[key];
+   \   00000008   ........           LDR      R1,??DataTable9  ;; procmap
+   \   0000000C   010080E0           ADD      R0,R0,R1
+   \   00000010   B800D0E5           LDRB     R0,[R0, #+184]
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+    220          }
+    221          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    222          KEY_PROC GetKeyprocByKey(char key)
+    223          {
+    224            char idx = GetKeynameIndexByKey(key);
+   \                     ??GetKeyprocByKey:
+   \   00000000   FF0050E3           CMP      R0,#+255
+   \   00000004   0500000A           BEQ      ??GetKeyprocByKey_1
+   \   00000008   ........           LDR      R1,??DataTable12  ;; procmap
+   \   0000000C   010080E0           ADD      R0,R0,R1
+   \   00000010   B800D0E5           LDRB     R0,[R0, #+184]
+    225            if (idx != 0xFF)
+   \   00000014   FF0050E3           CMP      R0,#+255
+    226              return procmap[idx];
+   \   00000018   00019117           LDRNE    R0,[R1, +R0, LSL #+2]
+   \   0000001C   1EFF2F11           BXNE     LR
+    227            else
+    228              return NULL;
+   \                     ??GetKeyprocByKey_1:
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   1EFF2FE1           BX       LR               ;; return
+    229          }
+    230          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    231          KEY_PROC GetKeyprocLongByKey(char key)
+    232          {
+    233            char idx = GetKeynameIndexByKey(key);
+   \                     ??GetKeyprocLongByKey:
+   \   00000000   FF0050E3           CMP      R0,#+255
+   \   00000004   0600000A           BEQ      ??GetKeyprocLongByKey_1
+   \   00000008   ........           LDR      R1,??DataTable9  ;; procmap
+   \   0000000C   010080E0           ADD      R0,R0,R1
+   \   00000010   B800D0E5           LDRB     R0,[R0, #+184]
+    234            if (idx != 0xFF)
+   \   00000014   FF0050E3           CMP      R0,#+255
+    235              return procmapl[idx];
+   \   00000018   00018110           ADDNE    R0,R1,R0, LSL #+2
+   \   0000001C   5C009015           LDRNE    R0,[R0, #+92]
+   \   00000020   1EFF2F11           BXNE     LR
+    236            else
+    237              return NULL;
+   \                     ??GetKeyprocLongByKey_1:
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   1EFF2FE1           BX       LR               ;; return
+    238          }
+    239          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    240          void DoKey(int isLongPress, int key)
+    241          {
+   \                     ??DoKey:
+   \   00000000   00402DE9           PUSH     {LR}
+    242            char idx = GetKeynameIndexByKey(key);
+   \   00000004   FF1001E2           AND      R1,R1,#0xFF
+   \   00000008   FF0051E3           CMP      R1,#+255
+   \   0000000C   0080BD08           POPEQ    {PC}
+   \   00000010   ........           LDR      R2,??DataTable12  ;; procmap
+   \   00000014   021081E0           ADD      R1,R1,R2
+   \   00000018   B810D1E5           LDRB     R1,[R1, #+184]
+    243            if (idx != 0xFF)
+   \   0000001C   FF0051E3           CMP      R1,#+255
+   \   00000020   0080BD08           POPEQ    {PC}
+    244            {
+    245              if (isLongPress)
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0700000A           BEQ      ??DoKey_1
+    246              {
+    247                if (procmapl[idx]) procmapl[idx]();
+   \   0000002C   010182E0           ADD      R0,R2,R1, LSL #+2
+   \   00000030   5C0090E5           LDR      R0,[R0, #+92]
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0080BD08           POPEQ    {PC}
+   \   0000003C   ........           LDR      R0,??DataTable12  ;; procmap
+   \   00000040   010180E0           ADD      R0,R0,R1, LSL #+2
+   \   00000044   5C0090E5           LDR      R0,[R0, #+92]
+   \   00000048   050000EA           B        ??DoKey_2
+    248              }
+    249              else
+    250              {
+    251                if (procmap[idx]) procmap[idx]();
+   \                     ??DoKey_1:
+   \   0000004C   0100A0E1           MOV      R0,R1
+   \   00000050   000192E7           LDR      R0,[R2, +R0, LSL #+2]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   0080BD08           POPEQ    {PC}
+   \   0000005C   ........           LDR      R0,??DataTable12  ;; procmap
+   \   00000060   010190E7           LDR      R0,[R0, +R1, LSL #+2]
+   \                     ??DoKey_2:
+   \   00000064   30FF2FE1           BLX      R0
+    252              }
+    253            }
+    254          }
+   \   00000068   0080BDE8           POP      {PC}             ;; return
+    255          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    256          void LoadKeys()
+    257          {
+    258            if (CONFIG_LOAD_KEYS)
+   \                     ??LoadKeys:
+   \   00000000   24009FE5           LDR      R0,??LoadKeys_1  ;; CONFIG_LOAD_KEYS
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0300000A           BEQ      ??LoadKeys_2
+    259              EnumIni(1,keys_file,KeysProc);
+   \   00000014   14209FE5           LDR      R2,??LoadKeys_1+0x4  ;; ??KeysProc
+   \   00000018   14109FE5           LDR      R1,??LoadKeys_1+0x8  ;; keys_file
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   ........           _BLF     ??EnumIni,??EnumIni??rA
+    260            InitializeKeyMap();
+   \                     ??LoadKeys_2:
+   \   00000024   0040BDE8           POP      {LR}             ;; Pop
+   \   00000028   ........           B        ??InitializeKeyMap  ;; tailcall
+   \                     ??LoadKeys_1:
+   \   0000002C   ........           DC32     CONFIG_LOAD_KEYS
+   \   00000030   ........           DC32     ??KeysProc
+   \   00000034   ........           DC32     keys_file
+    261          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     keynames
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     procmap
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable12:
+   \   00000000   ........           DC32     procmap
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for procmap>`:
+   \   00000000   000000000000       DC32 0H, 0H, 0H, ??DoUp, ??DoDwn, ??DoPrvDrv, ??DoNxtDrv, 0H, 0H
+   \              000000000000
+   \              ............
+   \              ............
+   \              ........0000
+   \              000000000000
+   \   00000024   ........0000       DC32 ??DoDel, 0H, 0H, 0H, ??DoChk, ??DoSwapTab, ??DoUp, ??DoPgUp
+   \              000000000000
+   \              00000000....
+   \              ............
+   \              ............
+   \              ....        
+   \   00000044   ............       DC32 ??DoPrvDrv, ??DoOpen, ??DoNxtDrv, 0H, ??DoDwn, ??DoPgDwn
+   \              ............
+   \              00000000....
+   \              ............
+   \                     `?<Initializer for procmapl>`:
+   \   0000005C   000000000000       DC32 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H, 0H
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \              0000        
+   \   000000A0   000000000000       DC32 0H, 0H, 0H, 0H, 0H, 0H
+   \              000000000000
+   \              000000000000
+   \              000000000000
+   \                     `?<Initializer for keyMap>`:
+   \   000000B8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000C8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000D8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000E8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000F8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000108   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000118   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000128   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000138   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000148   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000158   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000168   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000178   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000188   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000198   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000001A8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "enter">`:
+   \   00000000   656E74657200       DC8 "enter"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sortd">`:
+   \   00000000   736F72746400       DC8 "sortd"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sortr">`:
+   \   00000000   736F72747200       DC8 "sortr"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "setsort">`:
+   \   00000000   736574736F72       DC8 "setsort"
+   \              7400        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "tabcopy">`:
+   \   00000000   746162636F70       DC8 "tabcopy"
+   \              7900        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "tabmove">`:
+   \   00000000   7461626D6F76       DC8 "tabmove"
+   \              6500        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "lsoft">`:
+   \   00000000   6C736F667400       DC8 "lsoft"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "rsoft">`:
+   \   00000000   72736F667400       DC8 "rsoft"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "esc">`:
+   \   00000000   65736300           DC8 "esc"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "up">`:
+   \   00000000   757000             DC8 "up"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "down">`:
+   \   00000000   646F776E00         DC8 "down"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "left">`:
+   \   00000000   6C65667400         DC8 "left"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "right">`:
+   \   00000000   726967687400       DC8 "right"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "volup">`:
+   \   00000000   766F6C757000       DC8 "volup"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "voldown">`:
+   \   00000000   766F6C646F77       DC8 "voldown"
+   \              6E00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "del">`:
+   \   00000000   64656C00           DC8 "del"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sysopen">`:
+   \   00000000   7379736F7065       DC8 "sysopen"
+   \              6E00        
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "*">`:
+   \   00000000   2A00               DC8 "*"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "#">`:
+   \   00000000   2300               DC8 "#"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "0">`:
+   \   00000000   3000               DC8 "0"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "1">`:
+   \   00000000   3100               DC8 "1"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "2">`:
+   \   00000000   3200               DC8 "2"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "3">`:
+   \   00000000   3300               DC8 "3"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "4">`:
+   \   00000000   3400               DC8 "4"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "5">`:
+   \   00000000   3500               DC8 "5"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "6">`:
+   \   00000000   3600               DC8 "6"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "7">`:
+   \   00000000   3700               DC8 "7"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "8">`:
+   \   00000000   3800               DC8 "8"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "9">`:
+   \   00000000   3900               DC8 "9"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "none">`:
+   \   00000000   6E6F6E6500         DC8 "none"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "open">`:
+   \   00000000   6F70656E00         DC8 "open"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "back">`:
+   \   00000000   6261636B00         DC8 "back"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "rename">`:
+   \   00000000   72656E616D65       DC8 "rename"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "past">`:
+   \   00000000   7061737400         DC8 "past"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "copy">`:
+   \   00000000   636F707900         DC8 "copy"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "move">`:
+   \   00000000   6D6F766500         DC8 "move"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "cancel">`:
+   \   00000000   63616E63656C       DC8 "cancel"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "newdir">`:
+   \   00000000   6E6577646972       DC8 "newdir"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "menu">`:
+   \   00000000   6D656E7500         DC8 "menu"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "swaptab">`:
+   \   00000000   737761707461       DC8 "swaptab"
+   \              6200        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "prvdrv">`:
+   \   00000000   707276647276       DC8 "prvdrv"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "nxtdrv">`:
+   \   00000000   6E7874647276       DC8 "nxtdrv"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "invchk">`:
+   \   00000000   696E7663686B       DC8 "invchk"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "chk">`:
+   \   00000000   63686B00           DC8 "chk"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "chkall">`:
+   \   00000000   63686B616C6C       DC8 "chkall"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "unchall">`:
+   \   00000000   756E6368616C       DC8 "unchall"
+   \              6C00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "dwn">`:
+   \   00000000   64776E00           DC8 "dwn"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "pgup">`:
+   \   00000000   7067757000         DC8 "pgup"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "pgdn">`:
+   \   00000000   7067646E00         DC8 "pgdn"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "bmlist">`:
+   \   00000000   626D6C697374       DC8 "bmlist"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "bmadd">`:
+   \   00000000   626D61646400       DC8 "bmadd"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "filter">`:
+   \   00000000   66696C746572       DC8 "filter"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "refresh">`:
+   \   00000000   726566726573       DC8 "refresh"
+   \              6800        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "root">`:
+   \   00000000   726F6F7400         DC8 "root"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "exit">`:
+   \   00000000   6578697400         DC8 "exit"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "showpath">`:
+   \   00000000   73686F777061       DC8 "showpath"
+   \              746800      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "begin">`:
+   \   00000000   626567696E00       DC8 "begin"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sortn">`:
+   \   00000000   736F72746E00       DC8 "sortn"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sorte">`:
+   \   00000000   736F72746500       DC8 "sorte"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sorts">`:
+   \   00000000   736F72747300       DC8 "sorts"
+   \   00000006   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                      CSTACK
+     --------                      ------
+     DoKey(int, int)                   4
+     GetKeynameIndexByKey(char)        0
+     GetKeyprocByKey(char)             0
+     GetKeyprocLongByKey(char)         0
+     InitializeKeyMap()                4
+     KeysProc(char *, char *, int)    24
+     LoadKeys()                        4
+
+
+   Segment part sizes:
+
+     Function/Label                Bytes
+     --------------                -----
+     keys_file                       24
+     procmap                        440
+     keynames                       496
+     KeysProc(char *, char *, int)  244
+     InitializeKeyMap()             132
+     GetKeynameIndexByKey(char)      24
+     GetKeyprocByKey(char)           40
+     GetKeyprocLongByKey(char)       44
+     DoKey(int, int)                108
+     LoadKeys()                      56
+     ??DataTable5                     4
+     ??DataTable9                     4
+     ??DataTable12                    4
+     ?<Initializer for procmap>     440
+     ?<Constant "enter">              8
+     ?<Constant "sortd">              8
+     ?<Constant "sortr">              8
+     ?<Constant "setsort">            8
+     ?<Constant "tabcopy">            8
+     ?<Constant "tabmove">            8
+     ?<Constant "lsoft">              8
+     ?<Constant "rsoft">              8
+     ?<Constant "esc">                4
+     ?<Constant "up">                 3
+     ?<Constant "down">               8
+     ?<Constant "left">               8
+     ?<Constant "right">              8
+     ?<Constant "volup">              8
+     ?<Constant "voldown">            8
+     ?<Constant "del">                4
+     ?<Constant "sysopen">            8
+     ?<Constant "*">                  2
+     ?<Constant "#">                  2
+     ?<Constant "0">                  2
+     ?<Constant "1">                  2
+     ?<Constant "2">                  2
+     ?<Constant "3">                  2
+     ?<Constant "4">                  2
+     ?<Constant "5">                  2
+     ?<Constant "6">                  2
+     ?<Constant "7">                  2
+     ?<Constant "8">                  2
+     ?<Constant "9">                  2
+     ?<Constant "none">               8
+     ?<Constant "open">               8
+     ?<Constant "back">               8
+     ?<Constant "rename">             8
+     ?<Constant "past">               8
+     ?<Constant "copy">               8
+     ?<Constant "move">               8
+     ?<Constant "cancel">             8
+     ?<Constant "newdir">             8
+     ?<Constant "menu">               8
+     ?<Constant "swaptab">            8
+     ?<Constant "prvdrv">             8
+     ?<Constant "nxtdrv">             8
+     ?<Constant "invchk">             8
+     ?<Constant "chk">                4
+     ?<Constant "chkall">             8
+     ?<Constant "unchall">            8
+     ?<Constant "dwn">                4
+     ?<Constant "pgup">               8
+     ?<Constant "pgdn">               8
+     ?<Constant "bmlist">             8
+     ?<Constant "bmadd">              8
+     ?<Constant "filter">             8
+     ?<Constant "refresh">            8
+     ?<Constant "root">               8
+     ?<Constant "exit">               8
+     ?<Constant "showpath">          12
+     ?<Constant "begin">              8
+     ?<Constant "sortn">              8
+     ?<Constant "sorte">              8
+     ?<Constant "sorts">              8
+      Others                         64
+
+ 
+ 712 bytes in segment CODE
+ 911 bytes in segment DATA_C
+ 440 bytes in segment DATA_I
+ 440 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+   660 bytes of CODE  memory (+ 64 bytes shared)
+ 1 351 bytes of CONST memory
+   440 bytes of DATA  memory
+
+Errors: none
+Warnings: none

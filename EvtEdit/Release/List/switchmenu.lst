@@ -1,0 +1,383 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:56:19 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\switch #
+#                       menu.cpp                                             #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\switch #
+#                       menu.cpp -D NDEBUG -D OLDFUNCTIONS -lC               #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Ev #
+#                       tEdit\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\EvtEdit\Release\Obj\ -s9 --cpu_mode arm     #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --enable_multibytes --fpu None        #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\switchmenu.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\Obj\switchmenu.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\switchmenu.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "header\pages.h"
+      6          #include "header\externals.h"
+      7          #include "header\lng.h"
+      8          
+      9          extern const PAGE_DESC bk_Switch;
+     10          extern int indic_last;
+     11          
+     12          int isEvtEditBook(BOOK * struc);
+     13          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     14          void kill_switchlst(MyBOOK *mbk)
+     15          {
+   \                     ??kill_switchlst:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     16            if (mbk->switch_lst)
+   \   00000008   B40094E5           LDR      R0,[R4, #+180]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   040000EA           B        ??kill_switchlst_1
+     17            {
+     18              while (mbk->switch_lst->FirstFree)
+     19              {
+     20                wchar_t* str=(wchar_t*)List_RemoveAt(mbk->switch_lst,0);
+   \                     ??kill_switchlst_2:
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   790100EF           SWI      +377
+     21                DELETE(str);
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0000000A           BEQ      ??kill_switchlst_1
+   \   00000028   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     22              }
+   \                     ??kill_switchlst_1:
+   \   0000002C   B40094E5           LDR      R0,[R4, #+180]
+   \   00000030   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000034   000051E3           CMP      R1,#+0
+   \   00000038   F6FFFF1A           BNE      ??kill_switchlst_2
+     23              List_Destroy(mbk->switch_lst);
+   \   0000003C   6A0100EF           SWI      +362
+     24              mbk->switch_lst=0;
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   B40084E5           STR      R0,[R4, #+180]
+     25            }
+     26          };
+   \   00000048   1080BDE8           POP      {R4,PC}          ;; return
+     27          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          int Switch_onLBMessage(GUI_MESSAGE * msg)
+     29          {
+   \                     ??Switch_onLBMessage:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     30            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   0E00001A           BNE      ??Switch_onLBMessage_1
+     31            {
+     32            case 1:
+     33              MyBOOK *mbk=(MyBOOK*)FindBook(isEvtEditBook);
+   \   00000014   3C009FE5           LDR      R0,??Switch_onLBMessage_2  ;; ??isEvtEditBook
+   \   00000018   300100EF           SWI      +304
+   \   0000001C   0050A0E1           MOV      R5,R0
+     34              int item=GUIonMessage_GetCreatedItemIndex(msg);
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   370100EF           SWI      +311
+     35              wchar_t* str=(wchar_t *)List_Get(mbk->switch_lst,item);
+   \   00000028   0010A0E1           MOV      R1,R0
+   \   0000002C   B40095E5           LDR      R0,[R5, #+180]
+   \   00000030   AD0100EF           SWI      +429
+     36              GUIonMessage_SetMenuItemText(msg,TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000034   FF20A0E3           MOV      R2,#+255
+   \   00000038   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   5D0100EF           SWI      +349
+   \   00000044   0010A0E1           MOV      R1,R0
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   380100EF           SWI      +312
+     37              break;
+     38            }
+     39            return(1);
+   \                     ??Switch_onLBMessage_1:
+   \   00000050   0100A0E3           MOV      R0,#+1
+   \   00000054   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Switch_onLBMessage_2:
+   \   00000058   ........           DC32     ??isEvtEditBook
+     40          };
+     41          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     42          void Switch_OnSelect(BOOK *bk, GUI* )
+     43          {
+   \                     ??Switch_OnSelect:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     44            MyBOOK *mbk=(MyBOOK*)bk;
+     45            int item=ListMenu_GetSelectedItem(mbk->switch_gui);
+   \   00000008   B00094E5           LDR      R0,[R4, #+176]
+   \   0000000C   3E0100EF           SWI      +318
+   \   00000010   0050A0E1           MOV      R5,R0
+     46            DELETE(mbk->selev->param);
+   \   00000014   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000018   340090E5           LDR      R0,[R0, #+52]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0500000A           BEQ      ??Switch_OnSelect_1
+   \   00000024   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000028   340090E5           LDR      R0,[R0, #+52]
+   \   0000002C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000030   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   341080E5           STR      R1,[R0, #+52]
+     47            mbk->selev->param=new wchar_t[2];
+   \                     ??Switch_OnSelect_1:
+   \   0000003C   0400A0E3           MOV      R0,#+4
+   \   00000040   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000044   1C1094E5           LDR      R1,[R4, #+28]
+     48            snwprintf(mbk->selev->param,1,L"%d", item);
+   \   00000048   24209FE5           LDR      R2,??Switch_OnSelect_2  ;; `?<Constant L"\\x25\\x64">`
+   \   0000004C   340081E5           STR      R0,[R1, #+52]
+   \   00000050   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000054   0530A0E1           MOV      R3,R5
+   \   00000058   340090E5           LDR      R0,[R0, #+52]
+   \   0000005C   0110A0E3           MOV      R1,#+1
+   \   00000060   150100EF           SWI      +277
+     49            BookObj_CallPage(bk,&bk_main);
+   \   00000064   0C109FE5           LDR      R1,??Switch_OnSelect_2+0x4  ;; bk_main
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   B80200EF           SWI      +696
+     50          };
+   \   00000070   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Switch_OnSelect_2:
+   \   00000074   ........           DC32     `?<Constant L"\\x25\\x64">`
+   \   00000078   ........           DC32     bk_main
+
+   \                                 In segment CODE, align 4, keep-with-next
+     51          void Switch_OnBack(BOOK * bk, GUI* )
+     52          {
+     53            indic_last=0;
+   \                     ??Switch_OnBack:
+   \   00000000   18109FE5           LDR      R1,??Switch_OnBack_1  ;; indic_last
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   002081E5           STR      R2,[R1, #+0]
+     54            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \   00000010   0C109FE5           LDR      R1,??Switch_OnBack_1+0x4  ;; PREVIOUS_EVENT
+   \   00000014   001091E5           LDR      R1,[R1, #+0]
+   \   00000018   2E0100EF           SWI      +302
+     55          };
+   \   0000001C   0080BDE8           POP      {PC}             ;; return
+   \                     ??Switch_OnBack_1:
+   \   00000020   ........           DC32     indic_last
+   \   00000024   ........           DC32     PREVIOUS_EVENT
+     56          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     57          GUI_LIST * CreateSwitchList(BOOK * book, int cnt)
+     58          {
+   \                     ??CreateSwitchList:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     59            GUI_LIST * lo=0;
+     60            if (lo=CreateListMenu(book,0))
+   \   00000008   0010A0E3           MOV      R1,#+0
+   \   0000000C   C00100EF           SWI      +448
+   \   00000010   0050B0E1           MOVS     R5,R0
+   \   00000014   1800000A           BEQ      ??CreateSwitchList_1
+     61            {
+     62              ListMenu_SetItemCount(lo, cnt);
+   \   00000018   0410A0E1           MOV      R1,R4
+   \   0000001C   C10100EF           SWI      +449
+     63              ListMenu_SetCursorToItem(lo,0);
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   0500A0E1           MOV      R0,R5
+   \   00000028   350100EF           SWI      +309
+     64              ListMenu_SetOnMessage(lo,Switch_onLBMessage);
+   \   0000002C   50109FE5           LDR      R1,??CreateSwitchList_2  ;; ??Switch_onLBMessage
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   740100EF           SWI      +372
+     65              ListMenu_SetItemStyle(lo,3);
+   \   00000038   0310A0E3           MOV      R1,#+3
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   3F0100EF           SWI      +319
+     66              GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, Switch_OnBack);
+   \   00000044   3C009FE5           LDR      R0,??CreateSwitchList_2+0x4  ;; ACTION_BACK
+   \   00000048   3C209FE5           LDR      R2,??CreateSwitchList_2+0x8  ;; ??Switch_OnBack
+   \   0000004C   001090E5           LDR      R1,[R0, #+0]
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000058   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000005C   4B0100EF           SWI      +331
+     67              GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,Switch_OnSelect);
+   \   00000060   28009FE5           LDR      R0,??CreateSwitchList_2+0xC  ;; ACTION_SELECT1
+   \   00000064   28209FE5           LDR      R2,??CreateSwitchList_2+0x10  ;; ??Switch_OnSelect
+   \   00000068   001090E5           LDR      R1,[R0, #+0]
+   \   0000006C   0500A0E1           MOV      R0,R5
+   \   00000070   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000074   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000078   4B0100EF           SWI      +331
+     68            }
+     69            return(lo);
+   \                     ??CreateSwitchList_1:
+   \   0000007C   0500A0E1           MOV      R0,R5
+   \   00000080   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??CreateSwitchList_2:
+   \   00000084   ........           DC32     ??Switch_onLBMessage
+   \   00000088   ........           DC32     ACTION_BACK
+   \   0000008C   ........           DC32     ??Switch_OnBack
+   \   00000090   ........           DC32     ACTION_SELECT1
+   \   00000094   ........           DC32     ??Switch_OnSelect
+     70          };
+     71          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     72          static int SwitchPage_OnEnter(void *,BOOK * bk)
+     73          {
+   \                     ??SwitchPage_OnEnter:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     74            MyBOOK *mbk=(MyBOOK*)bk;
+     75            mbk->switch_gui=CreateSwitchList(bk, mbk->switch_lst->FirstFree);
+   \   00000008   B40094E5           LDR      R0,[R4, #+180]
+   \   0000000C   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   ........           BL       ??CreateSwitchList
+   \   00000018   B00084E5           STR      R0,[R4, #+176]
+     76            GUIObject_SetTitleText(mbk->switch_gui, TextID_Create(lng[CHOOSE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   0000001C   2C009FE5           LDR      R0,??SwitchPage_OnEnter_1  ;; lng + 248
+   \   00000020   FF20A0E3           MOV      R2,#+255
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   5D0100EF           SWI      +349
+   \   00000034   0010A0E1           MOV      R1,R0
+   \   00000038   B00094E5           LDR      R0,[R4, #+176]
+   \   0000003C   330100EF           SWI      +307
+     77            GUIObject_Show(mbk->switch_gui);
+   \   00000040   B00094E5           LDR      R0,[R4, #+176]
+   \   00000044   340100EF           SWI      +308
+     78            return 1;
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??SwitchPage_OnEnter_1:
+   \   00000050   ........           DC32     lng + 248
+     79          };
+     80          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     81          static int SwitchPage_OnExit(void *, BOOK * bk)
+     82          {
+   \                     ??SwitchPage_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     83            MyBOOK *mbk=(MyBOOK *)bk;
+     84            kill_switchlst(mbk);
+   \   00000008   0400A0E1           MOV      R0,R4
+   \   0000000C   ........           BL       ??kill_switchlst
+     85            FREE_GUI(mbk->switch_gui);
+   \   00000010   B00094E5           LDR      R0,[R4, #+176]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100000A           BEQ      ??SwitchPage_OnExit_1
+   \   0000001C   CE0100EF           SWI      +462
+   \   00000020   B00084E5           STR      R0,[R4, #+176]
+     86            return 1;  
+   \                     ??SwitchPage_OnExit_1:
+   \   00000024   0100A0E3           MOV      R0,#+1
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     87          };
+     88          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+     89          const PAGE_MSG bk_msglst_Switch[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_Switch:
+   \   00000000   42000000....       DC32 66, ??SwitchPage_OnEnter, 67, ??SwitchPage_OnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+     90          {
+     91            PAGE_ENTER_EVENT_TAG,    SwitchPage_OnEnter,
+     92            PAGE_EXIT_EVENT_TAG,     SwitchPage_OnExit,
+     93            NIL_EVENT_TAG,           NULL
+     94          };
+     95          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     96          const PAGE_DESC bk_Switch = {"EvtEdit_SwitchMenu_Page",0,bk_msglst_Switch};
+   \                     bk_Switch:
+   \   00000000   ........0000       DC32 `?<Constant "EvtEdit_SwitchMenu_Page">`, 0H, bk_msglst_Switch
+   \              0000........
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtEdit_SwitchMenu_Page">`:
+   \   00000000   457674456469       DC8 "EvtEdit_SwitchMenu_Page"
+   \              745F53776974
+   \              63684D656E75
+   \              5F5061676500
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x64">`:
+   \   00000000   250064000000       DC8 25H, 0, 64H, 0, 0, 0
+   \   00000006   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateSwitchList(BOOK *, int)     12
+     SwitchPage_OnEnter(void *, BOOK *)
+                                        8
+     SwitchPage_OnExit(void *, BOOK *)
+                                        8
+     Switch_OnBack(BOOK *, GUI *)       4
+     Switch_OnSelect(BOOK *, GUI *)    12
+     Switch_onLBMessage(GUI_MESSAGE *)
+                                       12
+     kill_switchlst(MyBOOK *)           8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     kill_switchlst(MyBOOK *)         76
+     Switch_onLBMessage(GUI_MESSAGE *)
+                                      92
+     Switch_OnSelect(BOOK *, GUI *)  124
+     Switch_OnBack(BOOK *, GUI *)     40
+     CreateSwitchList(BOOK *, int)   152
+     SwitchPage_OnEnter(void *, BOOK *)
+                                      84
+     SwitchPage_OnExit(void *, BOOK *)
+                                      44
+     bk_msglst_Switch                 24
+     bk_Switch                        12
+     ?<Constant "EvtEdit_SwitchMenu_Page">
+                                      24
+     ?<Constant L"\x25\x64">           8
+      Others                          52
+
+ 
+ 664 bytes in segment CODE
+  44 bytes in segment DATA_C
+  24 bytes in segment DYN_PAGE
+ 
+ 612 bytes of CODE  memory (+ 52 bytes shared)
+  68 bytes of CONST memory
+
+Errors: none
+Warnings: none

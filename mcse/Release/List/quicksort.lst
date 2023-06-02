@@ -1,0 +1,341 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:48:02 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\quicksort #
+#                       .cpp                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\quicksort #
+#                       .cpp -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\quicksort.lst                                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\quicksort.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\quicksort.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\mui.h"
+      3          #include "inc\sort.h"
+      4          
+      5          #define MAXSTACK 2048		// максимальный размер стека
+      6          #define SWAP(x, y) { void* t = a[x]; a[x] = a[y]; a[y] = t;  }
+      7          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          void quickSort(void** a, long size, IsGreaterFunc gt)
+      9          {
+   \                     ??quickSort:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   0CD04DE2           SUB      SP,SP,#+12
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0170A0E1           MOV      R7,R1
+   \   00000010   0250A0E1           MOV      R5,R2
+     10          
+     11          	long i, j;   		// указатели, участвующие в разделении
+     12          	long lb, ub;  		// границы сортируемого в цикле фрагмента
+     13          	long* lbstack = new long[MAXSTACK];
+   \   00000014   800DA0E3           MOV      R0,#+8192
+   \   00000018   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000001C   00008DE5           STR      R0,[SP, #+0]
+     14          	if (!lbstack)
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0600000A           BEQ      ??quickSort_1
+     15          	{
+     16          		MsgBoxError(muitxt(ind_err_nomemory));
+     17          		return;
+     18          	}
+     19          	long* ubstack = new long[MAXSTACK]; // стек запросов
+   \   00000028   800DA0E3           MOV      R0,#+8192
+   \   0000002C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000030   04008DE5           STR      R0,[SP, #+4]
+     20          	if (!ubstack)
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0500001A           BNE      ??quickSort_2
+     21          	{
+     22          		delete (lbstack);
+   \   0000003C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000040   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     23          		MsgBoxError(muitxt(ind_err_nomemory));
+   \                     ??quickSort_1:
+   \   00000044   5700A0E3           MOV      R0,#+87
+   \   00000048   ........           _BLF     ??muitxt,??muitxt??rA
+   \   0000004C   ........           _BLF     ??MsgBoxError,??MsgBoxError??rA
+     24          		return;
+   \   00000050   F78FBDE8           POP      {R0-R2,R4-R11,PC}
+     25          	}
+     26          	// каждый запрос задается парой значений,
+     27          	// а именно: левой(lbstack) и правой(ubstack) 
+     28          	// границами промежутка
+     29          	long stackpos = 1;   	// текущая позиция стека
+     30          	long ppos;			// середина массива
+     31          	void* pivot;		  // опорный элемент
+     32          
+     33          	lbstack[1] = 0;
+   \                     ??quickSort_2:
+   \   00000054   00009DE5           LDR      R0,[SP, #+0]
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   041080E5           STR      R1,[R0, #+4]
+     34          	ubstack[1] = size-1;
+   \   00000060   04009DE5           LDR      R0,[SP, #+4]
+   \   00000064   0160A0E3           MOV      R6,#+1
+   \   00000068   011047E2           SUB      R1,R7,#+1
+   \   0000006C   041080E5           STR      R1,[R0, #+4]
+     35          
+     36          	do
+     37          	{
+     38          		// Взять границы lb и ub текущего массива из стека.
+     39          		lb = lbstack[stackpos];
+   \                     ??quickSort_3:
+   \   00000070   00009DE5           LDR      R0,[SP, #+0]
+   \   00000074   067190E7           LDR      R7,[R0, +R6, LSL #+2]
+     40          		ub = ubstack[stackpos];
+   \   00000078   04009DE5           LDR      R0,[SP, #+4]
+   \   0000007C   068190E7           LDR      R8,[R0, +R6, LSL #+2]
+     41          		stackpos--;
+   \   00000080   016046E2           SUB      R6,R6,#+1
+     42          
+     43          		do
+     44          		{
+     45          			// Шаг 1. Разделение по элементу pivot
+     46          			ppos = ( lb + ub ) >> 1;
+   \                     ??quickSort_4:
+   \   00000084   071088E0           ADD      R1,R8,R7
+   \   00000088   C110A0E1           ASR      R1,R1,#+1
+   \   0000008C   08108DE5           STR      R1,[SP, #+8]
+     47          			i = lb; j = ub; pivot = a[ppos];
+   \   00000090   07A0A0E1           MOV      R10,R7
+   \   00000094   08B0A0E1           MOV      R11,R8
+   \   00000098   0100A0E1           MOV      R0,R1
+   \   0000009C   009194E7           LDR      R9,[R4, +R0, LSL #+2]
+     48          
+     49          			do
+     50          			{
+     51          				while (gt(pivot, a[i])) i++;
+   \                     ??quickSort_5:
+   \   000000A0   0A1194E7           LDR      R1,[R4, +R10, LSL #+2]
+   \   000000A4   0900A0E1           MOV      R0,R9
+   \   000000A8   0520A0E1           MOV      R2,R5
+   \   000000AC   32FF2FE1           BLX      R2
+   \   000000B0   000050E3           CMP      R0,#+0
+   \   000000B4   0200000A           BEQ      ??quickSort_6
+   \   000000B8   01A08AE2           ADD      R10,R10,#+1
+   \   000000BC   F7FFFFEA           B        ??quickSort_5
+     52          				while (gt(a[j], pivot)) j--;
+   \                     ??quickSort_7:
+   \   000000C0   01B04BE2           SUB      R11,R11,#+1
+   \                     ??quickSort_6:
+   \   000000C4   0B0194E7           LDR      R0,[R4, +R11, LSL #+2]
+   \   000000C8   0910A0E1           MOV      R1,R9
+   \   000000CC   0520A0E1           MOV      R2,R5
+   \   000000D0   32FF2FE1           BLX      R2
+   \   000000D4   000050E3           CMP      R0,#+0
+   \   000000D8   F8FFFF1A           BNE      ??quickSort_7
+     53          
+     54          				if (i <= j)
+   \   000000DC   0A005BE1           CMP      R11,R10
+   \   000000E0   050000BA           BLT      ??quickSort_8
+     55          				{
+     56          					SWAP(i, j);
+   \   000000E4   0A0194E7           LDR      R0,[R4, +R10, LSL #+2]
+   \   000000E8   0B1194E7           LDR      R1,[R4, +R11, LSL #+2]
+   \   000000EC   0A1184E7           STR      R1,[R4, +R10, LSL #+2]
+   \   000000F0   0B0184E7           STR      R0,[R4, +R11, LSL #+2]
+     57          					i++; j--;
+   \   000000F4   01A08AE2           ADD      R10,R10,#+1
+   \   000000F8   01B04BE2           SUB      R11,R11,#+1
+     58          				}
+     59          			}
+     60          			while ( i <= j );
+   \                     ??quickSort_8:
+   \   000000FC   0A005BE1           CMP      R11,R10
+   \   00000100   E6FFFFAA           BGE      ??quickSort_5
+     61          
+     62          			// Сейчас указатель i указывает на начало правого подмассива,
+     63          			// j - на конец левого (см. иллюстрацию выше), lb ? j ? i ? ub.
+     64          			// Возможен случай, когда указатель i или j выходит за границу массива
+     65          
+     66          			// Шаги 2, 3. Отправляем большую часть в стек  и двигаем lb,ub
+     67          
+     68          			if (i < ppos) // правая часть больше
+   \   00000104   08009DE5           LDR      R0,[SP, #+8]
+   \   00000108   00005AE1           CMP      R10,R0
+   \   0000010C   080000AA           BGE      ??quickSort_9
+     69          			{	 
+     70          				if (i < ub) //  если в ней больше 1 элемента - нужно 
+   \   00000110   08005AE1           CMP      R10,R8
+   \   00000114   040000AA           BGE      ??quickSort_10
+     71          				{	 
+     72          					stackpos++;	   //  сортировать, запрос в стек
+     73          					lbstack[stackpos] = i;
+   \   00000118   00009DE5           LDR      R0,[SP, #+0]
+   \   0000011C   016086E2           ADD      R6,R6,#+1
+   \   00000120   06A180E7           STR      R10,[R0, +R6, LSL #+2]
+     74          					ubstack[stackpos] = ub;
+   \   00000124   04009DE5           LDR      R0,[SP, #+4]
+   \   00000128   068180E7           STR      R8,[R0, +R6, LSL #+2]
+     75          				}
+     76          				ub = j;			 //  следующая итерация разделения
+   \                     ??quickSort_10:
+   \   0000012C   0B80A0E1           MOV      R8,R11
+   \   00000130   070000EA           B        ??quickSort_11
+     77          				//  будет работать с левой частью
+     78          			}
+     79          			else // левая часть больше
+     80          			{	   		
+     81          				if ( j > lb )
+   \                     ??quickSort_9:
+   \   00000134   0B0057E1           CMP      R7,R11
+   \   00000138   040000AA           BGE      ??quickSort_12
+     82          				{ 
+     83          					stackpos++;
+     84          					lbstack[stackpos] = lb;
+   \   0000013C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000140   016086E2           ADD      R6,R6,#+1
+   \   00000144   067180E7           STR      R7,[R0, +R6, LSL #+2]
+     85          					ubstack[stackpos] = j;
+   \   00000148   04009DE5           LDR      R0,[SP, #+4]
+   \   0000014C   06B180E7           STR      R11,[R0, +R6, LSL #+2]
+     86          				}
+     87          				lb = i;
+   \                     ??quickSort_12:
+   \   00000150   0A70A0E1           MOV      R7,R10
+     88          			}
+     89          
+     90          		}
+     91          		while (lb < ub);		// пока в меньшей части более 1 элемента
+   \                     ??quickSort_11:
+   \   00000154   080057E1           CMP      R7,R8
+   \   00000158   C9FFFFBA           BLT      ??quickSort_4
+     92          	}
+     93          	while (stackpos != 0);	// пока есть запросы в стеке
+   \   0000015C   000056E3           CMP      R6,#+0
+   \   00000160   C2FFFF1A           BNE      ??quickSort_3
+     94          	
+     95          	delete (ubstack);
+   \   00000164   04009DE5           LDR      R0,[SP, #+4]
+   \   00000168   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     96          	delete (lbstack);
+   \   0000016C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000170   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     97          }
+   \   00000174   F78FBDE8           POP      {R0-R2,R4-R11,PC}  ;; return
+     98          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     99          void quickSort1(void** a, long size, IsGreaterFunc gt)
+    100          {
+   \                     ??quickSort1:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+    101            long i = 0, j = size - 1; // начальные значения
+   \   00000010   0070A0E3           MOV      R7,#+0
+   \   00000014   018045E2           SUB      R8,R5,#+1
+    102            void *temp;
+    103            void *p = a[ size>>1 ]; // выбираем середину
+   \   00000018   C500A0E1           ASR      R0,R5,#+1
+   \   0000001C   009194E7           LDR      R9,[R4, +R0, LSL #+2]
+    104            // процедура разделения
+    105            do {
+    106              while (gt(p,a[i])) i++;
+   \                     ??quickSort1_1:
+   \   00000020   071194E7           LDR      R1,[R4, +R7, LSL #+2]
+   \   00000024   0900A0E1           MOV      R0,R9
+   \   00000028   0620A0E1           MOV      R2,R6
+   \   0000002C   32FF2FE1           BLX      R2
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0200000A           BEQ      ??quickSort1_2
+   \   00000038   017087E2           ADD      R7,R7,#+1
+   \   0000003C   F7FFFFEA           B        ??quickSort1_1
+    107              while (gt(a[j],p)) j--;
+   \                     ??quickSort1_3:
+   \   00000040   018048E2           SUB      R8,R8,#+1
+   \                     ??quickSort1_2:
+   \   00000044   080194E7           LDR      R0,[R4, +R8, LSL #+2]
+   \   00000048   0910A0E1           MOV      R1,R9
+   \   0000004C   0620A0E1           MOV      R2,R6
+   \   00000050   32FF2FE1           BLX      R2
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   F8FFFF1A           BNE      ??quickSort1_3
+    108              
+    109              if (i <= j) {
+   \   0000005C   070058E1           CMP      R8,R7
+   \   00000060   050000BA           BLT      ??quickSort1_4
+    110                SWAP(i, j);
+   \   00000064   070194E7           LDR      R0,[R4, +R7, LSL #+2]
+   \   00000068   081194E7           LDR      R1,[R4, +R8, LSL #+2]
+   \   0000006C   071184E7           STR      R1,[R4, +R7, LSL #+2]
+   \   00000070   080184E7           STR      R0,[R4, +R8, LSL #+2]
+    111                i++; j--;
+   \   00000074   017087E2           ADD      R7,R7,#+1
+   \   00000078   018048E2           SUB      R8,R8,#+1
+    112              }
+    113            } while (i <= j);
+   \                     ??quickSort1_4:
+   \   0000007C   070058E1           CMP      R8,R7
+   \   00000080   E6FFFFAA           BGE      ??quickSort1_1
+    114            
+    115            // рекурсивные вызовы, если есть, что сортировать
+    116            if ( j > 0 ) quickSort(a, j,gt);
+   \   00000084   010058E3           CMP      R8,#+1
+   \   00000088   030000BA           BLT      ??quickSort1_5
+   \   0000008C   0620A0E1           MOV      R2,R6
+   \   00000090   0810A0E1           MOV      R1,R8
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   ........           BL       ??quickSort
+    117            if ( size > i ) quickSort(a+i, size-i,gt);
+   \                     ??quickSort1_5:
+   \   0000009C   050057E1           CMP      R7,R5
+   \   000000A0   F083BDA8           POPGE    {R4-R9,PC}
+   \   000000A4   0620A0E1           MOV      R2,R6
+   \   000000A8   071045E0           SUB      R1,R5,R7
+   \   000000AC   070184E0           ADD      R0,R4,R7, LSL #+2
+   \   000000B0   ........           BL       ??quickSort
+    118          }
+   \   000000B4   F083BDE8           POP      {R4-R9,PC}       ;; return
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     quickSort(void **, long, IsGreaterFunc)
+                                       48
+     quickSort1(void **, long, IsGreaterFunc)
+                                       28
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     quickSort(void **, long, IsGreaterFunc)
+                                     376
+     quickSort1(void **, long, IsGreaterFunc)
+                                     184
+      Others                          56
+
+ 
+ 616 bytes in segment CODE
+ 
+ 560 bytes of CODE memory (+ 56 bytes shared)
+
+Errors: none
+Warnings: 2

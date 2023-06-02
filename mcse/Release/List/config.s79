@@ -1,0 +1,474 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:46:36 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\config.c /
+//                       pp                                                  /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\config.c /
+//                       pp -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN        /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcs /
+//                       e\Release\List\ -o Z:\home\perk11\www\perk11.info\s /
+//                       vn\SE\mcse\Release\Obj\ -s9 --no_unroll             /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h --preinclude Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\mcse\..\deleaker\mem2.h -I                     /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\config.s79                                     /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable2 EQU 0
+??DataTable3 EQU 0
+??DataTable4 EQU 0
+??DataTable5 EQU 0
+??DataTable7 EQU 0
+        PUBLIC ??GetCfgPath
+        FUNCTION ??GetCfgPath,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??GetCfgPath??rT
+        PUBLIC ??InitCfg
+        FUNCTION ??InitCfg,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??InitCfg??rT
+        PUBLIC ??LoadCfg
+        FUNCTION ??LoadCfg,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??LoadCfg??rT
+        PUBLIC ??SaveCfg
+        FUNCTION ??SaveCfg,0203H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??SaveCfg??rT
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC MCConfig
+        PUBLIC mccf_config
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??GetCfgPath??rT    SYMBOL "??rT", ??GetCfgPath
+
+??InitCfg??rT       SYMBOL "??rT", ??InitCfg
+
+??LoadCfg??rT       SYMBOL "??rT", ??LoadCfg
+
+??SaveCfg??rT       SYMBOL "??rT", ??SaveCfg
+
+        EXTERN CONFIG_MCCONFIG_PATH
+        EXTERN CONFIG_SAVE_PATH
+        EXTERN _ls_ls
+        EXTERN back_tab
+        EXTERN curtab
+        EXTERN mcpath
+        EXTERN pathbuf
+        EXTERN tabs
+
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "mccf">`:
+        DATA
+        DC8 "mccf"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+mccf_config:
+        DATA
+        DC8 6DH, 0, 63H, 0, 63H, 0, 6FH, 0
+        DC8 6EH, 0, 66H, 0, 69H, 0, 67H, 0
+        DC8 2EH, 0, 63H, 0, 66H, 0, 67H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+MCConfig:
+        DS8 1052
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??GetCfgPath??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??GetCfgPath
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??GetCfgPath
+        ARM
+??GetCfgPath:
+        LDR      R0,??GetCfgPath_1  ;; CONFIG_MCCONFIG_PATH
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDRH     R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??GetCfgPath_2
+        LDR      R1,??GetCfgPath_1+0x4  ;; mcpath
+        LDR      R0,??GetCfgPath_1  ;; CONFIG_MCCONFIG_PATH
+        SWI      +338
+??GetCfgPath_2:
+        LDR      R0,??GetCfgPath_1  ;; CONFIG_MCCONFIG_PATH
+        SWI      +343
+        CMP      R0,#+1
+        BLT      ??GetCfgPath_3
+        LDR      R1,??GetCfgPath_1  ;; CONFIG_MCCONFIG_PATH
+        ADD      R1,R1,R0, LSL #+1
+        LDRH     R1,[R1, #-2]
+        CMP      R1,#+47
+        BNE      ??GetCfgPath_4
+        LDR      R1,??GetCfgPath_1  ;; CONFIG_MCCONFIG_PATH
+        ADD      R0,R1,R0, LSL #+1
+        MOV      R1,#+0
+        STRH     R1,[R0, #-2]
+??GetCfgPath_4:
+        LDR      R0,??GetCfgPath_1+0x8  ;; mccf_config
+        LDR      R4,??GetCfgPath_1+0xC  ;; pathbuf
+        LDR      R3,??GetCfgPath_1  ;; CONFIG_MCCONFIG_PATH
+        LDR      R2,??GetCfgPath_1+0x10  ;; _ls_ls
+        PUSH     {R0}
+        CFI CFA R13+12
+        MOV      R1,#+255
+        MOV      R0,R4
+        SWI      +277
+        MOV      R0,R4
+        ADD      SP,SP,#+4
+        CFI CFA R13+8
+        POP      {R4,PC}
+??GetCfgPath_3:
+        MOV      R0,#+0
+        POP      {R4,PC}          ;; return
+        DATA
+??GetCfgPath_1:
+        DC32     CONFIG_MCCONFIG_PATH
+        DC32     mcpath
+        DC32     mccf_config
+        DC32     pathbuf
+        DC32     _ls_ls
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InitCfg??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??InitCfg
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??InitCfg
+        ARM
+??InitCfg:
+        LDR      R0,??DataTable8  ;; MCConfig
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R2,#+28
+        ORR      R2,R2,#0x400
+        MOV      R1,#+0
+        SWI      +274
+        LDR      R0,??InitCfg_1   ;; CONFIG_SAVE_PATH
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        POPEQ    {R4,PC}
+        LDR      R0,??InitCfg_1+0x4  ;; curtab
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+2
+        BLT      ??InitCfg_2
+        LDR      R0,??InitCfg_1+0x8  ;; back_tab
+        LDR      R1,??DataTable8  ;; MCConfig
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+2
+        LDRLT    R0,??InitCfg_1+0x8  ;; back_tab
+        LDRLT    R0,[R0, #+0]
+        MOVGE    R0,#+0
+        STR      R0,[R1, #+0]
+        B        ??InitCfg_3
+??InitCfg_2:
+        LDR      R1,??InitCfg_1+0x4  ;; curtab
+        LDR      R0,??DataTable8  ;; MCConfig
+        LDR      R1,[R1, #+0]
+        STR      R1,[R0, #+0]
+??InitCfg_3:
+        MOV      R4,#+0
+??InitCfg_4:
+        LDR      R0,??InitCfg_1+0xC  ;; tabs
+        LDR      R2,??DataTable8  ;; MCConfig
+        LDR      R0,[R0, +R4, LSL #+2]
+        MOV      R3,#+524
+        LDRSH    R1,[R0, #+4]
+        MLA      R2,R3,R4,R2
+        LDRSH    R3,[R0, #+2]
+        ADD      R4,R4,#+1
+        STR      R3,[R2, #+4]
+        ADD      R3,R0,R1, LSL #+1
+        LDRSH    R3,[R3, #+6]
+        STR      R3,[R2, #+8]
+        LDRSH    R3,[R0, #+4]
+        ADD      R0,R0,R1, LSL #+9
+        ADD      R1,R0,#+18
+        STR      R3,[R2, #+12]
+        ADD      R0,R2,#+16
+        SWI      +338
+        CMP      R4,#+2
+        BLT      ??InitCfg_4
+        POP      {R4,PC}          ;; return
+        DATA
+??InitCfg_1:
+        DC32     CONFIG_SAVE_PATH
+        DC32     curtab
+        DC32     back_tab
+        DC32     tabs
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SaveCfg??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??SaveCfg
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??SaveCfg
+        ARM
+??SaveCfg:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SUB      SP,SP,#+16
+        CFI CFA R13+28
+        BL       ??GetCfgPath
+        CMP      R0,#+0
+        POPEQ    {R0-R5,PC}
+        MOV      R3,#+0
+        MOV      R2,#+255
+        ORR      R2,R2,#0x100
+        MOV      R1,#+75
+        SWI      +760
+        MOVS     R4,R0
+        POPMI    {R0-R5,PC}
+        LDR      R1,??DataTable6  ;; `?<Constant "mccf">`
+        MOV      R5,#+28
+        LDR      R1,[R1, #+0]
+        ORR      R5,R5,#0x400
+        STR      R1,[SP, #+0]
+        MOV      R1,#+2
+        STR      R1,[SP, #+4]
+        STR      R5,[SP, #+8]
+        MOV      R1,#+16
+        STR      R1,[SP, #+12]
+        BL       ??InitCfg
+        MOV      R2,#+16
+        MOV      R1,SP
+        MOV      R0,R4
+        SWI      +762
+        LDR      R1,??DataTable8  ;; MCConfig
+        MOV      R2,R5
+        MOV      R0,R4
+        SWI      +762
+        MOV      R0,R4
+        SWI      +765
+        POP      {R0-R5,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??LoadCfg??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??LoadCfg
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??LoadCfg
+        ARM
+??LoadCfg:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+16
+        CFI CFA R13+32
+        MOV      R4,#+0
+        BL       ??GetCfgPath
+        CMP      R0,#+0
+        BEQ      ??LoadCfg_1
+        MOV      R3,#+0
+        MOV      R2,#+255
+        ORR      R2,R2,#0x100
+        MOV      R1,#+1
+        SWI      +760
+        MOVS     R5,R0
+        BMI      ??LoadCfg_1
+        MOV      R2,#+16
+        MOV      R1,SP
+        SWI      +763
+        CMP      R0,#+16
+        BNE      ??LoadCfg_2
+        LDR      R1,??DataTable6  ;; `?<Constant "mccf">`
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R1, #+0]
+        CMP      R0,R1
+        BNE      ??LoadCfg_2
+        LDR      R0,[SP, #+8]
+        MOV      R1,#+28
+        ORR      R1,R1,#0x400
+        CMP      R0,R1
+        BCC      ??LoadCfg_2
+        LDR      R1,[SP, #+12]
+        MOV      R2,#+2
+        MOV      R0,R5
+        SWI      +764
+        LDR      R1,??DataTable8  ;; MCConfig
+        MOV      R6,#+28
+        ORR      R6,R6,#0x400
+        MOV      R2,R6
+        MOV      R0,R5
+        SWI      +763
+        CMP      R0,R6
+        MOVEQ    R4,#+1
+??LoadCfg_2:
+        MOV      R0,R5
+        SWI      +765
+        CMP      R4,#+0
+        BNE      ??LoadCfg_3
+??LoadCfg_1:
+        LDR      R0,??DataTable8  ;; MCConfig
+        MOV      R2,#+28
+        ORR      R2,R2,#0x400
+        MOV      R1,#+0
+        SWI      +274
+??LoadCfg_3:
+        MOV      R0,R4
+        ADD      SP,SP,#+16
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable6:
+        DC32     `?<Constant "mccf">`
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable8:
+        DC32     MCConfig
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        END
+// 
+//   736 bytes in segment CODE
+//    36 bytes in segment DATA_C
+// 1 052 bytes in segment DATA_Z
+//    12 bytes in segment INITTAB
+// 
+//   720 bytes of CODE  memory (+ 28 bytes shared)
+//    36 bytes of CONST memory
+// 1 052 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

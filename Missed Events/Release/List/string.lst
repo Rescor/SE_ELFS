@@ -1,0 +1,415 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:04:31 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Missed         #
+#                       Events\string.cpp                                    #
+#    Command line    =  "Z:\home\perk11\www\perk11.info\svn\SE\Missed        #
+#                       Events\string.cpp" -D NDEBUG -D OLDFUNCTIONS -lC     #
+#                       "Z:\home\perk11\www\perk11.info\svn\SE\Missed        #
+#                       Events\Release\List\" -lA                            #
+#                       "Z:\home\perk11\www\perk11.info\svn\SE\Missed        #
+#                       Events\Release\List\" -o "Z:\home\perk11\www\perk11. #
+#                       info\svn\SE\Missed Events\Release\Obj\" -s9          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Missed         #
+#                       Events\Release\List\string.lst                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Missed         #
+#                       Events\Release\Obj\string.r79                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Missed Events\string.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      3          char* strchr(char* str, char c)
+      4          {
+   \                     ??strchr:
+   \   00000000   000000EA           B        ??strchr_1
+      5          	for(;*str;str++)if(*str==c)return str;
+   \                     ??strchr_2:
+   \   00000004   010080E2           ADD      R0,R0,#+1
+   \                     ??strchr_1:
+   \   00000008   0020D0E5           LDRB     R2,[R0, #+0]
+   \   0000000C   000052E3           CMP      R2,#+0
+   \   00000010   0200000A           BEQ      ??strchr_3
+   \   00000014   010052E1           CMP      R2,R1
+   \   00000018   F9FFFF1A           BNE      ??strchr_2
+   \   0000001C   1EFF2FE1           BX       LR
+      6          	return NULL;
+   \                     ??strchr_3:
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   1EFF2FE1           BX       LR               ;; return
+      7          }
+      8          
+      9          /*
+     10          u16* wstrchr(u16* str,u16 c)
+     11          {
+     12          	for(;*str;str++)if(*str==c)return str;
+     13          	return NULL;
+     14          }
+     15          */
+     16          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     17          char* strrchr(char* str, char c)
+     18          {
+     19          	char* retpos=NULL;
+   \                     ??strrchr:
+   \   00000000   0030D0E5           LDRB     R3,[R0, #+0]
+   \   00000004   0020A0E3           MOV      R2,#+0
+   \   00000008   000053E3           CMP      R3,#+0
+   \   0000000C   0500000A           BEQ      ??strrchr_1
+     20          	for(;*str; str++) if(*str == c) retpos=str;
+   \                     ??strrchr_2:
+   \   00000010   0030D0E5           LDRB     R3,[R0, #+0]
+   \   00000014   010053E1           CMP      R3,R1
+   \   00000018   0020A001           MOVEQ    R2,R0
+   \   0000001C   0130F0E5           LDRB     R3,[R0, #+1]!
+   \   00000020   000053E3           CMP      R3,#+0
+   \   00000024   F9FFFF1A           BNE      ??strrchr_2
+     21          	return retpos;
+   \                     ??strrchr_1:
+   \   00000028   0200A0E1           MOV      R0,R2
+   \   0000002C   1EFF2FE1           BX       LR               ;; return
+     22          }
+     23          
+     24          //u16* wstrrchr(u16* str,u16 c) //declared in lib
+     25          /*
+     26          char* strncpy(char* dest,char* src,size_t len)
+     27          {
+     28          	for(; *src && len; len--)*dest++=*src++;
+     29          	if(len)*dest=0;
+     30          	return dest;
+     31          }
+     32          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     33          char* strncpy(char* dest, const char* src, size_t len)
+     34          {
+     35               if (len) 
+   \                     ??strncpy:
+   \   00000000   000052E3           CMP      R2,#+0
+   \   00000004   1EFF2F01           BXEQ     LR
+     36               {
+     37          	  char       *d = dest;
+   \   00000008   0030A0E1           MOV      R3,R0
+     38          	  const char *s = src;
+     39          	  while ((*d++ = *s++) && --len);                /* COPY STRING         */
+   \                     ??strncpy_1:
+   \   0000000C   ........           LDRB     R12,[R1], #+1
+   \   00000010   ........           STRB     R12,[R3], #+1
+   \   00000014   00005CE3           CMP      R12,#+0
+   \   00000018   01205212           SUBSNE   R2,R2,#+1
+   \   0000001C   FAFFFF1A           BNE      ??strncpy_1
+     40          	  if (len-- > 1) do *d++ = '\0'; while (--len);  /* TERMINATION PADDING */
+   \   00000020   0210A0E1           MOV      R1,R2
+   \   00000024   012041E2           SUB      R2,R1,#+1
+   \   00000028   020051E3           CMP      R1,#+2
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   1EFF2F31           BXCC     LR
+   \                     ??strncpy_2:
+   \   00000034   ........           STRB     R1,[R3], #+1
+   \   00000038   012052E2           SUBS     R2,R2,#+1
+   \   0000003C   FCFFFF1A           BNE      ??strncpy_2
+     41               }
+     42               return dest; 
+   \   00000040   1EFF2FE1           BX       LR               ;; return
+     43          }
+     44          	 
+
+   \                                 In segment CODE, align 4, keep-with-next
+     45          wchar_t* wstrncpy(wchar_t* dest, const wchar_t* src, size_t len)
+     46          {
+   \                     ??wstrncpy:
+   \   00000000   020000EA           B        ??wstrncpy_1
+     47          	for(; *src && len; len--)*dest++=*src++;
+   \                     ??wstrncpy_2:
+   \   00000004   ........           LDRH     R3,[R1], #+2
+   \   00000008   012042E2           SUB      R2,R2,#+1
+   \   0000000C   ........           STRH     R3,[R0], #+2
+   \                     ??wstrncpy_1:
+   \   00000010   B030D1E1           LDRH     R3,[R1, #+0]
+   \   00000014   000053E3           CMP      R3,#+0
+   \   00000018   00005213           CMPNE    R2,#+0
+   \   0000001C   F8FFFF1A           BNE      ??wstrncpy_2
+     48          	if(len)*dest=0;
+   \   00000020   000052E3           CMP      R2,#+0
+   \   00000024   0010A013           MOVNE    R1,#+0
+   \   00000028   B010C011           STRHNE   R1,[R0, #+0]
+     49          	return dest;
+   \   0000002C   1EFF2FE1           BX       LR               ;; return
+     50          }
+     51          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     52          int strncmp(char* s1,char* s2,size_t len)
+     53          {
+   \                     ??strncmp:
+   \   00000000   020000EA           B        ??strncmp_1
+     54          	for(; *s1 && *s2 && len; len--, s1++, s2++)if(*s1-*s2)return *s1-*s2;
+   \                     ??strncmp_2:
+   \   00000004   012042E2           SUB      R2,R2,#+1
+   \   00000008   010080E2           ADD      R0,R0,#+1
+   \   0000000C   011081E2           ADD      R1,R1,#+1
+   \                     ??strncmp_1:
+   \   00000010   0030D0E5           LDRB     R3,[R0, #+0]
+   \   00000014   000053E3           CMP      R3,#+0
+   \   00000018   00C0D115           LDRBNE   R12,[R1, #+0]
+   \   0000001C   00005C13           CMPNE    R12,#+0
+   \   00000020   00005213           CMPNE    R2,#+0
+   \   00000024   0400000A           BEQ      ??strncmp_3
+   \   00000028   0C3053E0           SUBS     R3,R3,R12
+   \   0000002C   F4FFFF0A           BEQ      ??strncmp_2
+   \   00000030   0000D0E5           LDRB     R0,[R0, #+0]
+   \   00000034   0C0040E0           SUB      R0,R0,R12
+   \   00000038   1EFF2FE1           BX       LR
+     55          	if(len)return *s1-*s2;
+   \                     ??strncmp_3:
+   \   0000003C   000052E3           CMP      R2,#+0
+   \   00000040   0010D115           LDRBNE   R1,[R1, #+0]
+   \   00000044   01004310           SUBNE    R0,R3,R1
+   \   00000048   1EFF2F11           BXNE     LR
+     56          	return 0;
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   1EFF2FE1           BX       LR               ;; return
+     57          }
+     58          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     59          int wstrncmp(wchar_t* s1, wchar_t* s2, size_t len)
+     60          {
+   \                     ??wstrncmp:
+   \   00000000   020000EA           B        ??wstrncmp_1
+     61          	for(; *s1 && *s2 && len; len--, s1++, s2++)if(*s1-*s2)return *s1-*s2;
+   \                     ??wstrncmp_2:
+   \   00000004   012042E2           SUB      R2,R2,#+1
+   \   00000008   020080E2           ADD      R0,R0,#+2
+   \   0000000C   021081E2           ADD      R1,R1,#+2
+   \                     ??wstrncmp_1:
+   \   00000010   B030D0E1           LDRH     R3,[R0, #+0]
+   \   00000014   000053E3           CMP      R3,#+0
+   \   00000018   B0C0D111           LDRHNE   R12,[R1, #+0]
+   \   0000001C   00005C13           CMPNE    R12,#+0
+   \   00000020   00005213           CMPNE    R2,#+0
+   \   00000024   0400000A           BEQ      ??wstrncmp_3
+   \   00000028   0C3053E0           SUBS     R3,R3,R12
+   \   0000002C   F4FFFF0A           BEQ      ??wstrncmp_2
+   \   00000030   B000D0E1           LDRH     R0,[R0, #+0]
+   \   00000034   0C0040E0           SUB      R0,R0,R12
+   \   00000038   1EFF2FE1           BX       LR
+     62          	if(len)return *s1-*s2;
+   \                     ??wstrncmp_3:
+   \   0000003C   000052E3           CMP      R2,#+0
+   \   00000040   B010D111           LDRHNE   R1,[R1, #+0]
+   \   00000044   01004310           SUBNE    R0,R3,R1
+   \   00000048   1EFF2F11           BXNE     LR
+     63          	return 0;
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   1EFF2FE1           BX       LR               ;; return
+     64          }
+     65          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          char upper(char c)
+     67          {
+     68          	if(c>='a' && c<='z')c-='a'-'A';
+   \                     ??upper:
+   \   00000000   610050E3           CMP      R0,#+97
+   \   00000004   0100003A           BCC      ??upper_1
+   \   00000008   7B0050E3           CMP      R0,#+123
+   \   0000000C   E0008032           ADDCC    R0,R0,#+224
+     69          	return c;
+   \                     ??upper_1:
+   \   00000010   FF0000E2           AND      R0,R0,#0xFF
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+     70          }
+     71          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     72          int strncmpi(const char* s1, const char* s2, size_t len)
+     73          {
+   \                     ??strncmpi:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   000000EA           B        ??strncmpi_1
+     74          	char c1, c2;
+     75          	for(; *s1 && *s2 && len; len--, s1++, s2++)
+   \                     ??strncmpi_2:
+   \   00000014   016046E2           SUB      R6,R6,#+1
+   \                     ??strncmpi_1:
+   \   00000018   0010D4E5           LDRB     R1,[R4, #+0]
+   \   0000001C   000051E3           CMP      R1,#+0
+   \   00000020   0010D515           LDRBNE   R1,[R5, #+0]
+   \   00000024   00005113           CMPNE    R1,#+0
+   \   00000028   00005613           CMPNE    R6,#+0
+   \   0000002C   0800000A           BEQ      ??strncmpi_3
+     76          	{
+     77          		c1=upper(*s1);
+   \   00000030   ........           LDRB     R0,[R4], #+1
+   \   00000034   ........           BL       ??upper
+   \   00000038   0070A0E1           MOV      R7,R0
+     78          		c2=upper(*s2);
+   \   0000003C   ........           LDRB     R0,[R5], #+1
+   \   00000040   ........           BL       ??upper
+     79          		if(c1-c2)return c1-c2;
+   \   00000044   001057E0           SUBS     R1,R7,R0
+   \   00000048   F1FFFF0A           BEQ      ??strncmpi_2
+   \   0000004C   0100A0E1           MOV      R0,R1
+   \   00000050   F080BDE8           POP      {R4-R7,PC}
+     80          	}
+     81          	if(len)return c1-c2;
+   \                     ??strncmpi_3:
+   \   00000054   000056E3           CMP      R6,#+0
+   \   00000058   0300000A           BEQ      ??strncmpi_4
+   \   0000005C   FF7007E2           AND      R7,R7,#0xFF
+   \   00000060   FF0000E2           AND      R0,R0,#0xFF
+   \   00000064   000047E0           SUB      R0,R7,R0
+   \   00000068   F080BDE8           POP      {R4-R7,PC}
+     82          	return 0;
+   \                     ??strncmpi_4:
+   \   0000006C   0000A0E3           MOV      R0,#+0
+   \   00000070   F080BDE8           POP      {R4-R7,PC}       ;; return
+     83          }
+     84          
+     85          /*
+     86          
+     87          char* strstr (const char * str1, const char * str2)
+     88          {
+     89          	char *cp = (char *) str1;
+     90          	char *s1, *s2;
+     91          	if ( !*str2 )
+     92          		return((char *)str1);
+     93          	while (*cp)
+     94          	{
+     95          		s1 = cp;
+     96          		s2 = (char *) str2;
+     97          		while ( *s1 && *s2 && !(*s1-*s2) )
+     98          			s1++, s2++;
+     99          		if (!*s2)
+    100          			return(cp);
+    101          		cp++;
+    102          	}
+    103          	return(NULL);
+    104          }
+    105          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    106          wchar_t* wstrstr (const wchar_t * str1, const wchar_t * str2)
+    107          {
+   \                     ??wstrstr:
+   \   00000000   10002DE9           PUSH     {R4}
+    108          	wchar_t *cp = (wchar_t *) str1;
+    109          	wchar_t *s1, *s2;
+    110          	if ( !*str2 )
+   \   00000004   B020D1E1           LDRH     R2,[R1, #+0]
+   \   00000008   000052E3           CMP      R2,#+0
+   \   0000000C   0100001A           BNE      ??wstrstr_1
+    111          		return((wchar_t *)str1);
+   \   00000010   120000EA           B        ??wstrstr_2
+    112          	while (*cp)
+    113          	{
+    114          		s1 = cp;
+    115          		s2 = (wchar_t *) str2;
+    116          		while ( *s1 && *s2 && !(*s1-*s2) )
+    117          			s1++, s2++;
+    118          		if (!*s2)
+    119          			return(cp);
+    120          		cp++;
+   \                     ??wstrstr_3:
+   \   00000014   020080E2           ADD      R0,R0,#+2
+   \                     ??wstrstr_1:
+   \   00000018   B020D0E1           LDRH     R2,[R0, #+0]
+   \   0000001C   000052E3           CMP      R2,#+0
+   \   00000020   1000000A           BEQ      ??wstrstr_4
+   \   00000024   0020A0E1           MOV      R2,R0
+   \   00000028   0130A0E1           MOV      R3,R1
+   \   0000002C   000000EA           B        ??wstrstr_5
+   \                     ??wstrstr_6:
+   \   00000030   023083E2           ADD      R3,R3,#+2
+   \                     ??wstrstr_5:
+   \   00000034   B0C0D2E1           LDRH     R12,[R2, #+0]
+   \   00000038   00005CE3           CMP      R12,#+0
+   \   0000003C   B0C0D311           LDRHNE   R12,[R3, #+0]
+   \   00000040   00005C13           CMPNE    R12,#+0
+   \   00000044   0200000A           BEQ      ??wstrstr_7
+   \   00000048   ........           LDRH     R4,[R2], #+2
+   \   0000004C   0C4054E0           SUBS     R4,R4,R12
+   \   00000050   F6FFFF0A           BEQ      ??wstrstr_6
+   \                     ??wstrstr_7:
+   \   00000054   B020D3E1           LDRH     R2,[R3, #+0]
+   \   00000058   000052E3           CMP      R2,#+0
+   \   0000005C   ECFFFF1A           BNE      ??wstrstr_3
+   \                     ??wstrstr_2:
+   \   00000060   1000BDE8           POP      {R4}
+   \   00000064   1EFF2FE1           BX       LR
+    121          	}
+    122          	return(NULL);
+   \                     ??wstrstr_4:
+   \   00000068   1000BDE8           POP      {R4}
+   \   0000006C   0000A0E3           MOV      R0,#+0
+   \   00000070   1EFF2FE1           BX       LR               ;; return
+    123          }
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     strchr(char *, char)               0
+     strncmp(char *, char *, size_t)
+                                        0
+     strncmpi(char const *, char const *, size_t)
+                                       20
+     strncpy(char *, char const *, size_t)
+                                        0
+     strrchr(char *, char)              0
+     upper(char)                        0
+     wstrncmp(wchar_t *, wchar_t *, size_t)
+                                        0
+     wstrncpy(wchar_t *, wchar_t const *, size_t)
+                                        0
+     wstrstr(wchar_t const *, wchar_t const *)
+                                        4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     strchr(char *, char)             40
+     strrchr(char *, char)            48
+     strncpy(char *, char const *, size_t)
+                                      68
+     wstrncpy(wchar_t *, wchar_t const *, size_t)
+                                      48
+     strncmp(char *, char *, size_t)
+                                      84
+     wstrncmp(wchar_t *, wchar_t *, size_t)
+                                      84
+     upper(char)                      24
+     strncmpi(char const *, char const *, size_t)
+                                     116
+     wstrstr(wchar_t const *, wchar_t const *)
+                                     116
+      Others                          36
+
+ 
+ 664 bytes in segment CODE
+ 
+ 628 bytes of CODE memory (+ 36 bytes shared)
+
+Errors: none
+Warnings: none

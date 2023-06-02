@@ -1,0 +1,326 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:46:25 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\bookmarks #
+#                       .cpp                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\bookmarks #
+#                       .cpp -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\bookmarks.lst                                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\bookmarks.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\bookmarks.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\mui.h"
+      3          #include "inc\bookmarks.h"
+      4          #include "inc\file_op.h"
+      5          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+      6          const wchar_t mcbm_path[] = L"Bookmarks";
+   \                     mcbm_path:
+   \   00000000   42006F006F00       DC8 42H, 0, 6FH, 0, 6FH, 0, 6BH, 0
+   \              6B00        
+   \   00000008   6D0061007200       DC8 6DH, 0, 61H, 0, 72H, 0, 6BH, 0
+   \              6B00        
+   \   00000010   73000000           DC8 73H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x6c\\x73\\x2e\\x25\\x6c\\x73">`:
+   \   00000000   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 2EH, 0
+   \              2E00        
+   \   00000008   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 0, 0
+   \              0000        
+      7          const wchar_t mcbm_ext[] = L"mcbm";
+   \                     mcbm_ext:
+   \   00000010   6D0063006200       DC8 6DH, 0, 63H, 0, 62H, 0, 6DH, 0
+   \              6D00        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+      8          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      9          void SaveBM(wchar_t* name, wchar_t* path)
+     10          {
+   \                     ??SaveBM:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+     11            if (name && path)
+   \   0000000C   000054E3           CMP      R4,#+0
+   \   00000010   00005513           CMPNE    R5,#+0
+   \   00000014   7080BD08           POPEQ    {R4-R6,PC}
+     12            {
+     13              MCFilePath(mcbm_path);
+     14              mktree(pathbuf);
+   \   00000018   ........           LDR      R6,??DataTable6  ;; pathbuf
+   \   0000001C   ........           LDR      R0,??DataTable5  ;; mcbm_path
+   \   00000020   ........           _BLF     ??MCFilePath,??MCFilePath??rA
+   \   00000024   0600A0E1           MOV      R0,R6
+   \   00000028   ........           _BLF     ??mktree,??mktree??rA
+     15              snwprintf(pathbuf, MAXELEMS(pathbuf)-1, _ls_ls, pathbuf, name);
+   \   0000002C   5C209FE5           LDR      R2,??SaveBM_1    ;; _ls_ls
+   \   00000030   10002DE9           PUSH     {R4}
+   \   00000034   0630A0E1           MOV      R3,R6
+   \   00000038   FF10A0E3           MOV      R1,#+255
+   \   0000003C   0600A0E1           MOV      R0,R6
+   \   00000040   150100EF           SWI      +277
+     16              
+     17              int f;
+     18              if ((f=w_fopen(pathbuf,WA_Read+WA_Write+WA_Create+WA_Truncate, 0x1FF, NULL))>=0)
+   \   00000044   0030A0E3           MOV      R3,#+0
+   \   00000048   FF20A0E3           MOV      R2,#+255
+   \   0000004C   402F82E3           ORR      R2,R2,#0x100
+   \   00000050   4B10A0E3           MOV      R1,#+75
+   \   00000054   0600A0E1           MOV      R0,R6
+   \   00000058   F80200EF           SWI      +760
+   \   0000005C   0040B0E1           MOVS     R4,R0
+   \   00000060   04D08DE2           ADD      SP,SP,#+4
+   \   00000064   7080BD48           POPMI    {R4-R6,PC}
+     19              {
+     20                w_fwrite(f,path,wstrlen(path)*2+2);
+   \   00000068   0500A0E1           MOV      R0,R5
+   \   0000006C   570100EF           SWI      +343
+   \   00000070   0210A0E3           MOV      R1,#+2
+   \   00000074   802081E0           ADD      R2,R1,R0, LSL #+1
+   \   00000078   0510A0E1           MOV      R1,R5
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   FA0200EF           SWI      +762
+     21                w_fclose(f);
+   \   00000084   0400A0E1           MOV      R0,R4
+   \   00000088   FD0200EF           SWI      +765
+     22              }
+     23            } 
+     24          }
+   \   0000008C   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??SaveBM_1:
+   \   00000090   ........           DC32     _ls_ls
+     25          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     26          void UseBM(wchar_t* filename)
+     27          {
+   \                     ??UseBM:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     28            int f;
+     29            if ((f=w_fopen(filename, WA_Read, 0x1FF, NULL)) >=0)
+   \   00000004   0030A0E3           MOV      R3,#+0
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   402F82E3           ORR      R2,R2,#0x100
+   \   00000010   0110A0E3           MOV      R1,#+1
+   \   00000014   F80200EF           SWI      +760
+   \   00000018   0040B0E1           MOVS     R4,R0
+   \   0000001C   1080BD48           POPMI    {R4,PC}
+     30            {
+     31              if (w_fread(f, pathbuf, MAX_PATH*sizeof(wchar_t)))
+   \   00000020   ........           LDR      R1,??DataTable6  ;; pathbuf
+   \   00000024   802FA0E3           MOV      R2,#+512
+   \   00000028   FB0200EF           SWI      +763
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   1400000A           BEQ      ??UseBM_1
+     32              {
+     33                if (curtab >= MAX_TABS)
+   \   00000034   58009FE5           LDR      R0,??UseBM_2     ;; curtab
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   020050E3           CMP      R0,#+2
+   \   00000040   070000BA           BLT      ??UseBM_3
+     34                  curtab = back_tab < MAX_TABS ? back_tab : 0;
+   \   00000044   4C009FE5           LDR      R0,??UseBM_2+0x4  ;; back_tab
+   \   00000048   000090E5           LDR      R0,[R0, #+0]
+   \   0000004C   020050E3           CMP      R0,#+2
+   \   00000050   40109FB5           LDRLT    R1,??UseBM_2+0x4  ;; back_tab
+   \   00000054   38009FE5           LDR      R0,??UseBM_2     ;; curtab
+   \   00000058   001091B5           LDRLT    R1,[R1, #+0]
+   \   0000005C   0010A0A3           MOVGE    R1,#+0
+   \   00000060   001080E5           STR      R1,[R0, #+0]
+     35                  
+     36                if (isdir(pathbuf))
+   \                     ??UseBM_3:
+   \   00000064   ........           LDR      R0,??DataTable6  ;; pathbuf
+   \   00000068   ........           _BLF     ??isdir,??isdir??rA
+   \   0000006C   000050E3           CMP      R0,#+0
+   \   00000070   0400000A           BEQ      ??UseBM_1
+     37                  cd(curtab, pathbuf, -1);
+   \   00000074   18009FE5           LDR      R0,??UseBM_2     ;; curtab
+   \   00000078   ........           LDR      R1,??DataTable6  ;; pathbuf
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   0020E0E3           MVN      R2,#+0
+   \   00000084   ........           _BLF     ??cd,??cd??rA
+     38                else
+     39                  //if (wsbuf)
+     40                  {
+     41                    //str_2ws(wsbuf,pathbuf,MAX_PATH);
+     42                    //ExecuteFile(wsbuf,0,0);
+     43                  }
+     44              }
+     45              w_fclose(f);
+   \                     ??UseBM_1:
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   FD0200EF           SWI      +765
+     46            }
+     47          }
+   \   00000090   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??UseBM_2:
+   \   00000094   ........           DC32     curtab
+   \   00000098   ........           DC32     back_tab
+     48          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     49          void _AddBM(wchar_t *wsname)
+     50          {
+   \                     ??_AddBM:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     51            FILEINF *file = _CurFile();
+   \   00000008   ........           _BLF     ??_CurFile,??_CurFile??rA
+   \   0000000C   0050B0E1           MOVS     R5,R0
+     52            if (file)
+   \   00000010   F080BD08           POPEQ    {R4-R7,PC}
+     53            {
+     54              wchar_t *buf=new wchar_t[MAX_PATH], *buf2=new wchar_t[MAX_PATH];
+   \   00000014   800FA0E3           MOV      R0,#+512
+   \   00000018   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000001C   0060A0E1           MOV      R6,R0
+   \   00000020   800FA0E3           MOV      R0,#+512
+   \   00000024   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+     55              snwprintf(buf, MAX_PATH-1, L"%ls.%ls", wsname, mcbm_ext);
+   \   00000028   4C209FE5           LDR      R2,??_AddBM_1    ;; `?<Constant L"\\x25\\x6c\\x73\\x2e\\x25\\x6c\\x73">`
+   \   0000002C   0070A0E1           MOV      R7,R0
+   \   00000030   100082E2           ADD      R0,R2,#+16
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   0430A0E1           MOV      R3,R4
+   \   0000003C   FF10A0E3           MOV      R1,#+255
+   \   00000040   0600A0E1           MOV      R0,R6
+   \   00000044   150100EF           SWI      +277
+     56              CurFullPathBM(buf2, file->ws_name, MAX_PATH-1);
+   \   00000048   201095E5           LDR      R1,[R5, #+32]
+   \   0000004C   FF20A0E3           MOV      R2,#+255
+   \   00000050   0700A0E1           MOV      R0,R7
+   \   00000054   ........           _BLF     ??CurFullPathBM,??CurFullPathBM??rA
+     57              SaveBM(buf, buf2);
+   \   00000058   0710A0E1           MOV      R1,R7
+   \   0000005C   0600A0E1           MOV      R0,R6
+   \   00000060   ........           BL       ??SaveBM
+     58              delete buf;
+   \   00000064   0600A0E1           MOV      R0,R6
+   \   00000068   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     59              delete buf2;
+   \   0000006C   0700A0E1           MOV      R0,R7
+   \   00000070   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000074   04D08DE2           ADD      SP,SP,#+4
+     60            }
+     61          }
+   \   00000078   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??_AddBM_1:
+   \   0000007C   ........           DC32     `?<Constant L"\\x25\\x6c\\x73\\x2e\\x25\\x6c\\x73">`
+     62          
+     63          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     64          void DoBMAdd()
+     65          {
+   \                     ??DoBMAdd:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     66            FILEINF *file = _CurFile();
+   \   00000004   ........           _BLF     ??_CurFile,??_CurFile??rA
+   \   00000008   0040B0E1           MOVS     R4,R0
+     67            if (file)
+   \   0000000C   1080BD08           POPEQ    {R4,PC}
+     68            {
+     69              TextInput(muitxt(ind_name), 1, file->ws_name, _AddBM);
+   \   00000010   3200A0E3           MOV      R0,#+50
+   \   00000014   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000018   0C309FE5           LDR      R3,??DoBMAdd_1   ;; ??_AddBM
+   \   0000001C   202094E5           LDR      R2,[R4, #+32]
+   \   00000020   0110A0E3           MOV      R1,#+1
+   \   00000024   ........           _BLF     ??TextInput,??TextInput??rA
+     70            }
+     71          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??DoBMAdd_1:
+   \   0000002C   ........           DC32     ??_AddBM
+     72          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     73          void DoBMList()
+     74          {
+     75            MCFilePath(mcbm_path);
+   \                     ??DoBMList:
+   \   00000000   ........           LDR      R0,??DataTable5  ;; mcbm_path
+   \   00000004   10402DE9           PUSH     {R4,LR}
+     76            mktree(pathbuf);
+   \   00000008   ........           LDR      R4,??DataTable6  ;; pathbuf
+   \   0000000C   ........           _BLF     ??MCFilePath,??MCFilePath??rA
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   ........           _BLF     ??mktree,??mktree??rA
+     77            cdsys(pathbuf);
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000020   ........           _BF      ??cdsys,??cdsys??rA  ;; tailcall
+     78          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     mcbm_path
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     pathbuf
+     79          
+
+   Maximum stack usage in bytes:
+
+     Function                     CSTACK
+     --------                     ------
+     DoBMAdd()                        8
+     DoBMList()                       8
+     SaveBM(wchar_t *, wchar_t *)    20
+     UseBM(wchar_t *)                 8
+     _AddBM(wchar_t *)               24
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     mcbm_path                        20
+     ?<Constant L"\x25\x6c\x73\x2e\x25\x6c\x73">
+                                      28
+     SaveBM(wchar_t *, wchar_t *)    148
+     UseBM(wchar_t *)                156
+     _AddBM(wchar_t *)               128
+     DoBMAdd()                        48
+     DoBMList()                       36
+     ??DataTable5                      4
+     ??DataTable6                      4
+      Others                         152
+
+ 
+ 676 bytes in segment CODE
+  48 bytes in segment DATA_C
+ 
+ 524 bytes of CODE  memory (+ 152 bytes shared)
+  48 bytes of CONST memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,486 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:03:02 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Image #
+#                       s.c                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Image #
+#                       s.c -D NDEBUG -D OLDFUNCTIONS -lC                    #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\EN\Li #
+#                       st\ -lA Z:\home\perk11\www\perk11.info\svn\SE\CoverA #
+#                       rt\EN\List\ -o Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \CoverArt\EN\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\CoverArt\LNG-EN.h -I Z:\home\perk11\IAR2\arm\INC\ #
+#                        --inline_threshold=2                                #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\EN\Li #
+#                       st\Images.lst                                        #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\EN\Ob #
+#                       j\Images.r79                                         #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Images.c
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\dir.h"
+      3          #include "config_data.h"
+      4          #include "structs.h"
+      5          #include "Externals.h"
+      6          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      7          UI_IMG img;
+   \                     img:
+   \   00000000                      DS8 24
+      8          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      9          wchar_t ImageHandler_Get(UI_IMG * i , wchar_t * path, wchar_t * fname)
+     10          {
+   \                     ??ImageHandler_Get:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+   \   00000010   0270A0E1           MOV      R7,R2
+     11            char error_code;
+     12            i->ImageID=NOIMAGE;
+   \   00000014   FF50A0E3           MOV      R5,#+255
+   \   00000018   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   0000001C   B050C4E1           STRH     R5,[R4, #+0]
+     13            i->ImageHandle=NOIMAGE;
+   \   00000020   B250C4E1           STRH     R5,[R4, #+2]
+     14            if (!fstat(path,fname,0))
+   \   00000024   0020A0E3           MOV      R2,#+0
+   \   00000028   0710A0E1           MOV      R1,R7
+   \   0000002C   0600A0E1           MOV      R0,R6
+   \   00000030   1C0100EF           SWI      +284
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   1700001A           BNE      ??ImageHandler_Get_3
+     15            {
+     16              if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC,&i->ImageHandle,&error_code))
+   \   0000003C   ........           LDR      R8,??DataTable4  ;; SYNC
+   \   00000040   0D20A0E1           MOV      R2,SP
+   \   00000044   000098E5           LDR      R0,[R8, #+0]
+   \   00000048   021084E2           ADD      R1,R4,#+2
+   \   0000004C   6D0100EF           SWI      +365
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   1000001A           BNE      ??ImageHandler_Get_3
+     17              {
+     18                if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC,i->ImageHandle,path,fname,0,&i->ImageID,&error_code))
+   \   00000058   0D00A0E1           MOV      R0,SP
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   0730A0E1           MOV      R3,R7
+   \   00000064   0620A0E1           MOV      R2,R6
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   01002DE9           PUSH     {R0}
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   B210D4E1           LDRH     R1,[R4, #+2]
+   \   0000007C   000098E5           LDR      R0,[R8, #+0]
+   \   00000080   830200EF           SWI      +643
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   0CD08DE2           ADD      SP,SP,#+12
+   \   0000008C   0200001A           BNE      ??ImageHandler_Get_3
+     19                {
+     20                  if (error_code)
+   \   00000090   0000DDE5           LDRB     R0,[SP, #+0]
+   \   00000094   000050E3           CMP      R0,#+0
+     21                  {
+     22                    i->ImageHandle=NOIMAGE;
+   \   00000098   B250C411           STRHNE   R5,[R4, #+2]
+     23                  }
+     24                }
+     25              }
+     26            }
+     27            return(i->ImageID);
+   \                     ??ImageHandler_Get_3:
+   \   0000009C   B000D4E1           LDRH     R0,[R4, #+0]
+   \   000000A0   F281BDE8           POP      {R1,R4-R8,PC}    ;; return
+     28          };
+     29          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     30          wchar_t ImageHandler_Get(METADATA * i , wchar_t * path, wchar_t * fname)
+     31          {
+   \                     ??ImageHandler_Get_1:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+   \   00000014   0600A0E3           MOV      R0,#+6
+   \   00000018   A00D80E3           ORR      R0,R0,#0x2800
+   \   0000001C   047080E0           ADD      R7,R0,R4
+   \   00000020   FF80A0E3           MOV      R8,#+255
+   \   00000024   FF8C88E3           ORR      R8,R8,#0xFF00
+   \   00000028   B080C7E1           STRH     R8,[R7, #+0]
+     32            char error_code;
+     33            i->ImageID=NOIMAGE;
+     34            i->ImageHandle=NOIMAGE;
+   \   0000002C   B280C7E1           STRH     R8,[R7, #+2]
+     35            i->Handle=true;
+   \   00000030   0100A0E3           MOV      R0,#+1
+   \   00000034   0400C7E5           STRB     R0,[R7, #+4]
+     36            if (!fstat(path,fname,0))
+   \   00000038   0020A0E3           MOV      R2,#+0
+   \   0000003C   0610A0E1           MOV      R1,R6
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   1C0100EF           SWI      +284
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   1B00001A           BNE      ??ImageHandler_Get_4
+     37            {
+     38              if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC,&i->ImageHandle,&error_code))
+   \   00000050   ........           LDR      R9,??DataTable4  ;; SYNC
+   \   00000054   0800A0E3           MOV      R0,#+8
+   \   00000058   A00D80E3           ORR      R0,R0,#0x2800
+   \   0000005C   041080E0           ADD      R1,R0,R4
+   \   00000060   000099E5           LDR      R0,[R9, #+0]
+   \   00000064   0D20A0E1           MOV      R2,SP
+   \   00000068   6D0100EF           SWI      +365
+   \   0000006C   000050E3           CMP      R0,#+0
+   \   00000070   1200001A           BNE      ??ImageHandler_Get_4
+     39              {
+     40                if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC,i->ImageHandle,path,fname,0,&i->ImageID,&error_code))
+   \   00000074   0D00A0E1           MOV      R0,SP
+   \   00000078   01002DE9           PUSH     {R0}
+   \   0000007C   0630A0E1           MOV      R3,R6
+   \   00000080   0520A0E1           MOV      R2,R5
+   \   00000084   0700A0E1           MOV      R0,R7
+   \   00000088   01002DE9           PUSH     {R0}
+   \   0000008C   0000A0E3           MOV      R0,#+0
+   \   00000090   01002DE9           PUSH     {R0}
+   \   00000094   B210D7E1           LDRH     R1,[R7, #+2]
+   \   00000098   000099E5           LDR      R0,[R9, #+0]
+   \   0000009C   830200EF           SWI      +643
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   0CD08DE2           ADD      SP,SP,#+12
+   \   000000A8   0400001A           BNE      ??ImageHandler_Get_4
+     41                {
+     42                  if (error_code)
+   \   000000AC   0000DDE5           LDRB     R0,[SP, #+0]
+   \   000000B0   000050E3           CMP      R0,#+0
+     43                  {
+     44                    i->Handle=false;
+   \   000000B4   0000A013           MOVNE    R0,#+0
+   \   000000B8   0400C715           STRBNE   R0,[R7, #+4]
+     45                    i->ImageHandle=NOIMAGE;
+   \   000000BC   B280C711           STRHNE   R8,[R7, #+2]
+     46                  }
+     47                }
+     48              }
+     49            }
+     50            return(i->ImageID);
+   \                     ??ImageHandler_Get_4:
+   \   000000C0   B000D7E1           LDRH     R0,[R7, #+0]
+   \   000000C4   F283BDE8           POP      {R1,R4-R9,PC}    ;; return
+     51          };
+     52          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     53          wchar_t ImageHandler_Get(IMG_DESC * i , wchar_t * path, wchar_t * fname)
+     54          {
+   \                     ??ImageHandler_Get_2:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+   \   00000010   0270A0E1           MOV      R7,R2
+     55            char error_code;
+     56            i->ImageID=NOIMAGE;
+   \   00000014   FF50A0E3           MOV      R5,#+255
+   \   00000018   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   0000001C   B050C4E1           STRH     R5,[R4, #+0]
+     57            i->ImageHandle=NOIMAGE;
+   \   00000020   B450C4E1           STRH     R5,[R4, #+4]
+     58            i->Handle=true;
+   \   00000024   0100A0E3           MOV      R0,#+1
+   \   00000028   0600C4E5           STRB     R0,[R4, #+6]
+     59            i->HasImage=true;
+   \   0000002C   0200C4E5           STRB     R0,[R4, #+2]
+     60            if (!fstat(path,fname,0))
+   \   00000030   0020A0E3           MOV      R2,#+0
+   \   00000034   0710A0E1           MOV      R1,R7
+   \   00000038   0600A0E1           MOV      R0,R6
+   \   0000003C   1C0100EF           SWI      +284
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   1C00001A           BNE      ??ImageHandler_Get_5
+     61            {
+     62              if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC,&i->ImageHandle,&error_code))
+   \   00000048   ........           LDR      R8,??DataTable4  ;; SYNC
+   \   0000004C   0D20A0E1           MOV      R2,SP
+   \   00000050   000098E5           LDR      R0,[R8, #+0]
+   \   00000054   041084E2           ADD      R1,R4,#+4
+   \   00000058   6D0100EF           SWI      +365
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   1500001A           BNE      ??ImageHandler_Get_5
+     63              {
+     64                if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC,i->ImageHandle,path,fname,0,&i->ImageID,&error_code))
+   \   00000064   0D00A0E1           MOV      R0,SP
+   \   00000068   01002DE9           PUSH     {R0}
+   \   0000006C   0730A0E1           MOV      R3,R7
+   \   00000070   0620A0E1           MOV      R2,R6
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   01002DE9           PUSH     {R0}
+   \   0000007C   0000A0E3           MOV      R0,#+0
+   \   00000080   01002DE9           PUSH     {R0}
+   \   00000084   B410D4E1           LDRH     R1,[R4, #+4]
+   \   00000088   000098E5           LDR      R0,[R8, #+0]
+   \   0000008C   830200EF           SWI      +643
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   0CD08DE2           ADD      SP,SP,#+12
+   \   00000098   0700001A           BNE      ??ImageHandler_Get_5
+     65                {
+     66                  if (error_code)
+   \   0000009C   0000DDE5           LDRB     R0,[SP, #+0]
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   0400000A           BEQ      ??ImageHandler_Get_5
+     67                  {
+     68                    i->Handle=false;
+   \   000000A8   0000A0E3           MOV      R0,#+0
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   0610C4E5           STRB     R1,[R4, #+6]
+     69                    i->HasImage=false;
+   \   000000B4   0200C4E5           STRB     R0,[R4, #+2]
+     70                    i->ImageHandle=NOIMAGE;
+   \   000000B8   B450C4E1           STRH     R5,[R4, #+4]
+     71                  }
+     72                }
+     73              }
+     74            }
+     75            return(i->ImageID);
+   \                     ??ImageHandler_Get_5:
+   \   000000BC   B000D4E1           LDRH     R0,[R4, #+0]
+   \   000000C0   F281BDE8           POP      {R1,R4-R8,PC}    ;; return
+     76          };
+     77          
+     78          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     79          wchar_t ImageHandler_Free(UI_IMG *i)
+     80          {
+   \                     ??ImageHandler_Free:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     81            char error_code;
+     82            REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC,i->ImageHandle,0,0,i->ImageID,1,&error_code);
+   \   00000008   0030A0E3           MOV      R3,#+0
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0D00A0E1           MOV      R0,SP
+   \   00000014   01002DE9           PUSH     {R0}
+   \   00000018   0020A0E3           MOV      R2,#+0
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   B000D4E1           LDRH     R0,[R4, #+0]
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   B210D4E1           LDRH     R1,[R4, #+2]
+   \   00000030   ........           LDR      R0,??DataTable4  ;; SYNC
+   \   00000034   000090E5           LDR      R0,[R0, #+0]
+   \   00000038   840200EF           SWI      +644
+     83            i->ImageID=NOIMAGE;
+   \   0000003C   FF00A0E3           MOV      R0,#+255
+   \   00000040   FF0C80E3           ORR      R0,R0,#0xFF00
+   \   00000044   B000C4E1           STRH     R0,[R4, #+0]
+     84            i->ImageHandle=NOIMAGE;
+   \   00000048   B200C4E1           STRH     R0,[R4, #+2]
+     85            i->isImage=false;
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   1400C4E5           STRB     R0,[R4, #+20]
+     86            return 0;
+   \   00000054   10D08DE2           ADD      SP,SP,#+16
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+     87          };
+     88          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          wchar_t ImageHandler_Free(METADATA *i)
+     90          {
+   \                     ??ImageHandler_Free_1:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0410A0E3           MOV      R1,#+4
+   \   0000000C   A01D81E3           ORR      R1,R1,#0x2800
+   \   00000010   004081E0           ADD      R4,R1,R0
+   \   00000014   0610D4E5           LDRB     R1,[R4, #+6]
+   \   00000018   B200D4E1           LDRH     R0,[R4, #+2]
+   \   0000001C   000051E3           CMP      R1,#+0
+   \   00000020   0100001A           BNE      ??ImageHandler_Free_2
+     91            // Если у изображения нету хэндла, чистим ИД функцией ImageID_Free, а если есть - то анрегистером
+     92            if (!i->Handle)
+     93            {
+     94              ImageID_Free(i->ImageID);
+   \   00000024   CD0200EF           SWI      +717
+     95              i->ImageID=NOIMAGE;
+     96              i->ImageHandle=NOIMAGE;
+     97              i->HasImage=false;
+     98              i->Handle=false;
+   \   00000028   0B0000EA           B        ??ImageHandler_Free_3
+     99            }
+    100            else
+    101            {
+    102              char error_code;
+    103              REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC,i->ImageHandle,0,0,i->ImageID,1,&error_code);
+   \                     ??ImageHandler_Free_2:
+   \   0000002C   0D10A0E1           MOV      R1,SP
+   \   00000030   02002DE9           PUSH     {R1}
+   \   00000034   0030A0E3           MOV      R3,#+0
+   \   00000038   0020A0E3           MOV      R2,#+0
+   \   0000003C   0110A0E3           MOV      R1,#+1
+   \   00000040   02002DE9           PUSH     {R1}
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   ........           LDR      R0,??DataTable4  ;; SYNC
+   \   0000004C   B410D4E1           LDRH     R1,[R4, #+4]
+   \   00000050   000090E5           LDR      R0,[R0, #+0]
+   \   00000054   840200EF           SWI      +644
+    104              i->ImageID=NOIMAGE;
+    105              i->ImageHandle=NOIMAGE;
+    106              i->HasImage=false;
+    107              i->Handle=false;
+   \   00000058   0CD08DE2           ADD      SP,SP,#+12
+   \                     ??ImageHandler_Free_3:
+   \   0000005C   0000A0E3           MOV      R0,#+0
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   0610C4E5           STRB     R1,[R4, #+6]
+   \   00000068   FF10A0E3           MOV      R1,#+255
+   \   0000006C   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000070   B410C4E1           STRH     R1,[R4, #+4]
+   \   00000074   B210C4E1           STRH     R1,[R4, #+2]
+   \   00000078   0000C4E5           STRB     R0,[R4, #+0]
+    108            }
+    109            return 0;
+   \   0000007C   1280BDE8           POP      {R1,R4,PC}       ;; return
+    110          };
+    111          
+    112          
+    113          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    114          void Images_Load()
+    115          {
+    116            if (CustomImage_Show==true)
+   \                     ??Images_Load:
+   \   00000000   6C009FE5           LDR      R0,??Images_Load_1  ;; CustomImage_Show
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   7080BD18           POPNE    {R4-R6,PC}
+    117            {
+    118              img.isImage=true;
+   \   00000014   ........           LDR      R4,??DataTable6  ;; img
+    119              wchar_t *name = new wchar_t[strlen(CustomImage)+1];
+   \   00000018   58509FE5           LDR      R5,??Images_Load_1+0x4  ;; CustomImage
+   \   0000001C   1400C4E5           STRB     R0,[R4, #+20]
+   \   00000020   0500A0E1           MOV      R0,R5
+   \   00000024   5A0100EF           SWI      +346
+   \   00000028   010080E2           ADD      R0,R0,#+1
+   \   0000002C   8000A0E1           LSL      R0,R0,#+1
+   \   00000030   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000034   0060A0E1           MOV      R6,R0
+    120              char2unicode(name,CustomImage,strlen(CustomImage));
+   \   00000038   0500A0E1           MOV      R0,R5
+   \   0000003C   5A0100EF           SWI      +346
+   \   00000040   0020A0E1           MOV      R2,R0
+   \   00000044   0510A0E1           MOV      R1,R5
+   \   00000048   0600A0E1           MOV      R0,R6
+   \   0000004C   ........           _BLF     ??char2unicode,??char2unicode??rA
+    121              ImageHandler_Get(&img, checkfile(name), name);
+   \   00000050   0600A0E1           MOV      R0,R6
+   \   00000054   ........           _BLF     ??checkfile,??checkfile??rA
+   \   00000058   0010A0E1           MOV      R1,R0
+   \   0000005C   0620A0E1           MOV      R2,R6
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   ........           BL       ??ImageHandler_Get
+    122              delete(name);
+   \   00000068   0600A0E1           MOV      R0,R6
+   \   0000006C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    123            }
+    124          };
+   \   00000070   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??Images_Load_1:
+   \   00000074   ........           DC32     CustomImage_Show
+   \   00000078   ........           DC32     CustomImage
+    125          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    126          void Images_Unload()
+    127          {
+   \                     ??Images_Unload:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    128            if (img.isImage==true)
+   \   00000004   ........           LDR      R4,??DataTable6  ;; img
+   \   00000008   1400D4E5           LDRB     R0,[R4, #+20]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    129            {
+    130              ImageHandler_Free(&img);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   ........           BL       ??ImageHandler_Free
+    131              img.isImage=false;
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   1400C4E5           STRB     R0,[R4, #+20]
+    132            }
+    133          };
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     SYNC
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     img
+    134          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     ImageHandler_Free(METADATA *)     24
+     ImageHandler_Free(UI_IMG *)       24
+     ImageHandler_Get(IMG_DESC *, wchar_t *, wchar_t *)
+                                       40
+     ImageHandler_Get(METADATA *, wchar_t *, wchar_t *)
+                                       44
+     ImageHandler_Get(UI_IMG *, wchar_t *, wchar_t *)
+                                       40
+     Images_Load()                     16
+     Images_Unload()                    8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     img                              24
+     ImageHandler_Get(UI_IMG *, wchar_t *, wchar_t *)
+                                     164
+     ImageHandler_Get(METADATA *, wchar_t *, wchar_t *)
+                                     200
+     ImageHandler_Get(IMG_DESC *, wchar_t *, wchar_t *)
+                                     196
+     ImageHandler_Free(UI_IMG *)      92
+     ImageHandler_Free(METADATA *)   128
+     Images_Load()                   124
+     Images_Unload()                  40
+     ??DataTable4                      4
+     ??DataTable6                      4
+      Others                          88
+
+ 
+ 1 028 bytes in segment CODE
+    24 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 952 bytes of CODE memory (+ 88 bytes shared)
+  24 bytes of DATA memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,441 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:46:47 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\encode.c /
+//                       pp                                                  /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\encode.c /
+//                       pp -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN        /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcs /
+//                       e\Release\List\ -o Z:\home\perk11\www\perk11.info\s /
+//                       vn\SE\mcse\Release\Obj\ -s9 --no_unroll             /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h --preinclude Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\mcse\..\deleaker\mem2.h -I                     /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\encode.s79                                     /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME encode
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??char8to16
+        FUNCTION ??char8to16,0203H
+        MULTWEAK ??char8to16??rT
+        PUBLIC ??dos2utf16
+        FUNCTION ??dos2utf16,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??dos2utf16??rT
+        PUBLIC ??utf8_to_utf16
+        FUNCTION ??utf8_to_utf16,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??utf8_to_utf16??rT
+        PUBLIC ??win12512unicode
+        FUNCTION ??win12512unicode,0203H
+        MULTWEAK ??win12512unicode??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??char8to16??rT     SYMBOL "??rT", ??char8to16
+
+??dos2utf16??rT     SYMBOL "??rT", ??dos2utf16
+
+??utf8_to_utf16??rT SYMBOL "??rT", ??utf8_to_utf16
+
+??win12512unicode??rT SYMBOL "??rT", ??win12512unicode
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??win12512unicode??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??win12512unicode
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??win12512unicode
+        ARM
+??win12512unicode:
+        B        ??win12512unicode_1
+??win12512unicode_2:
+        CMP      R3,#+192
+        BLT      ??win12512unicode_3
+        CMP      R3,#+256
+        ADDLT    R3,R3,#+848
+??win12512unicode_3:
+        STRH     R3,[R0], #+2
+??win12512unicode_1:
+        LDRB     R3,[R1], #+1
+        CMP      R3,#+0
+        BEQ      ??win12512unicode_4
+        MOV      R12,R2
+        SUB      R2,R12,#+1
+        CMP      R12,#+1
+        BLT      ??win12512unicode_4
+        CMP      R3,#+168
+        BNE      ??win12512unicode_5
+        MOV      R3,#+1
+??win12512unicode_6:
+        ORR      R3,R3,#0x400
+        B        ??win12512unicode_3
+??win12512unicode_5:
+        CMP      R3,#+170
+        MOVEQ    R3,#+4
+        BEQ      ??win12512unicode_6
+        CMP      R3,#+175
+        BNE      ??win12512unicode_7
+        MOV      R3,#+7
+??win12512unicode_8:
+        B        ??win12512unicode_6
+??win12512unicode_7:
+        CMP      R3,#+184
+        MOVEQ    R3,#+81
+        BEQ      ??win12512unicode_6
+        CMP      R3,#+186
+        MOVEQ    R3,#+84
+        BEQ      ??win12512unicode_6
+        CMP      R3,#+191
+        BNE      ??win12512unicode_2
+        MOV      R3,#+87
+        B        ??win12512unicode_6
+??win12512unicode_4:
+        MOV      R1,#+0
+        STRH     R1,[R0, #+0]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??char8to16??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??char8to16
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+dos2unicode:
+        DATA
+        DC16 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050
+        DC16 1051, 1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059, 1060, 1061
+        DC16 1062, 1063, 1064, 1065, 1066, 1067, 1068, 1069, 1070, 1071, 1072
+        DC16 1073, 1074, 1075, 1076, 1077, 1078, 1079, 1080, 1081, 1082, 1083
+        DC16 1084, 1085, 1086, 1087, 45, 45, 45, 166, 43, 166, 166, 172, 172
+        DC16 166, 166, 172, 45, 45, 45, 172, 76, 43, 84, 43, 45, 43, 166, 166
+        DC16 76, 1075, 166, 84, 166, 61, 43, 166, 166, 84, 84, 76, 76, 45, 1075
+        DC16 43, 43, 45, 45, 45, 45, 166, 166, 45, 1088, 1089, 1090, 1091, 1092
+        DC16 1093, 1094, 1095, 1096, 1097, 1098, 1099, 1100, 1101, 1102, 1103
+        DC16 1025, 1105, 1028, 1108, 1031, 1111, 1038, 1118, 176, 8226, 183
+        DC16 118, 8470, 164, 166, 160
+        DC8 95, 95, 39, 95, 34, 58, 197, 216, 95, 37, 95, 60, 95, 95, 95, 95
+        DC8 95, 39, 39, 34, 34, 7, 45, 45, 95, 84, 95, 62, 95, 95, 95, 95, 255
+        DC8 246, 247, 95, 253, 131, 179, 21, 240, 99, 242, 60, 191, 45, 82, 244
+        DC8 248, 43, 73, 105, 163, 231, 20, 250, 241, 252, 243, 62, 95, 95, 95
+        DC8 245, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139
+        DC8 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152
+        DC8 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165
+        DC8 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 224, 225, 226
+        DC8 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239
+        DC8 95, 95, 39, 95, 34, 58, 197, 216, 95, 37, 95, 60, 95, 95, 95, 95
+        DC8 95, 39, 39, 34, 34, 7, 45, 45, 95, 84, 95, 62, 95, 95, 95, 95, 255
+        DC8 246, 247, 241, 243, 95, 105, 245, 240, 99, 242, 60, 191, 163, 82
+        DC8 244, 248, 43, 95, 240, 242, 231, 73, 244, 241, 252, 243, 62, 95
+        DC8 131, 95, 245, 238, 160, 161, 230, 164, 165, 228, 163, 229, 168, 169
+        DC8 170, 171, 172, 173, 174, 175, 239, 224, 225, 226, 227, 166, 162
+        DC8 236, 235, 167, 232, 237, 233, 231, 234, 158, 128, 129, 150, 132
+        DC8 133, 148, 131, 149, 136, 137, 138, 139, 140, 141, 142, 143, 159
+        DC8 144, 145, 146, 147, 134, 130, 156, 155, 135, 152, 157, 153, 151
+        DC8 154
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??char8to16
+        ARM
+??char8to16:
+        CMP      R0,#+128
+        BXLT     LR
+        SUBS     R1,R1,#+1
+        BEQ      ??char8to16_1
+        SUBS     R1,R1,#+1
+        LDREQ    R1,??char8to16_2  ;; dos2unicode
+        ADDEQ    R0,R0,R1
+        LDRBEQ   R0,[R0, #+256]
+        B        ??char8to16_3
+??char8to16_1:
+        LDR      R1,??char8to16_2  ;; dos2unicode
+        ADD      R0,R0,R1
+        LDRB     R0,[R0, #+128]
+??char8to16_3:
+        CMP      R0,#+128
+        BXLT     LR
+        LDR      R2,??char8to16_2  ;; dos2unicode
+        MVN      R1,#+255
+        ADD      R0,R2,R0, LSL #+1
+        LDRH     R0,[R1, +R0]
+        BX       LR               ;; return
+        DATA
+??char8to16_2:
+        DC32     dos2unicode
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??dos2utf16??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??dos2utf16
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??dos2utf16
+        ARM
+??dos2utf16:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        MOV      R5,R1
+        B        ??dos2utf16_1
+??dos2utf16_2:
+        MOV      R1,#+3
+        BL       ??char8to16
+        STRH     R0,[R4], #+2
+??dos2utf16_1:
+        LDRB     R0,[R5], #+1
+        CMP      R0,#+0
+        BNE      ??dos2utf16_2
+        STRH     R0,[R4, #+0]
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??utf8_to_utf16??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??utf8_to_utf16
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??utf8_to_utf16
+        ARM
+??utf8_to_utf16:
+        PUSH     {R4-R6}
+        CFI R6 Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R3,#+0
+        B        ??utf8_to_utf16_1
+??utf8_to_utf16_2:
+        CMP      R2,#+0
+        STRHNE   R12,[R2], #+2
+??utf8_to_utf16_3:
+        ADD      R3,R3,#+1
+??utf8_to_utf16_1:
+        SUBS     R1,R1,#+1
+        BMI      ??utf8_to_utf16_4
+        LDRB     R12,[R0], #+1
+        CMP      R12,#+128
+        BCC      ??utf8_to_utf16_2
+        AND      R4,R12,#0xC0
+        CMP      R4,#+128
+        BNE      ??utf8_to_utf16_5
+??utf8_to_utf16_6:
+        POP      {R4-R6}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI CFA R13+0
+        MVN      R0,#+0
+        BX       LR
+        CFI R4 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -4)
+        CFI CFA R13+12
+??utf8_to_utf16_5:
+        SUBS     R1,R1,#+1
+        BMI      ??utf8_to_utf16_6
+        LDRB     R5,[R0], #+1
+        AND      R6,R5,#0xC0
+        CMP      R6,#+128
+        BNE      ??utf8_to_utf16_6
+        AND      R5,R5,#0x3F
+        ORR      R4,R5,R12, LSL #+6
+        TST      R12,#0x20
+        BNE      ??utf8_to_utf16_7
+        CMP      R4,#+128
+        BCC      ??utf8_to_utf16_6
+        CMP      R2,#+0
+        BEQ      ??utf8_to_utf16_3
+        LSL      R4,R4,#+21
+        LSR      R4,R4,#+21
+??utf8_to_utf16_8:
+        STRH     R4,[R2], #+2
+        B        ??utf8_to_utf16_3
+??utf8_to_utf16_7:
+        SUBS     R1,R1,#+1
+        BMI      ??utf8_to_utf16_6
+        LDRB     R5,[R0], #+1
+        AND      R6,R5,#0xC0
+        CMP      R6,#+128
+        BNE      ??utf8_to_utf16_6
+        AND      R5,R5,#0x3F
+        ORR      R4,R5,R4, LSL #+6
+        TST      R12,#0x10
+        BNE      ??utf8_to_utf16_9
+        CMP      R4,#+2048
+        BCC      ??utf8_to_utf16_6
+        CMP      R4,#+55296
+        BCC      ??utf8_to_utf16_10
+        CMP      R4,#+57344
+        BCC      ??utf8_to_utf16_6
+??utf8_to_utf16_10:
+        CMP      R2,#+0
+        BEQ      ??utf8_to_utf16_3
+        B        ??utf8_to_utf16_8
+??utf8_to_utf16_9:
+        LDRB     R5,[R0], #+1
+        SUBS     R1,R1,#+1
+        BMI      ??utf8_to_utf16_6
+        AND      R6,R5,#0xC0
+        CMP      R6,#+128
+        BNE      ??utf8_to_utf16_6
+        AND      R5,R5,#0x3F
+        ORR      R4,R5,R4, LSL #+6
+        TST      R12,#0x8
+        BNE      ??utf8_to_utf16_6
+        CMP      R4,#+65536
+        BCC      ??utf8_to_utf16_6
+        MOV      R5,#-16777216
+        ORR      R5,R5,#0xFF0000
+        ADD      R4,R5,R4
+        CMP      R2,#+0
+        BEQ      ??utf8_to_utf16_11
+        LSL      R5,R4,#+12
+        MOV      R6,#+55296
+        ADD      R5,R6,R5, LSR #+22
+        STRH     R5,[R2], #+2
+??utf8_to_utf16_11:
+        CMP      R2,#+0
+        BEQ      ??utf8_to_utf16_12
+        LSL      R4,R4,#+22
+        MOV      R5,#+56320
+        ADD      R4,R5,R4, LSR #+22
+        STRH     R4,[R2], #+2
+??utf8_to_utf16_12:
+        ADD      R3,R3,#+2
+        B        ??utf8_to_utf16_1
+??utf8_to_utf16_4:
+        POP      {R4-R6}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI CFA R13+0
+        MOV      R0,R3
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock7
+
+        END
+// 
+// 640 bytes in segment CODE
+// 512 bytes in segment DATA_C
+// 
+// 624 bytes of CODE  memory (+ 16 bytes shared)
+// 512 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,507 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:43:18 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgExample\ma #
+#                       in.cpp                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgExample\ma #
+#                       in.cpp -D NDEBUG -D OLDFUNCTIONS -lCN                #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\BcfgExample\Re #
+#                       lease\List\ -la Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\BcfgExample\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\BcfgExample\Re #
+#                       lease\Obj\ -s9 --no_unroll --no_code_motion          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgExample\Re #
+#                       lease\List\main.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgExample\Re #
+#                       lease\Obj\main.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\BcfgExample\main.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\cfg_items.h"
+      4          #include "conf_loader.h"
+      5          #include "config_data.h"
+      6          
+      7          
+      8          typedef struct
+      9          {
+     10            BOOK  book;
+     11          }MyBOOK;
+     12          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     13          DISP_OBJ * StatusRow;
+   \                     StatusRow:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for StatusRow>`
+     14          TEXTID SIDheap=EMPTY_TEXTID;
+   \                     SIDheap:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for SIDheap>`
+     15          void (*SIonRedraw)(DISP_OBJ *,int r1,int r2,int r3);
+   \                     SIonRedraw:
+   \   00000008                      DS8 4
+   \   0000000C                      REQUIRE `?<Initializer for SIonRedraw>`
+     16          
+     17          u16 timer; // ID таймера
+   \                     timer:
+   \   0000000C                      DS8 2
+   \   0000000E                      REQUIRE `?<Initializer for timer>`
+     18          
+     19          #pragma segment="ELFBEGIN"
+
+   \                                 In segment CODE, align 4, keep-with-next
+     20          void elf_exit(void){
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     21            kill_data(__segment_begin("ELFBEGIN"), (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; SFB(ELFBEGIN)
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     SFB(ELFBEGIN)
+     22          }
+     23          
+     24          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     25          void Draw(DISP_OBJ * db,int r1, int r2,int r3)
+     26          {
+   \                     ??Draw:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+     27            // вызываем родной onRedraw.
+     28            SIonRedraw(db,r1,r2,r3);
+   \   00000004   A4409FE5           LDR      R4,??Draw_1      ;; StatusRow + 8
+   \   00000008   004094E5           LDR      R4,[R4, #+0]
+   \   0000000C   34FF2FE1           BLX      R4
+     29            {
+     30              if (IS_ENABLED)
+   \   00000010   9C009FE5           LDR      R0,??Draw_1+0x4  ;; IS_ENABLED
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   F081BD08           POPEQ    {R4-R8,PC}
+     31              {
+     32                SetFont(FONT);
+   \   00000020   90009FE5           LDR      R0,??Draw_1+0x8  ;; FONT
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   F10100EF           SWI      +497
+     33                //очистили прямоугольник
+     34                DrawRect(X_POS,Y_POS,X_POS+40,Y_POS+9,BRUSH_COLOR,BRUSH_COLOR) ;
+   \   0000002C   88009FE5           LDR      R0,??Draw_1+0xC  ;; X_POS
+   \   00000030   004090E5           LDR      R4,[R0, #+0]
+   \   00000034   84009FE5           LDR      R0,??Draw_1+0x10  ;; Y_POS
+   \   00000038   285084E2           ADD      R5,R4,#+40
+   \   0000003C   006090E5           LDR      R6,[R0, #+0]
+   \   00000040   7C009FE5           LDR      R0,??Draw_1+0x14  ;; BRUSH_COLOR
+   \   00000044   097086E2           ADD      R7,R6,#+9
+   \   00000048   008090E5           LDR      R8,[R0, #+0]
+   \   0000004C   0730A0E1           MOV      R3,R7
+   \   00000050   0800A0E1           MOV      R0,R8
+   \   00000054   01002DE9           PUSH     {R0}
+   \   00000058   01002DE9           PUSH     {R0}
+   \   0000005C   0520A0E1           MOV      R2,R5
+   \   00000060   0610A0E1           MOV      R1,R6
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   EC0100EF           SWI      +492
+     35                
+     36                //печатаем хип
+     37                DrawString(SIDheap,2,X_POS,Y_POS,X_POS+40,Y_POS+9,01,0x01,PEN_COLOR,BRUSH_COLOR);//2
+   \   0000006C   54009FE5           LDR      R0,??Draw_1+0x18  ;; PEN_COLOR
+   \   00000070   00012DE9           PUSH     {R8}
+   \   00000074   000090E5           LDR      R0,[R0, #+0]
+   \   00000078   0630A0E1           MOV      R3,R6
+   \   0000007C   01002DE9           PUSH     {R0}
+   \   00000080   0420A0E1           MOV      R2,R4
+   \   00000084   0210A0E3           MOV      R1,#+2
+   \   00000088   0100A0E3           MOV      R0,#+1
+   \   0000008C   01002DE9           PUSH     {R0}
+   \   00000090   01002DE9           PUSH     {R0}
+   \   00000094   30009FE5           LDR      R0,??Draw_1+0x1C  ;; StatusRow + 4
+   \   00000098   80002DE9           PUSH     {R7}
+   \   0000009C   20002DE9           PUSH     {R5}
+   \   000000A0   000090E5           LDR      R0,[R0, #+0]
+   \   000000A4   ED0100EF           SWI      +493
+   \   000000A8   20D08DE2           ADD      SP,SP,#+32
+     38              }
+     39            }
+     40          }
+   \   000000AC   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??Draw_1:
+   \   000000B0   ........           DC32     StatusRow + 8
+   \   000000B4   ........           DC32     IS_ENABLED
+   \   000000B8   ........           DC32     FONT
+   \   000000BC   ........           DC32     X_POS
+   \   000000C0   ........           DC32     Y_POS
+   \   000000C4   ........           DC32     BRUSH_COLOR
+   \   000000C8   ........           DC32     PEN_COLOR
+   \   000000CC   ........           DC32     StatusRow + 4
+     41          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     42          void onTimer(u16 r0, LPARAM)
+     43          {
+     44            if (SIDheap!=EMPTY_TEXTID){TextID_Destroy(SIDheap);SIDheap=EMPTY_TEXTID;}
+   \                     ??onTimer:
+   \   00000000   58009FE5           LDR      R0,??onTimer_1   ;; StatusRow + 4
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   9014E0E3           MVN      R1,#-1879048192
+   \   00000010   010050E1           CMP      R0,R1
+   \   00000014   0300000A           BEQ      ??onTimer_2
+   \   00000018   ........           LDR      R4,??DataTable9  ;; StatusRow
+   \   0000001C   610100EF           SWI      +353
+   \   00000020   9004E0E3           MVN      R0,#-1879048192
+   \   00000024   040084E5           STR      R0,[R4, #+4]
+     45            SIDheap=TextID_CreateIntegerID(GetFreeBytesOnHeap());
+   \                     ??onTimer_2:
+   \   00000028   ........           LDR      R4,??DataTable9  ;; StatusRow
+   \   0000002C   700100EF           SWI      +368
+   \   00000030   5C0100EF           SWI      +348
+     46            Timer_ReSet(&timer,REFRESH_TIME,onTimer,0);
+   \   00000034   ........           LDR      R2,??DataTable10  ;; ??onTimer
+   \   00000038   040084E5           STR      R0,[R4, #+4]
+   \   0000003C   ........           LDR      R0,??DataTable4  ;; REFRESH_TIME
+   \   00000040   0030A0E3           MOV      R3,#+0
+   \   00000044   001090E5           LDR      R1,[R0, #+0]
+   \   00000048   0C0084E2           ADD      R0,R4,#+12
+   \   0000004C   280100EF           SWI      +296
+     47            DispObject_InvalidateRect(StatusRow,0);
+   \   00000050   000094E5           LDR      R0,[R4, #+0]
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   EF0100EF           SWI      +495
+     48          }
+   \   0000005C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??onTimer_1:
+   \   00000060   ........           DC32     StatusRow + 4
+     49          
+     50          
+     51          
+     52          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     53          static int TerminateElf(void * ,BOOK *book)
+     54          {
+   \                     ??TerminateElf:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+     55            FreeBook(book);
+   \   00000008   2F0100EF           SWI      +303
+     56            return(1);
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     57          }
+     58          
+     59          typedef struct
+     60          {
+     61            BOOK * book;
+     62          }MSG;
+     63          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     64          static int ShowAuthorInfo(void *mess ,BOOK *book)
+     65          {
+   \                     ??ShowAuthorInfo:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     66            MSG * msg = (MSG *)mess;
+     67            MessageBox(EMPTY_TEXTID,STR("BcfgExample"), NOIMAGE, 1, 5000,msg->book);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   3C009FE5           LDR      R0,??ShowAuthorInfo_1  ;; `?<Constant L"\\x42\\x63\\x66\\x67\\x45\\x78\\x61\\x6d\\`
+   \   00000010   FF50A0E3           MOV      R5,#+255
+   \   00000014   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000018   0520A0E1           MOV      R2,R5
+   \   0000001C   5D0100EF           SWI      +349
+   \   00000020   001094E5           LDR      R1,[R4, #+0]
+   \   00000024   0130A0E3           MOV      R3,#+1
+   \   00000028   02002DE9           PUSH     {R1}
+   \   0000002C   0520A0E1           MOV      R2,R5
+   \   00000030   8810A0E3           MOV      R1,#+136
+   \   00000034   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   9004E0E3           MVN      R0,#-1879048192
+   \   00000044   570200EF           SWI      +599
+     68            return(1);
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   3680BDE8           POP      {R1,R2,R4,R5,PC}  ;; return
+   \                     ??ShowAuthorInfo_1:
+   \   00000050   ........           DC32     `?<Constant L"\\x42\\x63\\x66\\x67\\x45\\x78\\x61\\x6d\\`
+     69          }
+     70          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     71          static int ReconfigElf(void *mess ,BOOK *book)
+     72          {
+   \                     ??ReconfigElf:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     73            RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+     74            int result=0;
+     75            if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+   \   00000008   54009FE5           LDR      R0,??ReconfigElf_1  ;; successed_config_path
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   001090E5           LDR      R1,[R0, #+0]
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   9F0200EF           SWI      +671
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0D00001A           BNE      ??ReconfigElf_2
+   \   00000024   3C009FE5           LDR      R0,??ReconfigElf_1+0x4  ;; successed_config_name
+   \   00000028   001090E5           LDR      R1,[R0, #+0]
+   \   0000002C   800084E2           ADD      R0,R4,#+128
+   \   00000030   9F0200EF           SWI      +671
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0700001A           BNE      ??ReconfigElf_2
+     76            {
+     77              InitConfig();
+   \   0000003C   ........           _BLF     ??InitConfig,??InitConfig??rA
+     78              Timer_ReSet(&timer,REFRESH_TIME,onTimer,0);
+   \   00000040   ........           LDR      R0,??DataTable4  ;; REFRESH_TIME
+   \   00000044   ........           LDR      R2,??DataTable10  ;; ??onTimer
+   \   00000048   001090E5           LDR      R1,[R0, #+0]
+   \   0000004C   18009FE5           LDR      R0,??ReconfigElf_1+0x8  ;; StatusRow + 12
+   \   00000050   0030A0E3           MOV      R3,#+0
+   \   00000054   280100EF           SWI      +296
+     79              result=1;
+   \   00000058   0150A0E3           MOV      R5,#+1
+     80            }
+     81            return(result);
+   \                     ??ReconfigElf_2:
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??ReconfigElf_1:
+   \   00000064   ........           DC32     successed_config_path
+   \   00000068   ........           DC32     successed_config_name
+   \   0000006C   ........           DC32     StatusRow + 12
+     82          }
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          static void onMyBookClose(BOOK * book)
+     85          {
+   \                     ??onMyBookClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     86            DISP_DESC_SetOnRedraw(DispObject_GetDESC(StatusRow),SIonRedraw);
+   \   00000004   ........           LDR      R4,??DataTable9  ;; StatusRow
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   1F0200EF           SWI      +543
+   \   00000010   081094E5           LDR      R1,[R4, #+8]
+   \   00000014   280200EF           SWI      +552
+     87            Timer_Kill(&timer);
+   \   00000018   0C0084E2           ADD      R0,R4,#+12
+   \   0000001C   2A0100EF           SWI      +298
+     88            SUBPROC(elf_exit);
+   \   00000020   ........           LDR      R0,??DataTable8  ;; ??elf_exit
+   \   00000024   080100EF           SWI      +264
+     89          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     90          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+     91          const PAGE_MSG bk_msglst_base[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_base:
+   \   00000000   E5030000....       DC32 997, ??TerminateElf, 998, ??ShowAuthorInfo, 996, ??ReconfigElf, 64
+   \              ....E6030000
+   \              ........E403
+   \              0000........
+   \              40000000    
+   \   0000001C   00000000           DC32 0H
+     92          {
+     93            ELF_TERMINATE_EVENT,     TerminateElf,
+     94            ELF_SHOW_INFO_EVENT,     ShowAuthorInfo,
+     95            ELF_RECONFIG_EVENT,      ReconfigElf,
+     96            NIL_EVENT_TAG,           NULL
+     97          };
+     98          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "BcfgExample">`:
+   \   00000000   426366674578       DC8 "BcfgExample"
+   \              616D706C6500
+   \   0000000C   ........0000       DC32 `?<Constant "BcfgExample_Base_Page">`, 0H, bk_msglst_base
+   \              0000........
+     99          const PAGE_DESC bk_base = {"BcfgExample_Base_Page",0,bk_msglst_base};
+    100          
+    101          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    102          int main()
+    103          { 
+   \                     main:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    104            MyBOOK * myBook=new MyBOOK;
+   \   00000004   1800A0E3           MOV      R0,#+24
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000000C   0040A0E1           MOV      R4,R0
+    105            memset(myBook,0,sizeof(MyBOOK));
+   \   00000010   1820A0E3           MOV      R2,#+24
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   120100EF           SWI      +274
+    106            if (!CreateBook((BOOK*)myBook,onMyBookClose,&bk_base,"BcfgExample",-1,0))
+   \   0000001C   80009FE5           LDR      R0,??main_0      ;; `?<Constant "BcfgExample">`
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   02002DE9           PUSH     {R1}
+   \   00000028   0030A0E1           MOV      R3,R0
+   \   0000002C   0C2080E2           ADD      R2,R0,#+12
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   0110E0E1           MVN      R1,R1
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   64109FE5           LDR      R1,??main_0+0x4  ;; ??onMyBookClose
+   \   00000040   2B0100EF           SWI      +299
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   08D08DE2           ADD      SP,SP,#+8
+   \   0000004C   0500001A           BNE      ??main_1
+    107            {
+    108              delete myBook;
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    109              SUBPROC(elf_exit);
+   \   00000058   ........           LDR      R0,??DataTable8  ;; ??elf_exit
+   \   0000005C   080100EF           SWI      +264
+    110              return (0);    
+   \   00000060   0000A0E3           MOV      R0,#+0
+   \   00000064   1080BDE8           POP      {R4,PC}
+    111            }
+    112            InitConfig();
+    113            StatusRow=*StatusRow_p();
+   \                     ??main_1:
+   \   00000068   ........           LDR      R4,??DataTable9  ;; StatusRow
+   \   0000006C   ........           _BLF     ??InitConfig,??InitConfig??rA
+   \   00000070   F28100EF           SWI      +33266
+   \   00000074   000090E5           LDR      R0,[R0, #+0]
+   \   00000078   000084E5           STR      R0,[R4, #+0]
+    114            SIonRedraw=DispObject_GetOnRedraw(StatusRow);
+   \   0000007C   290200EF           SWI      +553
+   \   00000080   080084E5           STR      R0,[R4, #+8]
+    115            DISP_DESC_SetOnRedraw(DispObject_GetDESC(StatusRow),Draw);
+   \   00000084   000094E5           LDR      R0,[R4, #+0]
+   \   00000088   1F0200EF           SWI      +543
+   \   0000008C   18109FE5           LDR      R1,??main_0+0x8  ;; ??Draw
+   \   00000090   280200EF           SWI      +552
+    116            MMIPROC((void (*)(void))onTimer);
+   \   00000094   ........           LDR      R0,??DataTable10  ;; ??onTimer
+   \   00000098   090100EF           SWI      +265
+    117            return 0;
+   \   0000009C   0000A0E3           MOV      R0,#+0
+   \   000000A0   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??main_0:
+   \   000000A4   ........           DC32     `?<Constant "BcfgExample">`
+   \   000000A8   ........           DC32     ??onMyBookClose
+   \   000000AC   ........           DC32     ??Draw
+    118          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     REFRESH_TIME
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     StatusRow
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     ??onTimer
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for StatusRow>`:
+   \   00000000   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for SIDheap>`:
+   \   00000004   FFFFFF6F           DC32 1879048191
+   \                     `?<Initializer for SIonRedraw>`:
+   \   00000008   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for timer>`:
+   \   0000000C   0000               DC8 0, 0
+
+   \                                 In segment ELFBEGIN, align 1
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "BcfgExample_Base_Page">`:
+   \   00000000   426366674578       DC8 "BcfgExample_Base_Page"
+   \              616D706C655F
+   \              426173655F50
+   \              61676500    
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x42\\x63\\x66\\x67\\x45\\x78\\x61\\x6d\\`:
+   \   00000000   420063006600       DC8 42H, 0, 63H, 0, 66H, 0, 67H, 0
+   \              6700        
+   \   00000008   450078006100       DC8 45H, 0, 78H, 0, 61H, 0, 6DH, 0
+   \              6D00        
+   \   00000010   70006C006500       DC8 70H, 0, 6CH, 0, 65H, 0, 0, 0
+   \              0000        
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Draw(DISP_OBJ *, int, int, int)
+                                       56
+     ReconfigElf(void *, BOOK *)       12
+     ShowAuthorInfo(void *, BOOK *)    20
+     TerminateElf(void *, BOOK *)       4
+     elf_exit()                         4
+     main()                            16
+     onMyBookClose(BOOK *)              8
+     onTimer(u16, LPARAM)               8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     StatusRow                        14
+     elf_exit()                       28
+     Draw(DISP_OBJ *, int, int, int)
+                                     208
+     onTimer(u16, LPARAM)            100
+     TerminateElf(void *, BOOK *)     20
+     ShowAuthorInfo(void *, BOOK *)   84
+     ReconfigElf(void *, BOOK *)     112
+     onMyBookClose(BOOK *)            44
+     bk_msglst_base                   32
+     ?<Constant "BcfgExample">        24
+     main()                          176
+     ??DataTable4                      4
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ??DataTable10                     4
+     ?<Initializer for StatusRow>     14
+     ?<Constant "BcfgExample_Base_Page">
+                                      24
+     ?<Constant L"\x42\x63\x66\x67\x45\x78\x61\x6d\
+                                      24
+      Others                          92
+
+ 
+ 868 bytes in segment CODE
+  72 bytes in segment DATA_C
+  14 bytes in segment DATA_I
+  14 bytes in segment DATA_ID
+  32 bytes in segment DYN_PAGE
+  12 bytes in segment INITTAB
+ 
+ 788 bytes of CODE  memory (+ 92 bytes shared)
+ 118 bytes of CONST memory
+  14 bytes of DATA  memory
+
+Errors: none
+Warnings: none

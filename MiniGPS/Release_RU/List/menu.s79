@@ -1,0 +1,1082 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:05:53 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\menu. /
+//                       c                                                   /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\menu. /
+//                       c -D NDEBUG -D LANG_RU -D OLDFUNCTIONS -lCN         /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Relea /
+//                       se_RU\List\ -la Z:\home\perk11\www\perk11.info\svn\ /
+//                       SE\MiniGPS\Release_RU\List\ -o                      /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Relea /
+//                       se_RU\Obj\ -s9 --no_unroll --no_code_motion         /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --enable_multibytes  /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Relea /
+//                       se_RU\List\menu.s79                                 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME menu
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??AutoBackPressed
+        FUNCTION ??AutoBackPressed,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??AutoBackPressed??rT
+        PUBLIC ??AutoOKPressed
+        FUNCTION ??AutoOKPressed,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??AutoOKPressed??rT
+        MULTWEAK ??CellIdProc??rA
+        MULTWEAK ??CheckCurrentCell??rA
+        PUBLIC ??CreateAutoLacationInput
+        FUNCTION ??CreateAutoLacationInput,0203H
+        LOCFRAME CSTACK, 80, STACK
+        MULTWEAK ??CreateAutoLacationInput??rT
+        PUBLIC ??CreateMenu
+        FUNCTION ??CreateMenu,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??CreateMenu??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable11 EQU 0
+??DataTable2 EQU 0
+??DataTable3 EQU 0
+??DataTable4 EQU 0
+??DataTable6 EQU 0
+??DataTable7 EQU 0
+??DataTable8 EQU 0
+??DataTable9 EQU 0
+        MULTWEAK ??InvalidateAll??rA
+        PUBLIC ??MenuOnBack
+        FUNCTION ??MenuOnBack,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??MenuOnBack??rT
+        PUBLIC ??MenuOnEnter
+        FUNCTION ??MenuOnEnter,0603H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??MenuOnEnter??rT
+        PUBLIC ??MenuOnKey
+        FUNCTION ??MenuOnKey,0603H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??MenuOnKey??rT
+        FUNCTION ??MenuPageOnEnter,0603H
+        LOCFRAME CSTACK, 4, STACK
+        FUNCTION ??MenuPageOnExit,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??ShowAuthorInfo??rA
+        MULTWEAK ??ShowHideProc??rA
+        PUBLIC ??ShowMenu
+        FUNCTION ??ShowMenu,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??ShowMenu??rT
+        PUBLIC ??menu_callback
+        FUNCTION ??menu_callback,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??menu_callback??rT
+        MULTWEAK ??onBcfgConfig??rA
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+
+
+??AutoBackPressed??rT SYMBOL "??rT", ??AutoBackPressed
+
+??AutoOKPressed??rT SYMBOL "??rT", ??AutoOKPressed
+??CellIdProc??rA    SYMBOL "??rA", ??CellIdProc
+??CheckCurrentCell??rA SYMBOL "??rA", ??CheckCurrentCell
+
+??CreateAutoLacationInput??rT SYMBOL "??rT", ??CreateAutoLacationInput
+
+??CreateMenu??rT    SYMBOL "??rT", ??CreateMenu
+??InvalidateAll??rA SYMBOL "??rA", ??InvalidateAll
+
+??MenuOnBack??rT    SYMBOL "??rT", ??MenuOnBack
+
+??MenuOnEnter??rT   SYMBOL "??rT", ??MenuOnEnter
+
+??MenuOnKey??rT     SYMBOL "??rT", ??MenuOnKey
+??ShowAuthorInfo??rA SYMBOL "??rA", ??ShowAuthorInfo
+??ShowHideProc??rA  SYMBOL "??rA", ??ShowHideProc
+
+??ShowMenu??rT      SYMBOL "??rT", ??ShowMenu
+
+??menu_callback??rT SYMBOL "??rT", ??menu_callback
+??onBcfgConfig??rA  SYMBOL "??rA", ??onBcfgConfig
+
+        EXTERN ??CellIdProc
+        FUNCTION ??CellIdProc,0202H
+        EXTERN ??CheckCurrentCell
+        FUNCTION ??CheckCurrentCell,0202H
+        EXTERN ??InvalidateAll
+        FUNCTION ??InvalidateAll,0202H
+        EXTERN ??ShowAuthorInfo
+        FUNCTION ??ShowAuthorInfo,0202H
+        EXTERN ??ShowHideProc
+        FUNCTION ??ShowHideProc,0202H
+        EXTERN ??isMiniGPSBook
+        FUNCTION ??isMiniGPSBook,0602H
+        EXTERN ??onBcfgConfig
+        FUNCTION ??onBcfgConfig,0202H
+        EXTERN ACTION_BACK
+        EXTERN ACTION_LONG_BACK
+        EXTERN ACTION_SELECT1
+        EXTERN AutoLocation
+        EXTERN KBD_SHORT_RELEASE
+        EXTERN KEY_DIGITAL_0
+        EXTERN NIL_EVENT
+        EXTERN SIwstr
+        EXTERN VAR_ARG_BOOK
+        EXTERN VAR_ARG_CALL_BACK_OK
+        EXTERN VAR_ARG_CALL_BACK_PREV_ACT
+        EXTERN VAR_ARG_STRINP_EMPTY_STR_EN
+        EXTERN VAR_ARG_STRINP_FIXED_TEXT
+        EXTERN VAR_ARG_STRINP_MAX_LEN
+        EXTERN VAR_ARG_STRINP_MODE
+        EXTERN VAR_ARG_STRINP_NEW_LINE
+        EXTERN VAR_ARG_STRINP_TEXT
+        EXTERN showCellID
+        EXTERN visible
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??AutoOKPressed??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??AutoOKPressed
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??AutoOKPressed
+        ARM
+??AutoOKPressed:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+        LDR      R0,??DataTable5  ;; SIwstr
+        SWI      +338
+        LDR      R0,??DataTable10  ;; AutoLocation
+        MOV      R1,#+1
+        STRB     R1,[R0, #+0]
+        _BLF     ??CheckCurrentCell,??CheckCurrentCell??rA
+        LDR      R0,??DataTable12  ;; NIL_EVENT
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +302
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??AutoBackPressed??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??AutoBackPressed
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??AutoBackPressed
+        ARM
+??AutoBackPressed:
+        LDR      R1,??DataTable12  ;; NIL_EVENT
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R1,[R1, #+0]
+        SWI      +302
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CreateAutoLacationInput??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??CreateAutoLacationInput
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??CreateAutoLacationInput
+        ARM
+??CreateAutoLacationInput:
+        LDR      R0,??DataTable13  ;; ??isMiniGPSBook
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SWI      +304
+        MOV      R4,R0
+        LDR      R0,[R4, #+32]
+        CMP      R0,#+0
+        BEQ      ??CreateAutoLacationInput_1
+        SWI      +462
+        MOV      R0,#+0
+        STR      R0,[R4, #+32]
+??CreateAutoLacationInput_1:
+        LDR      R0,??DataTable5  ;; SIwstr
+        MOV      R6,#+255
+        ORR      R6,R6,#0xFF00
+        MOV      R2,R6
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R5,R0
+        LDR      R0,??CreateAutoLacationInput_2  ;; `?<Constant L"\\x422\\x435\\x43a\\x443\\x449\\x435\\x4`
+        MOV      R2,R6
+        MOV      R1,#+0
+        SWI      +349
+        LDR      R3,??CreateAutoLacationInput_2+0x4  ;; VAR_ARG_STRINP_FIXED_TEXT
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+20
+        LDR      R1,??CreateAutoLacationInput_2+0x8  ;; ??AutoBackPressed
+        MOV      R2,R4
+        PUSH     {R1}
+        CFI CFA R13+24
+        LDR      R1,??CreateAutoLacationInput_2+0xC  ;; VAR_ARG_CALL_BACK_PREV_ACT
+        PUSH     {R1}
+        CFI CFA R13+28
+        LDR      R1,??CreateAutoLacationInput_2+0x10  ;; ??AutoOKPressed
+        PUSH     {R1}
+        CFI CFA R13+32
+        LDR      R1,??CreateAutoLacationInput_2+0x14  ;; VAR_ARG_CALL_BACK_OK
+        PUSH     {R1}
+        CFI CFA R13+36
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+40
+        LDR      R1,??CreateAutoLacationInput_2+0x18  ;; VAR_ARG_STRINP_MODE
+        PUSH     {R1}
+        CFI CFA R13+44
+        MOV      R1,#+95
+        PUSH     {R1}
+        CFI CFA R13+48
+        LDR      R1,??CreateAutoLacationInput_2+0x1C  ;; VAR_ARG_STRINP_MAX_LEN
+        PUSH     {R1}
+        CFI CFA R13+52
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+56
+        LDR      R1,??CreateAutoLacationInput_2+0x20  ;; VAR_ARG_STRINP_EMPTY_STR_EN
+        PUSH     {R1}
+        CFI CFA R13+60
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+64
+        LDR      R1,??CreateAutoLacationInput_2+0x24  ;; VAR_ARG_STRINP_NEW_LINE
+        PUSH     {R1}
+        CFI CFA R13+68
+        LDR      R1,??CreateAutoLacationInput_2+0x28  ;; VAR_ARG_STRINP_TEXT
+        PUSH     {R5}
+        CFI CFA R13+72
+        PUSH     {R1}
+        CFI CFA R13+76
+        LDR      R1,??CreateAutoLacationInput_2+0x2C  ;; VAR_ARG_BOOK
+        PUSH     {R0}
+        CFI CFA R13+80
+        MOV      R0,#+0
+        SWI      +324
+        ADD      SP,SP,#+64
+        CFI CFA R13+16
+        STR      R0,[R4, #+32]
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +306
+        LDR      R0,[R4, #+32]
+        SWI      +308
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??CreateAutoLacationInput_2:
+        DC32     `?<Constant L"\\x422\\x435\\x43a\\x443\\x449\\x435\\x4`
+        DC32     VAR_ARG_STRINP_FIXED_TEXT
+        DC32     ??AutoBackPressed
+        DC32     VAR_ARG_CALL_BACK_PREV_ACT
+        DC32     ??AutoOKPressed
+        DC32     VAR_ARG_CALL_BACK_OK
+        DC32     VAR_ARG_STRINP_MODE
+        DC32     VAR_ARG_STRINP_MAX_LEN
+        DC32     VAR_ARG_STRINP_EMPTY_STR_EN
+        DC32     VAR_ARG_STRINP_NEW_LINE
+        DC32     VAR_ARG_STRINP_TEXT
+        DC32     VAR_ARG_BOOK
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable5:
+        DC32     SIwstr
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??menu_callback??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??menu_callback
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??menu_callback
+        ARM
+??menu_callback:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        SWI      +884
+        CMP      R0,#+1
+        BNE      ??menu_callback_2
+        MOV      R0,R4
+        SWI      +311
+        CMP      R0,#+4
+        BHI      ??menu_callback_3
+        ADR      R1,??menu_callback_1
+        LDRB     R1,[R1, R0]
+        ADD      PC,PC,R1, LSL #+2
+        DATA
+??menu_callback_1:
+        DC8      +1,+10,+19,+28
+        DC8      +30,+0,+0,+0
+        ARM
+??menu_callback_4:
+        LDR      R0,??menu_callback_5  ;; visible
+        MOV      R2,#+255
+        LDRB     R0,[R0, #+0]
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        CMP      R0,#+0
+        LDREQ    R0,??menu_callback_5+0x4  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 36
+        LDRNE    R0,??menu_callback_5+0x8  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4`
+        B        ??menu_callback_6
+??menu_callback_7:
+        LDR      R0,??menu_callback_5+0xC  ;; showCellID
+        MOV      R2,#+255
+        LDRB     R0,[R0, #+0]
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        CMP      R0,#+0
+        LDREQ    R0,??menu_callback_5+0x10  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 100
+        LDRNE    R0,??menu_callback_5+0x14  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 72
+        B        ??menu_callback_6
+??menu_callback_8:
+        LDR      R0,??DataTable10  ;; AutoLocation
+        MOV      R2,#+255
+        LDRB     R0,[R0, #+0]
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        CMP      R0,#+0
+        LDREQ    R0,??menu_callback_5+0x18  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 188
+        LDRNE    R0,??menu_callback_5+0x1C  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 132
+        B        ??menu_callback_6
+??menu_callback_9:
+        LDR      R0,??menu_callback_5+0x20  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 240
+        B        ??menu_callback_10
+??menu_callback_11:
+        LDR      R0,??menu_callback_5+0x24  ;; `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 260
+??menu_callback_10:
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+??menu_callback_6:
+        SWI      +349
+        MOV      R5,R0
+??menu_callback_3:
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +312
+??menu_callback_2:
+        MOV      R0,#+1
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??menu_callback_5:
+        DC32     visible
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 36
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4`
+        DC32     showCellID
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 100
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 72
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 188
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 132
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 240
+        DC32     `?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4` + 260
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??MenuOnBack??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??MenuOnBack
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??MenuOnBack
+        ARM
+??MenuOnBack:
+        LDR      R1,??DataTable12  ;; NIL_EVENT
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R1,[R1, #+0]
+        SWI      +302
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??MenuOnEnter??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ??MenuOnEnter
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??MenuOnEnter
+        ARM
+??MenuOnEnter:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        LDR      R0,[R4, #+24]
+        SWI      +318
+        CMP      R0,#+4
+        POPHI    {R4,R5,PC}
+        ADR      R1,??MenuOnEnter_1
+        LDRB     R1,[R1, R0]
+        ADD      PC,PC,R1, LSL #+2
+        DATA
+??MenuOnEnter_1:
+        DC8      +1,+3,+10,+41
+        DC8      +45,+0,+0,+0
+        ARM
+??MenuOnEnter_2:
+        _BLF     ??ShowHideProc,??ShowHideProc??rA
+        B        ??MenuOnEnter_3
+??MenuOnEnter_4:
+        _BLF     ??CellIdProc,??CellIdProc??rA
+??MenuOnEnter_3:
+        _BLF     ??InvalidateAll,??InvalidateAll??rA
+??MenuOnEnter_5:
+        LDR      R0,??DataTable12  ;; NIL_EVENT
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +302
+        POP      {R4,R5,PC}
+??MenuOnEnter_6:
+        LDR      R0,??DataTable10  ;; AutoLocation
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??MenuOnEnter_7
+        BL       ??CreateAutoLacationInput
+        POP      {R4,R5,PC}
+??MenuOnEnter_7:
+        LDR      R0,??DataTable10  ;; AutoLocation
+        MOV      R1,#+0
+        STRB     R1,[R0, #+0]
+        LDR      R0,??MenuOnEnter_8  ;; `?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4`
+        MOV      R5,#+255
+        ORR      R5,R5,#0xFF00
+        MOV      R2,R5
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+16
+        MOV      R3,#+1
+        MOV      R2,R5
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        PUSH     {R1}
+        CFI CFA R13+20
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+        _BLF     ??InvalidateAll,??InvalidateAll??rA
+        LDR      R0,??DataTable12  ;; NIL_EVENT
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +302
+        ADD      SP,SP,#+8
+        CFI CFA R13+12
+        POP      {R4,R5,PC}
+??MenuOnEnter_9:
+        MOV      R1,R4
+        MOV      R0,#+0
+        _BLF     ??onBcfgConfig,??onBcfgConfig??rA
+        B        ??MenuOnEnter_5
+??MenuOnEnter_10:
+        MOV      R1,R4
+        MOV      R0,#+0
+        _BLF     ??ShowAuthorInfo,??ShowAuthorInfo??rA
+        LDR      R0,??DataTable12  ;; NIL_EVENT
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +302
+??MenuOnEnter_11:
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??MenuOnEnter_8:
+        DC32     `?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4`
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable10:
+        DC32     AutoLocation
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable12:
+        DC32     NIL_EVENT
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??MenuOnKey??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ??MenuOnKey
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??MenuOnKey
+        ARM
+??MenuOnKey:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        LDR      R6,[SP, #+28]
+        MOV      R7,R0
+        LDR      R0,??DataTable13  ;; ??isMiniGPSBook
+        MOV      R5,R1
+        MOV      R8,R2
+        MOV      R9,R3
+        SWI      +304
+        MOV      R4,R0
+        MOV      R0,R6
+        PUSH     {R0}
+        CFI CFA R13+32
+        MOV      R3,R9
+        MOV      R2,R8
+        MOV      R1,R5
+        MOV      R0,R7
+        LDR      R7,[R4, #+28]
+        BLX      R7
+        LDR      R0,??MenuOnKey_1  ;; KBD_SHORT_RELEASE
+        LDR      R0,[R0, #+0]
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        CMP      R6,R0
+        POPNE    {R4-R9,PC}
+        LDR      R0,??MenuOnKey_1+0x4  ;; KEY_DIGITAL_0
+        LDR      R0,[R0, #+0]
+        SUB      R0,R5,R0
+        CMP      R0,#+2
+        BNE      ??MenuOnKey_2
+        LDR      R0,[R4, #+24]
+        SWI      +318
+        SUBS     R1,R0,#+1
+        BPL      ??MenuOnKey_3
+        LDR      R0,[R4, #+24]
+        MOV      R1,#+4
+        SWI      +309
+        POP      {R4-R9,PC}
+??MenuOnKey_2:
+        CMP      R0,#+8
+        CMPNE    R0,#+0
+        BNE      ??MenuOnKey_4
+        LDR      R0,[R4, #+24]
+        SWI      +318
+        ADD      R1,R0,#+1
+        CMP      R1,#+5
+        MOVGE    R1,#+0
+??MenuOnKey_3:
+        LDR      R0,[R4, #+24]
+        SWI      +309
+        POP      {R4-R9,PC}
+??MenuOnKey_4:
+        CMP      R0,#+5
+        POPNE    {R4-R9,PC}
+        MOV      R1,#+0
+        MOV      R0,R4
+        BL       ??MenuOnEnter
+        POP      {R4-R9,PC}       ;; return
+        DATA
+??MenuOnKey_1:
+        DC32     KBD_SHORT_RELEASE
+        DC32     KEY_DIGITAL_0
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable13:
+        DC32     ??isMiniGPSBook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CreateMenu??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE ??CreateMenu
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??CreateMenu
+        ARM
+??CreateMenu:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        LDR      R5,??CreateMenu_1  ;; ??MenuOnBack
+        MOV      R4,R0
+        MOV      R1,#+0
+        SWI      +448
+        STR      R0,[R4, #+24]
+        LDR      R0,??CreateMenu_1+0x4  ;; `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53">`
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,R0
+        LDR      R0,[R4, #+24]
+        SWI      +307
+        LDR      R0,[R4, #+24]
+        MOV      R1,#+5
+        SWI      +449
+        LDR      R1,??CreateMenu_1+0x8  ;; ??menu_callback
+        LDR      R0,[R4, #+24]
+        SWI      +481
+        LDR      R0,[R4, #+24]
+        MOV      R1,#+0
+        SWI      +309
+        LDR      R0,??CreateMenu_1+0xC  ;; ACTION_BACK
+        MOV      R2,R5
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R4, #+24]
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+        LDR      R0,??CreateMenu_1+0x10  ;; ACTION_LONG_BACK
+        MOV      R2,R5
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R4, #+24]
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+        LDR      R0,??CreateMenu_1+0x14  ;; ACTION_SELECT1
+        LDR      R2,??CreateMenu_1+0x18  ;; ??MenuOnEnter
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R4, #+24]
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+        LDR      R0,[R4, #+24]
+        SWI      +360
+        SWI      +555
+        STR      R0,[R4, #+28]
+        LDR      R0,[R4, #+24]
+        SWI      +360
+        SWI      +543
+        LDR      R1,??CreateMenu_1+0x1C  ;; ??MenuOnKey
+        SWI      +554
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +306
+        LDR      R0,[R4, #+24]
+        SWI      +308
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??CreateMenu_1:
+        DC32     ??MenuOnBack
+        DC32     `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53">`
+        DC32     ??menu_callback
+        DC32     ACTION_BACK
+        DC32     ACTION_LONG_BACK
+        DC32     ACTION_SELECT1
+        DC32     ??MenuOnEnter
+        DC32     ??MenuOnKey
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??MenuPageOnEnter??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE ??MenuPageOnEnter
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ??MenuPageOnEnter
+        ARM
+??MenuPageOnEnter:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R0,R1
+        BL       ??CreateMenu
+        MOV      R0,#+1
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??MenuPageOnExit??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE ??MenuPageOnExit
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ??MenuPageOnExit
+        ARM
+??MenuPageOnExit:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R1
+        LDR      R0,[R4, #+24]
+        CMP      R0,#+0
+        BEQ      ??MenuPageOnExit_1
+        SWI      +462
+        MOV      R0,#+0
+        STR      R0,[R4, #+24]
+??MenuPageOnExit_1:
+        LDR      R0,[R4, #+32]
+        CMP      R0,#+0
+        BEQ      ??MenuPageOnExit_2
+        SWI      +462
+        MOV      R0,#+0
+        STR      R0,[R4, #+32]
+??MenuPageOnExit_2:
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +369
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ShowMenu??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock20
+        REQUIRE ??ShowMenu
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+bk_msglst_menu:
+        DATA
+        DC32 66, ??MenuPageOnEnter, 67, ??MenuPageOnExit, 64, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "MiniGPS_Menu_Page">`:
+        DATA
+        DC8 "MiniGPS_Menu_Page"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x422\\x435\\x43a\\x443\\x449\\x435\\x4`:
+        DATA
+        DC8 22H, 4, 35H, 4, 3AH, 4, 43H, 4
+        DC8 49H, 4, 35H, 4, 35H, 4, 20H, 0
+        DC8 3CH, 4, 35H, 4, 41H, 4, 42H, 4
+        DC8 3EH, 4, 3AH, 0, 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x421\\x43f\\x440\\x44f\\x442\\x430\\x4`:
+        DATA
+        DC8 21H, 4, 3FH, 4, 40H, 4, 4FH, 4
+        DC8 42H, 4, 30H, 4, 42H, 4, 4CH, 4
+        DC8 20H, 0, 3DH, 4, 30H, 4, 37H, 4
+        DC8 32H, 4, 30H, 4, 3DH, 4, 38H, 4
+        DC8 35H, 4, 0, 0
+        DC8 1FH, 4, 3EH, 4, 3AH, 4, 30H, 4
+        DC8 37H, 4, 30H, 4, 42H, 4, 4CH, 4
+        DC8 20H, 0, 3DH, 4, 30H, 4, 37H, 4
+        DC8 32H, 4, 30H, 4, 3DH, 4, 38H, 4
+        DC8 35H, 4, 0, 0
+        DC8 1FH, 4, 3EH, 4, 3AH, 4, 30H, 4
+        DC8 37H, 4, 30H, 4, 42H, 4, 4CH, 4
+        DC8 20H, 0, 18H, 4, 3CH, 4, 4FH, 4
+        DC8 0, 0
+        DC8 0, 0
+        DC8 1FH, 4, 3EH, 4, 3AH, 4, 30H, 4
+        DC8 37H, 4, 30H, 4, 42H, 4, 4CH, 4
+        DC8 20H, 0, 43H, 0, 65H, 0, 6CH, 0
+        DC8 6CH, 0, 49H, 0, 44H, 0, 0, 0
+        DC8 12H, 4, 4BH, 4, 3AH, 4, 3BH, 4
+        DC8 2EH, 0, 20H, 0, 30H, 4, 32H, 4
+        DC8 42H, 4, 3EH, 4, 34H, 4, 3EH, 4
+        DC8 31H, 4, 30H, 4, 32H, 4, 3BH, 4
+        DC8 35H, 4, 3DH, 4, 38H, 4, 35H, 4
+        DC8 20H, 0, 3CH, 4, 35H, 4, 41H, 4
+        DC8 42H, 4, 30H, 4, 0, 0
+        DC8 0, 0
+        DC8 12H, 4, 3AH, 4, 3BH, 4, 2EH, 0
+        DC8 20H, 0, 30H, 4, 32H, 4, 42H, 4
+        DC8 3EH, 4, 34H, 4, 3EH, 4, 31H, 4
+        DC8 30H, 4, 32H, 4, 3BH, 4, 35H, 4
+        DC8 3DH, 4, 38H, 4, 35H, 4, 20H, 0
+        DC8 3CH, 4, 35H, 4, 41H, 4, 42H, 4
+        DC8 30H, 4, 0, 0
+        DC8 1DH, 4, 30H, 4, 41H, 4, 42H, 4
+        DC8 40H, 4, 3EH, 4, 39H, 4, 3AH, 4
+        DC8 38H, 4, 0, 0
+        DC8 4FH, 0, 31H, 4, 20H, 0, 4DH, 4
+        DC8 3BH, 4, 4CH, 4, 44H, 4, 35H, 4
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4`:
+        DATA
+        DC8 10H, 4, 32H, 4, 42H, 4, 3EH, 4
+        DC8 34H, 4, 3EH, 4, 31H, 4, 30H, 4
+        DC8 32H, 4, 3BH, 4, 35H, 4, 3DH, 4
+        DC8 38H, 4, 35H, 4, 20H, 0, 3CH, 4
+        DC8 35H, 4, 41H, 4, 42H, 4, 30H, 4
+        DC8 20H, 0, 32H, 4, 4BH, 4, 3AH, 4
+        DC8 3BH, 4, 4EH, 4, 47H, 4, 35H, 4
+        DC8 3DH, 4, 3EH, 4, 21H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53">`:
+        DATA
+        DC8 4DH, 0, 69H, 0, 6EH, 0, 69H, 0
+        DC8 47H, 0, 50H, 0, 53H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+bk_menu:
+        DATA
+        DC32 `?<Constant "MiniGPS_Menu_Page">`, 0H, bk_msglst_menu
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function ??ShowMenu
+        ARM
+??ShowMenu:
+        LDR      R1,??ShowMenu_1  ;; bk_menu
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SWI      +696
+        POP      {PC}             ;; return
+        DATA
+??ShowMenu_1:
+        DC32     bk_menu
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??CheckCurrentCell??rA:
+        LDR      R12,??Subroutine11_0  ;; ??CheckCurrentCell
+        BX       R12
+        DATA
+??Subroutine11_0:
+        DC32     ??CheckCurrentCell
+        CFI EndBlock cfiBlock22
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??ShowHideProc??rA:
+        LDR      R12,??Subroutine12_0  ;; ??ShowHideProc
+        BX       R12
+        DATA
+??Subroutine12_0:
+        DC32     ??ShowHideProc
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??InvalidateAll??rA:
+        LDR      R12,??Subroutine13_0  ;; ??InvalidateAll
+        BX       R12
+        DATA
+??Subroutine13_0:
+        DC32     ??InvalidateAll
+        CFI EndBlock cfiBlock24
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??CellIdProc??rA:
+        LDR      R12,??Subroutine14_0  ;; ??CellIdProc
+        BX       R12
+        DATA
+??Subroutine14_0:
+        DC32     ??CellIdProc
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??onBcfgConfig??rA:
+        LDR      R12,??Subroutine15_0  ;; ??onBcfgConfig
+        BX       R12
+        DATA
+??Subroutine15_0:
+        DC32     ??onBcfgConfig
+        CFI EndBlock cfiBlock26
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??ShowAuthorInfo??rA:
+        LDR      R12,??Subroutine16_0  ;; ??ShowAuthorInfo
+        BX       R12
+        DATA
+??Subroutine16_0:
+        DC32     ??ShowAuthorInfo
+        CFI EndBlock cfiBlock27
+
+        END
+// 
+// 1 640 bytes in segment CODE
+//   424 bytes in segment DATA_C
+//    24 bytes in segment DYN_PAGE
+// 
+// 1 524 bytes of CODE  memory (+ 116 bytes shared)
+//   448 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

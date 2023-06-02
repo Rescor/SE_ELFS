@@ -1,0 +1,1257 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:49:25 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\re #
+#                       draw.cpp                                             #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\re #
+#                       draw.cpp -D NDEBUG -D OLDFUNCTIONS -lC               #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\AdvSoftkeys\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\redraw.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\redraw.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\redraw.cpp
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\Dir.h"
+      3          #include "header\structs.h"
+      4          #include "header\books.h"
+      5          #include "header\images.h"
+      6          #include "header\presets.h"
+      7          
+      8          typedef struct
+      9          {
+     10            char unk[0x18];
+     11            char type;
+     12            char unk1[3];
+     13            void *defmenu;
+     14          }MBOOK;
+     15          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     16          DISP_OBJ *soft=0;
+     17          DISP_OBJ_METHOD DREFRESH;
+     18          DISP_OBJ_ONREDRAW_METHOD DREDRAW;
+     19          
+     20          #define INT_NUM 6
+     21          extern int colors[INT_NUM];
+     22          extern bool works;
+     23          extern bool pressed[3];
+     24          extern ITEM*lastitem;
+     25          extern UI_SOFTKEY sk[3];
+     26          
+     27          int StatusSize=0;
+     28          int SoftSize=0;
+     29          RECT rect;
+   \                     rect:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for rect>`
+   \                     soft:
+   \   00000008                      DS8 4
+   \   0000000C                      REQUIRE `?<Initializer for soft>`
+   \                     DREFRESH:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for DREFRESH>`
+   \                     DREDRAW:
+   \   00000010                      DS8 4
+   \   00000014                      REQUIRE `?<Initializer for DREDRAW>`
+   \                     StatusSize:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for StatusSize>`
+   \                     SoftSize:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for SoftSize>`
+     30          int height=0,width=0,uic=0,DB=2020;
+   \                     height:
+   \   0000001C                      DS8 4
+   \   00000020                      REQUIRE `?<Initializer for height>`
+   \                     width:
+   \   00000020                      DS8 4
+   \   00000024                      REQUIRE `?<Initializer for width>`
+   \                     uic:
+   \   00000024                      DS8 4
+   \   00000028                      REQUIRE `?<Initializer for uic>`
+   \                     DB:
+   \   00000028                      DS8 4
+   \   0000002C                      REQUIRE `?<Initializer for DB>`
+     31          
+     32          ITEM *getbyname(wchar_t *name);
+     33          void getitem(BOOK *bk);
+     34          
+     35          LABELS *get_labels(DISP_OBJ *sk, DISP_OBJ *DO, BOOK *bk, int vis);
+     36          
+     37          int GetOrientation(BOOK *bk);
+     38          void __getitem(BOOK *bk);
+     39          void DrawHighlightID2(int font,int text,int ct, int XPos, int YPos, int borderColor, int NormalColor, bool);
+     40          void DrawHighlightID(int font,int text,int CEN, int XPos, int YPos, int MaxXPos, int MaxYPos, int borderColor, int NormalColor, bool);
+     41          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     42          void GetSize()
+     43          {
+   \                     ??GetSize:
+   \   00000000   00402DE9           PUSH     {LR}
+     44            int a=Display_GetHeight(0);
+     45            switch (a)
+   \   00000004   0000A0E3           MOV      R0,#+0
+   \   00000008   580200EF           SWI      +600
+   \   0000000C   A00050E2           SUBS     R0,R0,#+160
+   \   00000010   0500000A           BEQ      ??GetSize_1
+   \   00000014   A00050E2           SUBS     R0,R0,#+160
+   \   00000018   1200A013           MOVNE    R0,#+18
+   \   0000001C   1A10A013           MOVNE    R1,#+26
+     46            {
+     47            case 320:
+     48              StatusSize=24;
+   \   00000020   1800A003           MOVEQ    R0,#+24
+     49              SoftSize=30;
+   \   00000024   1E10A003           MOVEQ    R1,#+30
+   \   00000028   010000EA           B        ??GetSize_2
+     50              break;
+     51            case 220:
+     52              StatusSize=18;
+     53              SoftSize=26;
+     54              break;
+     55            case 160:
+     56              StatusSize=14;
+   \                     ??GetSize_1:
+   \   0000002C   0E00A0E3           MOV      R0,#+14
+     57              SoftSize=18;
+   \   00000030   1210A0E3           MOV      R1,#+18
+   \                     ??GetSize_2:
+   \   00000034   ........           LDR      R2,??DataTable6  ;; rect
+   \   00000038   181082E5           STR      R1,[R2, #+24]
+   \   0000003C   140082E5           STR      R0,[R2, #+20]
+     58              break;
+     59            default:
+     60              StatusSize=18;
+     61              SoftSize=26;
+     62              break;
+     63            }
+     64          };
+   \   00000040   0080BDE8           POP      {PC}             ;; return
+     65          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     66          char *books[]={"MM_Browser",
+   \                     books:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for books>`
+     67                         "ImageViewerBook",
+     68                         "AudioPlayerBook"};
+     69          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     70          int NotSupported(BOOK *bk)
+     71          {
+   \                     ??NotSupported:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     72            int x;
+     73            for (x=0;x<3;x++)
+   \   00000008   0050A0E3           MOV      R5,#+0
+     74            {
+     75              if (strstr(bk->xbook->name,books[x]))
+   \                     ??NotSupported_1:
+   \   0000000C   40009FE5           LDR      R0,??NotSupported_2  ;; books
+   \   00000010   051190E7           LDR      R1,[R0, +R5, LSL #+2]
+   \   00000014   000094E5           LDR      R0,[R4, #+0]
+   \   00000018   040090E5           LDR      R0,[R0, #+4]
+   \   0000001C   980200EF           SWI      +664
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0600001A           BNE      ??NotSupported_3
+     76              {
+     77                return 1;
+     78              }
+     79            }
+   \   00000028   015085E2           ADD      R5,R5,#+1
+   \   0000002C   030055E3           CMP      R5,#+3
+   \   00000030   F5FFFFBA           BLT      ??NotSupported_1
+     80            if (bk==FindBook(get_IsMediaPlayerVideoBook()))
+   \   00000034   B88100EF           SWI      +33208
+   \   00000038   300100EF           SWI      +304
+   \   0000003C   000054E1           CMP      R4,R0
+   \   00000040   0100001A           BNE      ??NotSupported_4
+     81            {
+     82              return 1;
+   \                     ??NotSupported_3:
+   \   00000044   0100A0E3           MOV      R0,#+1
+   \   00000048   3080BDE8           POP      {R4,R5,PC}
+     83            }
+     84            return 0;
+   \                     ??NotSupported_4:
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??NotSupported_2:
+   \   00000054   ........           DC32     books
+     85          };
+     86          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     87          int ourredraw(DISP_OBJ *DO, int a, int b, int c)
+     88          {
+     89            if (!works) return 0;
+   \                     ??ourredraw:
+   \   00000000   ........           LDR      R0,??DataTable11  ;; works
+   \   00000004   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000008   0000D0E5           LDRB     R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100001A           BNE      ??ourredraw_1
+   \                     ??ourredraw_2:
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   F08FBDE8           POP      {R4-R11,PC}      ;; return
+     90            DISP_OBJ *foc=Display_GetFocusedDispObject(0);
+   \                     ??ourredraw_1:
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   1D0200EF           SWI      +541
+   \   00000024   0080A0E1           MOV      R8,R0
+     91            BOOK *bk=Display_GetTopBook(0);
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   1B0300EF           SWI      +795
+   \   00000030   0040A0E1           MOV      R4,R0
+     92            __getitem(bk);
+   \   00000034   ........           BL       ??__getitem
+   \   00000038   ........           LDR      R0,??DataTable12  ;; lastitem
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0200000A           BEQ      ??ourredraw_3
+     93            if (lastitem){ if (lastitem->style==2) return 0; }
+   \   00000048   100090E5           LDR      R0,[R0, #+16]
+   \   0000004C   020050E3           CMP      R0,#+2
+   \   00000050   EFFFFF0A           BEQ      ??ourredraw_2
+     94            int stat=GetOrientation(bk);
+   \                     ??ourredraw_3:
+   \   00000054   ........           LDR      R6,??DataTable6  ;; rect
+   \   00000058   DA50A0E3           MOV      R5,#+218
+   \   0000005C   280096E5           LDR      R0,[R6, #+40]
+   \   00000060   705E85E3           ORR      R5,R5,#0x700
+   \   00000064   050050E1           CMP      R0,R5
+   \   00000068   0070A003           MOVEQ    R7,#+0
+   \   0000006C   0200000A           BEQ      ??ourredraw_4
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   190300EF           SWI      +793
+   \   00000078   0070A0E1           MOV      R7,R0
+     95            SOFTKEY_PARAMS *xls=(SOFTKEY_PARAMS*)DispObject_SoftKeys_GetParams(foc);
+   \                     ??ourredraw_4:
+   \   0000007C   0800A0E1           MOV      R0,R8
+   \   00000080   170300EF           SWI      +791
+   \   00000084   00B0A0E1           MOV      R11,R0
+     96            if (xls->visible_softs_count==3 && bk!=Find_StandbyBook())return 0;
+   \   00000088   0700DBE5           LDRB     R0,[R11, #+7]
+   \   0000008C   0610DBE5           LDRB     R1,[R11, #+6]
+   \   00000090   000481E1           ORR      R0,R1,R0, LSL #+8
+   \   00000094   030050E3           CMP      R0,#+3
+   \   00000098   0200001A           BNE      ??ourredraw_5
+   \   0000009C   310100EF           SWI      +305
+   \   000000A0   000054E1           CMP      R4,R0
+   \   000000A4   DAFFFF1A           BNE      ??ourredraw_2
+     97            GC* gc=get_DisplayGC();
+   \                     ??ourredraw_5:
+   \   000000A8   E50100EF           SWI      +485
+   \   000000AC   0080B0E1           MOVS     R8,R0
+     98            if (!gc)return 1;
+   \   000000B0   0100001A           BNE      ??ourredraw_6
+   \                     ??ourredraw_7:
+   \   000000B4   0100A0E3           MOV      R0,#+1
+   \   000000B8   F08FBDE8           POP      {R4-R11,PC}
+     99            if (bk==FindBook(isMenuBook))
+   \                     ??ourredraw_6:
+   \   000000BC   54019FE5           LDR      R0,??ourredraw_8  ;; ??isMenuBook
+   \   000000C0   ........           LDR      R10,??DataTable9  ;; images
+   \   000000C4   FF90A0E3           MOV      R9,#+255
+   \   000000C8   FF9C89E3           ORR      R9,R9,#0xFF00
+   \   000000CC   300100EF           SWI      +304
+   \   000000D0   000054E1           CMP      R4,R0
+   \   000000D4   1700001A           BNE      ??ourredraw_9
+    100            {
+    101              MBOOK *mb=(MBOOK*)bk;
+    102              if (mb->type==0)
+   \   000000D8   180096E5           LDR      R0,[R6, #+24]
+   \   000000DC   1C1096E5           LDR      R1,[R6, #+28]
+   \   000000E0   012040E0           SUB      R2,R0,R1
+   \   000000E4   1800D4E5           LDRB     R0,[R4, #+24]
+   \   000000E8   000050E3           CMP      R0,#+0
+   \   000000EC   0F00001A           BNE      ??ourredraw_10
+    103              {
+    104                if (mb->defmenu)
+   \   000000F0   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000F4   000050E3           CMP      R0,#+0
+   \   000000F8   EDFFFF0A           BEQ      ??ourredraw_7
+    105                {
+    106                  if (images[DESKTOP]!=NOIMAGE)
+   \   000000FC   BA00DAE1           LDRH     R0,[R10, #+10]
+   \                     ??ourredraw_11:
+   \   00000100   090050E1           CMP      R0,R9
+   \   00000104   EAFFFF0A           BEQ      ??ourredraw_7
+    107                  {
+    108                    GC_PutChar(gc,0,SoftSize-height,0,0,images[DESKTOP]);
+   \   00000108   01002DE9           PUSH     {R0}
+   \   0000010C   0030A0E3           MOV      R3,#+0
+   \   00000110   0000A0E3           MOV      R0,#+0
+   \   00000114   01002DE9           PUSH     {R0}
+   \                     ??ourredraw_12:
+   \   00000118   0010A0E3           MOV      R1,#+0
+   \                     ??ourredraw_13:
+   \   0000011C   0800A0E1           MOV      R0,R8
+   \   00000120   400100EF           SWI      +320
+   \   00000124   08D08DE2           ADD      SP,SP,#+8
+   \   00000128   0100A0E3           MOV      R0,#+1
+   \   0000012C   F08FBDE8           POP      {R4-R11,PC}
+    109                  }
+    110                }
+    111              }
+    112              else
+    113              {
+    114                if (images[NAVIGATION]!=NOIMAGE)
+   \                     ??ourredraw_10:
+   \   00000130   BC00DAE1           LDRH     R0,[R10, #+12]
+   \   00000134   F1FFFFEA           B        ??ourredraw_11
+    115                {
+    116                  GC_PutChar(gc,0,SoftSize-height,0,0,images[NAVIGATION]);
+    117                }
+    118              }
+    119            }
+    120            else if (bk==Find_StandbyBook())
+   \                     ??ourredraw_9:
+   \   00000138   310100EF           SWI      +305
+   \   0000013C   000054E1           CMP      R4,R0
+   \   00000140   1D00001A           BNE      ??ourredraw_14
+    121            {
+    122              if (lastitem && lastitem->type>T_STANDBY)
+   \   00000144   ........           LDR      R0,??DataTable12  ;; lastitem
+   \   00000148   000090E5           LDR      R0,[R0, #+0]
+   \   0000014C   000050E3           CMP      R0,#+0
+   \   00000150   D7FFFF0A           BEQ      ??ourredraw_7
+   \   00000154   180090E5           LDR      R0,[R0, #+24]
+   \   00000158   010050E3           CMP      R0,#+1
+   \   0000015C   D4FFFFBA           BLT      ??ourredraw_7
+    123              {
+    124                if (images[STANDBY]!=NOIMAGE)
+   \   00000160   B800DAE1           LDRH     R0,[R10, #+8]
+   \   00000164   090050E1           CMP      R0,R9
+   \   00000168   0A00000A           BEQ      ??ourredraw_15
+    125                {
+    126                  GC_PutChar(gc,0,SoftSize-height,0,0,images[STANDBY]);
+   \   0000016C   01002DE9           PUSH     {R0}
+   \   00000170   0030A0E3           MOV      R3,#+0
+   \   00000174   0000A0E3           MOV      R0,#+0
+   \   00000178   01002DE9           PUSH     {R0}
+   \   0000017C   1C1096E5           LDR      R1,[R6, #+28]
+   \   00000180   180096E5           LDR      R0,[R6, #+24]
+   \   00000184   012040E0           SUB      R2,R0,R1
+   \   00000188   0310A0E1           MOV      R1,R3
+   \   0000018C   0800A0E1           MOV      R0,R8
+   \   00000190   400100EF           SWI      +320
+   \   00000194   08D08DE2           ADD      SP,SP,#+8
+    127                }
+    128                if (images[STANDBY_SOFTKEY]!=NOIMAGE)
+   \                     ??ourredraw_15:
+   \   00000198   B000DAE1           LDRH     R0,[R10, #+0]
+   \   0000019C   090050E1           CMP      R0,R9
+   \   000001A0   C3FFFF0A           BEQ      ??ourredraw_7
+    129                {
+    130                  GC_PutChar(gc,0,0,0,0,images[STANDBY_SOFTKEY]);
+   \   000001A4   01002DE9           PUSH     {R0}
+   \   000001A8   0030A0E3           MOV      R3,#+0
+   \   000001AC   0000A0E3           MOV      R0,#+0
+   \   000001B0   01002DE9           PUSH     {R0}
+   \   000001B4   0020A0E1           MOV      R2,R0
+   \   000001B8   D6FFFFEA           B        ??ourredraw_12
+    131                }
+    132              }
+    133            }
+    134            else
+    135            { 
+    136              if (DB==2010)goto L_draw;
+   \                     ??ourredraw_14:
+   \   000001BC   280096E5           LDR      R0,[R6, #+40]
+   \   000001C0   050050E1           CMP      R0,R5
+   \   000001C4   0700000A           BEQ      ??ourredraw_16
+    137              if (xls->background==0 && stat==0 && NotSupported(bk)==false)
+   \   000001C8   1E00DBE5           LDRB     R0,[R11, #+30]
+   \   000001CC   000050E3           CMP      R0,#+0
+   \   000001D0   00005703           CMPEQ    R7,#+0
+   \   000001D4   B6FFFF1A           BNE      ??ourredraw_7
+   \   000001D8   0400A0E1           MOV      R0,R4
+   \   000001DC   ........           BL       ??NotSupported
+   \   000001E0   000050E3           CMP      R0,#+0
+   \   000001E4   B2FFFF1A           BNE      ??ourredraw_7
+    138              {
+    139              L_draw:
+    140                if (images[NAVIGATION]!=NOIMAGE)
+   \                     ??ourredraw_16:
+   \   000001E8   BC00DAE1           LDRH     R0,[R10, #+12]
+   \   000001EC   090050E1           CMP      R0,R9
+   \   000001F0   AFFFFF0A           BEQ      ??ourredraw_7
+    141                {
+    142                  GC_PutChar(gc,0,SoftSize-height,0,0,images[NAVIGATION]);
+   \   000001F4   01002DE9           PUSH     {R0}
+   \   000001F8   0030A0E3           MOV      R3,#+0
+   \   000001FC   0000A0E3           MOV      R0,#+0
+   \   00000200   01002DE9           PUSH     {R0}
+   \   00000204   1C1096E5           LDR      R1,[R6, #+28]
+   \   00000208   180096E5           LDR      R0,[R6, #+24]
+   \   0000020C   012040E0           SUB      R2,R0,R1
+   \   00000210   0310A0E1           MOV      R1,R3
+   \   00000214   C0FFFFEA           B        ??ourredraw_13
+   \                     ??ourredraw_8:
+   \   00000218   ........           DC32     ??isMenuBook
+    143                }
+    144              }
+    145            }
+    146            return 1;
+    147          };
+    148          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    149          int GetOrientation(BOOK *bk)
+    150          {
+    151            if (DB==2010)
+   \                     ??GetOrientation:
+   \   00000000   20109FE5           LDR      R1,??GetOrientation_1  ;; rect + 40
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   DA20A0E3           MOV      R2,#+218
+   \   00000010   702E82E3           ORR      R2,R2,#0x700
+   \   00000014   020051E1           CMP      R1,R2
+    152            {
+    153              return 0;
+   \   00000018   0000A003           MOVEQ    R0,#+0
+   \   0000001C   0080BD08           POPEQ    {PC}
+    154            }
+    155            return BookObj_GetDisplayOrientation(bk);
+   \   00000020   190300EF           SWI      +793
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+   \                     ??GetOrientation_1:
+   \   00000028   ........           DC32     rect + 40
+    156          };
+    157          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    158          void DrawSofts(DISP_OBJ *DO,BOOK *bk, LABELS *lbl)
+    159          {
+   \                     ??DrawSofts:
+   \   00000000   F54F2DE9           PUSH     {R0,R2,R4-R11,LR}
+    160            int stat=GetOrientation(bk);
+   \   00000004   ........           LDR      R5,??DataTable6  ;; rect
+   \   00000008   0CD04DE2           SUB      SP,SP,#+12
+   \   0000000C   280095E5           LDR      R0,[R5, #+40]
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   DAB0A0E3           MOV      R11,#+218
+   \   00000018   70BE8BE3           ORR      R11,R11,#0x700
+   \   0000001C   0B0050E1           CMP      R0,R11
+   \   00000020   0010A003           MOVEQ    R1,#+0
+   \   00000024   04108D05           STREQ    R1,[SP, #+4]
+   \   00000028   0200000A           BEQ      ??DrawSofts_1
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   190300EF           SWI      +793
+   \   00000034   04008DE5           STR      R0,[SP, #+4]
+    161            GC* gc=get_DisplayGC();
+   \                     ??DrawSofts_1:
+   \   00000038   E50100EF           SWI      +485
+   \   0000003C   0060A0E1           MOV      R6,R0
+    162            SOFTKEY_PARAMS *xls=(SOFTKEY_PARAMS*)DispObject_SoftKeys_GetParams(Display_GetFocusedDispObject(0));
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   1D0200EF           SWI      +541
+   \   00000048   170300EF           SWI      +791
+   \   0000004C   0070B0E1           MOVS     R7,R0
+    163            if (!xls)return;
+    164            if (!gc)return;
+   \   00000050   00005613           CMPNE    R6,#+0
+   \   00000054   B300000A           BEQ      ??DrawSofts_2
+    165            int color=xls->color;
+   \   00000058   2310D7E5           LDRB     R1,[R7, #+35]
+   \   0000005C   2220D7E5           LDRB     R2,[R7, #+34]
+    166            if (DB==2010)goto L_draw2;
+   \   00000060   ........           LDR      R9,??DataTable14  ;; pressed
+   \   00000064   ........           LDR      R10,??DataTable12  ;; lastitem
+   \   00000068   011482E1           ORR      R1,R2,R1, LSL #+8
+   \   0000006C   2120D7E5           LDRB     R2,[R7, #+33]
+   \   00000070   9084E0E3           MVN      R8,#-1879048192
+   \   00000074   011482E1           ORR      R1,R2,R1, LSL #+8
+   \   00000078   2020D7E5           LDRB     R2,[R7, #+32]
+   \   0000007C   011482E1           ORR      R1,R2,R1, LSL #+8
+   \   00000080   08108DE5           STR      R1,[SP, #+8]
+   \   00000084   280095E5           LDR      R0,[R5, #+40]
+   \   00000088   0B0050E1           CMP      R0,R11
+   \   0000008C   1F00000A           BEQ      ??DrawSofts_3
+    167            if (lastitem)
+   \   00000090   00009AE5           LDR      R0,[R10, #+0]
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   4B00000A           BEQ      ??DrawSofts_4
+    168            {
+    169              if (lastitem->style==0 && pressed[1]==true && lbl->strids[1]==EMPTY_TEXTID)
+   \   0000009C   100090E5           LDR      R0,[R0, #+16]
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   0A00001A           BNE      ??DrawSofts_5
+   \   000000A8   0100D9E5           LDRB     R0,[R9, #+1]
+   \   000000AC   000050E3           CMP      R0,#+0
+   \   000000B0   0700000A           BEQ      ??DrawSofts_5
+   \   000000B4   10009DE5           LDR      R0,[SP, #+16]
+   \   000000B8   040090E5           LDR      R0,[R0, #+4]
+   \   000000BC   080050E1           CMP      R0,R8
+   \   000000C0   0300001A           BNE      ??DrawSofts_5
+    170              {
+    171                pressed[1]=false;
+   \   000000C4   0000A0E3           MOV      R0,#+0
+   \   000000C8   0100C9E5           STRB     R0,[R9, #+1]
+    172                pressed[0]=true;
+   \   000000CC   0100A0E3           MOV      R0,#+1
+   \   000000D0   0000C9E5           STRB     R0,[R9, #+0]
+    173              }
+    174              if (xls->background==0 && !FindBook(isMMBrowserBook) && bk!=FindBook(get_IsAudioPlayerBook()) && bk!=FindBook(get_IsMediaPlayerVideoBook()))//bk!=FindBook(isImageViewerBook) && ) ) && NotSupported(bk)==false && xls->background==0 && stat==0)
+   \                     ??DrawSofts_5:
+   \   000000D4   1E00D7E5           LDRB     R0,[R7, #+30]
+   \   000000D8   000050E3           CMP      R0,#+0
+   \   000000DC   3A00001A           BNE      ??DrawSofts_4
+   \   000000E0   48029FE5           LDR      R0,??DrawSofts_6  ;; ??isMMBrowserBook
+   \   000000E4   300100EF           SWI      +304
+   \   000000E8   000050E3           CMP      R0,#+0
+   \   000000EC   3600001A           BNE      ??DrawSofts_4
+   \   000000F0   8B8200EF           SWI      +33419
+   \   000000F4   300100EF           SWI      +304
+   \   000000F8   000054E1           CMP      R4,R0
+   \   000000FC   3200000A           BEQ      ??DrawSofts_4
+   \   00000100   B88100EF           SWI      +33208
+   \   00000104   300100EF           SWI      +304
+   \   00000108   000054E1           CMP      R4,R0
+   \   0000010C   2E00000A           BEQ      ??DrawSofts_4
+   \                     ??DrawSofts_3:
+   \   00000110   0030D9E5           LDRB     R3,[R9, #+0]
+   \   00000114   ........           LDR      R2,??DataTable9  ;; images
+   \   00000118   00009AE5           LDR      R0,[R10, #+0]
+   \   0000011C   000053E3           CMP      R3,#+0
+   \   00000120   B230D211           LDRHNE   R3,[R2, #+2]
+   \   00000124   180090E5           LDR      R0,[R0, #+24]
+   \   00000128   FF10A0E3           MOV      R1,#+255
+   \   0000012C   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000130   01005311           CMPNE    R3,R1
+   \   00000134   0700000A           BEQ      ??DrawSofts_7
+   \   00000138   10409DE5           LDR      R4,[SP, #+16]
+   \   0000013C   004094E5           LDR      R4,[R4, #+0]
+   \   00000140   080054E1           CMP      R4,R8
+   \   00000144   0300000A           BEQ      ??DrawSofts_7
+   \   00000148   010050E3           CMP      R0,#+1
+   \   0000014C   010000BA           BLT      ??DrawSofts_7
+    175              {
+    176              L_draw2:
+    177                if (pressed[0] && images[LEFT_PRESSED]!=NOIMAGE && lbl->strids[0]!=EMPTY_TEXTID && lastitem->type>T_STANDBY)
+    178                {
+    179                  GC_PutChar(gc,0,0,0,0,images[LEFT_PRESSED]);
+   \                     ??DrawSofts_8:
+   \   00000150   08002DE9           PUSH     {R3}
+   \   00000154   140000EA           B        ??DrawSofts_9
+    180                }
+    181                else if (pressed[1] && images[MIDDLE_PRESSED]!=NOIMAGE && lbl->strids[1]!=EMPTY_TEXTID)
+   \                     ??DrawSofts_7:
+   \   00000158   0130D9E5           LDRB     R3,[R9, #+1]
+   \   0000015C   000053E3           CMP      R3,#+0
+   \   00000160   B430D211           LDRHNE   R3,[R2, #+4]
+   \   00000164   01005311           CMPNE    R3,R1
+   \   00000168   0300000A           BEQ      ??DrawSofts_10
+   \   0000016C   10409DE5           LDR      R4,[SP, #+16]
+   \   00000170   044094E5           LDR      R4,[R4, #+4]
+   \   00000174   080054E1           CMP      R4,R8
+   \   00000178   F4FFFF1A           BNE      ??DrawSofts_8
+    182                {
+    183                  GC_PutChar(gc,0,0,0,0,images[MIDDLE_PRESSED]);
+    184                }
+    185                else if (pressed[2] && images[RIGHT_PRESSED]!=NOIMAGE && lbl->strids[2]!=EMPTY_TEXTID && lastitem->type>T_STANDBY)
+   \                     ??DrawSofts_10:
+   \   0000017C   0230D9E5           LDRB     R3,[R9, #+2]
+   \   00000180   000053E3           CMP      R3,#+0
+   \   00000184   B620D211           LDRHNE   R2,[R2, #+6]
+   \   00000188   01005211           CMPNE    R2,R1
+   \   0000018C   0E00000A           BEQ      ??DrawSofts_4
+   \   00000190   10109DE5           LDR      R1,[SP, #+16]
+   \   00000194   081091E5           LDR      R1,[R1, #+8]
+   \   00000198   080051E1           CMP      R1,R8
+   \   0000019C   0A00000A           BEQ      ??DrawSofts_4
+   \   000001A0   010050E3           CMP      R0,#+1
+   \   000001A4   080000BA           BLT      ??DrawSofts_4
+    186                {
+    187                  GC_PutChar(gc,0,0,0,0,images[RIGHT_PRESSED]);
+   \   000001A8   04002DE9           PUSH     {R2}
+   \                     ??DrawSofts_9:
+   \   000001AC   0000A0E3           MOV      R0,#+0
+   \   000001B0   01002DE9           PUSH     {R0}
+   \   000001B4   0030A0E3           MOV      R3,#+0
+   \   000001B8   0020A0E1           MOV      R2,R0
+   \   000001BC   0010A0E1           MOV      R1,R0
+   \   000001C0   0600A0E1           MOV      R0,R6
+   \   000001C4   400100EF           SWI      +320
+   \   000001C8   08D08DE2           ADD      SP,SP,#+8
+    188                }
+    189              }
+    190            }
+    191            int x;
+    192            for (x=0;x<3;x++)
+   \                     ??DrawSofts_4:
+   \   000001CC   0040A0E3           MOV      R4,#+0
+    193            {
+    194              int c=0;
+    195              int b=0;
+    196              if (lbl->enable[x])
+   \                     ??DrawSofts_11:
+   \   000001D0   5C019FE5           LDR      R0,??DrawSofts_6+0x4  ;; colors
+   \   000001D4   841180E0           ADD      R1,R0,R4, LSL #+3
+   \   000001D8   10009DE5           LDR      R0,[SP, #+16]
+   \   000001DC   000084E0           ADD      R0,R4,R0
+   \   000001E0   0C00D0E5           LDRB     R0,[R0, #+12]
+   \   000001E4   000050E3           CMP      R0,#+0
+    197              {
+    198                c=colors[x*2];
+    199              }
+    200              else
+    201              {
+    202                c=0xAAAAAAAA;
+    203              }
+    204              if (pressed[x])
+   \   000001E8   0900D4E7           LDRB     R0,[R4, +R9]
+   \   000001EC   00609115           LDRNE    R6,[R1, #+0]
+   \   000001F0   40619F05           LDREQ    R6,??DrawSofts_6+0x8  ;; 0xffffffffaaaaaaaa
+   \   000001F4   000050E3           CMP      R0,#+0
+    205              {
+    206                c=colors[x*2+1];
+   \   000001F8   04609115           LDRNE    R6,[R1, #+4]
+    207              }
+    208              b=clBlack;
+    209              if (uic && color)c=color;
+   \   000001FC   241095E5           LDR      R1,[R5, #+36]
+   \   00000200   000051E3           CMP      R1,#+0
+   \   00000204   08109D15           LDRNE    R1,[SP, #+8]
+   \   00000208   00005113           CMPNE    R1,#+0
+   \   0000020C   0160A011           MOVNE    R6,R1
+    210              if (xls->background==1)
+   \   00000210   1E10D7E5           LDRB     R1,[R7, #+30]
+   \   00000214   010051E3           CMP      R1,#+1
+   \   00000218   0500001A           BNE      ??DrawSofts_12
+    211              {
+    212                if (pressed[x])
+   \   0000021C   000050E3           CMP      R0,#+0
+   \   00000220   FF84A003           MOVEQ    R8,#-16777216
+   \   00000224   0060E003           MVNEQ    R6,#+0
+    213                {
+    214                  b=clWhite;
+   \   00000228   0080E013           MVNNE    R8,#+0
+    215                  c=clBlack;
+   \   0000022C   FF64A013           MOVNE    R6,#-16777216
+   \   00000230   000000EA           B        ??DrawSofts_13
+    216                }
+    217                else
+    218                {
+    219                  b=clBlack;
+    220                  c=clWhite;
+    221                }
+    222              }
+    223              else
+    224              {
+    225                b=clBlack;
+   \                     ??DrawSofts_12:
+   \   00000234   FF84A0E3           MOV      R8,#-16777216
+    226              }
+    227              if (stat==0)
+   \                     ??DrawSofts_13:
+   \   00000238   10309DE5           LDR      R3,[SP, #+16]
+   \   0000023C   F8209FE5           LDR      R2,??DrawSofts_6+0xC  ;; sk
+   \   00000240   043183E0           ADD      R3,R3,R4, LSL #+2
+   \   00000244   00308DE5           STR      R3,[SP, #+0]
+   \   00000248   04309DE5           LDR      R3,[SP, #+4]
+   \   0000024C   84A282E0           ADD      R10,R2,R4, LSL #+5
+   \   00000250   000053E3           CMP      R3,#+0
+   \   00000254   1500001A           BNE      ??DrawSofts_14
+    228              {
+    229                int pos=sk[x].y-(height-SoftSize);
+   \   00000258   04309AE5           LDR      R3,[R10, #+4]
+   \   0000025C   1CB095E5           LDR      R11,[R5, #+28]
+    230                if (pressed[x])pos++;
+   \   00000260   000050E3           CMP      R0,#+0
+   \   00000264   0B3043E0           SUB      R3,R3,R11
+   \   00000268   18B095E5           LDR      R11,[R5, #+24]
+   \   0000026C   03308BE0           ADD      R3,R11,R3
+   \   00000270   01308312           ADDNE    R3,R3,#+1
+    231                DrawHighlightID2(sk[x].font, lbl->strids[x], sk[x].ct, sk[x].x, pos, b, c, xls->background);
+   \   00000274   000051E3           CMP      R1,#+0
+   \   00000278   0100A013           MOVNE    R0,#+1
+   \   0000027C   0000A003           MOVEQ    R0,#+0
+   \   00000280   01002DE9           PUSH     {R0}
+   \   00000284   40002DE9           PUSH     {R6}
+   \   00000288   00012DE9           PUSH     {R8}
+   \   0000028C   08002DE9           PUSH     {R3}
+   \   00000290   10009DE5           LDR      R0,[SP, #+16]
+   \   00000294   843292E7           LDR      R3,[R2, +R4, LSL #+5]
+   \   00000298   08209AE5           LDR      R2,[R10, #+8]
+   \   0000029C   001090E5           LDR      R1,[R0, #+0]
+   \   000002A0   0C009AE5           LDR      R0,[R10, #+12]
+   \   000002A4   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+   \   000002A8   10D08DE2           ADD      SP,SP,#+16
+   \   000002AC   1A0000EA           B        ??DrawSofts_15
+    232              }
+    233              else
+    234              {
+    235                if (pressed[x])
+   \                     ??DrawSofts_14:
+   \   000002B0   000050E3           CMP      R0,#+0
+    236                {
+    237                  b=clWhite;
+    238                  c=clBlack;
+    239                }
+    240                else
+    241                {
+    242                  b=clBlack;
+    243                  c=clWhite;
+    244                }
+    245                DrawHighlightID(sk[x].hfont,lbl->strids[x],sk[x].hct,sk[x].hx,sk[x].hy,height-DispObject_GetWindowWidth(DO),width,b, c, xls->background);
+   \   000002B4   0C009DE5           LDR      R0,[SP, #+12]
+   \   000002B8   0080E013           MVNNE    R8,#+0
+   \   000002BC   FF64A013           MOVNE    R6,#-16777216
+   \   000002C0   FF84A003           MOVEQ    R8,#-16777216
+   \   000002C4   0060E003           MVNEQ    R6,#+0
+   \   000002C8   000051E3           CMP      R1,#+0
+   \   000002CC   01B0A013           MOVNE    R11,#+1
+   \   000002D0   00B0A003           MOVEQ    R11,#+0
+   \   000002D4   F30200EF           SWI      +755
+   \   000002D8   00082DE9           PUSH     {R11}
+   \   000002DC   40002DE9           PUSH     {R6}
+   \   000002E0   00012DE9           PUSH     {R8}
+   \   000002E4   201095E5           LDR      R1,[R5, #+32]
+   \   000002E8   02002DE9           PUSH     {R1}
+   \   000002EC   1C1095E5           LDR      R1,[R5, #+28]
+   \   000002F0   000041E0           SUB      R0,R1,R0
+   \   000002F4   01002DE9           PUSH     {R0}
+   \   000002F8   14009AE5           LDR      R0,[R10, #+20]
+   \   000002FC   01002DE9           PUSH     {R0}
+   \   00000300   10309AE5           LDR      R3,[R10, #+16]
+   \   00000304   18209AE5           LDR      R2,[R10, #+24]
+   \   00000308   18009DE5           LDR      R0,[SP, #+24]
+   \   0000030C   001090E5           LDR      R1,[R0, #+0]
+   \   00000310   1C009AE5           LDR      R0,[R10, #+28]
+   \   00000314   ........           _BLF     ??DrawHighlightID,??DrawHighlightID??rA
+   \   00000318   18D08DE2           ADD      SP,SP,#+24
+    246              }
+    247            }
+   \                     ??DrawSofts_15:
+   \   0000031C   014084E2           ADD      R4,R4,#+1
+   \   00000320   030054E3           CMP      R4,#+3
+   \   00000324   A9FFFFBA           BLT      ??DrawSofts_11
+   \                     ??DrawSofts_2:
+   \   00000328   14D08DE2           ADD      SP,SP,#+20       ;; stack cleaning
+   \   0000032C   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??DrawSofts_6:
+   \   00000330   ........           DC32     ??isMMBrowserBook
+   \   00000334   ........           DC32     colors
+   \   00000338   AAAAAAAA           DC32     0xffffffffaaaaaaaa
+   \   0000033C   ........           DC32     sk
+    248          };
+    249          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    250          void __getitem(BOOK *bk)
+    251          {
+   \                     ??__getitem:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    252            bool t=false;
+    253            if (Find_StandbyBook()==bk)
+   \   00000008   310100EF           SWI      +305
+   \   0000000C   040050E1           CMP      R0,R4
+   \   00000010   1100001A           BNE      ??__getitem_1
+    254            {
+    255              GUI *g=SBY_GetMainInput(bk);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   170200EF           SWI      +535
+    256              if (!g)return;
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   3080BD08           POPEQ    {R4,R5,PC}
+    257              int vis=MainInput_getVisible(g);
+    258              if (vis==1)
+   \   00000024   F60100EF           SWI      +502
+   \   00000028   010050E3           CMP      R0,#+1
+   \   0000002C   0A00001A           BNE      ??__getitem_1
+    259              {
+    260                lastitem=getbyname(L"Keylock");
+   \   00000030   ........           LDR      R4,??DataTable12  ;; lastitem
+   \   00000034   2C509FE5           LDR      R5,??__getitem_2  ;; `?<Constant L"\\x4b\\x65\\x79\\x6c\\x6f\\x63\\x6b">`
+   \   00000038   0500A0E1           MOV      R0,R5
+   \   0000003C   ........           _BLF     ??getbyname,??getbyname??rA
+   \   00000040   000084E5           STR      R0,[R4, #+0]
+    261                if (!lastitem)lastitem=getbyname(L"DEFAULT");
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   3080BD18           POPNE    {R4,R5,PC}
+   \   0000004C   100085E2           ADD      R0,R5,#+16
+   \   00000050   ........           _BLF     ??getbyname,??getbyname??rA
+   \   00000054   000084E5           STR      R0,[R4, #+0]
+   \   00000058   3080BDE8           POP      {R4,R5,PC}
+    262                t=true;
+    263              }
+    264            }
+    265            if (t==false)
+    266            {
+    267              getitem(bk);
+   \                     ??__getitem_1:
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   ........           _BLF     ??getitem,??getitem??rA
+   \   00000064   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??__getitem_2:
+   \   00000068   ........           DC32     `?<Constant L"\\x4b\\x65\\x79\\x6c\\x6f\\x63\\x6b">`
+    268            }
+    269          };
+    270          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    271          void DispDraw(DISP_OBJ* DO,int a,int b,int c)
+    272          { 
+   \                     ??DispDraw:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0170A0E1           MOV      R7,R1
+   \   0000000C   0280A0E1           MOV      R8,R2
+   \   00000010   0390A0E1           MOV      R9,R3
+    273            BOOK *bk=Display_GetTopBook(0);
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   1B0300EF           SWI      +795
+   \   0000001C   0050A0E1           MOV      R5,R0
+    274            DISP_OBJ *focused = Display_GetFocusedDispObject(0);
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   1D0200EF           SWI      +541
+   \   00000028   0060A0E1           MOV      R6,R0
+    275            if (!bk)return;
+   \   0000002C   000055E3           CMP      R5,#+0
+   \   00000030   F083BD08           POPEQ    {R4-R9,PC}
+    276            __getitem(bk);
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           BL       ??__getitem
+    277            DREDRAW(DO, a, b, c);
+   \   0000003C   0710A0E1           MOV      R1,R7
+   \   00000040   50719FE5           LDR      R7,??DispDraw_1  ;; rect + 16
+   \   00000044   0930A0E1           MOV      R3,R9
+   \   00000048   007097E5           LDR      R7,[R7, #+0]
+   \   0000004C   0820A0E1           MOV      R2,R8
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   37FF2FE1           BLX      R7
+    278            if (!works)return;
+   \   00000058   ........           LDR      R0,??DataTable11  ;; works
+   \   0000005C   0000D0E5           LDRB     R0,[R0, #+0]
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   F083BD08           POPEQ    {R4-R9,PC}
+    279            SoftKeys_Update(DO);
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   230300EF           SWI      +803
+    280            if (!focused)return;
+   \   00000070   000056E3           CMP      R6,#+0
+   \   00000074   F083BD08           POPEQ    {R4-R9,PC}
+    281            SOFTKEY_PARAMS *xls=(SOFTKEY_PARAMS*)DispObject_SoftKeys_GetParams(focused);
+   \   00000078   0600A0E1           MOV      R0,R6
+   \   0000007C   170300EF           SWI      +791
+    282            int vis=0;
+    283            if (xls)
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   F083BD08           POPEQ    {R4-R9,PC}
+    284            {
+    285              vis = xls->visible_softs_count;
+   \   00000088   0710D0E5           LDRB     R1,[R0, #+7]
+   \   0000008C   0600D0E5           LDRB     R0,[R0, #+6]
+    286              if (vis==3)
+   \   00000090   ........           LDR      R8,??DataTable12  ;; lastitem
+   \   00000094   0070A0E3           MOV      R7,#+0
+   \   00000098   019480E1           ORR      R9,R0,R1, LSL #+8
+   \   0000009C   030059E3           CMP      R9,#+3
+   \   000000A0   0C00001A           BNE      ??DispDraw_2
+    287              {
+    288                if (bk!=Find_StandbyBook())
+   \   000000A4   310100EF           SWI      +305
+   \   000000A8   000055E1           CMP      R5,R0
+   \   000000AC   000098E5           LDR      R0,[R8, #+0]
+   \   000000B0   0400000A           BEQ      ??DispDraw_3
+    289                {
+    290                  if (lastitem)
+   \   000000B4   000050E3           CMP      R0,#+0
+   \   000000B8   F083BD08           POPEQ    {R4-R9,PC}
+    291                  {
+    292                    lastitem->type=T_3SK_LAYOUT;
+   \   000000BC   0510A0E3           MOV      R1,#+5
+   \   000000C0   181080E5           STR      R1,[R0, #+24]
+   \   000000C4   F083BDE8           POP      {R4-R9,PC}
+    293                  }
+    294                  return;
+    295                }
+    296                else
+    297                {
+    298                  if (lastitem)lastitem->type=T_STANDBY;
+   \                     ??DispDraw_3:
+   \   000000C8   000050E3           CMP      R0,#+0
+   \   000000CC   0600000A           BEQ      ??DispDraw_4
+   \   000000D0   187080E5           STR      R7,[R0, #+24]
+   \   000000D4   040000EA           B        ??DispDraw_4
+    299                }
+    300              }
+    301              else if (vis==0xFFFF || vis==0)
+   \                     ??DispDraw_2:
+   \   000000D8   FF00A0E3           MOV      R0,#+255
+   \   000000DC   FF0C80E3           ORR      R0,R0,#0xFF00
+   \   000000E0   000059E1           CMP      R9,R0
+   \   000000E4   00005913           CMPNE    R9,#+0
+   \   000000E8   F083BD08           POPEQ    {R4-R9,PC}
+    302              {
+    303                return;
+    304              }
+    305            }
+    306            else return;
+    307            LABELS* lbl= get_labels(DO, focused, bk, vis);
+   \                     ??DispDraw_4:
+   \   000000EC   0930A0E1           MOV      R3,R9
+   \   000000F0   0520A0E1           MOV      R2,R5
+   \   000000F4   0610A0E1           MOV      R1,R6
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   ........           _BLF     ??get_labels,??get_labels??rA
+   \   00000100   0060A0E1           MOV      R6,R0
+    308            if (lastitem && lbl)
+   \   00000104   000098E5           LDR      R0,[R8, #+0]
+   \   00000108   000050E3           CMP      R0,#+0
+   \   0000010C   00005613           CMPNE    R6,#+0
+   \   00000110   1D00000A           BEQ      ??DispDraw_5
+    309            {
+    310              if (lastitem->style==2)return;
+   \   00000114   101090E5           LDR      R1,[R0, #+16]
+   \   00000118   020051E3           CMP      R1,#+2
+   \   0000011C   F083BD08           POPEQ    {R4-R9,PC}
+    311              if (lastitem->type!=T_DDMENU && lastitem->type!=T_MESSAGEBOX)
+   \   00000120   181090E5           LDR      R1,[R0, #+24]
+   \   00000124   040051E3           CMP      R1,#+4
+   \   00000128   03005113           CMPNE    R1,#+3
+   \   0000012C   0D00000A           BEQ      ??DispDraw_6
+    312              {
+    313                int x;
+    314                for (x=0;x<3;x++)
+   \   00000130   0010A0E3           MOV      R1,#+0
+   \   00000134   9084E0E3           MVN      R8,#-1879048192
+    315                {
+    316                  if (lastitem->strids[x]!=EMPTY_TEXTID)
+   \                     ??DispDraw_7:
+   \   00000138   012180E0           ADD      R2,R0,R1, LSL #+2
+   \   0000013C   043092E5           LDR      R3,[R2, #+4]
+   \   00000140   080053E1           CMP      R3,R8
+   \   00000144   0400000A           BEQ      ??DispDraw_8
+    317                  {
+    318                    lbl->strids[x]=lastitem->strids[x];
+   \   00000148   0320A0E1           MOV      R2,R3
+   \   0000014C   012186E7           STR      R2,[R6, +R1, LSL #+2]
+    319                    lbl->enable[x]=true;
+   \   00000150   062081E0           ADD      R2,R1,R6
+   \   00000154   0130A0E3           MOV      R3,#+1
+   \   00000158   0C30C2E5           STRB     R3,[R2, #+12]
+    320                  }
+    321                }
+   \                     ??DispDraw_8:
+   \   0000015C   011081E2           ADD      R1,R1,#+1
+   \   00000160   030051E3           CMP      R1,#+3
+   \   00000164   F3FFFFBA           BLT      ??DispDraw_7
+    322              }
+    323              DrawSofts(DO, bk, lbl);
+   \                     ??DispDraw_6:
+   \   00000168   0620A0E1           MOV      R2,R6
+   \   0000016C   0510A0E1           MOV      R1,R5
+   \   00000170   0400A0E1           MOV      R0,R4
+   \   00000174   ........           BL       ??DrawSofts
+    324              pressed[0] = false;
+   \   00000178   ........           LDR      R0,??DataTable14  ;; pressed
+   \   0000017C   0010A0E3           MOV      R1,#+0
+   \   00000180   0010C0E5           STRB     R1,[R0, #+0]
+    325              pressed[1] = false;
+   \   00000184   0110C0E5           STRB     R1,[R0, #+1]
+    326              pressed[2] = false;
+   \   00000188   0210C0E5           STRB     R1,[R0, #+2]
+    327            }
+    328            delete(lbl);
+   \                     ??DispDraw_5:
+   \   0000018C   0600A0E1           MOV      R0,R6
+   \   00000190   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    329          };
+   \   00000194   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DispDraw_1:
+   \   00000198   ........           DC32     rect + 16
+    330          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    331          void RefreshTimer(DISP_OBJ *DO)
+    332          {
+    333            pressed[0]=false;
+   \                     ??RefreshTimer:
+   \   00000000   ........           LDR      R1,??DataTable14  ;; pressed
+   \   00000004   10402DE9           PUSH     {R4,LR}
+    334            pressed[1]=false;
+    335            pressed[2]=false;
+    336            DispObject_InvalidateRect(DO,&rect);
+   \   00000008   ........           LDR      R4,??DataTable16  ;; rect
+   \   0000000C   0020A0E3           MOV      R2,#+0
+   \   00000010   0020C1E5           STRB     R2,[R1, #+0]
+   \   00000014   0120C1E5           STRB     R2,[R1, #+1]
+   \   00000018   0220C1E5           STRB     R2,[R1, #+2]
+   \   0000001C   0410A0E1           MOV      R1,R4
+   \   00000020   EF0100EF           SWI      +495
+    337            DispObject_KillRefreshTimer(soft);
+   \   00000024   080094E5           LDR      R0,[R4, #+8]
+   \   00000028   DE0200EF           SWI      +734
+    338          };
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+    339          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    340          int redraw_init()
+    341          {
+   \                     ??redraw_init:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    342            height=Display_GetHeight(0);
+   \   00000004   ........           LDR      R4,??DataTable16  ;; rect
+   \   00000008   0000A0E3           MOV      R0,#+0
+    343            width=Display_GetWidth(0);
+    344            switch(GetChipID()&CHIPID_MASK)
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   580200EF           SWI      +600
+   \   00000014   1C0084E5           STR      R0,[R4, #+28]
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   590200EF           SWI      +601
+   \   00000020   200084E5           STR      R0,[R4, #+32]
+   \   00000024   4E0200EF           SWI      +590
+   \   00000028   FE0C00E2           AND      R0,R0,#0xFE00
+   \   0000002C   700C50E2           SUBS     R0,R0,#+28672
+   \   00000030   400D5012           SUBSNE   R0,R0,#+4096
+   \   00000034   0200000A           BEQ      ??redraw_init_1
+   \   00000038   600D50E2           SUBS     R0,R0,#+6144
+   \   0000003C   0500000A           BEQ      ??redraw_init_2
+   \   00000040   090000EA           B        ??redraw_init_3
+    345            {
+    346            case CHIPID_DB2000:
+    347            case CHIPID_DB2010:
+    348              DB=2010;
+   \                     ??redraw_init_1:
+   \   00000044   DA00A0E3           MOV      R0,#+218
+   \   00000048   700E80E3           ORR      R0,R0,#0x700
+   \   0000004C   280084E5           STR      R0,[R4, #+40]
+    349              uic=false;
+   \   00000050   245084E5           STR      R5,[R4, #+36]
+   \   00000054   040000EA           B        ??redraw_init_3
+    350              break;
+    351            case CHIPID_DB2020:
+    352              DB=2020;
+   \                     ??redraw_init_2:
+   \   00000058   E400A0E3           MOV      R0,#+228
+   \   0000005C   700E80E3           ORR      R0,R0,#0x700
+   \   00000060   280084E5           STR      R0,[R4, #+40]
+    353              uic=true;
+   \   00000064   0100A0E3           MOV      R0,#+1
+   \   00000068   240084E5           STR      R0,[R4, #+36]
+    354              break;
+    355            }
+    356            GetSize();
+   \                     ??redraw_init_3:
+   \   0000006C   ........           BL       ??GetSize
+    357            rect.x1=0;
+   \   00000070   B050C4E1           STRH     R5,[R4, #+0]
+    358            rect.y1=0;
+   \   00000074   B450C4E1           STRH     R5,[R4, #+4]
+    359            rect.x2=Display_GetWidth(0);
+   \   00000078   0000A0E3           MOV      R0,#+0
+   \   0000007C   590200EF           SWI      +601
+   \   00000080   B200C4E1           STRH     R0,[R4, #+2]
+    360            rect.y2=SoftSize;
+   \   00000084   180094E5           LDR      R0,[R4, #+24]
+   \   00000088   B600C4E1           STRH     R0,[R4, #+6]
+    361            soft=DispObject_SoftKeys_Get();
+   \   0000008C   A30200EF           SWI      +675
+   \   00000090   080084E5           STR      R0,[R4, #+8]
+    362            if (soft)
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   0C00000A           BEQ      ??redraw_init_4
+    363            {
+    364              DREDRAW=DispObject_GetOnRedraw(soft);
+   \   0000009C   290200EF           SWI      +553
+   \   000000A0   100084E5           STR      R0,[R4, #+16]
+    365              DISP_DESC_SetOnRedraw(DispObject_GetDESC(soft), DispDraw);
+   \   000000A4   080094E5           LDR      R0,[R4, #+8]
+   \   000000A8   1F0200EF           SWI      +543
+   \   000000AC   24109FE5           LDR      R1,??redraw_init_5  ;; ??DispDraw
+   \   000000B0   280200EF           SWI      +552
+    366              DREFRESH=DispObject_GetonRefresh(soft);
+   \   000000B4   080094E5           LDR      R0,[R4, #+8]
+   \   000000B8   2D0200EF           SWI      +557
+   \   000000BC   0C0084E5           STR      R0,[R4, #+12]
+    367              DISP_DESC_SetOnRefresh(DispObject_GetDESC(soft), RefreshTimer);
+   \   000000C0   080094E5           LDR      R0,[R4, #+8]
+   \   000000C4   1F0200EF           SWI      +543
+   \   000000C8   0C109FE5           LDR      R1,??redraw_init_5+0x4  ;; ??RefreshTimer
+   \   000000CC   2C0200EF           SWI      +556
+    368              //---------------------------------------------------------
+    369            }
+    370            return 1;
+   \                     ??redraw_init_4:
+   \   000000D0   0100A0E3           MOV      R0,#+1
+   \   000000D4   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??redraw_init_5:
+   \   000000D8   ........           DC32     ??DispDraw
+   \   000000DC   ........           DC32     ??RefreshTimer
+    371          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     rect
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     images
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     works
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable12:
+   \   00000000   ........           DC32     lastitem
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     pressed
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable16:
+   \   00000000   ........           DC32     rect
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for rect>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for soft>`:
+   \   00000008   00000000           DC32 0H
+   \                     `?<Initializer for DREFRESH>`:
+   \   0000000C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for DREDRAW>`:
+   \   00000010   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for StatusSize>`:
+   \   00000014   00000000           DC32 0
+   \                     `?<Initializer for SoftSize>`:
+   \   00000018   00000000           DC32 0
+   \                     `?<Initializer for height>`:
+   \   0000001C   00000000           DC32 0
+   \                     `?<Initializer for width>`:
+   \   00000020   00000000           DC32 0
+   \                     `?<Initializer for uic>`:
+   \   00000024   00000000           DC32 0
+   \                     `?<Initializer for DB>`:
+   \   00000028   E4070000           DC32 2020
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for books>`:
+   \   00000000   ............       DC32 `?<Constant "MM_Browser">`, `?<Constant "ImageViewerBook">`
+   \              ....        
+   \   00000008   ........           DC32 `?<Constant "AudioPlayerBook">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MM_Browser">`:
+   \   00000000   4D4D5F42726F       DC8 "MM_Browser"
+   \              7773657200  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ImageViewerBook">`:
+   \   00000000   496D61676556       DC8 "ImageViewerBook"
+   \              696577657242
+   \              6F6F6B00    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "AudioPlayerBook">`:
+   \   00000000   417564696F50       DC8 "AudioPlayerBook"
+   \              6C6179657242
+   \              6F6F6B00    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4b\\x65\\x79\\x6c\\x6f\\x63\\x6b">`:
+   \   00000000   4B0065007900       DC8 4BH, 0, 65H, 0, 79H, 0, 6CH, 0
+   \              6C00        
+   \   00000008   6F0063006B00       DC8 6FH, 0, 63H, 0, 6BH, 0, 0, 0
+   \              0000        
+   \   00000010   440045004600       DC8 44H, 0, 45H, 0, 46H, 0, 41H, 0
+   \              4100        
+   \   00000018   55004C005400       DC8 55H, 0, 4CH, 0, 54H, 0, 0, 0
+   \              0000        
+    372          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     DispDraw(DISP_OBJ *, int, int, int)
+                                       28
+     DrawSofts(DISP_OBJ *, BOOK *, LABELS *)
+                                       80
+     GetOrientation(BOOK *)             4
+     GetSize()                          4
+     NotSupported(BOOK *)              12
+     RefreshTimer(DISP_OBJ *)           8
+     __getitem(BOOK *)                 12
+     ourredraw(DISP_OBJ *, int, int, int)
+                                       44
+     redraw_init()                     12
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     rect                             44
+     GetSize()                        68
+     books                            12
+     NotSupported(BOOK *)             88
+     ourredraw(DISP_OBJ *, int, int, int)
+                                     540
+     GetOrientation(BOOK *)           44
+     DrawSofts(DISP_OBJ *, BOOK *, LABELS *)
+                                     832
+     __getitem(BOOK *)               108
+     DispDraw(DISP_OBJ *, int, int, int)
+                                     412
+     RefreshTimer(DISP_OBJ *)         48
+     redraw_init()                   224
+     ??DataTable6                      4
+     ??DataTable9                      4
+     ??DataTable11                     4
+     ??DataTable12                     4
+     ??DataTable14                     4
+     ??DataTable16                     4
+     ?<Initializer for rect>          44
+     ?<Initializer for books>         12
+     ?<Constant "MM_Browser">         12
+     ?<Constant "ImageViewerBook">    16
+     ?<Constant "AudioPlayerBook">    16
+     ?<Constant L"\x4b\x65\x79\x6c\x6f\x63\x6b">
+                                      32
+      Others                         120
+
+ 
+ 2 496 bytes in segment CODE
+    76 bytes in segment DATA_C
+    56 bytes in segment DATA_I
+    56 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 2 388 bytes of CODE  memory (+ 120 bytes shared)
+   132 bytes of CONST memory
+    56 bytes of DATA  memory
+
+Errors: none
+Warnings: none

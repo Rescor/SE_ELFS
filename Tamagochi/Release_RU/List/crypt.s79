@@ -1,0 +1,350 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:07:01 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\cry /
+//                       pt.c                                                /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\cry /
+//                       pt.c -D NDEBUG -D LANG_RU -D OLDFUNCTIONS -lC       /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rel /
+//                       ease_RU\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\Tamagochi\Release_RU\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rel /
+//                       ease_RU\Obj\ -s9 --no_unroll --no_inline            /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --enable_multibytes  /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\                        /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rel /
+//                       ease_RU\List\crypt.s79                              /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME crypt
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+        PUBLIC ??decrypt
+        FUNCTION ??decrypt,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??decrypt??rT
+        PUBLIC ??encrypt
+        FUNCTION ??encrypt,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??encrypt??rT
+        PUBLIC ??make_mycrc_table
+        FUNCTION ??make_mycrc_table,0203H
+        MULTWEAK ??make_mycrc_table??rT
+        PUBLIC ??myCrc32
+        FUNCTION ??myCrc32,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??myCrc32??rT
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC mycrc_table
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??decrypt??rT       SYMBOL "??rT", ??decrypt
+
+??encrypt??rT       SYMBOL "??rT", ??encrypt
+
+??make_mycrc_table??rT SYMBOL "??rT", ??make_mycrc_table
+
+??myCrc32??rT       SYMBOL "??rT", ??myCrc32
+
+// Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\crypt.c
+//    1 #include "..\include\Lib_Clara.h"
+//    2 
+//    3 #include "crypt.h"
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//    4 unsigned long mycrc_table[256];
+mycrc_table:
+        DS8 1024
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??make_mycrc_table??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??make_mycrc_table
+//    5 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??make_mycrc_table
+        ARM
+//    6 void make_mycrc_table(unsigned long poly)
+//    7 {
+//    8   unsigned long crc;
+//    9   for (int i = 0; i < 256; i++)
+??make_mycrc_table:
+        MOV      R1,#+0
+//   10   {
+//   11     crc = i;
+??make_mycrc_table_1:
+        MOV      R2,R1
+//   12     for (int j = 0; j < 8; j++)
+        MOV      R3,#+0
+//   13       crc = crc & 1 ? (crc >> 1) ^ poly : crc >> 1;
+??make_mycrc_table_2:
+        LSR      R12,R2,#+1
+        TST      R2,#0x1
+        EORNE    R2,R0,R12
+        MOVEQ    R2,R12
+        ADD      R3,R3,#+1
+        CMP      R3,#+8
+        BLT      ??make_mycrc_table_2
+//   14     mycrc_table[i] = crc;
+        LDR      R3,??DataTable2  ;; mycrc_table
+        STR      R2,[R3, +R1, LSL #+2]
+//   15   }
+        ADD      R1,R1,#+1
+        CMP      R1,#+256
+        BLT      ??make_mycrc_table_1
+//   16 }
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??myCrc32??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??myCrc32
+//   17 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??myCrc32
+        ARM
+//   18 unsigned long myCrc32(unsigned char *buf, unsigned long len)
+//   19 {
+??myCrc32:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOV      R4,R0
+//   20   unsigned long crc = 0xFFFFFFFFUL;
+//   21   make_mycrc_table(0xEDB89320UL);
+        LDR      R0,??myCrc32_1   ;; 0xffffffffedb89320
+        MOV      R5,R1
+        MVN      R6,#+0
+        BL       ??make_mycrc_table
+        LDR      R1,??DataTable2  ;; mycrc_table
+        B        ??myCrc32_2
+//   22   while (len--)
+//   23     crc = mycrc_table[(crc ^ *buf++) & 0xFF] ^ (crc >> 8);
+??myCrc32_3:
+        LDRB     R0,[R4], #+1
+        EOR      R0,R0,R6
+        AND      R0,R0,#0xFF
+        LDR      R0,[R1, +R0, LSL #+2]
+        EOR      R6,R0,R6, LSR #+8
+??myCrc32_2:
+        MOV      R0,R5
+        SUB      R5,R0,#+1
+        CMP      R0,#+0
+        BNE      ??myCrc32_3
+//   24   return crc ^ 0xFFFFFFFFUL;
+        MVN      R0,#+0
+        EOR      R0,R0,R6
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??myCrc32_1:
+        DC32     0xffffffffedb89320
+        CFI EndBlock cfiBlock3
+//   25 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??encrypt??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??encrypt
+//   26 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??encrypt
+        ARM
+//   27 void *encrypt(void *outbuf, void *inpbuf, unsigned long len, unsigned long poly)
+//   28 {
+??encrypt:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R0,R3
+//   29   unsigned char *y = (unsigned char *)outbuf;
+//   30   unsigned char *x = (unsigned char *)inpbuf;
+//   31   make_mycrc_table(poly);
+        BL       ??make_mycrc_table
+//   32   if(len > 256) len = 256;
+        MOV      R0,#+1
+        ORR      R0,R0,#0x100
+        CMP      R6,R0
+        MOVCS    R6,#+256
+//   33   for(int i=0; i<len; i++)
+        MOV      R0,#+0
+        CMP      R6,#+0
+        BNE      ??encrypt_1
+        MOV      R0,R4
+        POP      {R4-R6,PC}
+//   34   {
+//   35     y[i] = x[i]^mycrc_table[i];
+??encrypt_2:
+        LDRB     R1,[R0, +R5]
+        LDR      R2,??DataTable2  ;; mycrc_table
+        LDR      R2,[R2, +R0, LSL #+2]
+        EOR      R1,R2,R1
+        STRB     R1,[R0, +R4]
+//   36   }
+        ADD      R0,R0,#+1
+??encrypt_1:
+        CMP      R0,R6
+        BCC      ??encrypt_2
+//   37   return outbuf;
+        MOV      R0,R4
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock5
+//   38 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     mycrc_table
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??decrypt??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??decrypt
+//   39 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??decrypt
+        ARM
+//   40 void *decrypt(void *outbuf, void *inpbuf, unsigned long len, unsigned long poly)
+//   41 {
+//   42   return encrypt(outbuf, inpbuf, len, poly);
+??decrypt:
+        B        ??encrypt        ;; tailcall
+        CFI EndBlock cfiBlock7
+//   43 }
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        END
+//   44 
+// 
+//   272 bytes in segment CODE
+// 1 024 bytes in segment DATA_Z
+//    12 bytes in segment INITTAB
+// 
+//   256 bytes of CODE memory (+ 28 bytes shared)
+// 1 024 bytes of DATA memory
+//
+//Errors: none
+//Warnings: none

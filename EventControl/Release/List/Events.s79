@@ -1,0 +1,2019 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:52:50 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Events.c                                            /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Events.c -D NDEBUG -D OLDFUNCTIONS -lC              /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\EventControl\Release\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\Obj\ -s9 --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\Events.s79                             /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME Events
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        EXTERN ??ldr32h_a
+
+        PUBLIC ??AddEvent
+        FUNCTION ??AddEvent,0203H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??AddEvent??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable2 EQU 0
+        PUBLIC ??DestroyEvents
+        FUNCTION ??DestroyEvents,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??DestroyEvents??rT
+        PUBLIC ??InitializeEvents
+        FUNCTION ??InitializeEvents,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??InitializeEvents??rT
+        PUBLIC ??InitializeFolders
+        FUNCTION ??InitializeFolders,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??InitializeFolders??rT
+        PUBLIC ??SetDate
+        FUNCTION ??SetDate,0203H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??SetDate??rT
+        PUBLIC ??SetTime
+        FUNCTION ??SetTime,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??SetTime??rT
+        MULTWEAK ??SortList??rA
+        PUBLIC ??calcday
+        FUNCTION ??calcday,0203H
+        MULTWEAK ??calcday??rT
+        MULTWEAK ??date_increase??rA
+        MULTWEAK ??getchr??rA
+        MULTWEAK ??getint??rA
+        MULTWEAK ??getparam??rA
+        MULTWEAK ??getwchr??rA
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new??rA`
+        MULTWEAK `??operator new[]??rA`
+        MULTWEAK ??rA??ldr32h_a
+        PUBLIC ??readConfig
+        FUNCTION ??readConfig,0203H
+        LOCFRAME CSTACK, 200, STACK
+        MULTWEAK ??readConfig??rT
+        PUBLIC ??shiftdate
+        FUNCTION ??shiftdate,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??shiftdate??rT
+        PUBLIC ??shiftdays
+        FUNCTION ??shiftdays,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??shiftdays??rT
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC events
+        PUBLIC extFolder
+        PUBLIC intFolder
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+
+
+
+
+
+??AddEvent??rT      SYMBOL "??rT", ??AddEvent
+
+??DestroyEvents??rT SYMBOL "??rT", ??DestroyEvents
+
+??InitializeEvents??rT SYMBOL "??rT", ??InitializeEvents
+
+??InitializeFolders??rT SYMBOL "??rT", ??InitializeFolders
+
+??SetDate??rT       SYMBOL "??rT", ??SetDate
+
+??SetTime??rT       SYMBOL "??rT", ??SetTime
+??SortList??rA      SYMBOL "??rA", ??SortList
+
+??calcday??rT       SYMBOL "??rT", ??calcday
+??date_increase??rA SYMBOL "??rA", ??date_increase
+??getchr??rA        SYMBOL "??rA", ??getchr
+??getint??rA        SYMBOL "??rA", ??getint
+??getparam??rA      SYMBOL "??rA", ??getparam
+??getwchr??rA       SYMBOL "??rA", ??getwchr
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new??rA` SYMBOL "??rA", `??operator new`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+??readConfig??rT    SYMBOL "??rT", ??readConfig
+
+??shiftdate??rT     SYMBOL "??rT", ??shiftdate
+
+??shiftdays??rT     SYMBOL "??rT", ??shiftdays
+
+        EXTERN ??SortList
+        FUNCTION ??SortList,0202H
+        EXTERN ??date_increase
+        FUNCTION ??date_increase,0202H
+        EXTERN ??getchr
+        FUNCTION ??getchr,0202H
+        EXTERN ??getint
+        FUNCTION ??getint,0202H
+        EXTERN ??getparam
+        FUNCTION ??getparam,0202H
+        EXTERN ??getwchr
+        FUNCTION ??getwchr,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new`
+        FUNCTION `??operator new`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+        EXTERN ECBook
+
+// Z:\home\perk11\www\perk11.info\svn\SE\EventControl\Events.c
+//    1 /*
+//    2 *===========================================================================
+//    3 *                 Модуль создания/уничтожения списка событий
+//    4 *===========================================================================
+//    5 */
+//    6 #include "..\deleaker\mem2.h"
+//    7 #include "..\include\Lib_Clara.h" 
+//    8 #include "..\include\Dir.h" 
+//    9 #include "header\structs.h"
+//   10 #include "header\string.h"
+//   11 
+//   12 extern MyBOOK *ECBook;
+//   13 
+//   14 void SortList(LIST *lst);
+//   15 void InitializeFolders();
+//   16 void date_increase(DATE date, int num, char *day, char *mon, u16 *year);
+//   17 
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//   18 LIST *events;
+events:
+        DS8 4
+//   19 wchar_t *extFolder=0;
+extFolder:
+        DS8 4
+//   20 wchar_t *intFolder=0;
+intFolder:
+        DS8 4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InitializeFolders??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??InitializeFolders
+//   21 
+//   22 /*
+//   23 *==============================================================================
+//   24 * Заполнение глобальных переменных extFolder и intFolder путями к папкам эльфа
+//   25 *==============================================================================
+//   26 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??InitializeFolders
+        ARM
+//   27 void InitializeFolders()
+//   28 {
+??InitializeFolders:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//   29   if (extFolder==0)
+        LDR      R4,??InitializeFolders_1  ;; `?<Constant L"\\x2f\\x45\\x76\\x65\\x6e\\x74\\x43\\x6f\\`
+        LDR      R5,??InitializeFolders_1+0x4  ;; events
+        LDR      R0,[R5, #+4]
+        CMP      R0,#+0
+        BNE      ??InitializeFolders_2
+//   30   {
+//   31     int size=wstrlen(GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG))+wstrlen(L"/EventControl/");
+        MOV      R0,#+20
+        SWI      +261
+        SWI      +343
+        MOV      R6,R0
+        MOV      R0,R4
+        SWI      +343
+        ADD      R6,R0,R6
+//   32     extFolder = new wchar_t[size+1];
+        ADD      R0,R6,#+1
+        LSL      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[R5, #+4]
+//   33     snwprintf(extFolder,size,L"%ls/EventControl/",GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG));
+        MOV      R0,#+20
+        SWI      +261
+        MOV      R3,R0
+        LDR      R0,[R5, #+4]
+        ADD      R2,R4,#+32
+        MOV      R1,R6
+        SWI      +277
+//   34   }
+//   35   if (intFolder==0)
+??InitializeFolders_2:
+        LDR      R0,[R5, #+8]
+        CMP      R0,#+0
+        POPNE    {R4-R6,PC}
+//   36   {
+//   37     int size=wstrlen(GetDir(MEM_INTERNAL+DIR_ELFS_CONFIG))+wstrlen(L"/EventControl/");
+        MOV      R0,#+21
+        SWI      +261
+        SWI      +343
+        MOV      R6,R0
+        MOV      R0,R4
+        SWI      +343
+        ADD      R6,R0,R6
+//   38     intFolder = new wchar_t[size+1];
+        ADD      R0,R6,#+1
+        LSL      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[R5, #+8]
+//   39     snwprintf(intFolder,size,L"%ls/EventControl/",GetDir(MEM_INTERNAL+DIR_ELFS_CONFIG));
+        MOV      R0,#+21
+        SWI      +261
+        MOV      R3,R0
+        LDR      R0,[R5, #+8]
+        ADD      R2,R4,#+32
+        MOV      R1,R6
+        SWI      +277
+//   40   }
+//   41 };
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??InitializeFolders_1:
+        DC32     `?<Constant L"\\x2f\\x45\\x76\\x65\\x6e\\x74\\x43\\x6f\\`
+        DC32     events
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SetDate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??SetDate
+//   42 
+//   43 /*
+//   44 *===========================================================================
+//   45 *             Функция парсинга строки, содержащей дату/дни/GPS
+//   46 *===========================================================================
+//   47 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??SetDate
+        ARM
+//   48 void SetDate(char *param, EVENT *ev, int type)
+//   49 {
+??SetDate:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+4
+        CFI CFA R13+24
+        MOV      R5,R0
+        MOV      R4,R1
+//   50   if (type==0) //Указаны дни
+        MOV      R6,#+1
+        CMP      R2,#+0
+        BNE      ??SetDate_1
+//   51   {
+//   52     int x=0;
+//   53     for (x=0;x<strlen(param);x++)
+        MOV      R7,#+0
+??SetDate_2:
+        MOV      R0,R5
+        SWI      +346
+        CMP      R7,R0
+        POPGE    {R0,R4-R7,PC}
+//   54     {
+//   55       ev->days[param[x]-0x30]=true;
+        LDRB     R0,[R7, +R5]
+//   56     }
+        ADD      R7,R7,#+1
+        SUB      R0,R0,#+48
+        ADD      R0,R4,R0, LSL #+2
+        STR      R6,[R0, #+112]
+        B        ??SetDate_2
+//   57   }
+//   58   else if (type==1) //Указана даты начала и конца
+??SetDate_1:
+        CMP      R2,#+1
+        BNE      ??SetDate_3
+//   59   {
+//   60     int x=0;
+        LDRB     R1,[R5, #+0]
+        MOV      R0,#+0
+        MOV      R3,#+10
+        CMP      R1,#+45
+        BNE      ??SetDate_4
+        B        ??SetDate_5
+//   61     while (param[x]!='-')
+//   62     {
+//   63       ev->date.day=(ev->date.day*10)+(param[x]-0x30);
+??SetDate_6:
+        LDRB     R2,[R4, #+107]
+//   64       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R4, #+107]
+//   65     }
+??SetDate_4:
+        LDRB     R1,[R0, +R5]
+        CMP      R1,#+45
+        BNE      ??SetDate_6
+//   66     x++;
+??SetDate_5:
+        ADD      R0,R0,#+1
+        LDRB     R1,[R0, +R5]
+        CMP      R1,#+45
+        BEQ      ??SetDate_7
+//   67     while (param[x]!='-')
+//   68     {
+//   69       ev->date.mon=(ev->date.mon*10)+(param[x]-0x30);
+??SetDate_8:
+        LDRB     R2,[R4, #+106]
+        LDRB     R1,[R0, +R5]
+//   70       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R4, #+106]
+//   71     }
+        LDRB     R1,[R0, +R5]
+        CMP      R1,#+45
+        BNE      ??SetDate_8
+//   72     x++;
+??SetDate_7:
+        ADD      R1,R0,#+1
+        LDRB     R2,[R1, +R5]
+        MOV      R0,#+208
+        ORR      R0,R0,#0xFF00
+        CMP      R2,#+46
+        MOV      R6,#+10
+        BEQ      ??SetDate_9
+//   73     while (param[x]!='.')
+//   74     {
+//   75       ev->date.year=(ev->date.year*10)+(param[x]-0x30);
+??SetDate_10:
+        LDRH     R3,[R4, #+104]
+        LDRB     R2,[R1, +R5]
+//   76       x++;
+        ADD      R1,R1,#+1
+        MLA      R2,R6,R3,R2
+        ADD      R2,R0,R2
+        STRH     R2,[R4, #+104]
+//   77     }
+        LDRB     R2,[R1, +R5]
+        CMP      R2,#+46
+        BNE      ??SetDate_10
+//   78     x++;
+??SetDate_9:
+        ADD      R1,R1,#+1
+        LDRB     R2,[R1, +R5]
+        CMP      R2,#+45
+        BEQ      ??SetDate_11
+//   79     while (param[x]!='-')
+//   80     {
+//   81       ev->date2.day=(ev->date2.day*10)+(param[x]-0x30);
+??SetDate_12:
+        LDRB     R3,[R4, #+111]
+        LDRB     R2,[R1, +R5]
+//   82       x++;
+        ADD      R1,R1,#+1
+        MLA      R2,R6,R3,R2
+        ADD      R2,R2,#+208
+        STRB     R2,[R4, #+111]
+//   83     }
+        LDRB     R2,[R1, +R5]
+        CMP      R2,#+45
+        BNE      ??SetDate_12
+//   84     x++;
+??SetDate_11:
+        ADD      R1,R1,#+1
+        LDRB     R2,[R1, +R5]
+        CMP      R2,#+45
+        BEQ      ??SetDate_13
+//   85     while (param[x]!='-')
+//   86     {
+//   87       ev->date2.mon=(ev->date2.mon*10)+(param[x]-0x30);
+??SetDate_14:
+        LDRB     R3,[R4, #+110]
+        LDRB     R2,[R1, +R5]
+//   88       x++;
+        ADD      R1,R1,#+1
+        MLA      R2,R6,R3,R2
+        ADD      R2,R2,#+208
+        STRB     R2,[R4, #+110]
+//   89     }
+        LDRB     R2,[R1, +R5]
+        CMP      R2,#+45
+        BNE      ??SetDate_14
+//   90     x++;
+??SetDate_13:
+        ADD      R1,R1,#+1
+//   91     while (param[x]!=':' && param[x]!=0)
+        LDRB     R2,[R1, +R5]
+        CMP      R2,#+58
+        CMPNE    R2,#+0
+        POPEQ    {R0,R4-R7,PC}
+//   92     {
+//   93       ev->date2.year=(ev->date2.year*10)+(param[x]-0x30);
+        LDRH     R3,[R4, #+108]
+        MLA      R2,R6,R3,R2
+        ADD      R2,R0,R2
+        STRH     R2,[R4, #+108]
+//   94       x++;
+        B        ??SetDate_13
+//   95     }
+//   96     x++;
+//   97   }
+//   98   else   
+//   99   {
+//  100     int x=0;
+??SetDate_3:
+        MOV      R1,#+0
+        STR      R1,[SP, #+0]
+//  101     ev->gps=getchr(param,&x,'.');
+        MOV      R2,#+46
+        MOV      R1,SP
+        _BLF     ??getchr,??getchr??rA
+        STR      R0,[R4, #+160]
+//  102     char *par=getchr(param,&x,0);
+        MOV      R2,#+0
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getchr,??getchr??rA
+        MOVS     R5,R0
+//  103     if (par)
+        BEQ      ??SetDate_15
+//  104     {
+//  105       for (x=0;x<strlen(par);x++)
+        MOV      R1,#+0
+        B        ??SetDate_16
+//  106       {
+//  107         ev->days[par[x]-0x30]=true; 
+??SetDate_17:
+        LDRB     R0,[R1, +R5]
+        SUB      R0,R0,#+48
+        ADD      R0,R4,R0, LSL #+2
+        STR      R6,[R0, #+112]
+//  108       }
+        LDR      R1,[SP, #+0]
+        ADD      R1,R1,#+1
+??SetDate_16:
+        STR      R1,[SP, #+0]
+        MOV      R0,R5
+        SWI      +346
+        LDR      R1,[SP, #+0]
+        CMP      R1,R0
+        BLT      ??SetDate_17
+//  109       delete(par);
+        MOV      R0,R5
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  110     }
+//  111     ev->isGps=true;
+??SetDate_15:
+        STRB     R6,[R4, #+96]
+//  112   }
+//  113 };
+        POP      {R0,R4-R7,PC}    ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SetTime??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??SetTime
+//  114 /*
+//  115 *===========================================================================
+//  116 *                 Функция парсинга строки, содержащей время
+//  117 *===========================================================================
+//  118 */
+//  119 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??SetTime
+        ARM
+//  120 void SetTime(char *param, EVENT *ev, int type)
+//  121 {
+??SetTime:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//  122   if (type==0) //Указано время без конечного
+        CMP      R2,#+0
+        MOV      R4,R0
+        MOV      R5,R1
+        BNE      ??SetTime_1
+//  123   {
+//  124     memset(&ev->time,0,sizeof(TIME));
+        MOV      R2,#+4
+        MOV      R1,#+0
+        ADD      R0,R5,#+144
+        SWI      +274
+//  125     memset(&ev->time2,0,sizeof(TIME));
+        MOV      R2,#+4
+        MOV      R1,#+0
+        ADD      R0,R5,#+148
+        SWI      +274
+//  126     int x=0;
+        LDRB     R1,[R4, #+0]
+        MOV      R0,#+0
+        MOV      R3,#+10
+        CMP      R1,#+45
+        BNE      ??SetTime_2
+        B        ??SetTime_3
+//  127     while (param[x]!='-')
+//  128     {
+//  129       ev->time.hour=(ev->time.hour*10)+(param[x]-0x30);
+??SetTime_4:
+        LDRB     R2,[R5, #+144]
+//  130       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+144]
+//  131     }
+??SetTime_2:
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+45
+        BNE      ??SetTime_4
+//  132     x++;
+??SetTime_3:
+        ADD      R1,R0,#+1
+        B        ??SetTime_5
+//  133     while (param[x]!='-' && param[x]!=0)
+//  134     {
+//  135       ev->time.min=(ev->time.min*10)+(param[x]-0x30);
+??SetTime_6:
+        MOV      R1,R2
+        LDRB     R2,[R5, #+145]
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+145]
+//  136       x++;
+        MOV      R1,R0
+//  137     }
+??SetTime_5:
+        LDRB     R2,[R1, +R4]
+        ADD      R0,R1,#+1
+        CMP      R2,#+45
+        CMPNE    R2,#+0
+        BNE      ??SetTime_6
+//  138     x++;
+//  139     while (param[x]!=':' && param[x]!=0)
+??SetTime_7:
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+58
+        CMPNE    R1,#+0
+        POPEQ    {R4,R5,PC}
+//  140     {
+//  141       ev->time.sec=(ev->time.sec*10)+(param[x]-0x30);
+        LDRB     R2,[R5, #+146]
+//  142       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+146]
+        B        ??SetTime_7
+//  143     }
+//  144   }
+//  145   else if (type==1) //Указаны даты начала и конца
+??SetTime_1:
+        CMP      R2,#+1
+        POPNE    {R4,R5,PC}
+//  146   {
+//  147     memset(&ev->time,0,sizeof(TIME));
+        MOV      R2,#+4
+        MOV      R1,#+0
+        ADD      R0,R5,#+144
+        SWI      +274
+//  148     memset(&ev->time2,0,sizeof(TIME));
+        MOV      R2,#+4
+        MOV      R1,#+0
+        ADD      R0,R5,#+148
+        SWI      +274
+//  149     int x=0;
+        LDRB     R1,[R4, #+0]
+        MOV      R0,#+0
+        MOV      R3,#+10
+        CMP      R1,#+45
+        BNE      ??SetTime_8
+        B        ??SetTime_9
+//  150     while (param[x]!='-')
+//  151     {
+//  152       ev->time.hour=(ev->time.hour*10)+(param[x]-0x30);
+??SetTime_10:
+        LDRB     R2,[R5, #+144]
+//  153       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+144]
+//  154     }
+??SetTime_8:
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+45
+        BNE      ??SetTime_10
+//  155     x++;
+??SetTime_9:
+        ADD      R0,R0,#+1
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+45
+        BEQ      ??SetTime_11
+//  156     while (param[x]!='-')
+//  157     {
+//  158       ev->time.min=(ev->time.min*10)+(param[x]-0x30);
+??SetTime_12:
+        LDRB     R2,[R5, #+145]
+        LDRB     R1,[R0, +R4]
+//  159       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+145]
+//  160     }
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+45
+        BNE      ??SetTime_12
+//  161     x++;
+??SetTime_11:
+        ADD      R0,R0,#+1
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+46
+        BEQ      ??SetTime_13
+//  162     while (param[x]!='.')
+//  163     {
+//  164       ev->time.sec=(ev->time.sec*10)+(param[x]-0x30);
+??SetTime_14:
+        LDRB     R2,[R5, #+146]
+        LDRB     R1,[R0, +R4]
+//  165       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+146]
+//  166     }
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+46
+        BNE      ??SetTime_14
+//  167     x++;
+??SetTime_13:
+        ADD      R0,R0,#+1
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+45
+        BEQ      ??SetTime_15
+//  168     while (param[x]!='-')
+//  169     {
+//  170       ev->time2.hour=(ev->time2.hour*10)+(param[x]-0x30);
+??SetTime_16:
+        LDRB     R2,[R5, #+148]
+        LDRB     R1,[R0, +R4]
+//  171       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+148]
+//  172     }
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+45
+        BNE      ??SetTime_16
+//  173     x++;
+??SetTime_15:
+        ADD      R1,R0,#+1
+        B        ??SetTime_17
+//  174     while (param[x]!='-' && param[x]!=0)
+//  175     {
+//  176       ev->time2.min=(ev->time2.min*10)+(param[x]-0x30);
+??SetTime_18:
+        MOV      R1,R2
+        LDRB     R2,[R5, #+149]
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+149]
+//  177       x++;
+        MOV      R1,R0
+//  178     }
+??SetTime_17:
+        LDRB     R2,[R1, +R4]
+        ADD      R0,R1,#+1
+        CMP      R2,#+45
+        BEQ      ??SetTime_19
+        CMP      R2,#+0
+        BNE      ??SetTime_18
+//  179     x++;
+        B        ??SetTime_19
+//  180     while (param[x]!=':' && param[x]!=0)
+//  181     {
+//  182       ev->time2.sec=(ev->time2.sec*10)+(param[x]-0x30);
+??SetTime_20:
+        LDRB     R2,[R5, #+150]
+//  183       x++;
+        ADD      R0,R0,#+1
+        MLA      R1,R3,R2,R1
+        ADD      R1,R1,#+208
+        STRB     R1,[R5, #+150]
+//  184     }
+??SetTime_19:
+        LDRB     R1,[R0, +R4]
+        CMP      R1,#+58
+        CMPNE    R1,#+0
+        BNE      ??SetTime_20
+//  185   }
+//  186 };
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??calcday??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??calcday
+//  187 
+//  188 /*
+//  189 *===========================================================================
+//  190 *                      Вычисление дня недели
+//  191 *===========================================================================
+//  192 * 1) cur - "базовый" день, ask - на сколько надо сместить день
+//  193 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??calcday
+        ARM
+//  194 int calcday(int cur, int ask)
+//  195 {
+//  196   int ret=cur+ask;
+??calcday:
+        ADD      R0,R1,R0
+//  197   if (ret>6)
+        CMP      R0,#+7
+        BLT      ??calcday_1
+//  198   {
+//  199     ret=ret%7;
+        LDR      R1,??calcday_2   ;; 0xffffffff92492493
+        SMULL    R2,R3,R0,R1
+        MOV      R2,#+7
+        ADD      R3,R3,R0
+        ASR      R3,R3,#+2
+        ADD      R3,R3,R0, LSR #+31
+        MUL      R3,R2,R3
+        SUB      R0,R0,R3
+        BX       LR
+//  200   }
+//  201   else if (ret<0)
+??calcday_1:
+        CMP      R0,#+0
+        BXPL     LR
+//  202   {
+//  203     while (ret<0)ret=7+ret;
+??calcday_3:
+        ADDS     R0,R0,#+7
+        BMI      ??calcday_3
+//  204   }
+//  205   return ret;
+        BX       LR               ;; return
+        DATA
+??calcday_2:
+        DC32     0xffffffff92492493
+        CFI EndBlock cfiBlock7
+//  206 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??shiftdays??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??shiftdays
+//  207 
+//  208 /*
+//  209 *===========================================================================
+//  210 *   Функция расширения списка дней, при которых выполняется событие
+//  211 *===========================================================================
+//  212 * 1) *d - список rem_days, days - указатель на текущие дни, 
+//  213 * num - на сколько необходимо сместить дни
+//  214 */
+//  215 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??shiftdays
+        ARM
+//  216 void shiftdays(int *d, int *days, int num)
+//  217 {
+??shiftdays:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+//  218   for (int x=0;x<7;x++)
+        MOV      R7,#+0
+//  219   {
+//  220     if (days[x])
+??shiftdays_1:
+        LDR      R0,[R5, +R7, LSL #+2]
+        CMP      R0,#+0
+        BEQ      ??shiftdays_2
+//  221     {
+//  222       d[calcday(x, num)]=1;
+        MOV      R1,R6
+        MOV      R0,R7
+        BL       ??calcday
+        MOV      R1,#+1
+        STR      R1,[R4, +R0, LSL #+2]
+//  223     }
+//  224   }
+??shiftdays_2:
+        ADD      R7,R7,#+1
+        CMP      R7,#+7
+        BLT      ??shiftdays_1
+//  225 };
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??shiftdate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ??shiftdate
+//  226 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??shiftdate
+        ARM
+//  227 void shiftdate(DATE date, DATE *dt, int num)
+//  228 {
+??shiftdate:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R12,R2
+//  229   date_increase(date, num, &dt->day, &dt->mon, &dt->year);
+        MOV      R2,R1
+        PUSH     {R2}
+        CFI CFA R13+8
+        ADD      R3,R1,#+2
+        ADD      R2,R1,#+3
+        MOV      R1,R12
+        _BLF     ??date_increase,??date_increase??rA
+//  230 };
+        POP      {R0,PC}          ;; return
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??AddEvent??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ??AddEvent
+//  231 /*
+//  232 *===========================================================================
+//  233 *      Функция парсинга строки, создание EVENT*, занесения его в лист
+//  234 *===========================================================================
+//  235 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??AddEvent
+        ARM
+//  236 void AddEvent(char *line)
+//  237 {
+??AddEvent:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+4
+        CFI CFA R13+40
+        MOV      R5,R0
+//  238   char endstr=0xFE;
+//  239   char endline=0xFF;
+//  240   EVENT *ev=new EVENT;
+        MOV      R0,#+192
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R4,R0
+//  241   memset(ev,0,sizeof(EVENT));
+        MOV      R2,#+192
+        MOV      R1,#+0
+        SWI      +274
+//  242   int x=0;
+        MOV      R1,#+0
+        STR      R1,[SP, #+0]
+//  243   ev->rem=getint(line,&x,':');
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getint,??getint??rA
+        STR      R0,[R4, #+188]
+//  244   ev->AskBefore=getint(line,&x,':');
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getint,??getint??rA
+        STR      R0,[R4, #+84]
+//  245   ev->AskAfter=getint(line,&x,':');
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getint,??getint??rA
+        STR      R0,[R4, #+92]
+//  246   ev->type=getint(line,&x,':');
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getint,??getint??rA
+        STR      R0,[R4, #+80]
+//  247   ev->dtype=getint(line,&x,':');
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getint,??getint??rA
+        STR      R0,[R4, #+100]
+//  248   char *date=getchr(line,&x,':');
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getchr,??getchr??rA
+        MOVS     R6,R0
+//  249   if (date)
+        BEQ      ??AddEvent_1
+//  250   {
+//  251     SetDate(date,ev,ev->dtype);
+        LDR      R2,[R4, #+100]
+        MOV      R1,R4
+        BL       ??SetDate
+//  252     delete(date);
+        MOV      R0,R6
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  253   }
+//  254   ev->ttype=getint(line,&x,':');
+??AddEvent_1:
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getint,??getint??rA
+        STR      R0,[R4, #+140]
+//  255   char *time=getchr(line,&x,':');
+        MOV      R2,#+58
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getchr,??getchr??rA
+        MOVS     R6,R0
+//  256   if (time)
+        BEQ      ??AddEvent_2
+//  257   {
+//  258     SetTime(time,ev,ev->ttype);
+        LDR      R2,[R4, #+140]
+        MOV      R1,R4
+        BL       ??SetTime
+//  259     delete(time);
+        MOV      R0,R6
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  260   }
+//  261   ev->txt=getwchr(line,&x,endstr);
+??AddEvent_2:
+        MOV      R2,#+254
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getwchr,??getwchr??rA
+        STR      R0,[R4, #+156]
+//  262   ev->param=getwchr(line,&x,endline);
+        MOV      R2,#+255
+        MOV      R1,SP
+        MOV      R0,R5
+        _BLF     ??getwchr,??getwchr??rA
+        STR      R0,[R4, #+152]
+//  263   ev->tm_start=(ev->time.hour*3600) + (ev->time.min * 60) + ev->time.sec;
+        LDRB     R0,[R4, #+144]
+        LDRB     R2,[R4, #+145]
+        MOV      R1,#+3600
+        MOV      R3,#+60
+        MUL      R2,R3,R2
+        MLA      R0,R1,R0,R2
+        LDRB     R1,[R4, #+146]
+        ADD      R0,R1,R0
+        STR      R0,[R4, #+4]
+//  264   ev->ask_before=ev->tm_start+(ev->AskBefore*60);
+        LDR      R1,[R4, #+84]
+        MLA      R1,R3,R1,R0
+        STR      R1,[R4, #+12]
+//  265   if (ev->ttype==1)
+        LDR      R1,[R4, #+140]
+        CMP      R1,#+1
+        BNE      ??AddEvent_3
+//  266   {
+//  267     ev->tm_end=(ev->time2.hour*3600) + (ev->time2.min * 60) + ev->time2.sec;
+        LDRB     R0,[R4, #+148]
+        LDRB     R2,[R4, #+149]
+        MOV      R1,#+3600
+        MUL      R2,R3,R2
+        MLA      R0,R1,R0,R2
+        LDRB     R1,[R4, #+150]
+        ADD      R0,R1,R0
+//  268   }
+//  269   else
+//  270   {
+//  271     ev->tm_end=(ev->time.hour*3600) + (ev->time.min *60) + ev->time.sec;
+??AddEvent_3:
+        STR      R0,[R4, #+8]
+//  272   }
+//  273   ev->ask_after=ev->tm_end+(ev->AskAfter*60);
+        LDR      R1,[R4, #+92]
+//  274   if (!ev->ask_after)ev->after_done=true;
+        MOV      R5,#+1
+        MLA      R0,R3,R1,R0
+        STR      R0,[R4, #+16]
+        CMP      R0,#+0
+        STRBEQ   R5,[R4, #+76]
+//  275   ev->d_shift_0=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+172]
+//  276   ev->d_shift_1=0;
+        STR      R0,[R4, #+176]
+//  277   if (ev->dtype==0)
+        LDR      R0,[R4, #+100]
+        MOV      R6,#+81920
+        ORR      R6,R6,#0x1180
+        RSB      R7,R5,#+0
+        RSB      R8,R6,#+0
+        CMP      R0,#+0
+        BNE      ??AddEvent_4
+//  278   {
+//  279     shiftdays(ev->days, ev->days, 0);
+        MOV      R2,#+0
+        ADD      R1,R4,#+112
+        ADD      R0,R4,#+112
+        BL       ??shiftdays
+//  280     if (ev->ask_before>=86400)
+        LDR      R0,[R4, #+12]
+        CMP      R0,R6
+        BLT      ??AddEvent_5
+//  281     {
+//  282       shiftdays(ev->remdays, ev->days, 1);
+        MOV      R2,#+1
+        ADD      R1,R4,#+112
+        ADD      R0,R4,#+20
+        BL       ??shiftdays
+//  283       ev->d_shift_0=1;
+        STR      R5,[R4, #+172]
+//  284       ev->ask_before=ev->ask_before-86400;
+        LDR      R0,[R4, #+12]
+        ADD      R0,R8,R0
+        STR      R0,[R4, #+12]
+//  285     }
+//  286     if (ev->ask_before<0)
+??AddEvent_5:
+        LDR      R0,[R4, #+12]
+        CMP      R0,#+0
+        BPL      ??AddEvent_6
+//  287     {
+//  288       shiftdays(ev->remdays, ev->days, -1);
+        MOV      R2,R7
+        ADD      R1,R4,#+112
+        ADD      R0,R4,#+20
+        BL       ??shiftdays
+//  289       ev->d_shift_0=-1;
+        STR      R7,[R4, #+172]
+//  290       ev->ask_before=ev->ask_before+86400;
+        LDR      R0,[R4, #+12]
+        ADD      R0,R6,R0
+        STR      R0,[R4, #+12]
+//  291     }
+//  292     if (ev->ask_after>=86400)
+??AddEvent_6:
+        LDR      R0,[R4, #+16]
+        CMP      R0,R6
+        BLT      ??AddEvent_7
+//  293     {
+//  294       shiftdays(ev->remdays2, ev->days, 1);
+        MOV      R2,#+1
+        ADD      R1,R4,#+112
+        ADD      R0,R4,#+48
+        BL       ??shiftdays
+//  295       ev->d_shift_1=1;
+        STR      R5,[R4, #+176]
+//  296       ev->ask_after=ev->ask_after-86400;
+        LDR      R0,[R4, #+16]
+        ADD      R0,R8,R0
+        STR      R0,[R4, #+16]
+//  297     }
+//  298     if (ev->ask_after<0)
+??AddEvent_7:
+        LDR      R0,[R4, #+16]
+        CMP      R0,#+0
+        BPL      ??AddEvent_8
+//  299     {
+//  300       shiftdays(ev->remdays2, ev->days, -1);
+        MOV      R2,R7
+        ADD      R1,R4,#+112
+        ADD      R0,R4,#+48
+        BL       ??shiftdays
+//  301       ev->d_shift_1=-1;
+        STR      R7,[R4, #+176]
+//  302       ev->ask_after=ev->ask_after+86400;
+        LDR      R0,[R4, #+16]
+        ADD      R0,R6,R0
+        STR      R0,[R4, #+16]
+        B        ??AddEvent_8
+//  303     }
+//  304   }
+//  305   else if (ev->dtype==1)
+??AddEvent_4:
+        CMP      R0,#+1
+        BNE      ??AddEvent_8
+//  306   {
+//  307     if (ev->ask_before>86400)
+        LDR      R0,[R4, #+12]
+        ORR      R9,R6,#0x1
+        CMP      R0,R9
+        BLT      ??AddEvent_9
+//  308     {
+//  309       shiftdate(ev->date, &ev->date_0, 1);
+        ADD      R0,R4,#+164
+        MOV      R1,R0
+        PUSH     {R1}
+        CFI CFA R13+44
+        ADD      R11,R0,#+2
+        ADD      R10,R0,#+3
+        ADD      R3,R4,#+104
+        MOV      R1,#+1
+        _BLF     ??ldr32h_a,??rA??ldr32h_a
+        MOV      R3,R11
+        MOV      R2,R10
+        _BLF     ??date_increase,??date_increase??rA
+//  310       ev->d_shift_0=1;
+        STR      R5,[R4, #+172]
+//  311       ev->ask_before=ev->ask_before-86400;
+        LDR      R0,[R4, #+12]
+        ADD      R0,R8,R0
+        STR      R0,[R4, #+12]
+        ADD      SP,SP,#+4
+        CFI CFA R13+40
+//  312     }
+//  313     if (ev->ask_before<0)
+??AddEvent_9:
+        LDR      R0,[R4, #+12]
+        CMP      R0,#+0
+        BPL      ??AddEvent_10
+//  314     {
+//  315       shiftdate(ev->date, &ev->date_0, -1);
+        ADD      R0,R4,#+164
+        MOV      R1,R0
+        PUSH     {R1}
+        CFI CFA R13+44
+        ADD      R11,R0,#+2
+        ADD      R10,R0,#+3
+        ADD      R3,R4,#+104
+        MOV      R1,R7
+        _BLF     ??ldr32h_a,??rA??ldr32h_a
+        MOV      R3,R11
+        MOV      R2,R10
+        _BLF     ??date_increase,??date_increase??rA
+//  316       ev->d_shift_0=-1;
+        STR      R7,[R4, #+172]
+//  317       ev->ask_before=ev->ask_before+86400;
+        LDR      R0,[R4, #+12]
+        ADD      R0,R6,R0
+        STR      R0,[R4, #+12]
+        ADD      SP,SP,#+4
+        CFI CFA R13+40
+//  318     }
+//  319     if (ev->ask_after>86400)
+??AddEvent_10:
+        LDR      R0,[R4, #+16]
+        CMP      R0,R9
+        BLT      ??AddEvent_11
+//  320     {
+//  321       shiftdate(ev->date, &ev->date_1, 1);
+        ADD      R0,R4,#+168
+        MOV      R1,R0
+        PUSH     {R1}
+        CFI CFA R13+44
+        ADD      R10,R0,#+2
+        ADD      R9,R0,#+3
+        ADD      R3,R4,#+104
+        MOV      R1,#+1
+        _BLF     ??ldr32h_a,??rA??ldr32h_a
+        MOV      R3,R10
+        MOV      R2,R9
+        _BLF     ??date_increase,??date_increase??rA
+//  322       ev->d_shift_1=1;
+        STR      R5,[R4, #+176]
+//  323       ev->ask_after=ev->ask_after-86400;
+        LDR      R0,[R4, #+16]
+        ADD      R0,R8,R0
+        STR      R0,[R4, #+16]
+        ADD      SP,SP,#+4
+        CFI CFA R13+40
+//  324     }
+//  325     if (ev->ask_after<0)
+??AddEvent_11:
+        LDR      R0,[R4, #+16]
+        CMP      R0,#+0
+        BPL      ??AddEvent_8
+//  326     {
+//  327       shiftdate(ev->date, &ev->date_1, -1);
+        ADD      R0,R4,#+168
+        MOV      R1,R0
+        PUSH     {R1}
+        CFI CFA R13+44
+        ADD      R8,R0,#+2
+        ADD      R5,R0,#+3
+        ADD      R3,R4,#+104
+        MOV      R1,R7
+        _BLF     ??ldr32h_a,??rA??ldr32h_a
+        MOV      R3,R8
+        MOV      R2,R5
+        _BLF     ??date_increase,??date_increase??rA
+//  328       ev->d_shift_1=-1;
+        STR      R7,[R4, #+176]
+//  329       ev->ask_after=ev->ask_after+86400;
+        LDR      R0,[R4, #+16]
+        ADD      R0,R6,R0
+        STR      R0,[R4, #+16]
+        ADD      SP,SP,#+4
+        CFI CFA R13+40
+//  330     }
+//  331   }
+//  332   if (!events)
+??AddEvent_8:
+        LDR      R5,??DataTable3  ;; events
+        LDR      R0,[R5, #+0]
+        CMP      R0,#+0
+        BNE      ??AddEvent_12
+//  333   {
+//  334     events=List_Create();
+        SWI      +361
+        STR      R0,[R5, #+0]
+//  335     ECBook->lst=events;
+        LDR      R0,??AddEvent_13  ;; ECBook
+        LDR      R1,[R5, #+0]
+        LDR      R0,[R0, #+0]
+        STR      R1,[R0, #+40]
+//  336   }
+//  337   List_InsertLast(events, ev);
+??AddEvent_12:
+        LDR      R0,[R5, #+0]
+        MOV      R1,R4
+        SWI      +432
+//  338 };
+        POP      {R0,R4-R11,PC}   ;; return
+        DATA
+??AddEvent_13:
+        DC32     ECBook
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??readConfig??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE ??readConfig
+//  339 
+//  340 /*
+//  341 *===========================================================================
+//  342 *   Функция чтение конфиг-файла, занесения событий в лист
+//  343 *===========================================================================
+//  344 */
+//  345 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??readConfig
+        ARM
+//  346 int readConfig(MyBOOK *mbk, wchar_t *myFolder, wchar_t *fname)
+//  347 {
+??readConfig:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+160
+        CFI CFA R13+196
+        MOV      R5,R0
+        MOV      R8,R1
+        MOV      R6,R2
+//  348   char endline=0xFF;
+//  349   int result=-1; //файл не найден
+        MVN      R7,#+0
+//  350   int file;
+//  351   FSTAT fst;
+//  352   if (fstat(myFolder,fname,&fst)==0)
+        ADD      R2,SP,#+4
+        MOV      R1,R6
+        MOV      R0,R8
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??readConfig_1
+//  353   {
+//  354     if ((file=_fopen(myFolder,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        PUSH     {R0}
+        CFI CFA R13+200
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R6
+        MOV      R0,R8
+        SWI      +278
+        MOVS     R4,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+196
+        BMI      ??readConfig_2
+//  355     {
+//  356       char * buf;
+//  357       char * param;
+//  358       
+//  359       buf=new char[fst.fsize+1];
+        LDR      R0,[SP, #+12]
+//  360       fread(file,buf,fst.fsize);
+//  361       int x=0;
+        MOV      R10,#+0
+        ADD      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        LDR      R2,[SP, #+12]
+        MOV      R7,R0
+        MOV      R1,R7
+        MOV      R0,R4
+        SWI      +280
+        ADR      R9,??readConfig_3  ;; "%d)"
+        B        ??readConfig_4
+//  362       while (1)
+//  363       {
+//  364         char pattern[128];
+//  365         sprintf(pattern,"%d)",x);
+//  366         if (param=getparam(buf,pattern,endline, fst.fsize))
+//  367         {
+//  368           AddEvent(param);
+??readConfig_5:
+        BL       ??AddEvent
+//  369           mfree(param);
+        MOV      R0,R11
+        SWI      +260
+//  370         }
+//  371         else
+//  372         {
+//  373           break;
+//  374         }
+//  375         param=0;
+//  376         x++;
+        ADD      R10,R10,#+1
+??readConfig_4:
+        MOV      R2,R10
+        MOV      R1,R9
+        ADD      R0,SP,#+32
+        SWI      +276
+        LDR      R3,[SP, #+12]
+        MOV      R2,#+255
+        ADD      R1,SP,#+32
+        MOV      R0,R7
+        _BLF     ??getparam,??getparam??rA
+        MOVS     R11,R0
+        BNE      ??readConfig_5
+//  377       }
+//  378       if (param=getparam(buf,"ind_item)", endline, fst.fsize))
+        LDR      R9,??readConfig_3+0x4  ;; `?<Constant "ind_item)">`
+        LDR      R3,[SP, #+12]
+        MOV      R2,#+255
+        MOV      R1,R9
+        MOV      R0,R7
+        _BLF     ??getparam,??getparam??rA
+        MOVS     R10,R0
+        BEQ      ??readConfig_6
+//  379       {
+//  380         int x2=0;
+        MOV      R1,#+0
+        STR      R1,[SP, #+0]
+//  381         mbk->rem_types=getint(param,&x2,0xFF);
+        MOV      R2,#+255
+        MOV      R1,SP
+        _BLF     ??getint,??getint??rA
+        STR      R0,[R5, #+56]
+//  382         mfree(param);
+        MOV      R0,R10
+        SWI      +260
+//  383       }
+//  384       if (mbk->indpath)
+??readConfig_6:
+        LDR      R0,[R5, #+60]
+        CMP      R0,#+0
+        BEQ      ??readConfig_7
+//  385         delete(mbk->indpath);
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  386       if (param=getparam(buf,"ind_path)", endline, fst.fsize))
+??readConfig_7:
+        LDR      R3,[SP, #+12]
+        MOV      R2,#+255
+        ADD      R1,R9,#+12
+        MOV      R0,R7
+        _BLF     ??getparam,??getparam??rA
+        MOVS     R10,R0
+        BEQ      ??readConfig_8
+//  387       {
+//  388         int x2=0;
+        MOV      R1,#+0
+        STR      R1,[SP, #+0]
+//  389         mbk->indpath=getwchr(param,&x2,0xFF);
+        MOV      R2,#+255
+        MOV      R1,SP
+        _BLF     ??getwchr,??getwchr??rA
+        STR      R0,[R5, #+60]
+//  390         mfree(param);
+        MOV      R0,R10
+        SWI      +260
+//  391       }
+//  392       if (mbk->indname)
+??readConfig_8:
+        LDR      R0,[R5, #+64]
+        CMP      R0,#+0
+        BEQ      ??readConfig_9
+//  393         delete(mbk->indname);
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  394       if (param=getparam(buf,"ind_name)", endline, fst.fsize))
+??readConfig_9:
+        LDR      R3,[SP, #+12]
+        MOV      R2,#+255
+        ADD      R1,R9,#+24
+        MOV      R0,R7
+        _BLF     ??getparam,??getparam??rA
+        MOVS     R9,R0
+        BEQ      ??readConfig_10
+//  395       {
+//  396         int x2=0;
+        MOV      R1,#+0
+        STR      R1,[SP, #+0]
+//  397         mbk->indname=getwchr(param,&x2,0xFF);
+        MOV      R2,#+255
+        MOV      R1,SP
+        _BLF     ??getwchr,??getwchr??rA
+        STR      R0,[R5, #+64]
+//  398         mfree(param);
+        MOV      R0,R9
+        SWI      +260
+//  399       }
+//  400       delete(buf);
+??readConfig_10:
+        MOV      R0,R7
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  401       result=0;
+//  402       if (mbk->path)delete(mbk->path);
+        LDR      R0,[R5, #+28]
+        MOV      R7,#+0
+        CMP      R0,#+0
+        BEQ      ??readConfig_11
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  403       mbk->path=new wchar_t[wstrlen(myFolder)+1];
+??readConfig_11:
+        MOV      R0,R8
+        SWI      +343
+        ADD      R0,R0,#+1
+        LSL      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[R5, #+28]
+//  404       wstrcpy(mbk->path,myFolder);
+        MOV      R1,R8
+        SWI      +338
+//  405       if (mbk->name)delete(mbk->name);
+        LDR      R0,[R5, #+32]
+        CMP      R0,#+0
+        BEQ      ??readConfig_12
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  406       mbk->name=new wchar_t[wstrlen(fname)+1];
+??readConfig_12:
+        MOV      R0,R6
+        SWI      +343
+        ADD      R0,R0,#+1
+        LSL      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[R5, #+32]
+//  407       wstrcpy(mbk->name,fname);
+        MOV      R1,R6
+        SWI      +338
+//  408 
+//  409       if (events->FirstFree>1)
+        LDR      R0,??DataTable3  ;; events
+        LDR      R0,[R0, #+0]
+        LDRH     R1,[R0, #+2]
+        CMP      R1,#+2
+        BCC      ??readConfig_13
+//  410       {
+//  411         SortList(events);
+        _BLF     ??SortList,??SortList??rA
+//  412       }
+//  413       fclose(file);
+??readConfig_13:
+        MOV      R0,R4
+        SWI      +279
+        MOV      R0,R7
+        ADD      SP,SP,#+160
+        CFI CFA R13+36
+        POP      {R4-R11,PC}
+        CFI CFA R13+196
+//  414     }
+//  415     else
+//  416     {
+//  417       result=-2;
+??readConfig_2:
+        BIC      R7,R7,#0x1
+//  418     }
+//  419   }
+//  420   return result;
+??readConfig_1:
+        MOV      R0,R7
+        ADD      SP,SP,#+160
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??readConfig_3:
+        DC8      "%d)"
+        DC32     `?<Constant "ind_item)">`
+        CFI EndBlock cfiBlock15
+//  421 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InitializeEvents??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE ??InitializeEvents
+//  422 
+//  423 /*
+//  424 *===========================================================================
+//  425 *                       Чтение дефолтных событий
+//  426 *===========================================================================
+//  427 * 1) Возвращает 1 в случае удачного прочтения конфиг-файла, иначе - 0
+//  428 * 2) Порядок проверки: карта памяти/Config/EventControl/, память телефона/Config/EventControl
+//  429 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ??InitializeEvents
+        ARM
+//  430 int InitializeEvents(MyBOOK *myBook)
+//  431 {
+??InitializeEvents:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//  432   events=List_Create();
+        LDR      R5,??DataTable3  ;; events
+//  433   myBook->lst=events;
+//  434   if (readConfig(myBook, extFolder, L"Events.evt")<0)
+        LDR      R6,??InitializeEvents_1  ;; `?<Constant L"\\x45\\x76\\x65\\x6e\\x74\\x73\\x2e\\x65\\`
+        MOV      R4,R0
+        SWI      +361
+        STR      R0,[R5, #+0]
+        STR      R0,[R4, #+40]
+        LDR      R1,[R5, #+4]
+        MOV      R2,R6
+        MOV      R0,R4
+        BL       ??readConfig
+        CMP      R0,#+0
+        BPL      ??InitializeEvents_2
+//  435   {
+//  436     if (readConfig(myBook, intFolder, L"Events.evt")<0)
+        LDR      R1,[R5, #+8]
+        MOV      R2,R6
+        MOV      R0,R4
+        BL       ??readConfig
+        CMP      R0,#+0
+//  437     {
+//  438       return 0;
+        MOVMI    R0,#+0
+        POPMI    {R4-R6,PC}
+//  439     }
+//  440   }
+//  441   return 1;
+??InitializeEvents_2:
+        MOV      R0,#+1
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??InitializeEvents_1:
+        DC32     `?<Constant L"\\x45\\x76\\x65\\x6e\\x74\\x73\\x2e\\x65\\`
+        CFI EndBlock cfiBlock17
+//  442 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DestroyEvents??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE ??DestroyEvents
+//  443 
+//  444 /*
+//  445 *===========================================================================
+//  446 *               Функция уничтожения списка событий
+//  447 *===========================================================================
+//  448 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ??DestroyEvents
+        ARM
+//  449 void DestroyEvents(MyBOOK *myBook)
+//  450 {
+??DestroyEvents:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+//  451   if (!events)
+        LDR      R6,??DataTable3  ;; events
+        MOV      R4,R0
+        LDR      R0,[R6, #+0]
+        MOV      R5,#+0
+        CMP      R0,#+0
+        BNE      ??DestroyEvents_1
+//  452   {
+//  453     myBook->lst=0;
+        STR      R5,[R4, #+40]
+        POP      {R4-R7,PC}
+//  454     return;
+//  455   }
+//  456   while (events->FirstFree)
+//  457   {
+//  458     EVENT* event=(EVENT*)List_RemoveAt(events,0);
+??DestroyEvents_2:
+        MOV      R1,#+0
+        SWI      +377
+        MOVS     R7,R0
+//  459     if (event)
+        BEQ      ??DestroyEvents_1
+//  460     {
+//  461       if (event->param)delete(event->param);
+        LDR      R0,[R7, #+152]
+        CMP      R0,#+0
+        BEQ      ??DestroyEvents_3
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  462       if (event->gps)delete(event->gps);
+??DestroyEvents_3:
+        LDR      R0,[R7, #+160]
+        CMP      R0,#+0
+        BEQ      ??DestroyEvents_4
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  463       if (event->txt)delete(event->txt);
+??DestroyEvents_4:
+        LDR      R0,[R7, #+156]
+        CMP      R0,#+0
+        BEQ      ??DestroyEvents_5
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  464       delete(event);
+??DestroyEvents_5:
+        MOV      R0,R7
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  465     }
+//  466   }
+??DestroyEvents_1:
+        LDR      R0,[R6, #+0]
+        LDRH     R1,[R0, #+2]
+        CMP      R1,#+0
+        BNE      ??DestroyEvents_2
+//  467   List_Destroy(events);
+        SWI      +362
+//  468   events=0;
+        STR      R5,[R6, #+0]
+//  469   myBook->lst=0;
+        STR      R5,[R4, #+40]
+//  470 };
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable3:
+        DC32     events
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine10_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine10_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock20
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??getchr??rA:
+        LDR      R12,??Subroutine11_0  ;; ??getchr
+        BX       R12
+        DATA
+??Subroutine11_0:
+        DC32     ??getchr
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine12_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine12_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock22
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??date_increase??rA:
+        LDR      R12,??Subroutine13_0  ;; ??date_increase
+        BX       R12
+        DATA
+??Subroutine13_0:
+        DC32     ??date_increase
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new??rA`:
+        LDR      R12,??Subroutine14_0  ;; `??operator new`
+        BX       R12
+        DATA
+??Subroutine14_0:
+        DC32     `??operator new`
+        CFI EndBlock cfiBlock24
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??getint??rA:
+        LDR      R12,??Subroutine15_0  ;; ??getint
+        BX       R12
+        DATA
+??Subroutine15_0:
+        DC32     ??getint
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??getwchr??rA:
+        LDR      R12,??Subroutine16_0  ;; ??getwchr
+        BX       R12
+        DATA
+??Subroutine16_0:
+        DC32     ??getwchr
+        CFI EndBlock cfiBlock26
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??rA??ldr32h_a:
+        LDR      R12,??Subroutine17_0  ;; ??ldr32h_a
+        MOV      PC,R12
+        DATA
+??Subroutine17_0:
+        DC32     ??ldr32h_a
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??getparam??rA:
+        LDR      R12,??Subroutine18_0  ;; ??getparam
+        BX       R12
+        DATA
+??Subroutine18_0:
+        DC32     ??getparam
+        CFI EndBlock cfiBlock28
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??SortList??rA:
+        LDR      R12,??Subroutine19_0  ;; ??SortList
+        BX       R12
+        DATA
+??Subroutine19_0:
+        DC32     ??SortList
+        CFI EndBlock cfiBlock29
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x2f\\x45\\x76\\x65\\x6e\\x74\\x43\\x6f\\`:
+        DATA
+        DC8 2FH, 0, 45H, 0, 76H, 0, 65H, 0
+        DC8 6EH, 0, 74H, 0, 43H, 0, 6FH, 0
+        DC8 6EH, 0, 74H, 0, 72H, 0, 6FH, 0
+        DC8 6CH, 0, 2FH, 0, 0, 0
+        DC8 0, 0
+        DC8 25H, 0, 6CH, 0, 73H, 0, 2FH, 0
+        DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+        DC8 74H, 0, 43H, 0, 6FH, 0, 6EH, 0
+        DC8 74H, 0, 72H, 0, 6FH, 0, 6CH, 0
+        DC8 2FH, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+        DATA
+        DC8 "%d)"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "ind_item)">`:
+        DATA
+        DC8 "ind_item)"
+        DC8 0, 0
+        DC8 "ind_path)"
+        DC8 0, 0
+        DC8 "ind_name)"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x45\\x76\\x65\\x6e\\x74\\x73\\x2e\\x65\\`:
+        DATA
+        DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+        DC8 74H, 0, 73H, 0, 2EH, 0, 65H, 0
+        DC8 76H, 0, 74H, 0, 0, 0
+        DC8 0, 0
+
+        END
+//  471 
+// 
+// 3 432 bytes in segment CODE
+//   132 bytes in segment DATA_C
+//    12 bytes in segment DATA_Z
+//    12 bytes in segment INITTAB
+// 
+// 3 272 bytes of CODE  memory (+ 172 bytes shared)
+//   132 bytes of CONST memory
+//    12 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

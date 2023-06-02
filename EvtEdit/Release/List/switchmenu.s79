@@ -1,0 +1,622 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:56:19 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\switc /
+//                       hmenu.cpp                                           /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\switc /
+//                       hmenu.cpp -D NDEBUG -D OLDFUNCTIONS -lC             /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\ /
+//                       EvtEdit\Release\List\ -o                            /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu    /
+//                       ARM926EJ-S --stack_align 4 --interwork -e           /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\List\switchmenu.s79                              /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME switchmenu
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??CreateSwitchList
+        FUNCTION ??CreateSwitchList,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??CreateSwitchList??rT
+        FUNCTION ??SwitchPage_OnEnter,0603H
+        LOCFRAME CSTACK, 8, STACK
+        FUNCTION ??SwitchPage_OnExit,0603H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC ??Switch_OnBack
+        FUNCTION ??Switch_OnBack,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??Switch_OnBack??rT
+        PUBLIC ??Switch_OnSelect
+        FUNCTION ??Switch_OnSelect,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??Switch_OnSelect??rT
+        PUBLIC ??Switch_onLBMessage
+        FUNCTION ??Switch_onLBMessage,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??Switch_onLBMessage??rT
+        PUBLIC ??kill_switchlst
+        FUNCTION ??kill_switchlst,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??kill_switchlst??rT
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new[]??rA`
+        PUBLIC bk_Switch
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+??CreateSwitchList??rT SYMBOL "??rT", ??CreateSwitchList
+
+??Switch_OnBack??rT SYMBOL "??rT", ??Switch_OnBack
+
+??Switch_OnSelect??rT SYMBOL "??rT", ??Switch_OnSelect
+
+??Switch_onLBMessage??rT SYMBOL "??rT", ??Switch_onLBMessage
+
+??kill_switchlst??rT SYMBOL "??rT", ??kill_switchlst
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+        EXTERN ??isEvtEditBook
+        FUNCTION ??isEvtEditBook,0602H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+        EXTERN ACTION_BACK
+        EXTERN ACTION_SELECT1
+        EXTERN PREVIOUS_EVENT
+        EXTERN bk_main
+        EXTERN indic_last
+        EXTERN lng
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??kill_switchlst??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??kill_switchlst
+// Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\switchmenu.cpp
+//    1 #include "..\deleaker\mem2.h"
+//    2 #include "..\include\Lib_Clara.h" 
+//    3 #include "..\include\Dir.h" 
+//    4 #include "header\structs.h"
+//    5 #include "header\pages.h"
+//    6 #include "header\externals.h"
+//    7 #include "header\lng.h"
+//    8 
+//    9 extern const PAGE_DESC bk_Switch;
+//   10 extern int indic_last;
+//   11 
+//   12 int isEvtEditBook(BOOK * struc);
+//   13 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??kill_switchlst
+        ARM
+//   14 void kill_switchlst(MyBOOK *mbk)
+//   15 {
+??kill_switchlst:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+//   16   if (mbk->switch_lst)
+        LDR      R0,[R4, #+180]
+        CMP      R0,#+0
+        POPEQ    {R4,PC}
+        B        ??kill_switchlst_1
+//   17   {
+//   18     while (mbk->switch_lst->FirstFree)
+//   19     {
+//   20       wchar_t* str=(wchar_t*)List_RemoveAt(mbk->switch_lst,0);
+??kill_switchlst_2:
+        MOV      R1,#+0
+        SWI      +377
+//   21       DELETE(str);
+        CMP      R0,#+0
+        BEQ      ??kill_switchlst_1
+        _BLF     `??operator delete`,`??operator delete??rA`
+//   22     }
+??kill_switchlst_1:
+        LDR      R0,[R4, #+180]
+        LDRH     R1,[R0, #+2]
+        CMP      R1,#+0
+        BNE      ??kill_switchlst_2
+//   23     List_Destroy(mbk->switch_lst);
+        SWI      +362
+//   24     mbk->switch_lst=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+180]
+//   25   }
+//   26 };
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Switch_onLBMessage??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??Switch_onLBMessage
+//   27 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??Switch_onLBMessage
+        ARM
+//   28 int Switch_onLBMessage(GUI_MESSAGE * msg)
+//   29 {
+??Switch_onLBMessage:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+//   30   switch( GUIonMessage_GetMsg(msg) )
+        SWI      +884
+        CMP      R0,#+1
+        BNE      ??Switch_onLBMessage_1
+//   31   {
+//   32   case 1:
+//   33     MyBOOK *mbk=(MyBOOK*)FindBook(isEvtEditBook);
+        LDR      R0,??Switch_onLBMessage_2  ;; ??isEvtEditBook
+        SWI      +304
+        MOV      R5,R0
+//   34     int item=GUIonMessage_GetCreatedItemIndex(msg);
+        MOV      R0,R4
+        SWI      +311
+//   35     wchar_t* str=(wchar_t *)List_Get(mbk->switch_lst,item);
+        MOV      R1,R0
+        LDR      R0,[R5, #+180]
+        SWI      +429
+//   36     GUIonMessage_SetMenuItemText(msg,TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN));
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,R0
+        MOV      R0,R4
+        SWI      +312
+//   37     break;
+//   38   }
+//   39   return(1);
+??Switch_onLBMessage_1:
+        MOV      R0,#+1
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??Switch_onLBMessage_2:
+        DC32     ??isEvtEditBook
+        CFI EndBlock cfiBlock3
+//   40 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Switch_OnSelect??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??Switch_OnSelect
+//   41 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??Switch_OnSelect
+        ARM
+//   42 void Switch_OnSelect(BOOK *bk, GUI* )
+//   43 {
+??Switch_OnSelect:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+//   44   MyBOOK *mbk=(MyBOOK*)bk;
+//   45   int item=ListMenu_GetSelectedItem(mbk->switch_gui);
+        LDR      R0,[R4, #+176]
+        SWI      +318
+        MOV      R5,R0
+//   46   DELETE(mbk->selev->param);
+        LDR      R0,[R4, #+28]
+        LDR      R0,[R0, #+52]
+        CMP      R0,#+0
+        BEQ      ??Switch_OnSelect_1
+        LDR      R0,[R4, #+28]
+        LDR      R0,[R0, #+52]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        LDR      R0,[R4, #+28]
+        MOV      R1,#+0
+        STR      R1,[R0, #+52]
+//   47   mbk->selev->param=new wchar_t[2];
+??Switch_OnSelect_1:
+        MOV      R0,#+4
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        LDR      R1,[R4, #+28]
+//   48   snwprintf(mbk->selev->param,1,L"%d", item);
+        LDR      R2,??Switch_OnSelect_2  ;; `?<Constant L"\\x25\\x64">`
+        STR      R0,[R1, #+52]
+        LDR      R0,[R4, #+28]
+        MOV      R3,R5
+        LDR      R0,[R0, #+52]
+        MOV      R1,#+1
+        SWI      +277
+//   49   BookObj_CallPage(bk,&bk_main);
+        LDR      R1,??Switch_OnSelect_2+0x4  ;; bk_main
+        MOV      R0,R4
+        SWI      +696
+//   50 };
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??Switch_OnSelect_2:
+        DC32     `?<Constant L"\\x25\\x64">`
+        DC32     bk_main
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Switch_OnBack??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??Switch_OnBack
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??Switch_OnBack
+        ARM
+//   51 void Switch_OnBack(BOOK * bk, GUI* )
+//   52 {
+//   53   indic_last=0;
+??Switch_OnBack:
+        LDR      R1,??Switch_OnBack_1  ;; indic_last
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R2,#+0
+        STR      R2,[R1, #+0]
+//   54   BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+        LDR      R1,??Switch_OnBack_1+0x4  ;; PREVIOUS_EVENT
+        LDR      R1,[R1, #+0]
+        SWI      +302
+//   55 };
+        POP      {PC}             ;; return
+        DATA
+??Switch_OnBack_1:
+        DC32     indic_last
+        DC32     PREVIOUS_EVENT
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CreateSwitchList??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??CreateSwitchList
+//   56 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??CreateSwitchList
+        ARM
+//   57 GUI_LIST * CreateSwitchList(BOOK * book, int cnt)
+//   58 {
+??CreateSwitchList:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R1
+//   59   GUI_LIST * lo=0;
+//   60   if (lo=CreateListMenu(book,0))
+        MOV      R1,#+0
+        SWI      +448
+        MOVS     R5,R0
+        BEQ      ??CreateSwitchList_1
+//   61   {
+//   62     ListMenu_SetItemCount(lo, cnt);
+        MOV      R1,R4
+        SWI      +449
+//   63     ListMenu_SetCursorToItem(lo,0);
+        MOV      R1,#+0
+        MOV      R0,R5
+        SWI      +309
+//   64     ListMenu_SetOnMessage(lo,Switch_onLBMessage);
+        LDR      R1,??CreateSwitchList_2  ;; ??Switch_onLBMessage
+        MOV      R0,R5
+        SWI      +372
+//   65     ListMenu_SetItemStyle(lo,3);
+        MOV      R1,#+3
+        MOV      R0,R5
+        SWI      +319
+//   66     GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, Switch_OnBack);
+        LDR      R0,??CreateSwitchList_2+0x4  ;; ACTION_BACK
+        LDR      R2,??CreateSwitchList_2+0x8  ;; ??Switch_OnBack
+        LDR      R1,[R0, #+0]
+        MOV      R0,R5
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+//   67     GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,Switch_OnSelect);
+        LDR      R0,??CreateSwitchList_2+0xC  ;; ACTION_SELECT1
+        LDR      R2,??CreateSwitchList_2+0x10  ;; ??Switch_OnSelect
+        LDR      R1,[R0, #+0]
+        MOV      R0,R5
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+//   68   }
+//   69   return(lo);
+??CreateSwitchList_1:
+        MOV      R0,R5
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??CreateSwitchList_2:
+        DC32     ??Switch_onLBMessage
+        DC32     ACTION_BACK
+        DC32     ??Switch_OnBack
+        DC32     ACTION_SELECT1
+        DC32     ??Switch_OnSelect
+        CFI EndBlock cfiBlock9
+//   70 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SwitchPage_OnEnter??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ??SwitchPage_OnEnter
+//   71 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??SwitchPage_OnEnter
+        ARM
+//   72 static int SwitchPage_OnEnter(void *,BOOK * bk)
+//   73 {
+??SwitchPage_OnEnter:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R1
+//   74   MyBOOK *mbk=(MyBOOK*)bk;
+//   75   mbk->switch_gui=CreateSwitchList(bk, mbk->switch_lst->FirstFree);
+        LDR      R0,[R4, #+180]
+        LDRH     R1,[R0, #+2]
+        MOV      R0,R4
+        BL       ??CreateSwitchList
+        STR      R0,[R4, #+176]
+//   76   GUIObject_SetTitleText(mbk->switch_gui, TextID_Create(lng[CHOOSE],ENC_UCS2,TEXTID_ANY_LEN));
+        LDR      R0,??SwitchPage_OnEnter_1  ;; lng + 248
+        MOV      R2,#+255
+        LDR      R0,[R0, #+0]
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,R0
+        LDR      R0,[R4, #+176]
+        SWI      +307
+//   77   GUIObject_Show(mbk->switch_gui);
+        LDR      R0,[R4, #+176]
+        SWI      +308
+//   78   return 1;
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        DATA
+??SwitchPage_OnEnter_1:
+        DC32     lng + 248
+        CFI EndBlock cfiBlock11
+//   79 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SwitchPage_OnExit??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ??SwitchPage_OnExit
+//   80 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??SwitchPage_OnExit
+        ARM
+//   81 static int SwitchPage_OnExit(void *, BOOK * bk)
+//   82 {
+??SwitchPage_OnExit:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R1
+//   83   MyBOOK *mbk=(MyBOOK *)bk;
+//   84   kill_switchlst(mbk);
+        MOV      R0,R4
+        BL       ??kill_switchlst
+//   85   FREE_GUI(mbk->switch_gui);
+        LDR      R0,[R4, #+176]
+        CMP      R0,#+0
+        BEQ      ??SwitchPage_OnExit_1
+        SWI      +462
+        STR      R0,[R4, #+176]
+//   86   return 1;  
+??SwitchPage_OnExit_1:
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock13
+//   87 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine7_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine7_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock14
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine8_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine8_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock15
+//   88 
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+//   89 const PAGE_MSG bk_msglst_Switch[] @ "DYN_PAGE"  = 
+bk_msglst_Switch:
+        DATA
+        DC32 66, ??SwitchPage_OnEnter, 67, ??SwitchPage_OnExit, 64, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "EvtEdit_SwitchMenu_Page">`:
+        DATA
+        DC8 "EvtEdit_SwitchMenu_Page"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x25\\x64">`:
+        DATA
+        DC8 25H, 0, 64H, 0, 0, 0
+        DC8 0, 0
+//   90 {
+//   91   PAGE_ENTER_EVENT_TAG,    SwitchPage_OnEnter,
+//   92   PAGE_EXIT_EVENT_TAG,     SwitchPage_OnExit,
+//   93   NIL_EVENT_TAG,           NULL
+//   94 };
+//   95 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//   96 const PAGE_DESC bk_Switch = {"EvtEdit_SwitchMenu_Page",0,bk_msglst_Switch};
+bk_Switch:
+        DATA
+        DC32 `?<Constant "EvtEdit_SwitchMenu_Page">`, 0H, bk_msglst_Switch
+
+        END
+// 
+// 664 bytes in segment CODE
+//  44 bytes in segment DATA_C
+//  24 bytes in segment DYN_PAGE
+// 
+// 612 bytes of CODE  memory (+ 52 bytes shared)
+//  68 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

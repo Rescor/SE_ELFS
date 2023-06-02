@@ -1,0 +1,532 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:51:06 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\KeyIn #
+#                       put.cpp                                              #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\KeyIn #
+#                       put.cpp -D NDEBUG -lC Z:\home\perk11\www\perk11.info #
+#                       \svn\SE\SoftEdit\Release\List\ -o                    #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\List\KeyInput.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\KeyInput.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\KeyInput.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          #include "header\structs.h"
+      4          #include "header\extern.h"
+      5          //в версии 1.0 данная переменная отсутствовала
+      6          //1.1 версия:
+      7          #define VERSION_ 0x00AAAA01
+      8          int isSBook(BOOK *bk);
+      9          extern const PAGE_DESC bk_base;
+     10          extern const PAGE_DESC bk_main;
+     11          extern const PAGE_DESC bk_keycode_input;
+     12          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          void KeyCode_KeyHook(BOOK *bk, int key, int unk, int unk2)
+     14          {
+   \                     ??KeyCode_KeyHook:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     15            MyBOOK *mbk=(MyBOOK *)bk;
+     16            if (unk2==KBD_SHORT_PRESS)
+   \   00000008   BC009FE5           LDR      R0,??KeyCode_KeyHook_1  ;; KBD_SHORT_PRESS
+   \   0000000C   08D04DE2           SUB      SP,SP,#+8
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   000053E1           CMP      R3,R0
+   \   00000018   7380BD18           POPNE    {R0,R1,R4-R6,PC}
+     17            {
+     18              TEXTID sid[2];
+     19              if (mbk->key_stage==0)
+   \   0000001C   440094E5           LDR      R0,[R4, #+68]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0400001A           BNE      ??KeyCode_KeyHook_2
+     20              {
+     21                mbk->key_stage=1;
+   \   00000028   0100A0E3           MOV      R0,#+1
+   \   0000002C   440084E5           STR      R0,[R4, #+68]
+     22                mbk->curkey->oldkey=key;
+   \   00000030   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000034   001080E5           STR      R1,[R0, #+0]
+   \   00000038   010000EA           B        ??KeyCode_KeyHook_3
+     23              }
+     24              else
+     25              {
+     26                mbk->curkey->newkey=key;
+   \                     ??KeyCode_KeyHook_2:
+   \   0000003C   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000040   041080E5           STR      R1,[R0, #+4]
+     27              }  
+     28              sid[0]=TextID_Create(L"New key:\n\n",ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??KeyCode_KeyHook_3:
+   \   00000044   ........           LDR      R5,??DataTable3  ;; `?<Constant L"\\x4e\\x65\\x77\\x20\\x6b\\x65\\x79\\x3a\\`
+   \   00000048   FF60A0E3           MOV      R6,#+255
+   \   0000004C   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000050   0620A0E1           MOV      R2,R6
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   0500A0E1           MOV      R0,R5
+   \   0000005C   5D0100EF           SWI      +349
+   \   00000060   00008DE5           STR      R0,[SP, #+0]
+     29              if (mbk->curkey->newkey!=0)
+   \   00000064   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000068   040090E5           LDR      R0,[R0, #+4]
+   \   0000006C   000050E3           CMP      R0,#+0
+   \   00000070   0300000A           BEQ      ??KeyCode_KeyHook_4
+     30              {
+     31                sid[1]=KeyCode2Name(mbk->curkey->newkey);
+   \   00000074   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000078   040090E5           LDR      R0,[R0, #+4]
+   \   0000007C   CB0200EF           SWI      +715
+   \   00000080   030000EA           B        ??KeyCode_KeyHook_5
+     32              }
+     33              else
+     34              {
+     35                sid[1]=TextID_Create(L"-empty-",ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??KeyCode_KeyHook_4:
+   \   00000084   0620A0E1           MOV      R2,R6
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   180085E2           ADD      R0,R5,#+24
+   \   00000090   5D0100EF           SWI      +349
+   \                     ??KeyCode_KeyHook_5:
+   \   00000094   04008DE5           STR      R0,[SP, #+4]
+     36              }
+     37              Feedback_SetTextExtended(mbk->keyselect,TextID_Create(sid,ENC_TEXTID,2),0);
+   \   00000098   0220A0E3           MOV      R2,#+2
+   \   0000009C   0510A0E3           MOV      R1,#+5
+   \   000000A0   0D00A0E1           MOV      R0,SP
+   \   000000A4   5D0100EF           SWI      +349
+   \   000000A8   0020A0E3           MOV      R2,#+0
+   \   000000AC   0010A0E1           MOV      R1,R0
+   \   000000B0   200094E5           LDR      R0,[R4, #+32]
+   \   000000B4   C90200EF           SWI      +713
+     38              Feedback_SetTimeout(mbk->keyselect,3000);
+   \   000000B8   200094E5           LDR      R0,[R4, #+32]
+   \   000000BC   B810A0E3           MOV      R1,#+184
+   \   000000C0   B01E81E3           ORR      R1,R1,#0xB00
+   \   000000C4   C80200EF           SWI      +712
+     39            }
+     40          };
+   \   000000C8   7380BDE8           POP      {R0,R1,R4-R6,PC}  ;; return
+   \                     ??KeyCode_KeyHook_1:
+   \   000000CC   ........           DC32     KBD_SHORT_PRESS
+     41          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     42          void KeyCode_OnClose(BOOK *bk)
+     43          {
+   \                     ??KeyCode_OnClose:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     44            MyBOOK *mbk=(MyBOOK *)bk;
+     45            if (!mbk->curkey)return;
+   \   00000008   2C0094E5           LDR      R0,[R4, #+44]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   3080BD08           POPEQ    {R4,R5,PC}
+     46            if ((mbk->curkey->oldkey<=0 || mbk->curkey->oldkey>100) || (mbk->curkey->newkey<=0 || mbk->curkey->newkey>100))
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   010050E3           CMP      R0,#+1
+   \   0000001C   0B0000BA           BLT      ??KeyCode_OnClose_1
+   \   00000020   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   650050E3           CMP      R0,#+101
+   \   0000002C   070000AA           BGE      ??KeyCode_OnClose_1
+   \   00000030   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000034   040090E5           LDR      R0,[R0, #+4]
+   \   00000038   010050E3           CMP      R0,#+1
+   \   0000003C   030000BA           BLT      ??KeyCode_OnClose_1
+   \   00000040   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000044   040090E5           LDR      R0,[R0, #+4]
+   \   00000048   650050E3           CMP      R0,#+101
+   \   0000004C   230000BA           BLT      ??KeyCode_OnClose_2
+     47            {
+     48              if (mbk->curit)
+   \                     ??KeyCode_OnClose_1:
+   \   00000050   280094E5           LDR      R0,[R4, #+40]
+   \   00000054   000050E3           CMP      R0,#+0
+     49              {
+     50                if (mbk->curit->keys && mbk->curit->keys->FirstFree>0)
+   \   00000058   14009015           LDRNE    R0,[R0, #+20]
+   \   0000005C   00005013           CMPNE    R0,#+0
+   \   00000060   1E00000A           BEQ      ??KeyCode_OnClose_2
+   \   00000064   280094E5           LDR      R0,[R4, #+40]
+   \   00000068   140090E5           LDR      R0,[R0, #+20]
+   \   0000006C   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   1900000A           BEQ      ??KeyCode_OnClose_2
+     51                {
+     52                  int old=mbk->curit->keys->FirstFree;
+   \   00000078   280094E5           LDR      R0,[R4, #+40]
+   \   0000007C   140090E5           LDR      R0,[R0, #+20]
+   \   00000080   B250D0E1           LDRH     R5,[R0, #+2]
+     53                  KEY *k=(KEY*)List_Get(mbk->curit->keys,mbk->curit->keys->FirstFree-1);
+   \   00000084   280094E5           LDR      R0,[R4, #+40]
+   \   00000088   011045E2           SUB      R1,R5,#+1
+   \   0000008C   140090E5           LDR      R0,[R0, #+20]
+   \   00000090   AD0100EF           SWI      +429
+     54                  if (k==mbk->curkey)
+   \   00000094   2C1094E5           LDR      R1,[R4, #+44]
+   \   00000098   010050E1           CMP      R0,R1
+   \   0000009C   0F00001A           BNE      ??KeyCode_OnClose_2
+     55                  {
+     56                    delete((KEY*)List_RemoveAt(mbk->curit->keys,mbk->curit->keys->FirstFree-1));
+   \   000000A0   280094E5           LDR      R0,[R4, #+40]
+   \   000000A4   140090E5           LDR      R0,[R0, #+20]
+   \   000000A8   B200D0E1           LDRH     R0,[R0, #+2]
+   \   000000AC   011040E2           SUB      R1,R0,#+1
+   \   000000B0   280094E5           LDR      R0,[R4, #+40]
+   \   000000B4   140090E5           LDR      R0,[R0, #+20]
+   \   000000B8   790100EF           SWI      +377
+   \   000000BC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     57                    if ((old-1)==0)
+   \   000000C0   010055E2           SUBS     R0,R5,#+1
+   \   000000C4   0500001A           BNE      ??KeyCode_OnClose_2
+     58                    {
+     59                      List_Destroy(mbk->curit->keys);
+   \   000000C8   280094E5           LDR      R0,[R4, #+40]
+   \   000000CC   140090E5           LDR      R0,[R0, #+20]
+   \   000000D0   6A0100EF           SWI      +362
+     60                      mbk->curit->keys=0;
+   \   000000D4   280094E5           LDR      R0,[R4, #+40]
+   \   000000D8   0010A0E3           MOV      R1,#+0
+   \   000000DC   141080E5           STR      R1,[R0, #+20]
+     61                    }
+     62                  }
+     63                }
+     64              }
+     65            }
+     66            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \                     ??KeyCode_OnClose_2:
+   \   000000E0   18009FE5           LDR      R0,??KeyCode_OnClose_3  ;; PREVIOUS_EVENT
+   \   000000E4   001090E5           LDR      R1,[R0, #+0]
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   2E0100EF           SWI      +302
+     67            BookObj_CallPage(bk,&bk_main);
+   \   000000F0   0C109FE5           LDR      R1,??KeyCode_OnClose_3+0x4  ;; bk_main
+   \   000000F4   0400A0E1           MOV      R0,R4
+   \   000000F8   B80200EF           SWI      +696
+     68          };
+   \   000000FC   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??KeyCode_OnClose_3:
+   \   00000100   ........           DC32     PREVIOUS_EVENT
+   \   00000104   ........           DC32     bk_main
+     69          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     70          int KeyCode_OnEnter(void *, BOOK * bk)
+     71          {
+     72            SKBOOK *sk=(SKBOOK*)FindBook(isSBook);
+   \                     ??KeyCode_OnEnter:
+   \   00000000   ........           LDR      R0,??DataTable4  ;; ??isSBook
+   \   00000004   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   0140A0E1           MOV      R4,R1
+   \   00000010   300100EF           SWI      +304
+   \   00000014   0010B0E1           MOVS     R1,R0
+     73            if (sk)
+   \   00000018   0600000A           BEQ      ??KeyCode_OnEnter_1
+     74            {
+     75              if (sk->version==VERSION_)
+   \   0000001C   380091E5           LDR      R0,[R1, #+56]
+   \   00000020   ........           LDR      R2,??DataTable5  ;; 0xaaaa01
+   \   00000024   020050E1           CMP      R0,R2
+   \   00000028   0200001A           BNE      ??KeyCode_OnEnter_1
+     76              {
+     77                sk->SetWorkState(false);
+   \   0000002C   341091E5           LDR      R1,[R1, #+52]
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   31FF2FE1           BLX      R1
+     78              }
+     79            }
+     80            MyBOOK *mbk=(MyBOOK *)bk;
+     81            FREE_GUI(mbk->keyselect);
+   \                     ??KeyCode_OnEnter_1:
+   \   00000038   200094E5           LDR      R0,[R4, #+32]
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   0100000A           BEQ      ??KeyCode_OnEnter_2
+   \   00000044   CE0100EF           SWI      +462
+   \   00000048   200084E5           STR      R0,[R4, #+32]
+     82            TEXTID sid[2];
+     83            int key;
+     84            if (mbk->key_stage==0)
+   \                     ??KeyCode_OnEnter_2:
+   \   0000004C   440094E5           LDR      R0,[R4, #+68]
+   \   00000050   ........           LDR      R5,??DataTable3  ;; `?<Constant L"\\x4e\\x65\\x77\\x20\\x6b\\x65\\x79\\x3a\\`
+   \   00000054   FF60A0E3           MOV      R6,#+255
+   \   00000058   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000064   0400001A           BNE      ??KeyCode_OnEnter_3
+     85            {
+     86              key=mbk->curkey->oldkey;
+   \   00000068   007090E5           LDR      R7,[R0, #+0]
+     87              sid[0]=TextID_Create(L"Old key:\n\n",ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000006C   0620A0E1           MOV      R2,R6
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   280085E2           ADD      R0,R5,#+40
+   \   00000078   030000EA           B        ??KeyCode_OnEnter_4
+     88            }
+     89            else
+     90            {
+     91              key=mbk->curkey->newkey;
+   \                     ??KeyCode_OnEnter_3:
+   \   0000007C   047090E5           LDR      R7,[R0, #+4]
+     92              sid[0]=TextID_Create(L"NewKey:\n\n",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000080   0620A0E1           MOV      R2,R6
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   400085E2           ADD      R0,R5,#+64
+   \                     ??KeyCode_OnEnter_4:
+   \   0000008C   5D0100EF           SWI      +349
+   \   00000090   00008DE5           STR      R0,[SP, #+0]
+     93            }
+     94            mbk->keyselect=TextFeedbackWindow(&mbk->book,0);
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   C50200EF           SWI      +709
+   \   000000A0   200084E5           STR      R0,[R4, #+32]
+     95            if (key!=0)
+   \   000000A4   000057E3           CMP      R7,#+0
+   \   000000A8   0200000A           BEQ      ??KeyCode_OnEnter_5
+     96            {
+     97              sid[1]=KeyCode2Name(key);
+   \   000000AC   0700A0E1           MOV      R0,R7
+   \   000000B0   CB0200EF           SWI      +715
+   \   000000B4   030000EA           B        ??KeyCode_OnEnter_6
+     98            }
+     99            else
+    100            {
+    101              sid[1]=TextID_Create(L"-empty-",ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??KeyCode_OnEnter_5:
+   \   000000B8   0620A0E1           MOV      R2,R6
+   \   000000BC   0010A0E3           MOV      R1,#+0
+   \   000000C0   180085E2           ADD      R0,R5,#+24
+   \   000000C4   5D0100EF           SWI      +349
+   \                     ??KeyCode_OnEnter_6:
+   \   000000C8   04008DE5           STR      R0,[SP, #+4]
+    102            }
+    103            Feedback_SetTextExtended(mbk->keyselect,TextID_Create(sid,ENC_TEXTID,2),0);
+   \   000000CC   0220A0E3           MOV      R2,#+2
+   \   000000D0   0510A0E3           MOV      R1,#+5
+   \   000000D4   0D00A0E1           MOV      R0,SP
+   \   000000D8   5D0100EF           SWI      +349
+   \   000000DC   0020A0E3           MOV      R2,#+0
+   \   000000E0   0010A0E1           MOV      R1,R0
+   \   000000E4   200094E5           LDR      R0,[R4, #+32]
+   \   000000E8   C90200EF           SWI      +713
+    104            GUIObject_SetStyle(mbk->keyselect,1);
+   \   000000EC   200094E5           LDR      R0,[R4, #+32]
+   \   000000F0   0110A0E3           MOV      R1,#+1
+   \   000000F4   360100EF           SWI      +310
+    105            Feedback_SetKeyHook(mbk->keyselect,KeyCode_KeyHook);
+   \   000000F8   20109FE5           LDR      R1,??KeyCode_OnEnter_7  ;; ??KeyCode_KeyHook
+   \   000000FC   200094E5           LDR      R0,[R4, #+32]
+   \   00000100   C60200EF           SWI      +710
+    106            Feedback_SetOnClose(mbk->keyselect,KeyCode_OnClose);
+   \   00000104   18109FE5           LDR      R1,??KeyCode_OnEnter_7+0x4  ;; ??KeyCode_OnClose
+   \   00000108   200094E5           LDR      R0,[R4, #+32]
+   \   0000010C   C70200EF           SWI      +711
+    107            GUIObject_Show(mbk->keyselect);
+   \   00000110   200094E5           LDR      R0,[R4, #+32]
+   \   00000114   340100EF           SWI      +308
+    108            return (1);
+   \   00000118   0100A0E3           MOV      R0,#+1
+   \   0000011C   F680BDE8           POP      {R1,R2,R4-R7,PC}  ;; return
+   \                     ??KeyCode_OnEnter_7:
+   \   00000120   ........           DC32     ??KeyCode_KeyHook
+   \   00000124   ........           DC32     ??KeyCode_OnClose
+    109          };
+    110          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    111          int KeyCode_OnExit(void *, BOOK * bk)
+    112          {
+    113            SKBOOK *sk=(SKBOOK*)FindBook(isSBook);
+   \                     ??KeyCode_OnExit:
+   \   00000000   ........           LDR      R0,??DataTable4  ;; ??isSBook
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   300100EF           SWI      +304
+   \   00000010   0010B0E1           MOVS     R1,R0
+    114            if (sk)
+   \   00000014   0600000A           BEQ      ??KeyCode_OnExit_1
+    115            {
+    116              if (sk->version==VERSION_)
+   \   00000018   380091E5           LDR      R0,[R1, #+56]
+   \   0000001C   ........           LDR      R2,??DataTable5  ;; 0xaaaa01
+   \   00000020   020050E1           CMP      R0,R2
+   \   00000024   0200001A           BNE      ??KeyCode_OnExit_1
+    117              {
+    118                sk->SetWorkState(true);
+   \   00000028   341091E5           LDR      R1,[R1, #+52]
+   \   0000002C   0100A0E3           MOV      R0,#+1
+   \   00000030   31FF2FE1           BLX      R1
+    119              }
+    120            }
+    121            MyBOOK *mbk=(MyBOOK *)bk;
+    122            mbk->curkey=0;
+   \                     ??KeyCode_OnExit_1:
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   2C0084E5           STR      R0,[R4, #+44]
+    123            FREE_GUI(mbk->keyselect);
+   \   0000003C   200094E5           LDR      R0,[R4, #+32]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0100000A           BEQ      ??KeyCode_OnExit_2
+   \   00000048   CE0100EF           SWI      +462
+   \   0000004C   200084E5           STR      R0,[R4, #+32]
+    124            return (1);
+   \                     ??KeyCode_OnExit_2:
+   \   00000050   0100A0E3           MOV      R0,#+1
+   \   00000054   1080BDE8           POP      {R4,PC}          ;; return
+    125          };
+    126          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    127          const PAGE_MSG bk_msglst_keycodeinput[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_keycodeinput:
+   \   00000000   42000000....       DC32 66, ??KeyCode_OnEnter, 67, ??KeyCode_OnExit, 89, 0H, 97, 0H, 95
+   \              ....43000000
+   \              ........5900
+   \              000000000000
+   \              610000000000
+   \              00005F000000
+   \   00000024   000000006000       DC32 0H, 96, 0H, 284, 0H, 282, 0H, 121, 0H, 122, 0H, 281, 0H, 86, 0H
+   \              000000000000
+   \              1C0100000000
+   \              00001A010000
+   \              000000007900
+   \              000000000000
+   \              7A0000000000
+   \              000019010000
+   \              000000005600
+   \              000000000000
+   \   00000060   660000000000       DC32 102, 0H, 103, 0H, 64, 0H
+   \              000067000000
+   \              000000004000
+   \              000000000000
+    128          {
+    129            PAGE_ENTER_EVENT_TAG,            KeyCode_OnEnter,
+    130            PAGE_EXIT_EVENT_TAG,             KeyCode_OnExit,
+    131            FLIP_OPEN_EVENT_TAG,             NULL,
+    132            PHF_PRESSED_EVENT_TAG,           NULL,
+    133            CAMERA_LENSCOVER_OPEN_EVENT_TAG, NULL,
+    134            CAMERA_LENSCOVER_CLOSE_EVENT_TAG,NULL,
+    135            MEDIAPLAYERKEY_PRESSED_EVENT_TAG,NULL,
+    136            GOMUSICKEY_PRESSED_EVENT_TAG,    NULL,
+    137            MULTIKEY_PRESSED_EVENT_TAG,      NULL,
+    138            LAMPKEY_PRESSED_EVENT_TAG,       NULL,
+    139            ONOFFKEY_SHORT_PRESS_EVENT_TAG,  NULL,
+    140            ONOFFKEY_LONG_PRESS_EVENT_TAG,   NULL,
+    141            LOCKKEY_EVENT_TAG,               NULL,
+    142            OPERATORKEY_PRESSED_EVENT_TAG,   NULL,
+    143            NIL_EVENT_TAG,                   NULL
+    144          };
+    145          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    146          const PAGE_DESC bk_keycode_input = {"SoftEdit_KeyInput",0,bk_msglst_keycodeinput};
+   \                     bk_keycode_input:
+   \   00000000   ........0000       DC32 `?<Constant "SoftEdit_KeyInput">`, 0H, bk_msglst_keycodeinput
+   \              0000........
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     `?<Constant L"\\x4e\\x65\\x77\\x20\\x6b\\x65\\x79\\x3a\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     ??isSBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   01AAAA00           DC32     0xaaaa01
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SoftEdit_KeyInput">`:
+   \   00000000   536F66744564       DC8 "SoftEdit_KeyInput"
+   \              69745F4B6579
+   \              496E70757400
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4e\\x65\\x77\\x20\\x6b\\x65\\x79\\x3a\\`:
+   \   00000000   4E0065007700       DC8 4EH, 0, 65H, 0, 77H, 0, 20H, 0
+   \              2000        
+   \   00000008   6B0065007900       DC8 6BH, 0, 65H, 0, 79H, 0, 3AH, 0
+   \              3A00        
+   \   00000010   0A000A000000       DC8 0AH, 0, 0AH, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+   \   00000018   2D0065006D00       DC8 2DH, 0, 65H, 0, 6DH, 0, 70H, 0
+   \              7000        
+   \   00000020   740079002D00       DC8 74H, 0, 79H, 0, 2DH, 0, 0, 0
+   \              0000        
+   \   00000028   4F006C006400       DC8 4FH, 0, 6CH, 0, 64H, 0, 20H, 0
+   \              2000        
+   \   00000030   6B0065007900       DC8 6BH, 0, 65H, 0, 79H, 0, 3AH, 0
+   \              3A00        
+   \   00000038   0A000A000000       DC8 0AH, 0, 0AH, 0, 0, 0
+   \   0000003E   0000               DC8 0, 0
+   \   00000040   4E0065007700       DC8 4EH, 0, 65H, 0, 77H, 0, 4BH, 0
+   \              4B00        
+   \   00000048   650079003A00       DC8 65H, 0, 79H, 0, 3AH, 0, 0AH, 0
+   \              0A00        
+   \   00000050   0A000000           DC8 0AH, 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     KeyCode_KeyHook(BOOK *, int, int, int)
+                                       24
+     KeyCode_OnClose(BOOK *)           12
+     KeyCode_OnEnter(void *, BOOK *)
+                                       28
+     KeyCode_OnExit(void *, BOOK *)     8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     KeyCode_KeyHook(BOOK *, int, int, int)
+                                     208
+     KeyCode_OnClose(BOOK *)         264
+     KeyCode_OnEnter(void *, BOOK *)
+                                     296
+     KeyCode_OnExit(void *, BOOK *)   88
+     bk_msglst_keycodeinput          120
+     bk_keycode_input                 12
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ??DataTable5                      4
+     ?<Constant "SoftEdit_KeyInput">
+                                      20
+     ?<Constant L"\x4e\x65\x77\x20\x6b\x65\x79\x3a\
+                                      84
+      Others                          28
+
+ 
+ 896 bytes in segment CODE
+ 116 bytes in segment DATA_C
+ 120 bytes in segment DYN_PAGE
+ 
+ 868 bytes of CODE  memory (+ 28 bytes shared)
+ 236 bytes of CONST memory
+
+Errors: none
+Warnings: none

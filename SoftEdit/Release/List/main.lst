@@ -1,0 +1,118 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:51:39 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\main. #
+#                       cpp                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\main. #
+#                       cpp -D NDEBUG -lC Z:\home\perk11\www\perk11.info\svn #
+#                       \SE\SoftEdit\Release\List\ -o                        #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\List\main.lst                                     #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\main.r79                                      #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\main.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          #include "header\structs.h"
+      4          #include "header\extern.h"
+      5          
+      6          int readcustomcfg(wchar_t *path, wchar_t *name);
+      7          MyBOOK *CreateOurBook();
+      8          void elf_exit(void);
+      9          
+     10          extern const PAGE_DESC bk_main;
+     11          
+     12          int isSoftEditBook(BOOK *bk);
+     13          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     14          int main()
+     15          {
+   \                     main:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     16            MyBOOK *myBook=CreateOurBook();
+   \   00000004   ........           _BLF     ??CreateOurBook,??CreateOurBook??rA
+   \   00000008   0040B0E1           MOVS     R4,R0
+     17            if (myBook)
+   \   0000000C   0800000A           BEQ      ??main_0
+     18            {
+     19              readcustomcfg(GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG), L"AdvSoftkeys.cfg");
+   \   00000010   1400A0E3           MOV      R0,#+20
+   \   00000014   050100EF           SWI      +261
+   \   00000018   24109FE5           LDR      R1,??main_1      ;; `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\`
+   \   0000001C   ........           _BLF     ??readcustomcfg,??readcustomcfg??rA
+     20              BookObj_GotoPage(&myBook->book,&bk_main);
+   \   00000020   20109FE5           LDR      R1,??main_1+0x4  ;; bk_main
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   2D0100EF           SWI      +301
+     21            }
+     22            else
+     23            {
+     24              SUBPROC(elf_exit);
+     25              return 0;
+     26            }
+     27            return 0;
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   1080BDE8           POP      {R4,PC}
+   \                     ??main_0:
+   \   00000034   10009FE5           LDR      R0,??main_1+0x8  ;; ??elf_exit
+   \   00000038   080100EF           SWI      +264
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??main_1:
+   \   00000044   ........           DC32     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\`
+   \   00000048   ........           DC32     bk_main
+   \   0000004C   ........           DC32     ??elf_exit
+     28          };
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\`:
+   \   00000000   410064007600       DC8 41H, 0, 64H, 0, 76H, 0, 53H, 0
+   \              5300        
+   \   00000008   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000010   650079007300       DC8 65H, 0, 79H, 0, 73H, 0, 2EH, 0
+   \              2E00        
+   \   00000018   630066006700       DC8 63H, 0, 66H, 0, 67H, 0, 0, 0
+   \              0000        
+
+   Maximum stack usage in bytes:
+
+     Function CSTACK
+     -------- ------
+     main()       8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     main()                           80
+     ?<Constant L"\x41\x64\x76\x53\x6f\x66\x74\x6b\
+                                      32
+      Others                          28
+
+ 
+ 108 bytes in segment CODE
+  32 bytes in segment DATA_C
+ 
+ 80 bytes of CODE  memory (+ 28 bytes shared)
+ 32 bytes of CONST memory
+
+Errors: none
+Warnings: none

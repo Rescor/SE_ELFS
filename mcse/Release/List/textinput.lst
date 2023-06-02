@@ -1,0 +1,250 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:48:15 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\textinput #
+#                       .cpp                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\textinput #
+#                       .cpp -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\textinput.lst                                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\textinput.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\textinput.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\mui.h"
+      3          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      4          void KillTextInput()
+      5          {
+      6            FREE_GUI(MCBook->textinp);
+   \                     ??KillTextInput:
+   \   00000000   ........           LDR      R0,??DataTable5  ;; MCBook
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   240090E5           LDR      R0,[R0, #+36]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+   \   00000018   ........           LDR      R4,??DataTable5  ;; MCBook
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   240090E5           LDR      R0,[R0, #+36]
+   \   00000024   CE0100EF           SWI      +462
+   \   00000028   001094E5           LDR      R1,[R4, #+0]
+   \   0000002C   240081E5           STR      R0,[R1, #+36]
+      7          }
+   \   00000030   1080BDE8           POP      {R4,PC}          ;; return
+      8          
+      9          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     10          void OkTextInput(BOOK *,wchar_t * string,int len)
+     11          {
+     12            wstrncpy(wsbuf,string,MAXELEMS(wsbuf)-1);
+   \                     ??OkTextInput:
+   \   00000000   B8009FE5           LDR      R0,??OkTextInput_1  ;; wsbuf
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   402F82E3           ORR      R2,R2,#0x100
+   \   00000010   530100EF           SWI      +339
+     13            if (!MCBook->tstname || TestFileName(wsbuf))
+   \   00000014   ........           LDR      R0,??DataTable5  ;; MCBook
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   280090E5           LDR      R0,[R0, #+40]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0300000A           BEQ      ??OkTextInput_2
+   \   00000028   90009FE5           LDR      R0,??OkTextInput_1  ;; wsbuf
+   \   0000002C   ........           _BLF     ??TestFileName,??TestFileName??rA
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0E00000A           BEQ      ??OkTextInput_3
+     14            {
+     15              MCBook->retproc(wsbuf);
+   \                     ??OkTextInput_2:
+   \   00000038   ........           LDR      R4,??DataTable5  ;; MCBook
+   \   0000003C   7C009FE5           LDR      R0,??OkTextInput_1  ;; wsbuf
+   \   00000040   001094E5           LDR      R1,[R4, #+0]
+   \   00000044   2C1091E5           LDR      R1,[R1, #+44]
+   \   00000048   31FF2FE1           BLX      R1
+     16              FREE_GUI(MCBook->textinp);
+   \   0000004C   000094E5           LDR      R0,[R4, #+0]
+   \   00000050   240090E5           LDR      R0,[R0, #+36]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   1080BD08           POPEQ    {R4,PC}
+   \   0000005C   000094E5           LDR      R0,[R4, #+0]
+   \   00000060   240090E5           LDR      R0,[R0, #+36]
+   \   00000064   CE0100EF           SWI      +462
+   \   00000068   001094E5           LDR      R1,[R4, #+0]
+   \   0000006C   240081E5           STR      R0,[R1, #+36]
+   \   00000070   1080BDE8           POP      {R4,PC}
+     17            }
+     18            else
+     19            {
+     20              MsgBoxError(muitxt(ind_err_badname));
+     21              CorFileName(wsbuf);
+   \                     ??OkTextInput_3:
+   \   00000074   44409FE5           LDR      R4,??OkTextInput_1  ;; wsbuf
+   \   00000078   5400A0E3           MOV      R0,#+84
+   \   0000007C   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000080   ........           _BLF     ??MsgBoxError,??MsgBoxError??rA
+   \   00000084   0400A0E1           MOV      R0,R4
+   \   00000088   ........           _BLF     ??CorFileName,??CorFileName??rA
+     22              TEXTID txt=TextID_Create(wsbuf,ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000008C   FF20A0E3           MOV      R2,#+255
+   \   00000090   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   5D0100EF           SWI      +349
+   \   000000A0   0040A0E1           MOV      R4,R0
+     23              StringInput_DispObject_SetText(GUIObject_GetDispObject(MCBook->textinp),txt);
+   \   000000A4   ........           LDR      R0,??DataTable5  ;; MCBook
+   \   000000A8   000090E5           LDR      R0,[R0, #+0]
+   \   000000AC   240090E5           LDR      R0,[R0, #+36]
+   \   000000B0   680100EF           SWI      +360
+   \   000000B4   0410A0E1           MOV      R1,R4
+   \   000000B8   120300EF           SWI      +786
+     24            }
+     25          }
+   \   000000BC   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??OkTextInput_1:
+   \   000000C0   ........           DC32     wsbuf
+     26          
+     27          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          void TextInput(wchar_t *prmpt, int TestFileName, const wchar_t *wsname, IFN_RET_PROC retproc)
+     29          {
+   \                     ??TextInput:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0160A0E1           MOV      R6,R1
+   \   00000008   0250A0E1           MOV      R5,R2
+   \   0000000C   0370A0E1           MOV      R7,R3
+     30            TEXTID pr, str;
+     31            pr=TextID_Create(prmpt,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000010   FF80A0E3           MOV      R8,#+255
+   \   00000014   FF8C88E3           ORR      R8,R8,#0xFF00
+   \   00000018   0820A0E1           MOV      R2,R8
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   5D0100EF           SWI      +349
+   \   00000024   0040A0E1           MOV      R4,R0
+     32            str=TextID_Create(wsname,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000028   0500A0E1           MOV      R0,R5
+     33            MCBook->tstname=TestFileName;
+   \   0000002C   ........           LDR      R5,??DataTable5  ;; MCBook
+   \   00000030   0820A0E1           MOV      R2,R8
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   5D0100EF           SWI      +349
+   \   0000003C   001095E5           LDR      R1,[R5, #+0]
+     34            MCBook->retproc=retproc;
+     35            MCBook->textinp=CreateStringInputVA(0,
+     36                                              VAR_PREV_ACTION_PROC(KillTextInput),
+     37                                              VAR_LONG_BACK_PROC(KillTextInput),
+     38                                              VAR_BOOK(MCBook),
+     39                                              VAR_OK_PROC(OkTextInput),
+     40                                              VAR_STRINP_FIXED_TEXT(pr),
+     41                                              VAR_STRINP_TEXT(str),
+     42                                              VAR_STRINP_MIN_LEN(0),
+     43                                              VAR_STRINP_MAX_LEN(MAX_PATH),
+     44                                              0);
+   \   00000040   88209FE5           LDR      R2,??TextInput_1  ;; ??KillTextInput
+   \   00000044   286081E5           STR      R6,[R1, #+40]
+   \   00000048   2C7081E5           STR      R7,[R1, #+44]
+   \   0000004C   0030A0E3           MOV      R3,#+0
+   \   00000050   08002DE9           PUSH     {R3}
+   \   00000054   403FA0E3           MOV      R3,#+256
+   \   00000058   08002DE9           PUSH     {R3}
+   \   0000005C   70309FE5           LDR      R3,??TextInput_1+0x4  ;; VAR_ARG_STRINP_MAX_LEN
+   \   00000060   08002DE9           PUSH     {R3}
+   \   00000064   0030A0E3           MOV      R3,#+0
+   \   00000068   08002DE9           PUSH     {R3}
+   \   0000006C   64309FE5           LDR      R3,??TextInput_1+0x8  ;; VAR_ARG_STRINP_MIN_LEN
+   \   00000070   08002DE9           PUSH     {R3}
+   \   00000074   60309FE5           LDR      R3,??TextInput_1+0xC  ;; VAR_ARG_CALL_BACK_LONG_BACK
+   \   00000078   01002DE9           PUSH     {R0}
+   \   0000007C   5C009FE5           LDR      R0,??TextInput_1+0x10  ;; VAR_ARG_STRINP_TEXT
+   \   00000080   01002DE9           PUSH     {R0}
+   \   00000084   58009FE5           LDR      R0,??TextInput_1+0x14  ;; VAR_ARG_STRINP_FIXED_TEXT
+   \   00000088   10002DE9           PUSH     {R4}
+   \   0000008C   01002DE9           PUSH     {R0}
+   \   00000090   50009FE5           LDR      R0,??TextInput_1+0x18  ;; ??OkTextInput
+   \   00000094   01002DE9           PUSH     {R0}
+   \   00000098   4C009FE5           LDR      R0,??TextInput_1+0x1C  ;; VAR_ARG_CALL_BACK_OK
+   \   0000009C   01002DE9           PUSH     {R0}
+   \   000000A0   48009FE5           LDR      R0,??TextInput_1+0x20  ;; VAR_ARG_BOOK
+   \   000000A4   02002DE9           PUSH     {R1}
+   \   000000A8   44109FE5           LDR      R1,??TextInput_1+0x24  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   000000AC   01002DE9           PUSH     {R0}
+   \   000000B0   0200A0E1           MOV      R0,R2
+   \   000000B4   01002DE9           PUSH     {R0}
+   \   000000B8   0000A0E3           MOV      R0,#+0
+   \   000000BC   440100EF           SWI      +324
+   \   000000C0   38D08DE2           ADD      SP,SP,#+56
+   \   000000C4   001095E5           LDR      R1,[R5, #+0]
+   \   000000C8   240081E5           STR      R0,[R1, #+36]
+     45            
+     46          }
+   \   000000CC   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??TextInput_1:
+   \   000000D0   ........           DC32     ??KillTextInput
+   \   000000D4   ........           DC32     VAR_ARG_STRINP_MAX_LEN
+   \   000000D8   ........           DC32     VAR_ARG_STRINP_MIN_LEN
+   \   000000DC   ........           DC32     VAR_ARG_CALL_BACK_LONG_BACK
+   \   000000E0   ........           DC32     VAR_ARG_STRINP_TEXT
+   \   000000E4   ........           DC32     VAR_ARG_STRINP_FIXED_TEXT
+   \   000000E8   ........           DC32     ??OkTextInput
+   \   000000EC   ........           DC32     VAR_ARG_CALL_BACK_OK
+   \   000000F0   ........           DC32     VAR_ARG_BOOK
+   \   000000F4   ........           DC32     VAR_ARG_CALL_BACK_PREV_ACT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     MCBook
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     KillTextInput()                    8
+     OkTextInput(BOOK *, wchar_t *, int)
+                                        8
+     TextInput(wchar_t *, int, wchar_t const *, IFN_RET_PROC)
+                                       80
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     KillTextInput()                  52
+     OkTextInput(BOOK *, wchar_t *, int)
+                                     196
+     TextInput(wchar_t *, int, wchar_t const *, IFN_RET_PROC)
+                                     248
+     ??DataTable5                      4
+      Others                          60
+
+ 
+ 560 bytes in segment CODE
+ 
+ 500 bytes of CODE memory (+ 60 bytes shared)
+
+Errors: none
+Warnings: none

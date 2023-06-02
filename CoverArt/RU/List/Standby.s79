@@ -1,0 +1,1907 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:02:00 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Stan /
+//                       dby.c                                               /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Stan /
+//                       dby.c -D NDEBUG -D OLDFUNCTIONS -lC                 /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\L /
+//                       ist\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Cove /
+//                       rArt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn /
+//                       \SE\CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian    /
+//                       little --cpu ARM926EJ-S --stack_align 4             /
+//                       --interwork -e --enable_multibytes --fpu None       /
+//                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\d /
+//                       l5tpainl8n.h --preinclude                           /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\LNG- /
+//                       RU.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\L /
+//                       ist\Standby.s79                                     /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME Standby
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBWEAK `?*?DATA_ID`
+        MULTWEAK ??Anim_NextFrame??rA
+        MULTWEAK ??CheckStandby??rA
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable11 EQU 0
+??DataTable12 EQU 0
+??DataTable13 EQU 0
+??DataTable15 EQU 0
+??DataTable16 EQU 0
+??DataTable2 EQU 0
+??DataTable20 EQU 0
+??DataTable3 EQU 0
+??DataTable4 EQU 0
+??DataTable5 EQU 0
+??DataTable6 EQU 0
+??DataTable7 EQU 0
+        MULTWEAK ??DrawLine??rA
+        MULTWEAK ??DrawProgress??rA
+        PUBLIC ??GetUpdateTime
+        FUNCTION ??GetUpdateTime,0203H
+        MULTWEAK ??GetUpdateTime??rT
+        MULTWEAK ??NextScrollFrame??rA
+        PUBLIC ??Redraw
+        FUNCTION ??Redraw,0203H
+        LOCFRAME CSTACK, 88, STACK
+        MULTWEAK ??Redraw??rT
+        PUBLIC ??Softkey_CARedraw
+        FUNCTION ??Softkey_CARedraw,0603H
+        LOCFRAME CSTACK, 48, STACK
+        MULTWEAK ??Softkey_CARedraw??rT
+        PUBLIC ??Softkey_SetOnRedraw
+        FUNCTION ??Softkey_SetOnRedraw,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Softkey_SetOnRedraw??rT
+        PUBLIC ??Standby_CARedraw
+        FUNCTION ??Standby_CARedraw,0603H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??Standby_CARedraw??rT
+        PUBLIC ??Standby_OnRedrawTimer
+        FUNCTION ??Standby_OnRedrawTimer,0603H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??Standby_OnRedrawTimer??rT
+        PUBLIC ??Standby_ReturnRedraw
+        FUNCTION ??Standby_ReturnRedraw,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Standby_ReturnRedraw??rT
+        PUBLIC ??Standby_SetOnRedraw
+        FUNCTION ??Standby_SetOnRedraw,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??Standby_SetOnRedraw??rT
+        PUBLIC ??StatusIndication_CARedraw
+        FUNCTION ??StatusIndication_CARedraw,0603H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??StatusIndication_CARedraw??rT
+        PUBLIC ??StatusIndication_SetOnRedraw
+        FUNCTION ??StatusIndication_SetOnRedraw,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??StatusIndication_SetOnRedraw??rT
+        PUBWEAK ?init?tab?DATA_I
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC SoftUsed
+        PUBLIC Softkey_DD
+        PUBLIC Softkey_DO
+        PUBLIC Softkey_DefaultRedraw
+        PUBLIC Standby_DD
+        PUBLIC Standby_DO
+        PUBLIC Standby_DefaultRedraw
+        PUBLIC Standby_RedrawTimer
+        PUBLIC StatusIndication_DD
+        PUBLIC StatusIndication_DO
+        PUBLIC StatusIndication_DefaultRedraw
+        PUBLIC StatusUsed
+        PUBLIC gc
+        PUBLIC isAPBookFound
+        PUBLIC isInStandby
+        PUBLIC lastmusic
+        PUBLIC locCover_MaxX
+        PUBLIC locCover_MaxY
+        PUBLIC locCover_X
+        PUBLIC locCover_Y
+        PUBLIC locTime
+        PUBLIC nowmus
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+??Anim_NextFrame??rA SYMBOL "??rA", ??Anim_NextFrame
+??CheckStandby??rA  SYMBOL "??rA", ??CheckStandby
+??DrawLine??rA      SYMBOL "??rA", ??DrawLine
+??DrawProgress??rA  SYMBOL "??rA", ??DrawProgress
+
+??GetUpdateTime??rT SYMBOL "??rT", ??GetUpdateTime
+??NextScrollFrame??rA SYMBOL "??rA", ??NextScrollFrame
+
+??Redraw??rT        SYMBOL "??rT", ??Redraw
+
+??Softkey_CARedraw??rT SYMBOL "??rT", ??Softkey_CARedraw
+
+??Softkey_SetOnRedraw??rT SYMBOL "??rT", ??Softkey_SetOnRedraw
+
+??Standby_CARedraw??rT SYMBOL "??rT", ??Standby_CARedraw
+
+??Standby_OnRedrawTimer??rT SYMBOL "??rT", ??Standby_OnRedrawTimer
+
+??Standby_ReturnRedraw??rT SYMBOL "??rT", ??Standby_ReturnRedraw
+
+??Standby_SetOnRedraw??rT SYMBOL "??rT", ??Standby_SetOnRedraw
+
+??StatusIndication_CARedraw??rT SYMBOL "??rT", ??StatusIndication_CARedraw
+
+??StatusIndication_SetOnRedraw??rT SYMBOL "??rT", ??StatusIndication_SetOnRedraw
+
+        EXTERN ??Anim_NextFrame
+        FUNCTION ??Anim_NextFrame,0202H
+        EXTERN ??CheckStandby
+        FUNCTION ??CheckStandby,0202H
+        EXTERN ??DrawLine
+        FUNCTION ??DrawLine,0202H
+        EXTERN ??DrawProgress
+        FUNCTION ??DrawProgress,0202H
+        EXTERN ??NextScrollFrame
+        FUNCTION ??NextScrollFrame,0202H
+        EXTERN AffectSoft
+        EXTERN AffectStatus
+        EXTERN AllowAnim
+        EXTERN AnimUpdateTime
+        EXTERN AnimYPlus
+        EXTERN COVER_DRAW
+        EXTERN COVER_SHOW
+        EXTERN Cover_DrawSoft
+        EXTERN Cover_DrawStandby
+        EXTERN Cover_DrawStatus
+        EXTERN CurrentTime
+        EXTERN CustomImage_Draw
+        EXTERN CustomImage_DrawAfter
+        EXTERN CustomImage_Show
+        EXTERN Custom_DrawSoft
+        EXTERN Custom_DrawStandby
+        EXTERN Custom_DrawStatus
+        EXTERN DefUpdateTime
+        EXTERN DrawSoft2
+        EXTERN DrawSoftkey
+        EXTERN DrawStandby
+        EXTERN DrawStatus
+        EXTERN DrawStatus2
+        EXTERN PlayerRunned
+        EXTERN ProgressBar_Show
+        EXTERN ProgressBar_Style
+        EXTERN ProgressBar_bColor
+        EXTERN ProgressBar_cColor
+        EXTERN ProgressBar_oColor
+        EXTERN SoftSize
+        EXTERN StatusSize
+        EXTERN YSize
+        EXTERN currenttrack
+        EXTERN img
+        EXTERN labels
+        EXTERN nowmusic
+        EXTERN pbrect
+
+// Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Standby.c
+//    1 #include "..\include\Lib_Clara.h"
+//    2 #include "..\include\dir.h"
+//    3 #include "structs.h"
+//    4 #include "decoder_init.h"
+//    5 #include "draw.h"
+//    6 #include "config_data.h"
+//    7 #include "Externals.h"
+//    8 
+//    9 wchar_t lastmusic[1024];
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//   10 wchar_t nowmus[1024];
+nowmus:
+        DS8 2048
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+//   11 bool isInStandby=false;
+//   12 bool isAPBookFound=false;
+//   13 int CheckStandby();
+//   14 DISP_DESC *Standby_DD;
+//   15 DISP_OBJ *Standby_DO;
+//   16 DISP_OBJ_ONREDRAW_METHOD Standby_DefaultRedraw;
+//   17 
+//   18 DISP_DESC *Softkey_DD;
+//   19 DISP_OBJ *Softkey_DO;
+//   20 DISP_OBJ_ONREDRAW_METHOD Softkey_DefaultRedraw;
+//   21 
+//   22 DISP_DESC *StatusIndication_DD;
+//   23 DISP_OBJ *StatusIndication_DO;
+//   24 DISP_OBJ_ONREDRAW_METHOD StatusIndication_DefaultRedraw;
+//   25 
+//   26 GC *gc=0;
+//   27 
+//   28 u16 Standby_RedrawTimer;
+Standby_RedrawTimer:
+        DS8 2
+        REQUIRE `?<Initializer for Standby_RedrawTimer>`
+        DS8 2
+Standby_DD:
+        DS8 4
+        REQUIRE `?<Initializer for Standby_DD>`
+Standby_DO:
+        DS8 4
+        REQUIRE `?<Initializer for Standby_DO>`
+Standby_DefaultRedraw:
+        DS8 4
+        REQUIRE `?<Initializer for Standby_DefaultRedraw>`
+Softkey_DD:
+        DS8 4
+        REQUIRE `?<Initializer for Softkey_DD>`
+Softkey_DO:
+        DS8 4
+        REQUIRE `?<Initializer for Softkey_DO>`
+Softkey_DefaultRedraw:
+        DS8 4
+        REQUIRE `?<Initializer for Softkey_DefaultRedraw>`
+StatusIndication_DD:
+        DS8 4
+        REQUIRE `?<Initializer for StatusIndication_DD>`
+StatusIndication_DO:
+        DS8 4
+        REQUIRE `?<Initializer for StatusIndication_DO>`
+StatusIndication_DefaultRedraw:
+        DS8 4
+        REQUIRE `?<Initializer for StatusIndication_DefaultRedr`
+gc:
+        DS8 4
+        REQUIRE `?<Initializer for gc>`
+//   29 
+//   30 int locTime=1000;
+locTime:
+        DS8 4
+        REQUIRE `?<Initializer for locTime>`
+//   31 int locCover_X;
+locCover_X:
+        DS8 4
+        REQUIRE `?<Initializer for locCover_X>`
+//   32 int locCover_Y;
+locCover_Y:
+        DS8 4
+        REQUIRE `?<Initializer for locCover_Y>`
+//   33 int locCover_MaxX;
+locCover_MaxX:
+        DS8 4
+        REQUIRE `?<Initializer for locCover_MaxX>`
+//   34 int locCover_MaxY;
+locCover_MaxY:
+        DS8 4
+        REQUIRE `?<Initializer for locCover_MaxY>`
+isInStandby:
+        DS8 1
+        REQUIRE `?<Initializer for isInStandby>`
+isAPBookFound:
+        DS8 1
+        REQUIRE `?<Initializer for isAPBookFound>`
+//   35 
+//   36 extern LABEL labels[10];
+//   37 extern UI_IMG img;
+//   38 extern MUSIC nowmusic;
+//   39 extern bool PlayerRunned;
+//   40 extern TRACK_DESC *currenttrack;
+//   41 extern int CurrentTime;
+//   42 
+//   43 void Redraw(DISP_OBJ_ONREDRAW_METHOD DefRedraw, int DrawOld, signed int plusY, DISP_OBJ* DO, int a, int b, int c, int type, int DrawCover, int DrawCustom);
+//   44 void Softkey_SetOnRedraw();
+//   45 void StatusIndication_SetOnRedraw();
+//   46 
+//   47 bool SoftUsed=false;
+SoftUsed:
+        DS8 1
+        REQUIRE `?<Initializer for SoftUsed>`
+//   48 bool StatusUsed=false;
+StatusUsed:
+        DS8 1
+        REQUIRE `?<Initializer for StatusUsed>`
+lastmusic:
+        DS8 2048
+        REQUIRE `?<Initializer for lastmusic>`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Standby_CARedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??Standby_CARedraw
+//   49 
+//   50 //BOOK *Standby=0;
+//   51 //GUI * MainInput=0;
+//   52 /*
+//   53 int CheckStandby()
+//   54 {
+//   55   if (SESSION_GetTopBook(root_list_get_session(root_list_get_session_count() - 1))==Standby)
+//   56   {
+//   57     if (MainInput_getVisible(MainInput)==0)
+//   58     {
+//   59       return 1;
+//   60     }
+//   61   }
+//   62   return 0;
+//   63 }
+//   64 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??Standby_CARedraw
+        ARM
+//   65 void Standby_CARedraw(DISP_OBJ* DO,int a,int b,int c)
+//   66 {
+??Standby_CARedraw:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+//   67   isInStandby=CheckStandby();
+        _BLF     ??CheckStandby,??CheckStandby??rA
+        CMP      R0,#+0
+        LDR      R0,??DataTable21  ;; Standby_RedrawTimer
+        MOVNE    R1,#+1
+        MOVEQ    R1,#+0
+        STRB     R1,[R0, #+64]
+//   68   Redraw(Standby_DefaultRedraw, DrawStandby, (-1)*StatusSize, DO, a, b, c, isInStandby, Cover_DrawStandby, Custom_DrawStandby);
+        LDR      R1,??Standby_CARedraw_1  ;; Custom_DrawStandby
+        MOV      R3,R4
+        LDR      R1,[R1, #+0]
+        PUSH     {R1}
+        CFI CFA R13+24
+        LDR      R1,??Standby_CARedraw_1+0x4  ;; Cover_DrawStandby
+        LDR      R1,[R1, #+0]
+        PUSH     {R1}
+        CFI CFA R13+28
+        LDRB     R1,[R0, #+64]
+        PUSH     {R1}
+        CFI CFA R13+32
+        LDR      R1,??Standby_CARedraw_1+0x8  ;; StatusSize
+        PUSH     {R7}
+        CFI CFA R13+36
+        PUSH     {R6}
+        CFI CFA R13+40
+        PUSH     {R5}
+        CFI CFA R13+44
+        LDR      R1,[R1, #+0]
+        LDR      R0,[R0, #+12]
+        RSB      R2,R1,#+0
+        LDR      R1,??Standby_CARedraw_1+0xC  ;; DrawStandby
+        LDR      R1,[R1, #+0]
+        BL       ??Redraw
+//   69 };
+        ADD      SP,SP,#+24
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        DATA
+??Standby_CARedraw_1:
+        DC32     Custom_DrawStandby
+        DC32     Cover_DrawStandby
+        DC32     StatusSize
+        DC32     DrawStandby
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Softkey_CARedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??Softkey_CARedraw
+//   70 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??Softkey_CARedraw
+        ARM
+//   71 void Softkey_CARedraw(DISP_OBJ *DO,int a,int b,int c)
+//   72 {
+??Softkey_CARedraw:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+//   73   isInStandby=CheckStandby();
+        _BLF     ??CheckStandby,??CheckStandby??rA
+//   74   if (DrawSoft2 && !isInStandby)
+        LDR      R1,??Softkey_CARedraw_1  ;; SoftSize
+        LDR      R2,??Softkey_CARedraw_1+0x4  ;; YSize
+        LDR      R1,[R1, #+0]
+        LDR      R2,[R2, #+0]
+        LDR      R3,??DataTable21  ;; Standby_RedrawTimer
+        SUB      R2,R1,R2
+        LDR      R1,??Softkey_CARedraw_1+0x8  ;; Cover_DrawSoft
+        CMP      R0,#+0
+        LDR      R12,[R1, #+0]
+        LDR      R1,??Softkey_CARedraw_1+0xC  ;; Custom_DrawSoft
+        MOVNE    R0,#+1
+        LDR      LR,[R1, #+0]
+        LDR      R1,??DataTable9  ;; DrawSoft2
+        STRB     R0,[R3, #+64]
+        LDR      R1,[R1, #+0]
+        LDR      R0,[R3, #+24]
+        CMP      R1,#+0
+        BEQ      ??Softkey_CARedraw_2
+        LDRB     R8,[R3, #+64]
+        CMP      R8,#+0
+        BNE      ??Softkey_CARedraw_2
+//   75   {
+//   76     Redraw(Softkey_DefaultRedraw, DrawSoft2, SoftSize-YSize, DO, a, b, c, 1, Cover_DrawSoft, Custom_DrawSoft);
+        PUSH     {LR}
+        CFI CFA R13+28
+        PUSH     {R12}
+        CFI CFA R13+32
+        MOV      R3,#+1
+        PUSH     {R3}
+        CFI CFA R13+36
+        PUSH     {R7}
+        CFI CFA R13+40
+        PUSH     {R6}
+        CFI CFA R13+44
+        PUSH     {R5}
+        CFI CFA R13+48
+        MOV      R3,R4
+        BL       ??Redraw
+        ADD      SP,SP,#+24
+        CFI CFA R13+24
+        POP      {R4-R8,PC}
+//   77   }
+//   78   else
+//   79   {
+//   80     Redraw(Softkey_DefaultRedraw, DrawSoftkey, SoftSize-YSize, DO, a, b, c, isInStandby, Cover_DrawSoft, Custom_DrawSoft);
+??Softkey_CARedraw_2:
+        PUSH     {LR}
+        CFI CFA R13+28
+        PUSH     {R12}
+        CFI CFA R13+32
+        LDRB     R1,[R3, #+64]
+        MOV      R3,R4
+        PUSH     {R1}
+        CFI CFA R13+36
+        LDR      R1,??Softkey_CARedraw_1+0x10  ;; DrawSoftkey
+        PUSH     {R7}
+        CFI CFA R13+40
+        PUSH     {R6}
+        CFI CFA R13+44
+        PUSH     {R5}
+        CFI CFA R13+48
+        LDR      R1,[R1, #+0]
+        BL       ??Redraw
+        ADD      SP,SP,#+24
+        CFI CFA R13+24
+//   81   }
+//   82 };
+        POP      {R4-R8,PC}       ;; return
+        DATA
+??Softkey_CARedraw_1:
+        DC32     SoftSize
+        DC32     YSize
+        DC32     Cover_DrawSoft
+        DC32     Custom_DrawSoft
+        DC32     DrawSoftkey
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StatusIndication_CARedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??StatusIndication_CARedraw
+//   83 
+//   84 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??StatusIndication_CARedraw
+        ARM
+//   85 void StatusIndication_CARedraw(DISP_OBJ *DO,int a, int b,int c)
+//   86 {
+??StatusIndication_CARedraw:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+//   87   isInStandby=CheckStandby();
+        _BLF     ??CheckStandby,??CheckStandby??rA
+//   88   if (DrawStatus2 && !isInStandby)
+        LDR      R1,??StatusIndication_CARedraw_1  ;; Cover_DrawStatus
+        LDR      R2,??DataTable21  ;; Standby_RedrawTimer
+        LDR      R3,[R1, #+0]
+        LDR      R1,??StatusIndication_CARedraw_1+0x4  ;; Custom_DrawStatus
+        CMP      R0,#+0
+        LDR      R12,[R1, #+0]
+        LDR      R1,??DataTable8  ;; DrawStatus2
+        MOVNE    R0,#+1
+        LDR      R1,[R1, #+0]
+        STRB     R0,[R2, #+64]
+        LDR      R0,[R2, #+36]
+        CMP      R1,#+0
+        BEQ      ??StatusIndication_CARedraw_2
+        LDRB     LR,[R2, #+64]
+        CMP      LR,#+0
+        BNE      ??StatusIndication_CARedraw_2
+//   89   {
+//   90     Redraw(StatusIndication_DefaultRedraw, DrawStatus2, 0, DO, a, b, c, 1, Cover_DrawStatus, Custom_DrawStatus);
+        PUSH     {R12}
+        CFI CFA R13+24
+        PUSH     {R3}
+        CFI CFA R13+28
+        MOV      R2,#+1
+        PUSH     {R2}
+        CFI CFA R13+32
+        PUSH     {R7}
+        CFI CFA R13+36
+        PUSH     {R6}
+        CFI CFA R13+40
+        PUSH     {R5}
+        CFI CFA R13+44
+        MOV      R3,R4
+        MOV      R2,#+0
+        BL       ??Redraw
+        ADD      SP,SP,#+24
+        CFI CFA R13+20
+        POP      {R4-R7,PC}
+//   91   }
+//   92   else
+//   93   {
+//   94     Redraw(StatusIndication_DefaultRedraw, DrawStatus, 0, DO, a, b, c, isInStandby, Cover_DrawStatus, Custom_DrawStatus);
+??StatusIndication_CARedraw_2:
+        PUSH     {R12}
+        CFI CFA R13+24
+        PUSH     {R3}
+        CFI CFA R13+28
+        LDRB     R1,[R2, #+64]
+        MOV      R3,R4
+        MOV      R2,#+0
+        PUSH     {R1}
+        CFI CFA R13+32
+        LDR      R1,??StatusIndication_CARedraw_1+0x8  ;; DrawStatus
+        PUSH     {R7}
+        CFI CFA R13+36
+        PUSH     {R6}
+        CFI CFA R13+40
+        PUSH     {R5}
+        CFI CFA R13+44
+        LDR      R1,[R1, #+0]
+        BL       ??Redraw
+        ADD      SP,SP,#+24
+        CFI CFA R13+20
+//   95   }
+//   96 };
+        POP      {R4-R7,PC}       ;; return
+        DATA
+??StatusIndication_CARedraw_1:
+        DC32     Cover_DrawStatus
+        DC32     Custom_DrawStatus
+        DC32     DrawStatus
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Redraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??Redraw
+//   97 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??Redraw
+        ARM
+//   98 void Redraw(DISP_OBJ_ONREDRAW_METHOD DefRedraw, int DrawOld, signed int PlusY, DISP_OBJ* DO, int a, int b, int c, int IsInStandby, int DrawCover, int DrawCustom)
+//   99 {
+??Redraw:
+        PUSH     {R0,R1,R3-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+48
+        SUB      SP,SP,#+4
+        CFI CFA R13+52
+        LDR      R5,[SP, #+52]
+        LDR      R6,[SP, #+56]
+        LDR      R7,[SP, #+60]
+        LDR      R0,[SP, #+64]
+        MOV      R4,R2
+//  100   if (DrawOld!=0)
+        CMP      R1,#+0
+        BEQ      ??Redraw_1
+//  101   {
+//  102     if (IsInStandby && PlayerRunned)
+        CMP      R0,#+0
+        BEQ      ??Redraw_2
+        LDR      R0,??DataTable10  ;; PlayerRunned
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??Redraw_2
+//  103     {
+//  104       if (DrawOld==2)
+        CMP      R1,#+2
+        BNE      ??Redraw_3
+//  105       {
+//  106         DefRedraw(DO,a,b,c);
+        LDR      R0,[SP, #+12]
+        LDR      R8,[SP, #+4]
+        MOV      R3,R7
+        MOV      R2,R6
+        MOV      R1,R5
+        BLX      R8
+//  107       }
+//  108       gc=get_DisplayGC();
+??Redraw_3:
+        LDR      R8,??DataTable21  ;; Standby_RedrawTimer
+//  109       if (CustomImage_DrawAfter==false)
+        LDR      R9,??Redraw_4    ;; img
+        SWI      +485
+        LDR      R1,??Redraw_4+0x4  ;; CustomImage_DrawAfter
+        STR      R0,[R8, #+40]
+        LDR      R1,[R1, #+0]
+        STR      R1,[SP, #+0]
+        CMP      R1,#+0
+        BNE      ??Redraw_5
+//  110       {
+//  111          if (img.isImage==true && CustomImage_Show==true && DrawCustom==true)
+        LDRB     R0,[R9, #+20]
+        CMP      R0,#+0
+        BEQ      ??Redraw_5
+        LDR      R0,??Redraw_4+0x8  ;; CustomImage_Show
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        LDREQ    R0,[SP, #+72]
+        CMPEQ    R0,#+1
+        BNE      ??Redraw_5
+//  112          {
+//  113             if (CustomImage_Draw==0)
+        LDR      R11,??Redraw_4+0xC  ;; CustomImage_Draw
+        LDR      R0,[R9, #+8]
+        LDR      R12,[R11, #+0]
+        LDR      R1,[R9, #+4]
+        LDR      R3,[R9, #+12]
+        LDR      LR,[R9, #+16]
+        LDRH     R10,[R9, #+0]
+        ADD      R2,R4,R0
+        LDR      R0,[R8, #+40]
+        CMP      R12,#+0
+        BEQ      ??Redraw_6
+//  114             {
+//  115               GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+//  116             }
+//  117             else if (CustomImage_Draw==1 && isInStandby==true)
+        LDRB     R11,[R8, #+64]
+        CMP      R12,#+1
+        BNE      ??Redraw_7
+        CMP      R11,#+0
+        BEQ      ??Redraw_5
+//  118             {
+//  119               GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+        B        ??Redraw_6
+//  120             }
+//  121             else if (CustomImage_Draw==2 && isInStandby==false)
+??Redraw_7:
+        CMP      R12,#+2
+        CMPEQ    R11,#+0
+        BNE      ??Redraw_5
+//  122             {
+//  123               GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+??Redraw_6:
+        PUSH     {R10}
+        CFI CFA R13+56
+        PUSH     {LR}
+        CFI CFA R13+60
+        SWI      +320
+        ADD      SP,SP,#+8
+        CFI CFA R13+52
+//  124             }
+//  125           }
+//  126         }
+//  127         if (nowmusic.meta.HasImage)
+??Redraw_5:
+        LDR      R0,??Redraw_4+0x10  ;; nowmusic + 10280
+        LDRB     R1,[R0, #+0]
+        CMP      R1,#+0
+        BEQ      ??Redraw_8
+//  128         {
+//  129           if (COVER_SHOW==true && DrawCover==true)
+        LDR      R1,??Redraw_4+0x14  ;; COVER_SHOW
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+1
+        LDREQ    R1,[SP, #+68]
+        CMPEQ    R1,#+1
+        BNE      ??Redraw_8
+//  130           {
+//  131             if (COVER_DRAW==0)
+        LDR      R11,??Redraw_4+0x18  ;; COVER_DRAW
+        LDR      R1,[R8, #+52]
+        LDR      R11,[R11, #+0]
+        LDRH     R10,[R0, #+2]
+        LDR      R0,[R8, #+40]
+        LDR      R3,[R8, #+56]
+        LDR      R12,[R8, #+60]
+        ADD      R2,R4,R1
+        LDR      R1,[R8, #+48]
+        CMP      R11,#+0
+        BEQ      ??Redraw_9
+//  132             {
+//  133               GC_PutChar(gc,locCover_X,locCover_Y+PlusY,locCover_MaxX,locCover_MaxY,nowmusic.meta.ImageID);
+//  134             }
+//  135             else if (COVER_DRAW==1 && isInStandby==true)
+        LDRB     LR,[R8, #+64]
+        CMP      R11,#+1
+        BNE      ??Redraw_10
+        CMP      LR,#+0
+        BEQ      ??Redraw_8
+//  136             {
+//  137               GC_PutChar(gc,locCover_X,locCover_Y+PlusY,locCover_MaxX,locCover_MaxY,nowmusic.meta.ImageID);
+        B        ??Redraw_9
+//  138             }
+//  139             else if (COVER_DRAW==2 && isInStandby==false)
+??Redraw_10:
+        CMP      R11,#+2
+        CMPEQ    LR,#+0
+        BNE      ??Redraw_8
+//  140             {
+//  141               GC_PutChar(gc,locCover_X,locCover_Y+PlusY,locCover_MaxX,locCover_MaxY,nowmusic.meta.ImageID);
+??Redraw_9:
+        PUSH     {R10}
+        CFI CFA R13+56
+        PUSH     {R12}
+        CFI CFA R13+60
+        SWI      +320
+        ADD      SP,SP,#+8
+        CFI CFA R13+52
+//  142             }
+//  143           }
+//  144         }
+//  145         if (CustomImage_DrawAfter==true)
+??Redraw_8:
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+1
+        BNE      ??Redraw_11
+//  146         {
+//  147           if (img.isImage==true && CustomImage_Show && DrawCustom==true)
+        LDRB     R0,[R9, #+20]
+        CMP      R0,#+0
+        BEQ      ??Redraw_11
+        LDR      R0,??Redraw_4+0x8  ;; CustomImage_Show
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??Redraw_11
+        LDR      R0,[SP, #+72]
+        CMP      R0,#+1
+        BNE      ??Redraw_11
+//  148           {
+//  149             if (CustomImage_Draw==0)
+        LDR      R11,??Redraw_4+0xC  ;; CustomImage_Draw
+        LDR      R0,[R9, #+8]
+        LDR      R12,[R11, #+0]
+        LDR      R1,[R9, #+4]
+        LDR      R3,[R9, #+12]
+        LDR      R10,[R9, #+16]
+        LDRH     R9,[R9, #+0]
+        ADD      R2,R4,R0
+        LDR      R0,[R8, #+40]
+        CMP      R12,#+0
+        BEQ      ??Redraw_12
+//  150             {
+//  151               GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+//  152             }
+//  153             else if (CustomImage_Draw==1 && isInStandby==true)
+        LDRB     R11,[R8, #+64]
+        CMP      R12,#+1
+        BNE      ??Redraw_13
+        CMP      R11,#+0
+        BEQ      ??Redraw_11
+//  154             {
+//  155               GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+        B        ??Redraw_12
+//  156             }
+//  157             else if (CustomImage_Draw==2 && isInStandby==false)
+??Redraw_13:
+        CMP      R12,#+2
+        CMPEQ    R11,#+0
+        BNE      ??Redraw_11
+//  158             {
+//  159               GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+??Redraw_12:
+        PUSH     {R9}
+        CFI CFA R13+56
+        PUSH     {R10}
+        CFI CFA R13+60
+        SWI      +320
+        ADD      SP,SP,#+8
+        CFI CFA R13+52
+//  160             }
+//  161           }
+//  162         }
+//  163         if (ProgressBar_Show)
+??Redraw_11:
+        LDR      R0,??Redraw_4+0x1C  ;; ProgressBar_Show
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??Redraw_14
+//  164         {
+//  165           DrawProgress(ProgressBar_bColor,ProgressBar_cColor, ProgressBar_oColor, pbrect, CurrentTime, currenttrack->fulltime, PlusY, ProgressBar_Style); 
+        LDR      R0,??Redraw_4+0x20  ;; ProgressBar_Style
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+56
+        MOV      R0,R4
+        PUSH     {R0}
+        CFI CFA R13+60
+        LDR      R0,??Redraw_4+0x24  ;; currenttrack
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+8]
+        PUSH     {R0}
+        CFI CFA R13+64
+        LDR      R0,??Redraw_4+0x28  ;; CurrentTime
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+68
+        LDR      R0,??Redraw_4+0x2C  ;; pbrect
+        SUB      SP,SP,#+8
+        CFI CFA R13+76
+        LDRH     R1,[R0, #0]
+        MOV      R2,SP
+        STRH     R1,[R2, #+0]
+        LDRH     R1,[R0, #+2]
+        STRH     R1,[R2, #+2]
+        LDRH     R1,[R0, #+4]
+        STRH     R1,[R2, #+4]
+        LDRH     R1,[R0, #+6]
+        LDR      R0,??Redraw_4+0x30  ;; ProgressBar_oColor
+        STRH     R1,[R2, #+6]
+        LDR      R2,[R0, #+0]
+        LDR      R0,??Redraw_4+0x34  ;; ProgressBar_cColor
+        LDR      R1,[R0, #+0]
+        LDR      R0,??Redraw_4+0x38  ;; ProgressBar_bColor
+        LDR      R0,[R0, #+0]
+        POP      {R3}
+        CFI CFA R13+72
+        _BLF     ??DrawProgress,??DrawProgress??rA
+        ADD      SP,SP,#+20
+        CFI CFA R13+52
+//  166         }
+//  167         int x;
+//  168         for (x=0;x<10;x++)
+??Redraw_14:
+        MOV      R9,#+0
+//  169         {
+//  170           if (labels[x].Hide==false)
+??Redraw_15:
+        LDR      R0,??Redraw_4+0x3C  ;; labels
+        MOV      R1,#+620
+        MLA      R0,R1,R9,R0
+        LDR      R1,??Redraw_4+0x40  ;; AnimYPlus
+        LDRB     R3,[R0, #+617]
+        LDR      R1,[R1, #+0]
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        CMP      R3,#+0
+        BEQ      ??Redraw_16
+//  171           {
+//  172             DrawLine(labels[x].SHOW,labels[x].Font,labels[x].str,labels[x].CT,labels[x].X,labels[x].Y+PlusY+AnimYPlus,labels[x].MaxX,labels[x].MaxY+PlusY+AnimYPlus,labels[x].borderColor,labels[x].Color,TEXTID_ANY_LEN, labels[x].UsedInAnim, &labels[x]);
+//  173           }
+//  174           else if (labels[x].Hide==true)
+//  175           {
+//  176             if (isInStandby==true)
+        LDRB     R10,[R8, #+64]
+        TST      R10,R3
+        BEQ      ??Redraw_17
+//  177             {
+//  178               DrawLine(labels[x].SHOW,labels[x].Font,labels[x].str,labels[x].CT,labels[x].X,labels[x].Y+PlusY+AnimYPlus,labels[x].MaxX,labels[x].MaxY+PlusY+AnimYPlus,labels[x].borderColor,labels[x].Color,TEXTID_ANY_LEN, labels[x].UsedInAnim, &labels[x]);
+??Redraw_16:
+        MOV      R3,R0
+        PUSH     {R3}
+        CFI CFA R13+56
+        LDRB     R3,[R0, #+616]
+        PUSH     {R3}
+        CFI CFA R13+60
+        PUSH     {R2}
+        CFI CFA R13+64
+        LDR      R2,[R0, #+544]
+        PUSH     {R2}
+        CFI CFA R13+68
+        LDR      R2,[R0, #+548]
+        PUSH     {R2}
+        CFI CFA R13+72
+        LDR      R2,[R0, #+532]
+        ADD      R2,R4,R2
+        ADD      R2,R1,R2
+        PUSH     {R2}
+        CFI CFA R13+76
+        LDR      R2,[R0, #+528]
+        PUSH     {R2}
+        CFI CFA R13+80
+        LDR      R2,[R0, #+524]
+        ADD      R2,R4,R2
+        ADD      R1,R1,R2
+        PUSH     {R1}
+        CFI CFA R13+84
+        LDR      R1,[R0, #+520]
+        PUSH     {R1}
+        CFI CFA R13+88
+        LDR      R3,[R0, #+536]
+        LDR      R2,[R0, #+512]
+        LDR      R1,[R0, #+540]
+        LDRB     R0,[R0, #+516]
+        _BLF     ??DrawLine,??DrawLine??rA
+        ADD      SP,SP,#+36
+        CFI CFA R13+52
+//  179             }
+//  180           }
+//  181         }
+??Redraw_17:
+        ADD      R9,R9,#+1
+        CMP      R9,#+10
+        BLT      ??Redraw_15
+//  182         if (DrawOld==1)
+        LDR      R0,[SP, #+8]
+        CMP      R0,#+1
+        POPNE    {R0-R11,PC}
+//  183         {
+//  184           DefRedraw(DO,a,b,c);
+//  185         }
+//  186     }
+//  187     else
+//  188     {
+//  189       DefRedraw(DO,a,b,c);
+//  190     }
+//  191   }
+//  192   else
+//  193   {
+//  194     DefRedraw(DO,a,b,c);
+??Redraw_2:
+??Redraw_1:
+        LDR      R0,[SP, #+12]
+        LDR      R4,[SP, #+4]
+        MOV      R3,R7
+        MOV      R2,R6
+        MOV      R1,R5
+        BLX      R4
+//  195   }
+//  196 };
+        POP      {R0-R11,PC}      ;; return
+        DATA
+??Redraw_4:
+        DC32     img
+        DC32     CustomImage_DrawAfter
+        DC32     CustomImage_Show
+        DC32     CustomImage_Draw
+        DC32     nowmusic + 10280
+        DC32     COVER_SHOW
+        DC32     COVER_DRAW
+        DC32     ProgressBar_Show
+        DC32     ProgressBar_Style
+        DC32     currenttrack
+        DC32     CurrentTime
+        DC32     pbrect
+        DC32     ProgressBar_oColor
+        DC32     ProgressBar_cColor
+        DC32     ProgressBar_bColor
+        DC32     labels
+        DC32     AnimYPlus
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??GetUpdateTime??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??GetUpdateTime
+//  197 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??GetUpdateTime
+        ARM
+//  198 int GetUpdateTime()
+//  199 {
+//  200   if (AllowAnim==true)
+??GetUpdateTime:
+        LDR      R0,??DataTable14  ;; AllowAnim
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+//  201   {
+//  202     return AnimUpdateTime;
+        LDREQ    R0,??GetUpdateTime_1  ;; AnimUpdateTime
+//  203   }
+//  204   else
+//  205   {
+//  206     return DefUpdateTime;
+        LDRNE    R0,??GetUpdateTime_1+0x4  ;; DefUpdateTime
+        LDR      R0,[R0, #+0]
+        BX       LR               ;; return
+        DATA
+??GetUpdateTime_1:
+        DC32     AnimUpdateTime
+        DC32     DefUpdateTime
+        CFI EndBlock cfiBlock9
+//  207   }
+//  208 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Standby_OnRedrawTimer??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ??Standby_OnRedrawTimer
+//  209 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??Standby_OnRedrawTimer
+        ARM
+//  210 void Standby_OnRedrawTimer(u16 timer,LPARAM lparam)
+//  211 {
+//  212   if (PlayerRunned && FindBook(get_IsAudioPlayerBook()))
+??Standby_OnRedrawTimer:
+        LDR      R0,??DataTable8  ;; DrawStatus2
+        PUSH     {R4,R5,R7-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        LDR      R8,[R0, #+0]
+        LDR      R0,??DataTable9  ;; DrawSoft2
+        LDR      R10,??DataTable10  ;; PlayerRunned
+        LDR      R9,[R0, #+0]
+        LDR      R0,??DataTable19  ;; AffectStatus
+        LDR      R7,??DataTable22  ;; Standby_RedrawTimer
+        LDR      R4,[R0, #+0]
+        LDR      R0,??DataTable18  ;; AffectSoft
+        LDR      R5,[R0, #+0]
+        LDRB     R0,[R10, #+0]
+        CMP      R0,#+0
+        BEQ      ??Standby_OnRedrawTimer_1
+        SWI      +33419
+        SWI      +304
+        CMP      R0,#+0
+        BEQ      ??Standby_OnRedrawTimer_1
+//  213   {
+//  214     isAPBookFound=true;
+        MOV      R0,#+1
+        STRB     R0,[R7, #+65]
+//  215     if (isInStandby==true)
+        LDRB     R0,[R7, #+64]
+        CMP      R0,#+0
+        BEQ      ??Standby_OnRedrawTimer_2
+//  216     {
+//  217       NextScrollFrame(isInStandby);
+        _BLF     ??NextScrollFrame,??NextScrollFrame??rA
+//  218       if (AllowAnim==true)
+        LDR      R0,??DataTable14  ;; AllowAnim
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        BNE      ??Standby_OnRedrawTimer_3
+//  219       {
+//  220         int t=0;
+//  221         if (t=Anim_NextFrame())
+        _BLF     ??Anim_NextFrame,??Anim_NextFrame??rA
+        CMP      R0,#+0
+        BEQ      ??Standby_OnRedrawTimer_3
+//  222         {
+//  223           int x;
+//  224           for (x=0;x<(t-1);x++)
+        MOV      R8,#+0
+        SUB      R9,R0,#+1
+        CMP      R9,#+1
+        BGE      ??Standby_OnRedrawTimer_4
+        B        ??Standby_OnRedrawTimer_3
+//  225           {
+//  226             Anim_NextFrame();
+??Standby_OnRedrawTimer_5:
+        _BLF     ??Anim_NextFrame,??Anim_NextFrame??rA
+//  227           }
+        ADD      R8,R8,#+1
+??Standby_OnRedrawTimer_4:
+        CMP      R8,R9
+        BLT      ??Standby_OnRedrawTimer_5
+//  228         }
+//  229       }
+//  230       DispObject_InvalidateRect(Standby_DO,0);
+??Standby_OnRedrawTimer_3:
+        LDR      R0,[R7, #+8]
+        MOV      R1,#+0
+        SWI      +495
+//  231       if (AffectSoft==true)
+        CMP      R5,#+1
+        BNE      ??Standby_OnRedrawTimer_6
+//  232       {
+//  233         DispObject_InvalidateRect(Softkey_DO,0);
+        LDR      R0,[R7, #+20]
+        MOV      R1,#+0
+        SWI      +495
+//  234       }
+//  235       if (AffectStatus==true)
+??Standby_OnRedrawTimer_6:
+        CMP      R4,#+1
+        BNE      ??Standby_OnRedrawTimer_7
+//  236       {
+//  237         DispObject_InvalidateRect(StatusIndication_DO,0);
+        LDR      R0,[R7, #+32]
+        MOV      R1,#+0
+        SWI      +495
+        B        ??Standby_OnRedrawTimer_7
+//  238       }
+//  239     }
+//  240     else if (isInStandby==false)
+//  241     {
+//  242       NextScrollFrame(isInStandby);
+??Standby_OnRedrawTimer_2:
+        _BLF     ??NextScrollFrame,??NextScrollFrame??rA
+//  243       if (DrawSoft2!=false && AffectSoft==true)
+        CMP      R9,#+0
+        BEQ      ??Standby_OnRedrawTimer_8
+        CMP      R5,#+1
+        BNE      ??Standby_OnRedrawTimer_8
+//  244       {
+//  245         DispObject_InvalidateRect(Softkey_DO,0);
+        LDR      R0,[R7, #+20]
+        MOV      R1,#+0
+        SWI      +495
+//  246       }
+//  247       if (DrawStatus2!=false && AffectStatus==true)
+??Standby_OnRedrawTimer_8:
+        CMP      R8,#+0
+        BEQ      ??Standby_OnRedrawTimer_7
+        B        ??Standby_OnRedrawTimer_6
+//  248       {
+//  249         DispObject_InvalidateRect(StatusIndication_DO,0);
+//  250       }
+//  251     }
+//  252   }
+//  253   else
+//  254   {
+//  255     PlayerRunned=false;
+??Standby_OnRedrawTimer_1:
+        MOV      R0,#+0
+        STRB     R0,[R10, #+0]
+//  256     //Если бук был только что закрыт, то надо убрать его надписи с экрана
+//  257     if (isAPBookFound)
+        LDRB     R0,[R7, #+65]
+        CMP      R0,#+0
+        BEQ      ??Standby_OnRedrawTimer_9
+//  258     {
+//  259       if (isInStandby==true)
+        LDRB     R0,[R7, #+64]
+        CMP      R0,#+0
+        BEQ      ??Standby_OnRedrawTimer_10
+//  260       {
+//  261         DispObject_InvalidateRect(Standby_DO,0);
+        LDR      R0,[R7, #+8]
+        MOV      R1,#+0
+        SWI      +495
+//  262         if (AffectSoft==true)
+        CMP      R5,#+1
+        BNE      ??Standby_OnRedrawTimer_11
+//  263         {
+//  264           DispObject_InvalidateRect(Softkey_DO,0);
+        LDR      R0,[R7, #+20]
+        MOV      R1,#+0
+        SWI      +495
+//  265         }
+//  266         if (AffectStatus==true)
+        B        ??Standby_OnRedrawTimer_11
+//  267         {
+//  268           DispObject_InvalidateRect(StatusIndication_DO,0);
+//  269         }
+//  270       }
+//  271       else if (isInStandby==false)
+//  272       {
+//  273         if (DrawSoft2!=false && AffectSoft==true)
+??Standby_OnRedrawTimer_10:
+        CMP      R9,#+0
+        BEQ      ??Standby_OnRedrawTimer_12
+        CMP      R5,#+1
+        BNE      ??Standby_OnRedrawTimer_12
+//  274         {
+//  275           DispObject_InvalidateRect(Softkey_DO,0);
+        LDR      R0,[R7, #+20]
+        MOV      R1,#+0
+        SWI      +495
+//  276         }
+//  277         if (DrawStatus2!=false && AffectStatus==true)
+??Standby_OnRedrawTimer_12:
+        CMP      R8,#+0
+        BEQ      ??Standby_OnRedrawTimer_9
+??Standby_OnRedrawTimer_11:
+        CMP      R4,#+1
+        BNE      ??Standby_OnRedrawTimer_9
+//  278         {
+//  279           DispObject_InvalidateRect(StatusIndication_DO,0);
+        LDR      R0,[R7, #+32]
+        MOV      R1,#+0
+        SWI      +495
+//  280         }
+//  281       }
+//  282     }
+//  283     isAPBookFound=false;
+??Standby_OnRedrawTimer_9:
+        MOV      R0,#+0
+        STRB     R0,[R7, #+65]
+//  284   }
+//  285   Timer_ReSet(&Standby_RedrawTimer,locTime,Standby_OnRedrawTimer,0);
+??Standby_OnRedrawTimer_7:
+        LDR      R2,??DataTable17  ;; ??Standby_OnRedrawTimer
+        LDR      R1,[R7, #+44]
+        MOV      R3,#+0
+        MOV      R0,R7
+        SWI      +296
+//  286 };
+        POP      {R4,R5,R7-R10,PC}
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable8:
+        DC32     DrawStatus2
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable9:
+        DC32     DrawSoft2
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable10:
+        DC32     PlayerRunned
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable14:
+        DC32     AllowAnim
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Standby_SetOnRedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ??Standby_SetOnRedraw
+//  287 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??Standby_SetOnRedraw
+        ARM
+//  288 void Standby_SetOnRedraw()
+//  289 {
+//  290   //Система тройной прорисовки для целостности ГЭ.
+//  291   wstrcpy(lastmusic,L"no");
+??Standby_SetOnRedraw:
+        LDR      R1,??Standby_SetOnRedraw_1  ;; `?<Constant L"\\x6e\\x6f">`
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R4,??DataTable22  ;; Standby_RedrawTimer
+        ADD      R0,R4,#+68
+        SWI      +338
+//  292   
+//  293   Standby_DO= GUIObject_GetDispObject( SBY_GetStatusIndication(Find_StandbyBook()) );
+        SWI      +305
+        SWI      +536
+        SWI      +360
+        STR      R0,[R4, #+8]
+//  294   Standby_DefaultRedraw=DispObject_GetOnRedraw(Standby_DO);
+        SWI      +553
+        STR      R0,[R4, #+12]
+//  295   Standby_DD=DispObject_GetDESC (Standby_DO);
+        LDR      R0,[R4, #+8]
+        SWI      +543
+//  296   DISP_DESC_SetOnRedraw(Standby_DD,Standby_CARedraw); 
+        LDR      R1,??Standby_SetOnRedraw_1+0x4  ;; ??Standby_CARedraw
+        STR      R0,[R4, #+4]
+        SWI      +552
+//  297   Standby_RedrawTimer=Timer_Set(GetUpdateTime(),Standby_OnRedrawTimer,0);
+        BL       ??GetUpdateTime
+        LDR      R1,??DataTable17  ;; ??Standby_OnRedrawTimer
+        MOV      R2,#+0
+        SWI      +297
+        STRH     R0,[R4, #+0]
+//  298   //Нужны ли нам софты/статус?
+//  299   if (AffectSoft==true)
+        LDR      R0,??DataTable18  ;; AffectSoft
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        BNE      ??Standby_SetOnRedraw_2
+//  300   {
+//  301     Softkey_SetOnRedraw();
+        BL       ??Softkey_SetOnRedraw
+//  302   }
+//  303   if (AffectStatus==true)
+??Standby_SetOnRedraw_2:
+        LDR      R0,??DataTable19  ;; AffectStatus
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        POPNE    {R4,PC}
+//  304   {
+//  305     StatusIndication_SetOnRedraw();
+        BL       ??StatusIndication_SetOnRedraw
+//  306   }
+//  307 };
+        POP      {R4,PC}
+        DATA
+??Standby_SetOnRedraw_1:
+        DC32     `?<Constant L"\\x6e\\x6f">`
+        DC32     ??Standby_CARedraw
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable17:
+        DC32     ??Standby_OnRedrawTimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable18:
+        DC32     AffectSoft
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable19:
+        DC32     AffectStatus
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Softkey_SetOnRedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE ??Softkey_SetOnRedraw
+//  308 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??Softkey_SetOnRedraw
+        ARM
+//  309 void Softkey_SetOnRedraw()
+//  310 {
+??Softkey_SetOnRedraw:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//  311   //Standby=Find_StandbyBook();
+//  312   //MainInput=SBY_GetMainInput(Standby);
+//  313   //Врубаем софты
+//  314   SoftUsed=true;
+        LDR      R4,??DataTable21  ;; Standby_RedrawTimer
+        MOV      R0,#+1
+        STRB     R0,[R4, #+66]
+//  315   Softkey_DO=DispObject_SoftKeys_Get();
+        SWI      +675
+        STR      R0,[R4, #+20]
+//  316   Softkey_DefaultRedraw=DispObject_GetOnRedraw(Softkey_DO);
+        SWI      +553
+        STR      R0,[R4, #+24]
+//  317   Softkey_DD=DispObject_GetDESC(Softkey_DO);
+        LDR      R0,[R4, #+20]
+        SWI      +543
+//  318   DISP_DESC_SetOnRedraw(Softkey_DD,Softkey_CARedraw);
+        LDR      R1,??Softkey_SetOnRedraw_1  ;; ??Softkey_CARedraw
+        STR      R0,[R4, #+16]
+        SWI      +552
+//  319 };
+        POP      {R4,PC}          ;; return
+        DATA
+??Softkey_SetOnRedraw_1:
+        DC32     ??Softkey_CARedraw
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StatusIndication_SetOnRedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE ??StatusIndication_SetOnRedraw
+//  320 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ??StatusIndication_SetOnRedraw
+        ARM
+//  321 void StatusIndication_SetOnRedraw()
+//  322 {
+??StatusIndication_SetOnRedraw:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//  323   //Врубаем статус 
+//  324   StatusUsed=true;
+        LDR      R4,??DataTable21  ;; Standby_RedrawTimer
+        MOV      R0,#+1
+        STRB     R0,[R4, #+67]
+//  325   StatusIndication_DO=*StatusRow_p();
+        SWI      +33266
+        LDR      R0,[R0, #+0]
+        STR      R0,[R4, #+32]
+//  326   StatusIndication_DefaultRedraw=DispObject_GetOnRedraw(StatusIndication_DO);
+        SWI      +553
+        STR      R0,[R4, #+36]
+//  327   StatusIndication_DD=DispObject_GetDESC(StatusIndication_DO);
+        LDR      R0,[R4, #+32]
+        SWI      +543
+//  328   DISP_DESC_SetOnRedraw(StatusIndication_DD,StatusIndication_CARedraw);
+        LDR      R1,??StatusIndication_SetOnRedraw_1  ;; ??StatusIndication_CARedraw
+        STR      R0,[R4, #+28]
+        SWI      +552
+//  329 };
+        POP      {R4,PC}          ;; return
+        DATA
+??StatusIndication_SetOnRedraw_1:
+        DC32     ??StatusIndication_CARedraw
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable21:
+        DC32     Standby_RedrawTimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Standby_ReturnRedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE ??Standby_ReturnRedraw
+//  330 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ??Standby_ReturnRedraw
+        ARM
+//  331 void Standby_ReturnRedraw()
+//  332 { 
+??Standby_ReturnRedraw:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//  333   DISP_DESC_SetOnRedraw(Standby_DD, Standby_DefaultRedraw); 
+        LDR      R4,??DataTable22  ;; Standby_RedrawTimer
+        LDR      R1,[R4, #+12]
+        LDR      R0,[R4, #+4]
+        SWI      +552
+//  334   //Юзер мог поменять "Использованные зоны" в бкфг, значит надо обезопасить тел от ребута:
+//  335   if (SoftUsed==true)
+        LDRB     R0,[R4, #+66]
+        CMP      R0,#+0
+        BEQ      ??Standby_ReturnRedraw_1
+//  336   {
+//  337     DISP_DESC_SetOnRedraw(Softkey_DD, Softkey_DefaultRedraw);
+        LDR      R1,[R4, #+24]
+        LDR      R0,[R4, #+16]
+        SWI      +552
+//  338   }
+//  339   if (StatusUsed==true)
+??Standby_ReturnRedraw_1:
+        LDRB     R0,[R4, #+67]
+        CMP      R0,#+0
+        BEQ      ??Standby_ReturnRedraw_2
+//  340   {
+//  341     DISP_DESC_SetOnRedraw(StatusIndication_DD, StatusIndication_DefaultRedraw); 
+        LDR      R1,[R4, #+36]
+        LDR      R0,[R4, #+28]
+        SWI      +552
+//  342   }
+//  343   Timer_Kill(&Standby_RedrawTimer);
+??Standby_ReturnRedraw_2:
+        MOV      R0,R4
+        SWI      +298
+//  344 };
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable22:
+        DC32     Standby_RedrawTimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??CheckStandby??rA:
+        LDR      R12,??Subroutine10_0  ;; ??CheckStandby
+        BX       R12
+        DATA
+??Subroutine10_0:
+        DC32     ??CheckStandby
+        CFI EndBlock cfiBlock20
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??DrawProgress??rA:
+        LDR      R12,??Subroutine11_0  ;; ??DrawProgress
+        BX       R12
+        DATA
+??Subroutine11_0:
+        DC32     ??DrawProgress
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??DrawLine??rA:
+        LDR      R12,??Subroutine12_0  ;; ??DrawLine
+        BX       R12
+        DATA
+??Subroutine12_0:
+        DC32     ??DrawLine
+        CFI EndBlock cfiBlock22
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??NextScrollFrame??rA:
+        LDR      R12,??Subroutine13_0  ;; ??NextScrollFrame
+        BX       R12
+        DATA
+??Subroutine13_0:
+        DC32     ??NextScrollFrame
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??Anim_NextFrame??rA:
+        LDR      R12,??Subroutine14_0  ;; ??Anim_NextFrame
+        BX       R12
+        DATA
+??Subroutine14_0:
+        DC32     ??Anim_NextFrame
+        CFI EndBlock cfiBlock24
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for Standby_RedrawTimer>`:
+        DATA
+        DC8 0, 0
+        DC8 0, 0
+`?<Initializer for Standby_DD>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for Standby_DO>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for Standby_DefaultRedraw>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for Softkey_DD>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for Softkey_DO>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for Softkey_DefaultRedraw>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for StatusIndication_DD>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for StatusIndication_DO>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for StatusIndication_DefaultRedr`:
+        DC8 0, 0, 0, 0
+`?<Initializer for gc>`:
+        DC32 0H
+`?<Initializer for locTime>`:
+        DC32 1000
+`?<Initializer for locCover_X>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for locCover_Y>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for locCover_MaxX>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for locCover_MaxY>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for isInStandby>`:
+        DC8 0
+`?<Initializer for isAPBookFound>`:
+        DC8 0
+`?<Initializer for SoftUsed>`:
+        DC8 0
+`?<Initializer for StatusUsed>`:
+        DC8 0
+`?<Initializer for lastmusic>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?*?DATA_ID`:
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_I:
+        DCD      sfe(DATA_I) - sfb(DATA_I), sfb(DATA_I), sfb(DATA_ID)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x6e\\x6f">`:
+        DATA
+        DC8 6EH, 0, 6FH, 0, 0, 0
+        DC8 0, 0
+
+        END
+// 
+// 2 472 bytes in segment CODE
+//     8 bytes in segment DATA_C
+// 2 116 bytes in segment DATA_I
+// 2 116 bytes in segment DATA_ID
+// 2 048 bytes in segment DATA_Z
+//    24 bytes in segment INITTAB
+// 
+// 2 372 bytes of CODE  memory (+ 124 bytes shared)
+// 2 124 bytes of CONST memory
+// 4 164 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

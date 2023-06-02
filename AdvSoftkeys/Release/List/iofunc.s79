@@ -1,0 +1,574 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:49:07 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\i /
+//                       ofunc.cpp                                           /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\i /
+//                       ofunc.cpp -D NDEBUG -D OLDFUNCTIONS -lC             /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\R /
+//                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn /
+//                       \SE\AdvSoftkeys\Release\List\ -o                    /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\R /
+//                       elease\Obj\ -s9 --cpu_mode arm --endian little      /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\R /
+//                       elease\List\iofunc.s79                              /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME iofunc
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??cmpfile
+        FUNCTION ??cmpfile,0203H
+        LOCFRAME CSTACK, 96, STACK
+        MULTWEAK ??cmpfile??rT
+        PUBLIC ??copyfile
+        FUNCTION ??copyfile,0203H
+        LOCFRAME CSTACK, 60, STACK
+        MULTWEAK ??copyfile??rT
+        PUBLIC ??file_read
+        FUNCTION ??file_read,0203H
+        LOCFRAME CSTACK, 48, STACK
+        MULTWEAK ??file_read??rT
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new[]??rA`
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+??cmpfile??rT       SYMBOL "??rT", ??cmpfile
+
+??copyfile??rT      SYMBOL "??rT", ??copyfile
+
+??file_read??rT     SYMBOL "??rT", ??file_read
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??file_read??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??file_read
+// Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\iofunc.cpp
+//    1 #include "..\\include\Lib_Clara.h" 
+//    2 #include "..\\include\Dir.h" 
+//    3 #define COPYSIZE 500
+//    4 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??file_read
+        ARM
+//    5 char *file_read(wchar_t *path, wchar_t *name, int *len)
+//    6 {
+??file_read:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+28
+        CFI CFA R13+44
+        MOV      R5,R0
+        MOV      R6,R1
+        MOV      R4,R2
+//    7   int file;
+//    8   FSTAT fst;
+//    9   if (fstat(path,name,&fst)==0)
+        MOV      R2,SP
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??file_read_1
+//   10   {
+//   11     if ((file=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        PUSH     {R0}
+        CFI CFA R13+48
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R6
+        MOV      R0,R5
+        SWI      +278
+        MOVS     R5,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+44
+        BMI      ??file_read_2
+//   12     {
+//   13       char *buf=0;
+//   14       buf=new char[fst.fsize+1];
+        LDR      R0,[SP, #+8]
+        ADD      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+//   15       fread(file,buf,fst.fsize);
+        LDR      R2,[SP, #+8]
+        MOV      R6,R0
+        MOV      R1,R6
+        MOV      R0,R5
+        SWI      +280
+//   16       fclose(file);
+        MOV      R0,R5
+        SWI      +279
+//   17       if (len)
+        CMP      R4,#+0
+//   18       {
+//   19         len[0]=fst.fsize;
+        LDRNE    R0,[SP, #+8]
+        STRNE    R0,[R4, #+0]
+//   20       }
+//   21       return buf;
+        MOV      R0,R6
+        ADD      SP,SP,#+28
+        CFI CFA R13+16
+        POP      {R4-R6,PC}
+        CFI CFA R13+44
+//   22     }
+//   23     fclose(file);
+??file_read_2:
+        SWI      +279
+//   24   }
+//   25   return 0;
+??file_read_1:
+        MOV      R0,#+0
+        ADD      SP,SP,#+28
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock1
+//   26 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??copyfile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??copyfile
+//   27 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??copyfile
+        ARM
+//   28 void copyfile(wchar_t *path, wchar_t *name, wchar_t *path2, wchar_t *name2)
+//   29 {
+??copyfile:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        SUB      SP,SP,#+28
+        CFI CFA R13+56
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+//   30   FSTAT fst;
+//   31   int file;
+//   32   if (fstat(path,name,&fst)==0)
+        MOV      R2,SP
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??copyfile_1
+//   33   {
+//   34     if ((file=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        PUSH     {R0}
+        CFI CFA R13+60
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +278
+        MOVS     R4,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+56
+        BMI      ??copyfile_2
+//   35     {
+//   36       int sfile;
+//   37       if ((sfile=_fopen(path2,name2,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+60
+        MOV      R3,#+384
+        MOV      R2,#+516
+        MOV      R1,R7
+        MOV      R0,R6
+        SWI      +278
+        MOVS     R5,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+56
+        BMI      ??copyfile_3
+//   38       {
+//   39         int size=fst.fsize;
+        LDR      R6,[SP, #+8]
+//   40         int x=0;
+//   41         for (x=0;x<size;x=x+COPYSIZE)
+        MOV      R7,#+0
+        CMP      R6,#+1
+        BGE      ??copyfile_4
+        B        ??copyfile_3
+//   42         {
+//   43           int ts=COPYSIZE;
+??copyfile_5:
+        MOV      R8,#+500
+//   44           if ((size-x)>=COPYSIZE)
+        SUB      R0,R6,R7
+        CMP      R0,#+500
+//   45           {
+//   46             ts=COPYSIZE;
+//   47           }
+//   48           else if ((size-x)<COPYSIZE)
+//   49           {
+//   50             ts=size-x;
+        MOVLT    R8,R0
+//   51           }
+//   52           char *buf=new char[ts+1];
+        ADD      R0,R8,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R9,R0
+//   53           fread(file, buf, ts);
+        MOV      R2,R8
+        MOV      R1,R9
+        MOV      R0,R4
+        SWI      +280
+//   54           fwrite(sfile, buf, ts);
+        MOV      R2,R8
+        MOV      R1,R9
+        MOV      R0,R5
+        SWI      +281
+//   55           delete(buf);
+        MOV      R0,R9
+        _BLF     `??operator delete`,`??operator delete??rA`
+//   56         }
+        ADD      R7,R7,#+500
+??copyfile_4:
+        CMP      R7,R6
+        BLT      ??copyfile_5
+//   57       }
+//   58       fclose(sfile);
+??copyfile_3:
+        MOV      R0,R5
+        SWI      +279
+//   59     }
+//   60     fclose(file);
+??copyfile_2:
+        MOV      R0,R4
+        SWI      +279
+//   61   }
+//   62 };
+??copyfile_1:
+        ADD      SP,SP,#+28       ;; stack cleaning
+        CFI CFA R13+28
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??cmpfile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??cmpfile
+//   63 
+//   64 #define CMPSIZE 500
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??cmpfile
+        ARM
+//   65 int cmpfile(wchar_t *path, wchar_t *name, wchar_t *path2, wchar_t *name2)
+//   66 {
+??cmpfile:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        SUB      SP,SP,#+60
+        CFI CFA R13+92
+        MOV      R4,R0
+        MOV      R8,R1
+        MOV      R6,R2
+        MOV      R7,R3
+//   67   int res=0;
+        MOV      R5,#+0
+//   68   FSTAT fst;
+//   69   int file;
+//   70   if (fstat(path,name,&fst)==0)
+        ADD      R2,SP,#+4
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??cmpfile_1
+//   71   {
+//   72     FSTAT fst2;
+//   73     if (fstat(path2,name2,&fst2)==0)
+        ADD      R2,SP,#+32
+        MOV      R1,R7
+        MOV      R0,R6
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??cmpfile_1
+//   74     {
+//   75       if (fst.fsize!=fst2.fsize)
+        LDR      R0,[SP, #+12]
+        LDR      R1,[SP, #+40]
+        CMP      R0,R1
+        BNE      ??cmpfile_1
+//   76       {
+//   77         res=0;
+//   78       }
+//   79       else
+//   80       {
+//   81         if ((file=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+96
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R8
+        MOV      R0,R4
+        SWI      +278
+        MOVS     R4,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+92
+        BMI      ??cmpfile_2
+//   82         {
+//   83           int sfile;
+//   84           if ((sfile=_fopen(path2,name2,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+96
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R7
+        MOV      R0,R6
+        SWI      +278
+        MOVS     R8,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+92
+        BMI      ??cmpfile_3
+//   85           {
+//   86             int size=fst.fsize;
+        LDR      R6,[SP, #+12]
+//   87             int x=0;
+//   88             for (x=0;x<size;x=x+CMPSIZE)
+        MOV      R7,#+0
+        B        ??cmpfile_4
+//   89             {
+//   90               int ts=CMPSIZE;
+//   91               if ((size-x)>=CMPSIZE)
+//   92               {
+//   93                 ts=CMPSIZE;
+//   94               }
+//   95               else if ((size-x)<CMPSIZE)
+//   96               {
+//   97                 ts=size-x;
+//   98               }
+//   99               char *buf=new char[ts+1];
+//  100               fread(file, buf, ts);
+//  101               char *buf2=new char[ts+1];
+//  102               fread(sfile,buf2,ts);
+//  103               if (memcmp(buf,buf2,ts)!=0)
+//  104               {
+//  105                 res=0;
+//  106                 break;
+//  107               }
+//  108               else
+//  109               {
+//  110                 res=1;
+//  111               }
+//  112               delete(buf2);
+??cmpfile_5:
+        MOV      R0,R10
+        _BLF     `??operator delete`,`??operator delete??rA`
+//  113               delete(buf);
+        MOV      R0,R9
+        _BLF     `??operator delete`,`??operator delete??rA`
+        MOV      R5,#+1
+        ADD      R7,R7,#+500
+??cmpfile_4:
+        CMP      R7,R6
+        BGE      ??cmpfile_3
+        MOV      R5,#+500
+        SUB      R0,R6,R7
+        CMP      R0,#+500
+        MOVLT    R5,R0
+        ADD      R10,R5,#+1
+        MOV      R0,R10
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R9,R0
+        MOV      R2,R5
+        MOV      R1,R9
+        MOV      R0,R4
+        SWI      +280
+        MOV      R0,R10
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R10,R0
+        MOV      R2,R5
+        MOV      R1,R10
+        MOV      R0,R8
+        SWI      +280
+        MOV      R2,R5
+        MOV      R1,R10
+        MOV      R0,R9
+        SWI      +637
+        CMP      R0,#+0
+        BEQ      ??cmpfile_5
+        MOV      R5,#+0
+//  114             }
+//  115           }
+//  116           fclose(sfile);
+??cmpfile_3:
+        MOV      R0,R8
+        SWI      +279
+//  117         }
+//  118         fclose(file);
+??cmpfile_2:
+        MOV      R0,R4
+        SWI      +279
+//  119       }
+//  120     }
+//  121   }
+//  122   return res;
+??cmpfile_1:
+        MOV      R0,R5
+        ADD      SP,SP,#+60
+        CFI CFA R13+32
+        POP      {R4-R10,PC}      ;; return
+        CFI EndBlock cfiBlock5
+//  123 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine3_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine3_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock6
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine4_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine4_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock7
+
+        END
+// 
+// 768 bytes in segment CODE
+// 
+// 732 bytes of CODE memory (+ 36 bytes shared)
+//
+//Errors: none
+//Warnings: none

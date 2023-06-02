@@ -1,0 +1,438 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:44:38 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zExtra /
+//                       ct.c                                                /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zExtra /
+//                       ct.c -D NDEBUG -D OLDFUNCTIONS -lcN                 /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7z /
+//                       lib\Release\List\ -o Z:\home\perk11\www\perk11.info /
+//                       \svn\SE\7zlib\Release\Obj\ -s9 --no_unroll          /
+//                       --no_code_motion --cpu_mode thumb --endian little   /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --library_module -I                      /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\7zExtract.s79                                 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        MODULE `7zExtract`
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??CrcVerifyDigest??rT
+        MULTWEAK ??SzArDbGetFolderFullPackSize??rT
+        MULTWEAK ??SzArDbGetFolderStreamPos??rT
+        MULTWEAK ??SzDecode??rT
+        MULTWEAK ??SzExtract??rA
+        MULTWEAK ??SzFolderGetUnPackSize??rT
+        PUBLIC SzExtract
+        FUNCTION SzExtract,0203H
+        LOCFRAME CSTACK, 64, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+CrcVerifyDigest     SYMBOL "CrcVerifyDigest"
+SzArDbGetFolderFullPackSize SYMBOL "SzArDbGetFolderFullPackSize"
+SzArDbGetFolderStreamPos SYMBOL "SzArDbGetFolderStreamPos"
+SzDecode            SYMBOL "SzDecode"
+SzFolderGetUnPackSize SYMBOL "SzFolderGetUnPackSize"
+??CrcVerifyDigest??rT SYMBOL "??rT", CrcVerifyDigest
+??SzArDbGetFolderFullPackSize??rT SYMBOL "??rT", SzArDbGetFolderFullPackSize
+??SzArDbGetFolderStreamPos??rT SYMBOL "??rT", SzArDbGetFolderStreamPos
+??SzDecode??rT      SYMBOL "??rT", SzDecode
+SzExtract           SYMBOL "SzExtract"
+??SzExtract??rA     SYMBOL "??rA", SzExtract
+??SzFolderGetUnPackSize??rT SYMBOL "??rT", SzFolderGetUnPackSize
+
+        EXTERN CrcVerifyDigest
+        FUNCTION CrcVerifyDigest,0202H
+        EXTERN SzArDbGetFolderFullPackSize
+        FUNCTION SzArDbGetFolderFullPackSize,0202H
+        EXTERN SzArDbGetFolderStreamPos
+        FUNCTION SzArDbGetFolderStreamPos,0202H
+        EXTERN SzDecode
+        FUNCTION SzDecode,0202H
+        EXTERN SzFolderGetUnPackSize
+        FUNCTION SzFolderGetUnPackSize,0202H
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzExtract??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock0
+        REQUIRE SzExtract
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function SzExtract
+        THUMB
+SzExtract:
+        PUSH     {R0-R2,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+32
+        SUB      SP,SP,#+20
+        CFI CFA R13+52
+        LDR      R1,[R1, #+52]
+        LDR      R4,[SP, #+52]
+        LSLS     R0,R2,#+2
+        LDR      R5,[R1, R0]
+        LDR      R0,[SP, #+60]
+        MOVS     R7,#+0
+        STR      R7,[R0, #+0]
+        LDR      R0,[SP, #+64]
+        MOVS     R6,R3
+        STR      R7,[R0, #+0]
+        MOVS     R0,#+0
+        MVNS     R0,R0
+        CMP      R5,R0
+        LDR      R0,[R4, #+0]
+        BNE      ??SzExtract_0
+        LDR      R1,[SP, #+68]
+        LDR      R1,[R1, #+4]
+        BLX      R1
+        MOVS     R0,#+0
+        MVNS     R0,R0
+        STR      R0,[R6, #+0]
+        STR      R7,[R4, #+0]
+        LDR      R0,[SP, #+56]
+        STR      R7,[R0, #+0]
+        MOVS     R0,#+0
+        B        ??SzExtract_1
+??SzExtract_0:
+        CMP      R0,#+0
+        BEQ      ??SzExtract_2
+        LDR      R0,[R6, #+0]
+        CMP      R0,R5
+        BEQ      ??SzExtract_3
+??SzExtract_2:
+        LDR      R1,[SP, #+24]
+        MOVS     R0,#+40
+        LDR      R1,[R1, #+20]
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        STR      R0,[SP, #+12]
+        _BLF     SzFolderGetUnPackSize,??SzFolderGetUnPackSize??rT
+        STR      R0,[SP, #+4]
+        LDR      R0,[SP, #+24]
+        MOVS     R1,R5
+        _BLF     SzArDbGetFolderFullPackSize,??SzArDbGetFolderFullPackSize??rT
+        STR      R0,[SP, #+0]
+        STR      R7,[SP, #+8]
+        STR      R5,[R6, #+0]
+        LDR      R1,[SP, #+68]
+        LDR      R0,[R4, #+0]
+        LDR      R1,[R1, #+4]
+        BLX      R1
+        STR      R7,[R4, #+0]
+        LDR      R0,[SP, #+24]
+        MOVS     R2,#+0
+        MOVS     R1,R5
+        _BLF     SzArDbGetFolderStreamPos,??SzArDbGetFolderStreamPos??rT
+        MOVS     R1,R0
+        LDR      R0,[SP, #+20]
+        LDR      R2,[R0, #+4]
+        BLX      R2
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzExtract_1
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BEQ      ??SzExtract_4
+        LDR      R1,[SP, #+72]
+        LDR      R1,[R1, #+0]
+        BLX      R1
+        STR      R0,[SP, #+8]
+        CMP      R0,#+0
+        BNE      ??SzExtract_4
+        MOVS     R0,#+2
+        B        ??SzExtract_1
+??SzExtract_4:
+        LDR      R0,[SP, #+20]
+        LDR      R2,[SP, #+0]
+        LDR      R1,[SP, #+8]
+        LDR      R6,[R0, #+0]
+        ADD      R3,SP,#+16
+        BLX      R6
+        MOVS     R7,R0
+        BNE      ??SzExtract_5
+        LDR      R0,[SP, #+16]
+        LDR      R1,[SP, #+0]
+        CMP      R0,R1
+        BNE      ??SzExtract_6
+??SzExtract_7:
+        LDR      R0,[SP, #+56]
+        LDR      R1,[SP, #+4]
+        STR      R1,[R0, #+0]
+        LDR      R0,[SP, #+4]
+        CMP      R0,#+0
+        BEQ      ??SzExtract_8
+        LDR      R1,[SP, #+68]
+        LDR      R1,[R1, #+0]
+        BLX      R1
+        STR      R0,[R4, #+0]
+        CMP      R0,#+0
+        BNE      ??SzExtract_8
+        MOVS     R7,#+2
+        B        ??SzExtract_5
+??SzExtract_8:
+        LDR      R2,[SP, #+72]
+        LDR      R0,[SP, #+4]
+        MOV      R1,SP
+        PUSH     {R0-R2}
+        CFI CFA R13+64
+        LDR      R6,[SP, #+36]
+        LDR      R3,[R4, #+0]
+        LDR      R6,[R6, #+40]
+        LDR      R2,[SP, #+20]
+        LDR      R1,[SP, #+24]
+        LSLS     R0,R5,#+2
+        LDR      R0,[R6, R0]
+        LDR      R6,[SP, #+36]
+        LSLS     R0,R0,#+2
+        LDR      R6,[R6, #+4]
+        ADDS     R0,R6,R0
+        _BLF     SzDecode,??SzDecode??rT
+        MOVS     R7,R0
+        ADD      SP,SP,#+12
+        CFI CFA R13+52
+        BNE      ??SzExtract_5
+        LDR      R0,[SP, #+0]
+        LDR      R1,[SP, #+4]
+        CMP      R0,R1
+        BNE      ??SzExtract_6
+        LDR      R0,[SP, #+12]
+        LDR      R0,[R0, #+28]
+        CMP      R0,#+0
+        BEQ      ??SzExtract_5
+        LDR      R0,[SP, #+12]
+        MOVS     R2,R1
+        LDR      R0,[R0, #+32]
+        LDR      R1,[R4, #+0]
+        _BLF     CrcVerifyDigest,??CrcVerifyDigest??rT
+        CMP      R0,#+0
+        BNE      ??SzExtract_5
+??SzExtract_6:
+        MOVS     R7,#+5
+??SzExtract_5:
+        LDR      R1,[SP, #+72]
+        LDR      R0,[SP, #+8]
+        LDR      R1,[R1, #+4]
+        BLX      R1
+        CMP      R7,#+0
+        BNE      ??SzExtract_9
+??SzExtract_3:
+        LDR      R1,[SP, #+24]
+        LDR      R0,[SP, #+28]
+        LDR      R1,[R1, #+28]
+        LSLS     R0,R0,#+4
+        ADDS     R0,R1,R0
+        LDR      R1,[SP, #+60]
+        MOVS     R2,#+0
+        STR      R2,[R1, #+0]
+        LDR      R2,[SP, #+24]
+        LSLS     R1,R5,#+2
+        LDR      R2,[R2, #+48]
+        LDR      R1,[R2, R1]
+        LDR      R2,[SP, #+28]
+        CMP      R1,R2
+        BCS      ??SzExtract_10
+??SzExtract_11:
+        LDR      R6,[SP, #+24]
+        LDR      R2,[SP, #+60]
+        LDR      R6,[R6, #+28]
+        LDR      R5,[R2, #+0]
+        LSLS     R3,R1,#+4
+        LDR      R3,[R6, R3]
+        ADDS     R1,R1,#+1
+        ADDS     R3,R5,R3
+        STR      R3,[R2, #+0]
+        LDR      R2,[SP, #+28]
+        CMP      R1,R2
+        BCC      ??SzExtract_11
+??SzExtract_10:
+        LDR      R1,[R0, #+0]
+        LDR      R2,[SP, #+64]
+        STR      R1,[R2, #+0]
+        LDR      R2,[SP, #+56]
+        LDR      R3,[SP, #+60]
+        LDR      R2,[R2, #+0]
+        LDR      R3,[R3, #+0]
+        ADDS     R1,R3,R1
+        CMP      R2,R1
+        BCS      ??SzExtract_12
+        MOVS     R0,#+5
+        B        ??SzExtract_1
+??SzExtract_12:
+        LDRB     R1,[R0, #+12]
+        CMP      R1,#+0
+        BEQ      ??SzExtract_9
+        LDR      R1,[SP, #+64]
+        LDR      R0,[R0, #+4]
+        LDR      R2,[R1, #+0]
+        MOVS     R1,R3
+        LDR      R3,[R4, #+0]
+        ADDS     R1,R3,R1
+        _BLF     CrcVerifyDigest,??CrcVerifyDigest??rT
+        CMP      R0,#+0
+        BNE      ??SzExtract_9
+        MOVS     R7,#+5
+??SzExtract_9:
+        MOVS     R0,R7
+??SzExtract_1:
+        ADD      SP,SP,#+32
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzFolderGetUnPackSize??rT:
+        LDR      R3,??Subroutine1_0  ;; SzFolderGetUnPackSize
+        BX       R3
+        DATA
+??Subroutine1_0:
+        DC32     SzFolderGetUnPackSize
+        CFI EndBlock cfiBlock2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzArDbGetFolderFullPackSize??rT:
+        LDR      R3,??Subroutine2_0  ;; SzArDbGetFolderFullPackSize
+        BX       R3
+        DATA
+??Subroutine2_0:
+        DC32     SzArDbGetFolderFullPackSize
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzArDbGetFolderStreamPos??rT:
+        LDR      R3,??Subroutine3_0  ;; SzArDbGetFolderStreamPos
+        BX       R3
+        DATA
+??Subroutine3_0:
+        DC32     SzArDbGetFolderStreamPos
+        CFI EndBlock cfiBlock4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzDecode??rT:
+        PUSH     {R3}
+        CFI CFA R13+4
+        LDR      R3,??Subroutine4_0  ;; SzDecode
+        MOV      R12,R3
+        POP      {R3}
+        CFI CFA R13+0
+        BX       R12
+        Nop      
+        DATA
+??Subroutine4_0:
+        DC32     SzDecode
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CrcVerifyDigest??rT:
+        LDR      R3,??Subroutine5_0  ;; CrcVerifyDigest
+        BX       R3
+        DATA
+??Subroutine5_0:
+        DC32     CrcVerifyDigest
+        CFI EndBlock cfiBlock6
+
+        END
+// 
+// 460 bytes in segment CODE
+// 
+// 404 bytes of CODE memory (+ 56 bytes shared)
+//
+//Errors: none
+//Warnings: none

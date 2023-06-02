@@ -1,0 +1,2810 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:48:24 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\ZLib\min /
+//                       izip\unzip.c                                        /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\ZLib\min /
+//                       izip\unzip.c -D LOG -D USEZLIB -lCN                 /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcs /
+//                       e\Release\List\ -o Z:\home\perk11\www\perk11.info\s /
+//                       vn\SE\mcse\Release\Obj\ -s9 --no_unroll             /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --dlib_config                            /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\unzip.s79                                      /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME unzip
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??crc32??rA
+        MULTWEAK ??fill_fopen_filefunc??rA
+        MULTWEAK ??get_crc_table??rA
+        MULTWEAK ??strcmpcasenosensitive_internal??rT
+        MULTWEAK ??unzClose??rT
+        MULTWEAK ??unzCloseCurrentFile??rT
+        MULTWEAK ??unzGetCurrentFileInfo??rT
+        MULTWEAK ??unzGetFilePos??rT
+        MULTWEAK ??unzGetGlobalComment??rT
+        MULTWEAK ??unzGetGlobalInfo??rT
+        MULTWEAK ??unzGetLocalExtrafield??rT
+        MULTWEAK ??unzGetOffset??rT
+        MULTWEAK ??unzGoToFilePos??rT
+        MULTWEAK ??unzGoToFirstFile??rT
+        MULTWEAK ??unzGoToNextFile??rT
+        MULTWEAK ??unzLocateFile??rT
+        MULTWEAK ??unzOpen2??rT
+        MULTWEAK ??unzOpen??rT
+        MULTWEAK ??unzOpenCurrentFile2??rT
+        MULTWEAK ??unzOpenCurrentFile3??rT
+        MULTWEAK ??unzOpenCurrentFile??rT
+        MULTWEAK ??unzOpenCurrentFilePassword??rT
+        MULTWEAK ??unzReadCurrentFile??rT
+        MULTWEAK ??unzSetOffset??rT
+        MULTWEAK ??unzStringFileNameCompare??rT
+        MULTWEAK ??unzeof??rT
+        MULTWEAK ??unzlocal_CheckCurrentFileCoherencyHeader??rT
+        MULTWEAK ??unzlocal_DosDateToTmuDate??rT
+        MULTWEAK ??unzlocal_GetCurrentFileInfoInternal??rT
+        MULTWEAK ??unzlocal_SearchCentralDir??rT
+        MULTWEAK ??unzlocal_getByte??rT
+        MULTWEAK ??unzlocal_getLong??rT
+        MULTWEAK ??unzlocal_getShort??rT
+        MULTWEAK ??unztell??rT
+        PUBLIC strcmpcasenosensitive_internal
+        FUNCTION strcmpcasenosensitive_internal,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC unzClose
+        FUNCTION unzClose,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC unzCloseCurrentFile
+        FUNCTION unzCloseCurrentFile,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC unzGetCurrentFileInfo
+        FUNCTION unzGetCurrentFileInfo,0203H
+        LOCFRAME CSTACK, 36, STACK
+        PUBLIC unzGetFilePos
+        FUNCTION unzGetFilePos,0203H
+        PUBLIC unzGetGlobalComment
+        FUNCTION unzGetGlobalComment,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC unzGetGlobalInfo
+        FUNCTION unzGetGlobalInfo,0203H
+        PUBLIC unzGetLocalExtrafield
+        FUNCTION unzGetLocalExtrafield,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC unzGetOffset
+        FUNCTION unzGetOffset,0203H
+        PUBLIC unzGoToFilePos
+        FUNCTION unzGoToFilePos,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC unzGoToFirstFile
+        FUNCTION unzGoToFirstFile,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC unzGoToNextFile
+        FUNCTION unzGoToNextFile,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC unzLocateFile
+        FUNCTION unzLocateFile,0203H
+        LOCFRAME CSTACK, 388, STACK
+        PUBLIC unzOpen
+        FUNCTION unzOpen,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC unzOpen2
+        FUNCTION unzOpen2,0203H
+        LOCFRAME CSTACK, 224, STACK
+        PUBLIC unzOpenCurrentFile
+        FUNCTION unzOpenCurrentFile,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC unzOpenCurrentFile2
+        FUNCTION unzOpenCurrentFile2,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC unzOpenCurrentFile3
+        FUNCTION unzOpenCurrentFile3,0203H
+        LOCFRAME CSTACK, 60, STACK
+        PUBLIC unzOpenCurrentFilePassword
+        FUNCTION unzOpenCurrentFilePassword,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC unzReadCurrentFile
+        FUNCTION unzReadCurrentFile,0203H
+        LOCFRAME CSTACK, 36, STACK
+        PUBLIC unzSetOffset
+        FUNCTION unzSetOffset,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC unzStringFileNameCompare
+        FUNCTION unzStringFileNameCompare,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC unz_copyright
+        PUBLIC unzeof
+        FUNCTION unzeof,0203H
+        PUBLIC unzlocal_CheckCurrentFileCoherencyHeader
+        FUNCTION unzlocal_CheckCurrentFileCoherencyHeader,0203H
+        LOCFRAME CSTACK, 44, STACK
+        PUBLIC unzlocal_DosDateToTmuDate
+        FUNCTION unzlocal_DosDateToTmuDate,0203H
+        PUBLIC unzlocal_GetCurrentFileInfoInternal
+        FUNCTION unzlocal_GetCurrentFileInfoInternal,0203H
+        LOCFRAME CSTACK, 136, STACK
+        PUBLIC unzlocal_SearchCentralDir
+        FUNCTION unzlocal_SearchCentralDir,0203H
+        LOCFRAME CSTACK, 40, STACK
+        PUBLIC unzlocal_getByte
+        FUNCTION unzlocal_getByte,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC unzlocal_getLong
+        FUNCTION unzlocal_getLong,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC unzlocal_getShort
+        FUNCTION unzlocal_getShort,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC unztell
+        FUNCTION unztell,0203H
+        FUNCTION update_keys,0203H
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+crc32               SYMBOL "crc32"
+fill_fopen_filefunc SYMBOL "fill_fopen_filefunc"
+get_crc_table       SYMBOL "get_crc_table"
+??crc32??rA         SYMBOL "??rA", crc32
+??fill_fopen_filefunc??rA SYMBOL "??rA", fill_fopen_filefunc
+??get_crc_table??rA SYMBOL "??rA", get_crc_table
+strcmpcasenosensitive_internal SYMBOL "strcmpcasenosensitive_internal"
+??strcmpcasenosensitive_internal??rT SYMBOL "??rT", strcmpcasenosensitive_internal
+unzClose            SYMBOL "unzClose"
+??unzClose??rT      SYMBOL "??rT", unzClose
+unzCloseCurrentFile SYMBOL "unzCloseCurrentFile"
+??unzCloseCurrentFile??rT SYMBOL "??rT", unzCloseCurrentFile
+unzGetCurrentFileInfo SYMBOL "unzGetCurrentFileInfo"
+??unzGetCurrentFileInfo??rT SYMBOL "??rT", unzGetCurrentFileInfo
+unzGetFilePos       SYMBOL "unzGetFilePos"
+??unzGetFilePos??rT SYMBOL "??rT", unzGetFilePos
+unzGetGlobalComment SYMBOL "unzGetGlobalComment"
+??unzGetGlobalComment??rT SYMBOL "??rT", unzGetGlobalComment
+unzGetGlobalInfo    SYMBOL "unzGetGlobalInfo"
+??unzGetGlobalInfo??rT SYMBOL "??rT", unzGetGlobalInfo
+unzGetLocalExtrafield SYMBOL "unzGetLocalExtrafield"
+??unzGetLocalExtrafield??rT SYMBOL "??rT", unzGetLocalExtrafield
+unzGetOffset        SYMBOL "unzGetOffset"
+??unzGetOffset??rT  SYMBOL "??rT", unzGetOffset
+unzGoToFilePos      SYMBOL "unzGoToFilePos"
+??unzGoToFilePos??rT SYMBOL "??rT", unzGoToFilePos
+unzGoToFirstFile    SYMBOL "unzGoToFirstFile"
+??unzGoToFirstFile??rT SYMBOL "??rT", unzGoToFirstFile
+unzGoToNextFile     SYMBOL "unzGoToNextFile"
+??unzGoToNextFile??rT SYMBOL "??rT", unzGoToNextFile
+unzLocateFile       SYMBOL "unzLocateFile"
+??unzLocateFile??rT SYMBOL "??rT", unzLocateFile
+unzOpen2            SYMBOL "unzOpen2"
+??unzOpen2??rT      SYMBOL "??rT", unzOpen2
+unzOpen             SYMBOL "unzOpen"
+??unzOpen??rT       SYMBOL "??rT", unzOpen
+unzOpenCurrentFile2 SYMBOL "unzOpenCurrentFile2"
+??unzOpenCurrentFile2??rT SYMBOL "??rT", unzOpenCurrentFile2
+unzOpenCurrentFile3 SYMBOL "unzOpenCurrentFile3"
+??unzOpenCurrentFile3??rT SYMBOL "??rT", unzOpenCurrentFile3
+unzOpenCurrentFile  SYMBOL "unzOpenCurrentFile"
+??unzOpenCurrentFile??rT SYMBOL "??rT", unzOpenCurrentFile
+unzOpenCurrentFilePassword SYMBOL "unzOpenCurrentFilePassword"
+??unzOpenCurrentFilePassword??rT SYMBOL "??rT", unzOpenCurrentFilePassword
+unzReadCurrentFile  SYMBOL "unzReadCurrentFile"
+??unzReadCurrentFile??rT SYMBOL "??rT", unzReadCurrentFile
+unzSetOffset        SYMBOL "unzSetOffset"
+??unzSetOffset??rT  SYMBOL "??rT", unzSetOffset
+unzStringFileNameCompare SYMBOL "unzStringFileNameCompare"
+??unzStringFileNameCompare??rT SYMBOL "??rT", unzStringFileNameCompare
+unzeof              SYMBOL "unzeof"
+??unzeof??rT        SYMBOL "??rT", unzeof
+unzlocal_CheckCurrentFileCoherencyHeader SYMBOL "unzlocal_CheckCurrentFileCoherencyHeader"
+??unzlocal_CheckCurrentFileCoherencyHeader??rT SYMBOL "??rT", unzlocal_CheckCurrentFileCoherencyHeader
+unzlocal_DosDateToTmuDate SYMBOL "unzlocal_DosDateToTmuDate"
+??unzlocal_DosDateToTmuDate??rT SYMBOL "??rT", unzlocal_DosDateToTmuDate
+unzlocal_GetCurrentFileInfoInternal SYMBOL "unzlocal_GetCurrentFileInfoInternal"
+??unzlocal_GetCurrentFileInfoInternal??rT SYMBOL "??rT", unzlocal_GetCurrentFileInfoInternal
+unzlocal_SearchCentralDir SYMBOL "unzlocal_SearchCentralDir"
+??unzlocal_SearchCentralDir??rT SYMBOL "??rT", unzlocal_SearchCentralDir
+unzlocal_getByte    SYMBOL "unzlocal_getByte"
+??unzlocal_getByte??rT SYMBOL "??rT", unzlocal_getByte
+unzlocal_getLong    SYMBOL "unzlocal_getLong"
+??unzlocal_getLong??rT SYMBOL "??rT", unzlocal_getLong
+unzlocal_getShort   SYMBOL "unzlocal_getShort"
+??unzlocal_getShort??rT SYMBOL "??rT", unzlocal_getShort
+unztell             SYMBOL "unztell"
+??unztell??rT       SYMBOL "??rT", unztell
+
+        EXTERN crc32
+        FUNCTION crc32,0202H
+        EXTERN fill_fopen_filefunc
+        FUNCTION fill_fopen_filefunc,0202H
+        EXTERN get_crc_table
+        FUNCTION get_crc_table,0202H
+
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "1.2.3">`:
+        DATA
+        DC8 "1.2.3"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+unz_copyright:
+        DATA
+        DC8 20H, 75H, 6EH, 7AH, 69H, 70H, 20H, 31H
+        DC8 2EH, 30H, 31H, 20H, 43H, 6FH, 70H, 79H
+        DC8 72H, 69H, 67H, 68H, 74H, 20H, 31H, 39H
+        DC8 39H, 38H, 2DH, 32H, 30H, 30H, 34H, 20H
+        DC8 47H, 69H, 6CH, 6CH, 65H, 73H, 20H, 56H
+        DC8 6FH, 6CH, 6CH, 61H, 6EH, 74H, 20H, 2DH
+        DC8 20H, 68H, 74H, 74H, 70H, 3AH, 2FH, 2FH
+        DC8 77H, 77H, 77H, 2EH, 77H, 69H, 6EH, 69H
+        DC8 6DH, 61H, 67H, 65H, 2EH, 63H, 6FH, 6DH
+        DC8 2FH, 7AH, 4CH, 69H, 62H, 44H, 6CH, 6CH
+        DC8 0
+        DC8 0, 0, 0
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??update_keys??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE update_keys
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function update_keys
+        ARM
+// static __??Code32?? __code __interwork __atpcs int update_keys(unsigned long *, unsigned long const *, int)
+update_keys:
+        LDR      R3,[R0, #+0]
+        LDR      R12,[R0, #+0]
+        EOR      R3,R2,R3
+        AND      R3,R3,#0xFF
+        LDR      R3,[R1, +R3, LSL #+2]
+        EOR      R3,R3,R12, LSR #+8
+        STR      R3,[R0, #+0]
+        LDR      R3,[R0, #+4]
+        LDR      R12,[R0, #+0]
+        AND      R12,R12,#0xFF
+        ADD      R3,R12,R3
+        LDR      R12,??update_keys_0  ;; 0x8088405
+        STR      R3,[R0, #+4]
+        LDR      R3,[R0, #+4]
+        MUL      R3,R12,R3
+        ADD      R3,R3,#+1
+        STR      R3,[R0, #+4]
+        LDR      R3,[R0, #+8]
+        LDR      R12,[R0, #+4]
+        EOR      R3,R3,R12, LSR #+24
+        AND      R3,R3,#0xFF
+        LDR      R1,[R1, +R3, LSL #+2]
+        LDR      R3,[R0, #+8]
+        EOR      R1,R1,R3, LSR #+8
+        STR      R1,[R0, #+8]
+        MOV      R0,R2
+        BX       LR               ;; return
+        DATA
+??update_keys_0:
+        DC32     0x8088405
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzlocal_getByte??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE unzlocal_getByte
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function unzlocal_getByte
+        ARM
+unzlocal_getByte:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOV      R4,R0
+        LDR      R0,[R4, #+28]
+        LDR      R12,[R4, #+4]
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R3,#+1
+        MOV      R2,SP
+        BLX      R12
+        CMP      R0,#+1
+        BNE      ??unzlocal_getByte_0
+        LDRB     R0,[SP, #+0]
+        STR      R0,[R6, #+0]
+        MOV      R0,#+0
+        POP      {R1,R4-R6,PC}
+??unzlocal_getByte_0:
+        LDR      R0,[R4, #+28]
+        LDR      R2,[R4, #+24]
+        MOV      R1,R5
+        BLX      R2
+        CMP      R0,#+0
+        MVNNE    R0,#+0
+        POP      {R1,R4-R6,PC}    ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzlocal_getShort??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE unzlocal_getShort
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function unzlocal_getShort
+        ARM
+unzlocal_getShort:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOV      R5,R0
+        LDR      R0,[R5, #+28]
+        LDR      R12,[R5, #+4]
+        MOV      R6,R1
+        MOV      R4,R2
+        MOV      R3,#+2
+        MOV      R2,SP
+        BLX      R12
+        CMP      R0,#+2
+        BNE      ??unzlocal_getShort_0
+        LDRB     R0,[SP, #+0]
+        LDRB     R1,[SP, #+1]
+        ADD      R0,R0,R1, LSL #+8
+        STR      R0,[R4, #+0]
+        MOV      R0,#+0
+        POP      {R1,R4-R6,PC}
+??unzlocal_getShort_0:
+        MOV      R0,#+0
+        STR      R0,[R4, #+0]
+        LDR      R0,[R5, #+28]
+        LDR      R2,[R5, #+24]
+        MOV      R1,R6
+        BLX      R2
+        CMP      R0,#+0
+        MVNNE    R0,#+0
+        POP      {R1,R4-R6,PC}    ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzlocal_getLong??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE unzlocal_getLong
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function unzlocal_getLong
+        ARM
+unzlocal_getLong:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOV      R5,R0
+        LDR      R0,[R5, #+28]
+        LDR      R12,[R5, #+4]
+        MOV      R6,R1
+        MOV      R4,R2
+        MOV      R3,#+4
+        MOV      R2,SP
+        BLX      R12
+        CMP      R0,#+4
+        BNE      ??unzlocal_getLong_0
+        LDRB     R0,[SP, #+0]
+        LDRB     R1,[SP, #+1]
+        ADD      R0,R0,R1, LSL #+8
+        LDRB     R1,[SP, #+2]
+        ADD      R0,R0,R1, LSL #+16
+        LDRB     R1,[SP, #+3]
+        ADD      R0,R0,R1, LSL #+24
+        STR      R0,[R4, #+0]
+        MOV      R0,#+0
+        POP      {R1,R4-R6,PC}
+??unzlocal_getLong_0:
+        MOV      R0,#+0
+        STR      R0,[R4, #+0]
+        LDR      R0,[R5, #+28]
+        LDR      R2,[R5, #+24]
+        MOV      R1,R6
+        BLX      R2
+        CMP      R0,#+0
+        MVNNE    R0,#+0
+        POP      {R1,R4-R6,PC}    ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??strcmpcasenosensitive_internal??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE strcmpcasenosensitive_internal
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function strcmpcasenosensitive_internal
+        ARM
+strcmpcasenosensitive_internal:
+        B        ??strcmpcasenosensitive_internal_0
+??strcmpcasenosensitive_internal_1:
+        CMP      R2,R3
+        BCC      ??strcmpcasenosensitive_internal_2
+??strcmpcasenosensitive_internal_0:
+        LDRB     R3,[R0], #+1
+        LDRB     R2,[R1], #+1
+        CMP      R3,#+97
+        BCC      ??strcmpcasenosensitive_internal_3
+        CMP      R3,#+123
+        ADDCC    R3,R3,#+224
+        ANDCC    R3,R3,#0xFF
+??strcmpcasenosensitive_internal_3:
+        CMP      R2,#+97
+        BCC      ??strcmpcasenosensitive_internal_4
+        CMP      R2,#+123
+        ADDCC    R2,R2,#+224
+        ANDCC    R2,R2,#0xFF
+??strcmpcasenosensitive_internal_4:
+        MOVS     R12,R3
+        BNE      ??strcmpcasenosensitive_internal_5
+        CMP      R2,#+0
+        BNE      ??strcmpcasenosensitive_internal_6
+        MOV      R0,#+0
+        BX       LR
+??strcmpcasenosensitive_internal_5:
+        MOVS     R12,R2
+        BNE      ??strcmpcasenosensitive_internal_7
+??strcmpcasenosensitive_internal_2:
+        MOV      R0,#+1
+        BX       LR
+??strcmpcasenosensitive_internal_7:
+        CMP      R3,R2
+        BCS      ??strcmpcasenosensitive_internal_1
+??strcmpcasenosensitive_internal_6:
+        MVN      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzStringFileNameCompare??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE unzStringFileNameCompare
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function unzStringFileNameCompare
+        ARM
+unzStringFileNameCompare:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        CMP      R2,#+0
+        BEQ      ??unzStringFileNameCompare_0
+        CMP      R2,#+1
+        BNE      ??unzStringFileNameCompare_0
+        SWI      +345
+        POP      {PC}
+??unzStringFileNameCompare_0:
+        POP      {LR}             ;; Pop
+        CFI ?RET R14
+        CFI CFA R13+0
+        B        strcmpcasenosensitive_internal  ;; tailcall
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzlocal_SearchCentralDir??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE unzlocal_SearchCentralDir
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function unzlocal_SearchCentralDir
+        ARM
+unzlocal_SearchCentralDir:
+        PUSH     {R1,R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+40
+        MOV      R4,R0
+        LDR      R0,[R4, #+28]
+        LDR      R6,[R4, #+16]
+        MOV      R7,#+255
+        ORR      R7,R7,#0xFF00
+        MOV      R5,#+0
+        MOV      R3,#+2
+        MOV      R2,#+0
+        BLX      R6
+        CMP      R0,#+0
+        BNE      ??unzlocal_SearchCentralDir_0
+        LDR      R0,[R4, #+28]
+        LDR      R1,[SP, #+0]
+        LDR      R2,[R4, #+12]
+        BLX      R2
+        MOV      R6,R0
+        CMP      R6,R7
+        MOVCC    R7,R6
+        MOV      R0,#+4
+        ORR      R0,R0,#0x400
+        SWI      +259
+        MOVS     R8,R0
+        BEQ      ??unzlocal_SearchCentralDir_0
+        MOV      R9,#+4
+??unzlocal_SearchCentralDir_1:
+        CMP      R9,R7
+        BCS      ??unzlocal_SearchCentralDir_2
+        ADD      R0,R9,#+1024
+        CMP      R7,R0
+        MOVCC    R9,R7
+        ADDCS    R9,R9,#+1024
+        SUB      R10,R6,R9
+        SUB      R0,R6,R10
+        LDR      R12,[R4, #+16]
+        MOV      R1,#+5
+        ORR      R1,R1,#0x400
+        CMP      R0,R1
+        LDR      R0,[R4, #+28]
+        BICCS    R11,R1,#0x1
+        LDR      R1,[SP, #+0]
+        SUBCC    R11,R6,R10
+        MOV      R3,#+0
+        MOV      R2,R10
+        BLX      R12
+        CMP      R0,#+0
+        BNE      ??unzlocal_SearchCentralDir_2
+        LDR      R0,[R4, #+28]
+        LDR      R1,[SP, #+0]
+        LDR      R12,[R4, #+4]
+        MOV      R3,R11
+        MOV      R2,R8
+        BLX      R12
+        CMP      R0,R11
+        BNE      ??unzlocal_SearchCentralDir_2
+        SUB      R0,R11,#+3
+??unzlocal_SearchCentralDir_3:
+        MOV      R1,R0
+        SUB      R0,R1,#+1
+        CMP      R1,#+1
+        BLT      ??unzlocal_SearchCentralDir_4
+        LDRB     R1,[R0, +R8]
+        CMP      R1,#+80
+        BNE      ??unzlocal_SearchCentralDir_3
+        ADD      R1,R0,R8
+        LDRB     R1,[R1, #+1]
+        CMP      R1,#+75
+        BNE      ??unzlocal_SearchCentralDir_3
+        ADD      R1,R0,R8
+        LDRB     R1,[R1, #+2]
+        CMP      R1,#+5
+        BNE      ??unzlocal_SearchCentralDir_3
+        ADD      R1,R0,R8
+        LDRB     R1,[R1, #+3]
+        CMP      R1,#+6
+        BNE      ??unzlocal_SearchCentralDir_3
+        ADD      R5,R0,R10
+??unzlocal_SearchCentralDir_4:
+        CMP      R5,#+0
+        BEQ      ??unzlocal_SearchCentralDir_1
+??unzlocal_SearchCentralDir_2:
+        MOV      R0,R8
+        SWI      +260
+??unzlocal_SearchCentralDir_0:
+        MOV      R0,R5
+        POP      {R1,R4-R11,PC}   ;; return
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzOpen2??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE unzOpen2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function unzOpen2
+        ARM
+unzOpen2:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        SUB      SP,SP,#+196
+        CFI CFA R13+224
+        MOV      R5,R0
+        MOV      R4,#+0
+        CMP      R1,#+0
+        ADD      R0,SP,#+16
+        BNE      ??unzOpen2_0
+        _BLF     fill_fopen_filefunc,??fill_fopen_filefunc??rA
+        B        ??unzOpen2_1
+??unzOpen2_0:
+        LDM      R1,{R2,R3,R6-R9,R12,LR}
+        STM      R0,{R2,R3,R6-R9,R12,LR}
+??unzOpen2_1:
+        LDR      R0,[SP, #+44]
+        LDR      R3,[SP, #+16]
+        MOV      R2,#+5
+        MOV      R1,R5
+        BLX      R3
+        STR      R0,[SP, #+48]
+        CMP      R0,#+0
+        BEQ      ??unzOpen2_2
+        MOV      R1,R0
+        ADD      R0,SP,#+16
+        BL       unzlocal_SearchCentralDir
+        LDR      R1,[SP, #+48]
+        LDR      R6,[SP, #+32]
+        MOVS     R5,R0
+        LDR      R0,[SP, #+44]
+        MVNEQ    R4,R4
+        MOV      R3,#+0
+        MOV      R2,R5
+        BLX      R6
+        LDR      R1,[SP, #+48]
+        CMP      R0,#+0
+        MVNNE    R4,#+0
+        ADD      R2,SP,#+12
+        ADD      R0,SP,#+16
+        BL       unzlocal_getLong
+        LDR      R1,[SP, #+48]
+        CMP      R0,#+0
+        MVNNE    R4,#+0
+        MOV      R2,SP
+        ADD      R0,SP,#+16
+        BL       unzlocal_getShort
+        LDR      R1,[SP, #+48]
+        CMP      R0,#+0
+        MVNNE    R4,#+0
+        ADD      R2,SP,#+4
+        ADD      R0,SP,#+16
+        BL       unzlocal_getShort
+        LDR      R1,[SP, #+48]
+        CMP      R0,#+0
+        MVNNE    R4,#+0
+        ADD      R2,SP,#+52
+        ADD      R0,SP,#+16
+        BL       unzlocal_getShort
+        LDR      R1,[SP, #+48]
+        CMP      R0,#+0
+        MVNNE    R4,#+0
+        ADD      R2,SP,#+8
+        ADD      R0,SP,#+16
+        BL       unzlocal_getShort
+        LDR      R1,[SP, #+52]
+        CMP      R0,#+0
+        LDR      R0,[SP, #+8]
+        MVNNE    R4,#+0
+        CMP      R0,R1
+        LDREQ    R0,[SP, #+4]
+        LDR      R1,[SP, #+48]
+        CMPEQ    R0,#+0
+        LDREQ    R0,[SP, #+0]
+        ADD      R2,SP,#+80
+        CMPEQ    R0,#+0
+        MVNNE    R4,#+102
+        ADD      R0,SP,#+16
+        BL       unzlocal_getLong
+        LDR      R1,[SP, #+48]
+        CMP      R0,#+0
+        MVNNE    R4,#+0
+        ADD      R2,SP,#+84
+        ADD      R0,SP,#+16
+        BL       unzlocal_getLong
+        LDR      R1,[SP, #+48]
+        CMP      R0,#+0
+        MVNNE    R4,#+0
+        ADD      R2,SP,#+56
+        ADD      R0,SP,#+16
+        BL       unzlocal_getShort
+        LDR      R1,[SP, #+80]
+        CMP      R0,#+0
+        LDR      R0,[SP, #+84]
+        MVNNE    R4,#+0
+        ADD      R0,R1,R0
+        CMP      R5,R0
+        BCS      ??unzOpen2_3
+        CMP      R4,#+0
+        BEQ      ??unzOpen2_4
+??unzOpen2_3:
+        CMP      R4,#+0
+        BEQ      ??unzOpen2_5
+??unzOpen2_4:
+        LDR      R1,[SP, #+48]
+        LDR      R0,[SP, #+44]
+        LDR      R2,[SP, #+36]
+        BLX      R2
+        MOV      R0,#+0
+        ADD      SP,SP,#+196
+        CFI CFA R13+28
+        POP      {R4-R9,PC}
+        CFI CFA R13+224
+??unzOpen2_5:
+        LDR      R1,[SP, #+84]
+        LDR      R2,[SP, #+80]
+        SUB      R1,R5,R1
+        SUB      R1,R1,R2
+        STR      R1,[SP, #+60]
+        STR      R5,[SP, #+76]
+        MOV      R0,#+0
+        STR      R0,[SP, #+172]
+        STR      R0,[SP, #+176]
+        MOV      R0,#+180
+        SWI      +259
+        MOV      R4,R0
+        ADD      R0,SP,#+16
+        MOV      R2,#+180
+??unzOpen2_6:
+        SUBS     R2,R2,#+4
+        LDR      R1,[R0, R2]
+        STR      R1,[R4, R2]
+        BNE      ??unzOpen2_6
+        MOV      R0,R4
+        BL       unzGoToFirstFile
+        MOV      R0,R4
+??unzOpen2_2:
+        ADD      SP,SP,#+196      ;; stack cleaning
+        CFI CFA R13+28
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzOpen??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE unzOpen
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function unzOpen
+        ARM
+unzOpen:
+        MOV      R1,#+0
+        B        unzOpen2         ;; tailcall
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzClose??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE unzClose
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function unzClose
+        ARM
+unzClose:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        MVNEQ    R0,#+101
+        POPEQ    {R4,PC}
+        LDR      R0,[R4, #+156]
+        CMP      R0,#+0
+        BEQ      ??unzClose_0
+        MOV      R0,R4
+        BL       unzCloseCurrentFile
+??unzClose_0:
+        LDR      R1,[R4, #+32]
+        LDR      R0,[R4, #+28]
+        LDR      R2,[R4, #+20]
+        BLX      R2
+        CMP      R4,#+0
+        BEQ      ??unzClose_1
+        MOV      R0,R4
+        SWI      +260
+??unzClose_1:
+        MOV      R0,#+0
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGetGlobalInfo??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock20
+        REQUIRE unzGetGlobalInfo
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function unzGetGlobalInfo
+        ARM
+unzGetGlobalInfo:
+        CMP      R0,#+0
+        MVNEQ    R0,#+101
+        BXEQ     LR
+        LDR      R2,[R0, #+36]
+        LDR      R3,[R0, #+40]
+        MOV      R0,#+0
+        STM      R1,{R2,R3}
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzlocal_DosDateToTmuDate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock22
+        REQUIRE unzlocal_DosDateToTmuDate
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function unzlocal_DosDateToTmuDate
+        ARM
+unzlocal_DosDateToTmuDate:
+        LSR      R2,R0,#+16
+        AND      R3,R2,#0x1F
+        STR      R3,[R1, #+12]
+        AND      R3,R2,#0x1E0
+        LSR      R3,R3,#+5
+        SUB      R3,R3,#+1
+        STR      R3,[R1, #+16]
+        AND      R2,R2,#0xFE00
+        MOV      R3,#+188
+        ORR      R3,R3,#0x700
+        ADD      R2,R3,R2, LSR #+9
+        STR      R2,[R1, #+20]
+        AND      R2,R0,#0xF800
+        LSR      R2,R2,#+11
+        STR      R2,[R1, #+8]
+        AND      R2,R0,#0x7E0
+        LSR      R2,R2,#+5
+        STR      R2,[R1, #+4]
+        AND      R0,R0,#0x1F
+        LSL      R0,R0,#+1
+        STR      R0,[R1, #+0]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzlocal_GetCurrentFileInfoInternal??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock24
+        REQUIRE unzlocal_GetCurrentFileInfoInternal
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function unzlocal_GetCurrentFileInfoInternal
+        ARM
+unzlocal_GetCurrentFileInfoInternal:
+        PUSH     {R1-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+48
+        SUB      SP,SP,#+88
+        CFI CFA R13+136
+        LDR      R5,[SP, #+140]
+        LDR      R6,[SP, #+144]
+        LDR      R7,[SP, #+148]
+        LDR      R8,[SP, #+152]
+        MOVS     R4,R0
+        MOV      R9,#+0
+        MVNEQ    R0,#+101
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_0
+        LDR      R0,[R4, #+52]
+        LDR      R1,[R4, #+44]
+        LDR      R10,[R4, #+16]
+        ADD      R2,R1,R0
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        MOV      R3,#+0
+        BLX      R10
+        CMP      R0,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_1
+??unzlocal_GetCurrentFileInfoInternal_2:
+        MVN      R9,R9
+        B        ??unzlocal_GetCurrentFileInfoInternal_3
+??unzlocal_GetCurrentFileInfoInternal_1:
+        LDR      R1,[R4, #+32]
+        ADD      R2,SP,#+4
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        CMP      R0,#+0
+        BNE      ??unzlocal_GetCurrentFileInfoInternal_2
+        LDR      R0,[SP, #+4]
+        LDR      R1,??unzlocal_GetCurrentFileInfoInternal_4  ;; 0x2014b50
+        CMP      R0,R1
+        MVNNE    R9,#+102
+??unzlocal_GetCurrentFileInfoInternal_3:
+        LDR      R1,[R4, #+32]
+        ADD      R2,SP,#+8
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+12
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+16
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+20
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+24
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        CMP      R0,#+0
+        LDR      R0,[SP, #+24]
+        MVNNE    R9,#+0
+        ADD      R1,SP,#+64
+        BL       unzlocal_DosDateToTmuDate
+        LDR      R1,[R4, #+32]
+        ADD      R2,SP,#+28
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+32
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+36
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+40
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+44
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+48
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+52
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+56
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        ADD      R2,SP,#+60
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        MOV      R2,SP
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        LDR      R10,[SP, #+40]
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+        CMP      R9,#+0
+        BNE      ??unzlocal_GetCurrentFileInfoInternal_5
+        LDR      R0,[SP, #+96]
+        CMP      R0,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_6
+        LDR      R1,[SP, #+136]
+        CMP      R10,R1
+        BCS      ??unzlocal_GetCurrentFileInfoInternal_7
+        LDR      R1,[SP, #+96]
+        MOV      R2,#+0
+        STRB     R2,[R10, +R1]
+        LDR      R11,[SP, #+40]
+        B        ??unzlocal_GetCurrentFileInfoInternal_8
+??unzlocal_GetCurrentFileInfoInternal_7:
+        MOV      R11,R1
+??unzlocal_GetCurrentFileInfoInternal_8:
+        LDR      R0,[SP, #+40]
+        CMP      R0,#+0
+        LDRNE    R0,[SP, #+136]
+        CMPNE    R0,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_9
+        LDR      R0,[R4, #+28]
+        LDR      R2,[SP, #+96]
+        LDR      R1,[R4, #+32]
+        LDR      R12,[R4, #+4]
+        MOV      R3,R11
+        BLX      R12
+        CMP      R0,R11
+        MVNNE    R9,#+0
+??unzlocal_GetCurrentFileInfoInternal_9:
+        SUB      R10,R10,R11
+??unzlocal_GetCurrentFileInfoInternal_5:
+        CMP      R9,#+0
+        BNE      ??unzlocal_GetCurrentFileInfoInternal_10
+??unzlocal_GetCurrentFileInfoInternal_6:
+        CMP      R5,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_10
+        LDR      R0,[SP, #+44]
+        CMP      R0,R6
+        MOVCC    R11,R0
+        MOVCS    R11,R6
+        CMP      R10,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_11
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        LDR      R12,[R4, #+16]
+        MOV      R3,#+1
+        MOV      R2,R10
+        BLX      R12
+        CMP      R0,#+0
+        MOVEQ    R10,#+0
+        MVNNE    R9,#+0
+??unzlocal_GetCurrentFileInfoInternal_11:
+        LDR      R0,[SP, #+44]
+        CMP      R0,#+0
+        CMPNE    R6,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_12
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        MOV      R3,R11
+        MOV      R2,R5
+        LDR      R5,[R4, #+4]
+        BLX      R5
+        CMP      R0,R11
+        MVNNE    R9,#+0
+??unzlocal_GetCurrentFileInfoInternal_12:
+        LDR      R0,[SP, #+44]
+        ADD      R0,R0,R10
+        SUB      R2,R0,R11
+        B        ??unzlocal_GetCurrentFileInfoInternal_13
+??unzlocal_GetCurrentFileInfoInternal_10:
+        LDR      R0,[SP, #+44]
+        ADD      R2,R0,R10
+??unzlocal_GetCurrentFileInfoInternal_13:
+        CMP      R9,#+0
+        BNE      ??unzlocal_GetCurrentFileInfoInternal_14
+        CMP      R7,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_15
+        LDR      R0,[SP, #+48]
+        CMP      R0,R8
+        BCS      ??unzlocal_GetCurrentFileInfoInternal_16
+        MOV      R1,#+0
+        STRB     R1,[R0, +R7]
+        LDR      R5,[SP, #+48]
+        B        ??unzlocal_GetCurrentFileInfoInternal_17
+??unzlocal_GetCurrentFileInfoInternal_16:
+        MOV      R5,R8
+??unzlocal_GetCurrentFileInfoInternal_17:
+        CMP      R2,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_18
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        LDR      R6,[R4, #+16]
+        MOV      R3,#+1
+        BLX      R6
+        CMP      R0,#+0
+        MVNNE    R9,#+0
+??unzlocal_GetCurrentFileInfoInternal_18:
+        LDR      R0,[SP, #+48]
+        CMP      R0,#+0
+        CMPNE    R8,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_14
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        LDR      R4,[R4, #+4]
+        MOV      R3,R5
+        MOV      R2,R7
+        BLX      R4
+        CMP      R0,R5
+        MVNNE    R9,#+0
+        BNE      ??unzlocal_GetCurrentFileInfoInternal_19
+??unzlocal_GetCurrentFileInfoInternal_14:
+        CMP      R9,#+0
+        BNE      ??unzlocal_GetCurrentFileInfoInternal_19
+??unzlocal_GetCurrentFileInfoInternal_15:
+        LDR      R0,[SP, #+88]
+        CMP      R0,#+0
+        BEQ      ??unzlocal_GetCurrentFileInfoInternal_20
+        ADD      R1,SP,#+8
+        MOV      R3,#+80
+??unzlocal_GetCurrentFileInfoInternal_21:
+        SUBS     R3,R3,#+4
+        LDR      R2,[R1, R3]
+        STR      R2,[R0, R3]
+        BNE      ??unzlocal_GetCurrentFileInfoInternal_21
+??unzlocal_GetCurrentFileInfoInternal_20:
+        LDR      R0,[SP, #+92]
+        CMP      R0,#+0
+        LDRNE    R1,[SP, #+0]
+        STRNE    R1,[R0, #+0]
+??unzlocal_GetCurrentFileInfoInternal_19:
+        MOV      R0,R9
+??unzlocal_GetCurrentFileInfoInternal_0:
+        ADD      SP,SP,#+100      ;; stack cleaning
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??unzlocal_GetCurrentFileInfoInternal_4:
+        DC32     0x2014b50
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGetCurrentFileInfo??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock26
+        REQUIRE unzGetCurrentFileInfo
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function unzGetCurrentFileInfo
+        ARM
+unzGetCurrentFileInfo:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R12,[SP, #+16]
+        LDR      R4,[SP, #+20]
+        LDR      R5,[SP, #+24]
+        LDR      R6,[SP, #+28]
+        PUSH     {R6}
+        CFI CFA R13+20
+        PUSH     {R5}
+        CFI CFA R13+24
+        PUSH     {R4}
+        CFI CFA R13+28
+        PUSH     {R12}
+        CFI CFA R13+32
+        PUSH     {R3}
+        CFI CFA R13+36
+        MOV      R3,R2
+        MOV      R2,#+0
+        BL       unzlocal_GetCurrentFileInfoInternal
+        ADD      SP,SP,#+20
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGoToFirstFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock28
+        REQUIRE unzGoToFirstFile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI Function unzGoToFirstFile
+        ARM
+unzGoToFirstFile:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        MVNEQ    R0,#+101
+        POPEQ    {R4,PC}
+        LDR      R0,[R4, #+68]
+        MOV      R3,#+0
+        STR      R0,[R4, #+52]
+        MOV      R0,#+0
+        STR      R0,[R4, #+48]
+        PUSH     {R0}
+        CFI CFA R13+12
+        PUSH     {R0}
+        CFI CFA R13+16
+        PUSH     {R0}
+        CFI CFA R13+20
+        PUSH     {R0}
+        CFI CFA R13+24
+        PUSH     {R0}
+        CFI CFA R13+28
+        ADD      R2,R4,#+152
+        ADD      R1,R4,#+72
+        MOV      R0,R4
+        BL       unzlocal_GetCurrentFileInfoInternal
+        CMP      R0,#+0
+        ADD      SP,SP,#+20
+        CFI CFA R13+8
+        MOVEQ    R1,#+1
+        MOVNE    R1,#+0
+        STR      R1,[R4, #+56]
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock29
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGoToNextFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock30
+        REQUIRE unzGoToNextFile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon1
+        CFI Function unzGoToNextFile
+        ARM
+unzGoToNextFile:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        MVNEQ    R0,#+101
+        POPEQ    {R4,PC}
+        LDR      R0,[R4, #+56]
+        CMP      R0,#+0
+        BNE      ??unzGoToNextFile_0
+??unzGoToNextFile_1:
+        MVN      R0,#+99
+        POP      {R4,PC}
+??unzGoToNextFile_0:
+        LDR      R0,[R4, #+36]
+        MOV      R1,#+255
+        ORR      R1,R1,#0xFF00
+        CMP      R0,R1
+        BEQ      ??unzGoToNextFile_2
+        LDR      R0,[R4, #+48]
+        LDR      R1,[R4, #+36]
+        ADD      R0,R0,#+1
+        CMP      R0,R1
+        BEQ      ??unzGoToNextFile_1
+??unzGoToNextFile_2:
+        LDR      R1,[R4, #+104]
+        LDR      R2,[R4, #+108]
+        LDR      R0,[R4, #+52]
+        ADD      R1,R2,R1
+        LDR      R2,[R4, #+112]
+        MOV      R3,#+0
+        ADD      R1,R2,R1
+        ADD      R1,R1,#+46
+        ADD      R0,R1,R0
+        STR      R0,[R4, #+52]
+        LDR      R0,[R4, #+48]
+        ADD      R2,R4,#+152
+        ADD      R0,R0,#+1
+        STR      R0,[R4, #+48]
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+12
+        PUSH     {R0}
+        CFI CFA R13+16
+        PUSH     {R0}
+        CFI CFA R13+20
+        PUSH     {R0}
+        CFI CFA R13+24
+        PUSH     {R0}
+        CFI CFA R13+28
+        ADD      R1,R4,#+72
+        MOV      R0,R4
+        BL       unzlocal_GetCurrentFileInfoInternal
+        CMP      R0,#+0
+        ADD      SP,SP,#+20
+        CFI CFA R13+8
+        MOVEQ    R1,#+1
+        MOVNE    R1,#+0
+        STR      R1,[R4, #+56]
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzLocateFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock32
+        REQUIRE unzLocateFile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon1
+        CFI Function unzLocateFile
+        ARM
+unzLocateFile:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        SUB      SP,SP,#+340
+        CFI CFA R13+368
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        CMP      R4,#+0
+        BNE      ??unzLocateFile_0
+??unzLocateFile_1:
+        MVN      R0,#+101
+        B        ??unzLocateFile_2
+??unzLocateFile_0:
+        MOV      R0,R5
+        SWI      +346
+        CMP      R0,#+256
+        BGE      ??unzLocateFile_1
+        LDR      R0,[R4, #+56]
+        CMP      R0,#+0
+        MVNEQ    R0,#+99
+        BEQ      ??unzLocateFile_3
+        LDR      R7,[R4, #+48]
+        LDR      R8,[R4, #+52]
+        ADD      R0,SP,#+260
+        ADD      R1,R4,#+72
+        MOV      R3,#+80
+??unzLocateFile_4:
+        SUBS     R3,R3,#+4
+        LDR      R2,[R1, R3]
+        STR      R2,[R0, R3]
+        BNE      ??unzLocateFile_4
+        LDR      R9,[R4, #+152]
+        MOV      R0,R4
+        BL       unzGoToFirstFile
+        B        ??unzLocateFile_5
+??unzLocateFile_6:
+        MOV      R0,R4
+        BL       unzGoToNextFile
+??unzLocateFile_5:
+        CMP      R0,#+0
+        BNE      ??unzLocateFile_7
+        PUSH     {R0}
+        CFI CFA R13+372
+        PUSH     {R0}
+        CFI CFA R13+376
+        PUSH     {R0}
+        CFI CFA R13+380
+        PUSH     {R0}
+        CFI CFA R13+384
+        MOV      R2,#+0
+        MOV      R1,#+0
+        MOV      R0,#+256
+        PUSH     {R0}
+        CFI CFA R13+388
+        ADD      R3,SP,#+20
+        MOV      R0,R4
+        BL       unzlocal_GetCurrentFileInfoInternal
+        CMP      R0,#+0
+        ADD      SP,SP,#+20
+        CFI CFA R13+368
+        BNE      ??unzLocateFile_5
+        MOV      R2,R6
+        MOV      R1,R5
+        MOV      R0,SP
+        BL       unzStringFileNameCompare
+        CMP      R0,#+0
+        BNE      ??unzLocateFile_6
+??unzLocateFile_2:
+        ADD      SP,SP,#+340
+        CFI CFA R13+28
+        POP      {R4-R9,PC}
+        CFI CFA R13+368
+??unzLocateFile_7:
+        STR      R7,[R4, #+48]
+        STR      R8,[R4, #+52]
+        ADD      R1,R4,#+72
+        ADD      R2,SP,#+260
+        MOV      R5,#+80
+??unzLocateFile_8:
+        SUBS     R5,R5,#+4
+        LDR      R3,[R2, R5]
+        STR      R3,[R1, R5]
+        BNE      ??unzLocateFile_8
+        STR      R9,[R4, #+152]
+??unzLocateFile_3:
+        ADD      SP,SP,#+340      ;; stack cleaning
+        CFI CFA R13+28
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGetFilePos??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock34
+        REQUIRE unzGetFilePos
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon1
+        CFI Function unzGetFilePos
+        ARM
+unzGetFilePos:
+        CMP      R0,#+0
+        CMPNE    R1,#+0
+        MVNEQ    R0,#+101
+        BXEQ     LR
+        LDR      R2,[R0, #+56]
+        CMP      R2,#+0
+        MVNEQ    R0,#+99
+        BXEQ     LR
+        LDR      R2,[R0, #+52]
+        STR      R2,[R1, #+0]
+        LDR      R0,[R0, #+48]
+        STR      R0,[R1, #+4]
+        MOV      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGoToFilePos??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock36
+        REQUIRE unzGoToFilePos
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon1
+        CFI Function unzGoToFilePos
+        ARM
+unzGoToFilePos:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        CMPNE    R1,#+0
+        MVNEQ    R0,#+101
+        POPEQ    {R4,PC}
+        LDR      R0,[R1, #+0]
+        MOV      R3,#+0
+        STR      R0,[R4, #+52]
+        LDR      R0,[R1, #+4]
+        ADD      R2,R4,#+152
+        STR      R0,[R4, #+48]
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+12
+        PUSH     {R0}
+        CFI CFA R13+16
+        PUSH     {R0}
+        CFI CFA R13+20
+        PUSH     {R0}
+        CFI CFA R13+24
+        PUSH     {R0}
+        CFI CFA R13+28
+        ADD      R1,R4,#+72
+        MOV      R0,R4
+        BL       unzlocal_GetCurrentFileInfoInternal
+        CMP      R0,#+0
+        ADD      SP,SP,#+20
+        CFI CFA R13+8
+        MOVEQ    R1,#+1
+        MOVNE    R1,#+0
+        STR      R1,[R4, #+56]
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzlocal_CheckCurrentFileCoherencyHeader??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock38
+        REQUIRE unzlocal_CheckCurrentFileCoherencyHeader
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon1
+        CFI Function unzlocal_CheckCurrentFileCoherencyHeader
+        ARM
+unzlocal_CheckCurrentFileCoherencyHeader:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        SUB      SP,SP,#+20
+        CFI CFA R13+44
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+        MOV      R0,#+0
+        STR      R0,[R5, #+0]
+        STR      R0,[R6, #+0]
+        STR      R0,[R7, #+0]
+        LDR      R1,[R4, #+44]
+        LDR      R12,[R4, #+16]
+        MOV      R3,R0
+        LDR      R0,[R4, #+152]
+        MOV      R8,#+0
+        ADD      R2,R1,R0
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        BLX      R12
+        CMP      R0,#+0
+        MVNNE    R0,R8
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_0
+        LDR      R1,[R4, #+32]
+        ADD      R2,SP,#+16
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        CMP      R0,#+0
+        MVNNE    R8,R8
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_1
+        LDR      R0,[SP, #+16]
+        LDR      R1,??unzlocal_CheckCurrentFileCoherencyHeader_2  ;; 0x4034b50
+        CMP      R0,R1
+        MVNNE    R8,#+102
+??unzlocal_CheckCurrentFileCoherencyHeader_1:
+        LDR      R1,[R4, #+32]
+        MOV      R2,SP
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        ADD      R2,SP,#+4
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        MOV      R2,SP
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        CMPEQ    R8,#+0
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_3
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R4, #+84]
+        CMP      R0,R1
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_4
+        CMP      R1,#+0
+        CMPNE    R1,#+8
+        BEQ      ??unzlocal_CheckCurrentFileCoherencyHeader_3
+??unzlocal_CheckCurrentFileCoherencyHeader_4:
+        MVN      R8,#+102
+??unzlocal_CheckCurrentFileCoherencyHeader_3:
+        LDR      R1,[R4, #+32]
+        MOV      R2,SP
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        LDR      R1,[R4, #+32]
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        MOV      R2,SP
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        CMPEQ    R8,#+0
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_5
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R4, #+92]
+        CMP      R0,R1
+        BEQ      ??unzlocal_CheckCurrentFileCoherencyHeader_5
+        LDR      R0,[SP, #+4]
+        TST      R0,#0x8
+        MVNEQ    R8,#+102
+??unzlocal_CheckCurrentFileCoherencyHeader_5:
+        LDR      R1,[R4, #+32]
+        MOV      R2,SP
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        CMPEQ    R8,#+0
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_6
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R4, #+96]
+        CMP      R0,R1
+        BEQ      ??unzlocal_CheckCurrentFileCoherencyHeader_6
+        LDR      R0,[SP, #+4]
+        TST      R0,#0x8
+        MVNEQ    R8,#+102
+??unzlocal_CheckCurrentFileCoherencyHeader_6:
+        LDR      R1,[R4, #+32]
+        MOV      R2,SP
+        MOV      R0,R4
+        BL       unzlocal_getLong
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        CMPEQ    R8,#+0
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_7
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R4, #+100]
+        CMP      R0,R1
+        BEQ      ??unzlocal_CheckCurrentFileCoherencyHeader_7
+        LDR      R0,[SP, #+4]
+        TST      R0,#0x8
+        MVNEQ    R8,#+102
+??unzlocal_CheckCurrentFileCoherencyHeader_7:
+        LDR      R1,[R4, #+32]
+        ADD      R2,SP,#+8
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        CMP      R0,#+0
+        MVNNE    R8,#+0
+        CMPEQ    R8,#+0
+        BNE      ??unzlocal_CheckCurrentFileCoherencyHeader_8
+        LDR      R0,[SP, #+8]
+        LDR      R1,[R4, #+104]
+        CMP      R0,R1
+        MVNNE    R8,#+102
+??unzlocal_CheckCurrentFileCoherencyHeader_8:
+        LDR      R0,[R5, #+0]
+        LDR      R1,[SP, #+8]
+        ADD      R2,SP,#+12
+        ADD      R0,R1,R0
+        STR      R0,[R5, #+0]
+        LDR      R1,[R4, #+32]
+        MOV      R0,R4
+        BL       unzlocal_getShort
+        LDR      R1,[SP, #+8]
+        CMP      R0,#+0
+        LDR      R0,[R4, #+152]
+        MVNNE    R8,#+0
+        ADD      R0,R1,R0
+        ADD      R0,R0,#+30
+        STR      R0,[R6, #+0]
+        LDR      R0,[SP, #+12]
+        STR      R0,[R7, #+0]
+        LDR      R0,[R5, #+0]
+        LDR      R1,[SP, #+12]
+        ADD      R0,R1,R0
+        STR      R0,[R5, #+0]
+        MOV      R0,R8
+??unzlocal_CheckCurrentFileCoherencyHeader_0:
+        ADD      SP,SP,#+20       ;; stack cleaning
+        CFI CFA R13+24
+        POP      {R4-R8,PC}       ;; return
+        DATA
+??unzlocal_CheckCurrentFileCoherencyHeader_2:
+        DC32     0x4034b50
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzOpenCurrentFile3??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock40
+        REQUIRE unzOpenCurrentFile3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon1
+        CFI Function unzOpenCurrentFile3
+        ARM
+unzOpenCurrentFile3:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+24
+        CFI CFA R13+60
+        LDR      R6,[SP, #+60]
+        MOV      R4,R0
+        MOV      R8,R1
+        MOV      R9,R2
+        MOV      R5,R3
+        CMP      R4,#+0
+        BNE      ??unzOpenCurrentFile3_0
+??unzOpenCurrentFile3_1:
+        MVN      R0,#+101
+        B        ??unzOpenCurrentFile3_2
+??unzOpenCurrentFile3_0:
+        LDR      R0,[R4, #+56]
+        CMP      R0,#+0
+        BEQ      ??unzOpenCurrentFile3_1
+        LDR      R0,[R4, #+156]
+        CMP      R0,#+0
+        BEQ      ??unzOpenCurrentFile3_3
+        MOV      R0,R4
+        BL       unzCloseCurrentFile
+??unzOpenCurrentFile3_3:
+        ADD      R3,SP,#+8
+        ADD      R2,SP,#+4
+        MOV      R1,SP
+        MOV      R0,R4
+        BL       unzlocal_CheckCurrentFileCoherencyHeader
+        CMP      R0,#+0
+        MVNNE    R0,#+102
+        BNE      ??unzOpenCurrentFile3_4
+        MOV      R0,#+144
+        SWI      +259
+        MOVS     R7,R0
+        BNE      ??unzOpenCurrentFile3_5
+??unzOpenCurrentFile3_6:
+        B        ??unzOpenCurrentFile3_7
+??unzOpenCurrentFile3_5:
+        MOV      R0,#+16384
+        SWI      +259
+        STR      R0,[R7, #+0]
+        LDR      R0,[SP, #+4]
+        STR      R0,[R7, #+68]
+        LDR      R0,[SP, #+8]
+        STR      R0,[R7, #+72]
+        MOV      R0,#+0
+        STR      R0,[R7, #+76]
+        STR      R5,[R7, #+140]
+        LDR      R0,[R7, #+0]
+        CMP      R0,#+0
+        BNE      ??unzOpenCurrentFile3_8
+        MOV      R0,R7
+        SWI      +260
+??unzOpenCurrentFile3_7:
+        MVN      R0,#+103
+??unzOpenCurrentFile3_2:
+        ADD      SP,SP,#+24
+        CFI CFA R13+36
+        POP      {R4-R11,PC}
+        CFI CFA R13+60
+??unzOpenCurrentFile3_8:
+        MOV      R0,#+0
+        STR      R0,[R7, #+64]
+        CMP      R8,#+0
+        LDRNE    R0,[R4, #+84]
+        STRNE    R0,[R8, #+0]
+        CMP      R9,#+0
+        BEQ      ??unzOpenCurrentFile3_9
+        MOV      R0,#+6
+        STR      R0,[R9, #+0]
+        LDR      R0,[R4, #+80]
+        AND      R0,R0,#0x6
+        SUBS     R0,R0,#+2
+        BEQ      ??unzOpenCurrentFile3_10
+        SUBS     R0,R0,#+2
+        BEQ      ??unzOpenCurrentFile3_11
+        SUBS     R0,R0,#+2
+        BNE      ??unzOpenCurrentFile3_9
+        MOV      R0,#+1
+        B        ??unzOpenCurrentFile3_12
+??unzOpenCurrentFile3_11:
+        MOV      R0,#+2
+        B        ??unzOpenCurrentFile3_12
+??unzOpenCurrentFile3_10:
+        MOV      R0,#+9
+??unzOpenCurrentFile3_12:
+        STR      R0,[R9, #+0]
+??unzOpenCurrentFile3_9:
+        LDR      R0,[R4, #+92]
+        ADD      R2,R7,#+96
+        STR      R0,[R7, #+84]
+        MOV      R0,#+0
+        STR      R0,[R7, #+80]
+        LDR      R1,[R4, #+84]
+        STR      R1,[R7, #+132]
+        LDR      R1,[R4, #+32]
+        STR      R1,[R7, #+128]
+        MOV      R1,R4
+        LDM      R1!,{R3,R8-R12,LR}
+        STM      R2!,{R3,R8-R12,LR}
+        LDM      R1,{R3}
+        STM      R2,{R3}
+        LDR      R1,[R4, #+44]
+        STR      R1,[R7, #+136]
+        STR      R0,[R7, #+24]
+        LDR      R0,[R4, #+84]
+        CMP      R0,#+8
+        CMPEQ    R5,#+0
+        BNE      ??unzOpenCurrentFile3_13
+        LDR      R2,??unzOpenCurrentFile3_14  ;; `?<Constant "1.2.3">`
+        MOV      R0,#+0
+        STR      R0,[R7, #+36]
+        STR      R0,[R7, #+40]
+        STR      R0,[R7, #+44]
+        STR      R0,[R7, #+4]
+        STR      R0,[R7, #+8]
+        MOV      R3,#+56
+        MVN      R1,#+14
+        ADD      R0,R7,#+4
+        SWI      +634
+        MOVS     R5,R0
+        BNE      ??unzOpenCurrentFile3_15
+        MOV      R0,#+1
+        STR      R0,[R7, #+64]
+??unzOpenCurrentFile3_13:
+        LDR      R0,[R4, #+96]
+        CMP      R6,#+0
+        STR      R0,[R7, #+88]
+        LDR      R0,[R4, #+100]
+        STR      R0,[R7, #+92]
+        LDR      R0,[R4, #+152]
+        LDR      R1,[SP, #+0]
+        ADD      R0,R1,R0
+        ADD      R0,R0,#+30
+        STR      R0,[R7, #+60]
+        MOV      R0,#+0
+        STR      R0,[R7, #+8]
+        STR      R7,[R4, #+156]
+        BEQ      ??unzOpenCurrentFile3_16
+        _BLF     get_crc_table,??get_crc_table??rA
+        STR      R0,[R4, #+176]
+        MOV      R5,R0
+        LDR      R0,??unzOpenCurrentFile3_14+0x4  ;; 0x12345678
+        ADD      R7,R4,#+164
+        STR      R0,[R7, #+0]
+        LDR      R0,??unzOpenCurrentFile3_14+0x8  ;; 0x23456789
+        STR      R0,[R7, #+4]
+        LDR      R0,??unzOpenCurrentFile3_14+0xC  ;; 0x34567890
+        STR      R0,[R7, #+8]
+        LDRB     R0,[R6, #+0]
+        CMP      R0,#+0
+        BEQ      ??unzOpenCurrentFile3_17
+??unzOpenCurrentFile3_18:
+        LDRB     R2,[R6], #+1
+        MOV      R1,R5
+        MOV      R0,R7
+        BL       update_keys
+        LDRB     R0,[R6, #+0]
+        CMP      R0,#+0
+        BNE      ??unzOpenCurrentFile3_18
+??unzOpenCurrentFile3_17:
+        LDR      R0,[R4, #+156]
+        LDR      R1,[R4, #+156]
+        LDR      R0,[R0, #+60]
+        LDR      R1,[R1, #+136]
+        LDR      R5,[R4, #+16]
+        ADD      R2,R1,R0
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        MOV      R3,#+0
+        BLX      R5
+        CMP      R0,#+0
+        BNE      ??unzOpenCurrentFile3_7
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        LDR      R5,[R4, #+4]
+        MOV      R3,#+12
+        ADD      R2,SP,#+12
+        BLX      R5
+        CMP      R0,#+12
+        BCC      ??unzOpenCurrentFile3_7
+        MOV      R5,#+0
+??unzOpenCurrentFile3_19:
+        LDR      R0,[R4, #+172]
+        MOV      R1,#+2
+        LSL      R0,R0,#+16
+        ORR      R0,R1,R0, LSR #+16
+        ADD      R1,SP,#+12
+        ADD      R1,R5,R1
+        LDRB     R2,[R1, #+0]
+        EOR      R3,R0,#0x1
+        MUL      R0,R3,R0
+        ADD      R5,R5,#+1
+        LSR      R0,R0,#+8
+        EOR      R2,R0,R2
+        STRB     R2,[R1, #+0]
+        LDR      R1,[R4, #+176]
+        AND      R2,R2,#0xFF
+        ADD      R0,R4,#+164
+        BL       update_keys
+        CMP      R5,#+12
+        BLT      ??unzOpenCurrentFile3_19
+        LDR      R0,[R4, #+156]
+        LDR      R1,[R0, #+60]
+        ADD      R1,R1,#+12
+        STR      R1,[R0, #+60]
+        MOV      R0,#+1
+        STR      R0,[R4, #+160]
+??unzOpenCurrentFile3_16:
+        MOV      R0,#+0
+??unzOpenCurrentFile3_4:
+        ADD      SP,SP,#+24       ;; stack cleaning
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        CFI CFA R13+60
+??unzOpenCurrentFile3_15:
+        MOV      R0,R7
+        SWI      +260
+        MOV      R0,R5
+        B        ??unzOpenCurrentFile3_2
+        DATA
+??unzOpenCurrentFile3_14:
+        DC32     `?<Constant "1.2.3">`
+        DC32     0x12345678
+        DC32     0x23456789
+        DC32     0x34567890
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzOpenCurrentFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock42
+        REQUIRE unzOpenCurrentFile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon1
+        CFI Function unzOpenCurrentFile
+        ARM
+unzOpenCurrentFile:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+8
+        MOV      R3,#+0
+        MOV      R2,R1
+        BL       unzOpenCurrentFile3
+        POP      {R1,PC}          ;; return
+        CFI EndBlock cfiBlock43
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzOpenCurrentFilePassword??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock44
+        REQUIRE unzOpenCurrentFilePassword
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon1
+        CFI Function unzOpenCurrentFilePassword
+        ARM
+unzOpenCurrentFilePassword:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        PUSH     {R1}
+        CFI CFA R13+8
+        MOV      R3,#+0
+        MOV      R2,#+0
+        MOV      R1,R2
+        BL       unzOpenCurrentFile3
+        POP      {R1,PC}          ;; return
+        CFI EndBlock cfiBlock45
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock46 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzOpenCurrentFile2??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock46
+        REQUIRE unzOpenCurrentFile2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock47 Using cfiCommon1
+        CFI Function unzOpenCurrentFile2
+        ARM
+unzOpenCurrentFile2:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R12,#+0
+        PUSH     {R12}
+        CFI CFA R13+8
+        BL       unzOpenCurrentFile3
+        POP      {R1,PC}          ;; return
+        CFI EndBlock cfiBlock47
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock48 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzReadCurrentFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock48
+        REQUIRE unzReadCurrentFile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock49 Using cfiCommon1
+        CFI Function unzReadCurrentFile
+        ARM
+unzReadCurrentFile:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        MOVS     R5,R0
+        MOV      R7,#+0
+        MOV      R4,#+0
+        BNE      ??unzReadCurrentFile_0
+??unzReadCurrentFile_1:
+        MVN      R0,#+101
+        POP      {R4-R11,PC}
+??unzReadCurrentFile_0:
+        LDR      R6,[R5, #+156]
+        CMP      R6,#+0
+        BEQ      ??unzReadCurrentFile_1
+        LDR      R0,[R6, #+0]
+        CMP      R0,#+0
+        MVNEQ    R0,#+99
+        POPEQ    {R4-R11,PC}
+        CMP      R2,#+0
+        BEQ      ??unzReadCurrentFile_2
+        STR      R1,[R6, #+16]
+        LDR      R1,[R6, #+92]
+        MOV      R0,R2
+        CMP      R1,R2
+        BCS      ??unzReadCurrentFile_3
+        LDR      R1,[R6, #+140]
+        CMP      R1,#+0
+        LDREQ    R0,[R6, #+92]
+??unzReadCurrentFile_3:
+        STR      R0,[R6, #+20]
+        LDR      R0,[R6, #+88]
+        LDR      R1,[R6, #+8]
+        ADD      R0,R1,R0
+        CMP      R0,R2
+        BCS      ??unzReadCurrentFile_4
+        LDR      R0,[R6, #+140]
+        CMP      R0,#+0
+        BEQ      ??unzReadCurrentFile_4
+        LDR      R0,[R6, #+88]
+        ADD      R0,R1,R0
+        STR      R0,[R6, #+20]
+        B        ??unzReadCurrentFile_4
+??unzReadCurrentFile_5:
+        LDR      R2,[R6, #+4]
+        LDR      R1,[R6, #+16]
+        LDRB     R2,[R0, +R2]
+        STRB     R2,[R0, +R1]
+        ADD      R0,R0,#+1
+??unzReadCurrentFile_6:
+        CMP      R0,R8
+        BCC      ??unzReadCurrentFile_5
+??unzReadCurrentFile_7:
+        LDR      R0,[R6, #+80]
+        LDR      R1,[R6, #+16]
+        MOV      R2,R8
+        _BLF     crc32,??crc32??rA
+        STR      R0,[R6, #+80]
+        LDR      R0,[R6, #+92]
+        ADD      R4,R8,R4
+        SUB      R0,R0,R8
+        STR      R0,[R6, #+92]
+        LDR      R0,[R6, #+8]
+        SUB      R0,R0,R8
+        STR      R0,[R6, #+8]
+        LDR      R0,[R6, #+20]
+        SUB      R0,R0,R8
+        STR      R0,[R6, #+20]
+        LDR      R0,[R6, #+16]
+        ADD      R0,R8,R0
+        STR      R0,[R6, #+16]
+        LDR      R0,[R6, #+4]
+        ADD      R0,R8,R0
+        STR      R0,[R6, #+4]
+        LDR      R0,[R6, #+24]
+        ADD      R0,R8,R0
+        STR      R0,[R6, #+24]
+??unzReadCurrentFile_4:
+        LDR      R0,[R6, #+20]
+        CMP      R0,#+0
+        BEQ      ??unzReadCurrentFile_8
+        LDR      R0,[R6, #+8]
+        CMP      R0,#+0
+        BNE      ??unzReadCurrentFile_9
+        LDR      R0,[R6, #+88]
+        CMP      R0,#+0
+        BEQ      ??unzReadCurrentFile_9
+        LDR      R1,[R6, #+136]
+        MOV      R8,#+16384
+        LDR      R9,[R6, #+112]
+        CMP      R0,#+16384
+        MOVCC    R8,R0
+        LDR      R0,[R6, #+60]
+        MOV      R3,#+0
+        ADD      R2,R1,R0
+        LDR      R0,[R6, #+124]
+        LDR      R1,[R6, #+128]
+        BLX      R9
+        CMP      R0,#+0
+        BEQ      ??unzReadCurrentFile_10
+??unzReadCurrentFile_11:
+        MVN      R0,#+0
+        POP      {R4-R11,PC}
+??unzReadCurrentFile_10:
+        LDR      R0,[R6, #+124]
+        LDR      R2,[R6, #+0]
+        LDR      R1,[R6, #+128]
+        LDR      R9,[R6, #+100]
+        MOV      R3,R8
+        BLX      R9
+        CMP      R0,R8
+        BNE      ??unzReadCurrentFile_11
+        LDR      R0,[R5, #+160]
+        CMP      R0,#+0
+        BEQ      ??unzReadCurrentFile_12
+        MOV      R9,#+0
+        B        ??unzReadCurrentFile_13
+??unzReadCurrentFile_14:
+        LDR      R0,[R5, #+172]
+        MOV      R1,#+2
+        LSL      R0,R0,#+16
+        ORR      R0,R1,R0, LSR #+16
+        LDR      R1,[R6, #+0]
+        EOR      R3,R0,#0x1
+        ADD      R1,R9,R1
+        LDRB     R2,[R1, #+0]
+        MUL      R0,R3,R0
+        LSR      R0,R0,#+8
+        EOR      R0,R0,R2
+        STRB     R0,[R1, #+0]
+        LDR      R0,[R6, #+0]
+        LDR      R1,[R5, #+176]
+        LDRB     R2,[R9, +R0]
+        ADD      R0,R5,#+164
+        BL       update_keys
+        LDR      R1,[R6, #+0]
+        STRB     R0,[R9, +R1]
+        ADD      R9,R9,#+1
+??unzReadCurrentFile_13:
+        CMP      R9,R8
+        BCC      ??unzReadCurrentFile_14
+??unzReadCurrentFile_12:
+        LDR      R0,[R6, #+60]
+        ADD      R0,R8,R0
+        STR      R0,[R6, #+60]
+        LDR      R0,[R6, #+88]
+        SUB      R0,R0,R8
+        STR      R0,[R6, #+88]
+        LDR      R0,[R6, #+0]
+        STR      R0,[R6, #+4]
+        STR      R8,[R6, #+8]
+??unzReadCurrentFile_9:
+        LDR      R0,[R6, #+132]
+        CMP      R0,#+0
+        BEQ      ??unzReadCurrentFile_15
+        LDR      R0,[R6, #+140]
+        CMP      R0,#+0
+        BEQ      ??unzReadCurrentFile_16
+??unzReadCurrentFile_15:
+        LDR      R0,[R6, #+8]
+        CMP      R0,#+0
+        LDREQ    R0,[R6, #+88]
+        CMPEQ    R0,#+0
+        BNE      ??unzReadCurrentFile_17
+        CMP      R4,#+0
+        POPEQ    {R4-R11,PC}
+??unzReadCurrentFile_2:
+        MOV      R0,R4
+        POP      {R4-R11,PC}
+??unzReadCurrentFile_17:
+        LDR      R0,[R6, #+20]
+        LDR      R1,[R6, #+8]
+        CMP      R0,R1
+        MOVCC    R8,R0
+        MOVCS    R8,R1
+        MOV      R0,#+0
+        CMP      R8,#+0
+        BNE      ??unzReadCurrentFile_6
+        B        ??unzReadCurrentFile_7
+??unzReadCurrentFile_16:
+        LDR      R8,[R6, #+24]
+        LDR      R9,[R6, #+16]
+        MOV      R1,#+2
+        ADD      R0,R6,#+4
+        SWI      +635
+        MOVS     R7,R0
+        BMI      ??unzReadCurrentFile_18
+        LDR      R0,[R6, #+28]
+        CMP      R0,#+0
+        MVNNE    R7,#+2
+??unzReadCurrentFile_18:
+        LDR      R10,[R6, #+24]
+        LDR      R0,[R6, #+80]
+        SUB      R11,R10,R8
+        MOV      R2,R11
+        MOV      R1,R9
+        _BLF     crc32,??crc32??rA
+        STR      R0,[R6, #+80]
+        LDR      R0,[R6, #+92]
+        CMP      R7,#+1
+        SUB      R0,R0,R11
+        STR      R0,[R6, #+92]
+        ADD      R0,R10,R4
+        SUB      R4,R0,R8
+        BNE      ??unzReadCurrentFile_19
+        CMP      R4,#+0
+        BNE      ??unzReadCurrentFile_2
+        MOV      R0,#+0
+        POP      {R4-R11,PC}
+??unzReadCurrentFile_19:
+        CMP      R7,#+0
+        BEQ      ??unzReadCurrentFile_4
+??unzReadCurrentFile_8:
+        CMP      R7,#+0
+        BEQ      ??unzReadCurrentFile_2
+        MOV      R0,R7
+        POP      {R4-R11,PC}      ;; return
+        CFI EndBlock cfiBlock49
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock50 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unztell??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock50
+        REQUIRE unztell
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock51 Using cfiCommon1
+        CFI Function unztell
+        ARM
+unztell:
+        CMP      R0,#+0
+        LDRNE    R0,[R0, #+156]
+        CMPNE    R0,#+0
+        MVNEQ    R0,#+101
+        BXEQ     LR
+        LDR      R0,[R0, #+24]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock51
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock52 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzeof??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock52
+        REQUIRE unzeof
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock53 Using cfiCommon1
+        CFI Function unzeof
+        ARM
+unzeof:
+        CMP      R0,#+0
+        BNE      ??unzeof_0
+??unzeof_1:
+        MVN      R0,#+101
+        BX       LR
+??unzeof_0:
+        LDR      R0,[R0, #+156]
+        CMP      R0,#+0
+        BEQ      ??unzeof_1
+        LDR      R0,[R0, #+92]
+        CMP      R0,#+0
+        MOVEQ    R0,#+1
+        BXEQ     LR
+        MOV      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock53
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock54 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGetLocalExtrafield??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock54
+        REQUIRE unzGetLocalExtrafield
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock55 Using cfiCommon1
+        CFI Function unzGetLocalExtrafield
+        ARM
+unzGetLocalExtrafield:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOV      R4,R1
+        CMP      R0,#+0
+        MOV      R6,R2
+        BNE      ??unzGetLocalExtrafield_0
+??unzGetLocalExtrafield_1:
+        MVN      R0,#+101
+        POP      {R4-R6,PC}
+??unzGetLocalExtrafield_0:
+        LDR      R5,[R0, #+156]
+        CMP      R5,#+0
+        BEQ      ??unzGetLocalExtrafield_1
+        LDR      R0,[R5, #+72]
+        LDR      R1,[R5, #+76]
+        CMP      R4,#+0
+        SUB      R0,R0,R1
+        POPEQ    {R4-R6,PC}
+        CMP      R0,R6
+        MOVCC    R6,R0
+        CMP      R6,#+0
+        MOVEQ    R0,#+0
+        POPEQ    {R4-R6,PC}
+        LDR      R0,[R5, #+68]
+        LDR      R12,[R5, #+112]
+        ADD      R2,R1,R0
+        LDR      R0,[R5, #+124]
+        LDR      R1,[R5, #+128]
+        MOV      R3,#+0
+        BLX      R12
+        CMP      R0,#+0
+        MVNNE    R0,#+0
+        POPNE    {R4-R6,PC}
+        LDR      R0,[R5, #+124]
+        LDR      R1,[R5, #+128]
+        MOV      R3,R6
+        MOV      R2,R4
+        LDR      R4,[R5, #+100]
+        BLX      R4
+        CMP      R0,R6
+        MVNNE    R0,#+0
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock55
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock56 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzCloseCurrentFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock56
+        REQUIRE unzCloseCurrentFile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock57 Using cfiCommon1
+        CFI Function unzCloseCurrentFile
+        ARM
+unzCloseCurrentFile:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOVS     R4,R0
+        MOV      R6,#+0
+        BNE      ??unzCloseCurrentFile_0
+??unzCloseCurrentFile_1:
+        MVN      R0,#+101
+        POP      {R4-R7,PC}
+??unzCloseCurrentFile_0:
+        LDR      R5,[R4, #+156]
+        CMP      R5,#+0
+        BEQ      ??unzCloseCurrentFile_1
+        LDR      R0,[R5, #+92]
+        CMP      R0,#+0
+        LDREQ    R0,[R5, #+140]
+        CMPEQ    R0,#+0
+        BNE      ??unzCloseCurrentFile_2
+        LDR      R0,[R5, #+80]
+        LDR      R1,[R5, #+84]
+        CMP      R0,R1
+        MVNNE    R6,#+104
+??unzCloseCurrentFile_2:
+        LDR      R0,[R5, #+0]
+        CMP      R0,#+0
+        BEQ      ??unzCloseCurrentFile_3
+        SWI      +260
+        MOV      R0,#+0
+??unzCloseCurrentFile_3:
+        STR      R0,[R5, #+0]
+        LDR      R0,[R5, #+64]
+        CMP      R0,#+0
+        BEQ      ??unzCloseCurrentFile_4
+        ADD      R0,R5,#+4
+        SWI      +636
+??unzCloseCurrentFile_4:
+        MOV      R7,#+0
+        STR      R7,[R5, #+64]
+        MOV      R0,R5
+        SWI      +260
+        STR      R7,[R4, #+156]
+        MOV      R0,R6
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock57
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock58 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGetGlobalComment??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock58
+        REQUIRE unzGetGlobalComment
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock59 Using cfiCommon1
+        CFI Function unzGetGlobalComment
+        ARM
+unzGetGlobalComment:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        CMP      R4,#+0
+        MVNEQ    R0,#+101
+        POPEQ    {R4-R7,PC}
+        LDR      R0,[R4, #+40]
+        LDR      R1,[R4, #+32]
+        LDR      R12,[R4, #+16]
+        MOV      R7,R6
+        CMP      R0,R7
+        MOVCC    R7,R0
+        LDR      R0,[R4, #+60]
+        MOV      R3,#+0
+        ADD      R2,R0,#+22
+        LDR      R0,[R4, #+28]
+        BLX      R12
+        CMP      R0,#+0
+        BEQ      ??unzGetGlobalComment_0
+??unzGetGlobalComment_1:
+        MVN      R0,#+0
+        POP      {R4-R7,PC}
+??unzGetGlobalComment_0:
+        CMP      R7,#+0
+        BEQ      ??unzGetGlobalComment_2
+        STRB     R0,[R5, #+0]
+        LDR      R0,[R4, #+28]
+        LDR      R1,[R4, #+32]
+        LDR      R12,[R4, #+4]
+        MOV      R3,R7
+        MOV      R2,R5
+        BLX      R12
+        CMP      R0,R7
+        BNE      ??unzGetGlobalComment_1
+??unzGetGlobalComment_2:
+        CMP      R5,#+0
+        BEQ      ??unzGetGlobalComment_3
+        LDR      R0,[R4, #+40]
+        CMP      R0,R6
+        MOVCC    R1,#+0
+        STRBCC   R1,[R0, +R5]
+??unzGetGlobalComment_3:
+        MOV      R0,R7
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock59
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock60 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzGetOffset??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock60
+        REQUIRE unzGetOffset
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock61 Using cfiCommon1
+        CFI Function unzGetOffset
+        ARM
+unzGetOffset:
+        CMP      R0,#+0
+        MVNEQ    R0,#+101
+        BXEQ     LR
+        LDR      R1,[R0, #+56]
+        CMP      R1,#+0
+        BNE      ??unzGetOffset_0
+??unzGetOffset_1:
+        MOV      R0,#+0
+        BX       LR
+??unzGetOffset_0:
+        LDR      R1,[R0, #+36]
+        CMP      R1,#+0
+        BEQ      ??unzGetOffset_2
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        CMP      R1,R2
+        BEQ      ??unzGetOffset_2
+        LDR      R1,[R0, #+48]
+        LDR      R2,[R0, #+36]
+        CMP      R1,R2
+        BEQ      ??unzGetOffset_1
+??unzGetOffset_2:
+        LDR      R0,[R0, #+52]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock61
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock62 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unzSetOffset??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock62
+        REQUIRE unzSetOffset
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock63 Using cfiCommon1
+        CFI Function unzSetOffset
+        ARM
+unzSetOffset:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        MVNEQ    R0,#+101
+        POPEQ    {R4,PC}
+        STR      R1,[R4, #+52]
+        LDR      R0,[R4, #+36]
+        MOV      R3,#+0
+        STR      R0,[R4, #+48]
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+12
+        PUSH     {R0}
+        CFI CFA R13+16
+        PUSH     {R0}
+        CFI CFA R13+20
+        PUSH     {R0}
+        CFI CFA R13+24
+        PUSH     {R0}
+        CFI CFA R13+28
+        ADD      R2,R4,#+152
+        ADD      R1,R4,#+72
+        MOV      R0,R4
+        BL       unzlocal_GetCurrentFileInfoInternal
+        CMP      R0,#+0
+        ADD      SP,SP,#+20
+        CFI CFA R13+8
+        MOVEQ    R1,#+1
+        MOVNE    R1,#+0
+        STR      R1,[R4, #+56]
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock63
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock64 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??fill_fopen_filefunc??rA:
+        LDR      R12,??Subroutine32_0  ;; fill_fopen_filefunc
+        BX       R12
+        DATA
+??Subroutine32_0:
+        DC32     fill_fopen_filefunc
+        CFI EndBlock cfiBlock64
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock65 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??get_crc_table??rA:
+        LDR      R12,??Subroutine33_0  ;; get_crc_table
+        BX       R12
+        DATA
+??Subroutine33_0:
+        DC32     get_crc_table
+        CFI EndBlock cfiBlock65
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock66 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??crc32??rA:
+        LDR      R12,??Subroutine34_0  ;; crc32
+        BX       R12
+        DATA
+??Subroutine34_0:
+        DC32     crc32
+        CFI EndBlock cfiBlock66
+
+        END
+// 
+// 6 516 bytes in segment CODE
+//    92 bytes in segment DATA_C
+// 
+// 6 352 bytes of CODE  memory (+ 164 bytes shared)
+//    92 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

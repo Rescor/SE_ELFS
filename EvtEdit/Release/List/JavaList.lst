@@ -1,0 +1,568 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:55:01 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\JavaLi #
+#                       st.c                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\JavaLi #
+#                       st.c -D NDEBUG -D OLDFUNCTIONS -lC                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Ev #
+#                       tEdit\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\EvtEdit\Release\Obj\ -s9 --cpu_mode arm     #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --enable_multibytes --fpu None        #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\JavaList.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\Obj\JavaList.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\JavaList.c
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "header\pages.h"
+      6          #include "header\externals.h"
+      7          
+      8          typedef struct
+      9          {
+     10            wchar_t * name;
+     11            wchar_t * fullpath;
+     12            int appID;
+     13            IMAGEID imageID;
+     14          }java_list_elem;
+     15          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     16          LIST * java_list;
+   \                     java_list:
+   \   00000000                      DS8 4
+     17          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     18          void onEnter_JavaList(BOOK * book, GUI* )
+     19          {
+   \                     ??onEnter_JavaList:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     20            MyBOOK *mbk=(MyBOOK*)book;
+     21            
+     22            java_list_elem * elem=(java_list_elem *)List_Get(java_list,ListMenu_GetSelectedItem(mbk->javalst));
+   \   00000008   680094E5           LDR      R0,[R4, #+104]
+   \   0000000C   3E0100EF           SWI      +318
+   \   00000010   0010A0E1           MOV      R1,R0
+   \   00000014   ........           LDR      R0,??DataTable7  ;; java_list
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   AD0100EF           SWI      +429
+   \   00000020   0050A0E1           MOV      R5,R0
+     23          
+     24            DELETE(mbk->selev->param);
+   \   00000024   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000028   340090E5           LDR      R0,[R0, #+52]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0500000A           BEQ      ??onEnter_JavaList_1
+   \   00000034   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000038   340090E5           LDR      R0,[R0, #+52]
+   \   0000003C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000040   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   341080E5           STR      R1,[R0, #+52]
+     25            mbk->selev->param=new wchar_t[wstrlen(elem->name)+1];
+   \                     ??onEnter_JavaList_1:
+   \   0000004C   000095E5           LDR      R0,[R5, #+0]
+   \   00000050   570100EF           SWI      +343
+   \   00000054   010080E2           ADD      R0,R0,#+1
+   \   00000058   8000A0E1           LSL      R0,R0,#+1
+   \   0000005C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000060   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000064   340081E5           STR      R0,[R1, #+52]
+     26            wstrcpy(mbk->selev->param,elem->name);
+   \   00000068   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000006C   001095E5           LDR      R1,[R5, #+0]
+   \   00000070   340090E5           LDR      R0,[R0, #+52]
+   \   00000074   520100EF           SWI      +338
+     27            BookObj_ReturnPage(book,ACCEPT_EVENT);
+   \   00000078   18009FE5           LDR      R0,??onEnter_JavaList_2  ;; ACCEPT_EVENT
+   \   0000007C   001090E5           LDR      R1,[R0, #+0]
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   2E0100EF           SWI      +302
+     28            BookObj_CallPage(book,&bk_main);
+   \   00000088   0C109FE5           LDR      R1,??onEnter_JavaList_2+0x4  ;; bk_main
+   \   0000008C   0400A0E1           MOV      R0,R4
+   \   00000090   B80200EF           SWI      +696
+     29          };
+   \   00000094   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??onEnter_JavaList_2:
+   \   00000098   ........           DC32     ACCEPT_EVENT
+   \   0000009C   ........           DC32     bk_main
+     30          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     31          void ExitJavaList(BOOK * book, GUI* )
+     32          {
+   \                     ??ExitJavaList:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     33            BookObj_ReturnPage(book,NIL_EVENT);
+   \   00000008   ........           LDR      R0,??DataTable2  ;; NIL_EVENT
+   \   0000000C   005090E5           LDR      R5,[R0, #+0]
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   0510A0E1           MOV      R1,R5
+   \   00000018   2E0100EF           SWI      +302
+     34            BookObj_ReturnPage(book,NIL_EVENT);
+   \   0000001C   0510A0E1           MOV      R1,R5
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   2E0100EF           SWI      +302
+     35            BookObj_ReturnPage(book,NIL_EVENT);
+   \   00000028   0510A0E1           MOV      R1,R5
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   2E0100EF           SWI      +302
+     36          };
+   \   00000034   3080BDE8           POP      {R4,R5,PC}       ;; return
+     37          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     38          void DestroyJavaList(BOOK * book, GUI* )
+     39          {
+     40            BookObj_ReturnPage(book,NIL_EVENT);
+   \                     ??DestroyJavaList:
+   \   00000000   ........           LDR      R1,??DataTable2  ;; NIL_EVENT
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   2E0100EF           SWI      +302
+     41          };
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     42          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     43          void elem_free(void * elem)
+     44          {
+   \                     ??elem_free:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     45            java_list_elem * lm=(java_list_elem *)elem;
+     46            DELETE(lm->name);
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0100000A           BEQ      ??elem_free_1
+   \   00000018   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   0000001C   005084E5           STR      R5,[R4, #+0]
+     47            DELETE(lm->fullpath);
+   \                     ??elem_free_1:
+   \   00000020   040094E5           LDR      R0,[R4, #+4]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0100000A           BEQ      ??elem_free_2
+   \   0000002C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000030   045084E5           STR      R5,[R4, #+4]
+     48            if (lm->imageID) ImageID_Free(lm->imageID);
+   \                     ??elem_free_2:
+   \   00000034   BC00D4E1           LDRH     R0,[R4, #+12]
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0000000A           BEQ      ??elem_free_3
+   \   00000040   CD0200EF           SWI      +717
+     49            delete(lm);
+   \                     ??elem_free_3:
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   3040BDE8           POP      {R4,R5,LR}       ;; Pop
+   \   0000004C   ........           _BF      `??operator delete`,`??operator delete??rA`  ;; tailcall
+     50          };
+     51          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     52          int elem_filter(void * elem)
+     53          {
+     54            if (elem) return(1);
+   \                     ??elem_filter:
+   \   00000000   000050E3           CMP      R0,#+0
+   \   00000004   0100A013           MOVNE    R0,#+1
+     55            return(0);
+   \   00000008   1EFF2FE1           BX       LR               ;; return
+     56          };
+     57          
+     58          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     59          int onExit_JavaList(void *data, BOOK * book)
+     60          {
+   \                     ??onExit_JavaList:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     61            MyBOOK *mbk=(MyBOOK*)book;
+     62            FREE_GUI(mbk->javalst);
+   \   00000008   680094E5           LDR      R0,[R4, #+104]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??onExit_JavaList_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   680084E5           STR      R0,[R4, #+104]
+     63            if (java_list)
+   \                     ??onExit_JavaList_1:
+   \   0000001C   ........           LDR      R4,??DataTable7  ;; java_list
+   \   00000020   000094E5           LDR      R0,[R4, #+0]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   1080BD08           POPEQ    {R4,PC}
+     64            {
+     65              List_DestroyElements(java_list,elem_filter,elem_free);
+   \   0000002C   ........           LDR      R2,??DataTable8  ;; ??elem_free
+   \   00000030   ........           LDR      R1,??DataTable9  ;; ??elem_filter
+   \   00000034   970200EF           SWI      +663
+     66              List_Destroy(java_list);
+   \   00000038   000094E5           LDR      R0,[R4, #+0]
+   \   0000003C   6A0100EF           SWI      +362
+     67              java_list=0;
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   000084E5           STR      R0,[R4, #+0]
+     68            }
+     69            return(0);
+   \   00000048   1080BDE8           POP      {R4,PC}          ;; return
+     70          };
+     71          
+     72          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     73          int java_list_callback(GUI_MESSAGE * msg)
+     74          {
+   \                     ??java_list_callback:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     75            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   1500001A           BNE      ??java_list_callback_1
+     76            {
+     77            case 1:
+     78              java_list_elem * elem=(java_list_elem*)List_Get(java_list,GUIonMessage_GetCreatedItemIndex(msg));
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   370100EF           SWI      +311
+   \   0000001C   0010A0E1           MOV      R1,R0
+   \   00000020   ........           LDR      R0,??DataTable7  ;; java_list
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   AD0100EF           SWI      +429
+   \   0000002C   0050A0E1           MOV      R5,R0
+     79              GUIonMessage_SetMenuItemText(msg,TextID_Create(elem->name,ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000030   000095E5           LDR      R0,[R5, #+0]
+   \   00000034   FF20A0E3           MOV      R2,#+255
+   \   00000038   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   5D0100EF           SWI      +349
+   \   00000044   0010A0E1           MOV      R1,R0
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   380100EF           SWI      +312
+     80              JavaApp_LogoImageID_Get(elem->fullpath,&elem->imageID);
+   \   00000050   040095E5           LDR      R0,[R5, #+4]
+   \   00000054   0C1085E2           ADD      R1,R5,#+12
+   \   00000058   0C0300EF           SWI      +780
+     81              GUIonMessage_SetMenuItemIcon(msg,0,elem->imageID);
+   \   0000005C   BC20D5E1           LDRH     R2,[R5, #+12]
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   3C0100EF           SWI      +316
+     82            }
+     83            return(1);
+   \                     ??java_list_callback_1:
+   \   0000006C   0100A0E3           MOV      R0,#+1
+   \   00000070   3080BDE8           POP      {R4,R5,PC}       ;; return
+     84          };
+     85          
+     86          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     87          java_list_elem * CreateElem(void * JavaDesc)
+     88          {
+   \                     ??CreateElem:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040A0E1           MOV      R4,R0
+     89            java_list_elem * elem=new java_list_elem;
+   \   0000000C   1000A0E3           MOV      R0,#+16
+   \   00000010   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000014   0050A0E1           MOV      R5,R0
+     90            wchar_t * sp;
+     91            JavaAppDesc_GetJavaAppInfo(JavaDesc,0,&sp);
+   \   00000018   0D20A0E1           MOV      R2,SP
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   DB0200EF           SWI      +731
+     92            elem->name=sp;
+   \   00000028   00009DE5           LDR      R0,[SP, #+0]
+     93            JavaAppDesc_GetJavaAppInfo(JavaDesc,5,&sp);
+   \   0000002C   0D20A0E1           MOV      R2,SP
+   \   00000030   000085E5           STR      R0,[R5, #+0]
+   \   00000034   0510A0E3           MOV      R1,#+5
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   DB0200EF           SWI      +731
+     94            elem->fullpath=sp;
+   \   00000040   00009DE5           LDR      R0,[SP, #+0]
+   \   00000044   040085E5           STR      R0,[R5, #+4]
+     95            elem->appID=JavaAppDesc_GetJavaAppID(JavaDesc);
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   0A0300EF           SWI      +778
+   \   00000050   080085E5           STR      R0,[R5, #+8]
+     96            return(elem);
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   3280BDE8           POP      {R1,R4,R5,PC}    ;; return
+     97          };
+     98          
+     99          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    100          int CreateJavaList(void *data, BOOK * book)
+    101          {
+   \                     ??CreateJavaList:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    102            MyBOOK *mbk=(MyBOOK*)book;
+    103            if (java_list)
+   \   00000004   ........           LDR      R5,??DataTable7  ;; java_list
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   000095E5           LDR      R0,[R5, #+0]
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0400000A           BEQ      ??CreateJavaList_1
+    104            {
+    105              List_DestroyElements(java_list,elem_filter,elem_free);
+   \   0000001C   ........           LDR      R2,??DataTable8  ;; ??elem_free
+   \   00000020   ........           LDR      R1,??DataTable9  ;; ??elem_filter
+   \   00000024   970200EF           SWI      +663
+    106              List_Destroy(java_list);
+   \   00000028   000095E5           LDR      R0,[R5, #+0]
+   \   0000002C   6A0100EF           SWI      +362
+    107            }
+    108            java_list=List_Create();
+   \                     ??CreateJavaList_1:
+   \   00000030   690100EF           SWI      +361
+   \   00000034   000085E5           STR      R0,[R5, #+0]
+    109            char sp1;
+    110            void * JavaDesc;
+    111            JavaDialog_Open(0,&sp1,&JavaDesc);
+   \   00000038   0D20A0E1           MOV      R2,SP
+   \   0000003C   04108DE2           ADD      R1,SP,#+4
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   D60200EF           SWI      +726
+    112            if (!JavaAppDesc_GetFirstApp(JavaDesc))
+   \   00000048   00009DE5           LDR      R0,[SP, #+0]
+   \   0000004C   D90200EF           SWI      +729
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   0800001A           BNE      ??CreateJavaList_2
+    113            {
+    114              int result=0;
+    115              while (!result)
+    116              {
+    117                List_InsertLast(java_list,CreateElem(JavaDesc));
+   \                     ??CreateJavaList_3:
+   \   00000058   00009DE5           LDR      R0,[SP, #+0]
+   \   0000005C   ........           BL       ??CreateElem
+   \   00000060   0010A0E1           MOV      R1,R0
+   \   00000064   000095E5           LDR      R0,[R5, #+0]
+   \   00000068   B00100EF           SWI      +432
+    118                result=JavaAppDesc_GetNextApp(JavaDesc);
+    119              }
+   \   0000006C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000070   DA0200EF           SWI      +730
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   F6FFFF0A           BEQ      ??CreateJavaList_3
+    120            }
+    121            JavaDialog_Close(sp1);
+   \                     ??CreateJavaList_2:
+   \   0000007C   0400DDE5           LDRB     R0,[SP, #+4]
+   \   00000080   D70200EF           SWI      +727
+    122            FREE_GUI(mbk->javalst);
+   \   00000084   680094E5           LDR      R0,[R4, #+104]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0100000A           BEQ      ??CreateJavaList_4
+   \   00000090   CE0100EF           SWI      +462
+   \   00000094   680084E5           STR      R0,[R4, #+104]
+    123            mbk->javalst=CreateListMenu(book,0);
+   \                     ??CreateJavaList_4:
+   \   00000098   0010A0E3           MOV      R1,#+0
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   C00100EF           SWI      +448
+   \   000000A4   680084E5           STR      R0,[R4, #+104]
+    124            GUIObject_SetTitleText(mbk->javalst,GetStrID(L"OAF_APPLICATIONS_TXT"));
+   \   000000A8   98009FE5           LDR      R0,??CreateJavaList_5  ;; `?<Constant L"\\x4f\\x41\\x46\\x5f\\x41\\x50\\x50\\x4c\\`
+   \   000000AC   ........           _BLF     ??GetStrID,??GetStrID??rA
+   \   000000B0   0010A0E1           MOV      R1,R0
+   \   000000B4   680094E5           LDR      R0,[R4, #+104]
+   \   000000B8   330100EF           SWI      +307
+    125            ListMenu_SetItemCount(mbk->javalst,java_list->FirstFree);
+   \   000000BC   000095E5           LDR      R0,[R5, #+0]
+   \   000000C0   B210D0E1           LDRH     R1,[R0, #+2]
+   \   000000C4   680094E5           LDR      R0,[R4, #+104]
+   \   000000C8   C10100EF           SWI      +449
+    126            OneOfMany_SetOnMessage((GUI_ONEOFMANY*)mbk->javalst,java_list_callback);
+   \   000000CC   78109FE5           LDR      R1,??CreateJavaList_5+0x4  ;; ??java_list_callback
+   \   000000D0   680094E5           LDR      R0,[R4, #+104]
+   \   000000D4   E10100EF           SWI      +481
+    127            ListMenu_SetCursorToItem(mbk->javalst,0);
+   \   000000D8   680094E5           LDR      R0,[R4, #+104]
+   \   000000DC   0010A0E3           MOV      R1,#+0
+   \   000000E0   350100EF           SWI      +309
+    128            GUIObject_SoftKeys_SetAction(mbk->javalst,ACTION_BACK,DestroyJavaList);
+   \   000000E4   64009FE5           LDR      R0,??CreateJavaList_5+0x8  ;; ACTION_BACK
+   \   000000E8   64209FE5           LDR      R2,??CreateJavaList_5+0xC  ;; ??DestroyJavaList
+   \   000000EC   001090E5           LDR      R1,[R0, #+0]
+   \   000000F0   680094E5           LDR      R0,[R4, #+104]
+   \   000000F4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000F8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000FC   4B0100EF           SWI      +331
+    129            GUIObject_SoftKeys_SetAction(mbk->javalst,ACTION_LONG_BACK,ExitJavaList);
+   \   00000100   50009FE5           LDR      R0,??CreateJavaList_5+0x10  ;; ACTION_LONG_BACK
+   \   00000104   50209FE5           LDR      R2,??CreateJavaList_5+0x14  ;; ??ExitJavaList
+   \   00000108   001090E5           LDR      R1,[R0, #+0]
+   \   0000010C   680094E5           LDR      R0,[R4, #+104]
+   \   00000110   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000114   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000118   4B0100EF           SWI      +331
+    130            GUIObject_SoftKeys_SetAction(mbk->javalst,ACTION_SELECT1,onEnter_JavaList);
+   \   0000011C   3C009FE5           LDR      R0,??CreateJavaList_5+0x18  ;; ACTION_SELECT1
+   \   00000120   3C209FE5           LDR      R2,??CreateJavaList_5+0x1C  ;; ??onEnter_JavaList
+   \   00000124   001090E5           LDR      R1,[R0, #+0]
+   \   00000128   680094E5           LDR      R0,[R4, #+104]
+   \   0000012C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000130   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000134   4B0100EF           SWI      +331
+    131            GUIObject_Show(mbk->javalst);
+   \   00000138   680094E5           LDR      R0,[R4, #+104]
+   \   0000013C   340100EF           SWI      +308
+    132            return(0);
+   \   00000140   0000A0E3           MOV      R0,#+0
+   \   00000144   3680BDE8           POP      {R1,R2,R4,R5,PC}  ;; return
+   \                     ??CreateJavaList_5:
+   \   00000148   ........           DC32     `?<Constant L"\\x4f\\x41\\x46\\x5f\\x41\\x50\\x50\\x4c\\`
+   \   0000014C   ........           DC32     ??java_list_callback
+   \   00000150   ........           DC32     ACTION_BACK
+   \   00000154   ........           DC32     ??DestroyJavaList
+   \   00000158   ........           DC32     ACTION_LONG_BACK
+   \   0000015C   ........           DC32     ??ExitJavaList
+   \   00000160   ........           DC32     ACTION_SELECT1
+   \   00000164   ........           DC32     ??onEnter_JavaList
+    133          };
+    134          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    135          const PAGE_MSG SetJava_PageEvents[]@ "DYN_PAGE" ={
+   \                     SetJava_PageEvents:
+   \   00000000   42000000....       DC32 66, ??CreateJavaList, 67, ??onExit_JavaList, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+    136            PAGE_ENTER_EVENT_TAG,CreateJavaList,
+    137            PAGE_EXIT_EVENT_TAG,onExit_JavaList,
+    138            NIL_EVENT_TAG,0
+    139          };
+    140          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    141          const PAGE_DESC SetJava_page ={"SetJava_Page",0,SetJava_PageEvents};
+   \                     SetJava_page:
+   \   00000000   ........0000       DC32 `?<Constant "SetJava_Page">`, 0H, SetJava_PageEvents
+   \              0000........
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     NIL_EVENT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     java_list
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     ??elem_free
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     ??elem_filter
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SetJava_Page">`:
+   \   00000000   5365744A6176       DC8 "SetJava_Page"
+   \              615F50616765
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4f\\x41\\x46\\x5f\\x41\\x50\\x50\\x4c\\`:
+   \   00000000   4F0041004600       DC8 4FH, 0, 41H, 0, 46H, 0, 5FH, 0
+   \              5F00        
+   \   00000008   410050005000       DC8 41H, 0, 50H, 0, 50H, 0, 4CH, 0
+   \              4C00        
+   \   00000010   490043004100       DC8 49H, 0, 43H, 0, 41H, 0, 54H, 0
+   \              5400        
+   \   00000018   49004F004E00       DC8 49H, 0, 4FH, 0, 4EH, 0, 53H, 0
+   \              5300        
+   \   00000020   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000028   0000               DC8 0, 0
+   \   0000002A   0000               DC8 0, 0
+    142          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateElem(void *)                16
+     CreateJavaList(void *, BOOK *)    20
+     DestroyJavaList(BOOK *, GUI *)     4
+     ExitJavaList(BOOK *, GUI *)       12
+     elem_filter(void *)                0
+     elem_free(void *)                 12
+     java_list_callback(GUI_MESSAGE *)
+                                       12
+     onEnter_JavaList(BOOK *, GUI *)
+                                       12
+     onExit_JavaList(void *, BOOK *)
+                                        8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     java_list                         4
+     onEnter_JavaList(BOOK *, GUI *)
+                                     160
+     ExitJavaList(BOOK *, GUI *)      56
+     DestroyJavaList(BOOK *, GUI *)   20
+     elem_free(void *)                80
+     elem_filter(void *)              12
+     onExit_JavaList(void *, BOOK *)
+                                      76
+     java_list_callback(GUI_MESSAGE *)
+                                     116
+     CreateElem(void *)               92
+     CreateJavaList(void *, BOOK *)  360
+     SetJava_PageEvents               24
+     SetJava_page                     12
+     ??DataTable2                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ?<Constant "SetJava_Page">       16
+     ?<Constant L"\x4f\x41\x46\x5f\x41\x50\x50\x4c\
+                                      44
+      Others                          96
+
+ 
+ 1 072 bytes in segment CODE
+    72 bytes in segment DATA_C
+     4 bytes in segment DATA_Z
+    24 bytes in segment DYN_PAGE
+    12 bytes in segment INITTAB
+ 
+ 988 bytes of CODE  memory (+ 96 bytes shared)
+  96 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

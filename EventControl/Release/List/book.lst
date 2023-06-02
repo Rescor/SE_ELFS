@@ -1,0 +1,730 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:52:59 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\b #
+#                       ook.c                                                #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\b #
+#                       ook.c -D NDEBUG -D OLDFUNCTIONS -lC                  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\book.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\book.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\book.c
+      1          /*
+      2          *===========================================================================
+      3          *                      Модуль книги EventControl'а
+      4          *===========================================================================
+      5          */
+      6          #define __version__ L"EventControl v2.0\r\n\r\n© UltraShot, Slaventino\n\r\n%s\n\r\nIn a memory of PSIX\n"
+      7          #define BUILD "public version"
+      8          
+      9          #include "..\deleaker\mem2.h"
+     10          #include "..\include\Lib_Clara.h" 
+     11          #include "..\include\Dir.h" 
+     12          #include "header\structs.h"
+     13          
+     14          extern PROCESS proc_;
+     15          extern u16 EventTimer;
+     16          extern wchar_t *extFolder;
+     17          extern wchar_t *intFolder;
+     18          
+     19          int readConfig(MyBOOK *mbk, wchar_t *fpath, wchar_t *fname);
+     20          int InitializeEvents(MyBOOK *myBook);
+     21          void DestroyEvents(MyBOOK *myBook);
+     22          
+     23          void CreateReminder(REMINDER_STRUCT * rem_str);
+     24          GUI_LIST *create_ed(BOOK *book);
+     25          void mbox_Create(BOOK * bk, wchar_t *text, int minutes, bool vibra);
+     26          
+     27          void kill_rems(LIST *lst, MyBOOK *mbk, bool check);
+     28          int GetIconID(wchar_t*);
+     29          void Reminder_onOK(BOOK *bk, void *);
+     30          void OnBackGui(BOOK * bk, void *);
+     31          
+     32          MyBOOK * ECBook=0;
+     33          
+     34          typedef struct
+     35          {
+     36            BOOK * book;
+     37          }MSG;
+     38          
+     39          /*
+     40           *===========================================================================
+     41           *                         Очистка памяти, занятой эльфом
+     42           *===========================================================================
+     43           */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          void elf_exit(void)
+     45          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     46            trace_done();
+     47            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+     48          };
+     49          
+     50          /*
+     51           *===========================================================================
+     52           *                         Вызываем закрытие нашей книги из букмана
+     53           *===========================================================================
+     54           */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     55          int ECBook_Terminate(void * ,BOOK* book)
+     56          {
+   \                     ??ECBook_Terminate:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+     57            FreeBook(book);
+   \   00000008   2F0100EF           SWI      +303
+     58            return 1;
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     59          };
+     60          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     61          wchar_t *checkfile(wchar_t *name)
+     62          {
+   \                     ??checkfile:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     63            FSTAT fst;
+     64            if (fstat(extFolder,name,&fst)==0)
+   \   00000004   ........           LDR      R5,??DataTable3  ;; extFolder
+   \   00000008   1CD04DE2           SUB      SP,SP,#+28
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   000095E5           LDR      R0,[R5, #+0]
+   \   00000014   0D20A0E1           MOV      R2,SP
+   \   00000018   0410A0E1           MOV      R1,R4
+   \   0000001C   1C0100EF           SWI      +284
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0400000A           BEQ      ??checkfile_1
+     65            {
+     66              return extFolder;
+     67            }
+     68            else if (fstat(intFolder,name,&fst)==0)
+   \   00000028   ........           LDR      R5,??DataTable4  ;; intFolder
+   \   0000002C   0D20A0E1           MOV      R2,SP
+   \   00000030   000095E5           LDR      R0,[R5, #+0]
+   \   00000034   0410A0E1           MOV      R1,R4
+   \   00000038   1C0100EF           SWI      +284
+   \                     ??checkfile_1:
+   \   0000003C   000095E5           LDR      R0,[R5, #+0]
+     69            {
+     70              return intFolder;
+     71            }
+     72            return intFolder;
+   \   00000040   1CD08DE2           ADD      SP,SP,#+28
+   \   00000044   3080BDE8           POP      {R4,R5,PC}       ;; return
+     73          };
+     74          /*
+     75           *===========================================================================
+     76           *                         Показ информации об эльфе в окне букмана
+     77           *===========================================================================
+     78           */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     79          int ECBook_ShowAuthorInfo(void *mess ,BOOK* book)
+     80          {
+   \                     ??ECBook_ShowAuthorInfo:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     81            MyBOOK *mbk=ECBook;
+   \   00000004   ........           LDR      R6,??DataTable7  ;; ECBook
+     82            PlayFile(checkfile(L"stop.mp3"),L"stop.mp3");
+   \   00000008   EC509FE5           LDR      R5,??ECBook_ShowAuthorInfo_1  ;; `?<Constant L"\\x73\\x74\\x6f\\x70\\x2e\\x6d\\x70\\x33"`
+   \   0000000C   3CD04DE2           SUB      SP,SP,#+60
+   \   00000010   40DE4DE2           SUB      SP,SP,#+1024
+   \   00000014   007096E5           LDR      R7,[R6, #+0]
+   \   00000018   0140A0E1           MOV      R4,R1
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   ........           BL       ??checkfile
+   \   00000024   0510A0E1           MOV      R1,R5
+   \   00000028   B20100EF           SWI      +434
+     83            if (mbk->remlst)
+   \   0000002C   2C0097E5           LDR      R0,[R7, #+44]
+   \   00000030   000050E3           CMP      R0,#+0
+     84            {
+     85              if (mbk->remlst->FirstFree>0)
+   \   00000034   B200D011           LDRHNE   R0,[R0, #+2]
+   \   00000038   00005013           CMPNE    R0,#+0
+   \   0000003C   0C00000A           BEQ      ??ECBook_ShowAuthorInfo_2
+     86              {
+     87                REMINDER_STRUCT rem_str;
+     88                rem_str.bk=&ECBook->bk;
+   \   00000040   001096E5           LDR      R1,[R6, #+0]
+     89                rem_str.text=0;
+   \   00000044   0000A0E3           MOV      R0,#+0
+   \   00000048   04108DE5           STR      R1,[SP, #+4]
+   \   0000004C   08008DE5           STR      R0,[SP, #+8]
+     90                rem_str.utext=0;
+   \   00000050   0C008DE5           STR      R0,[SP, #+12]
+     91                rem_str.time=0;
+   \   00000054   10008DE5           STR      R0,[SP, #+16]
+     92                rem_str.vibra=0;
+   \   00000058   0020A0E3           MOV      R2,#+0
+   \   0000005C   1420CDE5           STRB     R2,[SP, #+20]
+     93                rem_str.replace=0;
+   \   00000060   1520CDE5           STRB     R2,[SP, #+21]
+     94                rem_str.need_to_destroy=false;
+   \   00000064   1600CDE5           STRB     R0,[SP, #+22]
+     95                CreateReminder(&rem_str);
+   \   00000068   04008DE2           ADD      R0,SP,#+4
+   \   0000006C   ........           _BLF     ??CreateReminder,??CreateReminder??rA
+     96                return 1;
+   \   00000070   1D0000EA           B        ??ECBook_ShowAuthorInfo_3
+     97              }
+     98            }
+     99            wchar_t text[512];
+    100            snwprintf(text,511, __version__ , BUILD);
+   \                     ??ECBook_ShowAuthorInfo_2:
+   \   00000074   FF60A0E3           MOV      R6,#+255
+   \   00000078   406F86E3           ORR      R6,R6,#0x100
+   \   0000007C   A83085E2           ADD      R3,R5,#+168
+   \   00000080   142085E2           ADD      R2,R5,#+20
+   \   00000084   0610A0E1           MOV      R1,R6
+   \   00000088   3C008DE2           ADD      R0,SP,#+60
+   \   0000008C   150100EF           SWI      +277
+    101            PLMN_LAC_DESC plmn_lac;
+    102            RAT_CI_DESC rat_ci;
+    103            char CSReg;
+    104            if (get_CellData(&plmn_lac,&rat_ci,&CSReg))
+   \   00000090   0D20A0E1           MOV      R2,SP
+   \   00000094   24108DE2           ADD      R1,SP,#+36
+   \   00000098   18008DE2           ADD      R0,SP,#+24
+   \   0000009C   240300EF           SWI      +804
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   0B00000A           BEQ      ??ECBook_ShowAuthorInfo_4
+    105            {
+    106              snwprintf(text,511,L"%ls \nCurrent LAC-CID: %04X-%04X", text, plmn_lac.LAC[0]<<8|plmn_lac.LAC[1], rat_ci.CI);
+   \   000000A8   28009DE5           LDR      R0,[SP, #+40]
+   \   000000AC   B82085E2           ADD      R2,R5,#+184
+   \   000000B0   01002DE9           PUSH     {R0}
+   \   000000B4   2510DDE5           LDRB     R1,[SP, #+37]
+   \   000000B8   2400DDE5           LDRB     R0,[SP, #+36]
+   \   000000BC   000481E1           ORR      R0,R1,R0, LSL #+8
+   \   000000C0   01002DE9           PUSH     {R0}
+   \   000000C4   44308DE2           ADD      R3,SP,#+68
+   \   000000C8   0610A0E1           MOV      R1,R6
+   \   000000CC   44008DE2           ADD      R0,SP,#+68
+   \   000000D0   150100EF           SWI      +277
+   \   000000D4   08D08DE2           ADD      SP,SP,#+8
+    107            }
+    108            mbox_Create(book, text, 0, false);
+   \                     ??ECBook_ShowAuthorInfo_4:
+   \   000000D8   0030A0E3           MOV      R3,#+0
+   \   000000DC   0020A0E3           MOV      R2,#+0
+   \   000000E0   3C108DE2           ADD      R1,SP,#+60
+   \   000000E4   0400A0E1           MOV      R0,R4
+   \   000000E8   ........           _BLF     ??mbox_Create,??mbox_Create??rA
+    109            return 1;
+   \                     ??ECBook_ShowAuthorInfo_3:
+   \   000000EC   0100A0E3           MOV      R0,#+1
+   \   000000F0   3CD08DE2           ADD      SP,SP,#+60
+   \   000000F4   40DE8DE2           ADD      SP,SP,#+1024
+   \   000000F8   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??ECBook_ShowAuthorInfo_1:
+   \   000000FC   ........           DC32     `?<Constant L"\\x73\\x74\\x6f\\x70\\x2e\\x6d\\x70\\x33"`
+    110          };
+    111          void destroy_innative_lng();
+    112          /*
+    113           *===========================================================================
+    114           *                         Функция закрытия нашей книги
+    115           *===========================================================================
+    116           * 1) Уничтожаем таймер
+    117           * 2) Уничтожаем список событий
+    118           * 3) Убираем эльфа из памяти
+    119           */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    120          void ECBook_OnClose(BOOK * book)
+    121          {
+   \                     ??ECBook_OnClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+    122            if (book)
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+    123            {
+    124              MyBOOK *mbk=(MyBOOK*)book;
+    125              Timer_Kill(&EventTimer);
+   \   0000000C   E4009FE5           LDR      R0,??ECBook_OnClose_1  ;; EventTimer
+   \   00000010   2A0100EF           SWI      +298
+    126              kill_proc(proc_);
+   \   00000014   E0009FE5           LDR      R0,??ECBook_OnClose_1+0x4  ;; proc_
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   870100EF           SWI      +391
+    127              if (extFolder)delete(extFolder);
+   \   00000020   ........           LDR      R0,??DataTable3  ;; extFolder
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0000000A           BEQ      ??ECBook_OnClose_2
+   \   00000030   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    128              if (intFolder)delete(intFolder);
+   \                     ??ECBook_OnClose_2:
+   \   00000034   ........           LDR      R0,??DataTable4  ;; intFolder
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   0000000A           BEQ      ??ECBook_OnClose_3
+   \   00000044   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    129              wchar_t icon=GetIconID(L"CALE_RN_TASK_STATUS_ICN");
+   \                     ??ECBook_OnClose_3:
+   \   00000048   B0009FE5           LDR      R0,??ECBook_OnClose_1+0x8  ;; `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x52\\x4e\\x5f\\`
+   \   0000004C   ........           _BLF     ??GetIconID,??GetIconID??rA
+   \   00000050   0008A0E1           MOV      R0,R0, LSL #+16
+   \   00000054   2008A0E1           MOV      R0,R0, LSR #+16
+    130              SetTrayIcon(icon, 0);
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   4D0300EF           SWI      +845
+    131              if (mbk->indpath)
+   \   00000060   3C0094E5           LDR      R0,[R4, #+60]
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   0000000A           BEQ      ??ECBook_OnClose_4
+    132                delete(mbk->indpath);
+   \   0000006C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    133              if (mbk->indname)
+   \                     ??ECBook_OnClose_4:
+   \   00000070   400094E5           LDR      R0,[R4, #+64]
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0000000A           BEQ      ??ECBook_OnClose_5
+    134                delete(mbk->indname);
+   \   0000007C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    135              if (mbk->g_mbox)
+   \                     ??ECBook_OnClose_5:
+   \   00000080   340094E5           LDR      R0,[R4, #+52]
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   0000000A           BEQ      ??ECBook_OnClose_6
+    136                GUIObject_Destroy(mbk->g_mbox);
+   \   0000008C   CE0100EF           SWI      +462
+    137              if (mbk->name)
+   \                     ??ECBook_OnClose_6:
+   \   00000090   200094E5           LDR      R0,[R4, #+32]
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   0000000A           BEQ      ??ECBook_OnClose_7
+    138                delete(mbk->name);
+   \   0000009C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    139              if (mbk->path)
+   \                     ??ECBook_OnClose_7:
+   \   000000A0   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000A4   000050E3           CMP      R0,#+0
+   \   000000A8   0000000A           BEQ      ??ECBook_OnClose_8
+    140                delete(mbk->path);
+   \   000000AC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    141              if (mbk->g_test)
+   \                     ??ECBook_OnClose_8:
+   \   000000B0   300094E5           LDR      R0,[R4, #+48]
+   \   000000B4   000050E3           CMP      R0,#+0
+   \   000000B8   0000000A           BEQ      ??ECBook_OnClose_9
+    142                GUIObject_Destroy(mbk->g_test);
+   \   000000BC   CE0100EF           SWI      +462
+    143              if (mbk->remind)
+   \                     ??ECBook_OnClose_9:
+   \   000000C0   240094E5           LDR      R0,[R4, #+36]
+   \   000000C4   000050E3           CMP      R0,#+0
+   \   000000C8   0000000A           BEQ      ??ECBook_OnClose_10
+    144                GUIObject_Destroy(mbk->remind);
+   \   000000CC   CE0100EF           SWI      +462
+    145              kill_rems(mbk->remlst, mbk, 0);
+   \                     ??ECBook_OnClose_10:
+   \   000000D0   2C0094E5           LDR      R0,[R4, #+44]
+   \   000000D4   0020A0E3           MOV      R2,#+0
+   \   000000D8   0410A0E1           MOV      R1,R4
+   \   000000DC   ........           _BLF     ??kill_rems,??kill_rems??rA
+    146              DestroyEvents((MyBOOK*)book);
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   ........           _BLF     ??DestroyEvents,??DestroyEvents??rA
+    147              destroy_innative_lng();
+   \   000000E8   ........           _BLF     ??destroy_innative_lng,??destroy_innative_lng??rA
+    148              
+    149              SUBPROC(elf_exit);
+   \   000000EC   10009FE5           LDR      R0,??ECBook_OnClose_1+0xC  ;; ??elf_exit
+   \   000000F0   080100EF           SWI      +264
+    150              
+    151            }
+    152          };
+   \   000000F4   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??ECBook_OnClose_1:
+   \   000000F8   ........           DC32     EventTimer
+   \   000000FC   ........           DC32     proc_
+   \   00000100   ........           DC32     `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x52\\x4e\\x5f\\`
+   \   00000104   ........           DC32     ??elf_exit
+    153          
+    154          /*
+    155           *===========================================================================
+    156           *                         Определение нашей книги для FindBook
+    157           *===========================================================================
+    158           */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    159          int isEvtBook(BOOK *bk)
+    160          {
+    161            if (bk->onClose == ECBook_OnClose)return 1;
+   \                     ??isEvtBook:
+   \   00000000   040090E5           LDR      R0,[R0, #+4]
+   \   00000004   ........           LDR      R1,??DataTable8  ;; ??ECBook_OnClose
+   \   00000008   010050E1           CMP      R0,R1
+   \   0000000C   0100A003           MOVEQ    R0,#+1
+   \   00000010   1EFF2F01           BXEQ     LR
+    162            return 0;
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   1EFF2FE1           BX       LR               ;; return
+    163          };
+    164          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    165          int onUserInactivity(void * r0, BOOK * bk)
+    166          {
+   \                     ??onUserInactivity:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    167            MyBOOK *mbk=(MyBOOK*)bk;
+    168            if (mbk->remind)
+   \   00000008   240094E5           LDR      R0,[R4, #+36]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0200000A           BEQ      ??onUserInactivity_1
+    169            {
+    170              Reminder_onOK(bk, 0);
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   ........           _BLF     ??Reminder_onOK,??Reminder_onOK??rA
+    171            }
+    172            if (mbk->g_test)
+   \                     ??onUserInactivity_1:
+   \   00000020   300094E5           LDR      R0,[R4, #+48]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   1080BD08           POPEQ    {R4,PC}
+    173            {
+    174              OnBackGui(bk, 0);
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   ........           _BLF     ??OnBackGui,??OnBackGui??rA
+    175            }
+    176            return(0);
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+    177          };
+    178          /*
+    179          *===========================================================================
+    180          *                         Список ивентов, обрабатываемых эльфом
+    181          *===========================================================================
+    182          */
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    183          const PAGE_MSG EC_BasePageEvents[]@ "DYN_PAGE" ={
+   \                     EC_BasePageEvents:
+   \   00000000   E5030000....       DC32 997, ??ECBook_Terminate, 998, ??ECBook_ShowAuthorInfo, 64, 0H
+   \              ....E6030000
+   \              ........4000
+   \              000000000000
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     ECBook:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for ECBook>`
+    184            ELF_TERMINATE_EVENT , ECBook_Terminate,
+    185            ELF_SHOW_INFO_EVENT  , ECBook_ShowAuthorInfo,
+    186            NIL_EVENT_TAG,           NULL
+    187          };
+    188          PAGE_DESC base_page ={"EventControl_BasePage",0,EC_BasePageEvents};
+   \                     base_page:
+   \   00000004                      DS8 12
+   \   00000010                      REQUIRE `?<Initializer for base_page>`
+    189          
+    190          /*
+    191           *===========================================================================
+    192           *                         Обновление расписания
+    193           *===========================================================================
+    194           * 1) Если путь/имя!=0, то читаем новый конфиг
+    195           * 2) Если путь/имя==0, то читаем дефолтный
+    196           */
+    197          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    198          void Update(wchar_t *fpath, wchar_t *fname)
+    199          {
+   \                     ??Update:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    200            DestroyEvents(ECBook);
+   \   00000004   ........           LDR      R6,??DataTable7  ;; ECBook
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   000096E5           LDR      R0,[R6, #+0]
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   ........           _BLF     ??DestroyEvents,??DestroyEvents??rA
+    201            if (fpath && fname)
+   \   00000018   000054E3           CMP      R4,#+0
+   \   0000001C   00005513           CMPNE    R5,#+0
+    202            {
+    203              if (fpath[0]!=0 && fname[0]!=0)
+   \   00000020   B000D411           LDRHNE   R0,[R4, #+0]
+   \   00000024   00005013           CMPNE    R0,#+0
+   \   00000028   B000D511           LDRHNE   R0,[R5, #+0]
+   \   0000002C   00005013           CMPNE    R0,#+0
+   \   00000030   0400000A           BEQ      ??Update_1
+    204              {
+    205                readConfig(ECBook,fpath,fname);
+   \   00000034   000096E5           LDR      R0,[R6, #+0]
+   \   00000038   0520A0E1           MOV      R2,R5
+   \   0000003C   0410A0E1           MOV      R1,R4
+   \   00000040   7040BDE8           POP      {R4-R6,LR}       ;; Pop
+   \   00000044   ........           _BF      ??readConfig,??readConfig??rA  ;; tailcall
+    206                return;
+    207              }
+    208            }
+    209            InitializeEvents(ECBook);
+   \                     ??Update_1:
+   \   00000048   000096E5           LDR      R0,[R6, #+0]
+   \   0000004C   7040BDE8           POP      {R4-R6,LR}       ;; Pop
+   \   00000050   ........           _BF      ??InitializeEvents,??InitializeEvents??rA  ;; tailcall
+    210          };
+    211          
+    212          /*
+    213           *===========================================================================
+    214           *                         Создание нашей книги
+    215           *===========================================================================
+    216           * 1) Создаём нашу книгу с сопутствующим "хранилищем" переменных...
+    217           * 2) Устанавливаем update-функцию для обновления из редактора
+    218           */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    219          MyBOOK * EC_Create()
+    220          {
+   \                     ??EC_Create:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    221            ECBook = new MyBOOK;
+   \   00000004   ........           LDR      R4,??DataTable7  ;; ECBook
+   \   00000008   4400A0E3           MOV      R0,#+68
+   \   0000000C   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000010   000084E5           STR      R0,[R4, #+0]
+    222            memset(ECBook,0,sizeof(MyBOOK));
+   \   00000014   4420A0E3           MOV      R2,#+68
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   120100EF           SWI      +274
+    223            CreateBook(&ECBook->bk,ECBook_OnClose,&base_page,"EventControl",-1,0);
+   \   00000020   2C309FE5           LDR      R3,??EC_Create_1  ;; `?<Constant "EventControl">`
+   \   00000024   ........           LDR      R1,??DataTable8  ;; ??ECBook_OnClose
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   01002DE9           PUSH     {R0}
+   \   00000030   042084E2           ADD      R2,R4,#+4
+   \   00000034   0000E0E1           MVN      R0,R0
+   \   00000038   01002DE9           PUSH     {R0}
+   \   0000003C   000094E5           LDR      R0,[R4, #+0]
+   \   00000040   2B0100EF           SWI      +299
+    224            ECBook->update=Update;
+   \   00000044   000094E5           LDR      R0,[R4, #+0]
+   \   00000048   08109FE5           LDR      R1,??EC_Create_1+0x4  ;; ??Update
+   \   0000004C   181080E5           STR      R1,[R0, #+24]
+    225            return(ECBook);
+   \   00000050   1680BDE8           POP      {R1,R2,R4,PC}    ;; return
+   \                     ??EC_Create_1:
+   \   00000054   ........           DC32     `?<Constant "EventControl">`
+   \   00000058   ........           DC32     ??Update
+    226          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     extFolder
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     intFolder
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     ECBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     ??ECBook_OnClose
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for ECBook>`:
+   \   00000000   00000000           DC32 0H
+   \                     `?<Initializer for base_page>`:
+   \   00000004   ........0000       DC32 `?<Constant "EventControl_BasePage">`, 0H, EC_BasePageEvents
+   \              0000........
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EventControl_BasePage">`:
+   \   00000000   4576656E7443       DC8 "EventControl_BasePage"
+   \              6F6E74726F6C
+   \              5F4261736550
+   \              61676500    
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x73\\x74\\x6f\\x70\\x2e\\x6d\\x70\\x33"`:
+   \   00000000   730074006F00       DC8 73H, 0, 74H, 0, 6FH, 0, 70H, 0
+   \              7000        
+   \   00000008   2E006D007000       DC8 2EH, 0, 6DH, 0, 70H, 0, 33H, 0
+   \              3300        
+   \   00000010   0000               DC8 0, 0
+   \   00000012   0000               DC8 0, 0
+   \   00000014   450076006500       DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+   \              6E00        
+   \   0000001C   740043006F00       DC8 74H, 0, 43H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000024   740072006F00       DC8 74H, 0, 72H, 0, 6FH, 0, 6CH, 0
+   \              6C00        
+   \   0000002C   200076003200       DC8 20H, 0, 76H, 0, 32H, 0, 2EH, 0
+   \              2E00        
+   \   00000034   30000D000A00       DC8 30H, 0, 0DH, 0, 0AH, 0, 0DH, 0
+   \              0D00        
+   \   0000003C   0A00A9002000       DC8 0AH, 0, 0A9H, 0, 20H, 0, 55H, 0
+   \              5500        
+   \   00000044   6C0074007200       DC8 6CH, 0, 74H, 0, 72H, 0, 61H, 0
+   \              6100        
+   \   0000004C   530068006F00       DC8 53H, 0, 68H, 0, 6FH, 0, 74H, 0
+   \              7400        
+   \   00000054   2C0020005300       DC8 2CH, 0, 20H, 0, 53H, 0, 6CH, 0
+   \              6C00        
+   \   0000005C   610076006500       DC8 61H, 0, 76H, 0, 65H, 0, 6EH, 0
+   \              6E00        
+   \   00000064   740069006E00       DC8 74H, 0, 69H, 0, 6EH, 0, 6FH, 0
+   \              6F00        
+   \   0000006C   0A000D000A00       DC8 0AH, 0, 0DH, 0, 0AH, 0, 25H, 0
+   \              2500        
+   \   00000074   73000A000D00       DC8 73H, 0, 0AH, 0, 0DH, 0, 0AH, 0
+   \              0A00        
+   \   0000007C   49006E002000       DC8 49H, 0, 6EH, 0, 20H, 0, 61H, 0
+   \              6100        
+   \   00000084   20006D006500       DC8 20H, 0, 6DH, 0, 65H, 0, 6DH, 0
+   \              6D00        
+   \   0000008C   6F0072007900       DC8 6FH, 0, 72H, 0, 79H, 0, 20H, 0
+   \              2000        
+   \   00000094   6F0066002000       DC8 6FH, 0, 66H, 0, 20H, 0, 50H, 0
+   \              5000        
+   \   0000009C   530049005800       DC8 53H, 0, 49H, 0, 58H, 0, 0AH, 0
+   \              0A00        
+   \   000000A4   0000               DC8 0, 0
+   \   000000A6   0000               DC8 0, 0
+   \   000000A8   7075626C6963       DC8 "public version"
+   \              207665727369
+   \              6F6E00      
+   \   000000B7   00                 DC8 0
+   \   000000B8   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 20H, 0
+   \              2000        
+   \   000000C0   0A0043007500       DC8 0AH, 0, 43H, 0, 75H, 0, 72H, 0
+   \              7200        
+   \   000000C8   720065006E00       DC8 72H, 0, 65H, 0, 6EH, 0, 74H, 0
+   \              7400        
+   \   000000D0   20004C004100       DC8 20H, 0, 4CH, 0, 41H, 0, 43H, 0
+   \              4300        
+   \   000000D8   2D0043004900       DC8 2DH, 0, 43H, 0, 49H, 0, 44H, 0
+   \              4400        
+   \   000000E0   3A0020002500       DC8 3AH, 0, 20H, 0, 25H, 0, 30H, 0
+   \              3000        
+   \   000000E8   340058002D00       DC8 34H, 0, 58H, 0, 2DH, 0, 25H, 0
+   \              2500        
+   \   000000F0   300034005800       DC8 30H, 0, 34H, 0, 58H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x52\\x4e\\x5f\\`:
+   \   00000000   430041004C00       DC8 43H, 0, 41H, 0, 4CH, 0, 45H, 0
+   \              4500        
+   \   00000008   5F0052004E00       DC8 5FH, 0, 52H, 0, 4EH, 0, 5FH, 0
+   \              5F00        
+   \   00000010   540041005300       DC8 54H, 0, 41H, 0, 53H, 0, 4BH, 0
+   \              4B00        
+   \   00000018   5F0053005400       DC8 5FH, 0, 53H, 0, 54H, 0, 41H, 0
+   \              4100        
+   \   00000020   540055005300       DC8 54H, 0, 55H, 0, 53H, 0, 5FH, 0
+   \              5F00        
+   \   00000028   490043004E00       DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EventControl">`:
+   \   00000000   4576656E7443       DC8 "EventControl"
+   \              6F6E74726F6C
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     ECBook_OnClose(BOOK *)             8
+     ECBook_ShowAuthorInfo(void *, BOOK *)
+                                     1112
+     ECBook_Terminate(void *, BOOK *)
+                                        4
+     EC_Create()                       16
+     Update(wchar_t *, wchar_t *)      16
+     checkfile(wchar_t *)              40
+     elf_exit()                         4
+     isEvtBook(BOOK *)                  0
+     onUserInactivity(void *, BOOK *)
+                                        8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     elf_exit()                       28
+     ECBook_Terminate(void *, BOOK *)
+                                      20
+     checkfile(wchar_t *)             72
+     ECBook_ShowAuthorInfo(void *, BOOK *)
+                                     256
+     ECBook_OnClose(BOOK *)          264
+     isEvtBook(BOOK *)                28
+     onUserInactivity(void *, BOOK *)
+                                      64
+     EC_BasePageEvents                24
+     ECBook                           16
+     Update(wchar_t *, wchar_t *)     84
+     EC_Create()                      92
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ?<Initializer for ECBook>        16
+     ?<Constant "EventControl_BasePage">
+                                      24
+     ?<Constant L"\x73\x74\x6f\x70\x2e\x6d\x70\x33"
+                                     248
+     ?<Constant L"\x43\x41\x4c\x45\x5f\x52\x4e\x5f\
+                                      48
+     ?<Constant "EventControl">       16
+      Others                         204
+
+ 
+ 1 116 bytes in segment CODE
+   336 bytes in segment DATA_C
+    16 bytes in segment DATA_I
+    16 bytes in segment DATA_ID
+    24 bytes in segment DYN_PAGE
+    12 bytes in segment INITTAB
+ 
+ 924 bytes of CODE  memory (+ 204 bytes shared)
+ 376 bytes of CONST memory
+  16 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,342 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:01:49 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Curre #
+#                       ntTrack.c                                            #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Curre #
+#                       ntTrack.c -D NDEBUG -D OLDFUNCTIONS -lC              #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\ -lA Z:\home\perk11\www\perk11.info\svn\SE\CoverA #
+#                       rt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\CoverArt\LNG-RU.h -I Z:\home\perk11\IAR2\arm\INC\ #
+#                        --inline_threshold=2                                #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\CurrentTrack.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Ob #
+#                       j\CurrentTrack.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\CurrentTrack.c
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\dir.h"
+      3          #include "structs.h"
+      4          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      5          void TrackDesc_Free(TRACK_DESC *track_desc)
+      6          {
+   \                     ??TrackDesc_Free:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+      7            if (track_desc)
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+      8            {
+      9              if (track_desc->path)
+   \   0000000C   000094E5           LDR      R0,[R4, #+0]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0000000A           BEQ      ??TrackDesc_Free_1
+     10              {
+     11                delete(track_desc->path);
+   \   00000018   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     12              }
+     13              if (track_desc->name)
+   \                     ??TrackDesc_Free_1:
+   \   0000001C   040094E5           LDR      R0,[R4, #+4]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0000000A           BEQ      ??TrackDesc_Free_2
+     14              {
+     15                delete(track_desc->name);
+   \   00000028   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     16              }
+     17              delete(track_desc);
+   \                     ??TrackDesc_Free_2:
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     18            }
+     19          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          bool TrackDesc_Compare(TRACK_DESC *t1, TRACK_DESC *t2)
+     22          {
+   \                     ??TrackDesc_Compare:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     23            if (t1 && t2)
+   \   00000008   000054E3           CMP      R4,#+0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   00005513           CMPNE    R5,#+0
+   \   00000014   0E00000A           BEQ      ??TrackDesc_Compare_1
+     24            {
+     25              if (wstrcmp(t1->path,t2->path)==0 && wstrcmp(t1->name,t2->name)==0 && t1->fulltime==t2->fulltime)
+   \   00000018   000094E5           LDR      R0,[R4, #+0]
+   \   0000001C   001095E5           LDR      R1,[R5, #+0]
+   \   00000020   560100EF           SWI      +342
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0900001A           BNE      ??TrackDesc_Compare_1
+   \   0000002C   040094E5           LDR      R0,[R4, #+4]
+   \   00000030   041095E5           LDR      R1,[R5, #+4]
+   \   00000034   560100EF           SWI      +342
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0400001A           BNE      ??TrackDesc_Compare_1
+   \   00000040   080094E5           LDR      R0,[R4, #+8]
+   \   00000044   081095E5           LDR      R1,[R5, #+8]
+   \   00000048   010050E1           CMP      R0,R1
+     26              {
+     27                return 1;
+   \   0000004C   0100A003           MOVEQ    R0,#+1
+   \   00000050   3080BD08           POPEQ    {R4,R5,PC}
+     28              }
+     29              else
+     30              {
+     31                return 0;
+   \                     ??TrackDesc_Compare_1:
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   3080BDE8           POP      {R4,R5,PC}       ;; return
+     32              }
+     33            }
+     34            else
+     35            {
+     36              return 0;
+     37            }
+     38          };
+     39          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     40          TRACK_DESC * TrackDesc_Get(BOOK *bk)
+     41          {
+   \                     ??TrackDesc_Get:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0CD04DE2           SUB      SP,SP,#+12
+   \   00000008   0040B0E1           MOVS     R4,R0
+     42            if (bk)
+   \   0000000C   7500000A           BEQ      ??TrackDesc_Get_1
+     43            {
+     44              int platform=0;
+     45              switch (GetChipID()&CHIPID_MASK)
+   \   00000010   4E0200EF           SWI      +590
+   \   00000014   FE0C00E2           AND      R0,R0,#0xFE00
+   \   00000018   700C50E2           SUBS     R0,R0,#+28672
+   \   0000001C   400D5012           SUBSNE   R0,R0,#+4096
+   \   00000020   2400000A           BEQ      ??TrackDesc_Get_2
+   \   00000024   600D50E2           SUBS     R0,R0,#+6144
+   \   00000028   6E00001A           BNE      ??TrackDesc_Get_1
+     46              {
+     47                case CHIPID_DB2000:
+     48                case CHIPID_DB2010:
+     49                  platform = 2010;
+     50                  break;
+     51                case CHIPID_DB2020:
+     52                  platform = 2020;
+     53                  break;
+     54              }
+     55              if (platform==2010)
+     56              {
+     57                BOOK_PLAYER_2010 *bkp=(BOOK_PLAYER_2010*)bk;
+     58                TRACK_DESC *track_desc=new TRACK_DESC;
+     59                memset(track_desc,0,sizeof(TRACK_DESC));
+     60                wchar_t *path=bkp->dsc->path;
+     61                wchar_t *name=bkp->dsc->name;
+     62                track_desc->path=new wchar_t[wstrlen(path)+1];
+     63                wstrcpy(track_desc->path,path);
+     64                track_desc->name=new wchar_t[wstrlen(name)+1];
+     65                wstrcpy(track_desc->name,name);
+     66                track_desc->fulltime=bkp->dsc->fulltime;
+     67                if (bkp->tracks_count)
+     68                {
+     69                  track_desc->tracks_count=bkp->tracks_count;
+     70                }
+     71                else
+     72                {
+     73                  track_desc->tracks_count=bkp->tracks_count2;
+     74                }
+     75                if (bkp->pos>10000)
+     76                {
+     77                  track_desc->pos=bkp->pos2+1;
+     78                }
+     79                else
+     80                {
+     81                  track_desc->pos=bkp->pos+1;
+     82                }
+     83                return track_desc;
+     84              }
+     85              else if (platform==2020)
+     86              {
+     87                BOOK_PLAYER_2020 *bkp=(BOOK_PLAYER_2020*)bk;
+     88                TRACK_DESC *track_desc=new TRACK_DESC;
+   \   0000002C   1400A0E3           MOV      R0,#+20
+   \   00000030   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000034   0050A0E1           MOV      R5,R0
+     89                memset(track_desc,0,sizeof(TRACK_DESC));
+   \   00000038   1420A0E3           MOV      R2,#+20
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   120100EF           SWI      +274
+     90                wchar_t *path=bkp->dsc->path;
+   \   00000044   740094E5           LDR      R0,[R4, #+116]
+   \   00000048   046090E5           LDR      R6,[R0, #+4]
+     91                wchar_t *name=bkp->dsc->name;
+   \   0000004C   087090E5           LDR      R7,[R0, #+8]
+     92                track_desc->path=new wchar_t[wstrlen(path)+1];
+   \   00000050   0600A0E1           MOV      R0,R6
+   \   00000054   570100EF           SWI      +343
+   \   00000058   010080E2           ADD      R0,R0,#+1
+   \   0000005C   8000A0E1           LSL      R0,R0,#+1
+   \   00000060   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000064   000085E5           STR      R0,[R5, #+0]
+     93                wstrcpy(track_desc->path,path);
+   \   00000068   0610A0E1           MOV      R1,R6
+   \   0000006C   520100EF           SWI      +338
+     94                track_desc->name=new wchar_t[wstrlen(name)+1];
+   \   00000070   0700A0E1           MOV      R0,R7
+   \   00000074   570100EF           SWI      +343
+   \   00000078   010080E2           ADD      R0,R0,#+1
+   \   0000007C   8000A0E1           LSL      R0,R0,#+1
+   \   00000080   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000084   040085E5           STR      R0,[R5, #+4]
+     95                wstrcpy(track_desc->name,name);
+   \   00000088   0710A0E1           MOV      R1,R7
+   \   0000008C   520100EF           SWI      +338
+     96                track_desc->fulltime=bkp->dsc->fulltime;
+   \   00000090   740094E5           LDR      R0,[R4, #+116]
+   \   00000094   100090E5           LDR      R0,[R0, #+16]
+   \   00000098   080085E5           STR      R0,[R5, #+8]
+     97                track_desc->tracks_count=bkp->tracks_count;
+   \   0000009C   940094E5           LDR      R0,[R4, #+148]
+   \   000000A0   100085E5           STR      R0,[R5, #+16]
+     98                track_desc->pos=bkp->pos2+1;
+   \   000000A4   BA07D4E1           LDRH     R0,[R4, #+122]
+   \   000000A8   010080E2           ADD      R0,R0,#+1
+   \   000000AC   0C0085E5           STR      R0,[R5, #+12]
+   \   000000B0   0500A0E1           MOV      R0,R5
+   \   000000B4   FE80BDE8           POP      {R1-R7,PC}
+     99                return track_desc;
+    100              }
+   \                     ??TrackDesc_Get_2:
+   \   000000B8   1400A0E3           MOV      R0,#+20
+   \   000000BC   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   000000C0   0050A0E1           MOV      R5,R0
+   \   000000C4   1420A0E3           MOV      R2,#+20
+   \   000000C8   0010A0E3           MOV      R1,#+0
+   \   000000CC   120100EF           SWI      +274
+   \   000000D0   0000A0E3           MOV      R0,#+0
+   \   000000D4   0D10A0E1           MOV      R1,SP
+   \                     ??TrackDesc_Get_3:
+   \   000000D8   6C2084E2           ADD      R2,R4,#+108
+   \   000000DC   0220D0E7           LDRB     R2,[R0, +R2]
+   \   000000E0   0120C0E7           STRB     R2,[R0, +R1]
+   \   000000E4   010080E2           ADD      R0,R0,#+1
+   \   000000E8   040050E3           CMP      R0,#+4
+   \   000000EC   F9FFFFBA           BLT      ??TrackDesc_Get_3
+   \   000000F0   00009DE5           LDR      R0,[SP, #+0]
+   \   000000F4   04108DE2           ADD      R1,SP,#+4
+   \   000000F8   046090E5           LDR      R6,[R0, #+4]
+   \   000000FC   0000A0E3           MOV      R0,#+0
+   \                     ??TrackDesc_Get_4:
+   \   00000100   6C2084E2           ADD      R2,R4,#+108
+   \   00000104   0220D0E7           LDRB     R2,[R0, +R2]
+   \   00000108   0120C0E7           STRB     R2,[R0, +R1]
+   \   0000010C   010080E2           ADD      R0,R0,#+1
+   \   00000110   040050E3           CMP      R0,#+4
+   \   00000114   F9FFFFBA           BLT      ??TrackDesc_Get_4
+   \   00000118   04009DE5           LDR      R0,[SP, #+4]
+   \   0000011C   087090E5           LDR      R7,[R0, #+8]
+   \   00000120   0600A0E1           MOV      R0,R6
+   \   00000124   570100EF           SWI      +343
+   \   00000128   010080E2           ADD      R0,R0,#+1
+   \   0000012C   8000A0E1           LSL      R0,R0,#+1
+   \   00000130   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000134   000085E5           STR      R0,[R5, #+0]
+   \   00000138   0610A0E1           MOV      R1,R6
+   \   0000013C   520100EF           SWI      +338
+   \   00000140   0700A0E1           MOV      R0,R7
+   \   00000144   570100EF           SWI      +343
+   \   00000148   010080E2           ADD      R0,R0,#+1
+   \   0000014C   8000A0E1           LSL      R0,R0,#+1
+   \   00000150   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000154   040085E5           STR      R0,[R5, #+4]
+   \   00000158   0710A0E1           MOV      R1,R7
+   \   0000015C   520100EF           SWI      +338
+   \   00000160   0000A0E3           MOV      R0,#+0
+   \   00000164   08108DE2           ADD      R1,SP,#+8
+   \                     ??TrackDesc_Get_5:
+   \   00000168   6C2084E2           ADD      R2,R4,#+108
+   \   0000016C   0220D0E7           LDRB     R2,[R0, +R2]
+   \   00000170   0120C0E7           STRB     R2,[R0, +R1]
+   \   00000174   010080E2           ADD      R0,R0,#+1
+   \   00000178   040050E3           CMP      R0,#+4
+   \   0000017C   F9FFFFBA           BLT      ??TrackDesc_Get_5
+   \   00000180   08009DE5           LDR      R0,[SP, #+8]
+   \   00000184   100090E5           LDR      R0,[R0, #+16]
+   \   00000188   080085E5           STR      R0,[R5, #+8]
+   \   0000018C   8100D4E5           LDRB     R0,[R4, #+129]
+   \   00000190   8010D4E5           LDRB     R1,[R4, #+128]
+   \   00000194   000491E1           ORRS     R0,R1,R0, LSL #+8
+   \   00000198   8100D415           LDRBNE   R0,[R4, #+129]
+   \   0000019C   8410D405           LDRBEQ   R1,[R4, #+132]
+   \   000001A0   8500D405           LDRBEQ   R0,[R4, #+133]
+   \   000001A4   000481E1           ORR      R0,R1,R0, LSL #+8
+   \   000001A8   100085E5           STR      R0,[R5, #+16]
+   \   000001AC   5D00D4E5           LDRB     R0,[R4, #+93]
+   \   000001B0   5C10D4E5           LDRB     R1,[R4, #+92]
+   \   000001B4   000481E1           ORR      R0,R1,R0, LSL #+8
+   \   000001B8   1110A0E3           MOV      R1,#+17
+   \   000001BC   9C1D81E3           ORR      R1,R1,#0x2700
+   \   000001C0   010050E1           CMP      R0,R1
+   \   000001C4   7300D425           LDRBCS   R0,[R4, #+115]
+   \   000001C8   7210D425           LDRBCS   R1,[R4, #+114]
+   \   000001CC   5D00D435           LDRBCC   R0,[R4, #+93]
+   \   000001D0   5C10D435           LDRBCC   R1,[R4, #+92]
+   \   000001D4   000481E1           ORR      R0,R1,R0, LSL #+8
+   \   000001D8   010080E2           ADD      R0,R0,#+1
+   \   000001DC   0C0085E5           STR      R0,[R5, #+12]
+   \   000001E0   0500A0E1           MOV      R0,R5
+   \   000001E4   FE80BDE8           POP      {R1-R7,PC}
+    101            }
+    102            return 0;
+   \                     ??TrackDesc_Get_1:
+   \   000001E8   0000A0E3           MOV      R0,#+0
+   \   000001EC   FE80BDE8           POP      {R1-R7,PC}       ;; return
+    103          };
+    104          
+    105          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     TrackDesc_Compare(TRACK_DESC *, TRACK_DESC *)
+                                       12
+     TrackDesc_Free(TRACK_DESC *)       8
+     TrackDesc_Get(BOOK *)             32
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     TrackDesc_Free(TRACK_DESC *)     56
+     TrackDesc_Compare(TRACK_DESC *, TRACK_DESC *)
+                                      92
+     TrackDesc_Get(BOOK *)           496
+      Others                          48
+
+ 
+ 692 bytes in segment CODE
+ 
+ 644 bytes of CODE memory (+ 48 bytes shared)
+
+Errors: none
+Warnings: none

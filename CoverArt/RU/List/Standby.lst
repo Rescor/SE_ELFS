@@ -1,0 +1,1640 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:02:00 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Stand #
+#                       by.c                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Stand #
+#                       by.c -D NDEBUG -D OLDFUNCTIONS -lC                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\ -lA Z:\home\perk11\www\perk11.info\svn\SE\CoverA #
+#                       rt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\CoverArt\LNG-RU.h -I Z:\home\perk11\IAR2\arm\INC\ #
+#                        --inline_threshold=2                                #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\Standby.lst                                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Ob #
+#                       j\Standby.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\Standby.c
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\dir.h"
+      3          #include "structs.h"
+      4          #include "decoder_init.h"
+      5          #include "draw.h"
+      6          #include "config_data.h"
+      7          #include "Externals.h"
+      8          
+      9          wchar_t lastmusic[1024];
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     10          wchar_t nowmus[1024];
+   \                     nowmus:
+   \   00000000                      DS8 2048
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     11          bool isInStandby=false;
+     12          bool isAPBookFound=false;
+     13          int CheckStandby();
+     14          DISP_DESC *Standby_DD;
+     15          DISP_OBJ *Standby_DO;
+     16          DISP_OBJ_ONREDRAW_METHOD Standby_DefaultRedraw;
+     17          
+     18          DISP_DESC *Softkey_DD;
+     19          DISP_OBJ *Softkey_DO;
+     20          DISP_OBJ_ONREDRAW_METHOD Softkey_DefaultRedraw;
+     21          
+     22          DISP_DESC *StatusIndication_DD;
+     23          DISP_OBJ *StatusIndication_DO;
+     24          DISP_OBJ_ONREDRAW_METHOD StatusIndication_DefaultRedraw;
+     25          
+     26          GC *gc=0;
+     27          
+     28          u16 Standby_RedrawTimer;
+   \                     Standby_RedrawTimer:
+   \   00000000                      DS8 2
+   \   00000002                      REQUIRE `?<Initializer for Standby_RedrawTimer>`
+   \   00000002                      DS8 2
+   \                     Standby_DD:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for Standby_DD>`
+   \                     Standby_DO:
+   \   00000008                      DS8 4
+   \   0000000C                      REQUIRE `?<Initializer for Standby_DO>`
+   \                     Standby_DefaultRedraw:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for Standby_DefaultRedraw>`
+   \                     Softkey_DD:
+   \   00000010                      DS8 4
+   \   00000014                      REQUIRE `?<Initializer for Softkey_DD>`
+   \                     Softkey_DO:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for Softkey_DO>`
+   \                     Softkey_DefaultRedraw:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for Softkey_DefaultRedraw>`
+   \                     StatusIndication_DD:
+   \   0000001C                      DS8 4
+   \   00000020                      REQUIRE `?<Initializer for StatusIndication_DD>`
+   \                     StatusIndication_DO:
+   \   00000020                      DS8 4
+   \   00000024                      REQUIRE `?<Initializer for StatusIndication_DO>`
+   \                     StatusIndication_DefaultRedraw:
+   \   00000024                      DS8 4
+   \   00000028                      REQUIRE `?<Initializer for StatusIndication_DefaultRedr`
+   \                     gc:
+   \   00000028                      DS8 4
+   \   0000002C                      REQUIRE `?<Initializer for gc>`
+     29          
+     30          int locTime=1000;
+   \                     locTime:
+   \   0000002C                      DS8 4
+   \   00000030                      REQUIRE `?<Initializer for locTime>`
+     31          int locCover_X;
+   \                     locCover_X:
+   \   00000030                      DS8 4
+   \   00000034                      REQUIRE `?<Initializer for locCover_X>`
+     32          int locCover_Y;
+   \                     locCover_Y:
+   \   00000034                      DS8 4
+   \   00000038                      REQUIRE `?<Initializer for locCover_Y>`
+     33          int locCover_MaxX;
+   \                     locCover_MaxX:
+   \   00000038                      DS8 4
+   \   0000003C                      REQUIRE `?<Initializer for locCover_MaxX>`
+     34          int locCover_MaxY;
+   \                     locCover_MaxY:
+   \   0000003C                      DS8 4
+   \   00000040                      REQUIRE `?<Initializer for locCover_MaxY>`
+   \                     isInStandby:
+   \   00000040                      DS8 1
+   \   00000041                      REQUIRE `?<Initializer for isInStandby>`
+   \                     isAPBookFound:
+   \   00000041                      DS8 1
+   \   00000042                      REQUIRE `?<Initializer for isAPBookFound>`
+     35          
+     36          extern LABEL labels[10];
+     37          extern UI_IMG img;
+     38          extern MUSIC nowmusic;
+     39          extern bool PlayerRunned;
+     40          extern TRACK_DESC *currenttrack;
+     41          extern int CurrentTime;
+     42          
+     43          void Redraw(DISP_OBJ_ONREDRAW_METHOD DefRedraw, int DrawOld, signed int plusY, DISP_OBJ* DO, int a, int b, int c, int type, int DrawCover, int DrawCustom);
+     44          void Softkey_SetOnRedraw();
+     45          void StatusIndication_SetOnRedraw();
+     46          
+     47          bool SoftUsed=false;
+   \                     SoftUsed:
+   \   00000042                      DS8 1
+   \   00000043                      REQUIRE `?<Initializer for SoftUsed>`
+     48          bool StatusUsed=false;
+   \                     StatusUsed:
+   \   00000043                      DS8 1
+   \   00000044                      REQUIRE `?<Initializer for StatusUsed>`
+   \                     lastmusic:
+   \   00000044                      DS8 2048
+   \   00000844                      REQUIRE `?<Initializer for lastmusic>`
+     49          
+     50          //BOOK *Standby=0;
+     51          //GUI * MainInput=0;
+     52          /*
+     53          int CheckStandby()
+     54          {
+     55            if (SESSION_GetTopBook(root_list_get_session(root_list_get_session_count() - 1))==Standby)
+     56            {
+     57              if (MainInput_getVisible(MainInput)==0)
+     58              {
+     59                return 1;
+     60              }
+     61            }
+     62            return 0;
+     63          }
+     64          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     65          void Standby_CARedraw(DISP_OBJ* DO,int a,int b,int c)
+     66          {
+   \                     ??Standby_CARedraw:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+     67            isInStandby=CheckStandby();
+   \   00000014   ........           _BLF     ??CheckStandby,??CheckStandby??rA
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   ........           LDR      R0,??DataTable21  ;; Standby_RedrawTimer
+   \   00000020   0110A013           MOVNE    R1,#+1
+   \   00000024   0010A003           MOVEQ    R1,#+0
+   \   00000028   4010C0E5           STRB     R1,[R0, #+64]
+     68            Redraw(Standby_DefaultRedraw, DrawStandby, (-1)*StatusSize, DO, a, b, c, isInStandby, Cover_DrawStandby, Custom_DrawStandby);
+   \   0000002C   4C109FE5           LDR      R1,??Standby_CARedraw_1  ;; Custom_DrawStandby
+   \   00000030   0430A0E1           MOV      R3,R4
+   \   00000034   001091E5           LDR      R1,[R1, #+0]
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   40109FE5           LDR      R1,??Standby_CARedraw_1+0x4  ;; Cover_DrawStandby
+   \   00000040   001091E5           LDR      R1,[R1, #+0]
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   4010D0E5           LDRB     R1,[R0, #+64]
+   \   0000004C   02002DE9           PUSH     {R1}
+   \   00000050   30109FE5           LDR      R1,??Standby_CARedraw_1+0x8  ;; StatusSize
+   \   00000054   80002DE9           PUSH     {R7}
+   \   00000058   40002DE9           PUSH     {R6}
+   \   0000005C   20002DE9           PUSH     {R5}
+   \   00000060   001091E5           LDR      R1,[R1, #+0]
+   \   00000064   0C0090E5           LDR      R0,[R0, #+12]
+   \   00000068   002061E2           RSB      R2,R1,#+0
+   \   0000006C   18109FE5           LDR      R1,??Standby_CARedraw_1+0xC  ;; DrawStandby
+   \   00000070   001091E5           LDR      R1,[R1, #+0]
+   \   00000074   ........           BL       ??Redraw
+     69          };
+   \   00000078   18D08DE2           ADD      SP,SP,#+24
+   \   0000007C   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??Standby_CARedraw_1:
+   \   00000080   ........           DC32     Custom_DrawStandby
+   \   00000084   ........           DC32     Cover_DrawStandby
+   \   00000088   ........           DC32     StatusSize
+   \   0000008C   ........           DC32     DrawStandby
+     70          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     71          void Softkey_CARedraw(DISP_OBJ *DO,int a,int b,int c)
+     72          {
+   \                     ??Softkey_CARedraw:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+     73            isInStandby=CheckStandby();
+   \   00000014   ........           _BLF     ??CheckStandby,??CheckStandby??rA
+     74            if (DrawSoft2 && !isInStandby)
+   \   00000018   AC109FE5           LDR      R1,??Softkey_CARedraw_1  ;; SoftSize
+   \   0000001C   AC209FE5           LDR      R2,??Softkey_CARedraw_1+0x4  ;; YSize
+   \   00000020   001091E5           LDR      R1,[R1, #+0]
+   \   00000024   002092E5           LDR      R2,[R2, #+0]
+   \   00000028   ........           LDR      R3,??DataTable21  ;; Standby_RedrawTimer
+   \   0000002C   022041E0           SUB      R2,R1,R2
+   \   00000030   9C109FE5           LDR      R1,??Softkey_CARedraw_1+0x8  ;; Cover_DrawSoft
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   00C091E5           LDR      R12,[R1, #+0]
+   \   0000003C   94109FE5           LDR      R1,??Softkey_CARedraw_1+0xC  ;; Custom_DrawSoft
+   \   00000040   0100A013           MOVNE    R0,#+1
+   \   00000044   00E091E5           LDR      LR,[R1, #+0]
+   \   00000048   ........           LDR      R1,??DataTable9  ;; DrawSoft2
+   \   0000004C   4000C3E5           STRB     R0,[R3, #+64]
+   \   00000050   001091E5           LDR      R1,[R1, #+0]
+   \   00000054   180093E5           LDR      R0,[R3, #+24]
+   \   00000058   000051E3           CMP      R1,#+0
+   \   0000005C   0D00000A           BEQ      ??Softkey_CARedraw_2
+   \   00000060   4080D3E5           LDRB     R8,[R3, #+64]
+   \   00000064   000058E3           CMP      R8,#+0
+   \   00000068   0A00001A           BNE      ??Softkey_CARedraw_2
+     75            {
+     76              Redraw(Softkey_DefaultRedraw, DrawSoft2, SoftSize-YSize, DO, a, b, c, 1, Cover_DrawSoft, Custom_DrawSoft);
+   \   0000006C   00402DE9           PUSH     {LR}
+   \   00000070   00102DE9           PUSH     {R12}
+   \   00000074   0130A0E3           MOV      R3,#+1
+   \   00000078   08002DE9           PUSH     {R3}
+   \   0000007C   80002DE9           PUSH     {R7}
+   \   00000080   40002DE9           PUSH     {R6}
+   \   00000084   20002DE9           PUSH     {R5}
+   \   00000088   0430A0E1           MOV      R3,R4
+   \   0000008C   ........           BL       ??Redraw
+   \   00000090   18D08DE2           ADD      SP,SP,#+24
+   \   00000094   F081BDE8           POP      {R4-R8,PC}
+     77            }
+     78            else
+     79            {
+     80              Redraw(Softkey_DefaultRedraw, DrawSoftkey, SoftSize-YSize, DO, a, b, c, isInStandby, Cover_DrawSoft, Custom_DrawSoft);
+   \                     ??Softkey_CARedraw_2:
+   \   00000098   00402DE9           PUSH     {LR}
+   \   0000009C   00102DE9           PUSH     {R12}
+   \   000000A0   4010D3E5           LDRB     R1,[R3, #+64]
+   \   000000A4   0430A0E1           MOV      R3,R4
+   \   000000A8   02002DE9           PUSH     {R1}
+   \   000000AC   28109FE5           LDR      R1,??Softkey_CARedraw_1+0x10  ;; DrawSoftkey
+   \   000000B0   80002DE9           PUSH     {R7}
+   \   000000B4   40002DE9           PUSH     {R6}
+   \   000000B8   20002DE9           PUSH     {R5}
+   \   000000BC   001091E5           LDR      R1,[R1, #+0]
+   \   000000C0   ........           BL       ??Redraw
+   \   000000C4   18D08DE2           ADD      SP,SP,#+24
+     81            }
+     82          };
+   \   000000C8   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??Softkey_CARedraw_1:
+   \   000000CC   ........           DC32     SoftSize
+   \   000000D0   ........           DC32     YSize
+   \   000000D4   ........           DC32     Cover_DrawSoft
+   \   000000D8   ........           DC32     Custom_DrawSoft
+   \   000000DC   ........           DC32     DrawSoftkey
+     83          
+     84          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     85          void StatusIndication_CARedraw(DISP_OBJ *DO,int a, int b,int c)
+     86          {
+   \                     ??StatusIndication_CARedraw:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+     87            isInStandby=CheckStandby();
+   \   00000014   ........           _BLF     ??CheckStandby,??CheckStandby??rA
+     88            if (DrawStatus2 && !isInStandby)
+   \   00000018   A0109FE5           LDR      R1,??StatusIndication_CARedraw_1  ;; Cover_DrawStatus
+   \   0000001C   ........           LDR      R2,??DataTable21  ;; Standby_RedrawTimer
+   \   00000020   003091E5           LDR      R3,[R1, #+0]
+   \   00000024   98109FE5           LDR      R1,??StatusIndication_CARedraw_1+0x4  ;; Custom_DrawStatus
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   00C091E5           LDR      R12,[R1, #+0]
+   \   00000030   ........           LDR      R1,??DataTable8  ;; DrawStatus2
+   \   00000034   0100A013           MOVNE    R0,#+1
+   \   00000038   001091E5           LDR      R1,[R1, #+0]
+   \   0000003C   4000C2E5           STRB     R0,[R2, #+64]
+   \   00000040   240092E5           LDR      R0,[R2, #+36]
+   \   00000044   000051E3           CMP      R1,#+0
+   \   00000048   0E00000A           BEQ      ??StatusIndication_CARedraw_2
+   \   0000004C   40E0D2E5           LDRB     LR,[R2, #+64]
+   \   00000050   00005EE3           CMP      LR,#+0
+   \   00000054   0B00001A           BNE      ??StatusIndication_CARedraw_2
+     89            {
+     90              Redraw(StatusIndication_DefaultRedraw, DrawStatus2, 0, DO, a, b, c, 1, Cover_DrawStatus, Custom_DrawStatus);
+   \   00000058   00102DE9           PUSH     {R12}
+   \   0000005C   08002DE9           PUSH     {R3}
+   \   00000060   0120A0E3           MOV      R2,#+1
+   \   00000064   04002DE9           PUSH     {R2}
+   \   00000068   80002DE9           PUSH     {R7}
+   \   0000006C   40002DE9           PUSH     {R6}
+   \   00000070   20002DE9           PUSH     {R5}
+   \   00000074   0430A0E1           MOV      R3,R4
+   \   00000078   0020A0E3           MOV      R2,#+0
+   \   0000007C   ........           BL       ??Redraw
+   \   00000080   18D08DE2           ADD      SP,SP,#+24
+   \   00000084   F080BDE8           POP      {R4-R7,PC}
+     91            }
+     92            else
+     93            {
+     94              Redraw(StatusIndication_DefaultRedraw, DrawStatus, 0, DO, a, b, c, isInStandby, Cover_DrawStatus, Custom_DrawStatus);
+   \                     ??StatusIndication_CARedraw_2:
+   \   00000088   00102DE9           PUSH     {R12}
+   \   0000008C   08002DE9           PUSH     {R3}
+   \   00000090   4010D2E5           LDRB     R1,[R2, #+64]
+   \   00000094   0430A0E1           MOV      R3,R4
+   \   00000098   0020A0E3           MOV      R2,#+0
+   \   0000009C   02002DE9           PUSH     {R1}
+   \   000000A0   20109FE5           LDR      R1,??StatusIndication_CARedraw_1+0x8  ;; DrawStatus
+   \   000000A4   80002DE9           PUSH     {R7}
+   \   000000A8   40002DE9           PUSH     {R6}
+   \   000000AC   20002DE9           PUSH     {R5}
+   \   000000B0   001091E5           LDR      R1,[R1, #+0]
+   \   000000B4   ........           BL       ??Redraw
+   \   000000B8   18D08DE2           ADD      SP,SP,#+24
+     95            }
+     96          };
+   \   000000BC   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??StatusIndication_CARedraw_1:
+   \   000000C0   ........           DC32     Cover_DrawStatus
+   \   000000C4   ........           DC32     Custom_DrawStatus
+   \   000000C8   ........           DC32     DrawStatus
+     97          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     98          void Redraw(DISP_OBJ_ONREDRAW_METHOD DefRedraw, int DrawOld, signed int PlusY, DISP_OBJ* DO, int a, int b, int c, int IsInStandby, int DrawCover, int DrawCustom)
+     99          {
+   \                     ??Redraw:
+   \   00000000   FB4F2DE9           PUSH     {R0,R1,R3-R11,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   34509DE5           LDR      R5,[SP, #+52]
+   \   0000000C   38609DE5           LDR      R6,[SP, #+56]
+   \   00000010   3C709DE5           LDR      R7,[SP, #+60]
+   \   00000014   40009DE5           LDR      R0,[SP, #+64]
+   \   00000018   0240A0E1           MOV      R4,R2
+    100            if (DrawOld!=0)
+   \   0000001C   000051E3           CMP      R1,#+0
+   \   00000020   D100000A           BEQ      ??Redraw_1
+    101            {
+    102              if (IsInStandby && PlayerRunned)
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   CF00000A           BEQ      ??Redraw_2
+   \   0000002C   ........           LDR      R0,??DataTable10  ;; PlayerRunned
+   \   00000030   0000D0E5           LDRB     R0,[R0, #+0]
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   CB00000A           BEQ      ??Redraw_2
+    103              {
+    104                if (DrawOld==2)
+   \   0000003C   020051E3           CMP      R1,#+2
+   \   00000040   0500001A           BNE      ??Redraw_3
+    105                {
+    106                  DefRedraw(DO,a,b,c);
+   \   00000044   0C009DE5           LDR      R0,[SP, #+12]
+   \   00000048   04809DE5           LDR      R8,[SP, #+4]
+   \   0000004C   0730A0E1           MOV      R3,R7
+   \   00000050   0620A0E1           MOV      R2,R6
+   \   00000054   0510A0E1           MOV      R1,R5
+   \   00000058   38FF2FE1           BLX      R8
+    107                }
+    108                gc=get_DisplayGC();
+   \                     ??Redraw_3:
+   \   0000005C   ........           LDR      R8,??DataTable21  ;; Standby_RedrawTimer
+    109                if (CustomImage_DrawAfter==false)
+   \   00000060   20939FE5           LDR      R9,??Redraw_4    ;; img
+   \   00000064   E50100EF           SWI      +485
+   \   00000068   1C139FE5           LDR      R1,??Redraw_4+0x4  ;; CustomImage_DrawAfter
+   \   0000006C   280088E5           STR      R0,[R8, #+40]
+   \   00000070   001091E5           LDR      R1,[R1, #+0]
+   \   00000074   00108DE5           STR      R1,[SP, #+0]
+   \   00000078   000051E3           CMP      R1,#+0
+   \   0000007C   2000001A           BNE      ??Redraw_5
+    110                {
+    111                   if (img.isImage==true && CustomImage_Show==true && DrawCustom==true)
+   \   00000080   1400D9E5           LDRB     R0,[R9, #+20]
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   1D00000A           BEQ      ??Redraw_5
+   \   0000008C   FC029FE5           LDR      R0,??Redraw_4+0x8  ;; CustomImage_Show
+   \   00000090   000090E5           LDR      R0,[R0, #+0]
+   \   00000094   010050E3           CMP      R0,#+1
+   \   00000098   48009D05           LDREQ    R0,[SP, #+72]
+   \   0000009C   01005003           CMPEQ    R0,#+1
+   \   000000A0   1700001A           BNE      ??Redraw_5
+    112                   {
+    113                      if (CustomImage_Draw==0)
+   \   000000A4   E8B29FE5           LDR      R11,??Redraw_4+0xC  ;; CustomImage_Draw
+   \   000000A8   080099E5           LDR      R0,[R9, #+8]
+   \   000000AC   00C09BE5           LDR      R12,[R11, #+0]
+   \   000000B0   041099E5           LDR      R1,[R9, #+4]
+   \   000000B4   0C3099E5           LDR      R3,[R9, #+12]
+   \   000000B8   10E099E5           LDR      LR,[R9, #+16]
+   \   000000BC   B0A0D9E1           LDRH     R10,[R9, #+0]
+   \   000000C0   002084E0           ADD      R2,R4,R0
+   \   000000C4   280098E5           LDR      R0,[R8, #+40]
+   \   000000C8   00005CE3           CMP      R12,#+0
+   \   000000CC   0800000A           BEQ      ??Redraw_6
+    114                      {
+    115                        GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+    116                      }
+    117                      else if (CustomImage_Draw==1 && isInStandby==true)
+   \   000000D0   40B0D8E5           LDRB     R11,[R8, #+64]
+   \   000000D4   01005CE3           CMP      R12,#+1
+   \   000000D8   0200001A           BNE      ??Redraw_7
+   \   000000DC   00005BE3           CMP      R11,#+0
+   \   000000E0   0700000A           BEQ      ??Redraw_5
+    118                      {
+    119                        GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+   \   000000E4   020000EA           B        ??Redraw_6
+    120                      }
+    121                      else if (CustomImage_Draw==2 && isInStandby==false)
+   \                     ??Redraw_7:
+   \   000000E8   02005CE3           CMP      R12,#+2
+   \   000000EC   00005B03           CMPEQ    R11,#+0
+   \   000000F0   0300001A           BNE      ??Redraw_5
+    122                      {
+    123                        GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+   \                     ??Redraw_6:
+   \   000000F4   00042DE9           PUSH     {R10}
+   \   000000F8   00402DE9           PUSH     {LR}
+   \   000000FC   400100EF           SWI      +320
+   \   00000100   08D08DE2           ADD      SP,SP,#+8
+    124                      }
+    125                    }
+    126                  }
+    127                  if (nowmusic.meta.HasImage)
+   \                     ??Redraw_5:
+   \   00000104   8C029FE5           LDR      R0,??Redraw_4+0x10  ;; nowmusic + 10280
+   \   00000108   0010D0E5           LDRB     R1,[R0, #+0]
+   \   0000010C   000051E3           CMP      R1,#+0
+   \   00000110   1D00000A           BEQ      ??Redraw_8
+    128                  {
+    129                    if (COVER_SHOW==true && DrawCover==true)
+   \   00000114   80129FE5           LDR      R1,??Redraw_4+0x14  ;; COVER_SHOW
+   \   00000118   001091E5           LDR      R1,[R1, #+0]
+   \   0000011C   010051E3           CMP      R1,#+1
+   \   00000120   44109D05           LDREQ    R1,[SP, #+68]
+   \   00000124   01005103           CMPEQ    R1,#+1
+   \   00000128   1700001A           BNE      ??Redraw_8
+    130                    {
+    131                      if (COVER_DRAW==0)
+   \   0000012C   6CB29FE5           LDR      R11,??Redraw_4+0x18  ;; COVER_DRAW
+   \   00000130   341098E5           LDR      R1,[R8, #+52]
+   \   00000134   00B09BE5           LDR      R11,[R11, #+0]
+   \   00000138   B2A0D0E1           LDRH     R10,[R0, #+2]
+   \   0000013C   280098E5           LDR      R0,[R8, #+40]
+   \   00000140   383098E5           LDR      R3,[R8, #+56]
+   \   00000144   3CC098E5           LDR      R12,[R8, #+60]
+   \   00000148   012084E0           ADD      R2,R4,R1
+   \   0000014C   301098E5           LDR      R1,[R8, #+48]
+   \   00000150   00005BE3           CMP      R11,#+0
+   \   00000154   0800000A           BEQ      ??Redraw_9
+    132                      {
+    133                        GC_PutChar(gc,locCover_X,locCover_Y+PlusY,locCover_MaxX,locCover_MaxY,nowmusic.meta.ImageID);
+    134                      }
+    135                      else if (COVER_DRAW==1 && isInStandby==true)
+   \   00000158   40E0D8E5           LDRB     LR,[R8, #+64]
+   \   0000015C   01005BE3           CMP      R11,#+1
+   \   00000160   0200001A           BNE      ??Redraw_10
+   \   00000164   00005EE3           CMP      LR,#+0
+   \   00000168   0700000A           BEQ      ??Redraw_8
+    136                      {
+    137                        GC_PutChar(gc,locCover_X,locCover_Y+PlusY,locCover_MaxX,locCover_MaxY,nowmusic.meta.ImageID);
+   \   0000016C   020000EA           B        ??Redraw_9
+    138                      }
+    139                      else if (COVER_DRAW==2 && isInStandby==false)
+   \                     ??Redraw_10:
+   \   00000170   02005BE3           CMP      R11,#+2
+   \   00000174   00005E03           CMPEQ    LR,#+0
+   \   00000178   0300001A           BNE      ??Redraw_8
+    140                      {
+    141                        GC_PutChar(gc,locCover_X,locCover_Y+PlusY,locCover_MaxX,locCover_MaxY,nowmusic.meta.ImageID);
+   \                     ??Redraw_9:
+   \   0000017C   00042DE9           PUSH     {R10}
+   \   00000180   00102DE9           PUSH     {R12}
+   \   00000184   400100EF           SWI      +320
+   \   00000188   08D08DE2           ADD      SP,SP,#+8
+    142                      }
+    143                    }
+    144                  }
+    145                  if (CustomImage_DrawAfter==true)
+   \                     ??Redraw_8:
+   \   0000018C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000190   010050E3           CMP      R0,#+1
+   \   00000194   2100001A           BNE      ??Redraw_11
+    146                  {
+    147                    if (img.isImage==true && CustomImage_Show && DrawCustom==true)
+   \   00000198   1400D9E5           LDRB     R0,[R9, #+20]
+   \   0000019C   000050E3           CMP      R0,#+0
+   \   000001A0   1E00000A           BEQ      ??Redraw_11
+   \   000001A4   E4019FE5           LDR      R0,??Redraw_4+0x8  ;; CustomImage_Show
+   \   000001A8   000090E5           LDR      R0,[R0, #+0]
+   \   000001AC   000050E3           CMP      R0,#+0
+   \   000001B0   1A00000A           BEQ      ??Redraw_11
+   \   000001B4   48009DE5           LDR      R0,[SP, #+72]
+   \   000001B8   010050E3           CMP      R0,#+1
+   \   000001BC   1700001A           BNE      ??Redraw_11
+    148                    {
+    149                      if (CustomImage_Draw==0)
+   \   000001C0   CCB19FE5           LDR      R11,??Redraw_4+0xC  ;; CustomImage_Draw
+   \   000001C4   080099E5           LDR      R0,[R9, #+8]
+   \   000001C8   00C09BE5           LDR      R12,[R11, #+0]
+   \   000001CC   041099E5           LDR      R1,[R9, #+4]
+   \   000001D0   0C3099E5           LDR      R3,[R9, #+12]
+   \   000001D4   10A099E5           LDR      R10,[R9, #+16]
+   \   000001D8   B090D9E1           LDRH     R9,[R9, #+0]
+   \   000001DC   002084E0           ADD      R2,R4,R0
+   \   000001E0   280098E5           LDR      R0,[R8, #+40]
+   \   000001E4   00005CE3           CMP      R12,#+0
+   \   000001E8   0800000A           BEQ      ??Redraw_12
+    150                      {
+    151                        GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+    152                      }
+    153                      else if (CustomImage_Draw==1 && isInStandby==true)
+   \   000001EC   40B0D8E5           LDRB     R11,[R8, #+64]
+   \   000001F0   01005CE3           CMP      R12,#+1
+   \   000001F4   0200001A           BNE      ??Redraw_13
+   \   000001F8   00005BE3           CMP      R11,#+0
+   \   000001FC   0700000A           BEQ      ??Redraw_11
+    154                      {
+    155                        GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+   \   00000200   020000EA           B        ??Redraw_12
+    156                      }
+    157                      else if (CustomImage_Draw==2 && isInStandby==false)
+   \                     ??Redraw_13:
+   \   00000204   02005CE3           CMP      R12,#+2
+   \   00000208   00005B03           CMPEQ    R11,#+0
+   \   0000020C   0300001A           BNE      ??Redraw_11
+    158                      {
+    159                        GC_PutChar(gc,img.x,img.y+PlusY,img.mx,img.my,img.ImageID);
+   \                     ??Redraw_12:
+   \   00000210   00022DE9           PUSH     {R9}
+   \   00000214   00042DE9           PUSH     {R10}
+   \   00000218   400100EF           SWI      +320
+   \   0000021C   08D08DE2           ADD      SP,SP,#+8
+    160                      }
+    161                    }
+    162                  }
+    163                  if (ProgressBar_Show)
+   \                     ??Redraw_11:
+   \   00000220   7C019FE5           LDR      R0,??Redraw_4+0x1C  ;; ProgressBar_Show
+   \   00000224   000090E5           LDR      R0,[R0, #+0]
+   \   00000228   000050E3           CMP      R0,#+0
+   \   0000022C   1F00000A           BEQ      ??Redraw_14
+    164                  {
+    165                    DrawProgress(ProgressBar_bColor,ProgressBar_cColor, ProgressBar_oColor, pbrect, CurrentTime, currenttrack->fulltime, PlusY, ProgressBar_Style); 
+   \   00000230   70019FE5           LDR      R0,??Redraw_4+0x20  ;; ProgressBar_Style
+   \   00000234   000090E5           LDR      R0,[R0, #+0]
+   \   00000238   01002DE9           PUSH     {R0}
+   \   0000023C   0400A0E1           MOV      R0,R4
+   \   00000240   01002DE9           PUSH     {R0}
+   \   00000244   60019FE5           LDR      R0,??Redraw_4+0x24  ;; currenttrack
+   \   00000248   000090E5           LDR      R0,[R0, #+0]
+   \   0000024C   080090E5           LDR      R0,[R0, #+8]
+   \   00000250   01002DE9           PUSH     {R0}
+   \   00000254   54019FE5           LDR      R0,??Redraw_4+0x28  ;; CurrentTime
+   \   00000258   000090E5           LDR      R0,[R0, #+0]
+   \   0000025C   01002DE9           PUSH     {R0}
+   \   00000260   4C019FE5           LDR      R0,??Redraw_4+0x2C  ;; pbrect
+   \   00000264   08D04DE2           SUB      SP,SP,#+8
+   \   00000268   B010D0E1           LDRH     R1,[R0, #0]
+   \   0000026C   0D20A0E1           MOV      R2,SP
+   \   00000270   B010C2E1           STRH     R1,[R2, #+0]
+   \   00000274   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000278   B210C2E1           STRH     R1,[R2, #+2]
+   \   0000027C   B410D0E1           LDRH     R1,[R0, #+4]
+   \   00000280   B410C2E1           STRH     R1,[R2, #+4]
+   \   00000284   B610D0E1           LDRH     R1,[R0, #+6]
+   \   00000288   28019FE5           LDR      R0,??Redraw_4+0x30  ;; ProgressBar_oColor
+   \   0000028C   B610C2E1           STRH     R1,[R2, #+6]
+   \   00000290   002090E5           LDR      R2,[R0, #+0]
+   \   00000294   20019FE5           LDR      R0,??Redraw_4+0x34  ;; ProgressBar_cColor
+   \   00000298   001090E5           LDR      R1,[R0, #+0]
+   \   0000029C   1C019FE5           LDR      R0,??Redraw_4+0x38  ;; ProgressBar_bColor
+   \   000002A0   000090E5           LDR      R0,[R0, #+0]
+   \   000002A4   0800BDE8           POP      {R3}
+   \   000002A8   ........           _BLF     ??DrawProgress,??DrawProgress??rA
+   \   000002AC   14D08DE2           ADD      SP,SP,#+20
+    166                  }
+    167                  int x;
+    168                  for (x=0;x<10;x++)
+   \                     ??Redraw_14:
+   \   000002B0   0090A0E3           MOV      R9,#+0
+    169                  {
+    170                    if (labels[x].Hide==false)
+   \                     ??Redraw_15:
+   \   000002B4   08019FE5           LDR      R0,??Redraw_4+0x3C  ;; labels
+   \   000002B8   9B1FA0E3           MOV      R1,#+620
+   \   000002BC   910920E0           MLA      R0,R1,R9,R0
+   \   000002C0   00119FE5           LDR      R1,??Redraw_4+0x40  ;; AnimYPlus
+   \   000002C4   6932D0E5           LDRB     R3,[R0, #+617]
+   \   000002C8   001091E5           LDR      R1,[R1, #+0]
+   \   000002CC   FF20A0E3           MOV      R2,#+255
+   \   000002D0   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000002D4   000053E3           CMP      R3,#+0
+   \   000002D8   0200000A           BEQ      ??Redraw_16
+    171                    {
+    172                      DrawLine(labels[x].SHOW,labels[x].Font,labels[x].str,labels[x].CT,labels[x].X,labels[x].Y+PlusY+AnimYPlus,labels[x].MaxX,labels[x].MaxY+PlusY+AnimYPlus,labels[x].borderColor,labels[x].Color,TEXTID_ANY_LEN, labels[x].UsedInAnim, &labels[x]);
+    173                    }
+    174                    else if (labels[x].Hide==true)
+    175                    {
+    176                      if (isInStandby==true)
+   \   000002DC   40A0D8E5           LDRB     R10,[R8, #+64]
+   \   000002E0   03001AE1           TST      R10,R3
+   \   000002E4   1A00000A           BEQ      ??Redraw_17
+    177                      {
+    178                        DrawLine(labels[x].SHOW,labels[x].Font,labels[x].str,labels[x].CT,labels[x].X,labels[x].Y+PlusY+AnimYPlus,labels[x].MaxX,labels[x].MaxY+PlusY+AnimYPlus,labels[x].borderColor,labels[x].Color,TEXTID_ANY_LEN, labels[x].UsedInAnim, &labels[x]);
+   \                     ??Redraw_16:
+   \   000002E8   0030A0E1           MOV      R3,R0
+   \   000002EC   08002DE9           PUSH     {R3}
+   \   000002F0   6832D0E5           LDRB     R3,[R0, #+616]
+   \   000002F4   08002DE9           PUSH     {R3}
+   \   000002F8   04002DE9           PUSH     {R2}
+   \   000002FC   202290E5           LDR      R2,[R0, #+544]
+   \   00000300   04002DE9           PUSH     {R2}
+   \   00000304   242290E5           LDR      R2,[R0, #+548]
+   \   00000308   04002DE9           PUSH     {R2}
+   \   0000030C   142290E5           LDR      R2,[R0, #+532]
+   \   00000310   022084E0           ADD      R2,R4,R2
+   \   00000314   022081E0           ADD      R2,R1,R2
+   \   00000318   04002DE9           PUSH     {R2}
+   \   0000031C   102290E5           LDR      R2,[R0, #+528]
+   \   00000320   04002DE9           PUSH     {R2}
+   \   00000324   0C2290E5           LDR      R2,[R0, #+524]
+   \   00000328   022084E0           ADD      R2,R4,R2
+   \   0000032C   021081E0           ADD      R1,R1,R2
+   \   00000330   02002DE9           PUSH     {R1}
+   \   00000334   081290E5           LDR      R1,[R0, #+520]
+   \   00000338   02002DE9           PUSH     {R1}
+   \   0000033C   183290E5           LDR      R3,[R0, #+536]
+   \   00000340   002290E5           LDR      R2,[R0, #+512]
+   \   00000344   1C1290E5           LDR      R1,[R0, #+540]
+   \   00000348   0402D0E5           LDRB     R0,[R0, #+516]
+   \   0000034C   ........           _BLF     ??DrawLine,??DrawLine??rA
+   \   00000350   24D08DE2           ADD      SP,SP,#+36
+    179                      }
+    180                    }
+    181                  }
+   \                     ??Redraw_17:
+   \   00000354   019089E2           ADD      R9,R9,#+1
+   \   00000358   0A0059E3           CMP      R9,#+10
+   \   0000035C   D4FFFFBA           BLT      ??Redraw_15
+    182                  if (DrawOld==1)
+   \   00000360   08009DE5           LDR      R0,[SP, #+8]
+   \   00000364   010050E3           CMP      R0,#+1
+   \   00000368   FF8FBD18           POPNE    {R0-R11,PC}
+    183                  {
+    184                    DefRedraw(DO,a,b,c);
+    185                  }
+    186              }
+    187              else
+    188              {
+    189                DefRedraw(DO,a,b,c);
+    190              }
+    191            }
+    192            else
+    193            {
+    194              DefRedraw(DO,a,b,c);
+   \                     ??Redraw_2:
+   \                     ??Redraw_1:
+   \   0000036C   0C009DE5           LDR      R0,[SP, #+12]
+   \   00000370   04409DE5           LDR      R4,[SP, #+4]
+   \   00000374   0730A0E1           MOV      R3,R7
+   \   00000378   0620A0E1           MOV      R2,R6
+   \   0000037C   0510A0E1           MOV      R1,R5
+   \   00000380   34FF2FE1           BLX      R4
+    195            }
+    196          };
+   \   00000384   FF8FBDE8           POP      {R0-R11,PC}      ;; return
+   \                     ??Redraw_4:
+   \   00000388   ........           DC32     img
+   \   0000038C   ........           DC32     CustomImage_DrawAfter
+   \   00000390   ........           DC32     CustomImage_Show
+   \   00000394   ........           DC32     CustomImage_Draw
+   \   00000398   ........           DC32     nowmusic + 10280
+   \   0000039C   ........           DC32     COVER_SHOW
+   \   000003A0   ........           DC32     COVER_DRAW
+   \   000003A4   ........           DC32     ProgressBar_Show
+   \   000003A8   ........           DC32     ProgressBar_Style
+   \   000003AC   ........           DC32     currenttrack
+   \   000003B0   ........           DC32     CurrentTime
+   \   000003B4   ........           DC32     pbrect
+   \   000003B8   ........           DC32     ProgressBar_oColor
+   \   000003BC   ........           DC32     ProgressBar_cColor
+   \   000003C0   ........           DC32     ProgressBar_bColor
+   \   000003C4   ........           DC32     labels
+   \   000003C8   ........           DC32     AnimYPlus
+    197          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    198          int GetUpdateTime()
+    199          {
+    200            if (AllowAnim==true)
+   \                     ??GetUpdateTime:
+   \   00000000   ........           LDR      R0,??DataTable14  ;; AllowAnim
+   \   00000004   000090E5           LDR      R0,[R0, #+0]
+   \   00000008   010050E3           CMP      R0,#+1
+    201            {
+    202              return AnimUpdateTime;
+   \   0000000C   08009F05           LDREQ    R0,??GetUpdateTime_1  ;; AnimUpdateTime
+    203            }
+    204            else
+    205            {
+    206              return DefUpdateTime;
+   \   00000010   08009F15           LDRNE    R0,??GetUpdateTime_1+0x4  ;; DefUpdateTime
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   1EFF2FE1           BX       LR               ;; return
+   \                     ??GetUpdateTime_1:
+   \   0000001C   ........           DC32     AnimUpdateTime
+   \   00000020   ........           DC32     DefUpdateTime
+    207            }
+    208          };
+    209          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    210          void Standby_OnRedrawTimer(u16 timer,LPARAM lparam)
+    211          {
+    212            if (PlayerRunned && FindBook(get_IsAudioPlayerBook()))
+   \                     ??Standby_OnRedrawTimer:
+   \   00000000   ........           LDR      R0,??DataTable8  ;; DrawStatus2
+   \   00000004   B0472DE9           PUSH     {R4,R5,R7-R10,LR}
+   \   00000008   008090E5           LDR      R8,[R0, #+0]
+   \   0000000C   ........           LDR      R0,??DataTable9  ;; DrawSoft2
+   \   00000010   ........           LDR      R10,??DataTable10  ;; PlayerRunned
+   \   00000014   009090E5           LDR      R9,[R0, #+0]
+   \   00000018   ........           LDR      R0,??DataTable19  ;; AffectStatus
+   \   0000001C   ........           LDR      R7,??DataTable22  ;; Standby_RedrawTimer
+   \   00000020   004090E5           LDR      R4,[R0, #+0]
+   \   00000024   ........           LDR      R0,??DataTable18  ;; AffectSoft
+   \   00000028   005090E5           LDR      R5,[R0, #+0]
+   \   0000002C   0000DAE5           LDRB     R0,[R10, #+0]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   3200000A           BEQ      ??Standby_OnRedrawTimer_1
+   \   00000038   8B8200EF           SWI      +33419
+   \   0000003C   300100EF           SWI      +304
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   2E00000A           BEQ      ??Standby_OnRedrawTimer_1
+    213            {
+    214              isAPBookFound=true;
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   4100C7E5           STRB     R0,[R7, #+65]
+    215              if (isInStandby==true)
+   \   00000050   4000D7E5           LDRB     R0,[R7, #+64]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   1E00000A           BEQ      ??Standby_OnRedrawTimer_2
+    216              {
+    217                NextScrollFrame(isInStandby);
+   \   0000005C   ........           _BLF     ??NextScrollFrame,??NextScrollFrame??rA
+    218                if (AllowAnim==true)
+   \   00000060   ........           LDR      R0,??DataTable14  ;; AllowAnim
+   \   00000064   000090E5           LDR      R0,[R0, #+0]
+   \   00000068   010050E3           CMP      R0,#+1
+   \   0000006C   0B00001A           BNE      ??Standby_OnRedrawTimer_3
+    219                {
+    220                  int t=0;
+    221                  if (t=Anim_NextFrame())
+   \   00000070   ........           _BLF     ??Anim_NextFrame,??Anim_NextFrame??rA
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0800000A           BEQ      ??Standby_OnRedrawTimer_3
+    222                  {
+    223                    int x;
+    224                    for (x=0;x<(t-1);x++)
+   \   0000007C   0080A0E3           MOV      R8,#+0
+   \   00000080   019040E2           SUB      R9,R0,#+1
+   \   00000084   010059E3           CMP      R9,#+1
+   \   00000088   020000AA           BGE      ??Standby_OnRedrawTimer_4
+   \   0000008C   030000EA           B        ??Standby_OnRedrawTimer_3
+    225                    {
+    226                      Anim_NextFrame();
+   \                     ??Standby_OnRedrawTimer_5:
+   \   00000090   ........           _BLF     ??Anim_NextFrame,??Anim_NextFrame??rA
+    227                    }
+   \   00000094   018088E2           ADD      R8,R8,#+1
+   \                     ??Standby_OnRedrawTimer_4:
+   \   00000098   090058E1           CMP      R8,R9
+   \   0000009C   FBFFFFBA           BLT      ??Standby_OnRedrawTimer_5
+    228                  }
+    229                }
+    230                DispObject_InvalidateRect(Standby_DO,0);
+   \                     ??Standby_OnRedrawTimer_3:
+   \   000000A0   080097E5           LDR      R0,[R7, #+8]
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   EF0100EF           SWI      +495
+    231                if (AffectSoft==true)
+   \   000000AC   010055E3           CMP      R5,#+1
+   \   000000B0   0200001A           BNE      ??Standby_OnRedrawTimer_6
+    232                {
+    233                  DispObject_InvalidateRect(Softkey_DO,0);
+   \   000000B4   140097E5           LDR      R0,[R7, #+20]
+   \   000000B8   0010A0E3           MOV      R1,#+0
+   \   000000BC   EF0100EF           SWI      +495
+    234                }
+    235                if (AffectStatus==true)
+   \                     ??Standby_OnRedrawTimer_6:
+   \   000000C0   010054E3           CMP      R4,#+1
+   \   000000C4   2F00001A           BNE      ??Standby_OnRedrawTimer_7
+    236                {
+    237                  DispObject_InvalidateRect(StatusIndication_DO,0);
+   \   000000C8   200097E5           LDR      R0,[R7, #+32]
+   \   000000CC   0010A0E3           MOV      R1,#+0
+   \   000000D0   EF0100EF           SWI      +495
+   \   000000D4   2B0000EA           B        ??Standby_OnRedrawTimer_7
+    238                }
+    239              }
+    240              else if (isInStandby==false)
+    241              {
+    242                NextScrollFrame(isInStandby);
+   \                     ??Standby_OnRedrawTimer_2:
+   \   000000D8   ........           _BLF     ??NextScrollFrame,??NextScrollFrame??rA
+    243                if (DrawSoft2!=false && AffectSoft==true)
+   \   000000DC   000059E3           CMP      R9,#+0
+   \   000000E0   0400000A           BEQ      ??Standby_OnRedrawTimer_8
+   \   000000E4   010055E3           CMP      R5,#+1
+   \   000000E8   0200001A           BNE      ??Standby_OnRedrawTimer_8
+    244                {
+    245                  DispObject_InvalidateRect(Softkey_DO,0);
+   \   000000EC   140097E5           LDR      R0,[R7, #+20]
+   \   000000F0   0010A0E3           MOV      R1,#+0
+   \   000000F4   EF0100EF           SWI      +495
+    246                }
+    247                if (DrawStatus2!=false && AffectStatus==true)
+   \                     ??Standby_OnRedrawTimer_8:
+   \   000000F8   000058E3           CMP      R8,#+0
+   \   000000FC   2100000A           BEQ      ??Standby_OnRedrawTimer_7
+   \   00000100   EEFFFFEA           B        ??Standby_OnRedrawTimer_6
+    248                {
+    249                  DispObject_InvalidateRect(StatusIndication_DO,0);
+    250                }
+    251              }
+    252            }
+    253            else
+    254            {
+    255              PlayerRunned=false;
+   \                     ??Standby_OnRedrawTimer_1:
+   \   00000104   0000A0E3           MOV      R0,#+0
+   \   00000108   0000CAE5           STRB     R0,[R10, #+0]
+    256              //Если бук был только что закрыт, то надо убрать его надписи с экрана
+    257              if (isAPBookFound)
+   \   0000010C   4100D7E5           LDRB     R0,[R7, #+65]
+   \   00000110   000050E3           CMP      R0,#+0
+   \   00000114   1900000A           BEQ      ??Standby_OnRedrawTimer_9
+    258              {
+    259                if (isInStandby==true)
+   \   00000118   4000D7E5           LDRB     R0,[R7, #+64]
+   \   0000011C   000050E3           CMP      R0,#+0
+   \   00000120   0800000A           BEQ      ??Standby_OnRedrawTimer_10
+    260                {
+    261                  DispObject_InvalidateRect(Standby_DO,0);
+   \   00000124   080097E5           LDR      R0,[R7, #+8]
+   \   00000128   0010A0E3           MOV      R1,#+0
+   \   0000012C   EF0100EF           SWI      +495
+    262                  if (AffectSoft==true)
+   \   00000130   010055E3           CMP      R5,#+1
+   \   00000134   0C00001A           BNE      ??Standby_OnRedrawTimer_11
+    263                  {
+    264                    DispObject_InvalidateRect(Softkey_DO,0);
+   \   00000138   140097E5           LDR      R0,[R7, #+20]
+   \   0000013C   0010A0E3           MOV      R1,#+0
+   \   00000140   EF0100EF           SWI      +495
+    265                  }
+    266                  if (AffectStatus==true)
+   \   00000144   080000EA           B        ??Standby_OnRedrawTimer_11
+    267                  {
+    268                    DispObject_InvalidateRect(StatusIndication_DO,0);
+    269                  }
+    270                }
+    271                else if (isInStandby==false)
+    272                {
+    273                  if (DrawSoft2!=false && AffectSoft==true)
+   \                     ??Standby_OnRedrawTimer_10:
+   \   00000148   000059E3           CMP      R9,#+0
+   \   0000014C   0400000A           BEQ      ??Standby_OnRedrawTimer_12
+   \   00000150   010055E3           CMP      R5,#+1
+   \   00000154   0200001A           BNE      ??Standby_OnRedrawTimer_12
+    274                  {
+    275                    DispObject_InvalidateRect(Softkey_DO,0);
+   \   00000158   140097E5           LDR      R0,[R7, #+20]
+   \   0000015C   0010A0E3           MOV      R1,#+0
+   \   00000160   EF0100EF           SWI      +495
+    276                  }
+    277                  if (DrawStatus2!=false && AffectStatus==true)
+   \                     ??Standby_OnRedrawTimer_12:
+   \   00000164   000058E3           CMP      R8,#+0
+   \   00000168   0400000A           BEQ      ??Standby_OnRedrawTimer_9
+   \                     ??Standby_OnRedrawTimer_11:
+   \   0000016C   010054E3           CMP      R4,#+1
+   \   00000170   0200001A           BNE      ??Standby_OnRedrawTimer_9
+    278                  {
+    279                    DispObject_InvalidateRect(StatusIndication_DO,0);
+   \   00000174   200097E5           LDR      R0,[R7, #+32]
+   \   00000178   0010A0E3           MOV      R1,#+0
+   \   0000017C   EF0100EF           SWI      +495
+    280                  }
+    281                }
+    282              }
+    283              isAPBookFound=false;
+   \                     ??Standby_OnRedrawTimer_9:
+   \   00000180   0000A0E3           MOV      R0,#+0
+   \   00000184   4100C7E5           STRB     R0,[R7, #+65]
+    284            }
+    285            Timer_ReSet(&Standby_RedrawTimer,locTime,Standby_OnRedrawTimer,0);
+   \                     ??Standby_OnRedrawTimer_7:
+   \   00000188   ........           LDR      R2,??DataTable17  ;; ??Standby_OnRedrawTimer
+   \   0000018C   2C1097E5           LDR      R1,[R7, #+44]
+   \   00000190   0030A0E3           MOV      R3,#+0
+   \   00000194   0700A0E1           MOV      R0,R7
+   \   00000198   280100EF           SWI      +296
+    286          };
+   \   0000019C   B087BDE8           POP      {R4,R5,R7-R10,PC}
+    287          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    288          void Standby_SetOnRedraw()
+    289          {
+    290            //Система тройной прорисовки для целостности ГЭ.
+    291            wstrcpy(lastmusic,L"no");
+   \                     ??Standby_SetOnRedraw:
+   \   00000000   78109FE5           LDR      R1,??Standby_SetOnRedraw_1  ;; `?<Constant L"\\x6e\\x6f">`
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   ........           LDR      R4,??DataTable22  ;; Standby_RedrawTimer
+   \   0000000C   440084E2           ADD      R0,R4,#+68
+   \   00000010   520100EF           SWI      +338
+    292            
+    293            Standby_DO= GUIObject_GetDispObject( SBY_GetStatusIndication(Find_StandbyBook()) );
+   \   00000014   310100EF           SWI      +305
+   \   00000018   180200EF           SWI      +536
+   \   0000001C   680100EF           SWI      +360
+   \   00000020   080084E5           STR      R0,[R4, #+8]
+    294            Standby_DefaultRedraw=DispObject_GetOnRedraw(Standby_DO);
+   \   00000024   290200EF           SWI      +553
+   \   00000028   0C0084E5           STR      R0,[R4, #+12]
+    295            Standby_DD=DispObject_GetDESC (Standby_DO);
+   \   0000002C   080094E5           LDR      R0,[R4, #+8]
+   \   00000030   1F0200EF           SWI      +543
+    296            DISP_DESC_SetOnRedraw(Standby_DD,Standby_CARedraw); 
+   \   00000034   48109FE5           LDR      R1,??Standby_SetOnRedraw_1+0x4  ;; ??Standby_CARedraw
+   \   00000038   040084E5           STR      R0,[R4, #+4]
+   \   0000003C   280200EF           SWI      +552
+    297            Standby_RedrawTimer=Timer_Set(GetUpdateTime(),Standby_OnRedrawTimer,0);
+   \   00000040   ........           BL       ??GetUpdateTime
+   \   00000044   ........           LDR      R1,??DataTable17  ;; ??Standby_OnRedrawTimer
+   \   00000048   0020A0E3           MOV      R2,#+0
+   \   0000004C   290100EF           SWI      +297
+   \   00000050   B000C4E1           STRH     R0,[R4, #+0]
+    298            //Нужны ли нам софты/статус?
+    299            if (AffectSoft==true)
+   \   00000054   ........           LDR      R0,??DataTable18  ;; AffectSoft
+   \   00000058   000090E5           LDR      R0,[R0, #+0]
+   \   0000005C   010050E3           CMP      R0,#+1
+   \   00000060   0000001A           BNE      ??Standby_SetOnRedraw_2
+    300            {
+    301              Softkey_SetOnRedraw();
+   \   00000064   ........           BL       ??Softkey_SetOnRedraw
+    302            }
+    303            if (AffectStatus==true)
+   \                     ??Standby_SetOnRedraw_2:
+   \   00000068   ........           LDR      R0,??DataTable19  ;; AffectStatus
+   \   0000006C   000090E5           LDR      R0,[R0, #+0]
+   \   00000070   010050E3           CMP      R0,#+1
+   \   00000074   1080BD18           POPNE    {R4,PC}
+    304            {
+    305              StatusIndication_SetOnRedraw();
+   \   00000078   ........           BL       ??StatusIndication_SetOnRedraw
+    306            }
+    307          };
+   \   0000007C   1080BDE8           POP      {R4,PC}
+   \                     ??Standby_SetOnRedraw_1:
+   \   00000080   ........           DC32     `?<Constant L"\\x6e\\x6f">`
+   \   00000084   ........           DC32     ??Standby_CARedraw
+    308          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    309          void Softkey_SetOnRedraw()
+    310          {
+   \                     ??Softkey_SetOnRedraw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    311            //Standby=Find_StandbyBook();
+    312            //MainInput=SBY_GetMainInput(Standby);
+    313            //Врубаем софты
+    314            SoftUsed=true;
+   \   00000004   ........           LDR      R4,??DataTable21  ;; Standby_RedrawTimer
+   \   00000008   0100A0E3           MOV      R0,#+1
+   \   0000000C   4200C4E5           STRB     R0,[R4, #+66]
+    315            Softkey_DO=DispObject_SoftKeys_Get();
+   \   00000010   A30200EF           SWI      +675
+   \   00000014   140084E5           STR      R0,[R4, #+20]
+    316            Softkey_DefaultRedraw=DispObject_GetOnRedraw(Softkey_DO);
+   \   00000018   290200EF           SWI      +553
+   \   0000001C   180084E5           STR      R0,[R4, #+24]
+    317            Softkey_DD=DispObject_GetDESC(Softkey_DO);
+   \   00000020   140094E5           LDR      R0,[R4, #+20]
+   \   00000024   1F0200EF           SWI      +543
+    318            DISP_DESC_SetOnRedraw(Softkey_DD,Softkey_CARedraw);
+   \   00000028   08109FE5           LDR      R1,??Softkey_SetOnRedraw_1  ;; ??Softkey_CARedraw
+   \   0000002C   100084E5           STR      R0,[R4, #+16]
+   \   00000030   280200EF           SWI      +552
+    319          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??Softkey_SetOnRedraw_1:
+   \   00000038   ........           DC32     ??Softkey_CARedraw
+    320          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    321          void StatusIndication_SetOnRedraw()
+    322          {
+   \                     ??StatusIndication_SetOnRedraw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    323            //Врубаем статус 
+    324            StatusUsed=true;
+   \   00000004   ........           LDR      R4,??DataTable21  ;; Standby_RedrawTimer
+   \   00000008   0100A0E3           MOV      R0,#+1
+   \   0000000C   4300C4E5           STRB     R0,[R4, #+67]
+    325            StatusIndication_DO=*StatusRow_p();
+   \   00000010   F28100EF           SWI      +33266
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   200084E5           STR      R0,[R4, #+32]
+    326            StatusIndication_DefaultRedraw=DispObject_GetOnRedraw(StatusIndication_DO);
+   \   0000001C   290200EF           SWI      +553
+   \   00000020   240084E5           STR      R0,[R4, #+36]
+    327            StatusIndication_DD=DispObject_GetDESC(StatusIndication_DO);
+   \   00000024   200094E5           LDR      R0,[R4, #+32]
+   \   00000028   1F0200EF           SWI      +543
+    328            DISP_DESC_SetOnRedraw(StatusIndication_DD,StatusIndication_CARedraw);
+   \   0000002C   08109FE5           LDR      R1,??StatusIndication_SetOnRedraw_1  ;; ??StatusIndication_CARedraw
+   \   00000030   1C0084E5           STR      R0,[R4, #+28]
+   \   00000034   280200EF           SWI      +552
+    329          };
+   \   00000038   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??StatusIndication_SetOnRedraw_1:
+   \   0000003C   ........           DC32     ??StatusIndication_CARedraw
+    330          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    331          void Standby_ReturnRedraw()
+    332          { 
+   \                     ??Standby_ReturnRedraw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    333            DISP_DESC_SetOnRedraw(Standby_DD, Standby_DefaultRedraw); 
+   \   00000004   ........           LDR      R4,??DataTable22  ;; Standby_RedrawTimer
+   \   00000008   0C1094E5           LDR      R1,[R4, #+12]
+   \   0000000C   040094E5           LDR      R0,[R4, #+4]
+   \   00000010   280200EF           SWI      +552
+    334            //Юзер мог поменять "Использованные зоны" в бкфг, значит надо обезопасить тел от ребута:
+    335            if (SoftUsed==true)
+   \   00000014   4200D4E5           LDRB     R0,[R4, #+66]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0200000A           BEQ      ??Standby_ReturnRedraw_1
+    336            {
+    337              DISP_DESC_SetOnRedraw(Softkey_DD, Softkey_DefaultRedraw);
+   \   00000020   181094E5           LDR      R1,[R4, #+24]
+   \   00000024   100094E5           LDR      R0,[R4, #+16]
+   \   00000028   280200EF           SWI      +552
+    338            }
+    339            if (StatusUsed==true)
+   \                     ??Standby_ReturnRedraw_1:
+   \   0000002C   4300D4E5           LDRB     R0,[R4, #+67]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0200000A           BEQ      ??Standby_ReturnRedraw_2
+    340            {
+    341              DISP_DESC_SetOnRedraw(StatusIndication_DD, StatusIndication_DefaultRedraw); 
+   \   00000038   241094E5           LDR      R1,[R4, #+36]
+   \   0000003C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000040   280200EF           SWI      +552
+    342            }
+    343            Timer_Kill(&Standby_RedrawTimer);
+   \                     ??Standby_ReturnRedraw_2:
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   2A0100EF           SWI      +298
+    344          };
+   \   0000004C   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     DrawStatus2
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     DrawSoft2
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     PlayerRunned
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     AllowAnim
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable17:
+   \   00000000   ........           DC32     ??Standby_OnRedrawTimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable18:
+   \   00000000   ........           DC32     AffectSoft
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable19:
+   \   00000000   ........           DC32     AffectStatus
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable21:
+   \   00000000   ........           DC32     Standby_RedrawTimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable22:
+   \   00000000   ........           DC32     Standby_RedrawTimer
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for Standby_RedrawTimer>`:
+   \   00000000   0000               DC8 0, 0
+   \   00000002   0000               DC8 0, 0
+   \                     `?<Initializer for Standby_DD>`:
+   \   00000004   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Standby_DO>`:
+   \   00000008   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Standby_DefaultRedraw>`:
+   \   0000000C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Softkey_DD>`:
+   \   00000010   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Softkey_DO>`:
+   \   00000014   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Softkey_DefaultRedraw>`:
+   \   00000018   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for StatusIndication_DD>`:
+   \   0000001C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for StatusIndication_DO>`:
+   \   00000020   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for StatusIndication_DefaultRedr`:
+   \   00000024   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for gc>`:
+   \   00000028   00000000           DC32 0H
+   \                     `?<Initializer for locTime>`:
+   \   0000002C   E8030000           DC32 1000
+   \                     `?<Initializer for locCover_X>`:
+   \   00000030   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for locCover_Y>`:
+   \   00000034   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for locCover_MaxX>`:
+   \   00000038   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for locCover_MaxY>`:
+   \   0000003C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isInStandby>`:
+   \   00000040   00                 DC8 0
+   \                     `?<Initializer for isAPBookFound>`:
+   \   00000041   00                 DC8 0
+   \                     `?<Initializer for SoftUsed>`:
+   \   00000042   00                 DC8 0
+   \                     `?<Initializer for StatusUsed>`:
+   \   00000043   00                 DC8 0
+   \                     `?<Initializer for lastmusic>`:
+   \   00000044   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000054   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000064   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000074   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000084   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000094   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000000F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000104   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000114   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000124   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000134   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000144   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000154   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000164   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000174   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000184   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000194   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000001A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000001B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000001C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000001D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000001E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000001F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000204   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000214   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000224   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000234   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000244   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000254   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000264   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000274   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000284   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000294   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000002A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000002B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000002C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000002D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000002E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000002F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000304   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000314   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000324   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000334   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000344   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000354   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000364   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000374   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000384   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000394   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000404   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000414   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000424   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000434   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000444   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000454   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000464   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000474   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000484   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000494   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000504   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000514   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000524   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000534   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000544   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000554   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000564   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000574   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000584   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000594   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000604   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000614   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000624   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000634   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000644   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000654   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000664   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000674   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000684   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000694   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000704   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000714   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000724   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000734   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000744   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000754   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000764   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000774   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000784   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000794   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000804   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000814   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000824   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000834   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x6e\\x6f">`:
+   \   00000000   6E006F000000       DC8 6EH, 0, 6FH, 0, 0, 0
+   \   00000006   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     GetUpdateTime()                    0
+     Redraw(DISP_OBJ_ONREDRAW_METHOD, int, signed int, DISP_OBJ *, int, int, int, int, int, int)
+                                       88
+     Softkey_CARedraw(DISP_OBJ *, int, int, int)
+                                       48
+     Softkey_SetOnRedraw()              8
+     Standby_CARedraw(DISP_OBJ *, int, int, int)
+                                       44
+     Standby_OnRedrawTimer(u16, LPARAM)
+                                       32
+     Standby_ReturnRedraw()             8
+     Standby_SetOnRedraw()             12
+     StatusIndication_CARedraw(DISP_OBJ *, int, int, int)
+                                       44
+     StatusIndication_SetOnRedraw()     8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     nowmus                         2048
+     Standby_RedrawTimer            2116
+     Standby_CARedraw(DISP_OBJ *, int, int, int)
+                                     144
+     Softkey_CARedraw(DISP_OBJ *, int, int, int)
+                                     224
+     StatusIndication_CARedraw(DISP_OBJ *, int, int, int)
+                                     204
+     Redraw(DISP_OBJ_ONREDRAW_METHOD, int, signed int, DISP_OBJ *, int, int, int, int, int, int)
+                                     972
+     GetUpdateTime()                  36
+     Standby_OnRedrawTimer(u16, LPARAM)
+                                     416
+     Standby_SetOnRedraw()           136
+     Softkey_SetOnRedraw()            60
+     StatusIndication_SetOnRedraw()   64
+     Standby_ReturnRedraw()           80
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ??DataTable10                     4
+     ??DataTable14                     4
+     ??DataTable17                     4
+     ??DataTable18                     4
+     ??DataTable19                     4
+     ??DataTable21                     4
+     ??DataTable22                     4
+     ?<Initializer for Standby_RedrawTimer>
+                                    2116
+     ?<Constant L"\x6e\x6f">           8
+      Others                         124
+
+ 
+ 2 472 bytes in segment CODE
+     8 bytes in segment DATA_C
+ 2 116 bytes in segment DATA_I
+ 2 116 bytes in segment DATA_ID
+ 2 048 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 2 372 bytes of CODE  memory (+ 124 bytes shared)
+ 2 124 bytes of CONST memory
+ 4 164 bytes of DATA  memory
+
+Errors: none
+Warnings: none

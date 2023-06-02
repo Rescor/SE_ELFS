@@ -1,0 +1,810 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:52:54 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\a #
+#                       ct_proc.cpp                                          #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\a #
+#                       ct_proc.cpp -D NDEBUG -D OLDFUNCTIONS -lC            #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\act_proc.lst                             #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\act_proc.r79                              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\act_proc.cpp
+      1          /*
+      2           ****************************************************************************
+      3           *                     Модуль выполнения событий EventControl'а
+      4           ****************************************************************************
+      5           */
+      6          #include "..\deleaker\mem2.h"
+      7          #include "..\include\Lib_Clara.h" 
+      8          #include "..\include\Dir.h" 
+      9          #include "header\structs.h"
+     10          #include "header\lng.h"
+     11          
+     12          extern "C" unsigned long wcstoul(const wchar_t *, wchar_t **, int);
+     13          extern char h,m,s,DayOfTheWeek,isWeekend;
+     14          extern DATETIME dt;
+     15          extern MyBOOK *ECBook;
+     16          extern wchar_t *extFolder;
+     17          extern wchar_t *intFolder;
+     18          
+     19          int readConfig(MyBOOK *myBook, wchar_t *myFolder, wchar_t *fname);
+     20          void CreateReminder(REMINDER_STRUCT * rem_str);
+     21          void mbox_Create(BOOK * bk, wchar_t *text, int minutes, bool vibra);
+     22          
+     23          void SUBPROC_(void(*PROC)(int,void*),int p1, void * p2);
+     24          
+     25          #pragma swi_number=0x109
+     26          __swi __arm  void MMIPROC (void(*PROC)(EVENT *), EVENT *);
+     27          
+     28          #pragma swi_number=0x109
+     29          __swi __arm  void MMIPROC (void(*PROC)(wchar_t *),wchar_t *);
+     30          
+     31          #pragma swi_number=0x109
+     32          __swi __arm  void MMIPROC (void(*PROC)(REMINDER_STRUCT *),REMINDER_STRUCT *);
+     33          
+     34          /*
+     35          *===========================================================================
+     36          *                        Ищем книгу по названию (C) den_po
+     37          *===========================================================================
+     38          */
+     39          BOOK* findbook(char* name)
+     40          {
+     41            int sesscount;
+     42            BOOK * book;
+     43            int sess,bk;
+     44            UI_APP_SESSION * session; 
+     45            sesscount=root_list_get_session_count(); 
+     46            for(sess=0;sess<sesscount;sess++)
+     47            {
+     48              session=root_list_get_session(sess);
+     49              for (bk=0;bk<session->listbook->FirstFree;bk++)
+     50              {
+     51                book=(BOOK*)List_Get(session->listbook,bk);
+     52                if(!strcmp(book->xbook->name,name))return book;
+     53              }   
+     54            }
+     55            return NULL; 
+     56          };
+     57          
+     58          /*
+     59          *================================================================================
+     60          * Проверяем книгу на наличие в ней обработчика определённого события (C) Hussein
+     61          *================================================================================
+     62          */
+     63          int CheckEv(BOOK * bk, int ev)
+     64          {
+     65            PAGE_MSG * pm;
+     66            if (bk->base_page)
+     67            {
+     68              pm=(PAGE_MSG *)bk->base_page->msg_lst;
+     69              if (pm)
+     70              {
+     71                while ((pm->msg) && (pm->proc))
+     72                {
+     73                  if (pm->msg==ev)
+     74                  {
+     75                    return(1);
+     76                  }
+     77                  pm++;
+     78                }
+     79              }
+     80            }
+     81            return(0);
+     82          };
+     83          
+     84          /*
+     85          *===========================================================================
+     86          *     Функция сравнения названия явы из JavaDesc'а с нужным нам именем 
+     87          *===========================================================================
+     88          */
+     89          int CheckName(void * JavaDesc, wchar_t *name)
+     90          {
+     91            wchar_t * sp;
+     92            JavaAppDesc_GetJavaAppInfo(JavaDesc,0,&sp);
+     93            return(wstrcmp(sp,name));
+     94          };
+     95          
+     96          /*
+     97          *===========================================================================
+     98          *              Функция запуска ява-приложения по его названию
+     99          *===========================================================================
+    100          */
+    101          int LaunchJava(wchar_t *name)
+    102          {
+    103            int ID=-1;
+    104            char sp;
+    105            void * JavaDesc;
+    106            JavaDialog_Open(0,&sp,&JavaDesc);
+    107            if (!JavaAppDesc_GetFirstApp(JavaDesc))
+    108            {
+    109              int result=0;
+    110              while ((CheckName(JavaDesc,name))&&(!result))
+    111              {
+    112                result=JavaAppDesc_GetNextApp(JavaDesc);
+    113              }
+    114              if (!result) ID=JavaAppDesc_GetJavaAppID(JavaDesc);
+    115            }
+    116            JavaDialog_Close(sp);
+    117            if (ID!=-1)
+    118            {
+    119              char sp_flag;
+    120              REQUEST_UI_OAF_START_APPLICATION(ASYNC,ID+0x10000,&sp_flag);
+    121            }
+    122            return(ID);
+    123          };
+    124          
+    125          /*
+    126          *===========================================================================
+    127          *             Функция определения книги ColorSlider для FindBook
+    128          *===========================================================================
+    129          */
+    130          int isCSBook(BOOK *bk)
+    131          {
+    132            if (strcmp(bk->xbook->name,"ColorSlider")==0)return 1;
+    133            return 0;
+    134          };
+    135          
+    136          /*
+    137          *===========================================================================
+    138          *       Запускаем голосовой вызов
+    139          *===========================================================================
+    140          */
+    141          void MakeVC(wchar_t *num)
+    142          {
+    143            char vc[256];
+    144            VCALL_Init(vc);
+    145            VCALL_SetNumber(vc,num, wstrlen(num));
+    146            MakeVoiceCall(0,vc,1);
+    147          };
+    148          
+    149          int notsupported=0;
+    150          int (*LED)(void *,int id,int RED,int GREEN,int BLUE, int delay, int onoff)=0;
+    151          void (*CONTROL)(int a, int id, int br, int c)=0;
+    152          #define LED_R8BA 0x4529A85D
+    153          #define CTRL_R8BA 0x4529A7FD
+    154          #define CTRL_R8BE 0x4529BF49
+    155          #define LED_R8BE 0x4529BFA9
+    156          #define CTRL_R6CA 0x452C9B09
+    157          #define LED_R6CA 0x452C9B69
+    158          #define CTRL_R8BE_Orange 0x452D7ACD
+    159          #define LED_R8BE_Orange 0x452D7B2D
+    160          
+    161          int getfw()
+    162          {
+    163            if (GetChipID()==0x9900)
+    164            {
+    165              char *test=(char*)(0x4529BFA8);
+    166              if (test[0]==0x30 && test[1]==0xB5)
+    167              {
+    168                //W580 R8BE001
+    169                LED=(int (*)(void *,int id,int RED,int GREEN,int BLUE,int delay,int onoff))(LED_R8BE);
+    170                CONTROL=(void (*)(int a, int id, int br, int c))(CTRL_R8BE);
+    171              }
+    172              else if (test[0]==0xE5 && test[1]==0xFD)
+    173              {
+    174                //W580 R8BA024
+    175                LED=(int (*)(void *,int id,int RED,int GREEN,int BLUE,int delay,int onoff))(LED_R8BA);
+    176                CONTROL=(void (*)(int a, int id, int br, int c))(CTRL_R8BA);
+    177              }
+    178              else if (test[0]==0xA8 && test[1]==0x33)
+    179              {
+    180                //W580 R6CA001 Orange
+    181                LED=(int (*)(void *,int id,int RED,int GREEN,int BLUE,int delay,int onoff))(LED_R6CA);
+    182                CONTROL=(void (*)(int a, int id, int br, int c))(CTRL_R6CA);
+    183              }
+    184              else if (test[0]==0x00 && test[1]==0x28)
+    185              {
+    186                //W580 R8BE001 Orange
+    187                LED=(int (*)(void *,int id,int RED,int GREEN,int BLUE,int delay,int onoff))(LED_R8BE_Orange);
+    188                CONTROL=(void (*)(int a, int id, int br, int c))(CTRL_R8BE_Orange);
+    189              }
+    190              else
+    191              {
+    192                notsupported=1;
+    193                return 0;
+    194              }
+    195            }
+    196            else return 0;
+    197            return 1;
+    198          };
+    199          
+    200          void led(int,void*)
+    201          {
+    202            for (int x=0;x<7;x++)
+    203            {
+    204              LED(0,1,0,100,0,100,0);
+    205              LED(0,0,0,100,0,100,0);
+    206              delay(500);
+    207              LED(0,0,100,0,0,100,0);
+    208              LED(0,1,100,0,0,100,0);
+    209              delay(500);
+    210              LED(0,1,0,0,100,100,0);
+    211              LED(0,0,0,0,100,100,0);
+    212              delay(500);
+    213            }
+    214            LED(0,1,0,0,100,100,1);
+    215            LED(0,0,0,0,100,100,1);
+    216          };
+    217          
+    218          void orangeled(int,void*)
+    219          {
+    220            for (int x=0;x<6;x++)
+    221            {
+    222              OrangeLED_Control(1, 0, 0, 100);
+    223              OrangeLED_Control(1, 1, 0, 100);
+    224              OrangeLED_Control(1, 2, 0, 100);
+    225              delay(50);
+    226              OrangeLED_Control(1, 0, 100, 100);
+    227              delay(25);
+    228              OrangeLED_Control(1, 0, 0, 100);
+    229              OrangeLED_Control(1, 1, 100, 100);
+    230              delay(25);
+    231              OrangeLED_Control(1, 1, 0, 100);
+    232              OrangeLED_Control(1, 2, 100, 100);
+    233              delay(25);
+    234              OrangeLED_Control(1, 2, 0, 100);
+    235              delay(25);
+    236            }
+    237          };
+    238          
+    239          void redled(int, void*)
+    240          {
+    241            for (int x=0;x<6;x++)
+    242            {
+    243              RedLED_On(0);
+    244              delay(500);
+    245              RedLED_Off(0);
+    246              delay(500);
+    247              RedLED_On(0);
+    248              delay(500);
+    249              RedLED_Off(0);
+    250              delay(500);
+    251              RedLED_On(0);
+    252              delay(500);
+    253              RedLED_Off(0);
+    254              delay(500);
+    255            }
+    256          };
+    257          
+    258          void vibrate_sub(int,void*)
+    259          {
+    260            PAudioControl pAC = AudioControl_Init();
+    261            if( !pAC )
+    262              pAC = *GetAudioControlPtr();
+    263            AudioControl_Vibrate(pAC, 500, 50, 3000);
+    264          };
+    265          
+    266          void exec_indication(int ind)
+    267          {
+    268            if ((ind)&0xF)
+    269            {
+    270              if (LED)
+    271              {
+    272                 SUBPROC_(led,0,0);
+    273              }
+    274            }
+    275            if ((ind>>4)&0xF)
+    276            {
+    277              SUBPROC_(orangeled,0,0);
+    278            }
+    279            if ((ind>>8)&0xF)
+    280            {
+    281              SUBPROC_(redled,0,0);
+    282            }
+    283            if ((ind>>12)&0xF)
+    284            {
+    285              MMIPROC(vibrate_sub,0,0);
+    286            }
+    287            if ((ind>>16)&0xF)
+    288            {
+    289              if (ECBook->indpath && ECBook->indname)
+    290                PlayFile(ECBook->indpath,ECBook->indname);
+    291              else
+    292              {
+    293                FSTAT fst;
+    294                if (fstat(extFolder,L"notific.mp3",&fst)==0)
+    295                {
+    296                  PlayFile(extFolder,L"notific.mp3");
+    297                }
+    298                else if (fstat(intFolder,L"notific.mp3",&fst)==0)
+    299                {
+    300                  PlayFile(intFolder,L"notific.mp3");
+    301                }
+    302              }
+    303            }
+    304          };
+    305          
+    306          void act_proc(EVENT *ev)
+    307          {
+    308            int t=ev->type;
+    309            if (t==0)
+    310            {
+    311              mbox_Create(0, ev->param, 0, false);
+    312            }
+    313            else if (t==1)
+    314            {
+    315              elfload(ev->param,0,0,0);
+    316            }
+    317            else if (t==2)
+    318            {
+    319              Shortcut_Run(ev->param);
+    320            }
+    321            else if (t==3)
+    322            {
+    323              LaunchJava(ev->param);
+    324            }
+    325            else if (t==4)
+    326            {
+    327              REQUEST_SYSTEM_SHUTDOWN();
+    328            }
+    329            else if (t==5)
+    330            {
+    331              Display_SetBrightness(0, wcstoul(ev->param,0,10));
+    332            }
+    333            else if (t==6)
+    334            {
+    335              SetLampLevel(wcstoul(ev->param,0,10));
+    336            }
+    337            else if (t==7)
+    338            {
+    339              int pr=0;
+    340              REQUEST_PROFILE_GETACTIVEPROFILE(SYNC, &pr);
+    341              int npr=wcstoul(ev->param,0,10);
+    342              if (npr>0)
+    343              {
+    344                npr--;
+    345                if (pr!=npr)
+    346                {
+    347                  Profile_SetActive(npr, 1);
+    348                }
+    349              }
+    350            }
+    351            else if (t==8)
+    352            {
+    353              REQUEST_SYSTEM_RESTART();
+    354            }
+    355            else if (t==9)
+    356            {
+    357              wchar_t path[512];
+    358              wchar_t name[512];
+    359              wstrcpy(path,ev->param);
+    360              *(wstrrchr(path,L'/'))=0;
+    361              wstrcpy(name,wstrrchr(ev->param,L'/'));
+    362              PlayFile(path,name);
+    363            }
+    364            else if (t==10)
+    365            {
+    366              wchar_t path[512];
+    367              wchar_t name[512];
+    368              wchar_t vol[4];
+    369              wstrncpy(vol,ev->param,3);
+    370              vol[3]=L'\0';
+    371              int volume=wcstoul(vol,0,10);
+    372              wchar_t *pth=wstrchr(ev->param,L'.');
+    373              pth++;
+    374              wstrcpy(path,pth);
+    375              *(wstrrchr(path,L'/'))=0;
+    376              wstrcpy(name,wstrrchr(ev->param,L'/'));
+    377              PlayFileV(path,name,volume);
+    378            }
+    379            else if (t==11)
+    380            {
+    381              wchar_t path[512];
+    382              wchar_t name[512];
+    383              wstrcpy(path,ev->param);
+    384              wchar_t *hz=wstrrchr(path,L'/');
+    385              hz++;
+    386              *hz=0;
+    387              wchar_t *hz2=wstrrchr(ev->param,L'/');
+    388              hz2++;
+    389              wstrcpy(name,hz2);
+    390              StandbyBackground_SetImage(6,0,0,path,name,0);
+                     ^
+Error[Pe020]: identifier "StandbyBackground_SetImage" is undefined
+    391            }
+    392            else if (t==12)
+    393            {
+    394              PAudioControl pAC = AudioControl_Init();
+    395              if( !pAC )pAC = *GetAudioControlPtr();
+    396              int v_sec=wcstoul(ev->param,0,10);
+    397              if (v_sec<=0)v_sec=1;
+    398              AudioControl_Vibrate(pAC, 500, 50, v_sec * 1000);
+    399            }
+    400            else if (t==13)
+    401            {
+    402              if (!ev->param || ev->param[0]==0)
+    403                StatusIndication_ShowNotes(EMPTY_TEXTID);
+    404              else
+    405                StatusIndication_ShowNotes(TextID_Create(ev->param,ENC_UCS2,TEXTID_ANY_LEN));
+    406            }
+    407            else if (t==14)
+    408            {
+    409              if (!ev->param || ev->param[0]==0)
+    410                StatusIndication_Item8_SetText(EMPTY_TEXTID);
+    411              else
+    412                StatusIndication_Item8_SetText(TextID_Create(ev->param,ENC_UCS2,TEXTID_ANY_LEN));
+    413            }
+    414            else if (t==15)
+    415            {
+    416              char *book=new char[wstrlen(ev->param)+1];
+    417              wstr2strn(book,ev->param,wstrlen(ev->param));
+    418              BOOK * bk = findbook(book);
+    419              if (bk)
+    420              {
+    421                if (CheckEv(bk,TERMINATE_SESSION_EVENT))
+    422                {
+    423                  UI_Event_toBookID(TERMINATE_SESSION_EVENT,BookObj_GetBookID(bk));
+    424                  UI_Event_toBookID(RETURN_TO_STANDBY_EVENT,BookObj_GetBookID(bk));
+    425                }
+    426                if (CheckEv(bk,ELF_TERMINATE_EVENT))
+    427                {
+    428                  UI_Event_toBookID(ELF_TERMINATE_EVENT,BookObj_GetBookID(bk));
+    429                }
+    430              }
+    431              delete(book);
+    432            }
+    433            else if (t==16)
+    434            {
+    435              GoMusic();
+    436            }
+    437            else if (t==17)
+    438            {
+    439              void DestroyEvents(MyBOOK *);
+    440              DestroyEvents(ECBook);
+    441              wchar_t path[512];
+    442              wchar_t name[512];
+    443              wstrcpy(path,ev->param);
+    444              *(wstrrchr(path,L'/'))=0;
+    445              wstrcpy(name,wstrrchr(ev->param,L'/'));
+    446              readConfig(ECBook, path, name);
+    447            }
+    448            else if (t==18)
+    449            {
+    450              if (ECBook->path && ECBook->name)
+    451                readConfig(ECBook, ECBook->path, ECBook->name);
+    452            }
+    453            else if (t==19)
+    454            {
+    455              int pr=wcstoul(ev->param,0,10);
+    456              if (pr==0)
+    457              {
+    458                REQUEST_PROFILE_GETACTIVEPROFILE(SYNC , &pr);
+    459              }
+    460              else pr--;
+    461              REQUEST_SETTING_SILENCE_SET(SYNC, pr, 1);
+    462            }
+    463            else if (t==20)
+    464            {
+    465              int pr=wcstoul(ev->param,0,10);
+    466              if (pr==0)
+    467              {
+    468                REQUEST_PROFILE_GETACTIVEPROFILE(SYNC , &pr);
+    469              }
+    470              else pr--;
+    471              REQUEST_SETTING_SILENCE_SET(SYNC, pr, 0);
+    472            }
+    473            else if (t==21)
+    474            {
+    475              RedLED_On(0);
+    476            }
+    477            else if (t==22)
+    478            {
+    479              RedLED_Off(0);
+    480            }
+    481            else if (t==23)
+    482            {
+    483              RedLED_On(0);
+    484              delay(100);
+    485              RedLED_Off(0);
+    486            }
+    487            else if (t==24)
+    488            {
+    489              SetLampLevel(1);
+    490              delay(100);
+    491              SetLampLevel(0);
+    492            }
+    493            else if (t==25)
+    494            {
+    495              CSBOOK *bk=(CSBOOK*)FindBook(isCSBook);
+    496              if (bk)bk->changestate(1);
+    497            }
+    498            else if (t==26)
+    499            {
+    500              CSBOOK *bk=(CSBOOK*)FindBook(isCSBook);
+    501              if (bk)bk->changestate(0);
+    502            }
+    503            else if (t==27)
+    504            {
+    505              OrangeLED_Control(1, 0, 0, 100);
+    506              OrangeLED_Control(1, 1, 0, 100);
+    507              OrangeLED_Control(1, 2, 0, 100);
+    508              delay(50);
+    509              OrangeLED_Control(1, 0, 100, 100);
+    510              delay(25);
+    511              OrangeLED_Control(1, 0, 0, 100);
+    512              OrangeLED_Control(1, 1, 100, 100);
+    513              delay(25);
+    514              OrangeLED_Control(1, 1, 0, 100);
+    515              OrangeLED_Control(1, 2, 100, 100);
+    516              delay(25);
+    517              OrangeLED_Control(1, 2, 0, 100);
+    518            }
+    519            else if (t==28)
+    520            {
+    521              OrangeLED_Control(1, 0, 100, 100);
+    522              OrangeLED_Control(1, 1, 100, 100);
+    523              OrangeLED_Control(1, 2, 100, 100);
+    524            }
+    525            else if (t==29)
+    526            {
+    527              OrangeLED_Control(1, 0, 0, 100);
+    528              OrangeLED_Control(1, 1, 0, 100);
+    529              OrangeLED_Control(1, 2, 0, 100);
+    530            }
+    531            else if (t==30)
+    532            {
+    533              REMINDER_STRUCT * rem_str = new REMINDER_STRUCT;
+    534              rem_str->bk=&ECBook->bk;
+    535              rem_str->text=ev->param;
+    536              rem_str->utext=L" ";
+    537              
+    538              rem_str->time=new wchar_t[50];
+    539              snwprintf(rem_str->time, 49, L"%02d:%02d:%02d", h, m, s);
+    540              
+    541              rem_str->vibra=true;
+    542              rem_str->replace=false;
+    543              rem_str->need_to_destroy=true;
+    544              MMIPROC(CreateReminder, rem_str);
+    545            }
+    546            else if (t==31)
+    547            {
+    548              REQUEST_SETTING_RINGVOLUME_SET(SYNC, -3, 0, wcstoul(ev->param,0,10));
+    549            }
+    550            else if (t==32)
+    551            {
+    552              REQUEST_SETTING_VIBRATOR_SET(SYNC, -3, wcstoul(ev->param,0,10));
+    553            }
+    554            else if (t==33)
+    555            {
+    556              wchar_t path[512];
+    557              wchar_t name[512];
+    558              wstrcpy(path,ev->param);
+    559              wchar_t *hz=wstrrchr(path,L'/');
+    560              hz++;
+    561              *hz=0;
+    562              wchar_t *hz2=wstrrchr(ev->param,L'/');
+    563              hz2++;
+    564              wstrcpy(name,hz2);
+    565              REQUEST_SETTING_RINGTYPESOUNDFILE_SET(SYNC, 0, path, name);
+    566            }
+    567            else if (t==34)
+    568            {
+    569              REQUEST_SETTING_ANSWERINGMODE_SET(SYNC, -3, wcstoul(ev->param,0,10));
+    570            }
+    571            else if (t==35)
+    572            {
+    573              REQUEST_SETTING_INCREASINGRING_SET(SYNC, -3, 0, wcstoul(ev->param,0,10));
+    574            }
+    575            else if (t==36)
+    576            {
+    577              REQUEST_SETTING_ALLOWEDCALLERS_SET(SYNC, -3, wcstoul(ev->param,0,10));
+    578            }
+    579            else if (t==37)
+    580            {
+    581              MMIPROC(MakeVC, ev->param);
+    582            }
+    583            else if (t==38)
+    584            {
+    585              BOOK *bk=SESSION_GetTopBook(root_list_get_session(root_list_get_session_count() - 1));
+    586              if (bk)
+    587              {
+    588                wchar_t path[512];
+    589                wchar_t name[512];
+    590                wstrcpy(path,ev->param);
+    591                wchar_t *hz=wstrrchr(path,L'/');
+    592                hz++;
+    593                *hz=0;
+    594                wchar_t *hz2=wstrrchr(ev->param,L'/');
+    595                hz2++;
+    596                wstrcpy(name,hz2);
+    597                SetTheme(path, name, BookObj_GetBookID(bk), 1);
+    598                UI_Event(THEME_CHANGED_EVENT);
+    599              }
+    600            }
+    601          };
+    602          /*
+    603          *===========================================================================
+    604          *       Функция запуска событий разных видов
+    605          *===========================================================================
+    606          */
+    607          void action_processor(EVENT *ev)
+    608          {
+    609            if (ev->rem==0x55555555 && ECBook)
+    610            {
+    611              exec_indication(ECBook->rem_types);
+    612            }
+    613            else
+    614            {
+    615              exec_indication(ev->rem);
+    616            }
+    617            MMIPROC(act_proc,ev);
+    618          };
+    619          /*
+    620          inline int detect_missed(EVENT *ev, int now)
+    621          {
+    622            if (ev->done && ev->before_done && ev->after_done)return 1;
+    623            return 0;
+    624          };
+    625          */
+    626          void reminder_sub(EVENT *ev)
+    627          {
+    628            if (ev->rem==0x55555555 && ECBook)
+    629            {
+    630              exec_indication(ECBook->rem_types);
+    631            }
+    632            else
+    633            {
+    634              exec_indication(ev->rem);
+    635            }
+    636            wchar_t str[50];
+    637            int min=ev->AskAfter;
+    638            if (min<0)min=-min;
+    639            snwprintf(str, 49, lng[LNG_MIN_AGO_MASK], min);
+    640            wchar_t time[50];
+    641            snwprintf(time, 49, L"%02d:%02d:%02d", h, m, s);
+    642            REMINDER_STRUCT rem_str;
+    643            rem_str.bk=&ECBook->bk;
+    644            if (ev->txt) rem_str.text=ev->txt;
+    645            else rem_str.text=lng[LNG_IMPORTANT_EVENT];
+    646            rem_str.utext=str;
+    647            rem_str.time=time;
+    648            rem_str.vibra=true;
+    649            rem_str.replace=false;
+    650            rem_str.need_to_destroy=false;
+    651            CreateReminder(&rem_str); 
+    652            ev->after_done=true;
+    653          };
+    654          
+    655          /*
+    656          *===========================================================================
+    657          *       Функция определения начала напоминания и вызова события
+    658          *===========================================================================
+    659          * 1) В случае необходимости напоминает пользователю о грядущем/прошедшем событии
+    660          * 2) Запускает выполнение действия
+    661          */
+    662          void event_checktime(EVENT *ev, int mode, int rem1, int rem2)
+    663          {
+    664            int now=(h*3600) + (m*60) + s;
+    665            bool done=false;
+    666            if (ev->ttype==0)
+    667            {
+    668              if (now==ev->tm_start && mode==0)
+    669              {
+    670                done=true;
+    671                MMIPROC(action_processor,ev);
+    672                ev->done=true;
+    673              }
+    674            }
+    675            else if (ev->ttype==1)
+    676            {
+    677              if (now>=ev->tm_start && now<=ev->tm_end && mode==0)
+    678              {
+    679                done=true;
+    680                MMIPROC(action_processor,ev);
+    681                ev->done=true;
+    682              }
+    683            }
+    684            if (ev->ask_before==now && ((mode==0 && rem1==0 && done==false) || (mode==1 && rem1!=0)))
+    685            {
+    686              wchar_t str[50];
+    687              int min=ev->AskBefore;
+    688              if (min<0)min=-min;
+    689              snwprintf(str, 49, lng[LNG_MIN_REM_MASK],min);
+    690              wchar_t time[50];
+    691              snwprintf(time, 49, L"%02d:%02d:%02d", h, m, s);
+    692              REMINDER_STRUCT * rem_str = new REMINDER_STRUCT;
+    693              rem_str->bk=&ECBook->bk;
+    694              if (ev->txt) rem_str->text=ev->txt;
+    695              else rem_str->text=lng[LNG_IMPORTANT_EVENT];
+    696              rem_str->utext=str;
+    697              rem_str->time=time;
+    698              rem_str->vibra=true;
+    699              rem_str->replace=false;
+    700              rem_str->need_to_destroy=true;
+    701              MMIPROC(CreateReminder,rem_str);
+    702              ev->before_done=true;
+    703            }
+    704            if (ev->ask_after==now && ((mode==0 && rem2==0 && done==false) || (mode==2 && rem2!=0)))
+    705            {
+    706              MMIPROC(reminder_sub, ev);
+    707            }
+    708          };
+    709          
+    710          /*===========================================================================
+    711          *               Функция сравнения двух разных структур даты.
+    712          *===========================================================================
+    713          * 1) Если первая дата по календарю идёт позже второй, то возвращается 0.
+    714          * 2) Если вторая дата по календарю идёт позже первой, то возвращается 2.
+    715          * 3) Если даты равны, то возвращается 1.
+    716          */
+    717          int cmpdate(DATE d1, DATE d2)
+    718          {
+    719            if      (d1.year<d2.year)return 2;
+    720            else if (d1.year>d2.year)return 0;
+    721            else
+    722            {
+    723              if      (d1.mon<d2.mon) return 2;
+    724              else if (d1.mon>d2.mon) return 0;
+    725              else
+    726              {
+    727                if (d1.day<d2.day)return 2;
+    728                else if (d1.day>d2.day)return 0;
+    729                else return 1;
+    730              }
+    731            }
+    732          };
+    733          
+    734          /*
+    735          *===========================================================================
+    736          *            Функция сравнения даты из структуры с текущей
+    737          *===========================================================================
+    738          * 1) Если текущая дата совпадает/попадает во временной интервал с датой из 
+    739          *    структуры события, то запускает проверку времени
+    740          * 2) Не совпадает/не попадает - выход
+    741          */
+    742          void event_checkdate(EVENT *ev)
+    743          {
+    744            if (ev->dtype==0)
+    745            {
+    746              if (ev->days[DayOfTheWeek])
+    747              {
+    748                event_checktime(ev, 0, ev->d_shift_0, ev->d_shift_1);
+    749              }
+    750              if (ev->remdays[DayOfTheWeek])
+    751              {
+    752                event_checktime(ev, 1, ev->d_shift_0, ev->d_shift_1);
+    753              }
+    754              if (ev->remdays2[DayOfTheWeek])
+    755              {
+    756                event_checktime(ev, 2, ev->d_shift_0, ev->d_shift_1);
+    757              }
+    758            }
+    759            else if (ev->dtype==1)
+    760            {
+    761              if(cmpdate(ev->date, dt.date)>0 && cmpdate(ev->date2, dt.date)<2)
+    762              {
+    763                event_checktime(ev, 0, ev->d_shift_0, ev->d_shift_1);
+    764              }
+    765              else if (cmpdate(ev->date_0, dt.date)==1)
+    766              {
+    767                event_checktime(ev, 1, ev->d_shift_0, ev->d_shift_1);
+    768              }
+    769              else if (cmpdate(ev->date_1, dt.date)==1)
+    770              {
+    771                event_checktime(ev, 2, ev->d_shift_0, ev->d_shift_1);
+    772              }
+    773            }
+    774          };
+
+Errors: 1
+Warnings: none

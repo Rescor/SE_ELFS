@@ -1,0 +1,312 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:44:06 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\config_data.c                                    /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\config_data.c -lC Z:\home\perk11\www\perk11.info /
+//                       \svn\SE\GPRSSessionInfo\Release\List\ -lA           /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\Release\List\ -o Z:\home\perk11\www\perk11.info\ /
+//                       svn\SE\GPRSSessionInfo\Release\Obj\ -s9 --cpu_mode  /
+//                       arm --endian little --cpu ARM926EJ-S --stack_align  /
+//                       4 --interwork -e --fpu None --eec++ --dlib_config   /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h           /
+//                       --segment data=CONFIG -I                            /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\Release\List\config_data.s79                     /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC DAY_TIME
+        PUBLIC NIGHT_TIME
+        PUBLIC cfgCurrency
+        PUBLIC cfgDayCost
+        PUBLIC cfgDayCostIn
+        PUBLIC cfgDayCostOut
+        PUBLIC cfgDayLength
+        PUBLIC cfgDivide
+        PUBLIC cfgMinLength
+        PUBLIC cfgNightCost
+        PUBLIC cfgNightCostIn
+        PUBLIC cfgNightCostOut
+        PUBLIC cfgNightLength
+        PUBLIC cfgNotCountedTraf
+        PUBLIC cfgTimeout
+// Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInfo\config_data.c
+//    1 #include "..\\include\cfg_items.h"
+//    2 #include "config_data.h"
+//    3 #include "..\\include\Colors.h"
+//    4 
+//    5 #pragma diag_suppress=Pe177
+//    6 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 4
+        DC8 "Currency name"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10
+//    7 __root const CFG_HDR cfghdr0={CFG_STR_WIN1251,"Currency name",0,10};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    8 __root const char cfgCurrency[11]="рублей";
+cfgCurrency:
+        DATA
+        DC8 "\360\363\341\353\345\351"
+        DC8 0, 0, 0, 0, 0
+//    9 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "Min package size (KB)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   10 __root const CFG_HDR cfghdr1={CFG_INT,"Min package size (KB)",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   11 __root const int cfgMinLength=100;
+cfgMinLength:
+        DATA
+        DC32 100
+//   12 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "Not counted traf (KB)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   13 __root const CFG_HDR cfghdr2={CFG_INT,"Not counted traf (KB)",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   14 __root const int cfgNotCountedTraf=5;
+cfgNotCountedTraf:
+        DATA
+        DC32 5
+//   15 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "Cost Settings"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   16 __root const CFG_HDR cfghdr3={CFG_LEVEL,"Cost Settings",1,0};
+//   17 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 12
+        DC8 "Day start time"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   18   __root const CFG_HDR cfghdr4={CFG_TIME,"Day start time",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   19       __root const TIME DAY_TIME={8,0,0};
+DAY_TIME:
+        DATA
+        DC8 8, 0, 0, 0
+//   20       
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(D)Cost for out-package"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   21   __root const CFG_HDR cfghdr5={CFG_INT,"(D)Cost for out-package",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   22       __root const int cfgDayCostOut=68;
+cfgDayCostOut:
+        DATA
+        DC32 68
+//   23       
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(D)Cost for in-package"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   24   __root const CFG_HDR cfghdr6={CFG_INT,"(D)Cost for in-package",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   25       __root const int cfgDayCostIn=68;
+cfgDayCostIn:
+        DATA
+        DC32 68
+//   26       
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(D)Cost for package"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   27   __root const CFG_HDR cfghdr7={CFG_INT,"(D)Cost for package",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   28       __root const int cfgDayCost=68;
+cfgDayCost:
+        DATA
+        DC32 68
+//   29       
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(D)Package size (KB)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   30   __root const CFG_HDR cfghdr8={CFG_INT,"(D)Package size (KB)",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   31       __root const int cfgDayLength=10000;
+cfgDayLength:
+        DATA
+        DC32 10000
+//   32   
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 12
+        DC8 "Night start time"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   33   __root const CFG_HDR cfghdr9={CFG_TIME,"Night start time",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   34       __root const TIME NIGHT_TIME ={20,0,0};
+NIGHT_TIME:
+        DATA
+        DC8 20, 0, 0, 0
+//   35   
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(N)Cost for out-package"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   36   __root const CFG_HDR cfghdr10={CFG_INT,"(N)Cost for out-package",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   37       __root const int cfgNightCostOut=68;
+cfgNightCostOut:
+        DATA
+        DC32 68
+//   38       
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(N)Cost for in-package"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   39   __root const CFG_HDR cfghdr11={CFG_INT,"(N)Cost for in-package",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   40       __root const int cfgNightCostIn=68;
+cfgNightCostIn:
+        DATA
+        DC32 68
+//   41       
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(N)Cost for package"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   42   __root const CFG_HDR cfghdr12={CFG_INT,"(N)Cost for package",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   43       __root const int cfgNightCost=68;
+cfgNightCost:
+        DATA
+        DC32 68
+//   44       
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "(N)Package size (KB)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   45   __root const CFG_HDR cfghdr13={CFG_INT,"(N)Package size (KB)",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   46       __root const int cfgNightLength=10000;
+cfgNightLength:
+        DATA
+        DC32 10000
+//   47     
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   48 __root const CFG_HDR cfghdr14={CFG_LEVEL,"",0,0};
+//   49 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+        DC8 "Show timeout (sec)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 1048575
+//   50 __root const CFG_HDR cfghdr15={CFG_INT,"Show timeout (sec)",0,0xFFFFF};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   51 __root const int cfgTimeout=10;
+cfgTimeout:
+        DATA
+        DC32 10
+//   52 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "Divide Traf"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   53 __root const CFG_HDR cfghdr16={CFG_CHECKBOX,"Divide Traf",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   54 __root const int cfgDivide=0;
+cfgDivide:
+        DATA
+        DC32 0
+
+        END
+// 
+// 816 bytes in segment CONFIG_C
+// 
+// 816 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,211 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:11:03 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \CurrentTrack.cpp                                    #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \CurrentTrack.cpp -D NDEBUG -D ENG -D OLDFUNCTIONS   #
+#                       -lC Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDis #
+#                       play\Release_ENG\List\ -lA                           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\ -o Z:\home\perk11\www\perk11.info #
+#                       \svn\SE\WalkmanDisplay\Release_ENG\Obj\ -s9          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\CurrentTrack.lst                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\Obj\CurrentTrack.r79                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\CurrentTrack.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "..\include\dir.h"
+      4          #include "header\wdisplay.h"
+      5          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          void TrackDesc_Free(TRACK_DESC *track_desc)
+      7          {
+   \                     ??TrackDesc_Free:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+      8            if (track_desc)
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+      9            {
+     10              if (track_desc->path)
+   \   0000000C   000094E5           LDR      R0,[R4, #+0]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0000000A           BEQ      ??TrackDesc_Free_1
+     11              {
+     12                delete(track_desc->path);
+   \   00000018   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     13              }
+     14              if (track_desc->name)
+   \                     ??TrackDesc_Free_1:
+   \   0000001C   040094E5           LDR      R0,[R4, #+4]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0000000A           BEQ      ??TrackDesc_Free_2
+     15              {
+     16                delete(track_desc->name);
+   \   00000028   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     17              }
+     18              delete(track_desc);
+   \                     ??TrackDesc_Free_2:
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     19            }
+     20          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+     21          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     22          bool TrackDesc_Compare(TRACK_DESC *t1, TRACK_DESC *t2)
+     23          {
+   \                     ??TrackDesc_Compare:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     24            if (t1 && t2)
+   \   00000008   000054E3           CMP      R4,#+0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   00005513           CMPNE    R5,#+0
+   \   00000014   0E00000A           BEQ      ??TrackDesc_Compare_1
+     25            {
+     26              if (wstrcmp(t1->path,t2->path)==0 && wstrcmp(t1->name,t2->name)==0 && t1->fulltime==t2->fulltime)
+   \   00000018   000094E5           LDR      R0,[R4, #+0]
+   \   0000001C   001095E5           LDR      R1,[R5, #+0]
+   \   00000020   560100EF           SWI      +342
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0900001A           BNE      ??TrackDesc_Compare_1
+   \   0000002C   040094E5           LDR      R0,[R4, #+4]
+   \   00000030   041095E5           LDR      R1,[R5, #+4]
+   \   00000034   560100EF           SWI      +342
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0400001A           BNE      ??TrackDesc_Compare_1
+   \   00000040   080094E5           LDR      R0,[R4, #+8]
+   \   00000044   081095E5           LDR      R1,[R5, #+8]
+   \   00000048   010050E1           CMP      R0,R1
+     27              {
+     28                return 1;
+   \   0000004C   0100A003           MOVEQ    R0,#+1
+   \   00000050   3080BD08           POPEQ    {R4,R5,PC}
+     29              }
+     30              else
+     31              {
+     32                return 0;
+   \                     ??TrackDesc_Compare_1:
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   3080BDE8           POP      {R4,R5,PC}       ;; return
+     33              }
+     34            }
+     35            else
+     36            {
+     37              return 0;
+     38            }
+     39          };
+     40          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     41          TRACK_DESC * TrackDesc_Get(BOOK *bk)
+     42          {
+   \                     ??TrackDesc_Get:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+     43            if (bk)
+   \   00000008   2200000A           BEQ      ??TrackDesc_Get_1
+     44            {
+     45              BOOK_PLAYER_2020 *bkp=(BOOK_PLAYER_2020*)bk;
+     46              TRACK_DESC *track_desc=new TRACK_DESC;
+   \   0000000C   1400A0E3           MOV      R0,#+20
+   \   00000010   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000014   0050A0E1           MOV      R5,R0
+     47              memset(track_desc,0,sizeof(TRACK_DESC));
+   \   00000018   1420A0E3           MOV      R2,#+20
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   120100EF           SWI      +274
+     48              wchar_t *path=bkp->dsc->path;
+   \   00000024   740094E5           LDR      R0,[R4, #+116]
+   \   00000028   046090E5           LDR      R6,[R0, #+4]
+     49              wchar_t *name=bkp->dsc->name;
+   \   0000002C   087090E5           LDR      R7,[R0, #+8]
+     50              track_desc->path=new wchar_t[wstrlen(path)+1];
+   \   00000030   0600A0E1           MOV      R0,R6
+   \   00000034   570100EF           SWI      +343
+   \   00000038   010080E2           ADD      R0,R0,#+1
+   \   0000003C   8000A0E1           LSL      R0,R0,#+1
+   \   00000040   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000044   000085E5           STR      R0,[R5, #+0]
+     51              wstrcpy(track_desc->path,path);
+   \   00000048   0610A0E1           MOV      R1,R6
+   \   0000004C   520100EF           SWI      +338
+     52              track_desc->name=new wchar_t[wstrlen(name)+1];
+   \   00000050   0700A0E1           MOV      R0,R7
+   \   00000054   570100EF           SWI      +343
+   \   00000058   010080E2           ADD      R0,R0,#+1
+   \   0000005C   8000A0E1           LSL      R0,R0,#+1
+   \   00000060   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000064   040085E5           STR      R0,[R5, #+4]
+     53              wstrcpy(track_desc->name,name);
+   \   00000068   0710A0E1           MOV      R1,R7
+   \   0000006C   520100EF           SWI      +338
+     54              track_desc->fulltime=bkp->dsc->fulltime;
+   \   00000070   740094E5           LDR      R0,[R4, #+116]
+   \   00000074   100090E5           LDR      R0,[R0, #+16]
+   \   00000078   080085E5           STR      R0,[R5, #+8]
+     55              track_desc->tracks_count=bkp->tracks_count;
+   \   0000007C   B409D4E1           LDRH     R0,[R4, #+148]
+   \   00000080   100085E5           STR      R0,[R5, #+16]
+     56              track_desc->pos=bkp->pos2+1;
+   \   00000084   BA07D4E1           LDRH     R0,[R4, #+122]
+   \   00000088   010080E2           ADD      R0,R0,#+1
+   \   0000008C   0C0085E5           STR      R0,[R5, #+12]
+     57              return track_desc;
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   F080BDE8           POP      {R4-R7,PC}
+     58            }
+     59            return 0;
+   \                     ??TrackDesc_Get_1:
+   \   00000098   0000A0E3           MOV      R0,#+0
+   \   0000009C   F080BDE8           POP      {R4-R7,PC}       ;; return
+     60          };
+     61          
+     62          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     TrackDesc_Compare(TRACK_DESC *, TRACK_DESC *)
+                                       12
+     TrackDesc_Free(TRACK_DESC *)       8
+     TrackDesc_Get(BOOK *)             20
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     TrackDesc_Free(TRACK_DESC *)     56
+     TrackDesc_Compare(TRACK_DESC *, TRACK_DESC *)
+                                      92
+     TrackDesc_Get(BOOK *)           160
+      Others                          48
+
+ 
+ 356 bytes in segment CODE
+ 
+ 308 bytes of CODE memory (+ 48 bytes shared)
+
+Errors: none
+Warnings: none

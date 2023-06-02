@@ -1,0 +1,634 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:49:30 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\so #
+#                       ftkeys.cpp                                           #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\so #
+#                       ftkeys.cpp -D NDEBUG -D OLDFUNCTIONS -lC             #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\AdvSoftkeys\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\softkeys.lst                              #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\softkeys.r79                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\softkeys.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h"
+      3          #include "header\structs.h"
+      4          #include "header\presets.h"
+      5          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      6          ITEM *lastitem=0;
+   \                     lastitem:
+   \   00000000                      DS8 4
+      7          extern LIST *csofts;
+      8          
+      9          int isSoftkeysBook(BOOK *bk);
+     10          int getcount(LIST *lst, int check);
+     11          //------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          ITEM *getbyname(wchar_t *name)
+     13          {
+   \                     ??getbyname:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+     14            if (!name)return 0;
+   \   00000008   0100001A           BNE      ??getbyname_1
+   \                     ??getbyname_2:
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   F080BDE8           POP      {R4-R7,PC}
+     15            if (csofts)
+   \                     ??getbyname_1:
+   \   00000014   ........           LDR      R5,??DataTable6  ;; csofts
+   \   00000018   000095E5           LDR      R0,[R5, #+0]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   F080BD08           POPEQ    {R4-R7,PC}
+     16            {
+     17              int x=0;
+   \   00000024   0060A0E3           MOV      R6,#+0
+     18              while(x<csofts->FirstFree)
+   \                     ??getbyname_3:
+   \   00000028   000095E5           LDR      R0,[R5, #+0]
+   \   0000002C   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000030   010056E1           CMP      R6,R1
+   \   00000034   F4FFFFAA           BGE      ??getbyname_2
+     19              {
+     20                ITEM *it=(ITEM*)csofts->listdata[x++];
+   \   00000038   040090E5           LDR      R0,[R0, #+4]
+   \   0000003C   067190E7           LDR      R7,[R0, +R6, LSL #+2]
+   \   00000040   016086E2           ADD      R6,R6,#+1
+     21                if (!it)break;
+   \   00000044   000057E3           CMP      R7,#+0
+   \   00000048   EFFFFF0A           BEQ      ??getbyname_2
+     22                if (!it->name)break;
+   \   0000004C   000097E5           LDR      R0,[R7, #+0]
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   F080BD08           POPEQ    {R4-R7,PC}
+     23                if (wstrcmp(it->name,name)==0)
+   \   00000058   0410A0E1           MOV      R1,R4
+   \   0000005C   560100EF           SWI      +342
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   EFFFFF1A           BNE      ??getbyname_3
+     24                {
+     25                  return it;
+   \   00000068   0700A0E1           MOV      R0,R7
+   \   0000006C   F080BDE8           POP      {R4-R7,PC}       ;; return
+     26                }
+     27              }
+     28            }
+     29            return 0;
+     30          };
+     31          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     32          void getitem(BOOK *bk)
+     33          {
+   \                     ??getitem:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     34            wchar_t ws[100];
+     35            char *bkname=bk->xbook->name;
+     36            if (bkname[0]=='C')
+   \   00000004   A0409FE5           LDR      R4,??getitem_1   ;; `?<Constant "CUIDisplayableBook">`
+   \   00000008   C8D04DE2           SUB      SP,SP,#+200
+   \   0000000C   0050A0E1           MOV      R5,R0
+   \   00000010   000095E5           LDR      R0,[R5, #+0]
+   \   00000014   040090E5           LDR      R0,[R0, #+4]
+   \   00000018   0010D0E5           LDRB     R1,[R0, #+0]
+   \   0000001C   430051E3           CMP      R1,#+67
+   \   00000020   0A00001A           BNE      ??getitem_2
+     37            {
+     38              if (strcmp(bkname,"CUIDisplayableBook")==0)
+   \   00000024   0410A0E1           MOV      R1,R4
+   \   00000028   590100EF           SWI      +345
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0600001A           BNE      ??getitem_2
+     39              {
+     40                TextID_GetWString(bk->xbook->app_session->name,ws,99);
+   \   00000034   000095E5           LDR      R0,[R5, #+0]
+   \   00000038   6320A0E3           MOV      R2,#+99
+   \   0000003C   080090E5           LDR      R0,[R0, #+8]
+   \   00000040   0D10A0E1           MOV      R1,SP
+   \   00000044   040090E5           LDR      R0,[R0, #+4]
+   \   00000048   5F0100EF           SWI      +351
+   \   0000004C   030000EA           B        ??getitem_3
+     41              }
+     42              else goto L_NOT_JAVA;
+     43            }
+     44            else
+     45            {
+     46            L_NOT_JAVA:
+     47              str2wstr(ws,bk->xbook->name);
+   \                     ??getitem_2:
+   \   00000050   000095E5           LDR      R0,[R5, #+0]
+   \   00000054   041090E5           LDR      R1,[R0, #+4]
+   \   00000058   0D00A0E1           MOV      R0,SP
+   \   0000005C   580100EF           SWI      +344
+     48            }
+     49            if (lastitem)
+   \                     ??getitem_3:
+   \   00000060   ........           LDR      R5,??DataTable5  ;; lastitem
+   \   00000064   000095E5           LDR      R0,[R5, #+0]
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   0400000A           BEQ      ??getitem_4
+     50            {
+     51              if (wstrcmp(ws,lastitem->name)==0)
+   \   00000070   001090E5           LDR      R1,[R0, #+0]
+   \   00000074   0D00A0E1           MOV      R0,SP
+   \   00000078   560100EF           SWI      +342
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   0700000A           BEQ      ??getitem_5
+     52              {
+     53                return;
+     54              }
+     55            }
+     56            if (lastitem=getbyname(ws))
+   \                     ??getitem_4:
+   \   00000084   0D00A0E1           MOV      R0,SP
+   \   00000088   ........           BL       ??getbyname
+   \   0000008C   000085E5           STR      R0,[R5, #+0]
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   0200001A           BNE      ??getitem_5
+     57            {
+     58              return;
+     59            }
+     60            else
+     61            {
+     62              lastitem=getbyname(L"DEFAULT");
+   \   00000098   140084E2           ADD      R0,R4,#+20
+   \   0000009C   ........           BL       ??getbyname
+   \   000000A0   000085E5           STR      R0,[R5, #+0]
+     63            }
+     64          };
+   \                     ??getitem_5:
+   \   000000A4   C8D08DE2           ADD      SP,SP,#+200      ;; stack cleaning
+   \   000000A8   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??getitem_1:
+   \   000000AC   ........           DC32     `?<Constant "CUIDisplayableBook">`
+     65          //------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          bool get_enable(LIST *lst, int strid)
+     67          {
+     68            int x=0;
+   \                     ??get_enable:
+   \   00000000   0020A0E3           MOV      R2,#+0
+     69            while(x<lst->FirstFree)
+   \                     ??get_enable_1:
+   \   00000004   B230D0E1           LDRH     R3,[R0, #+2]
+   \   00000008   030052E1           CMP      R2,R3
+   \   0000000C   090000AA           BGE      ??get_enable_2
+     70            {
+     71              SOFTKEY *sk=(SOFTKEY*)lst->listdata[x++];
+   \   00000010   043090E5           LDR      R3,[R0, #+4]
+   \   00000014   023193E7           LDR      R3,[R3, +R2, LSL #+2]
+   \   00000018   012082E2           ADD      R2,R2,#+1
+     72              if (sk->text==strid)
+   \   0000001C   10C093E5           LDR      R12,[R3, #+16]
+   \   00000020   01005CE1           CMP      R12,R1
+   \   00000024   F6FFFF1A           BNE      ??get_enable_1
+     73              {
+     74                return sk->enable;
+   \   00000028   3800D3E5           LDRB     R0,[R3, #+56]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0100A013           MOVNE    R0,#+1
+   \   00000034   1EFF2FE1           BX       LR
+     75              }
+     76            }
+     77            return 1;
+   \                     ??get_enable_2:
+   \   00000038   0100A0E3           MOV      R0,#+1
+   \   0000003C   1EFF2FE1           BX       LR               ;; return
+     78          };
+     79          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     80          wchar_t get_action(LIST *lst, int strid)
+     81          {
+     82            int x=0;
+   \                     ??get_action:
+   \   00000000   0020A0E3           MOV      R2,#+0
+     83            while(x<lst->FirstFree)
+   \                     ??get_action_1:
+   \   00000004   B230D0E1           LDRH     R3,[R0, #+2]
+   \   00000008   030052E1           CMP      R2,R3
+   \   0000000C   070000AA           BGE      ??get_action_2
+     84            {
+     85              SOFTKEY *sk=(SOFTKEY*)lst->listdata[x++];
+   \   00000010   043090E5           LDR      R3,[R0, #+4]
+   \   00000014   023193E7           LDR      R3,[R3, +R2, LSL #+2]
+   \   00000018   012082E2           ADD      R2,R2,#+1
+     86              if (sk->text==strid)
+   \   0000001C   10C093E5           LDR      R12,[R3, #+16]
+   \   00000020   01005CE1           CMP      R12,R1
+   \   00000024   F6FFFF1A           BNE      ??get_action_1
+     87              {
+     88                return sk->action;
+   \   00000028   B000D3E1           LDRH     R0,[R3, #+0]
+   \   0000002C   1EFF2FE1           BX       LR
+     89              }
+     90            }
+     91            return 0xF00;
+   \                     ??get_action_2:
+   \   00000030   F00EA0E3           MOV      R0,#+3840
+   \   00000034   1EFF2FE1           BX       LR               ;; return
+     92          };
+     93          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     94          void preset_calculate(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int left, int right)
+     95          {
+   \                     ??preset_calculate:
+   \   00000000   F24F2DE9           PUSH     {R1,R4-R11,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     96            MyBOOK *our=(MyBOOK*)FindBook(isSoftkeysBook);
+   \   00000008   68019FE5           LDR      R0,??preset_calculate_1  ;; ??isSoftkeysBook
+   \   0000000C   04D04DE2           SUB      SP,SP,#+4
+   \   00000010   2C709DE5           LDR      R7,[SP, #+44]
+   \   00000014   30809DE5           LDR      R8,[SP, #+48]
+   \   00000018   0250A0E1           MOV      R5,R2
+   \   0000001C   0360A0E1           MOV      R6,R3
+   \   00000020   300100EF           SWI      +304
+   \   00000024   0090A0E1           MOV      R9,R0
+     97            int cnt=getcount(lst,1);
+   \   00000028   0110A0E3           MOV      R1,#+1
+   \   0000002C   0600A0E1           MOV      R0,R6
+   \   00000030   ........           _BLF     ??getcount,??getcount??rA
+   \   00000034   00A0A0E1           MOV      R10,R0
+     98            if (GUIObject_GetDispObject(SBY_GetMainInput(Find_StandbyBook()))==DO)
+   \   00000038   310100EF           SWI      +305
+   \   0000003C   170200EF           SWI      +535
+   \   00000040   680100EF           SWI      +360
+   \   00000044   050050E1           CMP      R0,R5
+   \   00000048   0D00001A           BNE      ??preset_calculate_2
+     99            {
+    100              lastitem->type=T_STANDBY;
+   \   0000004C   ........           LDR      R0,??DataTable5  ;; lastitem
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   000090E5           LDR      R0,[R0, #+0]
+    101              preset_standby(lbl,bk,DO, lst, cnt, our, left, right);
+   \   00000058   0630A0E1           MOV      R3,R6
+   \   0000005C   181080E5           STR      R1,[R0, #+24]
+   \   00000060   00012DE9           PUSH     {R8}
+   \   00000064   80002DE9           PUSH     {R7}
+   \   00000068   00022DE9           PUSH     {R9}
+   \   0000006C   00042DE9           PUSH     {R10}
+   \   00000070   14109DE5           LDR      R1,[SP, #+20]
+   \   00000074   0520A0E1           MOV      R2,R5
+   \   00000078   0400A0E1           MOV      R0,R4
+   \   0000007C   ........           _BLF     ??preset_standby,??preset_standby??rA
+   \   00000080   3A0000EA           B        ??preset_calculate_3
+    102            }
+    103            else
+    104            {
+    105              if (!isKeylocked())
+   \                     ??preset_calculate_2:
+   \   00000084   B70100EF           SWI      +439
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0500001A           BNE      ??preset_calculate_4
+    106              {
+    107                if (our)
+   \   00000090   000059E3           CMP      R9,#+0
+   \   00000094   0300000A           BEQ      ??preset_calculate_4
+    108                {
+    109                  lbl->strids[2]=our->backstrid;
+   \   00000098   280099E5           LDR      R0,[R9, #+40]
+   \   0000009C   080084E5           STR      R0,[R4, #+8]
+    110                  lbl->enable[2]=true;
+   \   000000A0   0100A0E3           MOV      R0,#+1
+   \   000000A4   0E00C4E5           STRB     R0,[R4, #+14]
+    111                }
+    112              }
+    113              bool isv=false;
+    114              int x;
+    115              for (x=0;x<3;x++)
+   \                     ??preset_calculate_4:
+   \   000000A8   00B0A0E3           MOV      R11,#+0
+    116              {
+    117                if (presets[x*2])
+   \                     ??preset_calculate_5:
+   \   000000AC   C8009FE5           LDR      R0,??preset_calculate_1+0x4  ;; presets
+   \   000000B0   8BC180E0           ADD      R12,R0,R11, LSL #+3
+   \   000000B4   00009CE5           LDR      R0,[R12, #+0]
+   \   000000B8   000050E3           CMP      R0,#+0
+   \   000000BC   1E00000A           BEQ      ??preset_calculate_6
+    118                {
+    119                  bool (*isValid)(LIST *lst, int cnt, int left, int right)=(bool(*)(LIST *lst, int cnt, int left, int right))(presets[x*2]);
+    120                  void (*preset)(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int cnt, MyBOOK *our, int left, int right)=(void(*)(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int cnt, MyBOOK *our, int left, int right))(presets[x*2+1]);
+   \   000000C0   04109CE5           LDR      R1,[R12, #+4]
+    121                  if (isValid(lst,cnt,left,right))
+   \   000000C4   0830A0E1           MOV      R3,R8
+   \   000000C8   00108DE5           STR      R1,[SP, #+0]
+   \   000000CC   00C09CE5           LDR      R12,[R12, #+0]
+   \   000000D0   0720A0E1           MOV      R2,R7
+   \   000000D4   0A10A0E1           MOV      R1,R10
+   \   000000D8   0600A0E1           MOV      R0,R6
+   \   000000DC   3CFF2FE1           BLX      R12
+   \   000000E0   000050E3           CMP      R0,#+0
+   \   000000E4   0100A013           MOVNE    R0,#+1
+   \   000000E8   000050E3           CMP      R0,#+0
+   \   000000EC   0F00000A           BEQ      ??preset_calculate_7
+    122                  {
+    123                    lastitem->type=2+x;
+   \   000000F0   ........           LDR      R0,??DataTable5  ;; lastitem
+   \   000000F4   02108BE2           ADD      R1,R11,#+2
+   \   000000F8   000090E5           LDR      R0,[R0, #+0]
+    124                    preset(lbl, bk, DO, lst, cnt, our, left, right);
+   \   000000FC   0630A0E1           MOV      R3,R6
+   \   00000100   181080E5           STR      R1,[R0, #+24]
+   \   00000104   00012DE9           PUSH     {R8}
+   \   00000108   80002DE9           PUSH     {R7}
+   \   0000010C   00022DE9           PUSH     {R9}
+   \   00000110   00042DE9           PUSH     {R10}
+   \   00000114   14109DE5           LDR      R1,[SP, #+20]
+   \   00000118   0520A0E1           MOV      R2,R5
+   \   0000011C   0400A0E1           MOV      R0,R4
+   \   00000120   10409DE5           LDR      R4,[SP, #+16]
+   \   00000124   34FF2FE1           BLX      R4
+    125                    isv=true;
+    126                    break;
+   \   00000128   10D08DE2           ADD      SP,SP,#+16
+   \   0000012C   F38FBDE8           POP      {R0,R1,R4-R11,PC}
+    127                  }
+    128                }
+    129                else break;
+    130              }
+   \                     ??preset_calculate_7:
+   \   00000130   01B08BE2           ADD      R11,R11,#+1
+   \   00000134   03005BE3           CMP      R11,#+3
+   \   00000138   DBFFFFBA           BLT      ??preset_calculate_5
+    131              if (isv==false)
+    132              {
+    133                lastitem->type=T_DEFAULT;
+   \                     ??preset_calculate_6:
+   \   0000013C   ........           LDR      R0,??DataTable5  ;; lastitem
+   \   00000140   0110A0E3           MOV      R1,#+1
+   \   00000144   000090E5           LDR      R0,[R0, #+0]
+    134                preset_default(lbl, bk, DO, lst, cnt, our, left, right);
+   \   00000148   0630A0E1           MOV      R3,R6
+   \   0000014C   181080E5           STR      R1,[R0, #+24]
+   \   00000150   00012DE9           PUSH     {R8}
+   \   00000154   80002DE9           PUSH     {R7}
+   \   00000158   00022DE9           PUSH     {R9}
+   \   0000015C   00042DE9           PUSH     {R10}
+   \   00000160   14109DE5           LDR      R1,[SP, #+20]
+   \   00000164   0520A0E1           MOV      R2,R5
+   \   00000168   0400A0E1           MOV      R0,R4
+   \   0000016C   ........           _BLF     ??preset_default,??preset_default??rA
+   \                     ??preset_calculate_3:
+   \   00000170   10D08DE2           ADD      SP,SP,#+16
+   \   00000174   F38FBDE8           POP      {R0,R1,R4-R11,PC}
+   \                     ??preset_calculate_1:
+   \   00000178   ........           DC32     ??isSoftkeysBook
+   \   0000017C   ........           DC32     presets
+    135              }
+    136            }
+    137          };
+    138          //------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    139          LABELS *get_labels(DISP_OBJ *sk, DISP_OBJ *DO, BOOK *bk, int vis)
+    140          {
+   \                     ??get_labels:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   10D04DE2           SUB      SP,SP,#+16
+   \   00000008   0080A0E1           MOV      R8,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+   \   00000010   0240A0E1           MOV      R4,R2
+   \   00000014   0390A0E1           MOV      R9,R3
+    141            if (DO==0 || bk==0 || sk==0)return 0;
+   \   00000018   000056E3           CMP      R6,#+0
+   \   0000001C   00005413           CMPNE    R4,#+0
+   \   00000020   00005813           CMPNE    R8,#+0
+   \   00000024   0000A003           MOVEQ    R0,#+0
+   \   00000028   10D08D02           ADDEQ    SP,SP,#+16
+   \   0000002C   F083BD08           POPEQ    {R4-R9,PC}
+    142            LABELS *ret=new LABELS;
+   \   00000030   1000A0E3           MOV      R0,#+16
+   \   00000034   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000038   0050A0E1           MOV      R5,R0
+    143            memset(ret,0,sizeof(LABELS));
+   \   0000003C   1020A0E3           MOV      R2,#+16
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   120100EF           SWI      +274
+    144            ret->strids[0]=EMPTY_TEXTID;
+   \   00000048   9074E0E3           MVN      R7,#-1879048192
+   \   0000004C   007085E5           STR      R7,[R5, #+0]
+    145            ret->strids[1]=EMPTY_TEXTID;
+   \   00000050   047085E5           STR      R7,[R5, #+4]
+    146            ret->strids[2]=EMPTY_TEXTID;
+   \   00000054   087085E5           STR      R7,[R5, #+8]
+    147            
+    148            SKLABEL left;
+    149            SoftKeys_GetLabel(sk,&left, 0);
+   \   00000058   0020A0E3           MOV      R2,#+0
+   \   0000005C   08108DE2           ADD      R1,SP,#+8
+   \   00000060   0800A0E1           MOV      R0,R8
+   \   00000064   220300EF           SWI      +802
+    150            SKLABEL right;
+    151            right.text=0xFFFFFFFF;
+   \   00000068   901487E3           ORR      R1,R7,#0x90000000
+   \   0000006C   00108DE5           STR      R1,[SP, #+0]
+    152            if (vis==2)
+   \   00000070   020059E3           CMP      R9,#+2
+   \   00000074   0300001A           BNE      ??get_labels_1
+    153            {
+    154              SoftKeys_GetLabel(sk,&right, 1);
+   \   00000078   0120A0E3           MOV      R2,#+1
+   \   0000007C   0D10A0E1           MOV      R1,SP
+   \   00000080   0800A0E1           MOV      R0,R8
+   \   00000084   220300EF           SWI      +802
+    155            }
+    156            if (lastitem && csofts)
+   \                     ??get_labels_1:
+   \   00000088   ........           LDR      R8,??DataTable5  ;; lastitem
+   \   0000008C   000098E5           LDR      R0,[R8, #+0]
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   3B00000A           BEQ      ??get_labels_2
+   \   00000098   ........           LDR      R0,??DataTable6  ;; csofts
+   \   0000009C   000090E5           LDR      R0,[R0, #+0]
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   3700000A           BEQ      ??get_labels_2
+    157            {
+    158              LIST *lst = DispObject_SoftKeys_GetList(DO,bk, 0);
+   \   000000A8   0020A0E3           MOV      R2,#+0
+   \   000000AC   0410A0E1           MOV      R1,R4
+   \   000000B0   0600A0E1           MOV      R0,R6
+   \   000000B4   180300EF           SWI      +792
+   \   000000B8   0090B0E1           MOVS     R9,R0
+    159              if (lst)
+   \   000000BC   3100000A           BEQ      ??get_labels_2
+    160              {
+    161                if (lastitem->style==0)
+   \   000000C0   000098E5           LDR      R0,[R8, #+0]
+   \   000000C4   100090E5           LDR      R0,[R0, #+16]
+   \   000000C8   000050E3           CMP      R0,#+0
+   \   000000CC   00009DE5           LDR      R0,[SP, #+0]
+   \   000000D0   2300001A           BNE      ??get_labels_3
+    162                {
+    163                  ret->strids[2]=right.text;
+   \   000000D4   080085E5           STR      R0,[R5, #+8]
+    164                  ret->enable[2]=get_enable(lst,right.text);
+   \   000000D8   00109DE5           LDR      R1,[SP, #+0]
+   \   000000DC   0900A0E1           MOV      R0,R9
+   \   000000E0   ........           BL       ??get_enable
+   \   000000E4   0E00C5E5           STRB     R0,[R5, #+14]
+    165                  ret->strids[0]=left.text;
+   \   000000E8   08009DE5           LDR      R0,[SP, #+8]
+    166                  ret->enable[0]=get_enable(lst,left.text);
+    167                  ret->strids[1]=EMPTY_TEXTID;
+    168                  ret->enable[1]=1;
+   \   000000EC   0160A0E3           MOV      R6,#+1
+   \   000000F0   000085E5           STR      R0,[R5, #+0]
+   \   000000F4   08109DE5           LDR      R1,[SP, #+8]
+   \   000000F8   0900A0E1           MOV      R0,R9
+   \   000000FC   ........           BL       ??get_enable
+   \   00000100   0C00C5E5           STRB     R0,[R5, #+12]
+   \   00000104   047085E5           STR      R7,[R5, #+4]
+   \   00000108   0D60C5E5           STRB     R6,[R5, #+13]
+    169                  if (get_action(lst, right.text)==ACTION_DONE && strcmp(bk->xbook->name,"Installer")==0) //поправка для окна ElfInstaller
+   \   0000010C   00109DE5           LDR      R1,[SP, #+0]
+   \   00000110   0900A0E1           MOV      R0,R9
+   \   00000114   ........           BL       ??get_action
+   \   00000118   74109FE5           LDR      R1,??get_labels_4  ;; ACTION_DONE
+   \   0000011C   001091E5           LDR      R1,[R1, #+0]
+   \   00000120   010050E1           CMP      R0,R1
+   \   00000124   1700001A           BNE      ??get_labels_2
+   \   00000128   000094E5           LDR      R0,[R4, #+0]
+   \   0000012C   64109FE5           LDR      R1,??get_labels_4+0x4  ;; `?<Constant "Installer">`
+   \   00000130   040090E5           LDR      R0,[R0, #+4]
+   \   00000134   590100EF           SWI      +345
+   \   00000138   000050E3           CMP      R0,#+0
+   \   0000013C   1100001A           BNE      ??get_labels_2
+    170                  {
+    171                    ret->strids[0]=right.text;
+   \   00000140   00009DE5           LDR      R0,[SP, #+0]
+   \   00000144   000085E5           STR      R0,[R5, #+0]
+    172                    ret->strids[2]=left.text;
+   \   00000148   08009DE5           LDR      R0,[SP, #+8]
+   \   0000014C   080085E5           STR      R0,[R5, #+8]
+    173                    int temp=ret->enable[0];
+    174                    ret->enable[0]=ret->enable[0];
+    175                    ret->enable[2]=temp;
+   \   00000150   0C00D5E5           LDRB     R0,[R5, #+12]
+   \   00000154   000050E3           CMP      R0,#+0
+   \   00000158   0060A003           MOVEQ    R6,#+0
+   \   0000015C   0E60C5E5           STRB     R6,[R5, #+14]
+    176                  }
+    177                  return ret;
+   \                     ??get_labels_5:
+   \   00000160   080000EA           B        ??get_labels_2
+    178                }
+    179                preset_calculate(ret, bk, DO, lst, left.text, right.text);
+   \                     ??get_labels_3:
+   \   00000164   01002DE9           PUSH     {R0}
+   \   00000168   0C009DE5           LDR      R0,[SP, #+12]
+   \   0000016C   0930A0E1           MOV      R3,R9
+   \   00000170   01002DE9           PUSH     {R0}
+   \   00000174   0620A0E1           MOV      R2,R6
+   \   00000178   0410A0E1           MOV      R1,R4
+   \   0000017C   0500A0E1           MOV      R0,R5
+   \   00000180   ........           BL       ??preset_calculate
+   \   00000184   08D08DE2           ADD      SP,SP,#+8
+   \                     ??get_labels_2:
+   \   00000188   0500A0E1           MOV      R0,R5
+   \   0000018C   10D08DE2           ADD      SP,SP,#+16
+   \   00000190   F083BDE8           POP      {R4-R9,PC}
+   \                     ??get_labels_4:
+   \   00000194   ........           DC32     ACTION_DONE
+   \   00000198   ........           DC32     `?<Constant "Installer">`
+    180              }
+    181            }
+    182            return ret;
+    183          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     lastitem
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     csofts
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "CUIDisplayableBook">`:
+   \   00000000   435549446973       DC8 "CUIDisplayableBook"
+   \              706C61796162
+   \              6C65426F6F6B
+   \              00          
+   \   00000013   00                 DC8 0
+   \   00000014   440045004600       DC8 44H, 0, 45H, 0, 46H, 0, 41H, 0
+   \              4100        
+   \   0000001C   55004C005400       DC8 55H, 0, 4CH, 0, 54H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Installer">`:
+   \   00000000   496E7374616C       DC8 "Installer"
+   \              6C657200    
+   \   0000000A   0000               DC8 0, 0
+    184          //------------------------------------------------------------------
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     get_action(LIST *, int)            0
+     get_enable(LIST *, int)            0
+     get_labels(DISP_OBJ *, DISP_OBJ *, BOOK *, int)
+                                       52
+     getbyname(wchar_t *)              20
+     getitem(BOOK *)                  212
+     preset_calculate(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, int)
+                                       60
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     lastitem                          4
+     getbyname(wchar_t *)            112
+     getitem(BOOK *)                 176
+     get_enable(LIST *, int)          64
+     get_action(LIST *, int)          56
+     preset_calculate(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, int)
+                                     384
+     get_labels(DISP_OBJ *, DISP_OBJ *, BOOK *, int)
+                                     412
+     ??DataTable5                      4
+     ??DataTable6                      4
+     ?<Constant "CUIDisplayableBook">
+                                      36
+     ?<Constant "Installer">          12
+      Others                          84
+
+ 
+ 1 284 bytes in segment CODE
+    48 bytes in segment DATA_C
+     4 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 1 212 bytes of CODE  memory (+ 84 bytes shared)
+    48 bytes of CONST memory
+     4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

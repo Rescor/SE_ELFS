@@ -1,0 +1,2673 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:56:00 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\main.c #
+#                       pp                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\main.c #
+#                       pp -D NDEBUG -D OLDFUNCTIONS -lC                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Ev #
+#                       tEdit\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\EvtEdit\Release\Obj\ -s9 --cpu_mode arm     #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --enable_multibytes --fpu None        #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\main.lst                                      #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\Obj\main.r79                                       #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\main.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "..\include\Dir.h"
+      4          #include "header\structs.h"
+      5          #include "header\pages.h"
+      6          #include "header\lng.h"
+      7          #include "header\externals.h"
+      8          #include "..\\include\var_arg.h"
+      9          
+     10          typedef struct
+     11          {
+     12            BOOK * book;
+     13          }MSG;
+     14          
+     15          #define IDN_SAVE_BEFORE_EXIT L"HPB_SAVE_BEFORE_EXITQ_TXT"
+     16          #define IDN_CHANGES_HAVE_BEEN_MADE L"HPB_SAVE_BEFORE_EXITD_TXT"
+     17          #define IDN_CHECKBOX_UNCHECKED_ICON L"OFF_TXT"
+     18          #define IDN_CHECKBOX_CHECKED_ICON L"ON_TXT"
+     19          #define SID_NULL 0x6FFFFFFF
+     20          #define BUILD "public version"
+     21          
+     22          extern LIST *events;
+     23          extern wchar_t *items[];
+     24          extern int fsize;
+     25          extern wchar_t *extFolder;
+     26          extern wchar_t *intFolder;
+     27          
+     28          int lng_load(wchar_t*,wchar_t*);
+     29          void InitializeFolders();
+     30          void destroy_innative_lng();
+     31          int InitializeEvents(BOOK *myBook, wchar_t *fpath, wchar_t *fname);
+     32          int DestroyEvents(MyBOOK*,bool save);
+     33          void Escape(MyBOOK *mbk, bool dontsave);
+     34          void OnBackGui(BOOK * bk, GUI *);
+     35          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     36          MyBOOK * myBook;
+   \                     myBook:
+   \   00000000                      DS8 4
+     37          wchar_t *defPath=0;
+   \                     defPath:
+   \   00000004                      DS8 4
+     38          wchar_t *defName=0;
+   \                     defName:
+   \   00000008                      DS8 4
+     39          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     40          int GetStrID(wchar_t *txt)
+     41          {
+   \                     ??GetStrID:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     42            int id=EMPTY_TEXTID;
+   \   00000008   9024E0E3           MVN      R2,#-1879048192
+   \   0000000C   00208DE5           STR      R2,[SP, #+0]
+     43            textidname2id(txt,0xFFFFFFFF,&id);
+   \   00000010   0D20A0E1           MOV      R2,SP
+   \   00000014   0010E0E3           MVN      R1,#+0
+   \   00000018   870200EF           SWI      +647
+     44            return id;
+   \   0000001C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000020   0280BDE8           POP      {R1,PC}          ;; return
+     45          };
+     46          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     47          int GetIconID(wchar_t *txt)
+     48          {
+   \                     ??GetIconID:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     49            int id=NOIMAGE;
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000010   00208DE5           STR      R2,[SP, #+0]
+     50            iconidname2id(txt,0xFFFFFFFF,&id);
+   \   00000014   0D20A0E1           MOV      R2,SP
+   \   00000018   0010E0E3           MVN      R1,#+0
+   \   0000001C   860200EF           SWI      +646
+     51            return id;
+   \   00000020   00009DE5           LDR      R0,[SP, #+0]
+   \   00000024   0280BDE8           POP      {R1,PC}          ;; return
+     52          };
+     53          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     54          void elf_exit(void)
+     55          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     56            trace_done();
+     57            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+     58          };
+     59          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     60          static void onMyBookClose(BOOK * book)
+     61          {
+   \                     ??onMyBookClose:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     62            
+     63            destroy_innative_lng();
+   \   00000008   ........           _BLF     ??destroy_innative_lng,??destroy_innative_lng??rA
+     64            
+     65            if (intFolder)
+   \   0000000C   ........           LDR      R0,??DataTable0  ;; intFolder
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0000000A           BEQ      ??onMyBookClose_1
+     66              delete(intFolder);
+   \   0000001C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     67            if (defPath)
+   \                     ??onMyBookClose_1:
+   \   00000020   ........           LDR      R5,??DataTable11  ;; myBook
+   \   00000024   040095E5           LDR      R0,[R5, #+4]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0000000A           BEQ      ??onMyBookClose_2
+     68              delete(defPath);
+   \   00000030   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     69            if (defName)
+   \                     ??onMyBookClose_2:
+   \   00000034   080095E5           LDR      R0,[R5, #+8]
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0000000A           BEQ      ??onMyBookClose_3
+     70              delete(defName);
+   \   00000040   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     71            if (extFolder)
+   \                     ??onMyBookClose_3:
+   \   00000044   ........           LDR      R0,??DataTable2  ;; extFolder
+   \   00000048   000090E5           LDR      R0,[R0, #+0]
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   0000000A           BEQ      ??onMyBookClose_4
+     72              delete(extFolder);
+   \   00000054   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     73            MyBOOK *mbk=(MyBOOK*)book;
+     74            if (mbk->indpath)
+   \                     ??onMyBookClose_4:
+   \   00000058   C00094E5           LDR      R0,[R4, #+192]
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   0000000A           BEQ      ??onMyBookClose_5
+     75              delete(mbk->indpath);
+   \   00000064   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     76            if (mbk->indname)
+   \                     ??onMyBookClose_5:
+   \   00000068   C40094E5           LDR      R0,[R4, #+196]
+   \   0000006C   000050E3           CMP      R0,#+0
+   \   00000070   0000000A           BEQ      ??onMyBookClose_6
+     77              delete(mbk->indname);
+   \   00000074   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     78            
+     79            SUBPROC(elf_exit);
+   \                     ??onMyBookClose_6:
+   \   00000078   ........           LDR      R0,??DataTable3  ;; ??elf_exit
+   \   0000007C   080100EF           SWI      +264
+     80          };
+   \   00000080   3080BDE8           POP      {R4,R5,PC}       ;; return
+     81          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     82          int isEvtEditBook(BOOK * struc)
+     83          {
+     84            return(struc->onClose == onMyBookClose);
+   \                     ??isEvtEditBook:
+   \   00000000   040090E5           LDR      R0,[R0, #+4]
+   \   00000004   ........           LDR      R1,??DataTable4  ;; ??onMyBookClose
+   \   00000008   010050E1           CMP      R0,R1
+   \   0000000C   0100A003           MOVEQ    R0,#+1
+   \   00000010   1EFF2F01           BXEQ     LR
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   1EFF2FE1           BX       LR               ;; return
+     85          };
+     86          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     87          static int TerminateElf(void *mess ,BOOK *book)
+     88          {
+   \                     ??TerminateElf:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+     89            Escape((MyBOOK*)book, true);
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   ........           BL       ??Escape
+     90            return(1);
+   \   00000010   0100A0E3           MOV      R0,#+1
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+     91          };
+     92          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     93          static int ShowAuthorInfo(void *mess ,BOOK *book)
+     94          {
+     95            MSG * msg = (MSG *)mess;
+     96            wchar_t ustr[64];
+     97            snwprintf(ustr,MAXELEMS(ustr)-1,L"\nEvtEdit v1.0\n(c) UltraShot\n%s",BUILD);
+   \                     ??ShowAuthorInfo:
+   \   00000000   ........           LDR      R2,??DataTable14  ;; `?<Constant L"\\xa\\x45\\x76\\x74\\x45\\x64\\x69\\x74\\x`
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   80D04DE2           SUB      SP,SP,#+128
+   \   0000000C   403082E2           ADD      R3,R2,#+64
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   3F10A0E3           MOV      R1,#+63
+   \   00000018   0D00A0E1           MOV      R0,SP
+   \   0000001C   150100EF           SWI      +277
+     98            MessageBox(SID_NULL,TextID_Create(ustr,ENC_UCS2,MAXELEMS(ustr)-1), NOIMAGE, 1, 5000,msg->book);
+   \   00000020   3F20A0E3           MOV      R2,#+63
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   0D00A0E1           MOV      R0,SP
+   \   0000002C   5D0100EF           SWI      +349
+   \   00000030   001094E5           LDR      R1,[R4, #+0]
+   \   00000034   0130A0E3           MOV      R3,#+1
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   FF20A0E3           MOV      R2,#+255
+   \   00000040   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000044   8810A0E3           MOV      R1,#+136
+   \   00000048   4C1D81E3           ORR      R1,R1,#0x1300
+   \   0000004C   02002DE9           PUSH     {R1}
+   \   00000050   0010A0E1           MOV      R1,R0
+   \   00000054   9004E0E3           MVN      R0,#-1879048192
+   \   00000058   570200EF           SWI      +599
+     99            return(1);
+   \   0000005C   0100A0E3           MOV      R0,#+1
+   \   00000060   88D08DE2           ADD      SP,SP,#+136
+   \   00000064   1080BDE8           POP      {R4,PC}          ;; return
+    100          };
+    101          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    102          const PAGE_MSG bk_msglst_base[] @ "DYN_PAGE"  =
+   \                     bk_msglst_base:
+   \   00000000   E5030000....       DC32 997, ??TerminateElf, 998, ??ShowAuthorInfo, 64, 0H
+   \              ....E6030000
+   \              ........4000
+   \              000000000000
+    103          {
+    104            ELF_TERMINATE_EVENT,     TerminateElf,
+    105            ELF_SHOW_INFO_EVENT,     ShowAuthorInfo,
+    106            NIL_EVENT_TAG,           NULL
+    107          };
+    108          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    109          const PAGE_DESC bk_base = {"EvtEdit_Base_Page",0,bk_msglst_base};  wchar_t ustr[64];
+   \                     ustr:
+   \   00000000                      DS8 128
+    110          
+    111          extern wchar_t *items[50];
+    112          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    113          int onLBMessage(GUI_MESSAGE * msg)
+    114          {
+   \                     ??onLBMessage:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    115            MyBOOK * myBook = (MyBOOK *) FindBook(isEvtEditBook);
+   \   00000008   ........           LDR      R0,??DataTable9  ;; ??isEvtEditBook
+   \   0000000C   300100EF           SWI      +304
+    116            switch( GUIonMessage_GetMsg(msg) )
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   740300EF           SWI      +884
+   \   00000018   010050E3           CMP      R0,#+1
+   \   0000001C   3300001A           BNE      ??onLBMessage_1
+    117            {
+    118            case 1:
+    119              int item=GUIonMessage_GetCreatedItemIndex(msg);
+    120              if (item<events->FirstFree)
+   \   00000020   D0509FE5           LDR      R5,??onLBMessage_2  ;; `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x43\\x41\\x4c\\`
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   370100EF           SWI      +311
+   \   0000002C   ........           LDR      R1,??DataTable23  ;; events
+   \   00000030   FF60A0E3           MOV      R6,#+255
+   \   00000034   002091E5           LDR      R2,[R1, #+0]
+   \   00000038   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   0000003C   B210D2E1           LDRH     R1,[R2, #+2]
+   \   00000040   010050E1           CMP      R0,R1
+   \   00000044   190000AA           BGE      ??onLBMessage_3
+    121              {
+    122                EVENT* evt=(EVENT *)List_Get(events,item);
+   \   00000048   0010A0E1           MOV      R1,R0
+   \   0000004C   0200A0E1           MOV      R0,R2
+   \   00000050   AD0100EF           SWI      +429
+   \   00000054   0070A0E1           MOV      R7,R0
+    123                if (evt->txt)
+   \   00000058   380097E5           LDR      R0,[R7, #+56]
+   \   0000005C   0620A0E1           MOV      R2,R6
+   \   00000060   000050E3           CMP      R0,#+0
+    124                {
+    125                  GUIonMessage_SetMenuItemText(msg,TextID_Create(evt->txt,ENC_UCS2,TEXTID_ANY_LEN));
+    126                }
+    127                else
+    128                {
+    129                  GUIonMessage_SetMenuItemText(msg,TextID_Create(items[evt->type],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000064   00009705           LDREQ    R0,[R7, #+0]
+   \   00000068   ........           LDREQ    R3,??DataTable24  ;; items
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   00019307           LDREQ    R0,[R3, +R0, LSL #+2]
+   \   00000074   5D0100EF           SWI      +349
+   \   00000078   0010A0E1           MOV      R1,R0
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   380100EF           SWI      +312
+    130                }
+    131                if (evt->param)
+   \   00000084   340097E5           LDR      R0,[R7, #+52]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0500000A           BEQ      ??onLBMessage_4
+    132                {
+    133                  GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(evt->param,ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000090   0620A0E1           MOV      R2,R6
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \   00000098   5D0100EF           SWI      +349
+   \   0000009C   0010A0E1           MOV      R1,R0
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   390100EF           SWI      +313
+    134                }
+    135                GUIonMessage_SetMenuItemIcon(msg,0,GetIconID(L"CALE_CALENDAR_MENU_ICN"));
+   \                     ??onLBMessage_4:
+   \   000000A8   0500A0E1           MOV      R0,R5
+   \   000000AC   090000EA           B        ??onLBMessage_5
+    136              }
+    137              /*
+    138              else if (item==events->FirstFree)
+    139              {
+    140                GUIonMessage_SetLineSeparator(msg,1);
+    141                //GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_CREATE],ENC_UCS2,TEXTID_ANY_LEN));
+    142                //GUIonMessage_SetMenuItemIcon(msg,0,GetIconID(L"RN_SHORTCUT_LIST_SETTINGS_ICN"));
+    143              }
+    144              */
+    145              else if (item==events->FirstFree)
+   \                     ??onLBMessage_3:
+   \   000000B0   0E00001A           BNE      ??onLBMessage_1
+    146              {
+    147                GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_CREATE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000B4   40009FE5           LDR      R0,??onLBMessage_2+0x4  ;; lng + 36
+   \   000000B8   0620A0E1           MOV      R2,R6
+   \   000000BC   000090E5           LDR      R0,[R0, #+0]
+   \   000000C0   0010A0E3           MOV      R1,#+0
+   \   000000C4   5D0100EF           SWI      +349
+   \   000000C8   0010A0E1           MOV      R1,R0
+   \   000000CC   0400A0E1           MOV      R0,R4
+   \   000000D0   380100EF           SWI      +312
+    148                GUIonMessage_SetMenuItemIcon(msg,0,GetIconID(L"RN_SHORTCUT_LIST_SETTINGS_ICN"));
+   \   000000D4   300085E2           ADD      R0,R5,#+48
+   \                     ??onLBMessage_5:
+   \   000000D8   ........           BL       ??GetIconID
+   \   000000DC   0028A0E1           MOV      R2,R0, LSL #+16
+   \   000000E0   2228A0E1           MOV      R2,R2, LSR #+16
+   \   000000E4   0010A0E3           MOV      R1,#+0
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   3C0100EF           SWI      +316
+    149              }
+    150              break;
+    151            }
+    152            return(1);
+   \                     ??onLBMessage_1:
+   \   000000F0   0100A0E3           MOV      R0,#+1
+   \   000000F4   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??onLBMessage_2:
+   \   000000F8   ........           DC32     `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x43\\x41\\x4c\\`
+   \   000000FC   ........           DC32     lng + 36
+    153          };
+    154          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    155          wchar_t *iticons[] = {L"TR_TIME_UPDATE_ICN", L"TR_TIME_UPDATE_ICN", L"CALE_TASK_MISC_ICN", L"TIMER_ACTIVE_ICN", L"TIMER_ACTIVE_ICN", L"TIMER_ACTIVE_ICN", L"CALE_TASK_MISC_ICN", L"TR_ALARMS_MENU_ICN", L"RN_URL_OPERATOR_ICN"};
+   \                     iticons:
+   \   00000000                      DS8 36
+   \   00000024                      REQUIRE `?<Initializer for iticons>`
+    156          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    157          int onLBMessage2(GUI_MESSAGE * msg)
+    158          {
+   \                     ??onLBMessage2:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    159            MyBOOK * myBook = (MyBOOK *) FindBook(isEvtEditBook);
+   \   00000004   ........           LDR      R5,??DataTable9  ;; ??isEvtEditBook
+   \   00000008   6CD04DE2           SUB      SP,SP,#+108
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0500A0E1           MOV      R0,R5
+   \   00000014   300100EF           SWI      +304
+    160            switch( GUIonMessage_GetMsg(msg) )
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   740300EF           SWI      +884
+   \   00000020   010050E3           CMP      R0,#+1
+   \   00000024   5400001A           BNE      ??onLBMessage2_1
+    161            {
+    162            case 1:
+    163              MyBOOK *mbk=(MyBOOK*)FindBook(isEvtEditBook);
+   \   00000028   0500A0E1           MOV      R0,R5
+   \   0000002C   300100EF           SWI      +304
+   \   00000030   0050A0E1           MOV      R5,R0
+    164              int item=GUIonMessage_GetCreatedItemIndex(msg);
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   370100EF           SWI      +311
+    165              EVENT* evt=mbk->selev;
+   \   0000003C   1C7095E5           LDR      R7,[R5, #+28]
+   \   00000040   0080A0E1           MOV      R8,R0
+    166              GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[item],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000044   ........           LDR      R0,??DataTable25  ;; lng
+   \   00000048   FF60A0E3           MOV      R6,#+255
+   \   0000004C   089180E0           ADD      R9,R0,R8, LSL #+2
+   \   00000050   000099E5           LDR      R0,[R9, #+0]
+   \   00000054   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000058   0620A0E1           MOV      R2,R6
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   5D0100EF           SWI      +349
+   \   00000064   0010A0E1           MOV      R1,R0
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   380100EF           SWI      +312
+    167              GUIonMessage_SetMenuItemInfoText(msg,TextID_Create(lng[MENU+item],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000070   A40099E5           LDR      R0,[R9, #+164]
+   \   00000074   0620A0E1           MOV      R2,R6
+   \   00000078   0010A0E3           MOV      R1,#+0
+   \   0000007C   5D0100EF           SWI      +349
+   \   00000080   0010A0E1           MOV      R1,R0
+   \   00000084   0400A0E1           MOV      R0,R4
+   \   00000088   3A0100EF           SWI      +314
+    168              GUIonMessage_SetMenuItemIcon(msg,0,GetIconID(iticons[item]));
+   \   0000008C   10039FE5           LDR      R0,??onLBMessage2_2+0xC  ;; iticons
+   \   00000090   080190E7           LDR      R0,[R0, +R8, LSL #+2]
+   \   00000094   ........           BL       ??GetIconID
+   \   00000098   0028A0E1           MOV      R2,R0, LSL #+16
+   \   0000009C   2228A0E1           MOV      R2,R2, LSR #+16
+   \   000000A0   0010A0E3           MOV      R1,#+0
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   3C0100EF           SWI      +316
+    169              if (item==0)
+   \   000000AC   F4229FE5           LDR      R2,??onLBMessage2_2+0x10  ;; `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+   \   000000B0   000058E3           CMP      R8,#+0
+   \   000000B4   1000001A           BNE      ??onLBMessage2_3
+    170              {
+    171                wchar_t time[50];
+    172                snwprintf(time, 50,L"%02d:%02d:%02d", evt->time.hour, evt->time.min, evt->time.sec);
+   \   000000B8   2E00D7E5           LDRB     R0,[R7, #+46]
+   \   000000BC   3210A0E3           MOV      R1,#+50
+   \   000000C0   01002DE9           PUSH     {R0}
+   \   000000C4   2D00D7E5           LDRB     R0,[R7, #+45]
+   \   000000C8   01002DE9           PUSH     {R0}
+   \   000000CC   2C30D7E5           LDRB     R3,[R7, #+44]
+   \   000000D0   10008DE2           ADD      R0,SP,#+16
+   \   000000D4   150100EF           SWI      +277
+    173                GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000D8   0620A0E1           MOV      R2,R6
+   \   000000DC   0010A0E3           MOV      R1,#+0
+   \   000000E0   10008DE2           ADD      R0,SP,#+16
+   \   000000E4   5D0100EF           SWI      +349
+   \   000000E8   0010A0E1           MOV      R1,R0
+   \   000000EC   0400A0E1           MOV      R0,R4
+   \   000000F0   390100EF           SWI      +313
+   \   000000F4   08D08DE2           ADD      SP,SP,#+8
+   \   000000F8   180000EA           B        ??onLBMessage2_4
+    174              }
+    175              else if (item==1)
+   \                     ??onLBMessage2_3:
+   \   000000FC   010058E3           CMP      R8,#+1
+   \   00000100   2000001A           BNE      ??onLBMessage2_5
+    176              {
+    177                wchar_t time[50];
+    178                snwprintf(time, 50,L"%02d:%02d:%02d", evt->time2.hour, evt->time2.min, evt->time2.sec);
+   \   00000104   3200D7E5           LDRB     R0,[R7, #+50]
+   \   00000108   3210A0E3           MOV      R1,#+50
+   \   0000010C   01002DE9           PUSH     {R0}
+   \   00000110   3100D7E5           LDRB     R0,[R7, #+49]
+   \   00000114   01002DE9           PUSH     {R0}
+   \   00000118   3030D7E5           LDRB     R3,[R7, #+48]
+   \   0000011C   10008DE2           ADD      R0,SP,#+16
+   \   00000120   150100EF           SWI      +277
+    179                GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000124   0620A0E1           MOV      R2,R6
+   \   00000128   0010A0E3           MOV      R1,#+0
+   \   0000012C   10008DE2           ADD      R0,SP,#+16
+   \   00000130   5D0100EF           SWI      +349
+   \   00000134   0010A0E1           MOV      R1,R0
+   \   00000138   0400A0E1           MOV      R0,R4
+   \   0000013C   390100EF           SWI      +313
+   \   00000140   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000144   280090E5           LDR      R0,[R0, #+40]
+   \   00000148   08D08DE2           ADD      SP,SP,#+8
+   \   0000014C   000050E3           CMP      R0,#+0
+   \   00000150   0200001A           BNE      ??onLBMessage2_4
+    180              }
+    181              else if (item==2)
+    182              {
+    183                if (evt->param)
+    184                {
+    185                  GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(evt->param,ENC_UCS2,TEXTID_ANY_LEN));
+    186                }
+    187              }
+    188              else if (item==3)
+    189              {
+    190                wchar_t time[50];
+    191                wstrcpy(time, L"");
+    192                bool days[7];
+    193                memcpy(days, evt->days, 7*sizeof(bool));
+    194                int x;
+    195                for (x=0;x<7;x++)
+    196                {
+    197                  if (days[x])
+    198                    wstrcat(time,L"*");
+    199                  else
+    200                    wstrcat(time,L"°");
+    201                }
+    202                GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN));
+    203              }
+    204              else if (item==4)
+    205              {
+    206                wchar_t time[50];
+    207                snwprintf(time, 50,L"%02d.%02d.%02d", evt->date.day, evt->date.mon, evt->date.year);
+    208                GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN));
+    209              }
+    210              else if (item==5)
+    211              {
+    212                wchar_t time[50];
+    213                snwprintf(time, 50,L"%02d.%02d.%02d", evt->date2.day, evt->date2.mon, evt->date2.year);
+    214                GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN));
+    215              }
+    216              else if (item==6)
+    217              {
+    218                if (evt->txt)
+    219                {
+    220                  GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(evt->txt,ENC_UCS2,TEXTID_ANY_LEN));
+    221                }
+    222              }
+    223              else if (item==7)
+    224              {
+    225                wchar_t time[50];
+    226                int before=evt->AskBefore;
+    227                int after=evt->AskAfter;
+    228                if (evt->isMinusInBefore)before=-before;
+    229                if (evt->isMinusInAfter)after=-after;
+    230                snwprintf(time, 50,L"%d/%d", before, after);
+    231                GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN));
+    232              }
+    233              else if (item==8)
+    234              {
+    235                if (evt->gps)
+    236                {
+    237                  wchar_t time[50];
+    238                  snwprintf(time, 50,L"%s", evt->gps);
+    239                  GUIonMessage_SetMenuItemSecondLineText(msg,TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN));
+    240                }
+    241                else
+    242                {
+    243                  GUIonMessage_SetMenuItemSecondLineText(msg,GetStrID(L"MSG_UI_EMPTY_MESSAGE_TXT"));
+    244                }
+    245              }
+    246              if (item==7 && mbk->selev->isGps)
+    247              {
+    248                GUIonMessage_SetItemDisabled (msg,1);
+    249              }
+    250              if (item==3 && mbk->selev->dtype==1)
+    251              {
+    252                GUIonMessage_SetItemDisabled (msg,1);
+    253              }
+    254              if ((item==4 || item==5) && ((mbk->selev->dtype==0 || mbk->selev->isGps)||((mbk->selev->dtype==0 && mbk->selev->isGps))))
+    255              {
+    256                GUIonMessage_SetItemDisabled (msg,1);
+    257              }
+    258              if (item==1 && mbk->selev->ttype==0)
+    259              {
+    260                GUIonMessage_SetItemDisabled (msg,1);
+   \   00000154   0110A0E3           MOV      R1,#+1
+   \   00000158   0400A0E1           MOV      R0,R4
+   \   0000015C   820200EF           SWI      +642
+   \                     ??onLBMessage2_4:
+   \   00000160   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000164   1000D0E5           LDRB     R0,[R0, #+16]
+   \   00000168   000050E3           CMP      R0,#+0
+   \   0000016C   0200000A           BEQ      ??onLBMessage2_1
+    261              }
+    262              if ((item==0 || item==1) && mbk->selev->isGps)
+    263              {
+    264                GUIonMessage_SetItemDisabled (msg,1);
+   \                     ??onLBMessage2_6:
+   \   00000170   0110A0E3           MOV      R1,#+1
+   \   00000174   0400A0E1           MOV      R0,R4
+   \   00000178   820200EF           SWI      +642
+    265              }
+    266            }
+    267            return(1);
+   \                     ??onLBMessage2_1:
+   \   0000017C   0100A0E3           MOV      R0,#+1
+   \   00000180   6CD08DE2           ADD      SP,SP,#+108
+   \   00000184   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??onLBMessage2_5:
+   \   00000188   020058E3           CMP      R8,#+2
+   \   0000018C   0600001A           BNE      ??onLBMessage2_7
+   \   00000190   340097E5           LDR      R0,[R7, #+52]
+   \                     ??onLBMessage2_8:
+   \   00000194   000050E3           CMP      R0,#+0
+   \   00000198   F7FFFF0A           BEQ      ??onLBMessage2_1
+   \   0000019C   0620A0E1           MOV      R2,R6
+   \   000001A0   0010A0E3           MOV      R1,#+0
+   \                     ??onLBMessage2_9:
+   \   000001A4   5D0100EF           SWI      +349
+   \   000001A8   740000EA           B        ??onLBMessage2_10
+   \                     ??onLBMessage2_7:
+   \   000001AC   030058E3           CMP      R8,#+3
+   \   000001B0   1D00001A           BNE      ??onLBMessage2_11
+   \   000001B4   771F8FE2           ADR      R1,??onLBMessage2_2  ;; 0x00, 0x00
+   \   000001B8   08008DE2           ADD      R0,SP,#+8
+   \   000001BC   520100EF           SWI      +338
+   \   000001C0   0720A0E3           MOV      R2,#+7
+   \   000001C4   201087E2           ADD      R1,R7,#+32
+   \   000001C8   0D00A0E1           MOV      R0,SP
+   \   000001CC   130100EF           SWI      +275
+   \   000001D0   0070A0E3           MOV      R7,#+0
+   \                     ??onLBMessage2_12:
+   \   000001D4   0D00A0E1           MOV      R0,SP
+   \   000001D8   0000D7E7           LDRB     R0,[R7, +R0]
+   \   000001DC   017087E2           ADD      R7,R7,#+1
+   \   000001E0   000050E3           CMP      R0,#+0
+   \   000001E4   6C1F8F12           ADRNE    R1,??onLBMessage2_2+0x4  ;; 0x2A, 0x00, 0x00, 0x00
+   \   000001E8   6C1F8F02           ADREQ    R1,??onLBMessage2_2+0x8  ;; 0xB0, 0x00, 0x00, 0x00
+   \   000001EC   08008DE2           ADD      R0,SP,#+8
+   \   000001F0   540100EF           SWI      +340
+   \   000001F4   070057E3           CMP      R7,#+7
+   \   000001F8   F5FFFFBA           BLT      ??onLBMessage2_12
+   \   000001FC   0620A0E1           MOV      R2,R6
+   \   00000200   0010A0E3           MOV      R1,#+0
+   \   00000204   08008DE2           ADD      R0,SP,#+8
+   \   00000208   5D0100EF           SWI      +349
+   \   0000020C   0010A0E1           MOV      R1,R0
+   \   00000210   0400A0E1           MOV      R0,R4
+   \   00000214   390100EF           SWI      +313
+   \   00000218   1C0095E5           LDR      R0,[R5, #+28]
+   \   0000021C   140090E5           LDR      R0,[R0, #+20]
+   \   00000220   010050E3           CMP      R0,#+1
+   \   00000224   D4FFFF1A           BNE      ??onLBMessage2_1
+   \   00000228   D0FFFFEA           B        ??onLBMessage2_6
+   \                     ??onLBMessage2_11:
+   \   0000022C   040058E3           CMP      R8,#+4
+   \   00000230   1E00001A           BNE      ??onLBMessage2_13
+   \   00000234   B801D7E1           LDRH     R0,[R7, #+24]
+   \   00000238   01002DE9           PUSH     {R0}
+   \   0000023C   1A00D7E5           LDRB     R0,[R7, #+26]
+   \   00000240   01002DE9           PUSH     {R0}
+   \   00000244   1B30D7E5           LDRB     R3,[R7, #+27]
+   \                     ??onLBMessage2_14:
+   \   00000248   202082E2           ADD      R2,R2,#+32
+   \   0000024C   3210A0E3           MOV      R1,#+50
+   \   00000250   10008DE2           ADD      R0,SP,#+16
+   \   00000254   150100EF           SWI      +277
+   \   00000258   0620A0E1           MOV      R2,R6
+   \   0000025C   0010A0E3           MOV      R1,#+0
+   \   00000260   10008DE2           ADD      R0,SP,#+16
+   \   00000264   5D0100EF           SWI      +349
+   \   00000268   0010A0E1           MOV      R1,R0
+   \   0000026C   0400A0E1           MOV      R0,R4
+   \   00000270   390100EF           SWI      +313
+   \   00000274   08D08DE2           ADD      SP,SP,#+8
+   \   00000278   1C0095E5           LDR      R0,[R5, #+28]
+   \   0000027C   141090E5           LDR      R1,[R0, #+20]
+   \   00000280   000051E3           CMP      R1,#+0
+   \   00000284   B9FFFF0A           BEQ      ??onLBMessage2_6
+   \   00000288   1010D0E5           LDRB     R1,[R0, #+16]
+   \   0000028C   000051E3           CMP      R1,#+0
+   \   00000290   B6FFFF1A           BNE      ??onLBMessage2_6
+   \   00000294   141090E5           LDR      R1,[R0, #+20]
+   \   00000298   000051E3           CMP      R1,#+0
+   \   0000029C   B6FFFF1A           BNE      ??onLBMessage2_1
+   \   000002A0   1000D0E5           LDRB     R0,[R0, #+16]
+   \                     ??onLBMessage2_15:
+   \   000002A4   000050E3           CMP      R0,#+0
+   \   000002A8   B3FFFF0A           BEQ      ??onLBMessage2_1
+   \   000002AC   AFFFFFEA           B        ??onLBMessage2_6
+   \                     ??onLBMessage2_13:
+   \   000002B0   050058E3           CMP      R8,#+5
+   \   000002B4   0500001A           BNE      ??onLBMessage2_16
+   \   000002B8   BC01D7E1           LDRH     R0,[R7, #+28]
+   \   000002BC   01002DE9           PUSH     {R0}
+   \   000002C0   1E00D7E5           LDRB     R0,[R7, #+30]
+   \   000002C4   01002DE9           PUSH     {R0}
+   \   000002C8   1F30D7E5           LDRB     R3,[R7, #+31]
+   \   000002CC   DDFFFFEA           B        ??onLBMessage2_14
+   \                     ??onLBMessage2_16:
+   \   000002D0   060058E3           CMP      R8,#+6
+   \   000002D4   38009705           LDREQ    R0,[R7, #+56]
+   \   000002D8   ADFFFF0A           BEQ      ??onLBMessage2_8
+   \   000002DC   070058E3           CMP      R8,#+7
+   \   000002E0   1700001A           BNE      ??onLBMessage2_17
+   \   000002E4   0810D7E5           LDRB     R1,[R7, #+8]
+   \   000002E8   043097E5           LDR      R3,[R7, #+4]
+   \   000002EC   0C0097E5           LDR      R0,[R7, #+12]
+   \   000002F0   000051E3           CMP      R1,#+0
+   \   000002F4   1110D7E5           LDRB     R1,[R7, #+17]
+   \   000002F8   00306312           RSBNE    R3,R3,#+0
+   \   000002FC   402082E2           ADD      R2,R2,#+64
+   \   00000300   000051E3           CMP      R1,#+0
+   \   00000304   00006012           RSBNE    R0,R0,#+0
+   \   00000308   01002DE9           PUSH     {R0}
+   \   0000030C   3210A0E3           MOV      R1,#+50
+   \   00000310   0C008DE2           ADD      R0,SP,#+12
+   \   00000314   150100EF           SWI      +277
+   \   00000318   0620A0E1           MOV      R2,R6
+   \   0000031C   0010A0E3           MOV      R1,#+0
+   \   00000320   0C008DE2           ADD      R0,SP,#+12
+   \   00000324   5D0100EF           SWI      +349
+   \   00000328   0010A0E1           MOV      R1,R0
+   \   0000032C   0400A0E1           MOV      R0,R4
+   \   00000330   390100EF           SWI      +313
+   \   00000334   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000338   1000D0E5           LDRB     R0,[R0, #+16]
+   \   0000033C   04D08DE2           ADD      SP,SP,#+4
+   \   00000340   D7FFFFEA           B        ??onLBMessage2_15
+   \                     ??onLBMessage2_17:
+   \   00000344   080058E3           CMP      R8,#+8
+   \   00000348   8BFFFF1A           BNE      ??onLBMessage2_1
+   \   0000034C   3C3097E5           LDR      R3,[R7, #+60]
+   \   00000350   000053E3           CMP      R3,#+0
+   \   00000354   0700000A           BEQ      ??onLBMessage2_18
+   \   00000358   4C2082E2           ADD      R2,R2,#+76
+   \   0000035C   3210A0E3           MOV      R1,#+50
+   \   00000360   08008DE2           ADD      R0,SP,#+8
+   \   00000364   150100EF           SWI      +277
+   \   00000368   0620A0E1           MOV      R2,R6
+   \   0000036C   0010A0E3           MOV      R1,#+0
+   \   00000370   08008DE2           ADD      R0,SP,#+8
+   \   00000374   8AFFFFEA           B        ??onLBMessage2_9
+   \                     ??onLBMessage2_18:
+   \   00000378   540082E2           ADD      R0,R2,#+84
+   \   0000037C   ........           BL       ??GetStrID
+   \                     ??onLBMessage2_10:
+   \   00000380   0010A0E1           MOV      R1,R0
+   \   00000384   0400A0E1           MOV      R0,R4
+   \   00000388   390100EF           SWI      +313
+   \   0000038C   0100A0E3           MOV      R0,#+1
+   \   00000390   6CD08DE2           ADD      SP,SP,#+108
+   \   00000394   F083BDE8           POP      {R4-R9,PC}
+   \                     ??onLBMessage2_2:
+   \   00000398   00000000           DC8      0x00, 0x00,+0,+0
+   \   0000039C   2A000000           DC8      0x2A, 0x00, 0x00, 0x00
+   \   000003A0   B0000000           DC8      0xB0, 0x00, 0x00, 0x00
+   \   000003A4   ........           DC32     iticons
+   \   000003A8   ........           DC32     `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+    268          };
+    269          
+    270          GUI_LIST *create_ed(BOOK *book);
+
+   \                                 In segment CODE, align 4, keep-with-next
+    271          int isEvtControl(BOOK *bk)
+    272          {
+    273            if (strcmp(bk->xbook->name,"EventControl")==0)
+   \                     ??isEvtControl:
+   \   00000000   20109FE5           LDR      R1,??isEvtControl_1  ;; `?<Constant "EventControl">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   590100EF           SWI      +345
+   \   00000014   000050E3           CMP      R0,#+0
+    274            {
+    275              return 1;
+   \   00000018   0100A003           MOVEQ    R0,#+1
+   \   0000001C   0080BD08           POPEQ    {PC}
+    276            }
+    277            return 0;
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+   \                     ??isEvtControl_1:
+   \   00000028   ........           DC32     `?<Constant "EventControl">`
+    278          };
+    279          typedef void (*UPDATE_METHOD)(wchar_t *path, wchar_t *name);
+    280          
+    281          typedef struct
+    282          {
+    283            BOOK bk;
+    284            UPDATE_METHOD update;
+    285          }EVTBOOK;
+    286          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    287          void OnYesExitGui(BOOK * bk, GUI* )
+    288          {
+   \                     ??OnYesExitGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    289            
+    290            MyBOOK * mbk=(MyBOOK *)bk;
+    291            if (DestroyEvents(mbk, true)==0)
+   \   00000004   0110A0E3           MOV      R1,#+1
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   ........           _BLF     ??DestroyEvents,??DestroyEvents??rA
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD18           POPNE    {R4,PC}
+    292            {
+    293              EVTBOOK *ek=(EVTBOOK*)FindBook(isEvtControl);
+   \   00000018   3C009FE5           LDR      R0,??OnYesExitGui_1  ;; ??isEvtControl
+   \   0000001C   300100EF           SWI      +304
+   \   00000020   0020B0E1           MOVS     R2,R0
+    294              if (ek)
+   \   00000024   0400000A           BEQ      ??OnYesExitGui_2
+    295              {
+    296                ek->update(defPath,defName);
+   \   00000028   ........           LDR      R0,??DataTable11  ;; myBook
+   \   0000002C   182092E5           LDR      R2,[R2, #+24]
+   \   00000030   081090E5           LDR      R1,[R0, #+8]
+   \   00000034   040090E5           LDR      R0,[R0, #+4]
+   \   00000038   32FF2FE1           BLX      R2
+    297              }
+    298              FREE_GUI(mbk->lst);
+   \                     ??OnYesExitGui_2:
+   \   0000003C   200094E5           LDR      R0,[R4, #+32]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0100000A           BEQ      ??OnYesExitGui_3
+   \   00000048   CE0100EF           SWI      +462
+   \   0000004C   200084E5           STR      R0,[R4, #+32]
+    299              FreeBook(bk);
+   \                     ??OnYesExitGui_3:
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   2F0100EF           SWI      +303
+    300            }
+    301          };
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??OnYesExitGui_1:
+   \   0000005C   ........           DC32     ??isEvtControl
+    302          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    303          void OnNoExitGui(BOOK * bk, GUI* )
+    304          {
+   \                     ??OnNoExitGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    305            MyBOOK * mbk=(MyBOOK *)bk;
+    306            FREE_GUI(mbk->lst);
+   \   00000008   200094E5           LDR      R0,[R4, #+32]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??OnNoExitGui_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   200084E5           STR      R0,[R4, #+32]
+    307            DestroyEvents(mbk,false);
+   \                     ??OnNoExitGui_1:
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   ........           _BLF     ??DestroyEvents,??DestroyEvents??rA
+    308            FreeBook(bk);
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   2F0100EF           SWI      +303
+    309          };
+   \   00000030   1080BDE8           POP      {R4,PC}          ;; return
+    310          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    311          void OnBackExitGui(BOOK * bk, GUI* )
+    312          {
+   \                     ??OnBackExitGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    313            MyBOOK * myBook=(MyBOOK *)bk;
+    314            FREE_GUI(myBook->yesno);
+   \   00000008   480094E5           LDR      R0,[R4, #+72]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   480084E5           STR      R0,[R4, #+72]
+    315          };
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    316          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    317          void Escape(MyBOOK *mbk, bool dontsave)
+    318          {
+   \                     ??Escape:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    319            if (!dontsave)
+   \   00000004   000051E3           CMP      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   2D00001A           BNE      ??Escape_1
+    320            {
+    321              if (mbk->selev==0)
+   \   00000010   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   1F00001A           BNE      ??Escape_2
+    322              {
+    323                mbk->yesno=CreateYesNoQuestionVA(0,
+    324                                                      VAR_BOOK(&mbk->book),
+    325                                                      VAR_YESNO_QUESTION(mbk->save_before_exit),
+    326                                                      0);
+   \   0000001C   E0309FE5           LDR      R3,??Escape_3    ;; VAR_ARG_YESNO_QUESTION
+   \   00000020   E0109FE5           LDR      R1,??Escape_3+0x4  ;; VAR_ARG_BOOK
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   AC0094E5           LDR      R0,[R4, #+172]
+   \   0000002C   0420A0E1           MOV      R2,R4
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   A50200EF           SWI      +677
+    327                GUIObject_SoftKeys_SetAction(mbk->yesno,ACTION_YES,OnYesExitGui);
+   \   0000003C   C8209FE5           LDR      R2,??Escape_3+0x8  ;; ??OnYesExitGui
+   \   00000040   480084E5           STR      R0,[R4, #+72]
+   \   00000044   C4009FE5           LDR      R0,??Escape_3+0xC  ;; ACTION_YES
+   \   00000048   001090E5           LDR      R1,[R0, #+0]
+   \   0000004C   480094E5           LDR      R0,[R4, #+72]
+   \   00000050   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000054   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000058   4B0100EF           SWI      +331
+    328                GUIObject_SoftKeys_SetAction(mbk->yesno,ACTION_NO,OnNoExitGui);
+   \   0000005C   B0009FE5           LDR      R0,??Escape_3+0x10  ;; ACTION_NO
+   \   00000060   B0209FE5           LDR      R2,??Escape_3+0x14  ;; ??OnNoExitGui
+   \   00000064   001090E5           LDR      R1,[R0, #+0]
+   \   00000068   480094E5           LDR      R0,[R4, #+72]
+   \   0000006C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000070   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000074   4B0100EF           SWI      +331
+    329                GUIObject_SoftKeys_SetAction(mbk->yesno,ACTION_BACK,OnBackExitGui);
+   \   00000078   ........           LDR      R0,??DataTable26  ;; ACTION_BACK
+   \   0000007C   98209FE5           LDR      R2,??Escape_3+0x18  ;; ??OnBackExitGui
+   \   00000080   001090E5           LDR      R1,[R0, #+0]
+   \   00000084   480094E5           LDR      R0,[R4, #+72]
+   \   00000088   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000008C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000090   4B0100EF           SWI      +331
+   \   00000094   08D08DE2           ADD      SP,SP,#+8
+   \   00000098   1080BDE8           POP      {R4,PC}
+    330              }
+    331              else
+    332              {
+    333                FREE_GUI(mbk->lst);
+   \                     ??Escape_2:
+   \   0000009C   200094E5           LDR      R0,[R4, #+32]
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   0200000A           BEQ      ??Escape_4
+   \   000000A8   CE0100EF           SWI      +462
+   \   000000AC   200084E5           STR      R0,[R4, #+32]
+    334                mbk->selev=0;
+   \   000000B0   0000A0E3           MOV      R0,#+0
+   \                     ??Escape_4:
+   \   000000B4   1C0084E5           STR      R0,[R4, #+28]
+    335                mbk->opt_lastindex=0;
+   \   000000B8   280084E5           STR      R0,[R4, #+40]
+    336                create_ed(&mbk->book);
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   ........           BL       ??create_ed
+   \   000000C4   1080BDE8           POP      {R4,PC}
+    337              }
+    338            }
+    339            else
+    340            {
+    341              BookObj_ReturnPage(&mbk->book, PREVIOUS_EVENT);
+   \                     ??Escape_1:
+   \   000000C8   50009FE5           LDR      R0,??Escape_3+0x1C  ;; PREVIOUS_EVENT
+   \   000000CC   001090E5           LDR      R1,[R0, #+0]
+   \   000000D0   0400A0E1           MOV      R0,R4
+   \   000000D4   2E0100EF           SWI      +302
+    342              FREE_GUI(mbk->lst);
+   \   000000D8   200094E5           LDR      R0,[R4, #+32]
+   \   000000DC   000050E3           CMP      R0,#+0
+   \   000000E0   0100000A           BEQ      ??Escape_5
+   \   000000E4   CE0100EF           SWI      +462
+   \   000000E8   200084E5           STR      R0,[R4, #+32]
+    343              DestroyEvents(mbk, false);
+   \                     ??Escape_5:
+   \   000000EC   0010A0E3           MOV      R1,#+0
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   ........           _BLF     ??DestroyEvents,??DestroyEvents??rA
+    344              FreeBook(&mbk->book);
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   2F0100EF           SWI      +303
+    345            }
+    346          };
+   \   00000100   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??Escape_3:
+   \   00000104   ........           DC32     VAR_ARG_YESNO_QUESTION
+   \   00000108   ........           DC32     VAR_ARG_BOOK
+   \   0000010C   ........           DC32     ??OnYesExitGui
+   \   00000110   ........           DC32     ACTION_YES
+   \   00000114   ........           DC32     ACTION_NO
+   \   00000118   ........           DC32     ??OnNoExitGui
+   \   0000011C   ........           DC32     ??OnBackExitGui
+   \   00000120   ........           DC32     PREVIOUS_EVENT
+
+   \                                 In segment CODE, align 4, keep-with-next
+    347          void OnBackGui(BOOK * bk, GUI* )
+    348          {
+    349            Escape((MyBOOK*)bk, false);
+   \                     ??OnBackGui:
+   \   00000000   0010A0E3           MOV      R1,#+0
+   \   00000004   ........           B        ??Escape         ;; tailcall
+    350          };
+    351          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    352          void EvRem(EVENT *event)
+    353          {
+   \                     ??EvRem:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+    354             if (event)
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+    355             {
+    356                if (event->txt)
+   \   0000000C   380094E5           LDR      R0,[R4, #+56]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0000000A           BEQ      ??EvRem_1
+    357                {
+    358                  delete(event->txt);
+   \   00000018   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    359                }
+    360                if (event->param)
+   \                     ??EvRem_1:
+   \   0000001C   340094E5           LDR      R0,[R4, #+52]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0000000A           BEQ      ??EvRem_2
+    361                {
+    362                  delete(event->param);
+   \   00000028   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    363                }
+    364                delete(event);
+   \                     ??EvRem_2:
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    365             }
+    366          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+    367          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    368          void OnDelGui(BOOK *bk, GUI* )
+    369          {
+   \                     ??OnDelGui:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    370            MyBOOK *mbk=(MyBOOK *)bk;
+    371            int item=ListMenu_GetSelectedItem(mbk->lst);
+   \   00000008   200094E5           LDR      R0,[R4, #+32]
+   \   0000000C   3E0100EF           SWI      +318
+   \   00000010   0050A0E1           MOV      R5,R0
+    372            if (mbk->selev==0)
+   \   00000014   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   3080BD18           POPNE    {R4,R5,PC}
+    373            {
+    374              if (item>=0 && item<(events->FirstFree))
+   \   00000020   000055E3           CMP      R5,#+0
+   \   00000024   3080BD48           POPMI    {R4,R5,PC}
+   \   00000028   ........           LDR      R0,??DataTable23  ;; events
+   \   0000002C   000090E5           LDR      R0,[R0, #+0]
+   \   00000030   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000034   010055E1           CMP      R5,R1
+   \   00000038   3080BDA8           POPGE    {R4,R5,PC}
+    375              {
+    376                EVENT *ev=(EVENT*)List_RemoveAt(events,item);
+   \   0000003C   0510A0E1           MOV      R1,R5
+   \   00000040   790100EF           SWI      +377
+    377                EvRem(ev);
+   \   00000044   ........           BL       ??EvRem
+    378                FREE_GUI(mbk->lst);
+   \   00000048   200094E5           LDR      R0,[R4, #+32]
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   0100000A           BEQ      ??OnDelGui_1
+   \   00000054   CE0100EF           SWI      +462
+   \   00000058   200084E5           STR      R0,[R4, #+32]
+    379                if (mbk->events->FirstFree)
+   \                     ??OnDelGui_1:
+   \   0000005C   180094E5           LDR      R0,[R4, #+24]
+   \   00000060   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000064   000050E3           CMP      R0,#+0
+    380                {
+    381                  mbk->main_lastindex=item;
+   \   00000068   24508415           STRNE    R5,[R4, #+36]
+    382                }
+    383                else
+    384                {
+    385                  mbk->main_lastindex=0;
+   \   0000006C   24008405           STREQ    R0,[R4, #+36]
+    386                }
+    387                create_ed(bk);
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   ........           BL       ??create_ed
+    388              }
+    389            }
+    390          };
+   \   00000078   3080BDE8           POP      {R4,R5,PC}       ;; return
+    391          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    392          void OnAuthor(BOOK *bk, GUI* )
+    393          {
+    394            wchar_t ustr[64];
+    395            snwprintf(ustr,MAXELEMS(ustr)-1,L"\nEvtEdit v1.0\n(c) UltraShot\n%s",BUILD);
+   \                     ??OnAuthor:
+   \   00000000   ........           LDR      R2,??DataTable14  ;; `?<Constant L"\\xa\\x45\\x76\\x74\\x45\\x64\\x69\\x74\\x`
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   80D04DE2           SUB      SP,SP,#+128
+   \   0000000C   403082E2           ADD      R3,R2,#+64
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   3F10A0E3           MOV      R1,#+63
+   \   00000018   0D00A0E1           MOV      R0,SP
+   \   0000001C   150100EF           SWI      +277
+    396            MessageBox(SID_NULL,TextID_Create(ustr,ENC_UCS2,MAXELEMS(ustr)-1), NOIMAGE, 1, 5000,bk);
+   \   00000020   3F20A0E3           MOV      R2,#+63
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   0D00A0E1           MOV      R0,SP
+   \   0000002C   5D0100EF           SWI      +349
+   \   00000030   10002DE9           PUSH     {R4}
+   \   00000034   8810A0E3           MOV      R1,#+136
+   \   00000038   4C1D81E3           ORR      R1,R1,#0x1300
+   \   0000003C   02002DE9           PUSH     {R1}
+   \   00000040   0130A0E3           MOV      R3,#+1
+   \   00000044   FF20A0E3           MOV      R2,#+255
+   \   00000048   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   0000004C   0010A0E1           MOV      R1,R0
+   \   00000050   9004E0E3           MVN      R0,#-1879048192
+   \   00000054   570200EF           SWI      +599
+    397          };
+   \   00000058   88D08DE2           ADD      SP,SP,#+136
+   \   0000005C   1080BDE8           POP      {R4,PC}          ;; return
+    398          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    399          void OnSelect1Gui(BOOK *bk, GUI* )
+    400          {
+   \                     ??OnSelect1Gui:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    401            MyBOOK *mbk=(MyBOOK *)bk;
+    402            int item=ListMenu_GetSelectedItem(mbk->lst);
+   \   00000008   200094E5           LDR      R0,[R4, #+32]
+    403            if (mbk->selev==0)
+   \   0000000C   0160A0E3           MOV      R6,#+1
+   \   00000010   3E0100EF           SWI      +318
+   \   00000014   0050A0E1           MOV      R5,R0
+   \   00000018   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   2A00001A           BNE      ??OnSelect1Gui_1
+    404            {
+    405              if (item>=0 && item<(events->FirstFree+1))
+   \   00000024   000055E3           CMP      R5,#+0
+   \   00000028   F081BD48           POPMI    {R4-R8,PC}
+   \   0000002C   ........           LDR      R7,??DataTable23  ;; events
+   \   00000030   000097E5           LDR      R0,[R7, #+0]
+   \   00000034   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000038   010080E2           ADD      R0,R0,#+1
+   \   0000003C   000055E1           CMP      R5,R0
+   \   00000040   F081BDA8           POPGE    {R4-R8,PC}
+    406              {
+    407                mbk->main_lastindex=item;
+   \   00000044   245084E5           STR      R5,[R4, #+36]
+    408                if (item==events->FirstFree)
+   \   00000048   000097E5           LDR      R0,[R7, #+0]
+   \   0000004C   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000050   000055E1           CMP      R5,R0
+   \   00000054   1100001A           BNE      ??OnSelect1Gui_2
+    409                {
+    410                  EVENT *ev = new EVENT;
+   \   00000058   4400A0E3           MOV      R0,#+68
+   \   0000005C   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000060   0080A0E1           MOV      R8,R0
+    411                  memset(ev,0,sizeof(EVENT));
+   \   00000064   4420A0E3           MOV      R2,#+68
+   \   00000068   0010A0E3           MOV      R1,#+0
+   \   0000006C   120100EF           SWI      +274
+    412                  List_InsertLast(events, ev);
+   \   00000070   000097E5           LDR      R0,[R7, #+0]
+   \   00000074   0810A0E1           MOV      R1,R8
+   \   00000078   B00100EF           SWI      +432
+    413                  ev->days[0]=1;ev->days[1]=1;ev->days[2]=1;ev->days[3]=1;ev->days[4]=1;ev->days[5]=1;ev->days[6]=1;
+    414                  ev->rem=0x55555555;
+   \   0000007C   44019FE5           LDR      R0,??OnSelect1Gui_3  ;; 0x55555555
+   \   00000080   2060C8E5           STRB     R6,[R8, #+32]
+   \   00000084   2160C8E5           STRB     R6,[R8, #+33]
+   \   00000088   2260C8E5           STRB     R6,[R8, #+34]
+   \   0000008C   2360C8E5           STRB     R6,[R8, #+35]
+   \   00000090   2460C8E5           STRB     R6,[R8, #+36]
+   \   00000094   2560C8E5           STRB     R6,[R8, #+37]
+   \   00000098   2660C8E5           STRB     R6,[R8, #+38]
+   \   0000009C   400088E5           STR      R0,[R8, #+64]
+    415                }
+    416                mbk->selev=(EVENT*)List_Get(events,item);
+   \                     ??OnSelect1Gui_2:
+   \   000000A0   000097E5           LDR      R0,[R7, #+0]
+   \   000000A4   0510A0E1           MOV      R1,R5
+   \   000000A8   AD0100EF           SWI      +429
+   \   000000AC   1C0084E5           STR      R0,[R4, #+28]
+    417                FREE_GUI(mbk->lst);
+   \   000000B0   200094E5           LDR      R0,[R4, #+32]
+   \   000000B4   000050E3           CMP      R0,#+0
+   \   000000B8   0100000A           BEQ      ??OnSelect1Gui_4
+   \   000000BC   CE0100EF           SWI      +462
+   \   000000C0   200084E5           STR      R0,[R4, #+32]
+    418                create_ed(bk);
+   \                     ??OnSelect1Gui_4:
+   \   000000C4   0400A0E1           MOV      R0,R4
+   \   000000C8   ........           BL       ??create_ed
+   \   000000CC   F081BDE8           POP      {R4-R8,PC}
+    419              }
+    420            }
+    421            else
+    422            {
+    423              mbk->opt_lastindex=item;
+    424              if (item==0)
+   \                     ??OnSelect1Gui_1:
+   \   000000D0   F4109FE5           LDR      R1,??OnSelect1Gui_3+0x4  ;; bk_time_input
+   \   000000D4   285084E5           STR      R5,[R4, #+40]
+   \   000000D8   000055E3           CMP      R5,#+0
+    425              {
+    426                mbk->curtime=&mbk->selev->time;
+   \   000000DC   2C008002           ADDEQ    R0,R0,#+44
+   \   000000E0   0200000A           BEQ      ??OnSelect1Gui_5
+    427                BookObj_CallPage(&mbk->book,&bk_time_input);
+    428              }
+    429              if (item==1)
+   \   000000E4   010055E3           CMP      R5,#+1
+   \   000000E8   0200001A           BNE      ??OnSelect1Gui_6
+    430              {
+    431                mbk->curtime=&mbk->selev->time2;
+   \   000000EC   300080E2           ADD      R0,R0,#+48
+   \                     ??OnSelect1Gui_5:
+   \   000000F0   500084E5           STR      R0,[R4, #+80]
+    432                BookObj_CallPage(&mbk->book,&bk_time_input);
+   \                     ??OnSelect1Gui_7:
+   \   000000F4   300000EA           B        ??OnSelect1Gui_8
+    433              }
+    434              else if (item==2)
+   \                     ??OnSelect1Gui_6:
+   \   000000F8   020055E3           CMP      R5,#+2
+    435              {
+    436                BookObj_CallPage(&mbk->book,&bk_selectevent);
+   \   000000FC   CC109F05           LDREQ    R1,??OnSelect1Gui_3+0x8  ;; bk_selectevent
+   \   00000100   2D00000A           BEQ      ??OnSelect1Gui_8
+    437              }
+    438              else if (item==3)
+   \   00000104   C8009FE5           LDR      R0,??OnSelect1Gui_3+0xC  ;; bk_days
+   \   00000108   030055E3           CMP      R5,#+3
+   \   0000010C   0600001A           BNE      ??OnSelect1Gui_9
+    439              {
+    440                mbk->curdays=mbk->selev->days;
+   \   00000110   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000114   201081E2           ADD      R1,R1,#+32
+   \   00000118   641084E5           STR      R1,[R4, #+100]
+    441                mbk->daystype=0;
+   \   0000011C   0010A0E3           MOV      R1,#+0
+   \   00000120   601084E5           STR      R1,[R4, #+96]
+    442                BookObj_CallPage(&mbk->book,&bk_days);
+   \   00000124   0010A0E1           MOV      R1,R0
+   \   00000128   0A0000EA           B        ??OnSelect1Gui_10
+    443              }
+    444              else if (item==4)
+   \                     ??OnSelect1Gui_9:
+   \   0000012C   A4109FE5           LDR      R1,??OnSelect1Gui_3+0x10  ;; bk_date_input
+   \   00000130   040055E3           CMP      R5,#+4
+   \   00000134   0200001A           BNE      ??OnSelect1Gui_11
+    445              {
+    446                mbk->curdate=&mbk->selev->date;
+   \   00000138   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000013C   180080E2           ADD      R0,R0,#+24
+   \   00000140   030000EA           B        ??OnSelect1Gui_12
+    447                BookObj_CallPage(&mbk->book,&bk_date_input);
+    448              }
+    449              else if (item==5)
+   \                     ??OnSelect1Gui_11:
+   \   00000144   050055E3           CMP      R5,#+5
+   \   00000148   0500001A           BNE      ??OnSelect1Gui_13
+    450              {
+    451                mbk->curdate=&mbk->selev->date2;
+   \   0000014C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000150   1C0080E2           ADD      R0,R0,#+28
+   \                     ??OnSelect1Gui_12:
+   \   00000154   580084E5           STR      R0,[R4, #+88]
+    452                BookObj_CallPage(&mbk->book,&bk_date_input);
+   \                     ??OnSelect1Gui_10:
+   \   00000158   0400A0E1           MOV      R0,R4
+   \   0000015C   B80200EF           SWI      +696
+   \   00000160   F081BDE8           POP      {R4-R8,PC}
+    453              }
+    454              else if (item==6)
+   \                     ??OnSelect1Gui_13:
+   \   00000164   ........           LDR      R1,??DataTable21  ;; bk_StringInput
+   \   00000168   002066E2           RSB      R2,R6,#+0
+   \   0000016C   060055E3           CMP      R5,#+6
+   \   00000170   0500001A           BNE      ??OnSelect1Gui_14
+    455              {
+    456                mbk->inputType=IT_STRING;
+   \   00000174   446084E5           STR      R6,[R4, #+68]
+    457                mbk->minint=-1;
+   \   00000178   382084E5           STR      R2,[R4, #+56]
+    458                mbk->maxint=100;
+   \   0000017C   6400A0E3           MOV      R0,#+100
+   \   00000180   3C0084E5           STR      R0,[R4, #+60]
+    459                mbk->TextInputType=1;
+   \   00000184   406084E5           STR      R6,[R4, #+64]
+    460                BookObj_CallPage(&mbk->book,&bk_StringInput);
+   \   00000188   F2FFFFEA           B        ??OnSelect1Gui_10
+    461              }
+    462              else if (item==7)
+   \                     ??OnSelect1Gui_14:
+   \   0000018C   070055E3           CMP      R5,#+7
+    463              {
+    464                mbk->daystype=1;
+   \   00000190   60608405           STREQ    R6,[R4, #+96]
+    465                BookObj_CallPage(&mbk->book,&bk_days);
+   \   00000194   0010A001           MOVEQ    R1,R0
+   \   00000198   0700000A           BEQ      ??OnSelect1Gui_8
+    466              }
+    467              else if (item==8)
+   \   0000019C   080055E3           CMP      R5,#+8
+   \   000001A0   F081BD18           POPNE    {R4-R8,PC}
+    468              {
+    469                mbk->TextInputType=4;
+   \   000001A4   0400A0E3           MOV      R0,#+4
+   \   000001A8   400084E5           STR      R0,[R4, #+64]
+    470                mbk->inputType=IT_STRING;
+   \   000001AC   446084E5           STR      R6,[R4, #+68]
+    471                mbk->minint=-1;
+   \   000001B0   382084E5           STR      R2,[R4, #+56]
+    472                mbk->maxint=9;
+   \   000001B4   0900A0E3           MOV      R0,#+9
+   \   000001B8   3C0084E5           STR      R0,[R4, #+60]
+    473                BookObj_CallPage(&mbk->book,&bk_StringInput);
+   \                     ??OnSelect1Gui_8:
+   \   000001BC   0400A0E1           MOV      R0,R4
+   \   000001C0   B80200EF           SWI      +696
+    474              }
+    475            }
+    476          };
+   \   000001C4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??OnSelect1Gui_3:
+   \   000001C8   55555555           DC32     0x55555555
+   \   000001CC   ........           DC32     bk_time_input
+   \   000001D0   ........           DC32     bk_selectevent
+   \   000001D4   ........           DC32     bk_days
+   \   000001D8   ........           DC32     bk_date_input
+    477          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    478          void onDummy(BOOK *bk, GUI* )
+    479          {
+    480            return;
+   \                     ??onDummy:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    481          };
+    482          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    483          void onDType0Press(BOOK *bk, GUI* )
+    484          {
+   \                     ??onDType0Press:
+   \   00000000   00402DE9           PUSH     {LR}
+    485            MyBOOK *mbk=(MyBOOK*)bk;
+    486            mbk->selev->dtype=0;
+   \   00000004   1C1090E5           LDR      R1,[R0, #+28]
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   142081E5           STR      R2,[R1, #+20]
+    487            BookObj_CallPage(bk,&bk_main);
+   \   00000010   ........           LDR      R1,??DataTable20  ;; `?<Constant L"\\x2e\\x63\\x66\\x67">` + 184
+   \   00000014   B80200EF           SWI      +696
+    488          };
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+    489          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    490          void onDType1Press(BOOK *bk, GUI* )
+    491          {
+   \                     ??onDType1Press:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    492            MyBOOK *mbk=(MyBOOK*)bk;
+    493            if (mbk->selev->date.year==0 && mbk->selev->date.mon==0 && mbk->selev->date.day==0)
+   \   00000004   E0509FE5           LDR      R5,??onDType1Press_1  ;; SYNC
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000014   B801D0E1           LDRH     R0,[R0, #+24]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1300001A           BNE      ??onDType1Press_2
+   \   00000020   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000024   1A00D0E5           LDRB     R0,[R0, #+26]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0F00001A           BNE      ??onDType1Press_2
+   \   00000030   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000034   1B00D0E5           LDRB     R0,[R0, #+27]
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0B00001A           BNE      ??onDType1Press_2
+    494            {
+    495              DATETIME dt;
+    496              REQUEST_DATEANDTIME_GET(SYNC, &dt);
+   \   00000040   000095E5           LDR      R0,[R5, #+0]
+   \   00000044   0D10A0E1           MOV      R1,SP
+   \   00000048   6E0100EF           SWI      +366
+    497              mbk->selev->date.year=dt.date.year;
+   \   0000004C   B010DDE1           LDRH     R1,[SP, #+0]
+   \   00000050   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000054   B811C0E1           STRH     R1,[R0, #+24]
+    498              mbk->selev->date.mon=dt.date.mon;
+   \   00000058   0210DDE5           LDRB     R1,[SP, #+2]
+   \   0000005C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000060   1A10C0E5           STRB     R1,[R0, #+26]
+    499              mbk->selev->date.day=dt.date.day;
+   \   00000064   0310DDE5           LDRB     R1,[SP, #+3]
+   \   00000068   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000006C   1B10C0E5           STRB     R1,[R0, #+27]
+    500            }
+    501            if (mbk->selev->date2.year==0 && mbk->selev->date2.mon==0 && mbk->selev->date2.day==0)
+   \                     ??onDType1Press_2:
+   \   00000070   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000074   BC01D0E1           LDRH     R0,[R0, #+28]
+   \   00000078   000050E3           CMP      R0,#+0
+   \   0000007C   1300001A           BNE      ??onDType1Press_3
+   \   00000080   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000084   1E00D0E5           LDRB     R0,[R0, #+30]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0F00001A           BNE      ??onDType1Press_3
+   \   00000090   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000094   1F00D0E5           LDRB     R0,[R0, #+31]
+   \   00000098   000050E3           CMP      R0,#+0
+   \   0000009C   0B00001A           BNE      ??onDType1Press_3
+    502            {
+    503              DATETIME dt;
+    504              REQUEST_DATEANDTIME_GET(SYNC, &dt);
+   \   000000A0   000095E5           LDR      R0,[R5, #+0]
+   \   000000A4   0D10A0E1           MOV      R1,SP
+   \   000000A8   6E0100EF           SWI      +366
+    505              mbk->selev->date2.year=dt.date.year;
+   \   000000AC   B010DDE1           LDRH     R1,[SP, #+0]
+   \   000000B0   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000B4   BC11C0E1           STRH     R1,[R0, #+28]
+    506              mbk->selev->date2.mon=dt.date.mon;
+   \   000000B8   0210DDE5           LDRB     R1,[SP, #+2]
+   \   000000BC   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000C0   1E10C0E5           STRB     R1,[R0, #+30]
+    507              mbk->selev->date2.day=dt.date.day;
+   \   000000C4   0310DDE5           LDRB     R1,[SP, #+3]
+   \   000000C8   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000CC   1F10C0E5           STRB     R1,[R0, #+31]
+    508            }
+    509            mbk->selev->dtype=1;
+   \                     ??onDType1Press_3:
+   \   000000D0   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000D4   0110A0E3           MOV      R1,#+1
+   \   000000D8   141080E5           STR      R1,[R0, #+20]
+    510            BookObj_CallPage(bk,&bk_main);
+   \   000000DC   ........           LDR      R1,??DataTable20  ;; `?<Constant L"\\x2e\\x63\\x66\\x67">` + 184
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   B80200EF           SWI      +696
+    511          };
+   \   000000E8   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+   \                     ??onDType1Press_1:
+   \   000000EC   ........           DC32     SYNC
+    512          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    513          void onTType0Press(BOOK *bk, GUI* )
+    514          {
+   \                     ??onTType0Press:
+   \   00000000   00402DE9           PUSH     {LR}
+    515            MyBOOK *mbk=(MyBOOK*)bk;
+    516            mbk->selev->ttype=0;
+   \   00000004   1C1090E5           LDR      R1,[R0, #+28]
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   282081E5           STR      R2,[R1, #+40]
+    517            BookObj_CallPage(bk,&bk_main);
+   \   00000010   ........           LDR      R1,??DataTable20  ;; `?<Constant L"\\x2e\\x63\\x66\\x67">` + 184
+   \   00000014   B80200EF           SWI      +696
+    518          };
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+    519          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    520          void onTType1Press(BOOK *bk, GUI* )
+    521          {
+   \                     ??onTType1Press:
+   \   00000000   00402DE9           PUSH     {LR}
+    522            MyBOOK *mbk=(MyBOOK*)bk;
+    523            mbk->selev->ttype=1;
+   \   00000004   1C1090E5           LDR      R1,[R0, #+28]
+   \   00000008   0120A0E3           MOV      R2,#+1
+   \   0000000C   282081E5           STR      R2,[R1, #+40]
+    524            BookObj_CallPage(bk,&bk_main);
+   \   00000010   ........           LDR      R1,??DataTable20  ;; `?<Constant L"\\x2e\\x63\\x66\\x67">` + 184
+   \   00000014   B80200EF           SWI      +696
+    525          };
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+    526          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    527          void onEventClone(BOOK *bk, GUI* )
+    528          {
+   \                     ??onEventClone:
+   \   00000000   00402DE9           PUSH     {LR}
+    529            MyBOOK *mbk=(MyBOOK*)bk;
+    530            mbk->inputType=IT_UNSIGNED_DIGIT;
+   \   00000004   0910A0E3           MOV      R1,#+9
+   \   00000008   441080E5           STR      R1,[R0, #+68]
+    531            mbk->TextInputType=8;
+   \   0000000C   0810A0E3           MOV      R1,#+8
+   \   00000010   401080E5           STR      R1,[R0, #+64]
+    532            mbk->minint=1;
+   \   00000014   0110A0E3           MOV      R1,#+1
+   \   00000018   381080E5           STR      R1,[R0, #+56]
+    533            mbk->maxint=1000;
+   \   0000001C   FA1FA0E3           MOV      R1,#+1000
+   \   00000020   3C1080E5           STR      R1,[R0, #+60]
+    534            BookObj_CallPage(bk,&bk_StringInput);
+   \   00000024   ........           LDR      R1,??DataTable21  ;; bk_StringInput
+   \   00000028   B80200EF           SWI      +696
+    535          };
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+    536          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    537          void onIndication(BOOK *bk, GUI* )
+    538          {
+    539            extern const PAGE_DESC bk_indic;
+    540            BookObj_CallPage(bk, &bk_indic);
+   \                     ??onIndication:
+   \   00000000   08109FE5           LDR      R1,??onIndication_1  ;; bk_indic
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   B80200EF           SWI      +696
+    541          };
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+   \                     ??onIndication_1:
+   \   00000010   ........           DC32     bk_indic
+    542          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    543          GUI_LIST * CreateGuiList(BOOK * book)
+    544          {
+   \                     ??CreateGuiList:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    545            GUI_LIST * lo=0;
+    546            if (lo=CreateListMenu(book,0))
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   C00100EF           SWI      +448
+   \   0000000C   0070B0E1           MOVS     R7,R0
+   \   00000010   DF00000A           BEQ      ??CreateGuiList_1
+    547            {
+    548              MyBOOK *bk=(MyBOOK*)FindBook(isEvtEditBook);
+   \   00000014   ........           LDR      R0,??DataTable22  ;; ??isEvtEditBook
+    549              if (!bk->selev)
+   \   00000018   FF40A0E3           MOV      R4,#+255
+   \   0000001C   300100EF           SWI      +304
+   \   00000020   0050A0E1           MOV      R5,R0
+   \   00000024   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000028   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   2900001A           BNE      ??CreateGuiList_2
+    550              {
+    551                GUIObject_SoftKeys_SetAction(lo,0, OnAuthor);
+    552                GUIObject_SoftKeys_SetText(lo,0, GetStrID(L"JAVA_APP_NR_ABOUT"));
+   \   00000034   60639FE5           LDR      R6,??CreateGuiList_3  ;; `?<Constant L"\\x4d\\x50\\x5f\\x41\\x55\\x44\\x49\\x4f\\`
+   \   00000038   60239FE5           LDR      R2,??CreateGuiList_3+0x4  ;; ??OnAuthor
+   \   0000003C   0010A0E3           MOV      R1,#+0
+    553                GUIObject_SetTitleText(lo,TextID_Create(L"EventControl v2.0",ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000040   5C839FE5           LDR      R8,??CreateGuiList_3+0x8  ;; ??onLBMessage
+   \   00000044   0700A0E1           MOV      R0,R7
+   \   00000048   4B0100EF           SWI      +331
+   \   0000004C   2C0086E2           ADD      R0,R6,#+44
+   \   00000050   ........           BL       ??GetStrID
+   \   00000054   0020A0E1           MOV      R2,R0
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   0700A0E1           MOV      R0,R7
+   \   00000060   4C0100EF           SWI      +332
+   \   00000064   0420A0E1           MOV      R2,R4
+   \   00000068   0010A0E3           MOV      R1,#+0
+   \   0000006C   500086E2           ADD      R0,R6,#+80
+   \   00000070   5D0100EF           SWI      +349
+   \   00000074   0010A0E1           MOV      R1,R0
+   \   00000078   0700A0E1           MOV      R0,R7
+   \   0000007C   330100EF           SWI      +307
+   \   00000080   ........           LDR      R0,??DataTable23  ;; events
+   \   00000084   000090E5           LDR      R0,[R0, #+0]
+   \   00000088   B200D0E1           LDRH     R0,[R0, #+2]
+   \   0000008C   000050E3           CMP      R0,#+0
+   \   00000090   0700000A           BEQ      ??CreateGuiList_4
+    554                if (events->FirstFree)
+    555                {
+    556                  ListMenu_SetItemCount(lo,events->FirstFree+1);
+   \   00000094   011080E2           ADD      R1,R0,#+1
+   \   00000098   0700A0E1           MOV      R0,R7
+   \   0000009C   C10100EF           SWI      +449
+    557                  ListMenu_SetCursorToItem(lo,bk->main_lastindex);
+   \   000000A0   241095E5           LDR      R1,[R5, #+36]
+   \                     ??CreateGuiList_5:
+   \   000000A4   0700A0E1           MOV      R0,R7
+   \   000000A8   350100EF           SWI      +309
+    558                  ListMenu_SetOnMessage(lo,onLBMessage);
+   \   000000AC   0810A0E1           MOV      R1,R8
+   \   000000B0   190000EA           B        ??CreateGuiList_6
+    559                }
+    560                else
+    561                {
+    562                  ListMenu_SetNoItemText(lo,GetStrID(L"MP_AUDIO_NO_ITEMS_TXT"));
+   \                     ??CreateGuiList_4:
+   \   000000B4   0600A0E1           MOV      R0,R6
+   \   000000B8   ........           BL       ??GetStrID
+   \   000000BC   0010A0E1           MOV      R1,R0
+   \   000000C0   0700A0E1           MOV      R0,R7
+   \   000000C4   880200EF           SWI      +648
+    563                  ListMenu_SetItemCount(lo,1);
+   \   000000C8   0110A0E3           MOV      R1,#+1
+   \   000000CC   0700A0E1           MOV      R0,R7
+   \   000000D0   C10100EF           SWI      +449
+    564                  ListMenu_SetCursorToItem(lo,0);
+   \   000000D4   0010A0E3           MOV      R1,#+0
+   \   000000D8   F1FFFFEA           B        ??CreateGuiList_5
+    565                  ListMenu_SetOnMessage(lo,onLBMessage);
+    566                }
+    567              }
+    568              else
+    569              {
+    570                GUIObject_SetTitleText(lo,TextID_Create(items[bk->selev->type],ENC_UCS2,TEXTID_ANY_LEN));
+   \                     ??CreateGuiList_2:
+   \   000000DC   000090E5           LDR      R0,[R0, #+0]
+   \   000000E0   ........           LDR      R3,??DataTable24  ;; items
+   \   000000E4   0420A0E1           MOV      R2,R4
+   \   000000E8   000193E7           LDR      R0,[R3, +R0, LSL #+2]
+   \   000000EC   0010A0E3           MOV      R1,#+0
+   \   000000F0   5D0100EF           SWI      +349
+   \   000000F4   0010A0E1           MOV      R1,R0
+   \   000000F8   0700A0E1           MOV      R0,R7
+   \   000000FC   330100EF           SWI      +307
+    571                ListMenu_SetItemCount(lo,9);
+   \   00000100   0910A0E3           MOV      R1,#+9
+   \   00000104   0700A0E1           MOV      R0,R7
+   \   00000108   C10100EF           SWI      +449
+    572                ListMenu_SetCursorToItem(lo,bk->opt_lastindex);
+   \   0000010C   281095E5           LDR      R1,[R5, #+40]
+   \   00000110   0700A0E1           MOV      R0,R7
+   \   00000114   350100EF           SWI      +309
+    573                ListMenu_SetOnMessage(lo,onLBMessage2);
+   \   00000118   88129FE5           LDR      R1,??CreateGuiList_3+0xC  ;; ??onLBMessage2
+    574              }
+    575              ListMenu_SetItemStyle(lo,3);
+    576              GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, OnBackGui);
+    577              GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,OnSelect1Gui);
+    578              if (!bk->selev)
+   \                     ??CreateGuiList_6:
+   \   0000011C   ........           LDR      R6,??DataTable25  ;; lng
+   \   00000120   0700A0E1           MOV      R0,R7
+   \   00000124   740100EF           SWI      +372
+   \   00000128   0310A0E3           MOV      R1,#+3
+   \   0000012C   0700A0E1           MOV      R0,R7
+   \   00000130   3F0100EF           SWI      +319
+   \   00000134   ........           LDR      R0,??DataTable26  ;; ACTION_BACK
+   \   00000138   6C229FE5           LDR      R2,??CreateGuiList_3+0x10  ;; ??OnBackGui
+   \   0000013C   001090E5           LDR      R1,[R0, #+0]
+   \   00000140   0700A0E1           MOV      R0,R7
+   \   00000144   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000148   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000014C   4B0100EF           SWI      +331
+   \   00000150   58029FE5           LDR      R0,??CreateGuiList_3+0x14  ;; ACTION_SELECT1
+   \   00000154   58229FE5           LDR      R2,??CreateGuiList_3+0x18  ;; ??OnSelect1Gui
+   \   00000158   001090E5           LDR      R1,[R0, #+0]
+   \   0000015C   0700A0E1           MOV      R0,R7
+   \   00000160   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000164   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000168   4B0100EF           SWI      +331
+   \   0000016C   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000170   40529FE5           LDR      R5,??CreateGuiList_3+0x1C  ;; ??onIndication
+   \   00000174   000050E3           CMP      R0,#+0
+   \   00000178   1100001A           BNE      ??CreateGuiList_7
+    579              {
+    580                GUIObject_SoftKeys_SetAction(lo,ACTION_DELETE, OnDelGui);
+   \   0000017C   38029FE5           LDR      R0,??CreateGuiList_3+0x20  ;; ACTION_DELETE
+   \   00000180   38229FE5           LDR      R2,??CreateGuiList_3+0x24  ;; ??OnDelGui
+   \   00000184   001090E5           LDR      R1,[R0, #+0]
+   \   00000188   0700A0E1           MOV      R0,R7
+   \   0000018C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000190   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000194   4B0100EF           SWI      +331
+    581                GUIObject_SoftKeys_SetAction(lo, 2, onIndication);
+   \   00000198   0520A0E1           MOV      R2,R5
+   \   0000019C   0210A0E3           MOV      R1,#+2
+   \   000001A0   0700A0E1           MOV      R0,R7
+   \   000001A4   4B0100EF           SWI      +331
+    582                GUIObject_SoftKeys_SetText(lo,2, TextID_Create(lng[INDICATION],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000001A8   D00096E5           LDR      R0,[R6, #+208]
+   \   000001AC   0420A0E1           MOV      R2,R4
+   \   000001B0   0010A0E3           MOV      R1,#+0
+   \   000001B4   5D0100EF           SWI      +349
+   \   000001B8   0020A0E1           MOV      R2,R0
+   \   000001BC   0210A0E3           MOV      R1,#+2
+   \   000001C0   710000EA           B        ??CreateGuiList_8
+    583              }
+    584              else
+    585              {
+    586                if (!bk->selev->isGps)
+   \                     ??CreateGuiList_7:
+   \   000001C4   1000D0E5           LDRB     R0,[R0, #+16]
+   \   000001C8   F4819FE5           LDR      R8,??CreateGuiList_3+0x28  ;; ??onDummy
+   \   000001CC   000050E3           CMP      R0,#+0
+   \   000001D0   2B00001A           BNE      ??CreateGuiList_9
+    587                {
+    588                  GUIObject_SoftKeys_SetAction(lo, 0, onDummy);
+   \   000001D4   0820A0E1           MOV      R2,R8
+   \   000001D8   0010A0E3           MOV      R1,#+0
+   \   000001DC   0700A0E1           MOV      R0,R7
+   \   000001E0   4B0100EF           SWI      +331
+    589                  GUIObject_SoftKeys_SetText(lo, 0, TextID_Create(lng[REMIND_TYPE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000001E4   640096E5           LDR      R0,[R6, #+100]
+   \   000001E8   0420A0E1           MOV      R2,R4
+   \   000001EC   0010A0E3           MOV      R1,#+0
+   \   000001F0   5D0100EF           SWI      +349
+   \   000001F4   0020A0E1           MOV      R2,R0
+   \   000001F8   0010A0E3           MOV      R1,#+0
+   \   000001FC   0700A0E1           MOV      R0,R7
+   \   00000200   4C0100EF           SWI      +332
+    590                  GUIObject_SoftKeys_SetAction(lo,1,onDType0Press);
+   \   00000204   BC219FE5           LDR      R2,??CreateGuiList_3+0x2C  ;; ??onDType0Press
+   \   00000208   0110A0E3           MOV      R1,#+1
+   \   0000020C   0700A0E1           MOV      R0,R7
+   \   00000210   4B0100EF           SWI      +331
+    591                  GUIObject_SoftKeys_SetText(lo,1,TextID_Create(lng[REMIND_DAYS],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000214   680096E5           LDR      R0,[R6, #+104]
+   \   00000218   0420A0E1           MOV      R2,R4
+   \   0000021C   0010A0E3           MOV      R1,#+0
+   \   00000220   5D0100EF           SWI      +349
+   \   00000224   0020A0E1           MOV      R2,R0
+   \   00000228   0110A0E3           MOV      R1,#+1
+   \   0000022C   0700A0E1           MOV      R0,R7
+   \   00000230   4C0100EF           SWI      +332
+    592                  
+    593                  GUIObject_SoftKeys_SetAction(lo,2,onDType1Press);
+   \   00000234   90219FE5           LDR      R2,??CreateGuiList_3+0x30  ;; ??onDType1Press
+   \   00000238   0210A0E3           MOV      R1,#+2
+   \   0000023C   0700A0E1           MOV      R0,R7
+   \   00000240   4B0100EF           SWI      +331
+    594                  GUIObject_SoftKeys_SetText(lo,2,TextID_Create(lng[REMIND_DATE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000244   6C0096E5           LDR      R0,[R6, #+108]
+   \   00000248   0420A0E1           MOV      R2,R4
+   \   0000024C   0010A0E3           MOV      R1,#+0
+   \   00000250   5D0100EF           SWI      +349
+   \   00000254   0020A0E1           MOV      R2,R0
+   \   00000258   0210A0E3           MOV      R1,#+2
+   \   0000025C   0700A0E1           MOV      R0,R7
+   \   00000260   4C0100EF           SWI      +332
+    595                  GUIObject_SoftKeys_SetItemAsSubItem(lo, 0, 1);
+   \   00000264   0120A0E3           MOV      R2,#+1
+   \   00000268   0010A0E3           MOV      R1,#+0
+   \   0000026C   0700A0E1           MOV      R0,R7
+   \   00000270   C40100EF           SWI      +452
+    596                  GUIObject_SoftKeys_SetItemAsSubItem(lo, 0, 2);
+   \   00000274   0220A0E3           MOV      R2,#+2
+   \   00000278   0010A0E3           MOV      R1,#+0
+   \   0000027C   0700A0E1           MOV      R0,R7
+   \   00000280   C40100EF           SWI      +452
+    597                }
+    598                GUIObject_SoftKeys_SetAction(lo, 3, onDummy);
+   \                     ??CreateGuiList_9:
+   \   00000284   0820A0E1           MOV      R2,R8
+   \   00000288   0310A0E3           MOV      R1,#+3
+   \   0000028C   0700A0E1           MOV      R0,R7
+   \   00000290   4B0100EF           SWI      +331
+    599                GUIObject_SoftKeys_SetText(lo, 3, TextID_Create(lng[REMIND_TTYPE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000294   700096E5           LDR      R0,[R6, #+112]
+   \   00000298   0420A0E1           MOV      R2,R4
+   \   0000029C   0010A0E3           MOV      R1,#+0
+   \   000002A0   5D0100EF           SWI      +349
+   \   000002A4   0020A0E1           MOV      R2,R0
+   \   000002A8   0310A0E3           MOV      R1,#+3
+   \   000002AC   0700A0E1           MOV      R0,R7
+   \   000002B0   4C0100EF           SWI      +332
+    600                
+    601                GUIObject_SoftKeys_SetAction(lo,4,onTType0Press);
+   \   000002B4   14219FE5           LDR      R2,??CreateGuiList_3+0x34  ;; ??onTType0Press
+   \   000002B8   0410A0E3           MOV      R1,#+4
+   \   000002BC   0700A0E1           MOV      R0,R7
+   \   000002C0   4B0100EF           SWI      +331
+    602                GUIObject_SoftKeys_SetText(lo,4,TextID_Create(lng[REMIND_TIME],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000002C4   740096E5           LDR      R0,[R6, #+116]
+   \   000002C8   0420A0E1           MOV      R2,R4
+   \   000002CC   0010A0E3           MOV      R1,#+0
+   \   000002D0   5D0100EF           SWI      +349
+   \   000002D4   0020A0E1           MOV      R2,R0
+   \   000002D8   0410A0E3           MOV      R1,#+4
+   \   000002DC   0700A0E1           MOV      R0,R7
+   \   000002E0   4C0100EF           SWI      +332
+    603                
+    604                GUIObject_SoftKeys_SetAction(lo,5,onTType1Press);
+   \   000002E4   E8209FE5           LDR      R2,??CreateGuiList_3+0x38  ;; ??onTType1Press
+   \   000002E8   0510A0E3           MOV      R1,#+5
+   \   000002EC   0700A0E1           MOV      R0,R7
+   \   000002F0   4B0100EF           SWI      +331
+    605                GUIObject_SoftKeys_SetText(lo,5,TextID_Create(lng[REMIND_INTERVAL],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000002F4   780096E5           LDR      R0,[R6, #+120]
+   \   000002F8   0420A0E1           MOV      R2,R4
+   \   000002FC   0010A0E3           MOV      R1,#+0
+   \   00000300   5D0100EF           SWI      +349
+   \   00000304   0020A0E1           MOV      R2,R0
+   \   00000308   0510A0E3           MOV      R1,#+5
+   \   0000030C   0700A0E1           MOV      R0,R7
+   \   00000310   4C0100EF           SWI      +332
+    606                GUIObject_SoftKeys_SetItemAsSubItem(lo, 3, 4);
+   \   00000314   0420A0E3           MOV      R2,#+4
+   \   00000318   0310A0E3           MOV      R1,#+3
+   \   0000031C   0700A0E1           MOV      R0,R7
+   \   00000320   C40100EF           SWI      +452
+    607                GUIObject_SoftKeys_SetItemAsSubItem(lo, 3, 5);
+   \   00000324   0520A0E3           MOV      R2,#+5
+   \   00000328   0310A0E3           MOV      R1,#+3
+   \   0000032C   0700A0E1           MOV      R0,R7
+   \   00000330   C40100EF           SWI      +452
+    608                GUIObject_SoftKeys_SetAction(lo,6,onEventClone);
+   \   00000334   9C209FE5           LDR      R2,??CreateGuiList_3+0x3C  ;; ??onEventClone
+   \   00000338   0610A0E3           MOV      R1,#+6
+   \   0000033C   0700A0E1           MOV      R0,R7
+   \   00000340   4B0100EF           SWI      +331
+    609                GUIObject_SoftKeys_SetText(lo,6,TextID_Create(lng[CLONE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000344   C80096E5           LDR      R0,[R6, #+200]
+   \   00000348   0420A0E1           MOV      R2,R4
+   \   0000034C   0010A0E3           MOV      R1,#+0
+   \   00000350   5D0100EF           SWI      +349
+   \   00000354   0020A0E1           MOV      R2,R0
+   \   00000358   0610A0E3           MOV      R1,#+6
+   \   0000035C   0700A0E1           MOV      R0,R7
+   \   00000360   4C0100EF           SWI      +332
+    610                GUIObject_SoftKeys_SetAction(lo, 7, onIndication);
+   \   00000364   0520A0E1           MOV      R2,R5
+   \   00000368   0710A0E3           MOV      R1,#+7
+   \   0000036C   0700A0E1           MOV      R0,R7
+   \   00000370   4B0100EF           SWI      +331
+    611                GUIObject_SoftKeys_SetText(lo,7, TextID_Create(lng[INDICATION],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000374   D00096E5           LDR      R0,[R6, #+208]
+   \   00000378   0420A0E1           MOV      R2,R4
+   \   0000037C   0010A0E3           MOV      R1,#+0
+   \   00000380   5D0100EF           SWI      +349
+   \   00000384   0020A0E1           MOV      R2,R0
+   \   00000388   0710A0E3           MOV      R1,#+7
+   \                     ??CreateGuiList_8:
+   \   0000038C   0700A0E1           MOV      R0,R7
+   \   00000390   4C0100EF           SWI      +332
+    612              }
+    613            }
+    614            return(lo);
+   \                     ??CreateGuiList_1:
+   \   00000394   0700A0E1           MOV      R0,R7
+   \   00000398   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??CreateGuiList_3:
+   \   0000039C   ........           DC32     `?<Constant L"\\x4d\\x50\\x5f\\x41\\x55\\x44\\x49\\x4f\\`
+   \   000003A0   ........           DC32     ??OnAuthor
+   \   000003A4   ........           DC32     ??onLBMessage
+   \   000003A8   ........           DC32     ??onLBMessage2
+   \   000003AC   ........           DC32     ??OnBackGui
+   \   000003B0   ........           DC32     ACTION_SELECT1
+   \   000003B4   ........           DC32     ??OnSelect1Gui
+   \   000003B8   ........           DC32     ??onIndication
+   \   000003BC   ........           DC32     ACTION_DELETE
+   \   000003C0   ........           DC32     ??OnDelGui
+   \   000003C4   ........           DC32     ??onDummy
+   \   000003C8   ........           DC32     ??onDType0Press
+   \   000003CC   ........           DC32     ??onDType1Press
+   \   000003D0   ........           DC32     ??onTType0Press
+   \   000003D4   ........           DC32     ??onTType1Press
+   \   000003D8   ........           DC32     ??onEventClone
+    615          };
+    616          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    617          GUI_LIST *create_ed(BOOK *book)
+    618          {
+   \                     ??create_ed:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    619            MyBOOK *mbk=(MyBOOK *)book;
+    620            mbk->lst=CreateGuiList(book);
+   \   00000008   ........           BL       ??CreateGuiList
+   \   0000000C   200084E5           STR      R0,[R4, #+32]
+    621            GUIObject_Show(mbk->lst);
+   \   00000010   340100EF           SWI      +308
+    622            return(mbk->lst);
+   \   00000014   200094E5           LDR      R0,[R4, #+32]
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+    623          };
+    624          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    625          static int MainPageOnCreate(void *, BOOK *bk)
+    626          {
+   \                     ??MainPageOnCreate:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+    627            MyBOOK *mbk=(MyBOOK *)bk;
+    628            create_ed(&mbk->book);
+   \   00000008   ........           BL       ??create_ed
+    629            return (1);
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    630          };
+    631          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    632          const PAGE_MSG bk_msglst_main[] @ "DYN_PAGE"  =
+   \                     bk_msglst_main:
+   \   00000000   42000000....       DC32 66, ??MainPageOnCreate, 64, 0H
+   \              ....40000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x2e\\x63\\x66\\x67">`:
+   \   00000000   2E0063006600       DC8 2EH, 0, 63H, 0, 66H, 0, 67H, 0
+   \              6700        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+   \   0000000C   65006E002E00       DC8 65H, 0, 6EH, 0, 2EH, 0, 63H, 0
+   \              6300        
+   \   00000014   660067000000       DC8 66H, 0, 67H, 0, 0, 0
+   \   0000001A   0000               DC8 0, 0
+   \   0000001C   457674456469       DC8 "EvtEdit"
+   \              7400        
+   \   00000024   4F0046004600       DC8 4FH, 0, 46H, 0, 46H, 0, 5FH, 0
+   \              5F00        
+   \   0000002C   540058005400       DC8 54H, 0, 58H, 0, 54H, 0, 0, 0
+   \              0000        
+   \   00000034   4F004E005F00       DC8 4FH, 0, 4EH, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   0000003C   580054000000       DC8 58H, 0, 54H, 0, 0, 0
+   \   00000042   0000               DC8 0, 0
+   \   00000044   480050004200       DC8 48H, 0, 50H, 0, 42H, 0, 5FH, 0
+   \              5F00        
+   \   0000004C   530041005600       DC8 53H, 0, 41H, 0, 56H, 0, 45H, 0
+   \              4500        
+   \   00000054   5F0042004500       DC8 5FH, 0, 42H, 0, 45H, 0, 46H, 0
+   \              4600        
+   \   0000005C   4F0052004500       DC8 4FH, 0, 52H, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000064   450058004900       DC8 45H, 0, 58H, 0, 49H, 0, 54H, 0
+   \              5400        
+   \   0000006C   44005F005400       DC8 44H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000074   54000000           DC8 54H, 0, 0, 0
+   \   00000078   480050004200       DC8 48H, 0, 50H, 0, 42H, 0, 5FH, 0
+   \              5F00        
+   \   00000080   530041005600       DC8 53H, 0, 41H, 0, 56H, 0, 45H, 0
+   \              4500        
+   \   00000088   5F0042004500       DC8 5FH, 0, 42H, 0, 45H, 0, 46H, 0
+   \              4600        
+   \   00000090   4F0052004500       DC8 4FH, 0, 52H, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000098   450058004900       DC8 45H, 0, 58H, 0, 49H, 0, 54H, 0
+   \              5400        
+   \   000000A0   51005F005400       DC8 51H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   000000A8   54000000           DC8 54H, 0, 0, 0
+   \   000000AC   ........0000       DC32 `?<Constant "EvtEdit_Base_Page">`, 0H, bk_msglst_base
+   \              0000........
+    633          {
+    634            PAGE_ENTER_EVENT_TAG,    MainPageOnCreate,
+    635            NIL_EVENT_TAG,           NULL
+    636          };
+    637          
+    638          const PAGE_DESC bk_main = {"EvtEdit_Main_Page",0,bk_msglst_main};
+   \                     bk_main:
+   \   000000B8   ........0000       DC32 `?<Constant "EvtEdit_Main_Page">`, 0H, bk_msglst_main
+   \              0000........
+    639          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    640          void getfilesize(wchar_t *elfpath)
+    641          {
+   \                     ??getfilesize:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   1CD04DE2           SUB      SP,SP,#+28
+   \   00000008   80DE4DE2           SUB      SP,SP,#+2048
+   \   0000000C   0040A0E1           MOV      R4,R0
+    642            wchar_t path[512];
+    643            wchar_t name[512];
+    644            wstrcpy(path,elfpath);
+   \   00000010   0410A0E1           MOV      R1,R4
+   \   00000014   0D00A0E1           MOV      R0,SP
+   \   00000018   520100EF           SWI      +338
+    645            *(wstrrchr(path,L'/'))=0;
+   \   0000001C   2F10A0E3           MOV      R1,#+47
+   \   00000020   0D00A0E1           MOV      R0,SP
+   \   00000024   AE0100EF           SWI      +430
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   B010C0E1           STRH     R1,[R0, #+0]
+    646            wstrcpy(name,wstrrchr(elfpath,L'/'));
+   \   00000030   2F10A0E3           MOV      R1,#+47
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   AE0100EF           SWI      +430
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   400E8DE2           ADD      R0,SP,#+1024
+   \   00000044   520100EF           SWI      +338
+    647            wchar_t *name2=name;
+    648            name2++;
+    649            FSTAT fst;
+    650            if (fstat(path,name2,&fst)==0)
+   \   00000048   802E8DE2           ADD      R2,SP,#+2048
+   \   0000004C   02108DE2           ADD      R1,SP,#+2
+   \   00000050   401E81E2           ADD      R1,R1,#+1024
+   \   00000054   0D00A0E1           MOV      R0,SP
+   \   00000058   1C0100EF           SWI      +284
+   \   0000005C   000050E3           CMP      R0,#+0
+    651            {
+    652              fsize=fst.fsize;
+   \   00000060   10009F05           LDREQ    R0,??getfilesize_1  ;; fsize
+   \   00000064   08189D05           LDREQ    R1,[SP, #+2056]
+   \   00000068   00108005           STREQ    R1,[R0, #+0]
+    653            }
+    654          };
+   \   0000006C   1CD08DE2           ADD      SP,SP,#+28
+   \   00000070   80DE8DE2           ADD      SP,SP,#+2048
+   \   00000074   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??getfilesize_1:
+   \   00000078   ........           DC32     fsize
+    655          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    656          int main(wchar_t *elfpath, wchar_t *path, wchar_t *fname)
+    657          {
+   \                     main:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   68D04DE2           SUB      SP,SP,#+104
+    658            trace_init();
+    659            InitializeFolders();
+    660            getfilesize(elfpath);
+    661            wchar_t str[50];
+    662            char *st=lang_get_name(get_system_langID());
+    663            str2wstr(str,st);
+    664            wstrcat(str,L".cfg");
+    665            if (lng_load(extFolder, str))
+   \   00000008   ........           LDR      R8,??DataTable27  ;; extFolder
+   \   0000000C   0060A0E1           MOV      R6,R0
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   ........           LDR      R7,??DataTable28  ;; intFolder
+   \   00000018   0250A0E1           MOV      R5,R2
+   \   0000001C   ........           _BLF     ??InitializeFolders,??InitializeFolders??rA
+   \   00000020   0600A0E1           MOV      R0,R6
+   \   00000024   D4619FE5           LDR      R6,??main_0+0x4  ;; `?<Constant L"\\x2e\\x63\\x66\\x67">`
+   \   00000028   ........           BL       ??getfilesize
+   \   0000002C   F50200EF           SWI      +757
+   \   00000030   F60200EF           SWI      +758
+   \   00000034   0090A0E1           MOV      R9,R0
+   \   00000038   0910A0E1           MOV      R1,R9
+   \   0000003C   04008DE2           ADD      R0,SP,#+4
+   \   00000040   580100EF           SWI      +344
+   \   00000044   0610A0E1           MOV      R1,R6
+   \   00000048   04008DE2           ADD      R0,SP,#+4
+   \   0000004C   540100EF           SWI      +340
+   \   00000050   000098E5           LDR      R0,[R8, #+0]
+   \   00000054   04108DE2           ADD      R1,SP,#+4
+   \   00000058   ........           _BLF     ??lng_load,??lng_load??rA
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   1100000A           BEQ      ??main_1
+    666            {
+    667              if (lng_load(intFolder, str))
+   \   00000064   000097E5           LDR      R0,[R7, #+0]
+   \   00000068   04108DE2           ADD      R1,SP,#+4
+   \   0000006C   ........           _BLF     ??lng_load,??lng_load??rA
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   0C00000A           BEQ      ??main_1
+    668              {
+    669                if (strcmp(st,"ru"))
+   \   00000078   5F1F8FE2           ADR      R1,??main_0      ;; "ru"
+   \   0000007C   0900A0E1           MOV      R0,R9
+   \   00000080   590100EF           SWI      +345
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   0700000A           BEQ      ??main_1
+    670                {
+    671                  if (lng_load(extFolder, L"en.cfg"))
+   \   0000008C   000098E5           LDR      R0,[R8, #+0]
+   \   00000090   0C1086E2           ADD      R1,R6,#+12
+   \   00000094   ........           _BLF     ??lng_load,??lng_load??rA
+   \   00000098   000050E3           CMP      R0,#+0
+   \   0000009C   0200000A           BEQ      ??main_1
+    672                  {
+    673                    lng_load(intFolder, L"en.cfg");
+   \   000000A0   000097E5           LDR      R0,[R7, #+0]
+   \   000000A4   0C1086E2           ADD      R1,R6,#+12
+   \   000000A8   ........           _BLF     ??lng_load,??lng_load??rA
+    674                  }
+    675                }
+    676              }
+    677            }
+    678            if (path&&fname)
+   \                     ??main_1:
+   \   000000AC   50919FE5           LDR      R9,??main_0+0x8  ;; myBook
+   \   000000B0   000054E3           CMP      R4,#+0
+   \   000000B4   00005513           CMPNE    R5,#+0
+   \   000000B8   0F00000A           BEQ      ??main_2
+    679            {
+    680              defPath=new wchar_t[wstrlen(path)+1];
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   570100EF           SWI      +343
+   \   000000C4   010080E2           ADD      R0,R0,#+1
+   \   000000C8   8000A0E1           LSL      R0,R0,#+1
+   \   000000CC   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000D0   040089E5           STR      R0,[R9, #+4]
+    681              wstrcpy(defPath,path);
+   \   000000D4   0410A0E1           MOV      R1,R4
+   \   000000D8   520100EF           SWI      +338
+    682              defName=new wchar_t[wstrlen(fname)+1];
+   \   000000DC   0500A0E1           MOV      R0,R5
+   \   000000E0   570100EF           SWI      +343
+   \   000000E4   010080E2           ADD      R0,R0,#+1
+   \   000000E8   8000A0E1           LSL      R0,R0,#+1
+   \   000000EC   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000F0   080089E5           STR      R0,[R9, #+8]
+    683              wstrcpy(defName,fname);
+   \   000000F4   0510A0E1           MOV      R1,R5
+   \   000000F8   520100EF           SWI      +338
+    684            }
+    685            myBook=new MyBOOK;
+   \                     ??main_2:
+   \   000000FC   C800A0E3           MOV      R0,#+200
+   \   00000100   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000104   000089E5           STR      R0,[R9, #+0]
+    686            memset(myBook,0,sizeof(MyBOOK));
+   \   00000108   C820A0E3           MOV      R2,#+200
+   \   0000010C   0010A0E3           MOV      R1,#+0
+   \   00000110   120100EF           SWI      +274
+    687            if (!CreateBook(&myBook->book,onMyBookClose,&bk_base,"EvtEdit",-1,0))
+   \   00000114   ........           LDR      R1,??DataTable29  ;; ??onMyBookClose
+   \   00000118   0000A0E3           MOV      R0,#+0
+   \   0000011C   01002DE9           PUSH     {R0}
+   \   00000120   1C3086E2           ADD      R3,R6,#+28
+   \   00000124   AC2086E2           ADD      R2,R6,#+172
+   \   00000128   0000E0E1           MVN      R0,R0
+   \   0000012C   01002DE9           PUSH     {R0}
+   \   00000130   000099E5           LDR      R0,[R9, #+0]
+   \   00000134   2B0100EF           SWI      +299
+   \   00000138   000050E3           CMP      R0,#+0
+   \   0000013C   08D08DE2           ADD      SP,SP,#+8
+   \   00000140   0B00001A           BNE      ??main_3
+    688            {
+    689              delete myBook;
+   \   00000144   000099E5           LDR      R0,[R9, #+0]
+   \   00000148   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    690              destroy_innative_lng();
+   \   0000014C   ........           _BLF     ??destroy_innative_lng,??destroy_innative_lng??rA
+    691              delete(intFolder);
+   \   00000150   000097E5           LDR      R0,[R7, #+0]
+   \   00000154   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    692              delete(extFolder);
+   \   00000158   000098E5           LDR      R0,[R8, #+0]
+   \   0000015C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    693              SUBPROC(elf_exit);
+   \   00000160   ........           LDR      R0,??DataTable30  ;; ??elf_exit
+   \   00000164   080100EF           SWI      +264
+    694              return (0);
+   \   00000168   0000A0E3           MOV      R0,#+0
+   \   0000016C   68D08DE2           ADD      SP,SP,#+104
+   \   00000170   F083BDE8           POP      {R4-R9,PC}
+    695            }
+    696            int text_id;
+    697            textidname2id(IDN_CHECKBOX_UNCHECKED_ICON,-1,&text_id);
+   \                     ??main_3:
+   \   00000174   0D20A0E1           MOV      R2,SP
+   \   00000178   0010E0E3           MVN      R1,#+0
+   \   0000017C   240086E2           ADD      R0,R6,#+36
+   \   00000180   870200EF           SWI      +647
+    698            myBook->check_box_unchecked=text_id;
+   \   00000184   000099E5           LDR      R0,[R9, #+0]
+   \   00000188   00109DE5           LDR      R1,[SP, #+0]
+    699            textidname2id(IDN_CHECKBOX_CHECKED_ICON,-1,&text_id);
+   \   0000018C   0D20A0E1           MOV      R2,SP
+   \   00000190   B41AC0E1           STRH     R1,[R0, #+164]
+   \   00000194   0010E0E3           MVN      R1,#+0
+   \   00000198   340086E2           ADD      R0,R6,#+52
+   \   0000019C   870200EF           SWI      +647
+    700            myBook->check_box_checked=text_id;
+   \   000001A0   000099E5           LDR      R0,[R9, #+0]
+   \   000001A4   00109DE5           LDR      R1,[SP, #+0]
+   \   000001A8   B61AC0E1           STRH     R1,[R0, #+166]
+    701            textidname2id(IDN_CHANGES_HAVE_BEEN_MADE,-1,&myBook->changes_have_been_made);
+   \   000001AC   000099E5           LDR      R0,[R9, #+0]
+   \   000001B0   0010E0E3           MVN      R1,#+0
+   \   000001B4   A82080E2           ADD      R2,R0,#+168
+   \   000001B8   440086E2           ADD      R0,R6,#+68
+   \   000001BC   870200EF           SWI      +647
+    702            textidname2id(IDN_SAVE_BEFORE_EXIT,-1,&myBook->save_before_exit);
+   \   000001C0   000099E5           LDR      R0,[R9, #+0]
+   \   000001C4   0010E0E3           MVN      R1,#+0
+   \   000001C8   AC2080E2           ADD      R2,R0,#+172
+   \   000001CC   780086E2           ADD      R0,R6,#+120
+   \   000001D0   870200EF           SWI      +647
+    703            InitializeEvents(&myBook->book, path, fname);
+   \   000001D4   000099E5           LDR      R0,[R9, #+0]
+   \   000001D8   0520A0E1           MOV      R2,R5
+   \   000001DC   0410A0E1           MOV      R1,R4
+   \   000001E0   ........           _BLF     ??InitializeEvents,??InitializeEvents??rA
+    704            BookObj_GotoPage(&myBook->book,&bk_main);
+   \   000001E4   000099E5           LDR      R0,[R9, #+0]
+   \   000001E8   B81086E2           ADD      R1,R6,#+184
+   \   000001EC   2D0100EF           SWI      +301
+    705            return 0;
+   \   000001F0   0000A0E3           MOV      R0,#+0
+   \   000001F4   68D08DE2           ADD      SP,SP,#+104
+   \   000001F8   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??main_0:
+   \   000001FC   72750000           DC8      "ru",+0
+   \   00000200   ........           DC32     `?<Constant L"\\x2e\\x63\\x66\\x67">`
+   \   00000204   ........           DC32     myBook
+    706          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable0:
+   \   00000000   ........           DC32     intFolder
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     extFolder
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     ??onMyBookClose
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     ??isEvtEditBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     myBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     `?<Constant L"\\xa\\x45\\x76\\x74\\x45\\x64\\x69\\x74\\x`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable20:
+   \   00000000   ........           DC32     `?<Constant L"\\x2e\\x63\\x66\\x67">` + 184
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable21:
+   \   00000000   ........           DC32     bk_StringInput
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable22:
+   \   00000000   ........           DC32     ??isEvtEditBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable23:
+   \   00000000   ........           DC32     events
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable24:
+   \   00000000   ........           DC32     items
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable25:
+   \   00000000   ........           DC32     lng
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable26:
+   \   00000000   ........           DC32     ACTION_BACK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable27:
+   \   00000000   ........           DC32     extFolder
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable28:
+   \   00000000   ........           DC32     intFolder
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable29:
+   \   00000000   ........           DC32     ??onMyBookClose
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable30:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for iticons>`:
+   \   00000000   ........           DC32 `?<Constant L"\\x54\\x52\\x5f\\x54\\x49\\x4d\\x45\\x5f\\`
+   \   00000004   ........           DC32 `?<Constant L"\\x54\\x52\\x5f\\x54\\x49\\x4d\\x45\\x5f\\`
+   \   00000008   ........           DC32 `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x54\\x41\\x53\\`
+   \   0000000C   ........           DC32 `?<Constant L"\\x54\\x49\\x4d\\x45\\x52\\x5f\\x41\\x43\\`
+   \   00000010   ........           DC32 `?<Constant L"\\x54\\x49\\x4d\\x45\\x52\\x5f\\x41\\x43\\`
+   \   00000014   ........           DC32 `?<Constant L"\\x54\\x49\\x4d\\x45\\x52\\x5f\\x41\\x43\\`
+   \   00000018   ........           DC32 `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x54\\x41\\x53\\`
+   \   0000001C   ........           DC32 `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\`
+   \   00000020   ........           DC32 `?<Constant L"\\x52\\x4e\\x5f\\x55\\x52\\x4c\\x5f\\x4f\\`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`:
+   \   00000000   250030003200       DC8 25H, 0, 30H, 0, 32H, 0, 64H, 0
+   \              6400        
+   \   00000008   3A0025003000       DC8 3AH, 0, 25H, 0, 30H, 0, 32H, 0
+   \              3200        
+   \   00000010   64003A002500       DC8 64H, 0, 3AH, 0, 25H, 0, 30H, 0
+   \              3000        
+   \   00000018   320064000000       DC8 32H, 0, 64H, 0, 0, 0
+   \   0000001E   0000               DC8 0, 0
+   \   00000020   250030003200       DC8 25H, 0, 30H, 0, 32H, 0, 64H, 0
+   \              6400        
+   \   00000028   2E0025003000       DC8 2EH, 0, 25H, 0, 30H, 0, 32H, 0
+   \              3200        
+   \   00000030   64002E002500       DC8 64H, 0, 2EH, 0, 25H, 0, 30H, 0
+   \              3000        
+   \   00000038   320064000000       DC8 32H, 0, 64H, 0, 0, 0
+   \   0000003E   0000               DC8 0, 0
+   \   00000040   250064002F00       DC8 25H, 0, 64H, 0, 2FH, 0, 25H, 0
+   \              2500        
+   \   00000048   64000000           DC8 64H, 0, 0, 0
+   \   0000004C   250073000000       DC8 25H, 0, 73H, 0, 0, 0
+   \   00000052   0000               DC8 0, 0
+   \   00000054   4D0053004700       DC8 4DH, 0, 53H, 0, 47H, 0, 5FH, 0
+   \              5F00        
+   \   0000005C   550049005F00       DC8 55H, 0, 49H, 0, 5FH, 0, 45H, 0
+   \              4500        
+   \   00000064   4D0050005400       DC8 4DH, 0, 50H, 0, 54H, 0, 59H, 0
+   \              5900        
+   \   0000006C   5F004D004500       DC8 5FH, 0, 4DH, 0, 45H, 0, 53H, 0
+   \              5300        
+   \   00000074   530041004700       DC8 53H, 0, 41H, 0, 47H, 0, 45H, 0
+   \              4500        
+   \   0000007C   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000084   0000               DC8 0, 0
+   \   00000086   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x50\\x5f\\x41\\x55\\x44\\x49\\x4f\\`:
+   \   00000000   4D0050005F00       DC8 4DH, 0, 50H, 0, 5FH, 0, 41H, 0
+   \              4100        
+   \   00000008   550044004900       DC8 55H, 0, 44H, 0, 49H, 0, 4FH, 0
+   \              4F00        
+   \   00000010   5F004E004F00       DC8 5FH, 0, 4EH, 0, 4FH, 0, 5FH, 0
+   \              5F00        
+   \   00000018   490054004500       DC8 49H, 0, 54H, 0, 45H, 0, 4DH, 0
+   \              4D00        
+   \   00000020   53005F005400       DC8 53H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000028   54000000           DC8 54H, 0, 0, 0
+   \   0000002C   4A0041005600       DC8 4AH, 0, 41H, 0, 56H, 0, 41H, 0
+   \              4100        
+   \   00000034   5F0041005000       DC8 5FH, 0, 41H, 0, 50H, 0, 50H, 0
+   \              5000        
+   \   0000003C   5F004E005200       DC8 5FH, 0, 4EH, 0, 52H, 0, 5FH, 0
+   \              5F00        
+   \   00000044   410042004F00       DC8 41H, 0, 42H, 0, 4FH, 0, 55H, 0
+   \              5500        
+   \   0000004C   54000000           DC8 54H, 0, 0, 0
+   \   00000050   450076006500       DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+   \              6E00        
+   \   00000058   740043006F00       DC8 74H, 0, 43H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000060   740072006F00       DC8 74H, 0, 72H, 0, 6FH, 0, 6CH, 0
+   \              6C00        
+   \   00000068   200076003200       DC8 20H, 0, 76H, 0, 32H, 0, 2EH, 0
+   \              2E00        
+   \   00000070   30000000           DC8 30H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   727500             DC8 "ru"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtEdit_Base_Page">`:
+   \   00000000   457674456469       DC8 "EvtEdit_Base_Page"
+   \              745F42617365
+   \              5F5061676500
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x54\\x52\\x5f\\x54\\x49\\x4d\\x45\\x5f\\`:
+   \   00000000   540052005F00       DC8 54H, 0, 52H, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000008   49004D004500       DC8 49H, 0, 4DH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   550050004400       DC8 55H, 0, 50H, 0, 44H, 0, 41H, 0
+   \              4100        
+   \   00000018   540045005F00       DC8 54H, 0, 45H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000020   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   00000026   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x54\\x41\\x53\\`:
+   \   00000000   430041004C00       DC8 43H, 0, 41H, 0, 4CH, 0, 45H, 0
+   \              4500        
+   \   00000008   5F0054004100       DC8 5FH, 0, 54H, 0, 41H, 0, 53H, 0
+   \              5300        
+   \   00000010   4B005F004D00       DC8 4BH, 0, 5FH, 0, 4DH, 0, 49H, 0
+   \              4900        
+   \   00000018   530043005F00       DC8 53H, 0, 43H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000020   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   00000026   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x54\\x49\\x4d\\x45\\x52\\x5f\\x41\\x43\\`:
+   \   00000000   540049004D00       DC8 54H, 0, 49H, 0, 4DH, 0, 45H, 0
+   \              4500        
+   \   00000008   52005F004100       DC8 52H, 0, 5FH, 0, 41H, 0, 43H, 0
+   \              4300        
+   \   00000010   540049005600       DC8 54H, 0, 49H, 0, 56H, 0, 45H, 0
+   \              4500        
+   \   00000018   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\`:
+   \   00000000   540052005F00       DC8 54H, 0, 52H, 0, 5FH, 0, 41H, 0
+   \              4100        
+   \   00000008   4C0041005200       DC8 4CH, 0, 41H, 0, 52H, 0, 4DH, 0
+   \              4D00        
+   \   00000010   53005F004D00       DC8 53H, 0, 5FH, 0, 4DH, 0, 45H, 0
+   \              4500        
+   \   00000018   4E0055005F00       DC8 4EH, 0, 55H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000020   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   00000026   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x4e\\x5f\\x55\\x52\\x4c\\x5f\\x4f\\`:
+   \   00000000   52004E005F00       DC8 52H, 0, 4EH, 0, 5FH, 0, 55H, 0
+   \              5500        
+   \   00000008   52004C005F00       DC8 52H, 0, 4CH, 0, 5FH, 0, 4FH, 0
+   \              4F00        
+   \   00000010   500045005200       DC8 50H, 0, 45H, 0, 52H, 0, 41H, 0
+   \              4100        
+   \   00000018   54004F005200       DC8 54H, 0, 4FH, 0, 52H, 0, 5FH, 0
+   \              5F00        
+   \   00000020   490043004E00       DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtEdit_Main_Page">`:
+   \   00000000   457674456469       DC8 "EvtEdit_Main_Page"
+   \              745F4D61696E
+   \              5F5061676500
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\xa\\x45\\x76\\x74\\x45\\x64\\x69\\x74\\x`:
+   \   00000000   0A0045007600       DC8 0AH, 0, 45H, 0, 76H, 0, 74H, 0
+   \              7400        
+   \   00000008   450064006900       DC8 45H, 0, 64H, 0, 69H, 0, 74H, 0
+   \              7400        
+   \   00000010   200076003100       DC8 20H, 0, 76H, 0, 31H, 0, 2EH, 0
+   \              2E00        
+   \   00000018   30000A002800       DC8 30H, 0, 0AH, 0, 28H, 0, 63H, 0
+   \              6300        
+   \   00000020   290020005500       DC8 29H, 0, 20H, 0, 55H, 0, 6CH, 0
+   \              6C00        
+   \   00000028   740072006100       DC8 74H, 0, 72H, 0, 61H, 0, 53H, 0
+   \              5300        
+   \   00000030   68006F007400       DC8 68H, 0, 6FH, 0, 74H, 0, 0AH, 0
+   \              0A00        
+   \   00000038   250073000000       DC8 25H, 0, 73H, 0, 0, 0
+   \   0000003E   0000               DC8 0, 0
+   \   00000040   7075626C6963       DC8 "public version"
+   \              207665727369
+   \              6F6E00      
+   \   0000004F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x43\\x41\\x4c\\`:
+   \   00000000   430041004C00       DC8 43H, 0, 41H, 0, 4CH, 0, 45H, 0
+   \              4500        
+   \   00000008   5F0043004100       DC8 5FH, 0, 43H, 0, 41H, 0, 4CH, 0
+   \              4C00        
+   \   00000010   45004E004400       DC8 45H, 0, 4EH, 0, 44H, 0, 41H, 0
+   \              4100        
+   \   00000018   52005F004D00       DC8 52H, 0, 5FH, 0, 4DH, 0, 45H, 0
+   \              4500        
+   \   00000020   4E0055005F00       DC8 4EH, 0, 55H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000028   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   0000002E   0000               DC8 0, 0
+   \   00000030   52004E005F00       DC8 52H, 0, 4EH, 0, 5FH, 0, 53H, 0
+   \              5300        
+   \   00000038   48004F005200       DC8 48H, 0, 4FH, 0, 52H, 0, 54H, 0
+   \              5400        
+   \   00000040   430055005400       DC8 43H, 0, 55H, 0, 54H, 0, 5FH, 0
+   \              5F00        
+   \   00000048   4C0049005300       DC8 4CH, 0, 49H, 0, 53H, 0, 54H, 0
+   \              5400        
+   \   00000050   5F0053004500       DC8 5FH, 0, 53H, 0, 45H, 0, 54H, 0
+   \              5400        
+   \   00000058   540049004E00       DC8 54H, 0, 49H, 0, 4EH, 0, 47H, 0
+   \              4700        
+   \   00000060   53005F004900       DC8 53H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000068   4E000000           DC8 4EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 2, align-sorted
+   \   00000000   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   2A000000           DC8 2AH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   B0000000           DC8 0B0H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EventControl">`:
+   \   00000000   4576656E7443       DC8 "EventControl"
+   \              6F6E74726F6C
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateGuiList(BOOK *)             24
+     Escape(MyBOOK *, bool)            16
+     EvRem(EVENT *)                     8
+     GetIconID(wchar_t *)               8
+     GetStrID(wchar_t *)                8
+     MainPageOnCreate(void *, BOOK *)
+                                        4
+     OnAuthor(BOOK *, GUI *)          144
+     OnBackExitGui(BOOK *, GUI *)       8
+     OnBackGui(BOOK *, GUI *)           4
+     OnDelGui(BOOK *, GUI *)           12
+     OnNoExitGui(BOOK *, GUI *)         8
+     OnSelect1Gui(BOOK *, GUI *)       24
+     OnYesExitGui(BOOK *, GUI *)        8
+     ShowAuthorInfo(void *, BOOK *)   144
+     TerminateElf(void *, BOOK *)       4
+     create_ed(BOOK *)                  8
+     elf_exit()                         4
+     getfilesize(wchar_t *)          2084
+     isEvtControl(BOOK *)               4
+     isEvtEditBook(BOOK *)              0
+     main(wchar_t *, wchar_t *, wchar_t *)
+                                      140
+     onDType0Press(BOOK *, GUI *)       4
+     onDType1Press(BOOK *, GUI *)      20
+     onDummy(BOOK *, GUI *)             0
+     onEventClone(BOOK *, GUI *)        4
+     onIndication(BOOK *, GUI *)        4
+     onLBMessage(GUI_MESSAGE *)        20
+     onLBMessage2(GUI_MESSAGE *)      144
+     onMyBookClose(BOOK *)             12
+     onTType0Press(BOOK *, GUI *)       4
+     onTType1Press(BOOK *, GUI *)       4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     myBook                           12
+     GetStrID(wchar_t *)              36
+     GetIconID(wchar_t *)             40
+     elf_exit()                       28
+     onMyBookClose(BOOK *)           132
+     isEvtEditBook(BOOK *)            28
+     TerminateElf(void *, BOOK *)     24
+     ShowAuthorInfo(void *, BOOK *)  104
+     bk_msglst_base                   24
+     ustr                            128
+     onLBMessage(GUI_MESSAGE *)      256
+     iticons                          36
+     onLBMessage2(GUI_MESSAGE *)     940
+     isEvtControl(BOOK *)             44
+     OnYesExitGui(BOOK *, GUI *)      96
+     OnNoExitGui(BOOK *, GUI *)       52
+     OnBackExitGui(BOOK *, GUI *)     32
+     Escape(MyBOOK *, bool)          292
+     OnBackGui(BOOK *, GUI *)          8
+     EvRem(EVENT *)                   56
+     OnDelGui(BOOK *, GUI *)         124
+     OnAuthor(BOOK *, GUI *)          96
+     OnSelect1Gui(BOOK *, GUI *)     476
+     onDummy(BOOK *, GUI *)            4
+     onDType0Press(BOOK *, GUI *)     28
+     onDType1Press(BOOK *, GUI *)    240
+     onTType0Press(BOOK *, GUI *)     28
+     onTType1Press(BOOK *, GUI *)     28
+     onEventClone(BOOK *, GUI *)      48
+     onIndication(BOOK *, GUI *)      20
+     CreateGuiList(BOOK *)           988
+     create_ed(BOOK *)                28
+     MainPageOnCreate(void *, BOOK *)
+                                      20
+     bk_msglst_main                   16
+     ?<Constant L"\x2e\x63\x66\x67">
+                                     196
+     getfilesize(wchar_t *)          124
+     main(wchar_t *, wchar_t *, wchar_t *)
+                                     520
+     ??DataTable0                      4
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ??DataTable9                      4
+     ??DataTable11                     4
+     ??DataTable14                     4
+     ??DataTable20                     4
+     ??DataTable21                     4
+     ??DataTable22                     4
+     ??DataTable23                     4
+     ??DataTable24                     4
+     ??DataTable25                     4
+     ??DataTable26                     4
+     ??DataTable27                     4
+     ??DataTable28                     4
+     ??DataTable29                     4
+     ??DataTable30                     4
+     ?<Initializer for iticons>       36
+     ?<Constant L"\x25\x30\x32\x64\x3a\x25\x30\x32\
+                                     136
+     ?<Constant L"\x4d\x50\x5f\x41\x55\x44\x49\x4f\
+                                     116
+     ?<Constant "ru">                  3
+     ?<Constant "EvtEdit_Base_Page">
+                                      20
+     ?<Constant L"\x54\x52\x5f\x54\x49\x4d\x45\x5f\
+                                      40
+     ?<Constant L"\x43\x41\x4c\x45\x5f\x54\x41\x53\
+                                      40
+     ?<Constant L"\x54\x49\x4d\x45\x52\x5f\x41\x43\
+                                      36
+     ?<Constant L"\x54\x52\x5f\x41\x4c\x41\x52\x4d\
+                                      40
+     ?<Constant L"\x52\x4e\x5f\x55\x52\x4c\x5f\x4f\
+                                      40
+     ?<Constant "EvtEdit_Main_Page">
+                                      20
+     ?<Constant L"\xa\x45\x76\x74\x45\x64\x69\x74\x
+                                      80
+     ?<Constant L"\x43\x41\x4c\x45\x5f\x43\x41\x4c\
+                                     108
+     ?<Constant L"">                   2
+     ?<Constant L"\x2a">               4
+     ?<Constant L"\xb0">               4
+     ?<Constant "EventControl">       16
+      Others                         256
+
+ 
+ 5 244 bytes in segment CODE
+   901 bytes in segment DATA_C
+    36 bytes in segment DATA_I
+    36 bytes in segment DATA_ID
+   140 bytes in segment DATA_Z
+    40 bytes in segment DYN_PAGE
+    24 bytes in segment INITTAB
+ 
+ 5 012 bytes of CODE  memory (+ 256 bytes shared)
+   977 bytes of CONST memory
+   176 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,276 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:40:59 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SystemTemp\ma /
+//                       in.c                                                /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SystemTemp\ma /
+//                       in.c -D NDEBUG -D OLDFUNCTIONS -lC                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\SystemTemp\Re /
+//                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ /
+//                       SE\SystemTemp\Release\List\ -o                      /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\SystemTemp\Re /
+//                       lease\Obj\ -s9 --no_unroll --no_inline --cpu_mode   /
+//                       arm --endian little --cpu ARM926EJ-S --stack_align  /
+//                       4 --interwork -e --fpu None --eec++ --dlib_config   /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\                        /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SystemTemp\Re /
+//                       lease\List\main.s79                                 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME main
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??elf_exit
+        FUNCTION ??elf_exit,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??elf_exit??rT
+        MULTWEAK ??kill_data??rA
+        MULTWEAK ??main??rT
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC bat
+        PUBLIC main
+        FUNCTION main,0a03H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC ws
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+kill_data           SYMBOL "kill_data"
+
+??elf_exit??rT      SYMBOL "??rT", ??elf_exit
+??kill_data??rA     SYMBOL "??rA", kill_data
+main                SYMBOL "main"
+??main??rT          SYMBOL "??rT", main
+
+        EXTERN ELF_BEGIN
+        EXTERN kill_data
+        FUNCTION kill_data,0202H
+
+// Z:\home\perk11\www\perk11.info\svn\SE\SystemTemp\main.c
+//    1 #include "..\\include\Lib_Clara.h"
+//    2 #include "..\\include\Dir.h"
+//    3 
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//    4 BATT  bat;
+bat:
+        DS8 52
+//    5 wchar_t   ws[193];
+ws:
+        DS8 388
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??elf_exit??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??elf_exit
+//    6 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??elf_exit
+        ARM
+//    7 void elf_exit(void)
+//    8 {
+??elf_exit:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+//    9   kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+        SWI      +33028
+        MOV      R1,R0
+        LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+        POP      {LR}             ;; Pop
+        CFI ?RET R14
+        CFI CFA R13+0
+        _BF      kill_data,??kill_data??rA  ;; tailcall
+        DATA
+??elf_exit_1:
+        DC32     ELF_BEGIN
+        CFI EndBlock cfiBlock1
+//   10 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??main??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE main
+//   11 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function main
+        ARM
+//   12 int main(u16 *exename,u16 *filename)
+//   13 {
+main:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//   14   GetBatteryState(NULL , &bat);
+        LDR      R4,??main_0      ;; bat
+        MOV      R0,#+0
+        MOV      R1,R4
+        SWI      +484
+//   15   snwprintf(ws,193,L"Temp = %d C",bat.SystemTemperature);
+        LDR      R3,[R4, #+24]
+        LDR      R2,??main_0+0x4  ;; `?<Constant L"\\x54\\x65\\x6d\\x70\\x20\\x3d\\x20\\x25\\`
+        MOV      R1,#+193
+        ADD      R0,R4,#+52
+        SWI      +277
+//   16   MessageBox(EMPTY_TEXTID,TextID_Create(ws,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000 , 0);
+        MOV      R5,#+255
+        ORR      R5,R5,#0xFF00
+        MOV      R2,R5
+        MOV      R1,#+0
+        ADD      R0,R4,#+52
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+16
+        MOV      R3,#+1
+        MOV      R2,R5
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        PUSH     {R1}
+        CFI CFA R13+20
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+//   17   SUBPROC(elf_exit);
+        LDR      R0,??main_0+0x8  ;; ??elf_exit
+        SWI      +264
+//   18   return(0);
+        MOV      R0,#+0
+        POP      {R1,R2,R4,R5,PC}  ;; return
+        DATA
+??main_0:
+        DC32     bat
+        DC32     `?<Constant L"\\x54\\x65\\x6d\\x70\\x20\\x3d\\x20\\x25\\`
+        DC32     ??elf_exit
+        CFI EndBlock cfiBlock3
+//   19 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??kill_data??rA:
+        LDR      R12,??Subroutine2_0  ;; kill_data
+        BX       R12
+        DATA
+??Subroutine2_0:
+        DC32     kill_data
+        CFI EndBlock cfiBlock4
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x54\\x65\\x6d\\x70\\x20\\x3d\\x20\\x25\\`:
+        DATA
+        DC8 54H, 0, 65H, 0, 6DH, 0, 70H, 0
+        DC8 20H, 0, 3DH, 0, 20H, 0, 25H, 0
+        DC8 64H, 0, 20H, 0, 43H, 0, 0, 0
+
+        END
+// 
+// 180 bytes in segment CODE
+//  24 bytes in segment DATA_C
+// 440 bytes in segment DATA_Z
+//  12 bytes in segment INITTAB
+// 
+// 160 bytes of CODE  memory (+ 32 bytes shared)
+//  24 bytes of CONST memory
+// 440 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,313 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:53:04 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       calc.cpp                                            /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       calc.cpp -D NDEBUG -D OLDFUNCTIONS -lC              /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\EventControl\Release\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\Obj\ -s9 --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\calc.s79                               /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME calc
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBWEAK `?*?DATA_ID`
+        PUBLIC ??date_increase
+        FUNCTION ??date_increase,0203H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??date_increase??rT
+        PUBWEAK ?init?tab?DATA_I
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??date_increase??rT SYMBOL "??rT", ??date_increase
+
+// Z:\home\perk11\www\perk11.info\svn\SE\EventControl\calc.cpp
+//    1 /*
+//    2 ****************************************************************************
+//    3 *                    Модуль вычисления даты
+//    4 ****************************************************************************
+//    5 */
+//    6 #include "..\deleaker\mem2.h"
+//    7 #include "..\include\Lib_Clara.h" 
+//    8 #include "..\include\Dir.h" 
+//    9 
+//   10 #define IS_LARGE_YEAR(a) ((a%4==0 && a%100!=0) || a%400==0)
+//   11 
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+//   12 static int mon_list[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+mon_list:
+        DS8 48
+        REQUIRE `?<Initializer for mon_list>`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??date_increase??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??date_increase
+//   13 
+//   14 /*
+//   15 *===========================================================================
+//   16 *                   Вычисление даты...
+//   17 *===========================================================================
+//   18 * 1) в р0 необходимо отправить текущую дату, в р1 - на какое кол-во дней 
+//   19 *    надо увеличить дату
+//   20 * 2) в day, mon, year запишется день, месяц и год
+//   21 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??date_increase
+        ARM
+//   22 void date_increase(DATE date, int num, char *day, char *mon, u16 *year)
+//   23 {
+??date_increase:
+        PUSH     {R0,R4-R8}
+        CFI R8 Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+24
+//   24   int dy=0,mn=0,yr=0;
+//   25   dy=date.day;
+//   26   mn=date.mon;
+//   27   yr=date.year;
+        LDRH     R4,[SP, #+0]
+//   28   dy+=num;
+        LDRB     R5,[SP, #+3]
+        LDR      R0,[SP, #+24]
+        LDRB     R12,[SP, #+2]
+        ADD      R1,R1,R5
+//   29   if(IS_LARGE_YEAR(yr) == 0)
+        LDR      R5,??date_increase_1  ;; mon_list
+        ASR      R6,R4,#+1
+        ADD      R6,R4,R6, LSR #+30
+        ASR      R6,R6,#+2
+        SUBS     R6,R4,R6, LSL #+2
+        BNE      ??date_increase_2
+        LDR      R6,??date_increase_1+0x4  ;; 0x51eb851f
+        SMULL    R7,R8,R4,R6
+        MOV      R7,#+100
+        ASR      R8,R8,#+5
+        MUL      R8,R7,R8
+        SUBS     R6,R4,R8
+        BNE      ??date_increase_3
+??date_increase_2:
+        LDR      R6,??date_increase_1+0x4  ;; 0x51eb851f
+        SMULL    R7,R8,R4,R6
+        MOV      R7,#+400
+        ASR      R8,R8,#+7
+        MUL      R8,R7,R8
+        SUBS     R6,R4,R8
+        BNE      ??date_increase_4
+//   30   {
+//   31     mon_list[1] = 28;
+//   32   }
+//   33   else
+//   34   {
+//   35     mon_list[1] = 29;
+??date_increase_3:
+        MOV      R6,#+29
+        B        ??date_increase_5
+//   36   }
+??date_increase_4:
+        MOV      R6,#+28
+??date_increase_5:
+        STR      R6,[R5, #+4]
+//   37   if (dy>mon_list[mn-1])
+        ADD      R6,R5,R12, LSL #+2
+        LDR      R6,[R6, #-4]
+        CMP      R6,R1
+        BGE      ??date_increase_6
+//   38   {
+//   39   P_large_again:
+//   40     dy=dy-mon_list[mn-1];
+??date_increase_7:
+        ADD      R6,R5,R12, LSL #+2
+        LDR      R6,[R6, #-4]
+//   41     mn++;
+        ADD      R12,R12,#+1
+        SUB      R1,R1,R6
+//   42     if (mn>12)
+        CMP      R12,#+13
+//   43     {
+//   44       yr++;
+//   45       mn=1;
+        MOVGE    R12,#+1
+//   46     }
+//   47     if (dy>mon_list[mn-1])goto P_large_again;
+        ADD      R6,R5,R12, LSL #+2
+        LDR      R6,[R6, #-4]
+        ADDGE    R4,R4,#+1
+        CMP      R6,R1
+        BGE      ??date_increase_8
+        B        ??date_increase_7
+//   48     goto P_go_away;
+//   49   }
+//   50   else if (dy<=1)
+??date_increase_6:
+        CMP      R1,#+2
+        BGE      ??date_increase_8
+//   51   {
+//   52   P_neg_again:
+//   53     mn--;
+??date_increase_9:
+        SUBS     R12,R12,#+1
+//   54     if (mn==0)
+//   55     {
+//   56       mn=12;
+        MOVEQ    R12,#+12
+//   57       yr--;
+//   58     }
+//   59     dy=mon_list[mn-1]+dy;
+        ADD      R6,R5,R12, LSL #+2
+        LDR      R6,[R6, #-4]
+        SUBEQ    R4,R4,#+1
+        ADD      R1,R6,R1
+//   60     if (dy<1)goto P_neg_again;
+        CMP      R1,#+1
+        BLT      ??date_increase_9
+//   61     goto P_go_away;
+//   62   }
+//   63 P_go_away:
+//   64   day[0]=dy;
+??date_increase_8:
+        STRB     R1,[R2, #+0]
+//   65   mon[0]=mn;
+        STRB     R12,[R3, #+0]
+//   66   year[0]=yr;
+        STRH     R4,[R0, #+0]
+//   67 };
+        POP      {R0,R4-R8}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI CFA R13+0
+        BX       LR               ;; return
+        DATA
+??date_increase_1:
+        DC32     mon_list
+        DC32     0x51eb851f
+        CFI EndBlock cfiBlock1
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for mon_list>`:
+        DATA
+        DC32 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?*?DATA_ID`:
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_I:
+        DCD      sfe(DATA_I) - sfb(DATA_I), sfb(DATA_I), sfb(DATA_ID)
+
+        END
+// 
+// 256 bytes in segment CODE
+//  48 bytes in segment DATA_I
+//  48 bytes in segment DATA_ID
+//  12 bytes in segment INITTAB
+// 
+// 252 bytes of CODE  memory (+ 16 bytes shared)
+//  48 bytes of CONST memory
+//  48 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,302 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:58:50 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\OpenNa #
+#                       stroiki.c                                            #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\OpenNa #
+#                       stroiki.c -D NDEBUG -D OLDFUNCTIONS -lC              #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Go #
+#                       no4ki\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\Gono4ki\Release\Obj\ -s9 --no_unroll        #
+#                       --no_inline --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e            #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\OpenNastroiki.lst                             #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\Obj\OpenNastroiki.r79                              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\OpenNastroiki.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          #include "..\\include\cfg_items.h"
+      5          #include "MyFUNC.h"
+      6          #include "StructBook.h"
+      7          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          void SaveSettings(SOUND*s, IMGN*i, TAB*t)
+      9          {
+   \                     ??SaveSettings:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+     10            int f=_fopen(GetConfigPath(), L"Settings.gms",FSX_O_WRONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+   \   0000000C   ........           LDR      R7,??DataTable1  ;; `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73\\`
+   \   00000010   0240A0E1           MOV      R4,R2
+   \   00000014   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   02002DE9           PUSH     {R1}
+   \   00000020   603FA0E3           MOV      R3,#+384
+   \   00000024   0220A0E3           MOV      R2,#+2
+   \   00000028   0710A0E1           MOV      R1,R7
+   \   0000002C   160100EF           SWI      +278
+   \   00000030   0080A0E1           MOV      R8,R0
+     11            fwrite(f, s, sizeof(SOUND));
+   \   00000034   1C20A0E3           MOV      R2,#+28
+   \   00000038   C02E82E3           ORR      R2,R2,#0xC00
+   \   0000003C   0510A0E1           MOV      R1,R5
+   \   00000040   190100EF           SWI      +281
+     12            fwrite(f, i, sizeof(IMGN));
+   \   00000044   C12FA0E3           MOV      R2,#+772
+   \   00000048   0610A0E1           MOV      R1,R6
+   \   0000004C   0800A0E1           MOV      R0,R8
+   \   00000050   190100EF           SWI      +281
+     13            fclose(f);
+   \   00000054   0800A0E1           MOV      R0,R8
+   \   00000058   170100EF           SWI      +279
+     14            f=_fopen(GetConfigPath(), L"Resultats.tab",FSX_O_WRONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+   \   0000005C   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   02002DE9           PUSH     {R1}
+   \   00000068   603FA0E3           MOV      R3,#+384
+   \   0000006C   0220A0E3           MOV      R2,#+2
+   \   00000070   1C1087E2           ADD      R1,R7,#+28
+   \   00000074   160100EF           SWI      +278
+     15            fwrite(f, t->te, sizeof(TABL));
+   \   00000078   001094E5           LDR      R1,[R4, #+0]
+   \   0000007C   0050A0E1           MOV      R5,R0
+   \   00000080   C820A0E3           MOV      R2,#+200
+   \   00000084   190100EF           SWI      +281
+     16            fwrite(f, t->tn, sizeof(TABL));
+   \   00000088   041094E5           LDR      R1,[R4, #+4]
+   \   0000008C   C820A0E3           MOV      R2,#+200
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   190100EF           SWI      +281
+     17            fwrite(f, t->th, sizeof(TABL));
+   \   00000098   081094E5           LDR      R1,[R4, #+8]
+   \   0000009C   C820A0E3           MOV      R2,#+200
+   \   000000A0   0500A0E1           MOV      R0,R5
+   \   000000A4   190100EF           SWI      +281
+     18            fclose(f);
+   \   000000A8   0500A0E1           MOV      R0,R5
+   \   000000AC   170100EF           SWI      +279
+     19          }
+   \   000000B0   F381BDE8           POP      {R0,R1,R4-R8,PC}  ;; return
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          void OpenSettings(MyBook*bk)
+     22          {
+   \                     ??OpenSettings:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     23            int f;
+     24            if(!FindFile(GetConfigPath(), L"Settings.gms"))
+   \   00000004   ........           LDR      R5,??DataTable1  ;; `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73\\`
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   1C60A0E3           MOV      R6,#+28
+   \   00000010   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   00000014   C06E86E3           ORR      R6,R6,#0xC00
+   \   00000018   0510A0E1           MOV      R1,R5
+   \   0000001C   ........           _BLF     ??FindFile,??FindFile??rA
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   1200001A           BNE      ??OpenSettings_1
+     25            {
+     26              f=_fopen(GetConfigPath(), L"Settings.gms",FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+   \   00000028   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   02002DE9           PUSH     {R1}
+   \   00000034   603FA0E3           MOV      R3,#+384
+   \   00000038   0120A0E3           MOV      R2,#+1
+   \   0000003C   0510A0E1           MOV      R1,R5
+   \   00000040   160100EF           SWI      +278
+   \   00000044   0070A0E1           MOV      R7,R0
+     27              fread(f, bk->nast->sound, sizeof(SOUND));
+   \   00000048   340394E5           LDR      R0,[R4, #+820]
+   \   0000004C   0620A0E1           MOV      R2,R6
+   \   00000050   001090E5           LDR      R1,[R0, #+0]
+   \   00000054   0700A0E1           MOV      R0,R7
+   \   00000058   180100EF           SWI      +280
+     28              fread(f, bk->nast->im, sizeof(IMGN));
+   \   0000005C   340394E5           LDR      R0,[R4, #+820]
+   \   00000060   C12FA0E3           MOV      R2,#+772
+   \   00000064   041090E5           LDR      R1,[R0, #+4]
+   \   00000068   0700A0E1           MOV      R0,R7
+   \   0000006C   180100EF           SWI      +280
+     29              fclose(f);
+   \   00000070   110000EA           B        ??OpenSettings_2
+     30            }
+     31            else
+     32            {    
+     33              f=_fopen(GetConfigPath(), L"Settings.gms",FSX_O_WRONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+   \                     ??OpenSettings_1:
+   \   00000074   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   00000078   0010A0E3           MOV      R1,#+0
+   \   0000007C   02002DE9           PUSH     {R1}
+   \   00000080   603FA0E3           MOV      R3,#+384
+   \   00000084   0220A0E3           MOV      R2,#+2
+   \   00000088   0510A0E1           MOV      R1,R5
+   \   0000008C   160100EF           SWI      +278
+   \   00000090   0070A0E1           MOV      R7,R0
+     34              fwrite(f, bk->nast->sound, sizeof(SOUND));
+   \   00000094   340394E5           LDR      R0,[R4, #+820]
+   \   00000098   0620A0E1           MOV      R2,R6
+   \   0000009C   001090E5           LDR      R1,[R0, #+0]
+   \   000000A0   0700A0E1           MOV      R0,R7
+   \   000000A4   190100EF           SWI      +281
+     35              fwrite(f, bk->nast->im, sizeof(IMGN));
+   \   000000A8   340394E5           LDR      R0,[R4, #+820]
+   \   000000AC   C12FA0E3           MOV      R2,#+772
+   \   000000B0   041090E5           LDR      R1,[R0, #+4]
+   \   000000B4   0700A0E1           MOV      R0,R7
+   \   000000B8   190100EF           SWI      +281
+     36              fclose(f);
+   \                     ??OpenSettings_2:
+   \   000000BC   0700A0E1           MOV      R0,R7
+   \   000000C0   170100EF           SWI      +279
+   \   000000C4   04D08DE2           ADD      SP,SP,#+4
+     37            }
+     38            if(!FindFile(GetConfigPath(), L"Resultats.tab"))
+   \   000000C8   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   000000CC   1C1085E2           ADD      R1,R5,#+28
+   \   000000D0   ........           _BLF     ??FindFile,??FindFile??rA
+   \   000000D4   000050E3           CMP      R0,#+0
+   \   000000D8   1A00001A           BNE      ??OpenSettings_3
+     39            {
+     40              f=_fopen(GetConfigPath(), L"Resultats.tab",FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+   \   000000DC   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   000000E0   0010A0E3           MOV      R1,#+0
+   \   000000E4   02002DE9           PUSH     {R1}
+   \   000000E8   603FA0E3           MOV      R3,#+384
+   \   000000EC   0120A0E3           MOV      R2,#+1
+   \   000000F0   1C1085E2           ADD      R1,R5,#+28
+   \   000000F4   160100EF           SWI      +278
+   \   000000F8   0050A0E1           MOV      R5,R0
+     41              fread(f, bk->nast->rez->te, sizeof(TABL));
+   \   000000FC   340394E5           LDR      R0,[R4, #+820]
+   \   00000100   C820A0E3           MOV      R2,#+200
+   \   00000104   080090E5           LDR      R0,[R0, #+8]
+   \   00000108   001090E5           LDR      R1,[R0, #+0]
+   \   0000010C   0500A0E1           MOV      R0,R5
+   \   00000110   180100EF           SWI      +280
+     42              fread(f, bk->nast->rez->tn, sizeof(TABL));
+   \   00000114   340394E5           LDR      R0,[R4, #+820]
+   \   00000118   C820A0E3           MOV      R2,#+200
+   \   0000011C   080090E5           LDR      R0,[R0, #+8]
+   \   00000120   041090E5           LDR      R1,[R0, #+4]
+   \   00000124   0500A0E1           MOV      R0,R5
+   \   00000128   180100EF           SWI      +280
+     43              fread(f, bk->nast->rez->th, sizeof(TABL));
+   \   0000012C   340394E5           LDR      R0,[R4, #+820]
+   \   00000130   C820A0E3           MOV      R2,#+200
+   \   00000134   080090E5           LDR      R0,[R0, #+8]
+   \   00000138   081090E5           LDR      R1,[R0, #+8]
+   \   0000013C   0500A0E1           MOV      R0,R5
+   \   00000140   180100EF           SWI      +280
+     44              fclose(f);    
+   \   00000144   190000EA           B        ??OpenSettings_4
+     45            }else{
+     46              f=_fopen(GetConfigPath(), L"Resultats.tab",FSX_O_WRONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+   \                     ??OpenSettings_3:
+   \   00000148   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   0000014C   0010A0E3           MOV      R1,#+0
+   \   00000150   02002DE9           PUSH     {R1}
+   \   00000154   603FA0E3           MOV      R3,#+384
+   \   00000158   0220A0E3           MOV      R2,#+2
+   \   0000015C   1C1085E2           ADD      R1,R5,#+28
+   \   00000160   160100EF           SWI      +278
+   \   00000164   0050A0E1           MOV      R5,R0
+     47              fwrite(f, bk->nast->rez->te, sizeof(TABL));
+   \   00000168   340394E5           LDR      R0,[R4, #+820]
+   \   0000016C   C820A0E3           MOV      R2,#+200
+   \   00000170   080090E5           LDR      R0,[R0, #+8]
+   \   00000174   001090E5           LDR      R1,[R0, #+0]
+   \   00000178   0500A0E1           MOV      R0,R5
+   \   0000017C   190100EF           SWI      +281
+     48              fwrite(f, bk->nast->rez->tn, sizeof(TABL));
+   \   00000180   340394E5           LDR      R0,[R4, #+820]
+   \   00000184   C820A0E3           MOV      R2,#+200
+   \   00000188   080090E5           LDR      R0,[R0, #+8]
+   \   0000018C   041090E5           LDR      R1,[R0, #+4]
+   \   00000190   0500A0E1           MOV      R0,R5
+   \   00000194   190100EF           SWI      +281
+     49              fwrite(f, bk->nast->rez->th, sizeof(TABL));
+   \   00000198   340394E5           LDR      R0,[R4, #+820]
+   \   0000019C   C820A0E3           MOV      R2,#+200
+   \   000001A0   080090E5           LDR      R0,[R0, #+8]
+   \   000001A4   081090E5           LDR      R1,[R0, #+8]
+   \   000001A8   0500A0E1           MOV      R0,R5
+   \   000001AC   190100EF           SWI      +281
+     50              fclose(f);
+   \                     ??OpenSettings_4:
+   \   000001B0   0500A0E1           MOV      R0,R5
+   \   000001B4   170100EF           SWI      +279
+   \   000001B8   04D08DE2           ADD      SP,SP,#+4
+     51            }
+     52          }
+   \   000001BC   F080BDE8           POP      {R4-R7,PC}       ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73\\`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73\\`:
+   \   00000000   530065007400       DC8 53H, 0, 65H, 0, 74H, 0, 74H, 0
+   \              7400        
+   \   00000008   69006E006700       DC8 69H, 0, 6EH, 0, 67H, 0, 73H, 0
+   \              7300        
+   \   00000010   2E0067006D00       DC8 2EH, 0, 67H, 0, 6DH, 0, 73H, 0
+   \              7300        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+   \   0000001C   520065007300       DC8 52H, 0, 65H, 0, 73H, 0, 75H, 0
+   \              7500        
+   \   00000024   6C0074006100       DC8 6CH, 0, 74H, 0, 61H, 0, 74H, 0
+   \              7400        
+   \   0000002C   73002E007400       DC8 73H, 0, 2EH, 0, 74H, 0, 61H, 0
+   \              6100        
+   \   00000034   62000000           DC8 62H, 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     OpenSettings(MyBook *)            24
+     SaveSettings(SOUND *, IMGN *, TAB *)
+                                       32
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     SaveSettings(SOUND *, IMGN *, TAB *)
+                                     180
+     OpenSettings(MyBook *)          448
+     ??DataTable1                      4
+     ?<Constant L"\x53\x65\x74\x74\x69\x6e\x67\x73\
+                                      56
+      Others                          32
+
+ 
+ 664 bytes in segment CODE
+  56 bytes in segment DATA_C
+ 
+ 632 bytes of CODE  memory (+ 32 bytes shared)
+  56 bytes of CONST memory
+
+Errors: none
+Warnings: none

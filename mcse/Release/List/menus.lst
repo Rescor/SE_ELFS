@@ -1,0 +1,2080 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:47:52 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\menus.cpp #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\menus.cpp #
+#                        -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\menus.lst                                        #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\menus.r79                                         #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\menus.cpp
+      1          #include "inc\lng.h"
+      2          #include "inc\mc.h"
+      3          #include "inc\zslib.h"
+      4          #include "inc\mui.h"
+      5          #include "inc\conf_loader.h"
+      6          #include "inc\menus.h"
+      7          #include "inc\bookmarks.h"
+      8          
+      9          
+     10          
+     11          GUI_LIST *menu_id[TOTAL_MENUS]={NULL,NULL,NULL};
+     12          GUI_LIST *cur_gui=NULL;
+     13          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     14          int CountMenuDesc(MENU_DESC *m, int max)
+     15          {
+   \                     ??CountMenuDesc:
+   \   00000000   10002DE9           PUSH     {R4}
+     16            int n=0;
+   \   00000004   0020A0E3           MOV      R2,#+0
+     17            for (int i=0; i<max; i++)
+   \   00000008   0030A0E3           MOV      R3,#+0
+   \   0000000C   010051E3           CMP      R1,#+1
+   \   00000010   0CC0A0E3           MOV      R12,#+12
+   \   00000014   050000AA           BGE      ??CountMenuDesc_1
+   \   00000018   060000EA           B        ??CountMenuDesc_2
+     18            {
+     19              if (m[i].enabled) n++;
+   \                     ??CountMenuDesc_3:
+   \   0000001C   9C0324E0           MLA      R4,R12,R3,R0
+     20            }
+   \   00000020   013083E2           ADD      R3,R3,#+1
+   \   00000024   084094E5           LDR      R4,[R4, #+8]
+   \   00000028   000054E3           CMP      R4,#+0
+   \   0000002C   01208212           ADDNE    R2,R2,#+1
+   \                     ??CountMenuDesc_1:
+   \   00000030   010053E1           CMP      R3,R1
+   \   00000034   F8FFFFBA           BLT      ??CountMenuDesc_3
+     21            return n;
+   \                     ??CountMenuDesc_2:
+   \   00000038   1000BDE8           POP      {R4}
+   \   0000003C   0200A0E1           MOV      R0,R2
+   \   00000040   1EFF2FE1           BX       LR               ;; return
+     22          }
+     23          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     24          void CloseMenu()
+     25          {
+   \                     ??CloseMenu:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     26            for(int ii=0;ii<TOTAL_MENUS;ii++)
+   \   00000004   ........           LDR      R5,??DataTable71  ;; menu_id
+   \   00000008   0040A0E3           MOV      R4,#+0
+     27              FREE_GUI(menu_id[ii]);
+   \                     ??CloseMenu_1:
+   \   0000000C   ........           LDR      R0,??DataTable71  ;; menu_id
+   \   00000010   040190E7           LDR      R0,[R0, +R4, LSL #+2]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100000A           BEQ      ??CloseMenu_2
+   \   0000001C   CE0100EF           SWI      +462
+   \   00000020   040185E7           STR      R0,[R5, +R4, LSL #+2]
+   \                     ??CloseMenu_2:
+   \   00000024   014084E2           ADD      R4,R4,#+1
+   \   00000028   030054E3           CMP      R4,#+3
+   \   0000002C   F6FFFFBA           BLT      ??CloseMenu_1
+     28          }
+   \   00000030   3080BDE8           POP      {R4,R5,PC}       ;; return
+     29          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     30          void CloseAllMenu()
+     31          {
+     32            FREE_GUI(cur_gui);
+   \                     ??CloseAllMenu:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0200000A           BEQ      ??CloseAllMenu_1
+   \   00000014   ........           LDR      R4,??DataTable55  ;; op_menu
+   \   00000018   CE0100EF           SWI      +462
+   \   0000001C   F00084E5           STR      R0,[R4, #+240]
+     33            CloseMenu();
+   \                     ??CloseAllMenu_1:
+   \   00000020   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000024   ........           B        ??CloseMenu      ;; tailcall
+     34          }
+     35          
+     36          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     37          void MC_Open(void)
+     38          {
+   \                     ??MC_Open:
+   \   00000000   00402DE9           PUSH     {LR}
+     39            DoOpen();
+   \   00000004   ........           _BLF     ??DoOpen,??DoOpen??rA
+     40            CloseMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseMenu      ;; tailcall
+     41          }
+     42          
+     43          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          void MC_Chk(void)
+     45          {
+   \                     ??MC_Chk:
+   \   00000000   00402DE9           PUSH     {LR}
+     46            DoChk();
+   \   00000004   ........           _BLF     ??DoChk,??DoChk??rA
+     47            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+     48          }
+     49          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          void MC_ChkAll(void)
+     51          {
+   \                     ??MC_ChkAll:
+   \   00000000   00402DE9           PUSH     {LR}
+     52            DoChkAll();
+   \   00000004   ........           _BLF     ??DoChkAll,??DoChkAll??rA
+     53            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+     54          }
+     55          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          void MC_UnChkAll(void)
+     57          {
+   \                     ??MC_UnChkAll:
+   \   00000000   00402DE9           PUSH     {LR}
+     58            DoUnCAll();
+   \   00000004   ........           _BLF     ??DoUnCAll,??DoUnCAll??rA
+     59            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+     60          }
+     61          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     62          void MC_InvChk(void)
+     63          {
+   \                     ??MC_InvChk:
+   \   00000000   00402DE9           PUSH     {LR}
+     64            DoInvChk();
+   \   00000004   ........           _BLF     ??DoInvChk,??DoInvChk??rA
+     65            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+     66          }
+     67          
+     68          MENU_DESC fl_menu[]={
+     69            {ind_chk,     MC_Chk,0},
+     70            {ind_chkall , MC_ChkAll,0},
+     71            {ind_unchall, MC_UnChkAll,0},
+     72            {ind_invchk,  MC_InvChk,0}
+     73          };
+     74          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     75          void MMF_OnBack( BOOK* bk, GUI* )
+     76          {
+     77            FREE_GUI(cur_gui);
+   \                     ??MMF_OnBack:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   ........           LDR      R4,??DataTable55  ;; op_menu
+   \   00000018   CE0100EF           SWI      +462
+   \   0000001C   F00084E5           STR      R0,[R4, #+240]
+     78          }
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+     79          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     80          void MMF_onEnterPressed( BOOK* bk, GUI* )
+     81          {
+     82            int item=ListMenu_GetSelectedItem(cur_gui);
+   \                     ??MMF_onEnterPressed:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   3E0100EF           SWI      +318
+     83            if (item<MAXELEMS(fl_menu))
+   \   00000010   040050E3           CMP      R0,#+4
+   \   00000014   0080BD28           POPCS    {PC}
+     84            {
+     85              if (fl_menu[item].proc) fl_menu[item].proc();
+   \   00000018   ........           LDR      R2,??DataTable55  ;; op_menu
+   \   0000001C   0C10A0E3           MOV      R1,#+12
+   \   00000020   912022E0           MLA      R2,R1,R0,R2
+   \   00000024   701092E5           LDR      R1,[R2, #+112]
+   \   00000028   000051E3           CMP      R1,#+0
+   \   0000002C   0080BD08           POPEQ    {PC}
+   \   00000030   ........           LDR      R2,??DataTable55  ;; op_menu
+   \   00000034   0C10A0E3           MOV      R1,#+12
+   \   00000038   912020E0           MLA      R0,R1,R0,R2
+   \   0000003C   700090E5           LDR      R0,[R0, #+112]
+   \   00000040   30FF2FE1           BLX      R0
+     86            }
+     87          }
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+     88          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          void MM_File(void)
+     90          {
+     91            GUI_LIST *lo;
+     92            TEXTID sid;
+     93            cur_gui=lo=CreateListMenu(&MCBook->book,0);
+   \                     ??MM_File:
+   \   00000000   ........           LDR      R0,??DataTable72  ;; MCBook
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   10D04DE2           SUB      SP,SP,#+16
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   C00100EF           SWI      +448
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+     94            TEXTID texts[MAXELEMS(fl_menu)];
+     95            wchar_t *names;
+     96            for (int i=0; i<MAXELEMS(fl_menu); i++)
+   \   00000020   0050A0E3           MOV      R5,#+0
+   \   00000024   004080E5           STR      R4,[R0, #+0]
+   \   00000028   0B0000EA           B        ??MM_File_1
+     97            {
+     98              names=muitxt(fl_menu[i].id);
+   \                     ??MM_File_2:
+   \   0000002C   ........           LDR      R1,??DataTable55  ;; op_menu
+   \   00000030   0C00A0E3           MOV      R0,#+12
+   \   00000034   901521E0           MLA      R1,R0,R5,R1
+   \   00000038   6C0091E5           LDR      R0,[R1, #+108]
+   \   0000003C   ........           _BLF     ??muitxt,??muitxt??rA
+     99              texts[i]=TextID_Create(names,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000040   FF20A0E3           MOV      R2,#+255
+   \   00000044   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   5D0100EF           SWI      +349
+   \   00000050   0D10A0E1           MOV      R1,SP
+   \   00000054   050181E7           STR      R0,[R1, +R5, LSL #+2]
+    100            }
+   \   00000058   015085E2           ADD      R5,R5,#+1
+   \                     ??MM_File_1:
+   \   0000005C   040055E3           CMP      R5,#+4
+   \   00000060   F1FFFF3A           BCC      ??MM_File_2
+    101            OneOfMany_SetTexts((GUI_ONEOFMANY *)lo,texts,MAXELEMS(fl_menu));
+   \   00000064   0420A0E3           MOV      R2,#+4
+   \   00000068   0D10A0E1           MOV      R1,SP
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   480100EF           SWI      +328
+    102            sid=TextID_Create(muitxt(ind_mcmenu),ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000074   0C00A0E3           MOV      R0,#+12
+   \   00000078   ........           _BLF     ??muitxt,??muitxt??rA
+   \   0000007C   FF20A0E3           MOV      R2,#+255
+   \   00000080   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   5D0100EF           SWI      +349
+   \   0000008C   0010A0E1           MOV      R1,R0
+    103            GUIObject_SetTitleText(lo,sid);
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   330100EF           SWI      +307
+    104            ListMenu_SetItemCount(lo,MAXELEMS(fl_menu));
+   \   00000098   0410A0E3           MOV      R1,#+4
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   C10100EF           SWI      +449
+    105            ListMenu_SetCursorToItem(lo,0);
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   350100EF           SWI      +309
+    106            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,MMF_onEnterPressed); 
+   \   000000B0   ........           LDR      R0,??DataTable77  ;; ACTION_SELECT1
+   \   000000B4   38209FE5           LDR      R2,??MM_File_3   ;; ??MMF_onEnterPressed
+   \   000000B8   001090E5           LDR      R1,[R0, #+0]
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000C4   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000C8   4B0100EF           SWI      +331
+    107            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,MMF_OnBack);
+   \   000000CC   ........           LDR      R0,??DataTable78  ;; ACTION_BACK
+   \   000000D0   20209FE5           LDR      R2,??MM_File_3+0x4  ;; ??MMF_OnBack
+   \   000000D4   001090E5           LDR      R1,[R0, #+0]
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000E0   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000E4   4B0100EF           SWI      +331
+    108            GUIObject_Show(lo);
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   340100EF           SWI      +308
+    109          }
+   \   000000F0   3F80BDE8           POP      {R0-R5,PC}       ;; return
+   \                     ??MM_File_3:
+   \   000000F4   ........           DC32     ??MMF_onEnterPressed
+   \   000000F8   ........           DC32     ??MMF_OnBack
+    110          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    111          void MC_Send(void)
+    112          {
+   \                     ??MC_Send:
+   \   00000000   00402DE9           PUSH     {LR}
+    113            DoSendFile();
+   \   00000004   ........           _BLF     ??DoSendFile,??DoSendFile??rA
+    114            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    115          }
+    116          
+    117          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    118          void MC_Paste(void)
+    119          {
+   \                     ??MC_Paste:
+   \   00000000   00402DE9           PUSH     {LR}
+    120            DoPaste();
+   \   00000004   ........           _BLF     ??DoPaste,??DoPaste??rA
+    121            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    122          }
+    123          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    124          void MC_Cancel(void)
+    125          {
+   \                     ??MC_Cancel:
+   \   00000000   00402DE9           PUSH     {LR}
+    126            DoCancel();
+   \   00000004   ........           _BLF     ??DoCancel,??DoCancel??rA
+    127            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    128          }
+    129          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    130          void MC_Copy(void)
+    131          {
+   \                     ??MC_Copy:
+   \   00000000   00402DE9           PUSH     {LR}
+    132            DoCopy();
+   \   00000004   ........           _BLF     ??DoCopy,??DoCopy??rA
+    133            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    134          }
+    135          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    136          void MC_Move(void)
+    137          {
+   \                     ??MC_Move:
+   \   00000000   00402DE9           PUSH     {LR}
+    138            DoMove();
+   \   00000004   ........           _BLF     ??DoMove,??DoMove??rA
+    139            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    140          }
+    141          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    142          void MC_Delit(void)
+    143          {
+   \                     ??MC_Delit:
+   \   00000000   00402DE9           PUSH     {LR}
+    144            DoDel();
+   \   00000004   ........           _BLF     ??DoDel,??DoDel??rA
+    145            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    146          }
+    147          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    148          void MC_NewDir(void)
+    149          {
+   \                     ??MC_NewDir:
+   \   00000000   00402DE9           PUSH     {LR}
+    150            DoNewDir();
+   \   00000004   ........           _BLF     ??DoNewDir,??DoNewDir??rA
+    151            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    152          }
+    153          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    154          void MC_Rename(void)
+    155          {
+   \                     ??MC_Rename:
+   \   00000000   00402DE9           PUSH     {LR}
+    156            DoRen();
+   \   00000004   ........           _BLF     ??DoRen,??DoRen??rA
+    157            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    158          }
+    159          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    160          void MC_NewFile(void)
+    161          {
+    162            //DoNewFile();
+    163            CloseAllMenu();
+   \                     ??MC_NewFile:
+   \   00000000   ........           B        ??CloseAllMenu   ;; tailcall
+    164          }
+    165          
+    166          MENU_DESC op_menu[]={
+    167            {ind_sendfile,MC_Send,0},
+    168            {ind_past,    MC_Paste,0},
+    169            {ind_cancel,  MC_Cancel,0},
+    170            {ind_copy,    MC_Copy,0},
+    171            {ind_move,    MC_Move,0},
+    172            {ind_del,     MC_Delit,0},
+    173            {ind_rename,  MC_Rename,0},
+    174            {ind_newdir,  MC_NewDir,0},
+    175            {ind_newfile, MC_NewFile,0}
+    176          };
+    177          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    178          void MMO_OnBack( BOOK* bk, GUI* )
+    179          {
+    180            FREE_GUI(cur_gui);
+   \                     ??MMO_OnBack:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   ........           LDR      R4,??DataTable55  ;; op_menu
+   \   00000018   CE0100EF           SWI      +462
+   \   0000001C   F00084E5           STR      R0,[R4, #+240]
+    181          }
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    182          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    183          void MMO_onEnterPressed( BOOK* bk, GUI* )
+    184          {
+    185            int item=ListMenu_GetSelectedItem(cur_gui);
+   \                     ??MMO_onEnterPressed:
+   \   00000000   ........           LDR      R0,??DataTable21  ;; op_menu + 240
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+    186            int n=0;
+   \   0000000C   0050A0E3           MOV      R5,#+0
+    187            for (int i=0; i<MAXELEMS(op_menu); i++) {
+   \   00000010   0060A0E3           MOV      R6,#+0
+   \   00000014   3E0100EF           SWI      +318
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   140000EA           B        ??MMO_onEnterPressed_1
+    188              if (op_menu[i].enabled){
+   \                     ??MMO_onEnterPressed_2:
+   \   00000020   ........           LDR      R1,??DataTable25  ;; op_menu
+   \   00000024   0C00A0E3           MOV      R0,#+12
+   \   00000028   901621E0           MLA      R1,R0,R6,R1
+   \   0000002C   080091E5           LDR      R0,[R1, #+8]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0D00000A           BEQ      ??MMO_onEnterPressed_3
+    189                if (item==n){
+   \   00000038   050054E1           CMP      R4,R5
+   \   0000003C   0A00001A           BNE      ??MMO_onEnterPressed_4
+    190                  if (op_menu[i].proc) op_menu[i].proc();
+   \   00000040   ........           LDR      R1,??DataTable25  ;; op_menu
+   \   00000044   0C00A0E3           MOV      R0,#+12
+   \   00000048   901621E0           MLA      R1,R0,R6,R1
+   \   0000004C   040091E5           LDR      R0,[R1, #+4]
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   0400000A           BEQ      ??MMO_onEnterPressed_4
+   \   00000058   ........           LDR      R1,??DataTable25  ;; op_menu
+   \   0000005C   0C00A0E3           MOV      R0,#+12
+   \   00000060   901621E0           MLA      R1,R0,R6,R1
+   \   00000064   040091E5           LDR      R0,[R1, #+4]
+   \   00000068   30FF2FE1           BLX      R0
+    191                }
+    192                n++;
+   \                     ??MMO_onEnterPressed_4:
+   \   0000006C   015085E2           ADD      R5,R5,#+1
+    193              }
+    194            }
+   \                     ??MMO_onEnterPressed_3:
+   \   00000070   016086E2           ADD      R6,R6,#+1
+   \                     ??MMO_onEnterPressed_1:
+   \   00000074   090056E3           CMP      R6,#+9
+   \   00000078   E8FFFF3A           BCC      ??MMO_onEnterPressed_2
+    195          }
+   \   0000007C   7080BDE8           POP      {R4-R6,PC}       ;; return
+    196          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    197          void MM_Oper(void)
+    198          {
+    199            GUI_LIST *lo;
+    200            TEXTID sid;
+    201            cur_gui=lo=CreateListMenu(&MCBook->book,0);
+   \                     ??MM_Oper:
+   \   00000000   ........           LDR      R0,??DataTable72  ;; MCBook
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   24D04DE2           SUB      SP,SP,#+36
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   C00100EF           SWI      +448
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   ........           LDR      R0,??DataTable21  ;; op_menu + 240
+   \   00000020   004080E5           STR      R4,[R0, #+0]
+    202            TEXTID texts[MAXELEMS(op_menu)];
+    203            if (IsInArchive())
+   \   00000024   ........           _BLF     ??IsInArchive,??IsInArchive??rA
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   1200000A           BEQ      ??MM_Oper_1
+    204            {
+    205              for (int i=0; i<MAXELEMS(op_menu); i++) op_menu[i].enabled=0;   // Вырубаем все
+   \   00000034   050000EA           B        ??MM_Oper_2
+   \                     ??MM_Oper_3:
+   \   00000038   ........           LDR      R2,??DataTable25  ;; op_menu
+   \   0000003C   0C10A0E3           MOV      R1,#+12
+   \   00000040   912022E0           MLA      R2,R1,R0,R2
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   081082E5           STR      R1,[R2, #+8]
+   \   0000004C   010080E2           ADD      R0,R0,#+1
+   \                     ??MM_Oper_2:
+   \   00000050   090050E3           CMP      R0,#+9
+   \   00000054   F7FFFF3A           BCC      ??MM_Oper_3
+    206              op_menu[3].enabled=1;  
+   \   00000058   1C019FE5           LDR      R0,??MM_Oper_4   ;; op_menu + 44
+   \   0000005C   0110A0E3           MOV      R1,#+1
+   \   00000060   001080E5           STR      R1,[R0, #+0]
+   \   00000064   070000EA           B        ??MM_Oper_5
+    207            }
+    208            else
+    209            {
+    210              for (int i=0; i<MAXELEMS(op_menu); i++) op_menu[i].enabled=1;   // Врубаем все
+   \                     ??MM_Oper_6:
+   \   00000068   ........           LDR      R2,??DataTable25  ;; op_menu
+   \   0000006C   0C10A0E3           MOV      R1,#+12
+   \   00000070   912022E0           MLA      R2,R1,R0,R2
+   \   00000074   0110A0E3           MOV      R1,#+1
+   \   00000078   081082E5           STR      R1,[R2, #+8]
+   \   0000007C   010080E2           ADD      R0,R0,#+1
+   \                     ??MM_Oper_1:
+   \   00000080   090050E3           CMP      R0,#+9
+   \   00000084   F7FFFF3A           BCC      ??MM_Oper_6
+    211            }
+    212            int n=0;
+   \                     ??MM_Oper_5:
+   \   00000088   0050A0E3           MOV      R5,#+0
+    213            wchar_t *names;
+    214            for (int i=0; i<MAXELEMS(op_menu); i++)
+   \   0000008C   0060A0E3           MOV      R6,#+0
+   \   00000090   120000EA           B        ??MM_Oper_7
+    215            {
+    216              if (op_menu[i].enabled)
+   \                     ??MM_Oper_8:
+   \   00000094   ........           LDR      R1,??DataTable25  ;; op_menu
+   \   00000098   0C00A0E3           MOV      R0,#+12
+   \   0000009C   901621E0           MLA      R1,R0,R6,R1
+   \   000000A0   080091E5           LDR      R0,[R1, #+8]
+   \   000000A4   000050E3           CMP      R0,#+0
+   \   000000A8   0B00000A           BEQ      ??MM_Oper_9
+    217              {
+    218                names=muitxt(op_menu[i].id);
+   \   000000AC   ........           LDR      R1,??DataTable25  ;; op_menu
+   \   000000B0   0C00A0E3           MOV      R0,#+12
+   \   000000B4   901621E0           MLA      R1,R0,R6,R1
+   \   000000B8   000091E5           LDR      R0,[R1, #+0]
+   \   000000BC   ........           _BLF     ??muitxt,??muitxt??rA
+    219                texts[n]=TextID_Create(names,ENC_UCS2,TEXTID_ANY_LEN);
+   \   000000C0   FF20A0E3           MOV      R2,#+255
+   \   000000C4   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000000C8   0010A0E3           MOV      R1,#+0
+   \   000000CC   5D0100EF           SWI      +349
+   \   000000D0   0D10A0E1           MOV      R1,SP
+   \   000000D4   050181E7           STR      R0,[R1, +R5, LSL #+2]
+    220                n++;
+   \   000000D8   015085E2           ADD      R5,R5,#+1
+    221              }
+    222            }
+   \                     ??MM_Oper_9:
+   \   000000DC   016086E2           ADD      R6,R6,#+1
+   \                     ??MM_Oper_7:
+   \   000000E0   090056E3           CMP      R6,#+9
+   \   000000E4   EAFFFF3A           BCC      ??MM_Oper_8
+    223            OneOfMany_SetTexts((GUI_ONEOFMANY *)lo,texts,n);
+   \   000000E8   0520A0E1           MOV      R2,R5
+   \   000000EC   0D10A0E1           MOV      R1,SP
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   480100EF           SWI      +328
+    224            sid=TextID_Create(muitxt(ind_mcmenu),ENC_UCS2,TEXTID_ANY_LEN);
+   \   000000F8   0C00A0E3           MOV      R0,#+12
+   \   000000FC   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000100   FF20A0E3           MOV      R2,#+255
+   \   00000104   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000108   0010A0E3           MOV      R1,#+0
+   \   0000010C   5D0100EF           SWI      +349
+   \   00000110   0010A0E1           MOV      R1,R0
+    225            GUIObject_SetTitleText(lo,sid);
+   \   00000114   0400A0E1           MOV      R0,R4
+   \   00000118   330100EF           SWI      +307
+    226            ListMenu_SetItemCount(lo,n);
+   \   0000011C   0510A0E1           MOV      R1,R5
+   \   00000120   0400A0E1           MOV      R0,R4
+   \   00000124   C10100EF           SWI      +449
+    227            ListMenu_SetCursorToItem(lo,0);
+   \   00000128   0010A0E3           MOV      R1,#+0
+   \   0000012C   0400A0E1           MOV      R0,R4
+   \   00000130   350100EF           SWI      +309
+    228            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,MMO_onEnterPressed); 
+   \   00000134   ........           LDR      R0,??DataTable77  ;; ACTION_SELECT1
+   \   00000138   40209FE5           LDR      R2,??MM_Oper_4+0x4  ;; ??MMO_onEnterPressed
+   \   0000013C   001090E5           LDR      R1,[R0, #+0]
+   \   00000140   0400A0E1           MOV      R0,R4
+   \   00000144   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000148   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000014C   4B0100EF           SWI      +331
+    229            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,MMO_OnBack);
+   \   00000150   ........           LDR      R0,??DataTable78  ;; ACTION_BACK
+   \   00000154   28209FE5           LDR      R2,??MM_Oper_4+0x8  ;; ??MMO_OnBack
+   \   00000158   001090E5           LDR      R1,[R0, #+0]
+   \   0000015C   0400A0E1           MOV      R0,R4
+   \   00000160   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000164   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000168   4B0100EF           SWI      +331
+    230            GUIObject_Show(lo);
+   \   0000016C   0400A0E1           MOV      R0,R4
+   \   00000170   340100EF           SWI      +308
+    231          }
+   \   00000174   24D08DE2           ADD      SP,SP,#+36
+   \   00000178   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??MM_Oper_4:
+   \   0000017C   ........           DC32     op_menu + 44
+   \   00000180   ........           DC32     ??MMO_onEnterPressed
+   \   00000184   ........           DC32     ??MMO_OnBack
+    232          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    233          void MC_FileProp(void)
+    234          {
+    235          
+    236          }
+   \                     ??MC_FileProp:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    237          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    238          void MC_SRTName(void)
+    239          {
+   \                     ??MC_SRTName:
+   \   00000000   00402DE9           PUSH     {LR}
+    240            DoSortN();
+   \   00000004   ........           _BLF     ??DoSortN,??DoSortN??rA
+    241            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    242          }
+    243          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    244          void MC_SRTExt(void)
+    245          {
+   \                     ??MC_SRTExt:
+   \   00000000   00402DE9           PUSH     {LR}
+    246            DoSortE();
+   \   00000004   ........           _BLF     ??DoSortE,??DoSortE??rA
+    247            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    248          }
+    249          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    250          void MC_SRTSize(void)
+    251          {
+   \                     ??MC_SRTSize:
+   \   00000000   00402DE9           PUSH     {LR}
+    252            DoSortS();
+   \   00000004   ........           _BLF     ??DoSortS,??DoSortS??rA
+    253            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    254          }
+    255          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    256          void MC_SRTDate(void)
+    257          {
+   \                     ??MC_SRTDate:
+   \   00000000   00402DE9           PUSH     {LR}
+    258            DoSortD();
+   \   00000004   ........           _BLF     ??DoSortD,??DoSortD??rA
+    259            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    260          }
+    261          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    262          void MC_SRTRev(void)
+    263          {
+   \                     ??MC_SRTRev:
+   \   00000000   00402DE9           PUSH     {LR}
+    264            DoSortR();
+   \   00000004   ........           _BLF     ??DoSortR,??DoSortR??rA
+    265            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    266          }
+    267          
+    268          
+    269          MENU_DESC st_menu[]={
+    270            {ind_sortn, MC_SRTName,0},
+    271            {ind_sorte, MC_SRTExt,0},
+    272            {ind_sorts, MC_SRTSize,0},
+    273            {ind_sortd, MC_SRTDate,0},
+    274            {ind_sortr, MC_SRTRev,0}
+    275          };
+    276          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    277          void MMS_OnBack( BOOK* bk, GUI* )
+    278          {
+    279            FREE_GUI(cur_gui);
+   \                     ??MMS_OnBack:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   ........           LDR      R4,??DataTable55  ;; op_menu
+   \   00000018   CE0100EF           SWI      +462
+   \   0000001C   F00084E5           STR      R0,[R4, #+240]
+    280          }
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    281          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    282          void MMS_onEnterPressed( BOOK* bk, GUI* )
+    283          {
+    284            int item=ListMenu_GetSelectedItem(cur_gui);
+   \                     ??MMS_onEnterPressed:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   3E0100EF           SWI      +318
+    285            if (item<MAXELEMS(st_menu))
+   \   00000010   050050E3           CMP      R0,#+5
+   \   00000014   0080BD28           POPCS    {PC}
+    286            {
+    287              if (st_menu[item].proc) st_menu[item].proc();
+   \   00000018   ........           LDR      R2,??DataTable55  ;; op_menu
+   \   0000001C   0C10A0E3           MOV      R1,#+12
+   \   00000020   912022E0           MLA      R2,R1,R0,R2
+   \   00000024   A01092E5           LDR      R1,[R2, #+160]
+   \   00000028   000051E3           CMP      R1,#+0
+   \   0000002C   0080BD08           POPEQ    {PC}
+   \   00000030   ........           LDR      R2,??DataTable55  ;; op_menu
+   \   00000034   0C10A0E3           MOV      R1,#+12
+   \   00000038   912020E0           MLA      R0,R1,R0,R2
+   \   0000003C   A00090E5           LDR      R0,[R0, #+160]
+   \   00000040   30FF2FE1           BLX      R0
+    288            }
+    289          }
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+    290          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    291          int MMS_On_Msg(GUI_MESSAGE * msg)
+    292          {
+   \                     ??MMS_On_Msg:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    293            wchar_t icn=0;
+   \   00000008   0050A0E3           MOV      R5,#+0
+    294            int d;
+    295            TEXTID str=LGP_NULL;
+    296            switch( GUIonMessage_GetMsg(msg) )
+   \   0000000C   740300EF           SWI      +884
+   \   00000010   010050E3           CMP      R0,#+1
+   \   00000014   3500001A           BNE      ??MMS_On_Msg_2
+    297            {
+    298            case 1:
+    299              d=GUIonMessage_GetCreatedItemIndex(msg);
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   370100EF           SWI      +311
+   \   00000020   0060A0E1           MOV      R6,R0
+    300              if (d<MAXELEMS(st_menu))
+   \   00000024   050056E3           CMP      R6,#+5
+   \   00000028   0B00002A           BCS      ??MMS_On_Msg_3
+    301              {
+    302                str=TextID_Create(muitxt(st_menu[d].id),ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000002C   ........           LDR      R1,??DataTable55  ;; op_menu
+   \   00000030   0C00A0E3           MOV      R0,#+12
+   \   00000034   901621E0           MLA      R1,R0,R6,R1
+   \   00000038   9C0091E5           LDR      R0,[R1, #+156]
+   \   0000003C   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000040   FF20A0E3           MOV      R2,#+255
+   \   00000044   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   5D0100EF           SWI      +349
+   \   00000050   0010A0E1           MOV      R1,R0
+    303                GUIonMessage_SetMenuItemText(msg,str);
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   380100EF           SWI      +312
+    304              }
+    305              int sort=_CurTab->sort;
+   \                     ??MMS_On_Msg_3:
+   \   0000005C   94009FE5           LDR      R0,??MMS_On_Msg_4  ;; curtab
+   \   00000060   94109FE5           LDR      R1,??MMS_On_Msg_4+0x4  ;; tabs
+   \   00000064   000090E5           LDR      R0,[R0, #+0]
+    306              switch(d)
+   \   00000068   040056E3           CMP      R6,#+4
+   \   0000006C   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000070   F200D0E1           LDRSH    R0,[R0, #+2]
+   \   00000074   1700008A           BHI      ??MMS_On_Msg_5
+   \   00000078   011F8FE2           ADR      R1,??MMS_On_Msg_1
+   \   0000007C   0610D1E7           LDRB     R1,[R1, R6]
+   \   00000080   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??MMS_On_Msg_1:
+   \   00000084   0105080D           DC8      +1,+5,+8,+13
+   \   00000088   10000000           DC8      +16,+0,+0,+0
+    307              {
+    308              case 0:
+    309                icn=(sort&STV_MASK)==ST_NAME?STD_ICONS[ICN_CH_RB]:STD_ICONS[ICN_RB];
+   \                     ??MMS_On_Msg_6:
+   \   0000008C   0F0010E3           TST      R0,#0xF
+   \                     ??MMS_On_Msg_7:
+   \   00000090   68009F15           LDRNE    R0,??MMS_On_Msg_4+0x8  ;; STD_ICONS + 6
+   \   00000094   68009F05           LDREQ    R0,??MMS_On_Msg_4+0xC  ;; STD_ICONS + 4
+   \   00000098   0D0000EA           B        ??MMS_On_Msg_8
+    310                break;
+    311              case 1:
+    312                icn=(sort&STV_MASK)==ST_EXT?STD_ICONS[ICN_CH_RB]:STD_ICONS[ICN_RB];
+   \                     ??MMS_On_Msg_9:
+   \   0000009C   0F0000E2           AND      R0,R0,#0xF
+   \   000000A0   010050E3           CMP      R0,#+1
+   \   000000A4   F9FFFFEA           B        ??MMS_On_Msg_7
+    313                break;
+    314              case 2:
+    315                icn=(sort&STV_MASK)==ST_SIZE?STD_ICONS[ICN_CH_RB]:STD_ICONS[ICN_RB];
+   \                     ??MMS_On_Msg_10:
+   \   000000A8   0F0000E2           AND      R0,R0,#0xF
+   \   000000AC   020050E3           CMP      R0,#+2
+   \   000000B0   48009F15           LDRNE    R0,??MMS_On_Msg_4+0x8  ;; STD_ICONS + 6
+   \   000000B4   48009F05           LDREQ    R0,??MMS_On_Msg_4+0xC  ;; STD_ICONS + 4
+   \   000000B8   050000EA           B        ??MMS_On_Msg_8
+    316                break;
+    317              case 3:
+    318                icn=(sort&STV_MASK)==ST_DATE?STD_ICONS[ICN_CH_RB]:STD_ICONS[ICN_RB];
+   \                     ??MMS_On_Msg_11:
+   \   000000BC   0F0000E2           AND      R0,R0,#0xF
+   \   000000C0   030050E3           CMP      R0,#+3
+   \   000000C4   F1FFFFEA           B        ??MMS_On_Msg_7
+    319                break;
+    320              case 4:
+    321                icn=(sort&STD_MASK)==ST_REVERS?STD_ICONS[ICN_CH_CB]:STD_ICONS[ICN_CB];
+   \                     ??MMS_On_Msg_12:
+   \   000000C8   400F10E3           TST      R0,#0x100
+   \   000000CC   34009F15           LDRNE    R0,??MMS_On_Msg_4+0x10  ;; STD_ICONS + 8
+   \   000000D0   34009F05           LDREQ    R0,??MMS_On_Msg_4+0x14  ;; STD_ICONS + 10
+   \                     ??MMS_On_Msg_8:
+   \   000000D4   B050D0E1           LDRH     R5,[R0, #+0]
+    322                break;
+    323              }
+    324              if (icn)  GUIonMessage_SetMenuItemIcon(msg,0,icn);
+   \                     ??MMS_On_Msg_5:
+   \   000000D8   000055E3           CMP      R5,#+0
+   \   000000DC   0300000A           BEQ      ??MMS_On_Msg_2
+   \   000000E0   0520A0E1           MOV      R2,R5
+   \   000000E4   0010A0E3           MOV      R1,#+0
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   3C0100EF           SWI      +316
+    325            }
+    326            return(1);
+   \                     ??MMS_On_Msg_2:
+   \   000000F0   0100A0E3           MOV      R0,#+1
+   \   000000F4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??MMS_On_Msg_4:
+   \   000000F8   ........           DC32     curtab
+   \   000000FC   ........           DC32     tabs
+   \   00000100   ........           DC32     STD_ICONS + 6
+   \   00000104   ........           DC32     STD_ICONS + 4
+   \   00000108   ........           DC32     STD_ICONS + 8
+   \   0000010C   ........           DC32     STD_ICONS + 10
+    327          };
+    328          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    329          void MM_Sort(void)
+    330          {
+   \                     ??MM_Sort:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    331            GUI_LIST *lo;
+    332            TEXTID sid;
+    333            wchar_t *head=muitxt(ind_mcmenu);
+   \   00000004   0C00A0E3           MOV      R0,#+12
+   \   00000008   ........           _BLF     ??muitxt,??muitxt??rA
+   \   0000000C   0040A0E1           MOV      R4,R0
+    334            cur_gui=lo=CreateListMenu(&MCBook->book,0);
+   \   00000010   ........           LDR      R0,??DataTable72  ;; MCBook
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   C00100EF           SWI      +448
+   \   00000020   0050A0E1           MOV      R5,R0
+   \   00000024   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+    335            sid=TextID_Create(head,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000028   FF20A0E3           MOV      R2,#+255
+   \   0000002C   005080E5           STR      R5,[R0, #+0]
+   \   00000030   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   5D0100EF           SWI      +349
+    336            GUIObject_SetTitleText(lo,sid);
+   \   00000040   0010A0E1           MOV      R1,R0
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   330100EF           SWI      +307
+    337            ListMenu_SetItemCount(lo,MAXELEMS(st_menu));
+   \   0000004C   0510A0E3           MOV      R1,#+5
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   C10100EF           SWI      +449
+    338            ListMenu_SetCursorToItem(lo,0);
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   350100EF           SWI      +309
+    339            ListMenu_SetOnMessage(lo,MMS_On_Msg);
+   \   00000064   48109FE5           LDR      R1,??MM_Sort_1   ;; ??MMS_On_Msg
+   \   00000068   0500A0E1           MOV      R0,R5
+   \   0000006C   740100EF           SWI      +372
+    340            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,MMS_onEnterPressed); 
+   \   00000070   ........           LDR      R0,??DataTable77  ;; ACTION_SELECT1
+   \   00000074   3C209FE5           LDR      R2,??MM_Sort_1+0x4  ;; ??MMS_onEnterPressed
+   \   00000078   001090E5           LDR      R1,[R0, #+0]
+   \   0000007C   0500A0E1           MOV      R0,R5
+   \   00000080   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000084   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000088   4B0100EF           SWI      +331
+    341            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,MMS_OnBack);
+   \   0000008C   ........           LDR      R0,??DataTable78  ;; ACTION_BACK
+   \   00000090   24209FE5           LDR      R2,??MM_Sort_1+0x8  ;; ??MMS_OnBack
+   \   00000094   001090E5           LDR      R1,[R0, #+0]
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000A0   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000A4   4B0100EF           SWI      +331
+    342            GUIObject_Show(lo);
+   \   000000A8   0500A0E1           MOV      R0,R5
+   \   000000AC   340100EF           SWI      +308
+    343          }
+   \   000000B0   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MM_Sort_1:
+   \   000000B4   ........           DC32     ??MMS_On_Msg
+   \   000000B8   ........           DC32     ??MMS_onEnterPressed
+   \   000000BC   ........           DC32     ??MMS_OnBack
+    344          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    345          void MC_Filter(void)
+    346          {
+   \                     ??MC_Filter:
+   \   00000000   00402DE9           PUSH     {LR}
+    347            DoFilter();
+   \   00000004   ........           _BLF     ??DoFilter,??DoFilter??rA
+    348            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    349          }
+    350          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    351          void MC_Refresh(void)
+    352          {
+   \                     ??MC_Refresh:
+   \   00000000   00402DE9           PUSH     {LR}
+    353            DoRefresh();
+   \   00000004   ........           _BLF     ??DoRefresh,??DoRefresh??rA
+    354            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    355          }
+    356          
+    357          MENU_DESC vw_menu[]={
+    358            {ind_sort_m,  MM_Sort,0},
+    359            {ind_filter,  MC_Filter,0},
+    360            {ind_refresh, MC_Refresh,0}
+    361          };
+    362          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    363          void MMV_OnBack( BOOK* bk, GUI* )
+    364          {
+    365            FREE_GUI(menu_id[view_ind]);
+   \                     ??MMV_OnBack:
+   \   00000000   ........           LDR      R0,??DataTable44  ;; menu_id + 8
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   ........           LDR      R4,??DataTable71  ;; menu_id
+   \   00000018   CE0100EF           SWI      +462
+   \   0000001C   080084E5           STR      R0,[R4, #+8]
+    366          }
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    367          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    368          void MMV_onEnterPressed( BOOK* bk, GUI* )
+    369          {
+    370            int item=ListMenu_GetSelectedItem(menu_id[view_ind]);
+   \                     ??MMV_onEnterPressed:
+   \   00000000   ........           LDR      R0,??DataTable44  ;; menu_id + 8
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   3E0100EF           SWI      +318
+    371            if (item<MAXELEMS(vw_menu))
+   \   00000010   030050E3           CMP      R0,#+3
+   \   00000014   0080BD28           POPCS    {PC}
+    372            {
+    373              if (vw_menu[item].proc) vw_menu[item].proc();
+   \   00000018   ........           LDR      R2,??DataTable71  ;; menu_id
+   \   0000001C   0C10A0E3           MOV      R1,#+12
+   \   00000020   912022E0           MLA      R2,R1,R0,R2
+   \   00000024   641092E5           LDR      R1,[R2, #+100]
+   \   00000028   000051E3           CMP      R1,#+0
+   \   0000002C   0080BD08           POPEQ    {PC}
+   \   00000030   ........           LDR      R2,??DataTable71  ;; menu_id
+   \   00000034   0C10A0E3           MOV      R1,#+12
+   \   00000038   912020E0           MLA      R0,R1,R0,R2
+   \   0000003C   640090E5           LDR      R0,[R0, #+100]
+   \   00000040   30FF2FE1           BLX      R0
+    374            }
+    375          }
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+    376          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    377          void MM_View(void)
+    378          {
+    379            GUI_LIST *lo;
+    380            TEXTID sid;
+    381            menu_id[view_ind]=lo=CreateListMenu(&MCBook->book,0);
+   \                     ??MM_View:
+   \   00000000   ........           LDR      R0,??DataTable72  ;; MCBook
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   0CD04DE2           SUB      SP,SP,#+12
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   C00100EF           SWI      +448
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   ........           LDR      R0,??DataTable44  ;; menu_id + 8
+    382            TEXTID texts[MAXELEMS(vw_menu)];
+    383            wchar_t *names;
+    384            for (int i=0; i<MAXELEMS(vw_menu); i++)
+   \   00000020   0050A0E3           MOV      R5,#+0
+   \   00000024   004080E5           STR      R4,[R0, #+0]
+   \   00000028   0B0000EA           B        ??MM_View_1
+    385            {
+    386              names=muitxt(vw_menu[i].id);
+   \                     ??MM_View_2:
+   \   0000002C   ........           LDR      R1,??DataTable71  ;; menu_id
+   \   00000030   0C00A0E3           MOV      R0,#+12
+   \   00000034   901521E0           MLA      R1,R0,R5,R1
+   \   00000038   600091E5           LDR      R0,[R1, #+96]
+   \   0000003C   ........           _BLF     ??muitxt,??muitxt??rA
+    387              texts[i]=TextID_Create(names,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000040   FF20A0E3           MOV      R2,#+255
+   \   00000044   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   5D0100EF           SWI      +349
+   \   00000050   0D10A0E1           MOV      R1,SP
+   \   00000054   050181E7           STR      R0,[R1, +R5, LSL #+2]
+    388            }
+   \   00000058   015085E2           ADD      R5,R5,#+1
+   \                     ??MM_View_1:
+   \   0000005C   030055E3           CMP      R5,#+3
+   \   00000060   F1FFFF3A           BCC      ??MM_View_2
+    389            OneOfMany_SetTexts((GUI_ONEOFMANY *)lo,texts,MAXELEMS(vw_menu));
+   \   00000064   0320A0E3           MOV      R2,#+3
+   \   00000068   0D10A0E1           MOV      R1,SP
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   480100EF           SWI      +328
+    390            sid=TextID_Create(muitxt(ind_mcmenu),ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000074   0C00A0E3           MOV      R0,#+12
+   \   00000078   ........           _BLF     ??muitxt,??muitxt??rA
+   \   0000007C   FF20A0E3           MOV      R2,#+255
+   \   00000080   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   5D0100EF           SWI      +349
+   \   0000008C   0010A0E1           MOV      R1,R0
+    391            GUIObject_SetTitleText(lo,sid);
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   330100EF           SWI      +307
+    392            ListMenu_SetItemCount(lo,MAXELEMS(vw_menu));
+   \   00000098   0310A0E3           MOV      R1,#+3
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   C10100EF           SWI      +449
+    393            ListMenu_SetCursorToItem(lo,0);
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   350100EF           SWI      +309
+    394            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,MMV_onEnterPressed); 
+   \   000000B0   ........           LDR      R0,??DataTable77  ;; ACTION_SELECT1
+   \   000000B4   38209FE5           LDR      R2,??MM_View_3   ;; ??MMV_onEnterPressed
+   \   000000B8   001090E5           LDR      R1,[R0, #+0]
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000C4   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000C8   4B0100EF           SWI      +331
+    395            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,MMV_OnBack);
+   \   000000CC   ........           LDR      R0,??DataTable78  ;; ACTION_BACK
+   \   000000D0   20209FE5           LDR      R2,??MM_View_3+0x4  ;; ??MMV_OnBack
+   \   000000D4   001090E5           LDR      R1,[R0, #+0]
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000E0   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000E4   4B0100EF           SWI      +331
+    396            GUIObject_Show(lo);
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   340100EF           SWI      +308
+    397          }
+   \   000000F0   3780BDE8           POP      {R0-R2,R4,R5,PC}  ;; return
+   \                     ??MM_View_3:
+   \   000000F4   ........           DC32     ??MMV_onEnterPressed
+   \   000000F8   ........           DC32     ??MMV_OnBack
+    398          
+    399          
+    400          
+    401          
+    402          
+    403          
+    404          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    405          void MC_BMAdd(void)
+    406          {
+   \                     ??MC_BMAdd:
+   \   00000000   00402DE9           PUSH     {LR}
+    407            DoBMAdd();
+   \   00000004   ........           _BLF     ??DoBMAdd,??DoBMAdd??rA
+    408            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    409          }
+    410          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    411          void MC_BMList(void)
+    412          {
+   \                     ??MC_BMList:
+   \   00000000   00402DE9           PUSH     {LR}
+    413            DoBMList();
+   \   00000004   ........           _BLF     ??DoBMList,??DoBMList??rA
+    414            CloseAllMenu();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           B        ??CloseAllMenu   ;; tailcall
+    415          }
+    416          
+    417          MENU_DESC bm_menu[]={
+    418            {ind_add, MC_BMAdd,0},
+    419            {ind_bml, MC_BMList,0},
+    420          };
+    421          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    422          void MMBM_OnBack( BOOK* bk, GUI* )
+    423          {
+    424            FREE_GUI(cur_gui);
+   \                     ??MMBM_OnBack:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   ........           LDR      R4,??DataTable55  ;; op_menu
+   \   00000018   CE0100EF           SWI      +462
+   \   0000001C   F00084E5           STR      R0,[R4, #+240]
+    425          }
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    426          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    427          void MMBM_onEnterPressed( BOOK* bk, GUI* )
+    428          {
+    429            int item=ListMenu_GetSelectedItem(cur_gui);
+   \                     ??MMBM_onEnterPressed:
+   \   00000000   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   3E0100EF           SWI      +318
+    430            if (item<MAXELEMS(bm_menu))
+   \   00000010   020050E3           CMP      R0,#+2
+   \   00000014   0080BD28           POPCS    {PC}
+    431            {
+    432              if (bm_menu[item].proc) bm_menu[item].proc();
+   \   00000018   ........           LDR      R2,??DataTable55  ;; op_menu
+   \   0000001C   0C10A0E3           MOV      R1,#+12
+   \   00000020   912022E0           MLA      R2,R1,R0,R2
+   \   00000024   DC1092E5           LDR      R1,[R2, #+220]
+   \   00000028   000051E3           CMP      R1,#+0
+   \   0000002C   0080BD08           POPEQ    {PC}
+   \   00000030   ........           LDR      R2,??DataTable55  ;; op_menu
+   \   00000034   0C10A0E3           MOV      R1,#+12
+   \   00000038   912020E0           MLA      R0,R1,R0,R2
+   \   0000003C   DC0090E5           LDR      R0,[R0, #+220]
+   \   00000040   30FF2FE1           BLX      R0
+    433            }
+    434          }
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+    435          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    436          void MM_BM(void)
+    437          {
+   \                     ??MM_BM:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+    438            GUI_LIST *lo;
+    439            TEXTID sid;
+    440            wchar_t *head=muitxt(ind_mcmenu);
+   \   00000008   0C00A0E3           MOV      R0,#+12
+    441            cur_gui=lo=CreateListMenu(&MCBook->book,0);
+    442            TEXTID texts[MAXELEMS(bm_menu)];
+    443            wchar_t *names;
+    444            for (int i=0; i<MAXELEMS(bm_menu); i++)
+   \   0000000C   0060A0E3           MOV      R6,#+0
+   \   00000010   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000014   0040A0E1           MOV      R4,R0
+   \   00000018   ........           LDR      R0,??DataTable72  ;; MCBook
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   C00100EF           SWI      +448
+   \   00000028   0050A0E1           MOV      R5,R0
+   \   0000002C   ........           LDR      R0,??DataTable54  ;; op_menu + 240
+   \   00000030   005080E5           STR      R5,[R0, #+0]
+   \   00000034   0B0000EA           B        ??MM_BM_1
+    445            {
+    446              names=muitxt(bm_menu[i].id);
+   \                     ??MM_BM_2:
+   \   00000038   ........           LDR      R1,??DataTable55  ;; op_menu
+   \   0000003C   0C00A0E3           MOV      R0,#+12
+   \   00000040   901621E0           MLA      R1,R0,R6,R1
+   \   00000044   D80091E5           LDR      R0,[R1, #+216]
+   \   00000048   ........           _BLF     ??muitxt,??muitxt??rA
+    447              texts[i]=TextID_Create(names,ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000004C   FF20A0E3           MOV      R2,#+255
+   \   00000050   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   5D0100EF           SWI      +349
+   \   0000005C   0D10A0E1           MOV      R1,SP
+   \   00000060   060181E7           STR      R0,[R1, +R6, LSL #+2]
+    448            }
+   \   00000064   016086E2           ADD      R6,R6,#+1
+   \                     ??MM_BM_1:
+   \   00000068   020056E3           CMP      R6,#+2
+   \   0000006C   F1FFFF3A           BCC      ??MM_BM_2
+    449            OneOfMany_SetTexts((GUI_ONEOFMANY *)lo,texts,MAXELEMS(bm_menu));
+   \   00000070   0220A0E3           MOV      R2,#+2
+   \   00000074   0D10A0E1           MOV      R1,SP
+   \   00000078   0500A0E1           MOV      R0,R5
+   \   0000007C   480100EF           SWI      +328
+    450            sid=TextID_Create(head,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000080   FF20A0E3           MOV      R2,#+255
+   \   00000084   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   0400A0E1           MOV      R0,R4
+   \   00000090   5D0100EF           SWI      +349
+   \   00000094   0010A0E1           MOV      R1,R0
+    451            GUIObject_SetTitleText(lo,sid);
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   330100EF           SWI      +307
+    452            ListMenu_SetItemCount(lo,MAXELEMS(bm_menu));
+   \   000000A0   0210A0E3           MOV      R1,#+2
+   \   000000A4   0500A0E1           MOV      R0,R5
+   \   000000A8   C10100EF           SWI      +449
+    453            ListMenu_SetCursorToItem(lo,0);
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   0500A0E1           MOV      R0,R5
+   \   000000B4   350100EF           SWI      +309
+    454            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,MMBM_onEnterPressed); 
+   \   000000B8   ........           LDR      R0,??DataTable77  ;; ACTION_SELECT1
+   \   000000BC   38209FE5           LDR      R2,??MM_BM_3     ;; ??MMBM_onEnterPressed
+   \   000000C0   001090E5           LDR      R1,[R0, #+0]
+   \   000000C4   0500A0E1           MOV      R0,R5
+   \   000000C8   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000CC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000D0   4B0100EF           SWI      +331
+    455            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,MMBM_OnBack);
+   \   000000D4   ........           LDR      R0,??DataTable78  ;; ACTION_BACK
+   \   000000D8   20209FE5           LDR      R2,??MM_BM_3+0x4  ;; ??MMBM_OnBack
+   \   000000DC   001090E5           LDR      R1,[R0, #+0]
+   \   000000E0   0500A0E1           MOV      R0,R5
+   \   000000E4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000E8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000EC   4B0100EF           SWI      +331
+    456            GUIObject_Show(lo);
+   \   000000F0   0500A0E1           MOV      R0,R5
+   \   000000F4   340100EF           SWI      +308
+    457          }
+   \   000000F8   7380BDE8           POP      {R0,R1,R4-R6,PC}  ;; return
+   \                     ??MM_BM_3:
+   \   000000FC   ........           DC32     ??MMBM_onEnterPressed
+   \   00000100   ........           DC32     ??MMBM_OnBack
+    458          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    459          void MC_DrvInf(void)
+    460          {
+    461            CloseMenu();
+   \                     ??MC_DrvInf:
+   \   00000000   ........           B        ??CloseMenu      ;; tailcall
+    462          }
+    463          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    464          void MC_Options(void)
+    465          {
+    466            DoExecFile(successed_config_path, successed_config_name);
+   \                     ??MC_Options:
+   \   00000000   18009FE5           LDR      R0,??MC_Options_1  ;; successed_config_name
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   10009FE5           LDR      R0,??MC_Options_1+0x4  ;; successed_config_path
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   ........           _BLF     ??DoExecFile,??DoExecFile??rA
+    467            CloseMenu();
+   \   00000018   0040BDE8           POP      {LR}             ;; Pop
+   \   0000001C   ........           B        ??CloseMenu      ;; tailcall
+   \                     ??MC_Options_1:
+   \   00000020   ........           DC32     successed_config_name
+   \   00000024   ........           DC32     successed_config_path
+    468          }
+    469          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    470          void MC_AboutDlg(void)
+    471          {
+    472            CloseMenu();
+   \                     ??MC_AboutDlg:
+   \   00000000   ........           B        ??CloseMenu      ;; tailcall
+    473          }
+    474          
+    475          MENU_DESC mis_menu[]={
+    476            {ind_bm_m,     MM_BM,0},
+    477            {ind_drvinf,   MC_DrvInf,0},
+    478            {ind_settings, MC_Options,0},
+    479            {ind_about_m,  MC_AboutDlg,0}  
+    480          };
+    481          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    482          void MMM_OnBack( BOOK* bk, GUI* )
+    483          {
+    484            FREE_GUI(menu_id[misc_ind]);
+   \                     ??MMM_OnBack:
+   \   00000000   ........           LDR      R0,??DataTable64  ;; menu_id + 4
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   ........           LDR      R4,??DataTable71  ;; menu_id
+   \   00000018   CE0100EF           SWI      +462
+   \   0000001C   040084E5           STR      R0,[R4, #+4]
+    485          }
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    486          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    487          void MMM_onEnterPressed( BOOK* bk, GUI* )
+    488          {
+    489            int item=ListMenu_GetSelectedItem(menu_id[misc_ind]);
+   \                     ??MMM_onEnterPressed:
+   \   00000000   ........           LDR      R0,??DataTable64  ;; menu_id + 4
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   3E0100EF           SWI      +318
+    490            if (item<MAXELEMS(mis_menu))
+   \   00000010   040050E3           CMP      R0,#+4
+   \   00000014   0080BD28           POPCS    {PC}
+    491            {
+    492              if (mis_menu[item].proc) mis_menu[item].proc();
+   \   00000018   ........           LDR      R2,??DataTable71  ;; menu_id
+   \   0000001C   0C10A0E3           MOV      R1,#+12
+   \   00000020   912022E0           MLA      R2,R1,R0,R2
+   \   00000024   881092E5           LDR      R1,[R2, #+136]
+   \   00000028   000051E3           CMP      R1,#+0
+   \   0000002C   0080BD08           POPEQ    {PC}
+   \   00000030   ........           LDR      R2,??DataTable71  ;; menu_id
+   \   00000034   0C10A0E3           MOV      R1,#+12
+   \   00000038   912020E0           MLA      R0,R1,R0,R2
+   \   0000003C   880090E5           LDR      R0,[R0, #+136]
+   \   00000040   30FF2FE1           BLX      R0
+    493            }
+    494          }
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+    495          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    496          void MM_Misc(void)
+    497          {
+   \                     ??MM_Misc:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   10D04DE2           SUB      SP,SP,#+16
+    498            GUI_LIST *lo;
+    499            TEXTID sid;
+    500            wchar_t *head=muitxt(ind_mcmenu);
+   \   00000008   0C00A0E3           MOV      R0,#+12
+    501            menu_id[misc_ind]=lo=CreateListMenu(&MCBook->book,0);
+    502            TEXTID texts[MAXELEMS(mis_menu)];
+    503            wchar_t *names;
+    504            for (int i=0; i<MAXELEMS(mis_menu); i++)
+   \   0000000C   0060A0E3           MOV      R6,#+0
+   \   00000010   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000014   0040A0E1           MOV      R4,R0
+   \   00000018   ........           LDR      R0,??DataTable72  ;; MCBook
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   C00100EF           SWI      +448
+   \   00000028   0050A0E1           MOV      R5,R0
+   \   0000002C   ........           LDR      R0,??DataTable64  ;; menu_id + 4
+   \   00000030   005080E5           STR      R5,[R0, #+0]
+   \   00000034   0B0000EA           B        ??MM_Misc_1
+    505            {
+    506              names=muitxt(mis_menu[i].id);
+   \                     ??MM_Misc_2:
+   \   00000038   ........           LDR      R1,??DataTable71  ;; menu_id
+   \   0000003C   0C00A0E3           MOV      R0,#+12
+   \   00000040   901621E0           MLA      R1,R0,R6,R1
+   \   00000044   840091E5           LDR      R0,[R1, #+132]
+   \   00000048   ........           _BLF     ??muitxt,??muitxt??rA
+    507              texts[i]=TextID_Create(names,ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000004C   FF20A0E3           MOV      R2,#+255
+   \   00000050   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   5D0100EF           SWI      +349
+   \   0000005C   0D10A0E1           MOV      R1,SP
+   \   00000060   060181E7           STR      R0,[R1, +R6, LSL #+2]
+    508            }
+   \   00000064   016086E2           ADD      R6,R6,#+1
+   \                     ??MM_Misc_1:
+   \   00000068   040056E3           CMP      R6,#+4
+   \   0000006C   F1FFFF3A           BCC      ??MM_Misc_2
+    509            OneOfMany_SetTexts((GUI_ONEOFMANY *)lo,texts,MAXELEMS(mis_menu));
+   \   00000070   0420A0E3           MOV      R2,#+4
+   \   00000074   0D10A0E1           MOV      R1,SP
+   \   00000078   0500A0E1           MOV      R0,R5
+   \   0000007C   480100EF           SWI      +328
+    510            sid=TextID_Create(head,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000080   FF20A0E3           MOV      R2,#+255
+   \   00000084   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   0400A0E1           MOV      R0,R4
+   \   00000090   5D0100EF           SWI      +349
+   \   00000094   0010A0E1           MOV      R1,R0
+    511            GUIObject_SetTitleText(lo,sid);
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   330100EF           SWI      +307
+    512            ListMenu_SetItemCount(lo,MAXELEMS(mis_menu));
+   \   000000A0   0410A0E3           MOV      R1,#+4
+   \   000000A4   0500A0E1           MOV      R0,R5
+   \   000000A8   C10100EF           SWI      +449
+    513            ListMenu_SetCursorToItem(lo,0);
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   0500A0E1           MOV      R0,R5
+   \   000000B4   350100EF           SWI      +309
+    514            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,MMM_onEnterPressed); 
+   \   000000B8   ........           LDR      R0,??DataTable77  ;; ACTION_SELECT1
+   \   000000BC   38209FE5           LDR      R2,??MM_Misc_3   ;; ??MMM_onEnterPressed
+   \   000000C0   001090E5           LDR      R1,[R0, #+0]
+   \   000000C4   0500A0E1           MOV      R0,R5
+   \   000000C8   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000CC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000D0   4B0100EF           SWI      +331
+    515            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,MMM_OnBack);
+   \   000000D4   ........           LDR      R0,??DataTable78  ;; ACTION_BACK
+   \   000000D8   20209FE5           LDR      R2,??MM_Misc_3+0x4  ;; ??MMM_OnBack
+   \   000000DC   001090E5           LDR      R1,[R0, #+0]
+   \   000000E0   0500A0E1           MOV      R0,R5
+   \   000000E4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000E8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000EC   4B0100EF           SWI      +331
+    516            GUIObject_Show(lo);
+   \   000000F0   0500A0E1           MOV      R0,R5
+   \   000000F4   340100EF           SWI      +308
+    517          }
+   \   000000F8   7F80BDE8           POP      {R0-R6,PC}       ;; return
+   \                     ??MM_Misc_3:
+   \   000000FC   ........           DC32     ??MMM_onEnterPressed
+   \   00000100   ........           DC32     ??MMM_OnBack
+    518          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    519          void MC_Exit(void)
+    520          {
+   \                     ??MC_Exit:
+   \   00000000   00402DE9           PUSH     {LR}
+    521            CloseMenu();
+   \   00000004   ........           BL       ??CloseMenu
+    522            DoExit();
+   \   00000008   0040BDE8           POP      {LR}             ;; Pop
+   \   0000000C   ........           _BF      ??DoExit,??DoExit??rA  ;; tailcall
+    523          }
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     menu_id:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for menu_id>`
+    524          
+    525          
+    526          MENU_DESC opt_menu[]={
+   \                     opt_menu:
+   \   0000000C                      DS8 84
+   \   00000060                      REQUIRE `?<Initializer for opt_menu>`
+   \                     vw_menu:
+   \   00000060                      DS8 36
+   \   00000084                      REQUIRE `?<Initializer for vw_menu>`
+   \                     mis_menu:
+   \   00000084                      DS8 48
+   \   000000B4                      REQUIRE `?<Initializer for mis_menu>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     op_menu:
+   \   00000000                      DS8 108
+   \   0000006C                      REQUIRE `?<Initializer for op_menu>`
+   \                     fl_menu:
+   \   0000006C                      DS8 48
+   \   0000009C                      REQUIRE `?<Initializer for fl_menu>`
+   \                     st_menu:
+   \   0000009C                      DS8 60
+   \   000000D8                      REQUIRE `?<Initializer for st_menu>`
+   \                     bm_menu:
+   \   000000D8                      DS8 24
+   \   000000F0                      REQUIRE `?<Initializer for bm_menu>`
+   \                     cur_gui:
+   \   000000F0                      DS8 4
+   \   000000F4                      REQUIRE `?<Initializer for cur_gui>`
+    527            {ind_open,   MC_Open,0},
+    528            {ind_file_m, MM_File,0},
+    529            {ind_oper_m, MM_Oper,0},
+    530            {ind_prop,   MC_FileProp,0},
+    531            {ind_view_m, MM_View,0},
+    532            {ind_misc_m, MM_Misc,0},
+    533            {ind_exit,   MC_Exit,0}
+    534          };
+    535          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    536          int act_mmid=0;
+   \                     act_mmid:
+   \   00000000                      DS8 4
+    537          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    538          void MM_OnBack( BOOK* bk, GUI* )
+    539          {
+    540            CloseMenu();
+   \                     ??MM_OnBack:
+   \   00000000   ........           B        ??CloseMenu      ;; tailcall
+    541          }
+    542          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    543          void MM_onEnterPressed( BOOK* bk, GUI* )
+    544          {
+    545            int item=ListMenu_GetSelectedItem(menu_id[main_ind]);
+   \                     ??MM_onEnterPressed:
+   \   00000000   ........           LDR      R0,??DataTable71  ;; menu_id
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+    546            int n=0;
+   \   0000000C   0050A0E3           MOV      R5,#+0
+    547            for (int i=0; i<MAXELEMS(opt_menu); i++)
+   \   00000010   0060A0E3           MOV      R6,#+0
+   \   00000014   3E0100EF           SWI      +318
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   140000EA           B        ??MM_onEnterPressed_1
+    548            {
+    549              if (opt_menu[i].enabled)
+   \                     ??MM_onEnterPressed_2:
+   \   00000020   ........           LDR      R1,??DataTable71  ;; menu_id
+   \   00000024   0C00A0E3           MOV      R0,#+12
+   \   00000028   901621E0           MLA      R1,R0,R6,R1
+   \   0000002C   140091E5           LDR      R0,[R1, #+20]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0D00000A           BEQ      ??MM_onEnterPressed_3
+    550              {
+    551                if (item==n)
+   \   00000038   050054E1           CMP      R4,R5
+   \   0000003C   0A00001A           BNE      ??MM_onEnterPressed_4
+    552                {
+    553                  if (opt_menu[i].proc) opt_menu[i].proc();
+   \   00000040   ........           LDR      R1,??DataTable71  ;; menu_id
+   \   00000044   0C00A0E3           MOV      R0,#+12
+   \   00000048   901621E0           MLA      R1,R0,R6,R1
+   \   0000004C   100091E5           LDR      R0,[R1, #+16]
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   0400000A           BEQ      ??MM_onEnterPressed_4
+   \   00000058   ........           LDR      R1,??DataTable71  ;; menu_id
+   \   0000005C   0C00A0E3           MOV      R0,#+12
+   \   00000060   901621E0           MLA      R1,R0,R6,R1
+   \   00000064   100091E5           LDR      R0,[R1, #+16]
+   \   00000068   30FF2FE1           BLX      R0
+    554                }
+    555                n++;
+   \                     ??MM_onEnterPressed_4:
+   \   0000006C   015085E2           ADD      R5,R5,#+1
+    556              }
+    557            }
+   \                     ??MM_onEnterPressed_3:
+   \   00000070   016086E2           ADD      R6,R6,#+1
+   \                     ??MM_onEnterPressed_1:
+   \   00000074   070056E3           CMP      R6,#+7
+   \   00000078   E8FFFF3A           BCC      ??MM_onEnterPressed_2
+    558          }
+   \   0000007C   7080BDE8           POP      {R4-R6,PC}       ;; return
+    559          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    560          void MM_Main(void)
+    561          {
+    562            GUI_LIST *lo;
+    563            TEXTID sid;
+    564            menu_id[main_ind]=lo=CreateListMenu(&MCBook->book,0);
+   \                     ??MM_Main:
+   \   00000000   ........           LDR      R0,??DataTable72  ;; MCBook
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   1CD04DE2           SUB      SP,SP,#+28
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   C00100EF           SWI      +448
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   ........           LDR      R0,??DataTable76  ;; menu_id
+   \   00000020   004080E5           STR      R4,[R0, #+0]
+    565            TEXTID texts[MAXELEMS(opt_menu)];
+    566            for (int i=0; i<MAXELEMS(opt_menu); i++) opt_menu[i].enabled=1;   // Врубаем все
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   050000EA           B        ??MM_Main_1
+   \                     ??MM_Main_2:
+   \   0000002C   ........           LDR      R2,??DataTable76  ;; menu_id
+   \   00000030   0C10A0E3           MOV      R1,#+12
+   \   00000034   912022E0           MLA      R2,R1,R0,R2
+   \   00000038   0110A0E3           MOV      R1,#+1
+   \   0000003C   141082E5           STR      R1,[R2, #+20]
+   \   00000040   010080E2           ADD      R0,R0,#+1
+   \                     ??MM_Main_1:
+   \   00000044   070050E3           CMP      R0,#+7
+   \   00000048   F7FFFF3A           BCC      ??MM_Main_2
+    567            if (IsInArchive())
+   \   0000004C   ........           _BLF     ??IsInArchive,??IsInArchive??rA
+   \   00000050   000050E3           CMP      R0,#+0
+    568            {
+    569              opt_menu[0].enabled=0;
+   \   00000054   F8009F15           LDRNE    R0,??MM_Main_3   ;; menu_id + 20
+   \   00000058   0010A013           MOVNE    R1,#+0
+   \   0000005C   00108015           STRNE    R1,[R0, #+0]
+    570            }
+    571            int n=0;
+   \   00000060   0050A0E3           MOV      R5,#+0
+    572            wchar_t *names;
+    573            for (int i=0; i<MAXELEMS(opt_menu); i++)
+   \   00000064   0060A0E3           MOV      R6,#+0
+   \   00000068   120000EA           B        ??MM_Main_4
+    574            {
+    575              if (opt_menu[i].enabled)
+   \                     ??MM_Main_5:
+   \   0000006C   ........           LDR      R1,??DataTable76  ;; menu_id
+   \   00000070   0C00A0E3           MOV      R0,#+12
+   \   00000074   901621E0           MLA      R1,R0,R6,R1
+   \   00000078   140091E5           LDR      R0,[R1, #+20]
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   0B00000A           BEQ      ??MM_Main_6
+    576              {
+    577                names=muitxt(opt_menu[i].id);
+   \   00000084   ........           LDR      R1,??DataTable76  ;; menu_id
+   \   00000088   0C00A0E3           MOV      R0,#+12
+   \   0000008C   901621E0           MLA      R1,R0,R6,R1
+   \   00000090   0C0091E5           LDR      R0,[R1, #+12]
+   \   00000094   ........           _BLF     ??muitxt,??muitxt??rA
+    578                texts[n]=TextID_Create(names,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000098   FF20A0E3           MOV      R2,#+255
+   \   0000009C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000000A0   0010A0E3           MOV      R1,#+0
+   \   000000A4   5D0100EF           SWI      +349
+   \   000000A8   0D10A0E1           MOV      R1,SP
+   \   000000AC   050181E7           STR      R0,[R1, +R5, LSL #+2]
+    579                n++;
+   \   000000B0   015085E2           ADD      R5,R5,#+1
+    580              }
+    581            }
+   \                     ??MM_Main_6:
+   \   000000B4   016086E2           ADD      R6,R6,#+1
+   \                     ??MM_Main_4:
+   \   000000B8   070056E3           CMP      R6,#+7
+   \   000000BC   EAFFFF3A           BCC      ??MM_Main_5
+    582            OneOfMany_SetTexts((GUI_ONEOFMANY *)lo,texts,n);
+   \   000000C0   0520A0E1           MOV      R2,R5
+   \   000000C4   0D10A0E1           MOV      R1,SP
+   \   000000C8   0400A0E1           MOV      R0,R4
+   \   000000CC   480100EF           SWI      +328
+    583            sid=TextID_Create(muitxt(ind_mcmenu),ENC_UCS2,TEXTID_ANY_LEN);
+   \   000000D0   0C00A0E3           MOV      R0,#+12
+   \   000000D4   ........           _BLF     ??muitxt,??muitxt??rA
+   \   000000D8   FF20A0E3           MOV      R2,#+255
+   \   000000DC   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000000E0   0010A0E3           MOV      R1,#+0
+   \   000000E4   5D0100EF           SWI      +349
+   \   000000E8   0010A0E1           MOV      R1,R0
+    584            GUIObject_SetTitleText(lo,sid);
+   \   000000EC   0400A0E1           MOV      R0,R4
+   \   000000F0   330100EF           SWI      +307
+    585            ListMenu_SetItemCount(lo,n);
+   \   000000F4   0510A0E1           MOV      R1,R5
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   C10100EF           SWI      +449
+    586            ListMenu_SetCursorToItem(lo,0);
+   \   00000100   0010A0E3           MOV      R1,#+0
+   \   00000104   0400A0E1           MOV      R0,R4
+   \   00000108   350100EF           SWI      +309
+    587            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,MM_onEnterPressed); 
+   \   0000010C   ........           LDR      R0,??DataTable77  ;; ACTION_SELECT1
+   \   00000110   40209FE5           LDR      R2,??MM_Main_3+0x4  ;; ??MM_onEnterPressed
+   \   00000114   001090E5           LDR      R1,[R0, #+0]
+   \   00000118   0400A0E1           MOV      R0,R4
+   \   0000011C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000120   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000124   4B0100EF           SWI      +331
+    588            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,MM_OnBack);
+   \   00000128   ........           LDR      R0,??DataTable78  ;; ACTION_BACK
+   \   0000012C   28209FE5           LDR      R2,??MM_Main_3+0x8  ;; ??MM_OnBack
+   \   00000130   001090E5           LDR      R1,[R0, #+0]
+   \   00000134   0400A0E1           MOV      R0,R4
+   \   00000138   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000013C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000140   4B0100EF           SWI      +331
+    589            GUIObject_Show(lo);
+   \   00000144   0400A0E1           MOV      R0,R4
+   \   00000148   340100EF           SWI      +308
+    590          }
+   \   0000014C   1CD08DE2           ADD      SP,SP,#+28
+   \   00000150   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??MM_Main_3:
+   \   00000154   ........           DC32     menu_id + 20
+   \   00000158   ........           DC32     ??MM_onEnterPressed
+   \   0000015C   ........           DC32     ??MM_OnBack
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable21:
+   \   00000000   ........           DC32     op_menu + 240
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable25:
+   \   00000000   ........           DC32     op_menu
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable44:
+   \   00000000   ........           DC32     menu_id + 8
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable54:
+   \   00000000   ........           DC32     op_menu + 240
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable55:
+   \   00000000   ........           DC32     op_menu
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable64:
+   \   00000000   ........           DC32     menu_id + 4
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable71:
+   \   00000000   ........           DC32     menu_id
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable72:
+   \   00000000   ........           DC32     MCBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable76:
+   \   00000000   ........           DC32     menu_id
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable77:
+   \   00000000   ........           DC32     ACTION_SELECT1
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable78:
+   \   00000000   ........           DC32     ACTION_BACK
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for menu_id>`:
+   \   00000000   000000000000       DC32 0H, 0H, 0H
+   \              000000000000
+   \                     `?<Initializer for opt_menu>`:
+   \   0000000C   0F000000....       DC32 15, ??MC_Open, 0, 16, ??MM_File, 0, 21, ??MM_Oper, 0, 29
+   \              ....00000000
+   \              10000000....
+   \              ....00000000
+   \              15000000....
+   \              ....00000000
+   \              1D000000    
+   \   00000034   ........0000       DC32 ??MC_FileProp, 0, 31, ??MM_View, 0, 45, ??MM_Misc, 0, 48
+   \              00001F000000
+   \              ........0000
+   \              00002D000000
+   \              ........0000
+   \              000030000000
+   \   00000058   ........0000       DC32 ??MC_Exit, 0
+   \              0000        
+   \                     `?<Initializer for vw_menu>`:
+   \   00000060   20000000....       DC32 32, ??MM_Sort, 0, 38, ??MC_Filter, 0, 39, ??MC_Refresh, 0
+   \              ....00000000
+   \              26000000....
+   \              ....00000000
+   \              27000000....
+   \              ....00000000
+   \                     `?<Initializer for mis_menu>`:
+   \   00000084   29000000....       DC32 41, ??MM_BM, 0, 30, ??MC_DrvInf, 0, 46, ??MC_Options, 0, 47
+   \              ....00000000
+   \              1E000000....
+   \              ....00000000
+   \              2E000000....
+   \              ....00000000
+   \              2F000000    
+   \   000000AC   ........0000       DC32 ??MC_AboutDlg, 0
+   \              0000        
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for op_menu>`:
+   \   00000000   31000000....       DC32 49, ??MC_Send, 0, 22, ??MC_Paste, 0, 23, ??MC_Cancel, 0, 24
+   \              ....00000000
+   \              16000000....
+   \              ....00000000
+   \              17000000....
+   \              ....00000000
+   \              18000000    
+   \   00000028   ........0000       DC32 ??MC_Copy, 0, 25, ??MC_Move, 0, 26, ??MC_Delit, 0, 27, ??MC_Rename
+   \              000019000000
+   \              ........0000
+   \              00001A000000
+   \              ........0000
+   \              00001B000000
+   \              ........    
+   \   00000050   000000001C00       DC32 0, 28, ??MC_NewDir, 0, 40, ??MC_NewFile, 0
+   \              0000........
+   \              000000002800
+   \              0000........
+   \              00000000    
+   \                     `?<Initializer for fl_menu>`:
+   \   0000006C   11000000....       DC32 17, ??MC_Chk, 0, 18, ??MC_ChkAll, 0, 20, ??MC_UnChkAll, 0, 19
+   \              ....00000000
+   \              12000000....
+   \              ....00000000
+   \              14000000....
+   \              ....00000000
+   \              13000000    
+   \   00000094   ........0000       DC32 ??MC_InvChk, 0
+   \              0000        
+   \                     `?<Initializer for st_menu>`:
+   \   0000009C   21000000....       DC32 33, ??MC_SRTName, 0, 34, ??MC_SRTExt, 0, 35, ??MC_SRTSize, 0, 36
+   \              ....00000000
+   \              22000000....
+   \              ....00000000
+   \              23000000....
+   \              ....00000000
+   \              24000000    
+   \   000000C4   ........0000       DC32 ??MC_SRTDate, 0, 37, ??MC_SRTRev, 0
+   \              000025000000
+   \              ........0000
+   \              0000        
+   \                     `?<Initializer for bm_menu>`:
+   \   000000D8   2B000000....       DC32 43, ??MC_BMAdd, 0, 44, ??MC_BMList, 0
+   \              ....00000000
+   \              2C000000....
+   \              ....00000000
+   \                     `?<Initializer for cur_gui>`:
+   \   000000F0   00000000           DC32 0H
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CloseAllMenu()                     8
+     CloseMenu()                       12
+     CountMenuDesc(MENU_DESC *, int)
+                                        4
+     MC_AboutDlg()                      4
+     MC_BMAdd()                         4
+     MC_BMList()                        4
+     MC_Cancel()                        4
+     MC_Chk()                           4
+     MC_ChkAll()                        4
+     MC_Copy()                          4
+     MC_Delit()                         4
+     MC_DrvInf()                        4
+     MC_Exit()                          4
+     MC_FileProp()                      0
+     MC_Filter()                        4
+     MC_InvChk()                        4
+     MC_Move()                          4
+     MC_NewDir()                        4
+     MC_NewFile()                       4
+     MC_Open()                          4
+     MC_Options()                       4
+     MC_Paste()                         4
+     MC_Refresh()                       4
+     MC_Rename()                        4
+     MC_SRTDate()                       4
+     MC_SRTExt()                        4
+     MC_SRTName()                       4
+     MC_SRTRev()                        4
+     MC_SRTSize()                       4
+     MC_Send()                          4
+     MC_UnChkAll()                      4
+     MMBM_OnBack(BOOK *, GUI *)         8
+     MMBM_onEnterPressed(BOOK *, GUI *)
+                                        4
+     MMF_OnBack(BOOK *, GUI *)          8
+     MMF_onEnterPressed(BOOK *, GUI *)
+                                        4
+     MMM_OnBack(BOOK *, GUI *)          8
+     MMM_onEnterPressed(BOOK *, GUI *)
+                                        4
+     MMO_OnBack(BOOK *, GUI *)          8
+     MMO_onEnterPressed(BOOK *, GUI *)
+                                       16
+     MMS_OnBack(BOOK *, GUI *)          8
+     MMS_On_Msg(GUI_MESSAGE *)         16
+     MMS_onEnterPressed(BOOK *, GUI *)
+                                        4
+     MMV_OnBack(BOOK *, GUI *)          8
+     MMV_onEnterPressed(BOOK *, GUI *)
+                                        4
+     MM_BM()                           24
+     MM_File()                         28
+     MM_Main()                         44
+     MM_Misc()                         32
+     MM_OnBack(BOOK *, GUI *)           4
+     MM_Oper()                         52
+     MM_Sort()                         12
+     MM_View()                         24
+     MM_onEnterPressed(BOOK *, GUI *)
+                                       16
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     CountMenuDesc(MENU_DESC *, int)
+                                      68
+     CloseMenu()                      52
+     CloseAllMenu()                   40
+     MC_Open()                        16
+     MC_Chk()                         16
+     MC_ChkAll()                      16
+     MC_UnChkAll()                    16
+     MC_InvChk()                      16
+     MMF_OnBack(BOOK *, GUI *)        36
+     MMF_onEnterPressed(BOOK *, GUI *)
+                                      72
+     MM_File()                       252
+     MC_Send()                        16
+     MC_Paste()                       16
+     MC_Cancel()                      16
+     MC_Copy()                        16
+     MC_Move()                        16
+     MC_Delit()                       16
+     MC_NewDir()                      16
+     MC_Rename()                      16
+     MC_NewFile()                      4
+     MMO_OnBack(BOOK *, GUI *)        36
+     MMO_onEnterPressed(BOOK *, GUI *)
+                                     128
+     MM_Oper()                       392
+     MC_FileProp()                     4
+     MC_SRTName()                     16
+     MC_SRTExt()                      16
+     MC_SRTSize()                     16
+     MC_SRTDate()                     16
+     MC_SRTRev()                      16
+     MMS_OnBack(BOOK *, GUI *)        36
+     MMS_onEnterPressed(BOOK *, GUI *)
+                                      72
+     MMS_On_Msg(GUI_MESSAGE *)       272
+     MM_Sort()                       192
+     MC_Filter()                      16
+     MC_Refresh()                     16
+     MMV_OnBack(BOOK *, GUI *)        36
+     MMV_onEnterPressed(BOOK *, GUI *)
+                                      72
+     MM_View()                       252
+     MC_BMAdd()                       16
+     MC_BMList()                      16
+     MMBM_OnBack(BOOK *, GUI *)       36
+     MMBM_onEnterPressed(BOOK *, GUI *)
+                                      72
+     MM_BM()                         260
+     MC_DrvInf()                       4
+     MC_Options()                     40
+     MC_AboutDlg()                     4
+     MMM_OnBack(BOOK *, GUI *)        36
+     MMM_onEnterPressed(BOOK *, GUI *)
+                                      72
+     MM_Misc()                       260
+     MC_Exit()                        16
+     menu_id                         180
+     op_menu                         244
+     act_mmid                          4
+     MM_OnBack(BOOK *, GUI *)          4
+     MM_onEnterPressed(BOOK *, GUI *)
+                                     128
+     MM_Main()                       352
+     ??DataTable21                     4
+     ??DataTable25                     4
+     ??DataTable44                     4
+     ??DataTable54                     4
+     ??DataTable55                     4
+     ??DataTable64                     4
+     ??DataTable71                     4
+     ??DataTable72                     4
+     ??DataTable76                     4
+     ??DataTable77                     4
+     ??DataTable78                     4
+     ?<Initializer for menu_id>      180
+     ?<Initializer for op_menu>      244
+      Others                         548
+
+ 
+ 4 220 bytes in segment CODE
+   424 bytes in segment DATA_I
+   424 bytes in segment DATA_ID
+     4 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 3 696 bytes of CODE  memory (+ 548 bytes shared)
+   424 bytes of CONST memory
+   428 bytes of DATA  memory
+
+Errors: none
+Warnings: none

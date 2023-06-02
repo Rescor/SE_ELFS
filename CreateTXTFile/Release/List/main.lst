@@ -1,0 +1,1900 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:01:29 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CreateTXTFile\ #
+#                       main.c                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CreateTXTFile\ #
+#                       main.c -D NDEBUG -D OLDFUNCTIONS -lC                 #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CreateTXTFile\ #
+#                       Release\List\ -lA Z:\home\perk11\www\perk11.info\svn #
+#                       \SE\CreateTXTFile\Release\List\ -o                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CreateTXTFile\ #
+#                       Release\Obj\ -s9 --no_unroll --no_inline --cpu_mode  #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --eec++ -I               #
+#                       Z:\home\perk11\IAR2\arm\INC\                         #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CreateTXTFile\ #
+#                       Release\List\main.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CreateTXTFile\ #
+#                       Release\Obj\main.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\CreateTXTFile\main.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          
+      5          typedef struct
+      6          {
+      7            BOOK book;
+      8            GUI * TextInput;
+      9            GUI * NameInput;
+     10            GUI_LIST * list;
+     11            GUI_ONEOFMANY * oom_list;
+     12            wchar_t * w_string;
+     13            char * string;
+     14            wchar_t * FileName;
+     15            int length;
+     16            int coding;
+     17          }MyBOOK;
+     18          
+     19          typedef struct
+     20          {
+     21            BOOK book;
+     22            int bookID;
+     23          }DB_BOOK;
+     24          
+     25          typedef struct
+     26          {
+     27            BOOK * book;
+     28          }MSG;
+     29          
+     30          void CreateNameInput(int editable_strID,u16 curs_pos,char hz);
+     31          MyBOOK * CreateFileBook;
+     32          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     33          char * unicode2win1251(char *s, wchar_t *ws, int len)
+     34          {
+   \                     ??unicode2win1251:
+   \   00000000   10002DE9           PUSH     {R4}
+     35            char *d=s;
+   \   00000004   0030A0E1           MOV      R3,R0
+   \   00000008   060000EA           B        ??unicode2win1251_1
+     36            int c;
+     37            while((c=*ws++)&&((len--)>0))
+     38            {
+     39              if (c==0x401) c=0xA8;
+     40              if (c==0x404) c=0xAA;
+     41              if (c==0x407) c=0xAF;
+     42              if (c==0x451) c=0xB8;
+     43              if (c==0x454) c=0xBA;
+     44              if (c==0x457) c=0xBF;
+     45              if ((c>=0x410)&&(c<0x450)) c-=0x350;
+   \                     ??unicode2win1251_2:
+   \   0000000C   410E5CE3           CMP      R12,#+1040
+   \   00000010   030000BA           BLT      ??unicode2win1251_3
+   \   00000014   450E5CE3           CMP      R12,#+1104
+   \   00000018   4F40E0B3           MVNLT    R4,#+79
+   \   0000001C   C04FC4B3           BICLT    R4,R4,#0x300
+   \   00000020   0CC084B0           ADDLT    R12,R4,R12
+     46              *s++=c;
+   \                     ??unicode2win1251_3:
+   \   00000024   ........           STRB     R12,[R0], #+1
+   \                     ??unicode2win1251_1:
+   \   00000028   ........           LDRH     R12,[R1], #+2
+   \   0000002C   00005CE3           CMP      R12,#+0
+   \   00000030   1D00000A           BEQ      ??unicode2win1251_4
+   \   00000034   0240A0E1           MOV      R4,R2
+   \   00000038   012044E2           SUB      R2,R4,#+1
+   \   0000003C   010054E3           CMP      R4,#+1
+   \   00000040   190000BA           BLT      ??unicode2win1251_4
+   \   00000044   0140A0E3           MOV      R4,#+1
+   \   00000048   404E84E3           ORR      R4,R4,#0x400
+   \   0000004C   04005CE1           CMP      R12,R4
+   \   00000050   A8C0A003           MOVEQ    R12,#+168
+   \   00000054   F2FFFF0A           BEQ      ??unicode2win1251_3
+   \   00000058   034084E2           ADD      R4,R4,#+3
+   \   0000005C   04005CE1           CMP      R12,R4
+   \   00000060   AAC0A003           MOVEQ    R12,#+170
+   \   00000064   EEFFFF0A           BEQ      ??unicode2win1251_3
+   \   00000068   034084E3           ORR      R4,R4,#0x3
+   \   0000006C   04005CE1           CMP      R12,R4
+   \   00000070   AFC0A003           MOVEQ    R12,#+175
+   \   00000074   EAFFFF0A           BEQ      ??unicode2win1251_3
+   \   00000078   4A4084E2           ADD      R4,R4,#+74
+   \   0000007C   04005CE1           CMP      R12,R4
+   \   00000080   B8C0A003           MOVEQ    R12,#+184
+   \   00000084   E6FFFF0A           BEQ      ??unicode2win1251_3
+   \   00000088   034084E2           ADD      R4,R4,#+3
+   \   0000008C   04005CE1           CMP      R12,R4
+   \   00000090   BAC0A003           MOVEQ    R12,#+186
+   \   00000094   E2FFFF0A           BEQ      ??unicode2win1251_3
+   \   00000098   034084E3           ORR      R4,R4,#0x3
+   \   0000009C   04005CE1           CMP      R12,R4
+   \   000000A0   D9FFFF1A           BNE      ??unicode2win1251_2
+   \   000000A4   BFC0A0E3           MOV      R12,#+191
+   \   000000A8   DDFFFFEA           B        ??unicode2win1251_3
+     47            }
+     48            *s=0;
+   \                     ??unicode2win1251_4:
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   0010C0E5           STRB     R1,[R0, #+0]
+     49            return(d);
+   \   000000B4   1000BDE8           POP      {R4}
+   \   000000B8   0300A0E1           MOV      R0,R3
+   \   000000BC   1EFF2FE1           BX       LR               ;; return
+     50          }
+     51          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     52          void ExitAction(BOOK *)
+     53          {
+     54            FreeBook((BOOK*)CreateFileBook);
+   \                     ??ExitAction:
+   \   00000000   ........           LDR      R0,??DataTable34  ;; CreateFileBook
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   2F0100EF           SWI      +303
+     55          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     56          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     57          int TerminateElf(void * ,BOOK* book)
+     58          {
+   \                     ??TerminateElf:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+     59            FreeBook(book);
+   \   00000008   2F0100EF           SWI      +303
+     60            return(1);
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     61          }
+     62          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          int ShowAuthorInfo(void *mess ,BOOK* book)
+     64          {
+   \                     ??ShowAuthorInfo:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     65            MSG * msg = (MSG*)mess;
+     66            MessageBox(EMPTY_TEXTID,STR("CreateTXTFile, v.1.2\r\n\r\n(c) IronMaster"), NOIMAGE, 1, 5000,msg->book);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   3C009FE5           LDR      R0,??ShowAuthorInfo_1  ;; `?<Constant L"\\x43\\x72\\x65\\x61\\x74\\x65\\x54\\x58\\`
+   \   00000010   FF50A0E3           MOV      R5,#+255
+   \   00000014   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000018   0520A0E1           MOV      R2,R5
+   \   0000001C   5D0100EF           SWI      +349
+   \   00000020   001094E5           LDR      R1,[R4, #+0]
+   \   00000024   0130A0E3           MOV      R3,#+1
+   \   00000028   02002DE9           PUSH     {R1}
+   \   0000002C   0520A0E1           MOV      R2,R5
+   \   00000030   8810A0E3           MOV      R1,#+136
+   \   00000034   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   9004E0E3           MVN      R0,#-1879048192
+   \   00000044   570200EF           SWI      +599
+     67            return(1);
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   3680BDE8           POP      {R1,R2,R4,R5,PC}  ;; return
+   \                     ??ShowAuthorInfo_1:
+   \   00000050   ........           DC32     `?<Constant L"\\x43\\x72\\x65\\x61\\x74\\x65\\x54\\x58\\`
+     68          }
+     69          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     70          void DestroyList(BOOK * bk, GUI* )
+     71          {
+   \                     ??DestroyList:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     72            if (CreateFileBook->list)
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   200090E5           LDR      R0,[R0, #+32]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+     73            {
+     74              GUIObject_Destroy(CreateFileBook->list);
+   \   00000018   CE0100EF           SWI      +462
+     75              CreateFileBook->list=0;
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   201080E5           STR      R1,[R0, #+32]
+     76            }
+     77          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     78          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     79          void DestroyOOM(BOOK * bk, GUI* )
+     80          {
+   \                     ??DestroyOOM:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     81            if (CreateFileBook->oom_list)
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   240090E5           LDR      R0,[R0, #+36]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+     82            {
+     83              GUIObject_Destroy(CreateFileBook->oom_list);
+   \   00000018   CE0100EF           SWI      +462
+     84              CreateFileBook->oom_list=0;
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   241080E5           STR      R1,[R0, #+36]
+     85            }
+     86          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     87          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     88          int DestroyNameInput()
+     89          {
+   \                     ??DestroyNameInput:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     90            if (CreateFileBook->NameInput)
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   1C0090E5           LDR      R0,[R0, #+28]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+     91            {
+     92              GUIObject_Destroy(CreateFileBook->NameInput);
+   \   00000018   CE0100EF           SWI      +462
+     93              CreateFileBook->NameInput=0;
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   1C1080E5           STR      R1,[R0, #+28]
+     94            }
+     95            return(0);
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+     96          }
+     97          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     98          int DestroyTextInput()
+     99          {
+   \                     ??DestroyTextInput:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    100            if (CreateFileBook->TextInput)
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   180090E5           LDR      R0,[R0, #+24]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+    101            {
+    102              GUIObject_Destroy(CreateFileBook->TextInput);
+   \   00000018   CE0100EF           SWI      +462
+    103              CreateFileBook->TextInput=0;
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   181080E5           STR      R1,[R0, #+24]
+    104            }
+    105            return(0);
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+    106          }
+    107          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    108          int onAccept(void * data, BOOK *)
+    109          {
+   \                     ??onAccept:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    110            if (fstat( FILEITEM_GetPath((FILEITEM*)data), CreateFileBook->FileName, 0)>=0)
+   \   00000004   ........           LDR      R6,??DataTable34  ;; CreateFileBook
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   64719FE5           LDR      R7,??onAccept_1  ;; `?<Constant L"\\x44\\x42\\x5f\\x4e\\x41\\x4d\\x45\\x5f\\`
+   \   00000010   0080A0E1           MOV      R8,R0
+   \   00000014   D30200EF           SWI      +723
+   \   00000018   001096E5           LDR      R1,[R6, #+0]
+   \   0000001C   8840A0E3           MOV      R4,#+136
+   \   00000020   301091E5           LDR      R1,[R1, #+48]
+   \   00000024   4C4D84E3           ORR      R4,R4,#0x1300
+   \   00000028   FF50A0E3           MOV      R5,#+255
+   \   0000002C   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000030   0020A0E3           MOV      R2,#+0
+   \   00000034   1C0100EF           SWI      +284
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   1000004A           BMI      ??onAccept_2
+    111            {
+    112              int str_id;
+    113              textidname2id(L"DB_NAME_EXIST_TXT",TEXTID_ANY_LEN,&str_id);
+   \   00000040   0D20A0E1           MOV      R2,SP
+   \   00000044   0510A0E1           MOV      R1,R5
+   \   00000048   0700A0E1           MOV      R0,R7
+   \   0000004C   870200EF           SWI      +647
+    114              MessageBox(EMPTY_TEXTID,str_id, NOIMAGE, 1, 5000,0);
+   \   00000050   0000A0E3           MOV      R0,#+0
+   \   00000054   01002DE9           PUSH     {R0}
+   \   00000058   10002DE9           PUSH     {R4}
+   \   0000005C   08109DE5           LDR      R1,[SP, #+8]
+   \   00000060   0130A0E3           MOV      R3,#+1
+   \   00000064   0520A0E1           MOV      R2,R5
+   \   00000068   9004E0E3           MVN      R0,#-1879048192
+   \   0000006C   570200EF           SWI      +599
+    115              DestroyList(0,0);
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   ........           BL       ??DestroyList
+   \   0000007C   08D08DE2           ADD      SP,SP,#+8
+   \   00000080   2B0000EA           B        ??onAccept_3
+    116            }
+    117            else
+    118            {
+    119              int f;
+    120              int len;
+    121              if ( (f=_fopen( FILEITEM_GetPath((FILEITEM*)data), CreateFileBook->FileName, FSX_O_WRONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+   \                     ??onAccept_2:
+   \   00000084   0800A0E1           MOV      R0,R8
+   \   00000088   D30200EF           SWI      +723
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   02002DE9           PUSH     {R1}
+   \   00000094   001096E5           LDR      R1,[R6, #+0]
+   \   00000098   603FA0E3           MOV      R3,#+384
+   \   0000009C   301091E5           LDR      R1,[R1, #+48]
+   \   000000A0   0220A0E3           MOV      R2,#+2
+   \   000000A4   160100EF           SWI      +278
+   \   000000A8   0080B0E1           MOVS     R8,R0
+   \   000000AC   04D08DE2           ADD      SP,SP,#+4
+   \   000000B0   2100004A           BMI      ??onAccept_4
+    122              {
+    123                void * str_buf;
+    124                if (CreateFileBook->coding)
+   \   000000B4   000096E5           LDR      R0,[R6, #+0]
+   \   000000B8   349090E5           LDR      R9,[R0, #+52]
+   \   000000BC   381090E5           LDR      R1,[R0, #+56]
+   \   000000C0   000051E3           CMP      R1,#+0
+   \   000000C4   0300000A           BEQ      ??onAccept_5
+    125                {
+    126                  str_buf=CreateFileBook->w_string;
+   \   000000C8   281090E5           LDR      R1,[R0, #+40]
+    127                  len=CreateFileBook->length*2+2;
+   \   000000CC   0200A0E3           MOV      R0,#+2
+   \   000000D0   899080E0           ADD      R9,R0,R9, LSL #+1
+   \   000000D4   000000EA           B        ??onAccept_6
+    128                }
+    129                else
+    130                {
+    131                  str_buf=CreateFileBook->string;
+   \                     ??onAccept_5:
+   \   000000D8   2C1090E5           LDR      R1,[R0, #+44]
+    132                  len=CreateFileBook->length;
+    133                }
+    134                if (fwrite(f,str_buf,len)!=len)
+   \                     ??onAccept_6:
+   \   000000DC   0920A0E1           MOV      R2,R9
+   \   000000E0   0800A0E1           MOV      R0,R8
+   \   000000E4   190100EF           SWI      +281
+   \   000000E8   090050E1           CMP      R0,R9
+   \   000000EC   0C00000A           BEQ      ??onAccept_7
+    135                {
+    136                  MessageBox(EMPTY_TEXTID,STR("Write File Error!!!"), NOIMAGE, 1, 5000,0);
+   \   000000F0   0520A0E1           MOV      R2,R5
+   \   000000F4   0010A0E3           MOV      R1,#+0
+   \   000000F8   240087E2           ADD      R0,R7,#+36
+   \   000000FC   5D0100EF           SWI      +349
+   \   00000100   0010A0E3           MOV      R1,#+0
+   \   00000104   02002DE9           PUSH     {R1}
+   \   00000108   10002DE9           PUSH     {R4}
+   \   0000010C   0130A0E3           MOV      R3,#+1
+   \   00000110   0520A0E1           MOV      R2,R5
+   \   00000114   0010A0E1           MOV      R1,R0
+   \   00000118   9004E0E3           MVN      R0,#-1879048192
+   \   0000011C   570200EF           SWI      +599
+   \   00000120   08D08DE2           ADD      SP,SP,#+8
+    137                }
+    138                fclose(f);
+   \                     ??onAccept_7:
+   \   00000124   0800A0E1           MOV      R0,R8
+   \   00000128   170100EF           SWI      +279
+    139                FreeBook((BOOK*)CreateFileBook);
+   \   0000012C   000096E5           LDR      R0,[R6, #+0]
+   \   00000130   2F0100EF           SWI      +303
+   \                     ??onAccept_3:
+   \   00000134   0000A0E3           MOV      R0,#+0
+   \   00000138   F283BDE8           POP      {R1,R4-R9,PC}
+    140              }
+    141              else
+    142              {
+    143                MessageBox(EMPTY_TEXTID,STR("Can't open file. Try later."), NOIMAGE, 1, 5000,0);
+   \                     ??onAccept_4:
+   \   0000013C   0520A0E1           MOV      R2,R5
+   \   00000140   0010A0E3           MOV      R1,#+0
+   \   00000144   4C0087E2           ADD      R0,R7,#+76
+   \   00000148   5D0100EF           SWI      +349
+   \   0000014C   0010A0E3           MOV      R1,#+0
+   \   00000150   02002DE9           PUSH     {R1}
+   \   00000154   10002DE9           PUSH     {R4}
+   \   00000158   0130A0E3           MOV      R3,#+1
+   \   0000015C   0520A0E1           MOV      R2,R5
+   \   00000160   0010A0E1           MOV      R1,R0
+   \   00000164   9004E0E3           MVN      R0,#-1879048192
+   \   00000168   570200EF           SWI      +599
+   \   0000016C   08D08DE2           ADD      SP,SP,#+8
+    144              }
+    145            }
+    146            return(0);
+   \   00000170   0000A0E3           MOV      R0,#+0
+   \   00000174   F283BDE8           POP      {R1,R4-R9,PC}    ;; return
+   \                     ??onAccept_1:
+   \   00000178   ........           DC32     `?<Constant L"\\x44\\x42\\x5f\\x4e\\x41\\x4d\\x45\\x5f\\`
+    147          }
+    148          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    149          void CreateBrowser(wchar_t const ** folder_list)
+    150          {
+   \                     ??CreateBrowser:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    151            void * DB_Desc=DataBrowserDesc_Create();
+    152            char option[20];
+    153            strcpy(option,"semc/dir");
+   \   00000004   D0609FE5           LDR      R6,??CreateBrowser_1  ;; `?<Constant "semc/dir">`
+   \   00000008   18D04DE2           SUB      SP,SP,#+24
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   1F0100EF           SWI      +287
+   \   00000014   0050A0E1           MOV      R5,R0
+   \   00000018   0610A0E1           MOV      R1,R6
+   \   0000001C   04008DE2           ADD      R0,SP,#+4
+   \   00000020   A00100EF           SWI      +416
+    154            int str_id;
+    155            textidname2id(L"DB_OTHER_TXT",TEXTID_ANY_LEN,&str_id);
+   \   00000024   FF70A0E3           MOV      R7,#+255
+   \   00000028   FF7C87E3           ORR      R7,R7,#0xFF00
+   \   0000002C   0D20A0E1           MOV      R2,SP
+   \   00000030   0710A0E1           MOV      R1,R7
+   \   00000034   0C0086E2           ADD      R0,R6,#+12
+   \   00000038   870200EF           SWI      +647
+    156            DataBrowserDesc_SetHeaderText(DB_Desc,str_id);
+   \   0000003C   00109DE5           LDR      R1,[SP, #+0]
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   210100EF           SWI      +289
+    157            DataBrowserDesc_SetBookID(DB_Desc,BookObj_GetBookID((BOOK*)CreateFileBook));
+   \   00000048   ........           LDR      R0,??DataTable34  ;; CreateFileBook
+   \   0000004C   000090E5           LDR      R0,[R0, #+0]
+   \   00000050   FA0100EF           SWI      +506
+   \   00000054   0010A0E1           MOV      R1,R0
+   \   00000058   0500A0E1           MOV      R0,R5
+   \   0000005C   AD0200EF           SWI      +685
+    158            DataBrowserDesc_SetFolders(DB_Desc,folder_list);
+   \   00000060   0410A0E1           MOV      R1,R4
+   \   00000064   0500A0E1           MOV      R0,R5
+   \   00000068   220100EF           SWI      +290
+    159            DataBrowserDesc_SetFoldersNumber(DB_Desc,1);
+   \   0000006C   0110A0E3           MOV      R1,#+1
+   \   00000070   0500A0E1           MOV      R0,R5
+   \   00000074   A90200EF           SWI      +681
+    160            DataBrowserDesc_SetSelectAction(DB_Desc,1);
+   \   00000078   0110A0E3           MOV      R1,#+1
+   \   0000007C   0500A0E1           MOV      R0,R5
+   \   00000080   AB0200EF           SWI      +683
+    161            DataBrowserDesc_SetSelectActionOnFolders(DB_Desc,1);
+   \   00000084   0110A0E3           MOV      R1,#+1
+   \   00000088   0500A0E1           MOV      R0,R5
+   \   0000008C   AC0200EF           SWI      +684
+    162            DataBrowserDesc_SetOption(DB_Desc,option);
+   \   00000090   04108DE2           ADD      R1,SP,#+4
+   \   00000094   0500A0E1           MOV      R0,R5
+   \   00000098   AF0200EF           SWI      +687
+    163            DataBrowserDesc_SetOpenEmptyFolder(DB_Desc,1);
+   \   0000009C   0110A0E3           MOV      R1,#+1
+   \   000000A0   0500A0E1           MOV      R0,R5
+   \   000000A4   B00200EF           SWI      +688
+    164            textidname2id(L"GUI_INSERT_SK",TEXTID_ANY_LEN,&str_id);
+   \   000000A8   0D20A0E1           MOV      R2,SP
+   \   000000AC   0710A0E1           MOV      R1,R7
+   \   000000B0   280086E2           ADD      R0,R6,#+40
+   \   000000B4   870200EF           SWI      +647
+    165            DataBrowserDesc_SetOKSoftKeyText(DB_Desc,str_id);
+   \   000000B8   00109DE5           LDR      R1,[SP, #+0]
+   \   000000BC   0500A0E1           MOV      R0,R5
+   \   000000C0   230100EF           SWI      +291
+    166            DataBrowser_Create(DB_Desc);
+   \   000000C4   0500A0E1           MOV      R0,R5
+   \   000000C8   240100EF           SWI      +292
+    167            DataBrowserDesc_Destroy(DB_Desc);
+   \   000000CC   0500A0E1           MOV      R0,R5
+   \   000000D0   250100EF           SWI      +293
+    168          }
+   \   000000D4   18D08DE2           ADD      SP,SP,#+24
+   \   000000D8   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??CreateBrowser_1:
+   \   000000DC   ........           DC32     `?<Constant "semc/dir">`
+    169          
+    170          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    171          void ExitActionList(BOOK * bk, GUI* )
+    172          {
+    173            FreeBook((BOOK*)CreateFileBook);
+   \                     ??ExitActionList:
+   \   00000000   ........           LDR      R0,??DataTable34  ;; CreateFileBook
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   2F0100EF           SWI      +303
+    174          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    175          
+    176          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    177          void onEnter(BOOK * bk, GUI* )
+    178          {
+    179            if (ListMenu_GetSelectedItem(CreateFileBook->list))
+   \                     ??onEnter:
+   \   00000000   ........           LDR      R0,??DataTable34  ;; CreateFileBook
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   0040A0E3           MOV      R4,#+0
+   \   00000014   200090E5           LDR      R0,[R0, #+32]
+   \   00000018   3E0100EF           SWI      +318
+   \   0000001C   000050E3           CMP      R0,#+0
+    180            {
+    181              const wchar_t * folder_list[2];
+    182              folder_list[0]=GetDir(DIR_OTHER | MEM_EXTERNAL);
+   \   00000020   0800A013           MOVNE    R0,#+8
+    183              folder_list[1]=0;
+    184              CreateBrowser(folder_list);
+    185            }
+    186            else
+    187            {
+    188              const wchar_t * folder_list[2];
+    189              folder_list[0]=GetDir(DIR_OTHER | MEM_INTERNAL);
+   \   00000024   0900A003           MOVEQ    R0,#+9
+   \   00000028   050100EF           SWI      +261
+   \   0000002C   00008DE5           STR      R0,[SP, #+0]
+    190              folder_list[1]=0;
+   \   00000030   04408DE5           STR      R4,[SP, #+4]
+    191              CreateBrowser(folder_list);
+   \   00000034   0D00A0E1           MOV      R0,SP
+   \   00000038   ........           BL       ??CreateBrowser
+    192            }
+    193          }
+   \   0000003C   1380BDE8           POP      {R0,R1,R4,PC}    ;; return
+    194          
+    195          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    196          int list_callback(GUI_MESSAGE * msg)
+    197          {
+   \                     ??list_callback:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040A0E1           MOV      R4,R0
+    198            int str_id;
+    199            switch( GUIonMessage_GetMsg(msg) )
+   \   0000000C   740300EF           SWI      +884
+   \   00000010   010050E3           CMP      R0,#+1
+   \   00000014   2000001A           BNE      ??list_callback_1
+    200            {
+    201            case 1:
+    202              if (GUIonMessage_GetCreatedItemIndex(msg))
+   \   00000018   84509FE5           LDR      R5,??list_callback_2  ;; `?<Constant L"\\x43\\x41\\x4d\\x49\\x5f\\x48\\x5a\\x5f\\`
+   \   0000001C   FF60A0E3           MOV      R6,#+255
+   \   00000020   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   370100EF           SWI      +311
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0D20A0E1           MOV      R2,SP
+   \   00000034   0610A0E1           MOV      R1,R6
+   \   00000038   0800000A           BEQ      ??list_callback_3
+    203              {
+    204                textidname2id(L"CAMI_HZ_SAVE_TO_MS_TXT",TEXTID_ANY_LEN,&str_id);
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   870200EF           SWI      +647
+    205                GUIonMessage_SetMenuItemText(msg,str_id);
+   \   00000044   00109DE5           LDR      R1,[SP, #+0]
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   380100EF           SWI      +312
+    206                iconidname2id(L"DB_2ROW_MS_ICN",TEXTID_ANY_LEN,&str_id);
+   \   00000050   0D20A0E1           MOV      R2,SP
+   \   00000054   0610A0E1           MOV      R1,R6
+   \   00000058   300085E2           ADD      R0,R5,#+48
+   \   0000005C   070000EA           B        ??list_callback_4
+    207                GUIonMessage_SetMenuItemIcon(msg,0,str_id);
+    208              }
+    209              else
+    210              {
+    211                textidname2id(L"CAMI_HZ_SAVE_TO_PHONE_TXT",TEXTID_ANY_LEN,&str_id);
+   \                     ??list_callback_3:
+   \   00000060   500085E2           ADD      R0,R5,#+80
+   \   00000064   870200EF           SWI      +647
+    212                GUIonMessage_SetMenuItemText(msg,str_id);
+   \   00000068   00109DE5           LDR      R1,[SP, #+0]
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   380100EF           SWI      +312
+    213                iconidname2id(L"DB_2ROW_PHONE_ICN",TEXTID_ANY_LEN,&str_id);
+   \   00000074   0D20A0E1           MOV      R2,SP
+   \   00000078   0610A0E1           MOV      R1,R6
+   \   0000007C   840085E2           ADD      R0,R5,#+132
+   \                     ??list_callback_4:
+   \   00000080   860200EF           SWI      +646
+    214                GUIonMessage_SetMenuItemIcon(msg,0,str_id);
+   \   00000084   00209DE5           LDR      R2,[SP, #+0]
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   0228A0E1           MOV      R2,R2, LSL #+16
+   \   00000090   2228A0E1           MOV      R2,R2, LSR #+16
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   3C0100EF           SWI      +316
+    215              }
+    216          
+    217            }
+    218            return(1);
+   \                     ??list_callback_1:
+   \   0000009C   0100A0E3           MOV      R0,#+1
+   \   000000A0   7280BDE8           POP      {R1,R4-R6,PC}    ;; return
+   \                     ??list_callback_2:
+   \   000000A4   ........           DC32     `?<Constant L"\\x43\\x41\\x4d\\x49\\x5f\\x48\\x5a\\x5f\\`
+    219          };
+    220          
+    221          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    222          void CreateList(void)
+    223          {
+   \                     ??CreateList:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    224            GUI_LIST * list_menu=CreateListMenu((BOOK*)CreateFileBook,0);
+   \   00000004   ........           LDR      R5,??DataTable34  ;; CreateFileBook
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   000095E5           LDR      R0,[R5, #+0]
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   C00100EF           SWI      +448
+   \   00000018   0040A0E1           MOV      R4,R0
+    225            CreateFileBook->list=list_menu;
+   \   0000001C   000095E5           LDR      R0,[R5, #+0]
+    226            int str_id=EMPTY_TEXTID;
+    227            textidname2id(L"MSG_UI_MOVE_MESSAGE_SELECT_FOLDER_TXT",TEXTID_ANY_LEN,&str_id);
+   \   00000020   D4509FE5           LDR      R5,??CreateList_1  ;; `?<Constant L"\\x4d\\x53\\x47\\x5f\\x55\\x49\\x5f\\x4d\\`
+   \   00000024   204080E5           STR      R4,[R0, #+32]
+   \   00000028   9014E0E3           MVN      R1,#-1879048192
+   \   0000002C   00108DE5           STR      R1,[SP, #+0]
+   \   00000030   FF60A0E3           MOV      R6,#+255
+   \   00000034   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000038   0D20A0E1           MOV      R2,SP
+   \   0000003C   0610A0E1           MOV      R1,R6
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   870200EF           SWI      +647
+    228            if (str_id==EMPTY_TEXTID) str_id=TextID_Create("Select folder",ENC_LAT1,TEXTID_ANY_LEN);
+   \   00000048   00009DE5           LDR      R0,[SP, #+0]
+   \   0000004C   9014E0E3           MVN      R1,#-1879048192
+   \   00000050   010050E1           CMP      R0,R1
+   \   00000054   0400001A           BNE      ??CreateList_2
+   \   00000058   0620A0E1           MOV      R2,R6
+   \   0000005C   0610A0E3           MOV      R1,#+6
+   \   00000060   4C0085E2           ADD      R0,R5,#+76
+   \   00000064   5D0100EF           SWI      +349
+   \   00000068   00008DE5           STR      R0,[SP, #+0]
+    229            GUIObject_SetTitleText(list_menu,str_id);
+   \                     ??CreateList_2:
+   \   0000006C   00109DE5           LDR      R1,[SP, #+0]
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   330100EF           SWI      +307
+    230            ListMenu_SetItemCount(list_menu,2);
+   \   00000078   0210A0E3           MOV      R1,#+2
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   C10100EF           SWI      +449
+    231            OneOfMany_SetOnMessage(list_menu,list_callback);
+   \   00000084   74109FE5           LDR      R1,??CreateList_1+0x4  ;; ??list_callback
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   E10100EF           SWI      +481
+    232            ListMenu_SetCursorToItem(list_menu,0);
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   350100EF           SWI      +309
+    233            GUIObject_SoftKeys_SetAction(list_menu,ACTION_BACK,DestroyList);
+   \   0000009C   ........           LDR      R0,??DataTable16  ;; ACTION_BACK
+   \   000000A0   5C209FE5           LDR      R2,??CreateList_1+0x8  ;; ??DestroyList
+   \   000000A4   001090E5           LDR      R1,[R0, #+0]
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000B0   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000B4   4B0100EF           SWI      +331
+    234            GUIObject_SoftKeys_SetAction(list_menu,ACTION_LONG_BACK,ExitActionList);
+   \   000000B8   ........           LDR      R0,??DataTable17  ;; ACTION_LONG_BACK
+   \   000000BC   ........           LDR      R2,??DataTable18  ;; ??ExitActionList
+   \   000000C0   001090E5           LDR      R1,[R0, #+0]
+   \   000000C4   0400A0E1           MOV      R0,R4
+   \   000000C8   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000CC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000D0   4B0100EF           SWI      +331
+    235            GUIObject_SoftKeys_SetAction(list_menu,ACTION_SELECT1,onEnter);
+   \   000000D4   ........           LDR      R0,??DataTable19  ;; ACTION_SELECT1
+   \   000000D8   28209FE5           LDR      R2,??CreateList_1+0xC  ;; ??onEnter
+   \   000000DC   001090E5           LDR      R1,[R0, #+0]
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000E8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000EC   4B0100EF           SWI      +331
+    236            GUIObject_Show(list_menu);
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   340100EF           SWI      +308
+    237          };
+   \   000000F8   7180BDE8           POP      {R0,R4-R6,PC}    ;; return
+   \                     ??CreateList_1:
+   \   000000FC   ........           DC32     `?<Constant L"\\x4d\\x53\\x47\\x5f\\x55\\x49\\x5f\\x4d\\`
+   \   00000100   ........           DC32     ??list_callback
+   \   00000104   ........           DC32     ??DestroyList
+   \   00000108   ........           DC32     ??onEnter
+    238          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    239          void oom_onEnter(BOOK * bk, GUI* )
+    240          {
+   \                     ??oom_onEnter:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    241            CreateFileBook->coding=OneOfMany_GetSelected(CreateFileBook->oom_list);
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   240090E5           LDR      R0,[R0, #+36]
+   \   00000010   490100EF           SWI      +329
+   \   00000014   001094E5           LDR      R1,[R4, #+0]
+   \   00000018   380081E5           STR      R0,[R1, #+56]
+    242            CreateList();
+   \   0000001C   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000020   ........           B        ??CreateList     ;; tailcall
+    243          }
+    244          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    245          int oom_callback(GUI_MESSAGE * msg)
+    246          {
+   \                     ??oom_callback:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    247            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   0D00001A           BNE      ??oom_callback_1
+    248            {
+    249            case 1:
+    250              if (GUIonMessage_GetCreatedItemIndex(msg))
+   \   00000014   38509FE5           LDR      R5,??oom_callback_2  ;; `?<Constant L"\\x55\\x6e\\x69\\x63\\x6f\\x64\\x65">`
+   \   00000018   FF60A0E3           MOV      R6,#+255
+   \   0000001C   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   370100EF           SWI      +311
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0620A0E1           MOV      R2,R6
+   \   00000030   0010A0E3           MOV      R1,#+0
+    251              {
+    252                GUIonMessage_SetMenuItemText(msg,STR("Unicode"));
+   \   00000034   0500A011           MOVNE    R0,R5
+    253              }
+    254              else
+    255              {
+    256                GUIonMessage_SetMenuItemText(msg,STR("ASCII"));
+   \   00000038   10008502           ADDEQ    R0,R5,#+16
+   \   0000003C   5D0100EF           SWI      +349
+   \   00000040   0010A0E1           MOV      R1,R0
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   380100EF           SWI      +312
+    257              }
+    258            }
+    259            return(1);
+   \                     ??oom_callback_1:
+   \   0000004C   0100A0E3           MOV      R0,#+1
+   \   00000050   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??oom_callback_2:
+   \   00000054   ........           DC32     `?<Constant L"\\x55\\x6e\\x69\\x63\\x6f\\x64\\x65">`
+    260          };
+    261          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    262          void CreateOOMList(void)
+    263          {
+   \                     ??CreateOOMList:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    264            GUI_ONEOFMANY * oom_menu=CreateOneOfMany((BOOK*)CreateFileBook);
+   \   00000004   ........           LDR      R5,??DataTable34  ;; CreateFileBook
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   000095E5           LDR      R0,[R5, #+0]
+    265            CreateFileBook->oom_list=oom_menu;
+    266            int str_id=EMPTY_TEXTID;
+    267            textidname2id(L"ES_TEXT_FORMAT_TXT",TEXTID_ANY_LEN,&str_id);
+   \   00000010   FF60A0E3           MOV      R6,#+255
+   \   00000014   450100EF           SWI      +325
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   000095E5           LDR      R0,[R5, #+0]
+   \   00000020   E8509FE5           LDR      R5,??CreateOOMList_1  ;; `?<Constant L"\\x45\\x53\\x5f\\x54\\x45\\x58\\x54\\x5f\\`
+   \   00000024   244080E5           STR      R4,[R0, #+36]
+   \   00000028   9014E0E3           MVN      R1,#-1879048192
+   \   0000002C   00108DE5           STR      R1,[SP, #+0]
+   \   00000030   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000034   0D20A0E1           MOV      R2,SP
+   \   00000038   0610A0E1           MOV      R1,R6
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   870200EF           SWI      +647
+    268            if (str_id==EMPTY_TEXTID) str_id=TextID_Create("Text format",ENC_LAT1,TEXTID_ANY_LEN);
+   \   00000044   00009DE5           LDR      R0,[SP, #+0]
+   \   00000048   9014E0E3           MVN      R1,#-1879048192
+   \   0000004C   010050E1           CMP      R0,R1
+   \   00000050   0400001A           BNE      ??CreateOOMList_2
+   \   00000054   0620A0E1           MOV      R2,R6
+   \   00000058   0610A0E3           MOV      R1,#+6
+   \   0000005C   280085E2           ADD      R0,R5,#+40
+   \   00000060   5D0100EF           SWI      +349
+   \   00000064   00008DE5           STR      R0,[SP, #+0]
+    269            GUIObject_SetTitleText(oom_menu,str_id);
+   \                     ??CreateOOMList_2:
+   \   00000068   00109DE5           LDR      R1,[SP, #+0]
+    270            OneOfMany_SetItemCount(oom_menu,2);
+    271            OneOfMany_SetOnMessage(oom_menu,oom_callback);
+    272            OneOfMany_SetChecked(oom_menu,0);
+    273            GUIObject_SoftKeys_SetAction(oom_menu,ACTION_BACK,DestroyOOM);
+    274            GUIObject_SoftKeys_SetAction(oom_menu,ACTION_LONG_BACK,ExitActionList);
+    275            GUIObject_SoftKeys_SetAction(oom_menu,ACTION_SELECT1,oom_onEnter);
+   \   0000006C   A0509FE5           LDR      R5,??CreateOOMList_1+0x4  ;; ??oom_onEnter
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   330100EF           SWI      +307
+   \   00000078   0210A0E3           MOV      R1,#+2
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   460100EF           SWI      +326
+   \   00000084   8C109FE5           LDR      R1,??CreateOOMList_1+0x8  ;; ??oom_callback
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   E10100EF           SWI      +481
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   470100EF           SWI      +327
+   \   0000009C   ........           LDR      R0,??DataTable16  ;; ACTION_BACK
+   \   000000A0   74209FE5           LDR      R2,??CreateOOMList_1+0xC  ;; ??DestroyOOM
+   \   000000A4   001090E5           LDR      R1,[R0, #+0]
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000B0   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000B4   4B0100EF           SWI      +331
+   \   000000B8   ........           LDR      R0,??DataTable17  ;; ACTION_LONG_BACK
+   \   000000BC   ........           LDR      R2,??DataTable18  ;; ??ExitActionList
+   \   000000C0   001090E5           LDR      R1,[R0, #+0]
+   \   000000C4   0400A0E1           MOV      R0,R4
+   \   000000C8   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000CC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000D0   4B0100EF           SWI      +331
+   \   000000D4   ........           LDR      R0,??DataTable19  ;; ACTION_SELECT1
+   \   000000D8   0520A0E1           MOV      R2,R5
+   \   000000DC   001090E5           LDR      R1,[R0, #+0]
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000E8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000EC   4B0100EF           SWI      +331
+    276            GUIObject_SoftKeys_SetAction(oom_menu,0xBC3,oom_onEnter);
+   \   000000F0   0520A0E1           MOV      R2,R5
+   \   000000F4   C310A0E3           MOV      R1,#+195
+   \   000000F8   B01E81E3           ORR      R1,R1,#0xB00
+   \   000000FC   0400A0E1           MOV      R0,R4
+   \   00000100   4B0100EF           SWI      +331
+    277            GUIObject_Show(oom_menu);
+   \   00000104   0400A0E1           MOV      R0,R4
+   \   00000108   340100EF           SWI      +308
+    278          };
+   \   0000010C   7180BDE8           POP      {R0,R4-R6,PC}    ;; return
+   \                     ??CreateOOMList_1:
+   \   00000110   ........           DC32     `?<Constant L"\\x45\\x53\\x5f\\x54\\x45\\x58\\x54\\x5f\\`
+   \   00000114   ........           DC32     ??oom_onEnter
+   \   00000118   ........           DC32     ??oom_callback
+   \   0000011C   ........           DC32     ??DestroyOOM
+    279          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    280          const PAGE_MSG CreateFile_PageEvents[]@ "DYN_PAGE" ={
+   \                     CreateFile_PageEvents:
+   \   00000000   E5030000....       DC32 997, ??TerminateElf, 998, ??ShowAuthorInfo, 78, ??TerminateElf, 76
+   \              ....E6030000
+   \              ........4E00
+   \              0000........
+   \              4C000000    
+   \   0000001C   ........4000       DC32 ??onAccept, 64, 0H
+   \              000000000000
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     CreateFileBook:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for CreateFileBook>`
+    281            ELF_TERMINATE_EVENT , TerminateElf,
+    282            ELF_SHOW_INFO_EVENT  , ShowAuthorInfo,
+    283            CANCEL_EVENT_TAG, TerminateElf,
+    284            ACCEPT_EVENT_TAG, onAccept,
+    285            NIL_EVENT_TAG,0
+    286          };
+    287          
+    288          
+    289          PAGE_DESC base_page ={"CreateFile_BasePage",0,CreateFile_PageEvents};
+   \                     base_page:
+   \   00000004                      DS8 12
+   \   00000010                      REQUIRE `?<Initializer for base_page>`
+    290          
+    291          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    292          void AcceptAction_FileName(BOOK *,wchar_t * string,int len)
+    293          {
+   \                     ??AcceptAction_FileName:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    294            if (FSX_GetInvalidChar(string))
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   B8D04DE2           SUB      SP,SP,#+184
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   A80200EF           SWI      +680
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   3B00000A           BEQ      ??AcceptAction_FileName_1
+    295            {
+    296              int str_id;
+    297              textidname2id(L"DB_ILLEGAL_CHAR_TXT",TEXTID_ANY_LEN,&str_id);
+   \   00000024   24019FE5           LDR      R0,??AcceptAction_FileName_2  ;; `?<Constant L"\\x44\\x42\\x5f\\x49\\x4c\\x4c\\x45\\x47\\`
+   \   00000028   FF60A0E3           MOV      R6,#+255
+   \   0000002C   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000030   0D20A0E1           MOV      R2,SP
+   \   00000034   0610A0E1           MOV      R1,R6
+   \   00000038   870200EF           SWI      +647
+    298              MessageBox(EMPTY_TEXTID,str_id, NOIMAGE, 0, 2000,0);
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   01002DE9           PUSH     {R0}
+   \   00000044   0030A0E3           MOV      R3,#+0
+   \   00000048   0620A0E1           MOV      R2,R6
+   \   0000004C   7D0EA0E3           MOV      R0,#+2000
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   08109DE5           LDR      R1,[SP, #+8]
+   \   00000058   9004E0E3           MVN      R0,#-1879048192
+   \   0000005C   570200EF           SWI      +599
+    299              FILEITEM * item_desc=FILEITEM_Create();
+   \   00000060   B30200EF           SWI      +691
+   \   00000064   0070A0E1           MOV      R7,R0
+    300              wchar_t fname[40];
+    301              memset(fname,0,sizeof(fname));
+   \   00000068   5020A0E3           MOV      R2,#+80
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   70008DE2           ADD      R0,SP,#+112
+   \   00000074   120100EF           SWI      +274
+    302              wchar_t * extpos = wstrrchr(string,L'.');
+   \   00000078   2E10A0E3           MOV      R1,#+46
+   \   0000007C   0500A0E1           MOV      R0,R5
+   \   00000080   AE0100EF           SWI      +430
+   \   00000084   0080A0E1           MOV      R8,R0
+    303              wstrncpy(fname, string, extpos-string);
+   \   00000088   A800A0E1           LSR      R0,R8,#+1
+   \   0000008C   A52040E0           SUB      R2,R0,R5, LSR #+1
+   \   00000090   0510A0E1           MOV      R1,R5
+   \   00000094   70008DE2           ADD      R0,SP,#+112
+   \   00000098   530100EF           SWI      +339
+    304              FILEITEM_SetFname(item_desc, fname);
+   \   0000009C   70108DE2           ADD      R1,SP,#+112
+   \   000000A0   0700A0E1           MOV      R0,R7
+   \   000000A4   D00200EF           SWI      +720
+    305              FSX_RemoveIllegalSymbolsName(item_desc);
+   \   000000A8   0700A0E1           MOV      R0,R7
+   \   000000AC   B20200EF           SWI      +690
+    306              wchar_t sp[50];
+    307              sp[0]=0;
+   \   000000B0   0010A0E3           MOV      R1,#+0
+   \   000000B4   BC10CDE1           STRH     R1,[SP, #+12]
+    308              wstrcpy(sp, FILEITEM_GetFname(item_desc));
+   \   000000B8   0700A0E1           MOV      R0,R7
+   \   000000BC   D20200EF           SWI      +722
+   \   000000C0   0010A0E1           MOV      R1,R0
+   \   000000C4   0C008DE2           ADD      R0,SP,#+12
+   \   000000C8   520100EF           SWI      +338
+    309              wstrcat(sp, extpos);
+   \   000000CC   0810A0E1           MOV      R1,R8
+   \   000000D0   0C008DE2           ADD      R0,SP,#+12
+   \   000000D4   540100EF           SWI      +340
+    310              StringInput_DispObject_SetText(GUIObject_GetDispObject(CreateFileBook->NameInput),TextID_Create(sp,ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000D8   0620A0E1           MOV      R2,R6
+   \   000000DC   0010A0E3           MOV      R1,#+0
+   \   000000E0   0C008DE2           ADD      R0,SP,#+12
+   \   000000E4   5D0100EF           SWI      +349
+   \   000000E8   0050A0E1           MOV      R5,R0
+   \   000000EC   000094E5           LDR      R0,[R4, #+0]
+   \   000000F0   1C0090E5           LDR      R0,[R0, #+28]
+   \   000000F4   680100EF           SWI      +360
+   \   000000F8   0510A0E1           MOV      R1,R5
+   \   000000FC   120300EF           SWI      +786
+    311              FILEITEM_Destroy(item_desc);
+   \   00000100   0700A0E1           MOV      R0,R7
+   \   00000104   B40200EF           SWI      +692
+   \   00000108   08D08DE2           ADD      SP,SP,#+8
+   \   0000010C   B8D08DE2           ADD      SP,SP,#+184
+   \   00000110   F081BDE8           POP      {R4-R8,PC}
+    312            }
+   \                     ??AcceptAction_FileName_1:
+   \   00000114   000094E5           LDR      R0,[R4, #+0]
+   \   00000118   300090E5           LDR      R0,[R0, #+48]
+   \   0000011C   000050E3           CMP      R0,#+0
+   \   00000120   0000000A           BEQ      ??AcceptAction_FileName_3
+    313            else
+    314            {
+    315              if (CreateFileBook->FileName) delete(CreateFileBook->FileName);
+   \   00000124   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    316              CreateFileBook->FileName=new wchar_t[len+1];
+   \                     ??AcceptAction_FileName_3:
+   \   00000128   010086E2           ADD      R0,R6,#+1
+   \   0000012C   8000A0E1           LSL      R0,R0,#+1
+   \   00000130   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000134   002094E5           LDR      R2,[R4, #+0]
+    317              wstrcpy(CreateFileBook->FileName,string);
+   \   00000138   0510A0E1           MOV      R1,R5
+   \   0000013C   300082E5           STR      R0,[R2, #+48]
+   \   00000140   520100EF           SWI      +338
+    318              CreateOOMList();
+   \   00000144   ........           BL       ??CreateOOMList
+    319            }
+    320          }
+   \   00000148   B8D08DE2           ADD      SP,SP,#+184
+   \   0000014C   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??AcceptAction_FileName_2:
+   \   00000150   ........           DC32     `?<Constant L"\\x44\\x42\\x5f\\x49\\x4c\\x4c\\x45\\x47\\`
+    321          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    322          void CreateNameInput(int editable_strID,u16 cursor_pos,char hz)
+    323          {
+   \                     ??CreateNameInput:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0060A0E1           MOV      R6,R0
+    324            int str_id;
+    325            textidname2id(L"MSG_UI_FILENAMEP_TXT",TEXTID_ANY_LEN,&str_id);
+   \   0000000C   B8009FE5           LDR      R0,??CreateNameInput_1  ;; `?<Constant L"\\x4d\\x53\\x47\\x5f\\x55\\x49\\x5f\\x46\\`
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   0250A0E1           MOV      R5,R2
+   \   00000018   0D20A0E1           MOV      R2,SP
+    326            DestroyNameInput();
+    327            CreateFileBook->NameInput=CreateStringInputVA(0,
+    328                                                                   VAR_PREV_ACTION_PROC(DestroyNameInput),
+    329                                                                   VAR_LONG_BACK_PROC(ExitAction),
+    330                                                                   VAR_BOOK(CreateFileBook),
+    331                                                                   VAR_OK_PROC(AcceptAction_FileName),
+    332                                                                   VAR_STRINP_FIXED_TEXT(str_id),
+    333                                                                   VAR_STRINP_TEXT(editable_strID),
+    334                                                                   VAR_STRINP_MIN_LEN(1),
+    335                                                                   VAR_STRINP_MAX_LEN(39),
+    336                                                                   0);
+   \   0000001C   ........           LDR      R7,??DataTable34  ;; CreateFileBook
+   \   00000020   FF10A0E3           MOV      R1,#+255
+   \   00000024   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000028   870200EF           SWI      +647
+   \   0000002C   ........           BL       ??DestroyNameInput
+   \   00000030   ........           LDR      R3,??DataTable37  ;; VAR_ARG_CALL_BACK_LONG_BACK
+   \   00000034   94209FE5           LDR      R2,??CreateNameInput_1+0x4  ;; ??DestroyNameInput
+   \   00000038   ........           LDR      R1,??DataTable38  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   01002DE9           PUSH     {R0}
+   \   00000044   2700A0E3           MOV      R0,#+39
+   \   00000048   01002DE9           PUSH     {R0}
+   \   0000004C   ........           LDR      R0,??DataTable40  ;; VAR_ARG_STRINP_MAX_LEN
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   01002DE9           PUSH     {R0}
+   \   0000005C   ........           LDR      R0,??DataTable41  ;; VAR_ARG_STRINP_MIN_LEN
+   \   00000060   01002DE9           PUSH     {R0}
+   \   00000064   68009FE5           LDR      R0,??CreateNameInput_1+0x8  ;; VAR_ARG_STRINP_TEXT
+   \   00000068   40002DE9           PUSH     {R6}
+   \   0000006C   01002DE9           PUSH     {R0}
+   \   00000070   1C009DE5           LDR      R0,[SP, #+28]
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   ........           LDR      R0,??DataTable42  ;; VAR_ARG_STRINP_FIXED_TEXT
+   \   0000007C   01002DE9           PUSH     {R0}
+   \   00000080   50009FE5           LDR      R0,??CreateNameInput_1+0xC  ;; ??AcceptAction_FileName
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   ........           LDR      R0,??DataTable39  ;; VAR_ARG_CALL_BACK_OK
+   \   0000008C   01002DE9           PUSH     {R0}
+   \   00000090   000097E5           LDR      R0,[R7, #+0]
+   \   00000094   01002DE9           PUSH     {R0}
+   \   00000098   ........           LDR      R0,??DataTable43  ;; VAR_ARG_BOOK
+   \   0000009C   01002DE9           PUSH     {R0}
+   \   000000A0   ........           LDR      R0,??DataTable36  ;; ??ExitAction
+   \   000000A4   01002DE9           PUSH     {R0}
+   \   000000A8   0000A0E3           MOV      R0,#+0
+   \   000000AC   440100EF           SWI      +324
+   \   000000B0   38D08DE2           ADD      SP,SP,#+56
+   \   000000B4   003097E5           LDR      R3,[R7, #+0]
+    337            StringInput_SetCursorPosition(CreateFileBook->NameInput,cursor_pos,hz);
+   \   000000B8   0520A0E1           MOV      R2,R5
+   \   000000BC   1C0083E5           STR      R0,[R3, #+28]
+   \   000000C0   0410A0E1           MOV      R1,R4
+   \   000000C4   B70200EF           SWI      +695
+    338          }
+   \   000000C8   F180BDE8           POP      {R0,R4-R7,PC}    ;; return
+   \                     ??CreateNameInput_1:
+   \   000000CC   ........           DC32     `?<Constant L"\\x4d\\x53\\x47\\x5f\\x55\\x49\\x5f\\x46\\`
+   \   000000D0   ........           DC32     ??DestroyNameInput
+   \   000000D4   ........           DC32     VAR_ARG_STRINP_TEXT
+   \   000000D8   ........           DC32     ??AcceptAction_FileName
+    339          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    340          void AcceptAction_String(BOOK *,wchar_t * string,int len)
+    341          {
+   \                     ??AcceptAction_String:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    342            CreateFileBook->length=len;
+   \   00000004   ........           LDR      R6,??DataTable34  ;; CreateFileBook
+   \   00000008   0250A0E1           MOV      R5,R2
+   \   0000000C   000096E5           LDR      R0,[R6, #+0]
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   345080E5           STR      R5,[R0, #+52]
+    343            if (CreateFileBook->w_string) delete(CreateFileBook->w_string);
+   \   00000018   280090E5           LDR      R0,[R0, #+40]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0000000A           BEQ      ??AcceptAction_String_1
+   \   00000024   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    344            CreateFileBook->w_string=new wchar_t[len+2];
+   \                     ??AcceptAction_String_1:
+   \   00000028   020085E2           ADD      R0,R5,#+2
+   \   0000002C   8000A0E1           LSL      R0,R0,#+1
+   \   00000030   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000034   001096E5           LDR      R1,[R6, #+0]
+   \   00000038   280081E5           STR      R0,[R1, #+40]
+    345            CreateFileBook->w_string[0]=0xFEFF;
+   \   0000003C   FF10A0E3           MOV      R1,#+255
+   \   00000040   FE1C81E3           ORR      R1,R1,#0xFE00
+   \   00000044   ........           STRH     R1,[R0], #+2
+    346            wstrcpy(CreateFileBook->w_string+1,string);
+   \   00000048   0410A0E1           MOV      R1,R4
+   \   0000004C   520100EF           SWI      +338
+   \   00000050   000096E5           LDR      R0,[R6, #+0]
+   \   00000054   2C0090E5           LDR      R0,[R0, #+44]
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   0000000A           BEQ      ??AcceptAction_String_2
+    347            if (CreateFileBook->string) delete(CreateFileBook->string);
+   \   00000060   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    348            CreateFileBook->string=new char[len+1];
+   \                     ??AcceptAction_String_2:
+   \   00000064   010085E2           ADD      R0,R5,#+1
+   \   00000068   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000006C   003096E5           LDR      R3,[R6, #+0]
+    349            unicode2win1251(CreateFileBook->string,string,len);
+   \   00000070   0520A0E1           MOV      R2,R5
+   \   00000074   2C0083E5           STR      R0,[R3, #+44]
+   \   00000078   0410A0E1           MOV      R1,R4
+   \   0000007C   ........           BL       ??unicode2win1251
+    350            CreateNameInput(STR(".txt"),0,1);
+   \   00000080   1C009FE5           LDR      R0,??AcceptAction_String_3  ;; `?<Constant L"\\x2e\\x74\\x78\\x74">`
+   \   00000084   FF20A0E3           MOV      R2,#+255
+   \   00000088   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   5D0100EF           SWI      +349
+   \   00000094   0120A0E3           MOV      R2,#+1
+   \   00000098   0010A0E3           MOV      R1,#+0
+   \   0000009C   ........           BL       ??CreateNameInput
+    351          }
+   \   000000A0   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??AcceptAction_String_3:
+   \   000000A4   ........           DC32     `?<Constant L"\\x2e\\x74\\x78\\x74">`
+    352          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    353          void elf_exit(void)
+    354          
+    355          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+    356            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+    357          }
+    358          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    359          int isMyDataBrowser(BOOK * book)
+    360          {
+   \                     ??isMyDataBrowser:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    361            if (IsDataBrowserBook(book))
+   \   00000008   DF0200EF           SWI      +735
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    362            {
+    363              if (((DB_BOOK*)book)->bookID==BookObj_GetBookID((BOOK*)CreateFileBook))
+   \   00000014   ........           LDR      R0,??DataTable34  ;; CreateFileBook
+   \   00000018   184094E5           LDR      R4,[R4, #+24]
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   FA0100EF           SWI      +506
+   \   00000024   000054E1           CMP      R4,R0
+    364              {
+    365                return(1);
+   \   00000028   0100A003           MOVEQ    R0,#+1
+   \   0000002C   1080BD08           POPEQ    {R4,PC}
+    366              }
+    367            }
+    368            return(0);
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+    369          }
+    370          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    371          void onCloseCreateFileBook(BOOK *)
+    372          {
+   \                     ??onCloseCreateFileBook:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    373            if (CreateFileBook)
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    374            {
+    375              BOOK * bk=FindBook(isMyDataBrowser);
+   \   00000014   74009FE5           LDR      R0,??onCloseCreateFileBook_1  ;; ??isMyDataBrowser
+   \   00000018   300100EF           SWI      +304
+    376              if (bk) FreeBook(bk);
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0000000A           BEQ      ??onCloseCreateFileBook_2
+   \   00000024   2F0100EF           SWI      +303
+   \                     ??onCloseCreateFileBook_2:
+   \   00000028   000094E5           LDR      R0,[R4, #+0]
+   \   0000002C   280090E5           LDR      R0,[R0, #+40]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0000000A           BEQ      ??onCloseCreateFileBook_3
+    377              if (CreateFileBook->w_string) delete(CreateFileBook->w_string);
+   \   00000038   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \                     ??onCloseCreateFileBook_3:
+   \   0000003C   000094E5           LDR      R0,[R4, #+0]
+   \   00000040   2C0090E5           LDR      R0,[R0, #+44]
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   0000000A           BEQ      ??onCloseCreateFileBook_4
+    378              if (CreateFileBook->string) delete(CreateFileBook->string);
+   \   0000004C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \                     ??onCloseCreateFileBook_4:
+   \   00000050   000094E5           LDR      R0,[R4, #+0]
+   \   00000054   300090E5           LDR      R0,[R0, #+48]
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   0000000A           BEQ      ??onCloseCreateFileBook_5
+    379              if (CreateFileBook->FileName) delete(CreateFileBook->FileName);
+   \   00000060   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    380              DestroyList(0,0);
+   \                     ??onCloseCreateFileBook_5:
+   \   00000064   0010A0E3           MOV      R1,#+0
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   ........           BL       ??DestroyList
+    381              DestroyOOM(0,0);
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   0100A0E1           MOV      R0,R1
+   \   00000078   ........           BL       ??DestroyOOM
+    382              DestroyNameInput();
+   \   0000007C   ........           BL       ??DestroyNameInput
+    383              DestroyTextInput();
+   \   00000080   ........           BL       ??DestroyTextInput
+    384              SUBPROC(elf_exit);
+   \   00000084   ........           LDR      R0,??DataTable45  ;; ??elf_exit
+   \   00000088   080100EF           SWI      +264
+    385            }
+    386          }
+   \   0000008C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??onCloseCreateFileBook_1:
+   \   00000090   ........           DC32     ??isMyDataBrowser
+    387          
+    388          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    389          int CreateCreateFileBook()
+    390          {
+   \                     ??CreateCreateFileBook:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    391            CreateFileBook = new MyBOOK;
+   \   00000004   ........           LDR      R4,??DataTable34  ;; CreateFileBook
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+    392            CreateBook((BOOK*)CreateFileBook,onCloseCreateFileBook,&base_page,"CreateTXTFile",-1,0);
+   \   0000000C   ........           LDR      R5,??DataTable44  ;; `?<Constant "CreateTXTFile">`
+   \   00000010   3C00A0E3           MOV      R0,#+60
+   \   00000014   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000018   F0109FE5           LDR      R1,??CreateCreateFileBook_1  ;; ??onCloseCreateFileBook
+   \   0000001C   000084E5           STR      R0,[R4, #+0]
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   0530A0E1           MOV      R3,R5
+   \   0000002C   042084E2           ADD      R2,R4,#+4
+   \   00000030   0000E0E1           MVN      R0,R0
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   000094E5           LDR      R0,[R4, #+0]
+   \   0000003C   2B0100EF           SWI      +299
+    393            CreateFileBook->NameInput=0;
+   \   00000040   001094E5           LDR      R1,[R4, #+0]
+   \   00000044   0000A0E3           MOV      R0,#+0
+   \   00000048   1C0081E5           STR      R0,[R1, #+28]
+    394            CreateFileBook->w_string=0;
+   \   0000004C   001094E5           LDR      R1,[R4, #+0]
+    395            CreateFileBook->string=0;
+    396            CreateFileBook->FileName=0;
+    397            CreateFileBook->list=0;
+    398            CreateFileBook->oom_list=0;
+    399            int str_id;
+    400            textidname2id(L"BL_BLOG_TEXTP_TXT",TEXTID_ANY_LEN,&str_id);
+   \   00000050   08208DE2           ADD      R2,SP,#+8
+   \   00000054   280081E5           STR      R0,[R1, #+40]
+   \   00000058   001094E5           LDR      R1,[R4, #+0]
+   \   0000005C   2C0081E5           STR      R0,[R1, #+44]
+   \   00000060   001094E5           LDR      R1,[R4, #+0]
+   \   00000064   300081E5           STR      R0,[R1, #+48]
+   \   00000068   001094E5           LDR      R1,[R4, #+0]
+   \   0000006C   200081E5           STR      R0,[R1, #+32]
+   \   00000070   001094E5           LDR      R1,[R4, #+0]
+   \   00000074   240081E5           STR      R0,[R1, #+36]
+   \   00000078   FF10A0E3           MOV      R1,#+255
+   \   0000007C   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000080   100085E2           ADD      R0,R5,#+16
+   \   00000084   870200EF           SWI      +647
+    401            CreateFileBook->TextInput=CreateStringInputVA(0,
+    402                                                        VAR_PREV_ACTION_PROC(ExitAction),
+    403                                                        VAR_LONG_BACK_PROC(ExitAction),
+    404                                                        VAR_BOOK(CreateFileBook),
+    405                                                        VAR_STRINP_FIXED_TEXT(str_id),
+    406                                                        VAR_STRINP_MIN_LEN(1),
+    407                                                        VAR_STRINP_MAX_LEN(1024),
+    408                                                        VAR_OK_PROC(AcceptAction_String),
+    409                                                        0);
+   \   00000088   ........           LDR      R2,??DataTable36  ;; ??ExitAction
+   \   0000008C   ........           LDR      R3,??DataTable37  ;; VAR_ARG_CALL_BACK_LONG_BACK
+   \   00000090   ........           LDR      R1,??DataTable38  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   00000094   0000A0E3           MOV      R0,#+0
+   \   00000098   01002DE9           PUSH     {R0}
+   \   0000009C   70009FE5           LDR      R0,??CreateCreateFileBook_1+0x4  ;; ??AcceptAction_String
+   \   000000A0   01002DE9           PUSH     {R0}
+   \   000000A4   ........           LDR      R0,??DataTable39  ;; VAR_ARG_CALL_BACK_OK
+   \   000000A8   01002DE9           PUSH     {R0}
+   \   000000AC   400EA0E3           MOV      R0,#+1024
+   \   000000B0   01002DE9           PUSH     {R0}
+   \   000000B4   ........           LDR      R0,??DataTable40  ;; VAR_ARG_STRINP_MAX_LEN
+   \   000000B8   01002DE9           PUSH     {R0}
+   \   000000BC   0100A0E3           MOV      R0,#+1
+   \   000000C0   01002DE9           PUSH     {R0}
+   \   000000C4   ........           LDR      R0,??DataTable41  ;; VAR_ARG_STRINP_MIN_LEN
+   \   000000C8   01002DE9           PUSH     {R0}
+   \   000000CC   24009DE5           LDR      R0,[SP, #+36]
+   \   000000D0   01002DE9           PUSH     {R0}
+   \   000000D4   ........           LDR      R0,??DataTable42  ;; VAR_ARG_STRINP_FIXED_TEXT
+   \   000000D8   01002DE9           PUSH     {R0}
+   \   000000DC   000094E5           LDR      R0,[R4, #+0]
+   \   000000E0   01002DE9           PUSH     {R0}
+   \   000000E4   ........           LDR      R0,??DataTable43  ;; VAR_ARG_BOOK
+   \   000000E8   01002DE9           PUSH     {R0}
+   \   000000EC   0200A0E1           MOV      R0,R2
+   \   000000F0   01002DE9           PUSH     {R0}
+   \   000000F4   0000A0E3           MOV      R0,#+0
+   \   000000F8   440100EF           SWI      +324
+   \   000000FC   38D08DE2           ADD      SP,SP,#+56
+   \   00000100   001094E5           LDR      R1,[R4, #+0]
+   \   00000104   180081E5           STR      R0,[R1, #+24]
+    410            return(0);
+   \   00000108   0000A0E3           MOV      R0,#+0
+   \   0000010C   3280BDE8           POP      {R1,R4,R5,PC}    ;; return
+   \                     ??CreateCreateFileBook_1:
+   \   00000110   ........           DC32     ??onCloseCreateFileBook
+   \   00000114   ........           DC32     ??AcceptAction_String
+    411          }
+    412          
+    413          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    414          int isCreateFileBook(BOOK * book)
+    415          {
+    416            if(!strcmp(book->xbook->name,"CreateTXTFile")) return(1);
+   \                     ??isCreateFileBook:
+   \   00000000   ........           LDR      R1,??DataTable44  ;; `?<Constant "CreateTXTFile">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   590100EF           SWI      +345
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100A003           MOVEQ    R0,#+1
+   \   0000001C   0080BD08           POPEQ    {PC}
+    417            return(0);
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+    418          }
+    419          
+    420          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    421          int main (void)
+    422          {
+    423            if (!FindBook(isCreateFileBook))
+   \                     main:
+   \   00000000   6C009FE5           LDR      R0,??main_0      ;; ??isCreateFileBook
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   300100EF           SWI      +304
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0200001A           BNE      ??main_1
+    424            {
+    425              CreateCreateFileBook();
+   \   00000014   ........           BL       ??CreateCreateFileBook
+    426              return(0);
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   1080BDE8           POP      {R4,PC}
+    427            }
+    428            else
+    429            {
+    430              MessageBox(EMPTY_TEXTID,STR("Already runed"), NOIMAGE, 1, 5000,0);
+   \                     ??main_1:
+   \   00000020   50009FE5           LDR      R0,??main_0+0x4  ;; `?<Constant L"\\x41\\x6c\\x72\\x65\\x61\\x64\\x79\\x20\\`
+   \   00000024   FF40A0E3           MOV      R4,#+255
+   \   00000028   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   0000002C   0420A0E1           MOV      R2,R4
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   5D0100EF           SWI      +349
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   02002DE9           PUSH     {R1}
+   \   00000040   0130A0E3           MOV      R3,#+1
+   \   00000044   0420A0E1           MOV      R2,R4
+   \   00000048   8810A0E3           MOV      R1,#+136
+   \   0000004C   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000050   02002DE9           PUSH     {R1}
+   \   00000054   0010A0E1           MOV      R1,R0
+   \   00000058   9004E0E3           MVN      R0,#-1879048192
+   \   0000005C   570200EF           SWI      +599
+    431              SUBPROC(elf_exit);
+   \   00000060   ........           LDR      R0,??DataTable45  ;; ??elf_exit
+   \   00000064   080100EF           SWI      +264
+    432            }
+    433          }
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   08D08DE2           ADD      SP,SP,#+8
+   \   00000070   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??main_0:
+   \   00000074   ........           DC32     ??isCreateFileBook
+   \   00000078   ........           DC32     `?<Constant L"\\x41\\x6c\\x72\\x65\\x61\\x64\\x79\\x20\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable16:
+   \   00000000   ........           DC32     ACTION_BACK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable17:
+   \   00000000   ........           DC32     ACTION_LONG_BACK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable18:
+   \   00000000   ........           DC32     ??ExitActionList
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable19:
+   \   00000000   ........           DC32     ACTION_SELECT1
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable34:
+   \   00000000   ........           DC32     CreateFileBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable36:
+   \   00000000   ........           DC32     ??ExitAction
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable37:
+   \   00000000   ........           DC32     VAR_ARG_CALL_BACK_LONG_BACK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable38:
+   \   00000000   ........           DC32     VAR_ARG_CALL_BACK_PREV_ACT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable39:
+   \   00000000   ........           DC32     VAR_ARG_CALL_BACK_OK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable40:
+   \   00000000   ........           DC32     VAR_ARG_STRINP_MAX_LEN
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable41:
+   \   00000000   ........           DC32     VAR_ARG_STRINP_MIN_LEN
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable42:
+   \   00000000   ........           DC32     VAR_ARG_STRINP_FIXED_TEXT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable43:
+   \   00000000   ........           DC32     VAR_ARG_BOOK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable44:
+   \   00000000   ........           DC32     `?<Constant "CreateTXTFile">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable45:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for CreateFileBook>`:
+   \   00000000   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for base_page>`:
+   \   00000004   ........0000       DC32 `?<Constant "CreateFile_BasePage">`, 0H, CreateFile_PageEvents
+   \              0000........
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "CreateFile_BasePage">`:
+   \   00000000   437265617465       DC8 "CreateFile_BasePage"
+   \              46696C655F42
+   \              617365506167
+   \              6500        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x72\\x65\\x61\\x74\\x65\\x54\\x58\\`:
+   \   00000000   430072006500       DC8 43H, 0, 72H, 0, 65H, 0, 61H, 0
+   \              6100        
+   \   00000008   740065005400       DC8 74H, 0, 65H, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000010   540046006900       DC8 54H, 0, 46H, 0, 69H, 0, 6CH, 0
+   \              6C00        
+   \   00000018   65002C002000       DC8 65H, 0, 2CH, 0, 20H, 0, 76H, 0
+   \              7600        
+   \   00000020   2E0031002E00       DC8 2EH, 0, 31H, 0, 2EH, 0, 32H, 0
+   \              3200        
+   \   00000028   0D000A000D00       DC8 0DH, 0, 0AH, 0, 0DH, 0, 0AH, 0
+   \              0A00        
+   \   00000030   280063002900       DC8 28H, 0, 63H, 0, 29H, 0, 20H, 0
+   \              2000        
+   \   00000038   490072006F00       DC8 49H, 0, 72H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000040   4D0061007300       DC8 4DH, 0, 61H, 0, 73H, 0, 74H, 0
+   \              7400        
+   \   00000048   650072000000       DC8 65H, 0, 72H, 0, 0, 0
+   \   0000004E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x44\\x42\\x5f\\x4e\\x41\\x4d\\x45\\x5f\\`:
+   \   00000000   440042005F00       DC8 44H, 0, 42H, 0, 5FH, 0, 4EH, 0
+   \              4E00        
+   \   00000008   41004D004500       DC8 41H, 0, 4DH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   450058004900       DC8 45H, 0, 58H, 0, 49H, 0, 53H, 0
+   \              5300        
+   \   00000018   54005F005400       DC8 54H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000020   54000000           DC8 54H, 0, 0, 0
+   \   00000024   570072006900       DC8 57H, 0, 72H, 0, 69H, 0, 74H, 0
+   \              7400        
+   \   0000002C   650020004600       DC8 65H, 0, 20H, 0, 46H, 0, 69H, 0
+   \              6900        
+   \   00000034   6C0065002000       DC8 6CH, 0, 65H, 0, 20H, 0, 45H, 0
+   \              4500        
+   \   0000003C   720072006F00       DC8 72H, 0, 72H, 0, 6FH, 0, 72H, 0
+   \              7200        
+   \   00000044   210021002100       DC8 21H, 0, 21H, 0, 21H, 0, 0, 0
+   \              0000        
+   \   0000004C   430061006E00       DC8 43H, 0, 61H, 0, 6EH, 0, 27H, 0
+   \              2700        
+   \   00000054   740020006F00       DC8 74H, 0, 20H, 0, 6FH, 0, 70H, 0
+   \              7000        
+   \   0000005C   65006E002000       DC8 65H, 0, 6EH, 0, 20H, 0, 66H, 0
+   \              6600        
+   \   00000064   69006C006500       DC8 69H, 0, 6CH, 0, 65H, 0, 2EH, 0
+   \              2E00        
+   \   0000006C   200054007200       DC8 20H, 0, 54H, 0, 72H, 0, 79H, 0
+   \              7900        
+   \   00000074   20006C006100       DC8 20H, 0, 6CH, 0, 61H, 0, 74H, 0
+   \              7400        
+   \   0000007C   650072002E00       DC8 65H, 0, 72H, 0, 2EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "semc/dir">`:
+   \   00000000   73656D632F64       DC8 "semc/dir"
+   \              697200      
+   \   00000009   000000             DC8 0, 0, 0
+   \   0000000C   440042005F00       DC8 44H, 0, 42H, 0, 5FH, 0, 4FH, 0
+   \              4F00        
+   \   00000014   540048004500       DC8 54H, 0, 48H, 0, 45H, 0, 52H, 0
+   \              5200        
+   \   0000001C   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000024   0000               DC8 0, 0
+   \   00000026   0000               DC8 0, 0
+   \   00000028   470055004900       DC8 47H, 0, 55H, 0, 49H, 0, 5FH, 0
+   \              5F00        
+   \   00000030   49004E005300       DC8 49H, 0, 4EH, 0, 53H, 0, 45H, 0
+   \              4500        
+   \   00000038   520054005F00       DC8 52H, 0, 54H, 0, 5FH, 0, 53H, 0
+   \              5300        
+   \   00000040   4B000000           DC8 4BH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x41\\x4d\\x49\\x5f\\x48\\x5a\\x5f\\`:
+   \   00000000   430041004D00       DC8 43H, 0, 41H, 0, 4DH, 0, 49H, 0
+   \              4900        
+   \   00000008   5F0048005A00       DC8 5FH, 0, 48H, 0, 5AH, 0, 5FH, 0
+   \              5F00        
+   \   00000010   530041005600       DC8 53H, 0, 41H, 0, 56H, 0, 45H, 0
+   \              4500        
+   \   00000018   5F0054004F00       DC8 5FH, 0, 54H, 0, 4FH, 0, 5FH, 0
+   \              5F00        
+   \   00000020   4D0053005F00       DC8 4DH, 0, 53H, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000028   580054000000       DC8 58H, 0, 54H, 0, 0, 0
+   \   0000002E   0000               DC8 0, 0
+   \   00000030   440042005F00       DC8 44H, 0, 42H, 0, 5FH, 0, 32H, 0
+   \              3200        
+   \   00000038   52004F005700       DC8 52H, 0, 4FH, 0, 57H, 0, 5FH, 0
+   \              5F00        
+   \   00000040   4D0053005F00       DC8 4DH, 0, 53H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000048   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   0000004E   0000               DC8 0, 0
+   \   00000050   430041004D00       DC8 43H, 0, 41H, 0, 4DH, 0, 49H, 0
+   \              4900        
+   \   00000058   5F0048005A00       DC8 5FH, 0, 48H, 0, 5AH, 0, 5FH, 0
+   \              5F00        
+   \   00000060   530041005600       DC8 53H, 0, 41H, 0, 56H, 0, 45H, 0
+   \              4500        
+   \   00000068   5F0054004F00       DC8 5FH, 0, 54H, 0, 4FH, 0, 5FH, 0
+   \              5F00        
+   \   00000070   500048004F00       DC8 50H, 0, 48H, 0, 4FH, 0, 4EH, 0
+   \              4E00        
+   \   00000078   45005F005400       DC8 45H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000080   54000000           DC8 54H, 0, 0, 0
+   \   00000084   440042005F00       DC8 44H, 0, 42H, 0, 5FH, 0, 32H, 0
+   \              3200        
+   \   0000008C   52004F005700       DC8 52H, 0, 4FH, 0, 57H, 0, 5FH, 0
+   \              5F00        
+   \   00000094   500048004F00       DC8 50H, 0, 48H, 0, 4FH, 0, 4EH, 0
+   \              4E00        
+   \   0000009C   45005F004900       DC8 45H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   000000A4   4E000000           DC8 4EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x53\\x47\\x5f\\x55\\x49\\x5f\\x4d\\`:
+   \   00000000   4D0053004700       DC8 4DH, 0, 53H, 0, 47H, 0, 5FH, 0
+   \              5F00        
+   \   00000008   550049005F00       DC8 55H, 0, 49H, 0, 5FH, 0, 4DH, 0
+   \              4D00        
+   \   00000010   4F0056004500       DC8 4FH, 0, 56H, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000018   4D0045005300       DC8 4DH, 0, 45H, 0, 53H, 0, 53H, 0
+   \              5300        
+   \   00000020   410047004500       DC8 41H, 0, 47H, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000028   530045004C00       DC8 53H, 0, 45H, 0, 4CH, 0, 45H, 0
+   \              4500        
+   \   00000030   430054005F00       DC8 43H, 0, 54H, 0, 5FH, 0, 46H, 0
+   \              4600        
+   \   00000038   4F004C004400       DC8 4FH, 0, 4CH, 0, 44H, 0, 45H, 0
+   \              4500        
+   \   00000040   52005F005400       DC8 52H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000048   54000000           DC8 54H, 0, 0, 0
+   \   0000004C   53656C656374       DC8 "Select folder"
+   \              20666F6C6465
+   \              7200        
+   \   0000005A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x55\\x6e\\x69\\x63\\x6f\\x64\\x65">`:
+   \   00000000   55006E006900       DC8 55H, 0, 6EH, 0, 69H, 0, 63H, 0
+   \              6300        
+   \   00000008   6F0064006500       DC8 6FH, 0, 64H, 0, 65H, 0, 0, 0
+   \              0000        
+   \   00000010   410053004300       DC8 41H, 0, 53H, 0, 43H, 0, 49H, 0
+   \              4900        
+   \   00000018   49000000           DC8 49H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x45\\x53\\x5f\\x54\\x45\\x58\\x54\\x5f\\`:
+   \   00000000   450053005F00       DC8 45H, 0, 53H, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000008   450058005400       DC8 45H, 0, 58H, 0, 54H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   46004F005200       DC8 46H, 0, 4FH, 0, 52H, 0, 4DH, 0
+   \              4D00        
+   \   00000018   410054005F00       DC8 41H, 0, 54H, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000020   580054000000       DC8 58H, 0, 54H, 0, 0, 0
+   \   00000026   0000               DC8 0, 0
+   \   00000028   546578742066       DC8 "Text format"
+   \              6F726D617400
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x44\\x42\\x5f\\x49\\x4c\\x4c\\x45\\x47\\`:
+   \   00000000   440042005F00       DC8 44H, 0, 42H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000008   4C004C004500       DC8 4CH, 0, 4CH, 0, 45H, 0, 47H, 0
+   \              4700        
+   \   00000010   41004C005F00       DC8 41H, 0, 4CH, 0, 5FH, 0, 43H, 0
+   \              4300        
+   \   00000018   480041005200       DC8 48H, 0, 41H, 0, 52H, 0, 5FH, 0
+   \              5F00        
+   \   00000020   540058005400       DC8 54H, 0, 58H, 0, 54H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x53\\x47\\x5f\\x55\\x49\\x5f\\x46\\`:
+   \   00000000   4D0053004700       DC8 4DH, 0, 53H, 0, 47H, 0, 5FH, 0
+   \              5F00        
+   \   00000008   550049005F00       DC8 55H, 0, 49H, 0, 5FH, 0, 46H, 0
+   \              4600        
+   \   00000010   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 4EH, 0
+   \              4E00        
+   \   00000018   41004D004500       DC8 41H, 0, 4DH, 0, 45H, 0, 50H, 0
+   \              5000        
+   \   00000020   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000028   0000               DC8 0, 0
+   \   0000002A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x2e\\x74\\x78\\x74">`:
+   \   00000000   2E0074007800       DC8 2EH, 0, 74H, 0, 78H, 0, 74H, 0
+   \              7400        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "CreateTXTFile">`:
+   \   00000000   437265617465       DC8 "CreateTXTFile"
+   \              54585446696C
+   \              6500        
+   \   0000000E   0000               DC8 0, 0
+   \   00000010   42004C005F00       DC8 42H, 0, 4CH, 0, 5FH, 0, 42H, 0
+   \              4200        
+   \   00000018   4C004F004700       DC8 4CH, 0, 4FH, 0, 47H, 0, 5FH, 0
+   \              5F00        
+   \   00000020   540045005800       DC8 54H, 0, 45H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000028   50005F005400       DC8 50H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000030   54000000           DC8 54H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x6c\\x72\\x65\\x61\\x64\\x79\\x20\\`:
+   \   00000000   41006C007200       DC8 41H, 0, 6CH, 0, 72H, 0, 65H, 0
+   \              6500        
+   \   00000008   610064007900       DC8 61H, 0, 64H, 0, 79H, 0, 20H, 0
+   \              2000        
+   \   00000010   720075006E00       DC8 72H, 0, 75H, 0, 6EH, 0, 65H, 0
+   \              6500        
+   \   00000018   64000000           DC8 64H, 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     AcceptAction_FileName(BOOK *, wchar_t *, int)
+                                      216
+     AcceptAction_String(BOOK *, wchar_t *, int)
+                                       16
+     CreateBrowser(wchar_t const **)
+                                       44
+     CreateCreateFileBook()            72
+     CreateList()                      20
+     CreateNameInput(int, u16, char)
+                                       80
+     CreateOOMList()                   20
+     DestroyList(BOOK *, GUI *)         8
+     DestroyNameInput()                 8
+     DestroyOOM(BOOK *, GUI *)          8
+     DestroyTextInput()                 8
+     ExitAction(BOOK *)                 4
+     ExitActionList(BOOK *, GUI *)      4
+     ShowAuthorInfo(void *, BOOK *)    20
+     TerminateElf(void *, BOOK *)       4
+     elf_exit()                         4
+     isCreateFileBook(BOOK *)           4
+     isMyDataBrowser(BOOK *)            8
+     list_callback(GUI_MESSAGE *)      20
+     main()                            16
+     onAccept(void *, BOOK *)          40
+     onCloseCreateFileBook(BOOK *)      8
+     onEnter(BOOK *, GUI *)            16
+     oom_callback(GUI_MESSAGE *)       16
+     oom_onEnter(BOOK *, GUI *)         8
+     unicode2win1251(char *, wchar_t *, int)
+                                        4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     unicode2win1251(char *, wchar_t *, int)
+                                     192
+     ExitAction(BOOK *)               20
+     TerminateElf(void *, BOOK *)     20
+     ShowAuthorInfo(void *, BOOK *)   84
+     DestroyList(BOOK *, GUI *)       44
+     DestroyOOM(BOOK *, GUI *)        44
+     DestroyNameInput()               48
+     DestroyTextInput()               48
+     onAccept(void *, BOOK *)        380
+     CreateBrowser(wchar_t const **)
+                                     224
+     ExitActionList(BOOK *, GUI *)    20
+     onEnter(BOOK *, GUI *)           64
+     list_callback(GUI_MESSAGE *)    168
+     CreateList()                    268
+     oom_onEnter(BOOK *, GUI *)       36
+     oom_callback(GUI_MESSAGE *)      88
+     CreateOOMList()                 288
+     CreateFile_PageEvents            40
+     CreateFileBook                   16
+     AcceptAction_FileName(BOOK *, wchar_t *, int)
+                                     340
+     CreateNameInput(int, u16, char)
+                                     220
+     AcceptAction_String(BOOK *, wchar_t *, int)
+                                     168
+     elf_exit()                       28
+     isMyDataBrowser(BOOK *)          56
+     onCloseCreateFileBook(BOOK *)   148
+     CreateCreateFileBook()          280
+     isCreateFileBook(BOOK *)         40
+     main()                          124
+     ??DataTable16                     4
+     ??DataTable17                     4
+     ??DataTable18                     4
+     ??DataTable19                     4
+     ??DataTable34                     4
+     ??DataTable36                     4
+     ??DataTable37                     4
+     ??DataTable38                     4
+     ??DataTable39                     4
+     ??DataTable40                     4
+     ??DataTable41                     4
+     ??DataTable42                     4
+     ??DataTable43                     4
+     ??DataTable44                     4
+     ??DataTable45                     4
+     ?<Initializer for CreateFileBook>
+                                      16
+     ?<Constant "CreateFile_BasePage">
+                                      20
+     ?<Constant L"\x43\x72\x65\x61\x74\x65\x54\x58\
+                                      80
+     ?<Constant L"\x44\x42\x5f\x4e\x41\x4d\x45\x5f\
+                                     132
+     ?<Constant "semc/dir">           68
+     ?<Constant L"\x43\x41\x4d\x49\x5f\x48\x5a\x5f\
+                                     168
+     ?<Constant L"\x4d\x53\x47\x5f\x55\x49\x5f\x4d\
+                                      92
+     ?<Constant L"\x55\x6e\x69\x63\x6f\x64\x65">
+                                      28
+     ?<Constant L"\x45\x53\x5f\x54\x45\x58\x54\x5f\
+                                      52
+     ?<Constant L"\x44\x42\x5f\x49\x4c\x4c\x45\x47\
+                                      40
+     ?<Constant L"\x4d\x53\x47\x5f\x55\x49\x5f\x46\
+                                      44
+     ?<Constant L"\x2e\x74\x78\x74">
+                                      12
+     ?<Constant "CreateTXTFile">      52
+     ?<Constant L"\x41\x6c\x72\x65\x61\x64\x79\x20\
+                                      28
+      Others                         164
+
+ 
+ 3 652 bytes in segment CODE
+   816 bytes in segment DATA_C
+    16 bytes in segment DATA_I
+    16 bytes in segment DATA_ID
+    40 bytes in segment DYN_PAGE
+    12 bytes in segment INITTAB
+ 
+ 3 500 bytes of CODE  memory (+ 164 bytes shared)
+   872 bytes of CONST memory
+    16 bytes of DATA  memory
+
+Errors: none
+Warnings: none

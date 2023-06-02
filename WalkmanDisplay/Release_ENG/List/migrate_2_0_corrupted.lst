@@ -1,0 +1,1612 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:12:46 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \migrate_2_0_corrupted.cpp                           #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \migrate_2_0_corrupted.cpp -D NDEBUG -D ENG -D       #
+#                       OLDFUNCTIONS -lC Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\WalkmanDisplay\Release_ENG\List\ -lA              #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\ -o Z:\home\perk11\www\perk11.info #
+#                       \svn\SE\WalkmanDisplay\Release_ENG\Obj\ -s9          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\migrate_2_0_corrupted.lst          #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\Obj\migrate_2_0_corrupted.r79           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\migrate_2_0_corrupted.cpp
+      1          
+      2          #include "..\deleaker\mem2.h"
+      3          #include "..\include\Lib_Clara.h"
+      4          #include "..\include\Dir.h"
+      5          #include "header\cl.h"
+      6          #include "header\accelctrl.h"
+      7          #include "header\wdisplay.h"
+      8          #include "header\images.h"
+      9          #include "..\include\cfg_items.h"
+     10          #include "header\conf_loader.h"
+     11          #include "header\config_data.h"
+     12          #include "header\skin_data.h"
+     13          #include "header\skin_loader.h"
+     14          
+     15          #include "header\rus.h"
+     16          #include "header\eng.h"
+     17          
+     18          #include "cfg_2_0_corrupted.h"
+     19          #include "cfg_2_1.h"
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          int migrate_from_2_0corrupted_to_2_1(CFG_2_0_corrupted *oldcfg, CFG_2_1 *cfg)
+     22          {
+   \                     ??migrate_from_2_0corrupted_to_2_1:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     23            cfg->standartwnd=oldcfg->standartwnd;
+   \   00000008   586084E2           ADD      R6,R4,#+88
+   \   0000000C   000096E5           LDR      R0,[R6, #+0]
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   587085E2           ADD      R7,R5,#+88
+   \   00000018   000087E5           STR      R0,[R7, #+0]
+     24            cfg->title_show=oldcfg->title_show;
+   \   0000001C   5C0096E5           LDR      R0,[R6, #+92]
+   \   00000020   5C0087E5           STR      R0,[R7, #+92]
+     25            cfg->title_font=oldcfg->title_font;
+   \   00000024   8C0096E5           LDR      R0,[R6, #+140]
+   \   00000028   8C0087E5           STR      R0,[R7, #+140]
+     26            cfg->title_rc=oldcfg->title_rc;
+   \   0000002C   450FA0E3           MOV      R0,#+276
+   \   00000030   051080E0           ADD      R1,R0,R5
+   \   00000034   040080E0           ADD      R0,R0,R4
+   \   00000038   B020D0E1           LDRH     R2,[R0, #0]
+   \   0000003C   B020C1E1           STRH     R2,[R1, #+0]
+   \   00000040   B220D0E1           LDRH     R2,[R0, #+2]
+   \   00000044   B220C1E1           STRH     R2,[R1, #+2]
+   \   00000048   B420D0E1           LDRH     R2,[R0, #+4]
+   \   0000004C   B420C1E1           STRH     R2,[R1, #+4]
+   \   00000050   B620D0E1           LDRH     R2,[R0, #+6]
+   \   00000054   B620C1E1           STRH     R2,[R1, #+6]
+     27            cfg->title_color=oldcfg->title_color;
+   \   00000058   F00096E5           LDR      R0,[R6, #+240]
+     28            cfg->title_scolor=oldcfg->title_scolor;
+     29            cfg->title_ct=oldcfg->title_ct;
+     30            cfg->album_show=oldcfg->album_show;
+     31            cfg->album_font=oldcfg->album_font;
+     32            cfg->album_rc=oldcfg->album_rc;
+   \   0000005C   BC1F84E2           ADD      R1,R4,#+752
+   \   00000060   F00087E5           STR      R0,[R7, #+240]
+   \   00000064   200196E5           LDR      R0,[R6, #+288]
+   \   00000068   200187E5           STR      R0,[R7, #+288]
+   \   0000006C   500196E5           LDR      R0,[R6, #+336]
+   \   00000070   E00187E5           STR      R0,[R7, #+480]
+   \   00000074   380296E5           LDR      R0,[R6, #+568]
+   \   00000078   C80287E5           STR      R0,[R7, #+712]
+   \   0000007C   680296E5           LDR      R0,[R6, #+616]
+   \   00000080   F80287E5           STR      R0,[R7, #+760]
+   \   00000084   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000088   E00F85E2           ADD      R0,R5,#+896
+   \   0000008C   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000090   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000094   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000098   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000009C   B420C0E1           STRH     R2,[R0, #+4]
+   \   000000A0   B620D1E1           LDRH     R2,[R1, #+6]
+     33            cfg->album_color=oldcfg->album_color;
+     34            cfg->album_scolor=oldcfg->album_scolor;
+     35            cfg->album_ct=oldcfg->album_ct;
+     36            cfg->artist_show=oldcfg->artist_show;
+     37            cfg->artist_font=oldcfg->artist_font;
+     38            cfg->artist_rc=oldcfg->artist_rc;
+   \   000000A4   CC10A0E3           MOV      R1,#+204
+   \   000000A8   401E81E3           ORR      R1,R1,#0x400
+   \   000000AC   B620C0E1           STRH     R2,[R0, #+6]
+   \   000000B0   CC0296E5           LDR      R0,[R6, #+716]
+   \   000000B4   041081E0           ADD      R1,R1,R4
+   \   000000B8   5C0387E5           STR      R0,[R7, #+860]
+   \   000000BC   FC0296E5           LDR      R0,[R6, #+764]
+   \   000000C0   8C0387E5           STR      R0,[R7, #+908]
+   \   000000C4   2C0396E5           LDR      R0,[R6, #+812]
+   \   000000C8   4C0487E5           STR      R0,[R7, #+1100]
+   \   000000CC   140496E5           LDR      R0,[R6, #+1044]
+   \   000000D0   340587E5           STR      R0,[R7, #+1332]
+   \   000000D4   440496E5           LDR      R0,[R6, #+1092]
+   \   000000D8   640587E5           STR      R0,[R7, #+1380]
+   \   000000DC   B020D1E1           LDRH     R2,[R1, #0]
+   \   000000E0   EC00A0E3           MOV      R0,#+236
+   \   000000E4   500E80E3           ORR      R0,R0,#0x500
+   \   000000E8   050080E0           ADD      R0,R0,R5
+   \   000000EC   B020C0E1           STRH     R2,[R0, #+0]
+   \   000000F0   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000000F4   B220C0E1           STRH     R2,[R0, #+2]
+   \   000000F8   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000000FC   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000100   B620D1E1           LDRH     R2,[R1, #+6]
+     39            cfg->artist_color=oldcfg->artist_color;
+     40            cfg->artist_scolor=oldcfg->artist_scolor;
+     41            cfg->artist_ct=oldcfg->artist_ct;
+     42            cfg->year_show=oldcfg->year_show;
+     43            cfg->year_font=oldcfg->year_font;
+     44            cfg->year_rc=oldcfg->year_rc;
+   \   00000104   A810A0E3           MOV      R1,#+168
+   \   00000108   601E81E3           ORR      R1,R1,#0x600
+   \   0000010C   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000110   A80496E5           LDR      R0,[R6, #+1192]
+   \   00000114   041081E0           ADD      R1,R1,R4
+   \   00000118   C80587E5           STR      R0,[R7, #+1480]
+   \   0000011C   D80496E5           LDR      R0,[R6, #+1240]
+   \   00000120   F80587E5           STR      R0,[R7, #+1528]
+   \   00000124   080596E5           LDR      R0,[R6, #+1288]
+   \   00000128   B80687E5           STR      R0,[R7, #+1720]
+   \   0000012C   F00596E5           LDR      R0,[R6, #+1520]
+   \   00000130   A00787E5           STR      R0,[R7, #+1952]
+   \   00000134   200696E5           LDR      R0,[R6, #+1568]
+   \   00000138   D00787E5           STR      R0,[R7, #+2000]
+   \   0000013C   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000140   5800A0E3           MOV      R0,#+88
+   \   00000144   800E80E3           ORR      R0,R0,#0x800
+   \   00000148   050080E0           ADD      R0,R0,R5
+   \   0000014C   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000150   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000154   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000158   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000015C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000160   B620D1E1           LDRH     R2,[R1, #+6]
+     45            cfg->year_color=oldcfg->year_color;
+     46            cfg->year_scolor=oldcfg->year_scolor;
+     47            cfg->year_ct=oldcfg->year_ct;
+     48            cfg->genre_show=oldcfg->genre_show;
+     49            cfg->genre_font=oldcfg->genre_font;
+     50            cfg->genre_rc=oldcfg->genre_rc;
+   \   00000164   8410A0E3           MOV      R1,#+132
+   \   00000168   801E81E3           ORR      R1,R1,#0x800
+   \   0000016C   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000170   840696E5           LDR      R0,[R6, #+1668]
+   \   00000174   041081E0           ADD      R1,R1,R4
+   \   00000178   340887E5           STR      R0,[R7, #+2100]
+   \   0000017C   B40696E5           LDR      R0,[R6, #+1716]
+   \   00000180   640887E5           STR      R0,[R7, #+2148]
+   \   00000184   E40696E5           LDR      R0,[R6, #+1764]
+   \   00000188   240987E5           STR      R0,[R7, #+2340]
+   \   0000018C   CC0796E5           LDR      R0,[R6, #+1996]
+   \   00000190   0C0A87E5           STR      R0,[R7, #+2572]
+   \   00000194   FC0796E5           LDR      R0,[R6, #+2044]
+   \   00000198   3C0A87E5           STR      R0,[R7, #+2620]
+   \   0000019C   B020D1E1           LDRH     R2,[R1, #0]
+   \   000001A0   C400A0E3           MOV      R0,#+196
+   \   000001A4   A00E80E3           ORR      R0,R0,#0xA00
+   \   000001A8   050080E0           ADD      R0,R0,R5
+   \   000001AC   B020C0E1           STRH     R2,[R0, #+0]
+   \   000001B0   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000001B4   B220C0E1           STRH     R2,[R0, #+2]
+   \   000001B8   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000001BC   B420C0E1           STRH     R2,[R0, #+4]
+   \   000001C0   B620D1E1           LDRH     R2,[R1, #+6]
+     51            cfg->genre_color=oldcfg->genre_color;
+     52            cfg->genre_scolor=oldcfg->genre_scolor;
+     53            cfg->genre_ct=oldcfg->genre_ct;
+     54            cfg->trackn_show=oldcfg->trackn_show;
+     55            cfg->trackn_font=oldcfg->trackn_font;
+     56            cfg->trackn_rc=oldcfg->trackn_rc;
+   \   000001C4   A61E84E2           ADD      R1,R4,#+2656
+   \   000001C8   B620C0E1           STRH     R2,[R0, #+6]
+   \   000001CC   600896E5           LDR      R0,[R6, #+2144]
+   \   000001D0   A00A87E5           STR      R0,[R7, #+2720]
+   \   000001D4   900896E5           LDR      R0,[R6, #+2192]
+   \   000001D8   D00A87E5           STR      R0,[R7, #+2768]
+   \   000001DC   C00896E5           LDR      R0,[R6, #+2240]
+   \   000001E0   900B87E5           STR      R0,[R7, #+2960]
+   \   000001E4   A80996E5           LDR      R0,[R6, #+2472]
+   \   000001E8   780C87E5           STR      R0,[R7, #+3192]
+   \   000001EC   D80996E5           LDR      R0,[R6, #+2520]
+   \   000001F0   A80C87E5           STR      R0,[R7, #+3240]
+   \   000001F4   B020D1E1           LDRH     R2,[R1, #0]
+   \   000001F8   D30E85E2           ADD      R0,R5,#+3376
+   \   000001FC   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000200   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000204   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000208   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000020C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000210   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000214   B620C0E1           STRH     R2,[R0, #+6]
+     57            cfg->trackn_color=oldcfg->trackn_color;
+   \   00000218   3C0A96E5           LDR      R0,[R6, #+2620]
+     58            cfg->trackn_scolor=oldcfg->trackn_scolor;
+     59            cfg->trackn_ct=oldcfg->trackn_ct;
+     60            memcpy(cfg->trackn_mask, oldcfg->trackn_mask,49*2);
+   \   0000021C   6220A0E3           MOV      R2,#+98
+   \   00000220   0C0D87E5           STR      R0,[R7, #+3340]
+   \   00000224   6C0A96E5           LDR      R0,[R6, #+2668]
+   \   00000228   3C0D87E5           STR      R0,[R7, #+3388]
+   \   0000022C   9C0A96E5           LDR      R0,[R6, #+2716]
+   \   00000230   FC0D87E5           STR      R0,[R7, #+3580]
+   \   00000234   8400A0E3           MOV      R0,#+132
+   \   00000238   B00E80E3           ORR      R0,R0,#0xB00
+   \   0000023C   041080E0           ADD      R1,R0,R4
+   \   00000240   D80F80E2           ADD      R0,R0,#+864
+   \   00000244   050080E0           ADD      R0,R0,R5
+   \   00000248   130100EF           SWI      +275
+     61            cfg->tracks_show=oldcfg->tracks_show;
+   \   0000024C   140C96E5           LDR      R0,[R6, #+3092]
+     62            cfg->tracks_font=oldcfg->tracks_font;
+     63            cfg->tracks_rc=oldcfg->tracks_rc;
+   \   00000250   CC10A0E3           MOV      R1,#+204
+   \   00000254   740F87E5           STR      R0,[R7, #+3956]
+   \   00000258   440C96E5           LDR      R0,[R6, #+3140]
+   \   0000025C   C01E81E3           ORR      R1,R1,#0xC00
+   \   00000260   A40F87E5           STR      R0,[R7, #+4004]
+   \   00000264   041081E0           ADD      R1,R1,R4
+   \   00000268   B020D1E1           LDRH     R2,[R1, #0]
+   \   0000026C   2C00A0E3           MOV      R0,#+44
+   \   00000270   400D80E3           ORR      R0,R0,#0x1000
+   \   00000274   050080E0           ADD      R0,R0,R5
+   \   00000278   B020C0E1           STRH     R2,[R0, #+0]
+   \   0000027C   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000280   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000284   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000288   B420C0E1           STRH     R2,[R0, #+4]
+   \   0000028C   B620D1E1           LDRH     R2,[R1, #+6]
+     64            cfg->tracks_color=oldcfg->tracks_color;
+     65            cfg->tracks_scolor=oldcfg->tracks_scolor;
+     66            cfg->tracks_ct=oldcfg->tracks_ct;
+     67            memcpy(cfg->tracks_mask, oldcfg->tracks_mask,49*2);
+   \   00000290   DF1E84E2           ADD      R1,R4,#+3568
+   \   00000294   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000298   6000A0E3           MOV      R0,#+96
+   \   0000029C   400D80E3           ORR      R0,R0,#0x1000
+   \   000002A0   057080E0           ADD      R7,R0,R5
+   \   000002A4   A80C96E5           LDR      R0,[R6, #+3240]
+   \   000002A8   6220A0E3           MOV      R2,#+98
+   \   000002AC   000087E5           STR      R0,[R7, #+0]
+   \   000002B0   D80C96E5           LDR      R0,[R6, #+3288]
+   \   000002B4   300087E5           STR      R0,[R7, #+48]
+   \   000002B8   080D96E5           LDR      R0,[R6, #+3336]
+   \   000002BC   F00087E5           STR      R0,[R7, #+240]
+   \   000002C0   E000A0E3           MOV      R0,#+224
+   \   000002C4   440D80E3           ORR      R0,R0,#0x1100
+   \   000002C8   050080E0           ADD      R0,R0,R5
+   \   000002CC   130100EF           SWI      +275
+     68            cfg->ctime_show=oldcfg->ctime_show;
+   \   000002D0   800E96E5           LDR      R0,[R6, #+3712]
+     69            cfg->ctime_font=oldcfg->ctime_font;
+     70            cfg->ctime_rc=oldcfg->ctime_rc;
+   \   000002D4   3810A0E3           MOV      R1,#+56
+   \   000002D8   680287E5           STR      R0,[R7, #+616]
+   \   000002DC   B00E96E5           LDR      R0,[R6, #+3760]
+   \   000002E0   F01E81E3           ORR      R1,R1,#0xF00
+   \   000002E4   980287E5           STR      R0,[R7, #+664]
+   \   000002E8   041081E0           ADD      R1,R1,R4
+   \   000002EC   B020D1E1           LDRH     R2,[R1, #0]
+   \   000002F0   2800A0E3           MOV      R0,#+40
+   \   000002F4   4C0D80E3           ORR      R0,R0,#0x1300
+   \   000002F8   050080E0           ADD      R0,R0,R5
+   \   000002FC   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000300   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000304   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000308   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000030C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000310   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000314   B620C0E1           STRH     R2,[R0, #+6]
+     71            cfg->ctime_color=oldcfg->ctime_color;
+   \   00000318   140F96E5           LDR      R0,[R6, #+3860]
+     72            cfg->ctime_scolor=oldcfg->ctime_scolor;
+     73            cfg->ctime_ct=oldcfg->ctime_ct;
+     74            memcpy(cfg->ctime_mask, oldcfg->ctime_mask,49*2);
+   \   0000031C   6220A0E3           MOV      R2,#+98
+   \   00000320   FC0287E5           STR      R0,[R7, #+764]
+   \   00000324   440F96E5           LDR      R0,[R6, #+3908]
+   \   00000328   2C0387E5           STR      R0,[R7, #+812]
+   \   0000032C   740F96E5           LDR      R0,[R6, #+3956]
+   \   00000330   EC0387E5           STR      R0,[R7, #+1004]
+   \   00000334   5C00A0E3           MOV      R0,#+92
+   \   00000338   400D80E3           ORR      R0,R0,#0x1000
+   \   0000033C   041080E0           ADD      R1,R0,R4
+   \   00000340   480E80E3           ORR      R0,R0,#0x480
+   \   00000344   050080E0           ADD      R0,R0,R5
+   \   00000348   130100EF           SWI      +275
+   \   0000034C   4400A0E3           MOV      R0,#+68
+   \   00000350   440D80E3           ORR      R0,R0,#0x1100
+   \   00000354   046080E0           ADD      R6,R0,R4
+   \   00000358   000096E5           LDR      R0,[R6, #+0]
+     75            cfg->ftime_show=oldcfg->ftime_show;
+     76            cfg->ftime_font=oldcfg->ftime_font;
+     77            cfg->ftime_rc=oldcfg->ftime_rc;
+   \   0000035C   A410A0E3           MOV      R1,#+164
+   \   00000360   640587E5           STR      R0,[R7, #+1380]
+   \   00000364   300096E5           LDR      R0,[R6, #+48]
+   \   00000368   441D81E3           ORR      R1,R1,#0x1100
+   \   0000036C   940587E5           STR      R0,[R7, #+1428]
+   \   00000370   041081E0           ADD      R1,R1,R4
+   \   00000374   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000378   2400A0E3           MOV      R0,#+36
+   \   0000037C   580D80E3           ORR      R0,R0,#0x1600
+   \   00000380   050080E0           ADD      R0,R0,R5
+   \   00000384   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000388   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000038C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000390   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000394   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000398   B620D1E1           LDRH     R2,[R1, #+6]
+   \   0000039C   B620C0E1           STRH     R2,[R0, #+6]
+     78            cfg->ftime_color=oldcfg->ftime_color;
+   \   000003A0   940096E5           LDR      R0,[R6, #+148]
+     79            cfg->ftime_scolor=oldcfg->ftime_scolor;
+     80            cfg->ftime_ct=oldcfg->ftime_ct;
+     81            memcpy(cfg->ftime_mask, oldcfg->ftime_mask,49*2);
+   \   000003A4   6220A0E3           MOV      R2,#+98
+   \   000003A8   F80587E5           STR      R0,[R7, #+1528]
+   \   000003AC   C40096E5           LDR      R0,[R6, #+196]
+   \   000003B0   280687E5           STR      R0,[R7, #+1576]
+   \   000003B4   F40096E5           LDR      R0,[R6, #+244]
+   \   000003B8   E80687E5           STR      R0,[R7, #+1768]
+   \   000003BC   C800A0E3           MOV      R0,#+200
+   \   000003C0   480D80E3           ORR      R0,R0,#0x1200
+   \   000003C4   041080E0           ADD      R1,R0,R4
+   \   000003C8   510E80E3           ORR      R0,R0,#0x510
+   \   000003CC   050080E0           ADD      R0,R0,R5
+   \   000003D0   130100EF           SWI      +275
+     82            cfg->ltime_show=oldcfg->ltime_show;
+   \   000003D4   6C0296E5           LDR      R0,[R6, #+620]
+     83            cfg->ltime_font=oldcfg->ltime_font;
+     84            cfg->ltime_rc=oldcfg->ltime_rc;
+   \   000003D8   1010A0E3           MOV      R1,#+16
+   \   000003DC   600887E5           STR      R0,[R7, #+2144]
+   \   000003E0   9C0296E5           LDR      R0,[R6, #+668]
+   \   000003E4   501D81E3           ORR      R1,R1,#0x1400
+   \   000003E8   900887E5           STR      R0,[R7, #+2192]
+   \   000003EC   2000A0E3           MOV      R0,#+32
+   \   000003F0   640D80E3           ORR      R0,R0,#0x1900
+   \   000003F4   050080E0           ADD      R0,R0,R5
+   \   000003F8   041081E0           ADD      R1,R1,R4
+   \   000003FC   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000400   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000404   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000408   B220C0E1           STRH     R2,[R0, #+2]
+   \   0000040C   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000410   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000414   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000418   B620C0E1           STRH     R2,[R0, #+6]
+     85            cfg->ltime_color=oldcfg->ltime_color;
+   \   0000041C   000396E5           LDR      R0,[R6, #+768]
+     86            cfg->ltime_scolor=oldcfg->ltime_scolor;
+     87            cfg->ltime_ct=oldcfg->ltime_ct;
+     88            memcpy(cfg->ltime_mask, oldcfg->ltime_mask,49*2);
+   \   00000420   6220A0E3           MOV      R2,#+98
+   \   00000424   F40887E5           STR      R0,[R7, #+2292]
+   \   00000428   300396E5           LDR      R0,[R6, #+816]
+   \   0000042C   240987E5           STR      R0,[R7, #+2340]
+   \   00000430   600396E5           LDR      R0,[R6, #+864]
+   \   00000434   E40987E5           STR      R0,[R7, #+2532]
+   \   00000438   3400A0E3           MOV      R0,#+52
+   \   0000043C   540D80E3           ORR      R0,R0,#0x1500
+   \   00000440   041080E0           ADD      R1,R0,R4
+   \   00000444   5A0E80E2           ADD      R0,R0,#+1440
+   \   00000448   050080E0           ADD      R0,R0,R5
+   \   0000044C   130100EF           SWI      +275
+     89            cfg->bitrate_show=oldcfg->bitrate_show;
+   \   00000450   D80496E5           LDR      R0,[R6, #+1240]
+     90            cfg->bitrate_font=oldcfg->bitrate_font;
+     91            cfg->bitrate_rc=oldcfg->bitrate_rc;
+   \   00000454   7C10A0E3           MOV      R1,#+124
+   \   00000458   5C0B87E5           STR      R0,[R7, #+2908]
+   \   0000045C   080596E5           LDR      R0,[R6, #+1288]
+   \   00000460   581D81E3           ORR      R1,R1,#0x1600
+   \   00000464   8C0B87E5           STR      R0,[R7, #+2956]
+   \   00000468   041081E0           ADD      R1,R1,R4
+   \   0000046C   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000470   1C00A0E3           MOV      R0,#+28
+   \   00000474   700D80E3           ORR      R0,R0,#0x1C00
+   \   00000478   050080E0           ADD      R0,R0,R5
+   \   0000047C   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000480   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000484   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000488   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000048C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000490   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000494   B620C0E1           STRH     R2,[R0, #+6]
+     92            cfg->bitrate_color=oldcfg->bitrate_color;
+   \   00000498   6C0596E5           LDR      R0,[R6, #+1388]
+     93            cfg->bitrate_scolor=oldcfg->bitrate_scolor;
+     94            cfg->bitrate_ct=oldcfg->bitrate_ct;
+     95            memcpy(cfg->bitrate_mask, oldcfg->bitrate_mask,49*2);
+   \   0000049C   6220A0E3           MOV      R2,#+98
+   \   000004A0   F00B87E5           STR      R0,[R7, #+3056]
+   \   000004A4   9C0596E5           LDR      R0,[R6, #+1436]
+   \   000004A8   200C87E5           STR      R0,[R7, #+3104]
+   \   000004AC   CC0596E5           LDR      R0,[R6, #+1484]
+   \   000004B0   E00C87E5           STR      R0,[R7, #+3296]
+   \   000004B4   A000A0E3           MOV      R0,#+160
+   \   000004B8   5C0D80E3           ORR      R0,R0,#0x1700
+   \   000004BC   041080E0           ADD      R1,R0,R4
+   \   000004C0   630E80E2           ADD      R0,R0,#+1584
+   \   000004C4   050080E0           ADD      R0,R0,R5
+   \   000004C8   130100EF           SWI      +275
+     96            memcpy(cfg->bitrate_vbr, oldcfg->bitrate_vbr,49*2);
+   \   000004CC   6220A0E3           MOV      R2,#+98
+   \   000004D0   3000A0E3           MOV      R0,#+48
+   \   000004D4   600D80E3           ORR      R0,R0,#0x1800
+   \   000004D8   041080E0           ADD      R1,R0,R4
+   \   000004DC   630E80E2           ADD      R0,R0,#+1584
+   \   000004E0   050080E0           ADD      R0,R0,R5
+   \   000004E4   130100EF           SWI      +275
+     97            cfg->freq_show=oldcfg->freq_show;
+   \   000004E8   D40796E5           LDR      R0,[R6, #+2004]
+     98            cfg->freq_font=oldcfg->freq_font;
+     99            cfg->freq_rc=oldcfg->freq_rc;
+   \   000004EC   7810A0E3           MOV      R1,#+120
+   \   000004F0   E80E87E5           STR      R0,[R7, #+3816]
+   \   000004F4   040896E5           LDR      R0,[R6, #+2052]
+   \   000004F8   641D81E3           ORR      R1,R1,#0x1900
+   \   000004FC   180F87E5           STR      R0,[R7, #+3864]
+   \   00000500   041081E0           ADD      R1,R1,R4
+   \   00000504   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000508   A800A0E3           MOV      R0,#+168
+   \   0000050C   7C0D80E3           ORR      R0,R0,#0x1F00
+   \   00000510   050080E0           ADD      R0,R0,R5
+   \   00000514   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000518   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000051C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000520   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000524   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000528   B620D1E1           LDRH     R2,[R1, #+6]
+   \   0000052C   B620C0E1           STRH     R2,[R0, #+6]
+    100            cfg->freq_color=oldcfg->freq_color;
+   \   00000530   680896E5           LDR      R0,[R6, #+2152]
+    101            cfg->freq_scolor=oldcfg->freq_scolor;
+    102            cfg->freq_ct=oldcfg->freq_ct;
+    103            memcpy(cfg->freq_mask, oldcfg->freq_mask,49*2);
+   \   00000534   6220A0E3           MOV      R2,#+98
+   \   00000538   7C0F87E5           STR      R0,[R7, #+3964]
+   \   0000053C   980896E5           LDR      R0,[R6, #+2200]
+   \   00000540   AC0F87E5           STR      R0,[R7, #+4012]
+   \   00000544   CC00A0E3           MOV      R0,#+204
+   \   00000548   800D80E3           ORR      R0,R0,#0x2000
+   \   0000054C   057080E0           ADD      R7,R0,R5
+   \   00000550   C80896E5           LDR      R0,[R6, #+2248]
+   \   00000554   000087E5           STR      R0,[R7, #+0]
+   \   00000558   9C00A0E3           MOV      R0,#+156
+   \   0000055C   680D80E3           ORR      R0,R0,#0x1A00
+   \   00000560   041080E0           ADD      R1,R0,R4
+   \   00000564   6C0E80E2           ADD      R0,R0,#+1728
+   \   00000568   050080E0           ADD      R0,R0,R5
+   \   0000056C   130100EF           SWI      +275
+    104            cfg->ch_show=oldcfg->ch_show;
+   \   00000570   400A96E5           LDR      R0,[R6, #+2624]
+    105            cfg->ch_font=oldcfg->ch_font;
+    106            cfg->ch_rc=oldcfg->ch_rc;
+   \   00000574   E410A0E3           MOV      R1,#+228
+   \   00000578   780187E5           STR      R0,[R7, #+376]
+   \   0000057C   700A96E5           LDR      R0,[R6, #+2672]
+   \   00000580   6C1D81E3           ORR      R1,R1,#0x1B00
+   \   00000584   A80187E5           STR      R0,[R7, #+424]
+   \   00000588   041081E0           ADD      R1,R1,R4
+   \   0000058C   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000590   A400A0E3           MOV      R0,#+164
+   \   00000594   880D80E3           ORR      R0,R0,#0x2200
+   \   00000598   050080E0           ADD      R0,R0,R5
+   \   0000059C   B020C0E1           STRH     R2,[R0, #+0]
+   \   000005A0   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000005A4   B220C0E1           STRH     R2,[R0, #+2]
+   \   000005A8   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000005AC   B420C0E1           STRH     R2,[R0, #+4]
+   \   000005B0   B620D1E1           LDRH     R2,[R1, #+6]
+    107            cfg->ch_color=oldcfg->ch_color;
+    108            cfg->ch_scolor=oldcfg->ch_scolor;
+    109            cfg->ch_ct=oldcfg->ch_ct;
+    110            cfg->ProgressBar_Show=oldcfg->ProgressBar_Show;
+    111            cfg->pbrect=oldcfg->pbrect;
+   \   000005B4   9010A0E3           MOV      R1,#+144
+   \   000005B8   741D81E3           ORR      R1,R1,#0x1D00
+   \   000005BC   B620C0E1           STRH     R2,[R0, #+6]
+   \   000005C0   D40A96E5           LDR      R0,[R6, #+2772]
+   \   000005C4   041081E0           ADD      R1,R1,R4
+   \   000005C8   0C0287E5           STR      R0,[R7, #+524]
+   \   000005CC   040B96E5           LDR      R0,[R6, #+2820]
+   \   000005D0   3C0287E5           STR      R0,[R7, #+572]
+   \   000005D4   340B96E5           LDR      R0,[R6, #+2868]
+   \   000005D8   FC0287E5           STR      R0,[R7, #+764]
+   \   000005DC   1C0C96E5           LDR      R0,[R6, #+3100]
+   \   000005E0   E40387E5           STR      R0,[R7, #+996]
+   \   000005E4   B020D1E1           LDRH     R2,[R1, #0]
+   \   000005E8   E000A0E3           MOV      R0,#+224
+   \   000005EC   900D80E3           ORR      R0,R0,#0x2400
+   \   000005F0   050080E0           ADD      R0,R0,R5
+   \   000005F4   B020C0E1           STRH     R2,[R0, #+0]
+   \   000005F8   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000005FC   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000600   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000604   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000608   B620D1E1           LDRH     R2,[R1, #+6]
+    112            cfg->ProgressBar_cColor=oldcfg->ProgressBar_cColor;
+    113            cfg->ProgressBar_oColor=oldcfg->ProgressBar_oColor;
+    114            cfg->ProgressBar_bColor=oldcfg->ProgressBar_bColor;
+    115            cfg->ProgressBar_highlight=oldcfg->ProgressBar_highlight;
+    116            cfg->cover_show=oldcfg->cover_show;
+    117            cfg->cover_rect=oldcfg->cover_rect;
+   \   0000060C   0C10A0E3           MOV      R1,#+12
+   \   00000610   7C1D81E3           ORR      R1,R1,#0x1F00
+   \   00000614   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000618   800C96E5           LDR      R0,[R6, #+3200]
+   \   0000061C   041081E0           ADD      R1,R1,R4
+   \   00000620   480487E5           STR      R0,[R7, #+1096]
+   \   00000624   B00C96E5           LDR      R0,[R6, #+3248]
+   \   00000628   780487E5           STR      R0,[R7, #+1144]
+   \   0000062C   E00C96E5           LDR      R0,[R6, #+3296]
+   \   00000630   A80487E5           STR      R0,[R7, #+1192]
+   \   00000634   100D96E5           LDR      R0,[R6, #+3344]
+   \   00000638   D80487E5           STR      R0,[R7, #+1240]
+   \   0000063C   980D96E5           LDR      R0,[R6, #+3480]
+   \   00000640   600587E5           STR      R0,[R7, #+1376]
+   \   00000644   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000648   5C00A0E3           MOV      R0,#+92
+   \   0000064C   980D80E3           ORR      R0,R0,#0x2600
+   \   00000650   050080E0           ADD      R0,R0,R5
+   \   00000654   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000658   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000065C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000660   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000664   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000668   B620D1E1           LDRH     R2,[R1, #+6]
+    118            cfg->ticn_show=oldcfg->ticn_show;
+    119            cfg->ticn_rect=oldcfg->ticn_rect;
+   \   0000066C   F410A0E3           MOV      R1,#+244
+   \   00000670   7C1D81E3           ORR      R1,R1,#0x1F00
+   \   00000674   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000678   800E96E5           LDR      R0,[R6, #+3712]
+   \   0000067C   041081E0           ADD      R1,R1,R4
+   \   00000680   480687E5           STR      R0,[R7, #+1608]
+   \   00000684   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000688   4400A0E3           MOV      R0,#+68
+   \   0000068C   9C0D80E3           ORR      R0,R0,#0x2700
+   \   00000690   050080E0           ADD      R0,R0,R5
+   \   00000694   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000698   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000069C   B220C0E1           STRH     R2,[R0, #+2]
+   \   000006A0   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000006A4   B420C0E1           STRH     R2,[R0, #+4]
+   \   000006A8   B620D1E1           LDRH     R2,[R1, #+6]
+    120            cfg->alicn_show=oldcfg->alicn_show;
+    121            cfg->alicn_rect=oldcfg->alicn_rect;
+   \   000006AC   B010A0E3           MOV      R1,#+176
+   \   000006B0   801D81E3           ORR      R1,R1,#0x2000
+   \   000006B4   B620C0E1           STRH     R2,[R0, #+6]
+   \   000006B8   3C0F96E5           LDR      R0,[R6, #+3900]
+   \   000006BC   041081E0           ADD      R1,R1,R4
+   \   000006C0   040787E5           STR      R0,[R7, #+1796]
+   \   000006C4   B020D1E1           LDRH     R2,[R1, #0]
+   \   000006C8   A00D85E2           ADD      R0,R5,#+10240
+   \   000006CC   B020C0E1           STRH     R2,[R0, #+0]
+   \   000006D0   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000006D4   B220C0E1           STRH     R2,[R0, #+2]
+   \   000006D8   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000006DC   B420C0E1           STRH     R2,[R0, #+4]
+   \   000006E0   B620D1E1           LDRH     R2,[R1, #+6]
+    122            cfg->aricn_show=oldcfg->aricn_show;
+    123            cfg->aricn_rect=oldcfg->aricn_rect;
+   \   000006E4   6C10A0E3           MOV      R1,#+108
+   \   000006E8   841D81E3           ORR      R1,R1,#0x2100
+   \   000006EC   B620C0E1           STRH     R2,[R0, #+6]
+   \   000006F0   F80F96E5           LDR      R0,[R6, #+4088]
+   \   000006F4   041081E0           ADD      R1,R1,R4
+   \   000006F8   C00787E5           STR      R0,[R7, #+1984]
+   \   000006FC   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000700   BC00A0E3           MOV      R0,#+188
+   \   00000704   A00D80E3           ORR      R0,R0,#0x2800
+   \   00000708   050080E0           ADD      R0,R0,R5
+   \   0000070C   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000710   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000714   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000718   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000071C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000720   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000724   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000728   F800A0E3           MOV      R0,#+248
+   \   0000072C   840D80E3           ORR      R0,R0,#0x2100
+   \   00000730   040080E0           ADD      R0,R0,R4
+   \   00000734   001090E5           LDR      R1,[R0, #+0]
+    124            cfg->pls_show=oldcfg->pls_show;
+    125            cfg->pls_rect=oldcfg->pls_rect;
+   \   00000738   2820A0E3           MOV      R2,#+40
+   \   0000073C   7C1887E5           STR      R1,[R7, #+2172]
+   \   00000740   882D82E3           ORR      R2,R2,#0x2200
+   \   00000744   042082E0           ADD      R2,R2,R4
+   \   00000748   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000074C   7810A0E3           MOV      R1,#+120
+   \   00000750   A41D81E3           ORR      R1,R1,#0x2900
+   \   00000754   051081E0           ADD      R1,R1,R5
+   \   00000758   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000075C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   00000760   B230C1E1           STRH     R3,[R1, #+2]
+   \   00000764   B430D2E1           LDRH     R3,[R2, #+4]
+   \   00000768   B430C1E1           STRH     R3,[R1, #+4]
+   \   0000076C   B630D2E1           LDRH     R3,[R2, #+6]
+    126            cfg->eq_preset_show=oldcfg->eq_preset_show;
+    127            cfg->eq_preset_rect=oldcfg->eq_preset_rect;
+   \   00000770   E420A0E3           MOV      R2,#+228
+   \   00000774   882D82E3           ORR      R2,R2,#0x2200
+   \   00000778   B630C1E1           STRH     R3,[R1, #+6]
+   \   0000077C   BC1090E5           LDR      R1,[R0, #+188]
+   \   00000780   042082E0           ADD      R2,R2,R4
+   \   00000784   381987E5           STR      R1,[R7, #+2360]
+   \   00000788   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000078C   3410A0E3           MOV      R1,#+52
+   \   00000790   A81D81E3           ORR      R1,R1,#0x2A00
+   \   00000794   051081E0           ADD      R1,R1,R5
+   \   00000798   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000079C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   000007A0   B230C1E1           STRH     R3,[R1, #+2]
+   \   000007A4   B430D2E1           LDRH     R3,[R2, #+4]
+   \   000007A8   B430C1E1           STRH     R3,[R1, #+4]
+   \   000007AC   B630D2E1           LDRH     R3,[R2, #+6]
+    128            cfg->shuffle_show=oldcfg->shuffle_show;
+    129            cfg->shuffle_rect=oldcfg->shuffle_rect;
+   \   000007B0   A020A0E3           MOV      R2,#+160
+   \   000007B4   8C2D82E3           ORR      R2,R2,#0x2300
+   \   000007B8   B630C1E1           STRH     R3,[R1, #+6]
+   \   000007BC   781190E5           LDR      R1,[R0, #+376]
+   \   000007C0   042082E0           ADD      R2,R2,R4
+   \   000007C4   F41987E5           STR      R1,[R7, #+2548]
+   \   000007C8   B030D2E1           LDRH     R3,[R2, #0]
+   \   000007CC   F010A0E3           MOV      R1,#+240
+   \   000007D0   A81D81E3           ORR      R1,R1,#0x2A00
+   \   000007D4   051081E0           ADD      R1,R1,R5
+   \   000007D8   B030C1E1           STRH     R3,[R1, #+0]
+   \   000007DC   B230D2E1           LDRH     R3,[R2, #+2]
+   \   000007E0   B230C1E1           STRH     R3,[R1, #+2]
+   \   000007E4   B430D2E1           LDRH     R3,[R2, #+4]
+   \   000007E8   B430C1E1           STRH     R3,[R1, #+4]
+   \   000007EC   B630D2E1           LDRH     R3,[R2, #+6]
+   \   000007F0   B630C1E1           STRH     R3,[R1, #+6]
+    130            cfg->repeat_show=oldcfg->repeat_show;
+   \   000007F4   341290E5           LDR      R1,[R0, #+564]
+   \   000007F8   B01A87E5           STR      R1,[R7, #+2736]
+    131            cfg->repeat_rect=oldcfg->repeat_rect;
+   \   000007FC   AC10A0E3           MOV      R1,#+172
+   \   00000800   5C20A0E3           MOV      R2,#+92
+   \   00000804   902D82E3           ORR      R2,R2,#0x2400
+   \   00000808   042082E0           ADD      R2,R2,R4
+   \   0000080C   B030D2E1           LDRH     R3,[R2, #0]
+   \   00000810   AC1D81E3           ORR      R1,R1,#0x2B00
+   \   00000814   051081E0           ADD      R1,R1,R5
+   \   00000818   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000081C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   00000820   B230C1E1           STRH     R3,[R1, #+2]
+   \   00000824   B430D2E1           LDRH     R3,[R2, #+4]
+   \   00000828   B430C1E1           STRH     R3,[R1, #+4]
+   \   0000082C   B630D2E1           LDRH     R3,[R2, #+6]
+    132            cfg->stereo_show=oldcfg->stereo_show;
+    133            cfg->stereo_rect=oldcfg->stereo_rect;
+   \   00000830   1820A0E3           MOV      R2,#+24
+   \   00000834   942D82E3           ORR      R2,R2,#0x2500
+   \   00000838   B630C1E1           STRH     R3,[R1, #+6]
+   \   0000083C   F01290E5           LDR      R1,[R0, #+752]
+   \   00000840   042082E0           ADD      R2,R2,R4
+   \   00000844   6C1B87E5           STR      R1,[R7, #+2924]
+   \   00000848   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000084C   6810A0E3           MOV      R1,#+104
+   \   00000850   B01D81E3           ORR      R1,R1,#0x2C00
+   \   00000854   051081E0           ADD      R1,R1,R5
+   \   00000858   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000085C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   00000860   B230C1E1           STRH     R3,[R1, #+2]
+   \   00000864   B430D2E1           LDRH     R3,[R2, #+4]
+   \   00000868   B430C1E1           STRH     R3,[R1, #+4]
+   \   0000086C   B630D2E1           LDRH     R3,[R2, #+6]
+    134            cfg->navigimg_show=oldcfg->navigimg_show;
+    135            cfg->navigimg_rect=oldcfg->navigimg_rect;
+   \   00000870   2C20A0E3           MOV      R2,#+44
+   \   00000874   982D82E3           ORR      R2,R2,#0x2600
+   \   00000878   B630C1E1           STRH     R3,[R1, #+6]
+   \   0000087C   041490E5           LDR      R1,[R0, #+1028]
+   \   00000880   042082E0           ADD      R2,R2,R4
+   \   00000884   801C87E5           STR      R1,[R7, #+3200]
+   \   00000888   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000088C   7C10A0E3           MOV      R1,#+124
+   \   00000890   B41D81E3           ORR      R1,R1,#0x2D00
+   \   00000894   051081E0           ADD      R1,R1,R5
+   \   00000898   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000089C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   000008A0   B230C1E1           STRH     R3,[R1, #+2]
+   \   000008A4   B430D2E1           LDRH     R3,[R2, #+4]
+   \   000008A8   B430C1E1           STRH     R3,[R1, #+4]
+   \   000008AC   B630D2E1           LDRH     R3,[R2, #+6]
+    136            cfg->leftimg_show=oldcfg->leftimg_show;
+    137            cfg->leftimg_rect=oldcfg->leftimg_rect;
+   \   000008B0   E820A0E3           MOV      R2,#+232
+   \   000008B4   982D82E3           ORR      R2,R2,#0x2600
+   \   000008B8   B630C1E1           STRH     R3,[R1, #+6]
+   \   000008BC   C01490E5           LDR      R1,[R0, #+1216]
+   \   000008C0   042082E0           ADD      R2,R2,R4
+   \   000008C4   3C1D87E5           STR      R1,[R7, #+3388]
+   \   000008C8   B030D2E1           LDRH     R3,[R2, #0]
+   \   000008CC   3810A0E3           MOV      R1,#+56
+   \   000008D0   B81D81E3           ORR      R1,R1,#0x2E00
+   \   000008D4   051081E0           ADD      R1,R1,R5
+   \   000008D8   B030C1E1           STRH     R3,[R1, #+0]
+   \   000008DC   B230D2E1           LDRH     R3,[R2, #+2]
+   \   000008E0   B230C1E1           STRH     R3,[R1, #+2]
+   \   000008E4   B430D2E1           LDRH     R3,[R2, #+4]
+   \   000008E8   B430C1E1           STRH     R3,[R1, #+4]
+   \   000008EC   B630D2E1           LDRH     R3,[R2, #+6]
+    138            cfg->rightimg_show=oldcfg->rightimg_show;
+    139            cfg->rightimg_rect=oldcfg->rightimg_rect;
+   \   000008F0   A420A0E3           MOV      R2,#+164
+   \   000008F4   9C2D82E3           ORR      R2,R2,#0x2700
+   \   000008F8   B630C1E1           STRH     R3,[R1, #+6]
+   \   000008FC   7C1590E5           LDR      R1,[R0, #+1404]
+   \   00000900   042082E0           ADD      R2,R2,R4
+   \   00000904   F81D87E5           STR      R1,[R7, #+3576]
+   \   00000908   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000090C   F410A0E3           MOV      R1,#+244
+   \   00000910   B81D81E3           ORR      R1,R1,#0x2E00
+   \   00000914   051081E0           ADD      R1,R1,R5
+   \   00000918   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000091C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   00000920   B230C1E1           STRH     R3,[R1, #+2]
+   \   00000924   B430D2E1           LDRH     R3,[R2, #+4]
+   \   00000928   B430C1E1           STRH     R3,[R1, #+4]
+   \   0000092C   B630D2E1           LDRH     R3,[R2, #+6]
+    140            cfg->centerimg_show=oldcfg->centerimg_show;
+    141            cfg->centerimg_rect=oldcfg->centerimg_rect;
+   \   00000930   6020A0E3           MOV      R2,#+96
+   \   00000934   A02D82E3           ORR      R2,R2,#0x2800
+   \   00000938   B630C1E1           STRH     R3,[R1, #+6]
+   \   0000093C   381690E5           LDR      R1,[R0, #+1592]
+   \   00000940   042082E0           ADD      R2,R2,R4
+   \   00000944   B41E87E5           STR      R1,[R7, #+3764]
+   \   00000948   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000094C   B010A0E3           MOV      R1,#+176
+   \   00000950   BC1D81E3           ORR      R1,R1,#0x2F00
+   \   00000954   051081E0           ADD      R1,R1,R5
+   \   00000958   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000095C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   00000960   B230C1E1           STRH     R3,[R1, #+2]
+   \   00000964   B430D2E1           LDRH     R3,[R2, #+4]
+   \   00000968   B430C1E1           STRH     R3,[R1, #+4]
+   \   0000096C   B630D2E1           LDRH     R3,[R2, #+6]
+    142            cfg->upimg_show=oldcfg->upimg_show;
+    143            cfg->upimg_rect=oldcfg->upimg_rect;
+   \   00000970   1C20A0E3           MOV      R2,#+28
+   \   00000974   A42D82E3           ORR      R2,R2,#0x2900
+   \   00000978   B630C1E1           STRH     R3,[R1, #+6]
+   \   0000097C   F41690E5           LDR      R1,[R0, #+1780]
+   \   00000980   042082E0           ADD      R2,R2,R4
+   \   00000984   701F87E5           STR      R1,[R7, #+3952]
+   \   00000988   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000098C   6C10A0E3           MOV      R1,#+108
+   \   00000990   C01D81E3           ORR      R1,R1,#0x3000
+   \   00000994   051081E0           ADD      R1,R1,R5
+   \   00000998   B030C1E1           STRH     R3,[R1, #+0]
+   \   0000099C   B230D2E1           LDRH     R3,[R2, #+2]
+   \   000009A0   B230C1E1           STRH     R3,[R1, #+2]
+   \   000009A4   B430D2E1           LDRH     R3,[R2, #+4]
+   \   000009A8   B430C1E1           STRH     R3,[R1, #+4]
+   \   000009AC   B630D2E1           LDRH     R3,[R2, #+6]
+   \   000009B0   B630C1E1           STRH     R3,[R1, #+6]
+   \   000009B4   B02790E5           LDR      R2,[R0, #+1968]
+   \   000009B8   F810A0E3           MOV      R1,#+248
+   \   000009BC   C01D81E3           ORR      R1,R1,#0x3000
+   \   000009C0   051081E0           ADD      R1,R1,R5
+   \   000009C4   002081E5           STR      R2,[R1, #+0]
+    144            cfg->downimg_show=oldcfg->downimg_show;
+    145            cfg->downimg_rect=oldcfg->downimg_rect;
+   \   000009C8   D830A0E3           MOV      R3,#+216
+   \   000009CC   A43D83E3           ORR      R3,R3,#0x2900
+   \   000009D0   043083E0           ADD      R3,R3,R4
+   \   000009D4   B060D3E1           LDRH     R6,[R3, #0]
+   \   000009D8   2820A0E3           MOV      R2,#+40
+   \   000009DC   C42D82E3           ORR      R2,R2,#0x3100
+   \   000009E0   052082E0           ADD      R2,R2,R5
+   \   000009E4   B060C2E1           STRH     R6,[R2, #+0]
+   \   000009E8   B260D3E1           LDRH     R6,[R3, #+2]
+   \   000009EC   B260C2E1           STRH     R6,[R2, #+2]
+   \   000009F0   B460D3E1           LDRH     R6,[R3, #+4]
+   \   000009F4   B460C2E1           STRH     R6,[R2, #+4]
+   \   000009F8   B660D3E1           LDRH     R6,[R3, #+6]
+   \   000009FC   B660C2E1           STRH     R6,[R2, #+6]
+    146            cfg->title_show_h=oldcfg->title_show_h;
+   \   00000A00   F02890E5           LDR      R2,[R0, #+2288]
+    147            cfg->title_font_h=oldcfg->title_font_h;
+    148            cfg->title_rc_h=oldcfg->title_rc_h;
+   \   00000A04   4830A0E3           MOV      R3,#+72
+   \   00000A08   402181E5           STR      R2,[R1, #+320]
+   \   00000A0C   202990E5           LDR      R2,[R0, #+2336]
+   \   00000A10   AC3D83E3           ORR      R3,R3,#0x2B00
+   \   00000A14   702181E5           STR      R2,[R1, #+368]
+   \   00000A18   043083E0           ADD      R3,R3,R4
+   \   00000A1C   B060D3E1           LDRH     R6,[R3, #0]
+   \   00000A20   9820A0E3           MOV      R2,#+152
+   \   00000A24   C82D82E3           ORR      R2,R2,#0x3200
+   \   00000A28   052082E0           ADD      R2,R2,R5
+   \   00000A2C   B060C2E1           STRH     R6,[R2, #+0]
+   \   00000A30   B260D3E1           LDRH     R6,[R3, #+2]
+   \   00000A34   B260C2E1           STRH     R6,[R2, #+2]
+   \   00000A38   B460D3E1           LDRH     R6,[R3, #+4]
+   \   00000A3C   B460C2E1           STRH     R6,[R2, #+4]
+   \   00000A40   B660D3E1           LDRH     R6,[R3, #+6]
+    149            cfg->title_color_h=oldcfg->title_color_h;
+    150            cfg->title_scolor_h=oldcfg->title_scolor_h;
+    151            cfg->title_ct_h=oldcfg->title_ct_h;
+    152            cfg->album_show_h=oldcfg->album_show_h;
+    153            cfg->album_font_h=oldcfg->album_font_h;
+    154            cfg->album_rc_h=oldcfg->album_rc_h;
+   \   00000A44   2430A0E3           MOV      R3,#+36
+   \   00000A48   B43D83E3           ORR      R3,R3,#0x2D00
+   \   00000A4C   B660C2E1           STRH     R6,[R2, #+6]
+   \   00000A50   842990E5           LDR      R2,[R0, #+2436]
+   \   00000A54   043083E0           ADD      R3,R3,R4
+   \   00000A58   D42181E5           STR      R2,[R1, #+468]
+   \   00000A5C   B42990E5           LDR      R2,[R0, #+2484]
+   \   00000A60   042281E5           STR      R2,[R1, #+516]
+   \   00000A64   E42990E5           LDR      R2,[R0, #+2532]
+   \   00000A68   C42281E5           STR      R2,[R1, #+708]
+   \   00000A6C   CC2A90E5           LDR      R2,[R0, #+2764]
+   \   00000A70   AC2381E5           STR      R2,[R1, #+940]
+   \   00000A74   FC2A90E5           LDR      R2,[R0, #+2812]
+   \   00000A78   DC2381E5           STR      R2,[R1, #+988]
+   \   00000A7C   B060D3E1           LDRH     R6,[R3, #0]
+   \   00000A80   0420A0E3           MOV      R2,#+4
+   \   00000A84   D42D82E3           ORR      R2,R2,#0x3500
+   \   00000A88   052082E0           ADD      R2,R2,R5
+   \   00000A8C   B060C2E1           STRH     R6,[R2, #+0]
+   \   00000A90   B260D3E1           LDRH     R6,[R3, #+2]
+   \   00000A94   B260C2E1           STRH     R6,[R2, #+2]
+   \   00000A98   B460D3E1           LDRH     R6,[R3, #+4]
+   \   00000A9C   B460C2E1           STRH     R6,[R2, #+4]
+   \   00000AA0   B660D3E1           LDRH     R6,[R3, #+6]
+    155            cfg->album_color_h=oldcfg->album_color_h;
+    156            cfg->album_scolor_h=oldcfg->album_scolor_h;
+    157            cfg->album_ct_h=oldcfg->album_ct_h;
+    158            cfg->artist_show_h=oldcfg->artist_show_h;
+    159            cfg->artist_font_h=oldcfg->artist_font_h;
+    160            cfg->artist_rc_h=oldcfg->artist_rc_h;
+   \   00000AA4   BC3D84E2           ADD      R3,R4,#+12032
+   \   00000AA8   B660C2E1           STRH     R6,[R2, #+6]
+   \   00000AAC   602B90E5           LDR      R2,[R0, #+2912]
+   \   00000AB0   402481E5           STR      R2,[R1, #+1088]
+   \   00000AB4   902B90E5           LDR      R2,[R0, #+2960]
+   \   00000AB8   702481E5           STR      R2,[R1, #+1136]
+   \   00000ABC   C02B90E5           LDR      R2,[R0, #+3008]
+   \   00000AC0   302581E5           STR      R2,[R1, #+1328]
+   \   00000AC4   A82C90E5           LDR      R2,[R0, #+3240]
+   \   00000AC8   182681E5           STR      R2,[R1, #+1560]
+   \   00000ACC   D82C90E5           LDR      R2,[R0, #+3288]
+   \   00000AD0   482681E5           STR      R2,[R1, #+1608]
+   \   00000AD4   B060D3E1           LDRH     R6,[R3, #0]
+   \   00000AD8   7020A0E3           MOV      R2,#+112
+   \   00000ADC   DC2D82E3           ORR      R2,R2,#0x3700
+   \   00000AE0   052082E0           ADD      R2,R2,R5
+   \   00000AE4   B060C2E1           STRH     R6,[R2, #+0]
+   \   00000AE8   B260D3E1           LDRH     R6,[R3, #+2]
+   \   00000AEC   B260C2E1           STRH     R6,[R2, #+2]
+   \   00000AF0   B460D3E1           LDRH     R6,[R3, #+4]
+   \   00000AF4   B460C2E1           STRH     R6,[R2, #+4]
+   \   00000AF8   B660D3E1           LDRH     R6,[R3, #+6]
+    161            cfg->artist_color_h=oldcfg->artist_color_h;
+    162            cfg->artist_scolor_h=oldcfg->artist_scolor_h;
+    163            cfg->artist_ct_h=oldcfg->artist_ct_h;
+    164            cfg->year_show_h=oldcfg->year_show_h;
+    165            cfg->year_font_h=oldcfg->year_font_h;
+    166            cfg->year_rc_h=oldcfg->year_rc_h;
+   \   00000AFC   DC30A0E3           MOV      R3,#+220
+   \   00000B00   C03D83E3           ORR      R3,R3,#0x3000
+   \   00000B04   B660C2E1           STRH     R6,[R2, #+6]
+   \   00000B08   3C2D90E5           LDR      R2,[R0, #+3388]
+   \   00000B0C   043083E0           ADD      R3,R3,R4
+   \   00000B10   AC2681E5           STR      R2,[R1, #+1708]
+   \   00000B14   6C2D90E5           LDR      R2,[R0, #+3436]
+   \   00000B18   DC2681E5           STR      R2,[R1, #+1756]
+   \   00000B1C   9C2D90E5           LDR      R2,[R0, #+3484]
+   \   00000B20   9C2781E5           STR      R2,[R1, #+1948]
+   \   00000B24   842E90E5           LDR      R2,[R0, #+3716]
+   \   00000B28   842881E5           STR      R2,[R1, #+2180]
+   \   00000B2C   B42E90E5           LDR      R2,[R0, #+3764]
+   \   00000B30   B42881E5           STR      R2,[R1, #+2228]
+   \   00000B34   B060D3E1           LDRH     R6,[R3, #0]
+   \   00000B38   DC20A0E3           MOV      R2,#+220
+   \   00000B3C   E42D82E3           ORR      R2,R2,#0x3900
+   \   00000B40   052082E0           ADD      R2,R2,R5
+   \   00000B44   B060C2E1           STRH     R6,[R2, #+0]
+   \   00000B48   B260D3E1           LDRH     R6,[R3, #+2]
+   \   00000B4C   B260C2E1           STRH     R6,[R2, #+2]
+   \   00000B50   B460D3E1           LDRH     R6,[R3, #+4]
+   \   00000B54   B460C2E1           STRH     R6,[R2, #+4]
+   \   00000B58   B660D3E1           LDRH     R6,[R3, #+6]
+   \   00000B5C   B660C2E1           STRH     R6,[R2, #+6]
+    167            cfg->year_color_h=oldcfg->year_color_h;
+   \   00000B60   182F90E5           LDR      R2,[R0, #+3864]
+   \   00000B64   182981E5           STR      R2,[R1, #+2328]
+    168            cfg->year_scolor_h=oldcfg->year_scolor_h;
+   \   00000B68   482F90E5           LDR      R2,[R0, #+3912]
+   \   00000B6C   482981E5           STR      R2,[R1, #+2376]
+    169            cfg->year_ct_h=oldcfg->year_ct_h;
+   \   00000B70   780F90E5           LDR      R0,[R0, #+3960]
+    170            cfg->genre_show_h=oldcfg->genre_show_h;
+    171            cfg->genre_font_h=oldcfg->genre_font_h;
+    172            cfg->genre_rc_h=oldcfg->genre_rc_h;
+   \   00000B74   B820A0E3           MOV      R2,#+184
+   \   00000B78   080A81E5           STR      R0,[R1, #+2568]
+   \   00000B7C   5800A0E3           MOV      R0,#+88
+   \   00000B80   C80D80E3           ORR      R0,R0,#0x3200
+   \   00000B84   046080E0           ADD      R6,R0,R4
+   \   00000B88   000096E5           LDR      R0,[R6, #+0]
+   \   00000B8C   C82D82E3           ORR      R2,R2,#0x3200
+   \   00000B90   F00A81E5           STR      R0,[R1, #+2800]
+   \   00000B94   300096E5           LDR      R0,[R6, #+48]
+   \   00000B98   042082E0           ADD      R2,R2,R4
+   \   00000B9C   200B81E5           STR      R0,[R1, #+2848]
+   \   00000BA0   B030D2E1           LDRH     R3,[R2, #0]
+   \   00000BA4   4800A0E3           MOV      R0,#+72
+   \   00000BA8   F00D80E3           ORR      R0,R0,#0x3C00
+   \   00000BAC   050080E0           ADD      R0,R0,R5
+   \   00000BB0   B030C0E1           STRH     R3,[R0, #+0]
+   \   00000BB4   B230D2E1           LDRH     R3,[R2, #+2]
+   \   00000BB8   B230C0E1           STRH     R3,[R0, #+2]
+   \   00000BBC   B430D2E1           LDRH     R3,[R2, #+4]
+   \   00000BC0   B430C0E1           STRH     R3,[R0, #+4]
+   \   00000BC4   B630D2E1           LDRH     R3,[R2, #+6]
+   \   00000BC8   B630C0E1           STRH     R3,[R0, #+6]
+    173            cfg->genre_color_h=oldcfg->genre_color_h;
+   \   00000BCC   940096E5           LDR      R0,[R6, #+148]
+   \   00000BD0   840B81E5           STR      R0,[R1, #+2948]
+    174            cfg->genre_scolor_h=oldcfg->genre_scolor_h;
+   \   00000BD4   C40096E5           LDR      R0,[R6, #+196]
+   \   00000BD8   B40B81E5           STR      R0,[R1, #+2996]
+    175            cfg->genre_ct_h=oldcfg->genre_ct_h;
+   \   00000BDC   F40096E5           LDR      R0,[R6, #+244]
+   \   00000BE0   740C81E5           STR      R0,[R1, #+3188]
+    176            cfg->trackn_show_h=oldcfg->trackn_show_h;
+   \   00000BE4   DC0196E5           LDR      R0,[R6, #+476]
+   \   00000BE8   5C0D81E5           STR      R0,[R1, #+3420]
+    177            cfg->trackn_font_h=oldcfg->trackn_font_h;
+   \   00000BEC   0C0296E5           LDR      R0,[R6, #+524]
+   \   00000BF0   8C0D81E5           STR      R0,[R1, #+3468]
+    178            cfg->trackn_rc_h=oldcfg->trackn_rc_h;
+   \   00000BF4   B400A0E3           MOV      R0,#+180
+   \   00000BF8   F80D80E3           ORR      R0,R0,#0x3E00
+   \   00000BFC   050080E0           ADD      R0,R0,R5
+   \   00000C00   9420A0E3           MOV      R2,#+148
+   \   00000C04   D02D82E3           ORR      R2,R2,#0x3400
+   \   00000C08   042082E0           ADD      R2,R2,R4
+   \   00000C0C   B030D2E1           LDRH     R3,[R2, #0]
+   \   00000C10   B030C0E1           STRH     R3,[R0, #+0]
+   \   00000C14   B230D2E1           LDRH     R3,[R2, #+2]
+   \   00000C18   B230C0E1           STRH     R3,[R0, #+2]
+   \   00000C1C   B430D2E1           LDRH     R3,[R2, #+4]
+   \   00000C20   B430C0E1           STRH     R3,[R0, #+4]
+   \   00000C24   B630D2E1           LDRH     R3,[R2, #+6]
+    179            cfg->trackn_color_h=oldcfg->trackn_color_h;
+    180            cfg->trackn_scolor_h=oldcfg->trackn_scolor_h;
+    181            cfg->trackn_ct_h=oldcfg->trackn_ct_h;
+    182            memcpy(cfg->trackn_mask_h, oldcfg->trackn_mask_h,49*2);
+   \   00000C28   6220A0E3           MOV      R2,#+98
+   \   00000C2C   B630C0E1           STRH     R3,[R0, #+6]
+   \   00000C30   700296E5           LDR      R0,[R6, #+624]
+   \   00000C34   F00D81E5           STR      R0,[R1, #+3568]
+   \   00000C38   A00296E5           LDR      R0,[R6, #+672]
+   \   00000C3C   200E81E5           STR      R0,[R1, #+3616]
+   \   00000C40   D00296E5           LDR      R0,[R6, #+720]
+   \   00000C44   E00E81E5           STR      R0,[R1, #+3808]
+   \   00000C48   B800A0E3           MOV      R0,#+184
+   \   00000C4C   D40D80E3           ORR      R0,R0,#0x3500
+   \   00000C50   041080E0           ADD      R1,R0,R4
+   \   00000C54   AB0E80E2           ADD      R0,R0,#+2736
+   \   00000C58   050080E0           ADD      R0,R0,R5
+   \   00000C5C   130100EF           SWI      +275
+   \   00000C60   5000A0E3           MOV      R0,#+80
+   \   00000C64   410C80E3           ORR      R0,R0,#0x4100
+   \   00000C68   057080E0           ADD      R7,R0,R5
+   \   00000C6C   480496E5           LDR      R0,[R6, #+1096]
+    183            cfg->tracks_show_h=oldcfg->tracks_show_h;
+    184            cfg->tracks_font_h=oldcfg->tracks_font_h;
+    185            cfg->tracks_rc_h=oldcfg->tracks_rc_h;
+   \   00000C70   DC1D84E2           ADD      R1,R4,#+14080
+   \   00000C74   000087E5           STR      R0,[R7, #+0]
+   \   00000C78   780496E5           LDR      R0,[R6, #+1144]
+   \   00000C7C   300087E5           STR      R0,[R7, #+48]
+   \   00000C80   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000C84   B000A0E3           MOV      R0,#+176
+   \   00000C88   410C80E3           ORR      R0,R0,#0x4100
+   \   00000C8C   050080E0           ADD      R0,R0,R5
+   \   00000C90   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000C94   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000C98   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000C9C   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000CA0   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000CA4   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000CA8   B620C0E1           STRH     R2,[R0, #+6]
+    186            cfg->tracks_color_h=oldcfg->tracks_color_h;
+   \   00000CAC   DC0496E5           LDR      R0,[R6, #+1244]
+    187            cfg->tracks_scolor_h=oldcfg->tracks_scolor_h;
+    188            cfg->tracks_ct_h=oldcfg->tracks_ct_h;
+    189            memcpy(cfg->tracks_mask_h, oldcfg->tracks_mask_h,49*2);
+   \   00000CB0   6220A0E3           MOV      R2,#+98
+   \   00000CB4   940087E5           STR      R0,[R7, #+148]
+   \   00000CB8   0C0596E5           LDR      R0,[R6, #+1292]
+   \   00000CBC   C40087E5           STR      R0,[R7, #+196]
+   \   00000CC0   3C0596E5           LDR      R0,[R6, #+1340]
+   \   00000CC4   840187E5           STR      R0,[R7, #+388]
+   \   00000CC8   2400A0E3           MOV      R0,#+36
+   \   00000CCC   E00D80E3           ORR      R0,R0,#0x3800
+   \   00000CD0   041080E0           ADD      R1,R0,R4
+   \   00000CD4   B40E80E2           ADD      R0,R0,#+2880
+   \   00000CD8   050080E0           ADD      R0,R0,R5
+   \   00000CDC   130100EF           SWI      +275
+    190            cfg->ctime_show_h=oldcfg->ctime_show_h;
+   \   00000CE0   B40696E5           LDR      R0,[R6, #+1716]
+    191            cfg->ctime_font_h=oldcfg->ctime_font_h;
+    192            cfg->ctime_rc_h=oldcfg->ctime_rc_h;
+   \   00000CE4   6C10A0E3           MOV      R1,#+108
+   \   00000CE8   FC0287E5           STR      R0,[R7, #+764]
+   \   00000CEC   E40696E5           LDR      R0,[R6, #+1764]
+   \   00000CF0   E41D81E3           ORR      R1,R1,#0x3900
+   \   00000CF4   2C0387E5           STR      R0,[R7, #+812]
+   \   00000CF8   041081E0           ADD      R1,R1,R4
+   \   00000CFC   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000D00   AC00A0E3           MOV      R0,#+172
+   \   00000D04   440C80E3           ORR      R0,R0,#0x4400
+   \   00000D08   050080E0           ADD      R0,R0,R5
+   \   00000D0C   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000D10   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000D14   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000D18   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000D1C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000D20   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000D24   B620C0E1           STRH     R2,[R0, #+6]
+    193            cfg->ctime_color_h=oldcfg->ctime_color_h;
+   \   00000D28   480796E5           LDR      R0,[R6, #+1864]
+    194            cfg->ctime_scolor_h=oldcfg->ctime_scolor_h;
+    195            cfg->ctime_ct_h=oldcfg->ctime_ct_h;
+    196            memcpy(cfg->ctime_mask_h, oldcfg->ctime_mask_h,49*2);
+   \   00000D2C   6220A0E3           MOV      R2,#+98
+   \   00000D30   900387E5           STR      R0,[R7, #+912]
+   \   00000D34   780796E5           LDR      R0,[R6, #+1912]
+   \   00000D38   C00387E5           STR      R0,[R7, #+960]
+   \   00000D3C   A80796E5           LDR      R0,[R6, #+1960]
+   \   00000D40   800487E5           STR      R0,[R7, #+1152]
+   \   00000D44   9000A0E3           MOV      R0,#+144
+   \   00000D48   E80D80E3           ORR      R0,R0,#0x3A00
+   \   00000D4C   041080E0           ADD      R1,R0,R4
+   \   00000D50   BD0E80E2           ADD      R0,R0,#+3024
+   \   00000D54   050080E0           ADD      R0,R0,R5
+   \   00000D58   130100EF           SWI      +275
+    197            cfg->ftime_show_h=oldcfg->ftime_show_h;
+   \   00000D5C   200996E5           LDR      R0,[R6, #+2336]
+    198            cfg->ftime_font_h=oldcfg->ftime_font_h;
+    199            cfg->ftime_rc_h=oldcfg->ftime_rc_h;
+   \   00000D60   D810A0E3           MOV      R1,#+216
+   \   00000D64   F80587E5           STR      R0,[R7, #+1528]
+   \   00000D68   500996E5           LDR      R0,[R6, #+2384]
+   \   00000D6C   EC1D81E3           ORR      R1,R1,#0x3B00
+   \   00000D70   280687E5           STR      R0,[R7, #+1576]
+   \   00000D74   041081E0           ADD      R1,R1,R4
+   \   00000D78   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000D7C   A800A0E3           MOV      R0,#+168
+   \   00000D80   470C80E3           ORR      R0,R0,#0x4700
+   \   00000D84   050080E0           ADD      R0,R0,R5
+   \   00000D88   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000D8C   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000D90   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000D94   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000D98   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000D9C   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000DA0   B620C0E1           STRH     R2,[R0, #+6]
+    200            cfg->ftime_color_h=oldcfg->ftime_color_h;
+   \   00000DA4   B40996E5           LDR      R0,[R6, #+2484]
+    201            cfg->ftime_scolor_h=oldcfg->ftime_scolor_h;
+    202            cfg->ftime_ct_h=oldcfg->ftime_ct_h;
+    203            memcpy(cfg->ftime_mask_h, oldcfg->ftime_mask_h,49*2);
+   \   00000DA8   6220A0E3           MOV      R2,#+98
+   \   00000DAC   8C0687E5           STR      R0,[R7, #+1676]
+   \   00000DB0   E40996E5           LDR      R0,[R6, #+2532]
+   \   00000DB4   BC0687E5           STR      R0,[R7, #+1724]
+   \   00000DB8   140A96E5           LDR      R0,[R6, #+2580]
+   \   00000DBC   7C0787E5           STR      R0,[R7, #+1916]
+   \   00000DC0   FC00A0E3           MOV      R0,#+252
+   \   00000DC4   F00D80E3           ORR      R0,R0,#0x3C00
+   \   00000DC8   041080E0           ADD      R1,R0,R4
+   \   00000DCC   C60E80E2           ADD      R0,R0,#+3168
+   \   00000DD0   050080E0           ADD      R0,R0,R5
+   \   00000DD4   130100EF           SWI      +275
+    204            cfg->ltime_show_h=oldcfg->ltime_show_h;
+   \   00000DD8   8C0B96E5           LDR      R0,[R6, #+2956]
+    205            cfg->ltime_font_h=oldcfg->ltime_font_h;
+    206            cfg->ltime_rc_h=oldcfg->ltime_rc_h;
+   \   00000DDC   4410A0E3           MOV      R1,#+68
+   \   00000DE0   F40887E5           STR      R0,[R7, #+2292]
+   \   00000DE4   BC0B96E5           LDR      R0,[R6, #+3004]
+   \   00000DE8   F81D81E3           ORR      R1,R1,#0x3E00
+   \   00000DEC   240987E5           STR      R0,[R7, #+2340]
+   \   00000DF0   A400A0E3           MOV      R0,#+164
+   \   00000DF4   4A0C80E3           ORR      R0,R0,#0x4A00
+   \   00000DF8   050080E0           ADD      R0,R0,R5
+   \   00000DFC   041081E0           ADD      R1,R1,R4
+   \   00000E00   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000E04   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000E08   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000E0C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000E10   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000E14   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000E18   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000E1C   B620C0E1           STRH     R2,[R0, #+6]
+    207            cfg->ltime_color_h=oldcfg->ltime_color_h;
+   \   00000E20   200C96E5           LDR      R0,[R6, #+3104]
+    208            cfg->ltime_scolor_h=oldcfg->ltime_scolor_h;
+    209            cfg->ltime_ct_h=oldcfg->ltime_ct_h;
+    210            memcpy(cfg->ltime_mask_h, oldcfg->ltime_mask_h,49*2);
+   \   00000E24   6220A0E3           MOV      R2,#+98
+   \   00000E28   880987E5           STR      R0,[R7, #+2440]
+   \   00000E2C   500C96E5           LDR      R0,[R6, #+3152]
+   \   00000E30   B80987E5           STR      R0,[R7, #+2488]
+   \   00000E34   800C96E5           LDR      R0,[R6, #+3200]
+   \   00000E38   780A87E5           STR      R0,[R7, #+2680]
+   \   00000E3C   6800A0E3           MOV      R0,#+104
+   \   00000E40   FC0D80E3           ORR      R0,R0,#0x3F00
+   \   00000E44   041080E0           ADD      R1,R0,R4
+   \   00000E48   CF0E80E2           ADD      R0,R0,#+3312
+   \   00000E4C   050080E0           ADD      R0,R0,R5
+   \   00000E50   130100EF           SWI      +275
+    211            cfg->bitrate_show_h=oldcfg->bitrate_show_h;
+   \   00000E54   F80D96E5           LDR      R0,[R6, #+3576]
+    212            cfg->bitrate_font_h=oldcfg->bitrate_font_h;
+    213            cfg->bitrate_rc_h=oldcfg->bitrate_rc_h;
+   \   00000E58   B010A0E3           MOV      R1,#+176
+   \   00000E5C   F00B87E5           STR      R0,[R7, #+3056]
+   \   00000E60   280E96E5           LDR      R0,[R6, #+3624]
+   \   00000E64   401C81E3           ORR      R1,R1,#0x4000
+   \   00000E68   200C87E5           STR      R0,[R7, #+3104]
+   \   00000E6C   041081E0           ADD      R1,R1,R4
+   \   00000E70   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000E74   A000A0E3           MOV      R0,#+160
+   \   00000E78   4D0C80E3           ORR      R0,R0,#0x4D00
+   \   00000E7C   050080E0           ADD      R0,R0,R5
+   \   00000E80   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000E84   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000E88   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000E8C   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000E90   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000E94   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000E98   B620C0E1           STRH     R2,[R0, #+6]
+    214            cfg->bitrate_color_h=oldcfg->bitrate_color_h;
+   \   00000E9C   8C0E96E5           LDR      R0,[R6, #+3724]
+    215            cfg->bitrate_scolor_h=oldcfg->bitrate_scolor_h;
+    216            cfg->bitrate_ct_h=oldcfg->bitrate_ct_h;
+    217            memcpy(cfg->bitrate_mask_h, oldcfg->bitrate_mask_h,49*2);
+   \   00000EA0   6220A0E3           MOV      R2,#+98
+   \   00000EA4   840C87E5           STR      R0,[R7, #+3204]
+   \   00000EA8   BC0E96E5           LDR      R0,[R6, #+3772]
+   \   00000EAC   B40C87E5           STR      R0,[R7, #+3252]
+   \   00000EB0   EC0E96E5           LDR      R0,[R6, #+3820]
+   \   00000EB4   740D87E5           STR      R0,[R7, #+3444]
+   \   00000EB8   D400A0E3           MOV      R0,#+212
+   \   00000EBC   410C80E3           ORR      R0,R0,#0x4100
+   \   00000EC0   041080E0           ADD      R1,R0,R4
+   \   00000EC4   D80E80E2           ADD      R0,R0,#+3456
+   \   00000EC8   050080E0           ADD      R0,R0,R5
+   \   00000ECC   130100EF           SWI      +275
+    218            memcpy(cfg->bitrate_vbr_h, oldcfg->bitrate_vbr_h,49*2);
+   \   00000ED0   6220A0E3           MOV      R2,#+98
+   \   00000ED4   6400A0E3           MOV      R0,#+100
+   \   00000ED8   420C80E3           ORR      R0,R0,#0x4200
+   \   00000EDC   041080E0           ADD      R1,R0,R4
+   \   00000EE0   D80E80E3           ORR      R0,R0,#0xD80
+   \   00000EE4   050080E0           ADD      R0,R0,R5
+   \   00000EE8   130100EF           SWI      +275
+   \   00000EEC   4C00A0E3           MOV      R0,#+76
+   \   00000EF0   430C80E3           ORR      R0,R0,#0x4300
+   \   00000EF4   046080E0           ADD      R6,R0,R4
+   \   00000EF8   000096E5           LDR      R0,[R6, #+0]
+    219            cfg->freq_show_h=oldcfg->freq_show_h;
+    220            cfg->freq_font_h=oldcfg->freq_font_h;
+    221            cfg->freq_rc_h=oldcfg->freq_rc_h;
+   \   00000EFC   AC10A0E3           MOV      R1,#+172
+   \   00000F00   7C0F87E5           STR      R0,[R7, #+3964]
+   \   00000F04   300096E5           LDR      R0,[R6, #+48]
+   \   00000F08   431C81E3           ORR      R1,R1,#0x4300
+   \   00000F0C   AC0F87E5           STR      R0,[R7, #+4012]
+   \   00000F10   041081E0           ADD      R1,R1,R4
+   \   00000F14   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000F18   2C00A0E3           MOV      R0,#+44
+   \   00000F1C   510C80E3           ORR      R0,R0,#0x5100
+   \   00000F20   050080E0           ADD      R0,R0,R5
+   \   00000F24   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000F28   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000F2C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000F30   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000F34   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000F38   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00000F3C   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000F40   6000A0E3           MOV      R0,#+96
+   \   00000F44   510C80E3           ORR      R0,R0,#0x5100
+   \   00000F48   057080E0           ADD      R7,R0,R5
+   \   00000F4C   940096E5           LDR      R0,[R6, #+148]
+    222            cfg->freq_color_h=oldcfg->freq_color_h;
+    223            cfg->freq_scolor_h=oldcfg->freq_scolor_h;
+    224            cfg->freq_ct_h=oldcfg->freq_ct_h;
+    225            memcpy(cfg->freq_mask_h, oldcfg->freq_mask_h,49*2);
+   \   00000F50   6220A0E3           MOV      R2,#+98
+   \   00000F54   000087E5           STR      R0,[R7, #+0]
+   \   00000F58   C40096E5           LDR      R0,[R6, #+196]
+   \   00000F5C   300087E5           STR      R0,[R7, #+48]
+   \   00000F60   F40096E5           LDR      R0,[R6, #+244]
+   \   00000F64   F00087E5           STR      R0,[R7, #+240]
+   \   00000F68   D000A0E3           MOV      R0,#+208
+   \   00000F6C   440C80E3           ORR      R0,R0,#0x4400
+   \   00000F70   041080E0           ADD      R1,R0,R4
+   \   00000F74   E10E80E2           ADD      R0,R0,#+3600
+   \   00000F78   050080E0           ADD      R0,R0,R5
+   \   00000F7C   130100EF           SWI      +275
+    226            cfg->ch_show_h=oldcfg->ch_show_h;
+   \   00000F80   6C0296E5           LDR      R0,[R6, #+620]
+    227            cfg->ch_font_h=oldcfg->ch_font_h;
+    228            cfg->ch_rc_h=oldcfg->ch_rc_h;
+   \   00000F84   1810A0E3           MOV      R1,#+24
+   \   00000F88   680287E5           STR      R0,[R7, #+616]
+   \   00000F8C   9C0296E5           LDR      R0,[R6, #+668]
+   \   00000F90   461C81E3           ORR      R1,R1,#0x4600
+   \   00000F94   980287E5           STR      R0,[R7, #+664]
+   \   00000F98   041081E0           ADD      R1,R1,R4
+   \   00000F9C   B020D1E1           LDRH     R2,[R1, #0]
+   \   00000FA0   2800A0E3           MOV      R0,#+40
+   \   00000FA4   540C80E3           ORR      R0,R0,#0x5400
+   \   00000FA8   050080E0           ADD      R0,R0,R5
+   \   00000FAC   B020C0E1           STRH     R2,[R0, #+0]
+   \   00000FB0   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00000FB4   B220C0E1           STRH     R2,[R0, #+2]
+   \   00000FB8   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00000FBC   B420C0E1           STRH     R2,[R0, #+4]
+   \   00000FC0   B620D1E1           LDRH     R2,[R1, #+6]
+    229            cfg->ch_color_h=oldcfg->ch_color_h;
+    230            cfg->ch_scolor_h=oldcfg->ch_scolor_h;
+    231            cfg->ch_ct_h=oldcfg->ch_ct_h;
+    232            cfg->ProgressBar_Show_h=oldcfg->ProgressBar_Show_h;
+    233            cfg->pbrect_h=oldcfg->pbrect_h;
+   \   00000FC4   C410A0E3           MOV      R1,#+196
+   \   00000FC8   471C81E3           ORR      R1,R1,#0x4700
+   \   00000FCC   B620C0E1           STRH     R2,[R0, #+6]
+   \   00000FD0   000396E5           LDR      R0,[R6, #+768]
+   \   00000FD4   041081E0           ADD      R1,R1,R4
+   \   00000FD8   FC0287E5           STR      R0,[R7, #+764]
+   \   00000FDC   300396E5           LDR      R0,[R6, #+816]
+   \   00000FE0   2C0387E5           STR      R0,[R7, #+812]
+   \   00000FE4   600396E5           LDR      R0,[R6, #+864]
+   \   00000FE8   EC0387E5           STR      R0,[R7, #+1004]
+   \   00000FEC   480496E5           LDR      R0,[R6, #+1096]
+   \   00000FF0   D40487E5           STR      R0,[R7, #+1236]
+   \   00000FF4   6400A0E3           MOV      R0,#+100
+   \   00000FF8   560C80E3           ORR      R0,R0,#0x5600
+   \   00000FFC   050080E0           ADD      R0,R0,R5
+   \   00001000   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001004   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001008   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000100C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001010   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00001014   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001018   B620D1E1           LDRH     R2,[R1, #+6]
+    234            cfg->ProgressBar_cColor_h=oldcfg->ProgressBar_cColor_h;
+    235            cfg->ProgressBar_oColor_h=oldcfg->ProgressBar_oColor_h;
+    236            cfg->ProgressBar_bColor_h=oldcfg->ProgressBar_bColor_h;
+    237            cfg->ProgressBar_highlight_h=oldcfg->ProgressBar_highlight_h;
+    238            cfg->cover_show_h=oldcfg->cover_show_h;
+    239            cfg->cover_rect_h=oldcfg->cover_rect_h;
+   \   0000101C   4010A0E3           MOV      R1,#+64
+   \   00001020   491C81E3           ORR      R1,R1,#0x4900
+   \   00001024   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001028   AC0496E5           LDR      R0,[R6, #+1196]
+   \   0000102C   041081E0           ADD      R1,R1,R4
+   \   00001030   380587E5           STR      R0,[R7, #+1336]
+   \   00001034   DC0496E5           LDR      R0,[R6, #+1244]
+   \   00001038   680587E5           STR      R0,[R7, #+1384]
+   \   0000103C   0C0596E5           LDR      R0,[R6, #+1292]
+   \   00001040   980587E5           STR      R0,[R7, #+1432]
+   \   00001044   3C0596E5           LDR      R0,[R6, #+1340]
+   \   00001048   C80587E5           STR      R0,[R7, #+1480]
+   \   0000104C   C40596E5           LDR      R0,[R6, #+1476]
+   \   00001050   500687E5           STR      R0,[R7, #+1616]
+   \   00001054   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001058   E000A0E3           MOV      R0,#+224
+   \   0000105C   570C80E3           ORR      R0,R0,#0x5700
+   \   00001060   050080E0           ADD      R0,R0,R5
+   \   00001064   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001068   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000106C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001070   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00001074   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001078   B620D1E1           LDRH     R2,[R1, #+6]
+    240            cfg->ticn_show_h=oldcfg->ticn_show_h;
+    241            cfg->ticn_rect_h=oldcfg->ticn_rect_h;
+   \   0000107C   2810A0E3           MOV      R1,#+40
+   \   00001080   4A1C81E3           ORR      R1,R1,#0x4A00
+   \   00001084   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001088   AC0696E5           LDR      R0,[R6, #+1708]
+   \   0000108C   041081E0           ADD      R1,R1,R4
+   \   00001090   380787E5           STR      R0,[R7, #+1848]
+   \   00001094   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001098   C800A0E3           MOV      R0,#+200
+   \   0000109C   580C80E3           ORR      R0,R0,#0x5800
+   \   000010A0   050080E0           ADD      R0,R0,R5
+   \   000010A4   B020C0E1           STRH     R2,[R0, #+0]
+   \   000010A8   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000010AC   B220C0E1           STRH     R2,[R0, #+2]
+   \   000010B0   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000010B4   B420C0E1           STRH     R2,[R0, #+4]
+   \   000010B8   B620D1E1           LDRH     R2,[R1, #+6]
+    242            cfg->alicn_show_h=oldcfg->alicn_show_h;
+    243            cfg->alicn_rect_h=oldcfg->alicn_rect_h;
+   \   000010BC   E410A0E3           MOV      R1,#+228
+   \   000010C0   4A1C81E3           ORR      R1,R1,#0x4A00
+   \   000010C4   B620C0E1           STRH     R2,[R0, #+6]
+   \   000010C8   680796E5           LDR      R0,[R6, #+1896]
+   \   000010CC   041081E0           ADD      R1,R1,R4
+   \   000010D0   F40787E5           STR      R0,[R7, #+2036]
+   \   000010D4   B020D1E1           LDRH     R2,[R1, #0]
+   \   000010D8   8400A0E3           MOV      R0,#+132
+   \   000010DC   590C80E3           ORR      R0,R0,#0x5900
+   \   000010E0   050080E0           ADD      R0,R0,R5
+   \   000010E4   B020C0E1           STRH     R2,[R0, #+0]
+   \   000010E8   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000010EC   B220C0E1           STRH     R2,[R0, #+2]
+   \   000010F0   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000010F4   B420C0E1           STRH     R2,[R0, #+4]
+   \   000010F8   B620D1E1           LDRH     R2,[R1, #+6]
+    244            cfg->aricn_show_h=oldcfg->aricn_show_h;
+    245            cfg->aricn_rect_h=oldcfg->aricn_rect_h;
+   \   000010FC   A010A0E3           MOV      R1,#+160
+   \   00001100   4B1C81E3           ORR      R1,R1,#0x4B00
+   \   00001104   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001108   240896E5           LDR      R0,[R6, #+2084]
+   \   0000110C   041081E0           ADD      R1,R1,R4
+   \   00001110   B00887E5           STR      R0,[R7, #+2224]
+   \   00001114   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001118   4000A0E3           MOV      R0,#+64
+   \   0000111C   5A0C80E3           ORR      R0,R0,#0x5A00
+   \   00001120   050080E0           ADD      R0,R0,R5
+   \   00001124   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001128   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000112C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001130   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00001134   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001138   B620D1E1           LDRH     R2,[R1, #+6]
+    246            cfg->pls_show_h=oldcfg->pls_show_h;
+    247            cfg->pls_rect_h=oldcfg->pls_rect_h;
+   \   0000113C   5C10A0E3           MOV      R1,#+92
+   \   00001140   4C1C81E3           ORR      R1,R1,#0x4C00
+   \   00001144   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001148   E00896E5           LDR      R0,[R6, #+2272]
+   \   0000114C   041081E0           ADD      R1,R1,R4
+   \   00001150   6C0987E5           STR      R0,[R7, #+2412]
+   \   00001154   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001158   FC00A0E3           MOV      R0,#+252
+   \   0000115C   5A0C80E3           ORR      R0,R0,#0x5A00
+   \   00001160   050080E0           ADD      R0,R0,R5
+   \   00001164   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001168   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000116C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001170   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00001174   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001178   B620D1E1           LDRH     R2,[R1, #+6]
+    248            cfg->eq_preset_show_h=oldcfg->eq_preset_show_h;
+    249            cfg->eq_preset_rect_h=oldcfg->eq_preset_rect_h;
+   \   0000117C   1810A0E3           MOV      R1,#+24
+   \   00001180   4D1C81E3           ORR      R1,R1,#0x4D00
+   \   00001184   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001188   9C0996E5           LDR      R0,[R6, #+2460]
+   \   0000118C   041081E0           ADD      R1,R1,R4
+   \   00001190   280A87E5           STR      R0,[R7, #+2600]
+   \   00001194   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001198   B800A0E3           MOV      R0,#+184
+   \   0000119C   5B0C80E3           ORR      R0,R0,#0x5B00
+   \   000011A0   050080E0           ADD      R0,R0,R5
+   \   000011A4   B020C0E1           STRH     R2,[R0, #+0]
+   \   000011A8   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000011AC   B220C0E1           STRH     R2,[R0, #+2]
+   \   000011B0   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000011B4   B420C0E1           STRH     R2,[R0, #+4]
+   \   000011B8   B620D1E1           LDRH     R2,[R1, #+6]
+    250            cfg->shuffle_show_h=oldcfg->shuffle_show_h;
+    251            cfg->shuffle_rect_h=oldcfg->shuffle_rect_h;
+   \   000011BC   D410A0E3           MOV      R1,#+212
+   \   000011C0   4D1C81E3           ORR      R1,R1,#0x4D00
+   \   000011C4   B620C0E1           STRH     R2,[R0, #+6]
+   \   000011C8   580A96E5           LDR      R0,[R6, #+2648]
+   \   000011CC   041081E0           ADD      R1,R1,R4
+   \   000011D0   E40A87E5           STR      R0,[R7, #+2788]
+   \   000011D4   B020D1E1           LDRH     R2,[R1, #0]
+   \   000011D8   7400A0E3           MOV      R0,#+116
+   \   000011DC   5C0C80E3           ORR      R0,R0,#0x5C00
+   \   000011E0   050080E0           ADD      R0,R0,R5
+   \   000011E4   B020C0E1           STRH     R2,[R0, #+0]
+   \   000011E8   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000011EC   B220C0E1           STRH     R2,[R0, #+2]
+   \   000011F0   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000011F4   B420C0E1           STRH     R2,[R0, #+4]
+   \   000011F8   B620D1E1           LDRH     R2,[R1, #+6]
+   \   000011FC   B620C0E1           STRH     R2,[R0, #+6]
+    252            cfg->repeat_show_h=oldcfg->repeat_show_h;
+   \   00001200   140B96E5           LDR      R0,[R6, #+2836]
+    253            cfg->repeat_rect_h=oldcfg->repeat_rect_h;
+   \   00001204   9010A0E3           MOV      R1,#+144
+   \   00001208   A00B87E5           STR      R0,[R7, #+2976]
+   \   0000120C   4E1C81E3           ORR      R1,R1,#0x4E00
+   \   00001210   041081E0           ADD      R1,R1,R4
+   \   00001214   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001218   3000A0E3           MOV      R0,#+48
+   \   0000121C   5D0C80E3           ORR      R0,R0,#0x5D00
+   \   00001220   050080E0           ADD      R0,R0,R5
+   \   00001224   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001228   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000122C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001230   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00001234   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001238   B620D1E1           LDRH     R2,[R1, #+6]
+    254            cfg->stereo_show_h=oldcfg->stereo_show_h;
+    255            cfg->stereo_rect_h=oldcfg->stereo_rect_h;
+   \   0000123C   4C10A0E3           MOV      R1,#+76
+   \   00001240   4F1C81E3           ORR      R1,R1,#0x4F00
+   \   00001244   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001248   D00B96E5           LDR      R0,[R6, #+3024]
+   \   0000124C   041081E0           ADD      R1,R1,R4
+   \   00001250   5C0C87E5           STR      R0,[R7, #+3164]
+   \   00001254   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001258   EC00A0E3           MOV      R0,#+236
+   \   0000125C   5D0C80E3           ORR      R0,R0,#0x5D00
+   \   00001260   050080E0           ADD      R0,R0,R5
+   \   00001264   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001268   B220D1E1           LDRH     R2,[R1, #+2]
+   \   0000126C   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001270   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00001274   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001278   B620D1E1           LDRH     R2,[R1, #+6]
+    256            cfg->navigimg_show_h=oldcfg->navigimg_show_h;
+    257            cfg->navigimg_rect_h=oldcfg->navigimg_rect_h;
+   \   0000127C   6010A0E3           MOV      R1,#+96
+   \   00001280   501C81E3           ORR      R1,R1,#0x5000
+   \   00001284   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001288   E40C96E5           LDR      R0,[R6, #+3300]
+   \   0000128C   041081E0           ADD      R1,R1,R4
+   \   00001290   700D87E5           STR      R0,[R7, #+3440]
+   \   00001294   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001298   5F0C85E2           ADD      R0,R5,#+24320
+   \   0000129C   B020C0E1           STRH     R2,[R0, #+0]
+   \   000012A0   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000012A4   B220C0E1           STRH     R2,[R0, #+2]
+   \   000012A8   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000012AC   B420C0E1           STRH     R2,[R0, #+4]
+   \   000012B0   B620D1E1           LDRH     R2,[R1, #+6]
+    258            cfg->leftimg_show_h=oldcfg->leftimg_show_h;
+    259            cfg->leftimg_rect_h=oldcfg->leftimg_rect_h;
+   \   000012B4   1C10A0E3           MOV      R1,#+28
+   \   000012B8   511C81E3           ORR      R1,R1,#0x5100
+   \   000012BC   B620C0E1           STRH     R2,[R0, #+6]
+   \   000012C0   A00D96E5           LDR      R0,[R6, #+3488]
+   \   000012C4   041081E0           ADD      R1,R1,R4
+   \   000012C8   2C0E87E5           STR      R0,[R7, #+3628]
+   \   000012CC   B020D1E1           LDRH     R2,[R1, #0]
+   \   000012D0   BC00A0E3           MOV      R0,#+188
+   \   000012D4   5F0C80E3           ORR      R0,R0,#0x5F00
+   \   000012D8   050080E0           ADD      R0,R0,R5
+   \   000012DC   B020C0E1           STRH     R2,[R0, #+0]
+   \   000012E0   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000012E4   B220C0E1           STRH     R2,[R0, #+2]
+   \   000012E8   B420D1E1           LDRH     R2,[R1, #+4]
+   \   000012EC   B420C0E1           STRH     R2,[R0, #+4]
+   \   000012F0   B620D1E1           LDRH     R2,[R1, #+6]
+    260            cfg->rightimg_show_h=oldcfg->rightimg_show_h;
+    261            cfg->rightimg_rect_h=oldcfg->rightimg_rect_h;
+   \   000012F4   D810A0E3           MOV      R1,#+216
+   \   000012F8   511C81E3           ORR      R1,R1,#0x5100
+   \   000012FC   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001300   5C0E96E5           LDR      R0,[R6, #+3676]
+   \   00001304   041081E0           ADD      R1,R1,R4
+   \   00001308   E80E87E5           STR      R0,[R7, #+3816]
+   \   0000130C   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001310   7800A0E3           MOV      R0,#+120
+   \   00001314   600C80E3           ORR      R0,R0,#0x6000
+   \   00001318   050080E0           ADD      R0,R0,R5
+   \   0000131C   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001320   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00001324   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001328   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000132C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001330   B620D1E1           LDRH     R2,[R1, #+6]
+    262            cfg->centerimg_show_h=oldcfg->centerimg_show_h;
+    263            cfg->centerimg_rect_h=oldcfg->centerimg_rect_h;
+   \   00001334   9410A0E3           MOV      R1,#+148
+   \   00001338   521C81E3           ORR      R1,R1,#0x5200
+   \   0000133C   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001340   180F96E5           LDR      R0,[R6, #+3864]
+   \   00001344   041081E0           ADD      R1,R1,R4
+   \   00001348   A40F87E5           STR      R0,[R7, #+4004]
+   \   0000134C   B020D1E1           LDRH     R2,[R1, #0]
+   \   00001350   3400A0E3           MOV      R0,#+52
+   \   00001354   610C80E3           ORR      R0,R0,#0x6100
+   \   00001358   050080E0           ADD      R0,R0,R5
+   \   0000135C   B020C0E1           STRH     R2,[R0, #+0]
+   \   00001360   B220D1E1           LDRH     R2,[R1, #+2]
+   \   00001364   B220C0E1           STRH     R2,[R0, #+2]
+   \   00001368   B420D1E1           LDRH     R2,[R1, #+4]
+   \   0000136C   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001370   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00001374   B620C0E1           STRH     R2,[R0, #+6]
+   \   00001378   D41F96E5           LDR      R1,[R6, #+4052]
+   \   0000137C   C000A0E3           MOV      R0,#+192
+   \   00001380   610C80E3           ORR      R0,R0,#0x6100
+   \   00001384   050080E0           ADD      R0,R0,R5
+   \   00001388   001080E5           STR      R1,[R0, #+0]
+    264            cfg->upimg_show_h=oldcfg->upimg_show_h;
+    265            cfg->upimg_rect_h=oldcfg->upimg_rect_h;
+   \   0000138C   5020A0E3           MOV      R2,#+80
+   \   00001390   532C82E3           ORR      R2,R2,#0x5300
+   \   00001394   042082E0           ADD      R2,R2,R4
+   \   00001398   B030D2E1           LDRH     R3,[R2, #0]
+   \   0000139C   F010A0E3           MOV      R1,#+240
+   \   000013A0   611C81E3           ORR      R1,R1,#0x6100
+   \   000013A4   051081E0           ADD      R1,R1,R5
+   \   000013A8   B030C1E1           STRH     R3,[R1, #+0]
+   \   000013AC   B230D2E1           LDRH     R3,[R2, #+2]
+   \   000013B0   B230C1E1           STRH     R3,[R1, #+2]
+   \   000013B4   B430D2E1           LDRH     R3,[R2, #+4]
+   \   000013B8   B430C1E1           STRH     R3,[R1, #+4]
+   \   000013BC   B630D2E1           LDRH     R3,[R2, #+6]
+   \   000013C0   B630C1E1           STRH     R3,[R1, #+6]
+    266            cfg->downimg_show_h=oldcfg->downimg_show_h;
+   \   000013C4   DC10A0E3           MOV      R1,#+220
+   \   000013C8   531C81E3           ORR      R1,R1,#0x5300
+   \   000013CC   041091E7           LDR      R1,[R1, +R4]
+   \   000013D0   BC1080E5           STR      R1,[R0, #+188]
+    267            cfg->downimg_rect_h=oldcfg->downimg_rect_h;
+   \   000013D4   0C10A0E3           MOV      R1,#+12
+   \   000013D8   541C81E3           ORR      R1,R1,#0x5400
+   \   000013DC   041081E0           ADD      R1,R1,R4
+   \   000013E0   B020D1E1           LDRH     R2,[R1, #0]
+   \   000013E4   AC00A0E3           MOV      R0,#+172
+   \   000013E8   620C80E3           ORR      R0,R0,#0x6200
+   \   000013EC   050080E0           ADD      R0,R0,R5
+   \   000013F0   B020C0E1           STRH     R2,[R0, #+0]
+   \   000013F4   B220D1E1           LDRH     R2,[R1, #+2]
+   \   000013F8   B220C0E1           STRH     R2,[R0, #+2]
+   \   000013FC   B420D1E1           LDRH     R2,[R1, #+4]
+   \   00001400   B420C0E1           STRH     R2,[R0, #+4]
+   \   00001404   B620D1E1           LDRH     R2,[R1, #+6]
+   \   00001408   B620C0E1           STRH     R2,[R0, #+6]
+    268            return 1;
+   \   0000140C   0100A0E3           MOV      R0,#+1
+   \   00001410   F080BDE8           POP      {R4-R7,PC}       ;; return
+    269          };
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     migrate_from_2_0corrupted_to_2_1(CFG_2_0_corrupted *, CFG_2_1 *)
+                                       20
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     migrate_from_2_0corrupted_to_2_1(CFG_2_0_corrupted *, CFG_2_1 *)
+                                    5140
+      Others                           4
+
+ 
+ 5 144 bytes in segment CODE
+ 
+ 5 140 bytes of CODE memory (+ 4 bytes shared)
+
+Errors: none
+Warnings: none

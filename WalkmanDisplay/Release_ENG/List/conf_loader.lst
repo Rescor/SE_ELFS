@@ -1,0 +1,395 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:11:13 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \conf_loader.cpp                                     #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \conf_loader.cpp -D NDEBUG -D ENG -D OLDFUNCTIONS    #
+#                       -lC Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDis #
+#                       play\Release_ENG\List\ -lA                           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\ -o Z:\home\perk11\www\perk11.info #
+#                       \svn\SE\WalkmanDisplay\Release_ENG\Obj\ -s9          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\conf_loader.lst                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\Obj\conf_loader.r79                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\conf_loader.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "..\include\Dir.h"
+      4          #include "..\include\cfg_items.h"
+      5          #include "header\conf_loader.h"
+      6          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+      7          const wchar_t *successed_config_path=L"";
+   \                     successed_config_path:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for successed_config_path>`
+      8          const wchar_t *successed_config_name=L"";
+   \                     successed_config_name:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for successed_config_name>`
+      9          
+     10          #define BCFGLOADER_COMPLETE 0
+     11          #define BCFGLOADER_CONFIG_OLD_OR_CORRUPTED -1
+     12          #define BCFGLOADER_NOT_FOUND -2
+     13          #define BCFGLOADER_MEMORY_NOT_ALLOCATED -3
+     14          #define BCFGLOADER_PATH_OR_NAME_CORRUPTED -4
+     15          #define BCFGLOADER_UNKNOWN_ERROR -5
+     16          #define BCFGLOADER_SUCCESSED(a) a>=0 ? 1 : 0
+     17          #define BCFGLOADER_FAILED(a) a<0 ? 1 : 0
+     18          #pragma segment="CONFIG_C"
+
+   \                                 In segment CODE, align 4, keep-with-next
+     19          int LoadConfigData(const wchar_t *path,const wchar_t *fname)
+     20          {
+   \                     ??LoadConfigData:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+     21            int f;
+     22            char *buf;
+     23            int result=BCFGLOADER_UNKNOWN_ERROR;
+     24            void *cfg;
+     25            FSTAT _fstat;
+     26            unsigned int rlen;
+     27          
+     28            cfg=(char *)__segment_begin("CONFIG_C");
+     29          
+     30            unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+   \   00000004   ........           LDR      R7,??DataTable3  ;; SFB(CONFIG_C)
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   ........           LDR      R0,??DataTable4  ;; SFE(CONFIG_C)
+   \   00000010   1CD04DE2           SUB      SP,SP,#+28
+   \   00000014   0150A0E1           MOV      R5,R1
+   \   00000018   0460E0E3           MVN      R6,#+4
+   \   0000001C   078040E0           SUB      R8,R0,R7
+     31          
+     32            if ((buf=new char[len]))
+   \   00000020   0800A0E1           MOV      R0,R8
+   \   00000024   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000028   0090B0E1           MOVS     R9,R0
+   \   0000002C   2F00000A           BEQ      ??LoadConfigData_1
+     33            {
+     34              if (fstat(path,fname,&_fstat)!=-1)
+   \   00000030   0D20A0E1           MOV      R2,SP
+   \   00000034   0510A0E1           MOV      R1,R5
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   1C0100EF           SWI      +284
+   \   00000040   010070E3           CMN      R0,#+1
+   \   00000044   1A00000A           BEQ      ??LoadConfigData_2
+     35              {
+     36                if ((f=_fopen(path,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \   0000004C   01002DE9           PUSH     {R0}
+   \   00000050   603FA0E3           MOV      R3,#+384
+   \   00000054   0120A0E3           MOV      R2,#+1
+   \   00000058   0510A0E1           MOV      R1,R5
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   160100EF           SWI      +278
+   \   00000064   00A0B0E1           MOVS     R10,R0
+   \   00000068   04D08DE2           ADD      SP,SP,#+4
+   \   0000006C   1100004A           BMI      ??LoadConfigData_3
+     37                {
+     38                  rlen=fread(f,buf,len);
+   \   00000070   0820A0E1           MOV      R2,R8
+   \   00000074   0910A0E1           MOV      R1,R9
+   \   00000078   180100EF           SWI      +280
+   \   0000007C   0060A0E1           MOV      R6,R0
+     39                  fclose(f);
+   \   00000080   0A00A0E1           MOV      R0,R10
+   \   00000084   170100EF           SWI      +279
+     40                  if (rlen!=_fstat.fsize || rlen!=len)  return BCFGLOADER_CONFIG_OLD_OR_CORRUPTED;
+   \   00000088   08009DE5           LDR      R0,[SP, #+8]
+   \   0000008C   000056E1           CMP      R6,R0
+   \   00000090   08005601           CMPEQ    R6,R8
+   \   00000094   0000E013           MVNNE    R0,#+0
+   \   00000098   1200001A           BNE      ??LoadConfigData_4
+     41                  memcpy(cfg,buf,len);
+   \   0000009C   0820A0E1           MOV      R2,R8
+   \   000000A0   0910A0E1           MOV      R1,R9
+   \   000000A4   0700A0E1           MOV      R0,R7
+   \   000000A8   130100EF           SWI      +275
+     42                  result=BCFGLOADER_COMPLETE;
+   \   000000AC   0060A0E3           MOV      R6,#+0
+   \   000000B0   000000EA           B        ??LoadConfigData_3
+     43                }
+     44              }
+     45              else
+     46              {
+     47                result=BCFGLOADER_NOT_FOUND;
+   \                     ??LoadConfigData_2:
+   \   000000B4   036086E2           ADD      R6,R6,#+3
+     48              }
+     49              delete buf;
+   \                     ??LoadConfigData_3:
+   \   000000B8   0900A0E1           MOV      R0,R9
+   \   000000BC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     50            }
+     51            else
+     52            {
+     53              result=BCFGLOADER_MEMORY_NOT_ALLOCATED;
+     54            }
+     55            if (BCFGLOADER_SUCCESSED(result))
+   \   000000C0   000056E3           CMP      R6,#+0
+   \   000000C4   0600004A           BMI      ??LoadConfigData_5
+     56            {
+     57              successed_config_path=path;
+   \   000000C8   ........           LDR      R0,??DataTable5  ;; successed_config_path
+     58              successed_config_name=fname;
+     59              debug_printf("\nWalkmanDisplay: cfgdata loaded from %ls/%ls\n", successed_config_path, successed_config_name);
+   \   000000CC   0520A0E1           MOV      R2,R5
+   \   000000D0   004080E5           STR      R4,[R0, #+0]
+   \   000000D4   045080E5           STR      R5,[R0, #+4]
+   \   000000D8   18009FE5           LDR      R0,??LoadConfigData_6  ;; `?<Constant "\\nWalkmanDisplay: cfgd...">`
+   \   000000DC   0410A0E1           MOV      R1,R4
+   \   000000E0   B10100EF           SWI      +433
+     60            }
+     61            return(result);
+   \                     ??LoadConfigData_5:
+   \   000000E4   0600A0E1           MOV      R0,R6
+   \                     ??LoadConfigData_4:
+   \   000000E8   1CD08DE2           ADD      SP,SP,#+28       ;; stack cleaning
+   \   000000EC   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??LoadConfigData_1:
+   \   000000F0   026086E2           ADD      R6,R6,#+2
+   \   000000F4   FAFFFFEA           B        ??LoadConfigData_5
+   \                     ??LoadConfigData_6:
+   \   000000F8   ........           DC32     `?<Constant "\\nWalkmanDisplay: cfgd...">`
+     62          };
+     63          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     64          int SaveConfigData(const wchar_t *path,const wchar_t *fname)
+     65          {
+   \                     ??SaveConfigData:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+     66            int result=BCFGLOADER_PATH_OR_NAME_CORRUPTED;
+   \   0000000C   0360E0E3           MVN      R6,#+3
+     67            if (path && fname)
+   \   00000010   000054E3           CMP      R4,#+0
+   \   00000014   00005513           CMPNE    R5,#+0
+   \   00000018   1B00000A           BEQ      ??SaveConfigData_1
+     68            {
+     69              void *cfg=(char *)__segment_begin("CONFIG_C");
+     70              
+     71              unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+   \   0000001C   ........           LDR      R7,??DataTable3  ;; SFB(CONFIG_C)
+   \   00000020   ........           LDR      R0,??DataTable4  ;; SFE(CONFIG_C)
+     72              int f;
+     73              
+     74              if ((f=_fopen(path,fname,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   \   00000024   603FA0E3           MOV      R3,#+384
+   \   00000028   078040E0           SUB      R8,R0,R7
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   812FA0E3           MOV      R2,#+516
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   160100EF           SWI      +278
+   \   00000040   0090B0E1           MOVS     R9,R0
+   \   00000044   04D08DE2           ADD      SP,SP,#+4
+   \   00000048   0F00004A           BMI      ??SaveConfigData_1
+     75              {
+     76                if (fwrite(f,cfg,len)==len) result=0;
+   \   0000004C   0820A0E1           MOV      R2,R8
+   \   00000050   0710A0E1           MOV      R1,R7
+   \   00000054   190100EF           SWI      +281
+   \   00000058   080050E1           CMP      R0,R8
+   \   0000005C   0060A003           MOVEQ    R6,#+0
+     77                fclose(f);
+   \   00000060   0900A0E1           MOV      R0,R9
+   \   00000064   170100EF           SWI      +279
+     78              }
+     79              if (BCFGLOADER_SUCCESSED(result))
+   \   00000068   000056E3           CMP      R6,#+0
+   \   0000006C   0600004A           BMI      ??SaveConfigData_1
+     80              {
+     81                successed_config_path=path;
+   \   00000070   ........           LDR      R0,??DataTable5  ;; successed_config_path
+     82                successed_config_name=fname;
+     83                debug_printf("\nWalkmanDisplay: cfgdata saved to %ls/%ls\n", successed_config_path, successed_config_name);
+   \   00000074   0520A0E1           MOV      R2,R5
+   \   00000078   004080E5           STR      R4,[R0, #+0]
+   \   0000007C   045080E5           STR      R5,[R0, #+4]
+   \   00000080   0C009FE5           LDR      R0,??SaveConfigData_2  ;; `?<Constant "\\nWalkmanDisplay: cfgd...">_1`
+   \   00000084   0410A0E1           MOV      R1,R4
+   \   00000088   B10100EF           SWI      +433
+     84              }
+     85            }
+     86            return result;
+   \                     ??SaveConfigData_1:
+   \   0000008C   0600A0E1           MOV      R0,R6
+   \   00000090   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??SaveConfigData_2:
+   \   00000094   ........           DC32     `?<Constant "\\nWalkmanDisplay: cfgd...">_1`
+     87          };
+     88          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          void InitConfig(void)
+     90          {
+   \                     ??InitConfig:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     91            if (BCFGLOADER_FAILED( LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"WalkmanDisplay.bcfg") ))
+   \   00000004   58409FE5           LDR      R4,??InitConfig_1  ;; `?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`
+   \   00000008   1400A0E3           MOV      R0,#+20
+   \   0000000C   050100EF           SWI      +261
+   \   00000010   0410A0E1           MOV      R1,R4
+   \   00000014   ........           BL       ??LoadConfigData
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1080BD58           POPPL    {R4,PC}
+     92            {
+     93              if (BCFGLOADER_FAILED( LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"WalkmanDisplay.bcfg") ))
+   \   00000020   1500A0E3           MOV      R0,#+21
+   \   00000024   050100EF           SWI      +261
+   \   00000028   0410A0E1           MOV      R1,R4
+   \   0000002C   ........           BL       ??LoadConfigData
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   1080BD58           POPPL    {R4,PC}
+     94              {
+     95                if (BCFGLOADER_FAILED( SaveConfigData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"WalkmanDisplay.bcfg") ))
+   \   00000038   1400A0E3           MOV      R0,#+20
+   \   0000003C   050100EF           SWI      +261
+   \   00000040   0410A0E1           MOV      R1,R4
+   \   00000044   ........           BL       ??SaveConfigData
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   1080BD58           POPPL    {R4,PC}
+     96                {
+     97                  SaveConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"WalkmanDisplay.bcfg");
+   \   00000050   1500A0E3           MOV      R0,#+21
+   \   00000054   050100EF           SWI      +261
+   \   00000058   0410A0E1           MOV      R1,R4
+   \   0000005C   ........           BL       ??SaveConfigData
+     98                }
+     99              }
+    100            }
+    101          };
+   \   00000060   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??InitConfig_1:
+   \   00000064   ........           DC32     `?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     SFB(CONFIG_C)
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     SFE(CONFIG_C)
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     successed_config_path
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for successed_config_path>`:
+   \   00000000   ........           DC32 `?<Constant L"">`
+   \                     `?<Initializer for successed_config_name>`:
+   \   00000004   ........           DC32 `?<Constant L"">`
+
+   \                                 In segment CONFIG_C, align 1
+
+   \                                 In segment DATA_C, align 2, align-sorted
+   \                     `?<Constant L"">`:
+   \   00000000   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\nWalkmanDisplay: cfgd...">`:
+   \   00000000   0A57616C6B6D       DC8 "\012WalkmanDisplay: cfgdata loaded from %ls/%ls\012"
+   \              616E44697370
+   \              6C61793A2063
+   \              666764617461
+   \              206C6F616465
+   \              642066726F6D
+   \              20256C732F25
+   \              6C730A00    
+   \   0000002E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\nWalkmanDisplay: cfgd...">_1`:
+   \   00000000   0A57616C6B6D       DC8 "\012WalkmanDisplay: cfgdata saved to %ls/%ls\012"
+   \              616E44697370
+   \              6C61793A2063
+   \              666764617461
+   \              207361766564
+   \              20746F20256C
+   \              732F256C730A
+   \              00          
+   \   0000002B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`:
+   \   00000000   570061006C00       DC8 57H, 0, 61H, 0, 6CH, 0, 6BH, 0
+   \              6B00        
+   \   00000008   6D0061006E00       DC8 6DH, 0, 61H, 0, 6EH, 0, 44H, 0
+   \              4400        
+   \   00000010   690073007000       DC8 69H, 0, 73H, 0, 70H, 0, 6CH, 0
+   \              6C00        
+   \   00000018   610079002E00       DC8 61H, 0, 79H, 0, 2EH, 0, 62H, 0
+   \              6200        
+   \   00000020   630066006700       DC8 63H, 0, 66H, 0, 67H, 0, 0, 0
+   \              0000        
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     InitConfig()                       8
+     LoadConfigData(wchar_t const *, wchar_t const *)
+                                       64
+     SaveConfigData(wchar_t const *, wchar_t const *)
+                                       32
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     successed_config_path             8
+     LoadConfigData(wchar_t const *, wchar_t const *)
+                                     252
+     SaveConfigData(wchar_t const *, wchar_t const *)
+                                     152
+     InitConfig()                    104
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ??DataTable5                      4
+     ?<Initializer for successed_config_path>
+                                       8
+     ?<Constant L"">                   2
+     ?<Constant "\nWalkmanDisplay: cfgd...">
+                                      48
+     ?<Constant "\nWalkmanDisplay: cfgd...">_1
+                                      44
+     ?<Constant L"\x57\x61\x6c\x6b\x6d\x61\x6e\x44\
+                                      40
+      Others                          48
+
+ 
+ 556 bytes in segment CODE
+ 134 bytes in segment DATA_C
+   8 bytes in segment DATA_I
+   8 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 520 bytes of CODE  memory (+ 48 bytes shared)
+ 142 bytes of CONST memory
+   8 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,1333 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:29 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\deleaker\mem2. #
+#                       cpp                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\deleaker\mem2. #
+#                       cpp -D NDEBUG -D OLDFUNCTIONS -lC                    #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\mem2.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\mem2.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\deleaker\mem2.cpp
+      1          #ifdef NDEBUG
+      2          
+      3          #include "..\include\Lib_Clara.h"
+      4          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      5          void* operator new(size_t sz){return malloc(sz);};
+   \                     `??operator new`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   030100EF           SWI      +259
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          void* operator new[](size_t sz){return malloc(sz);};
+   \                     `??operator new[]`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   030100EF           SWI      +259
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      7          void operator delete(void * p){mfree(p);};
+   \                     `??operator delete`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   040100EF           SWI      +260
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          void operator delete[](void * p){mfree(p);};
+   \                     `??operator delete[]`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   040100EF           SWI      +260
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+      9          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     10          void* operator new(size_t size, void* p){ return p; }
+   \                     `??operator new_1`:
+   \   00000000   0100A0E1           MOV      R0,R1
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          void* operator new[](size_t size, void* p){ return p; }
+   \                     `??operator new[]_1`:
+   \   00000000   0100A0E1           MOV      R0,R1
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          void operator delete (void*, void*) { }
+   \                     `??operator delete_1`:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          void operator delete[] (void*, void*) { }
+   \                     `??operator delete[]_1`:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+     14          
+     15          #else
+     16          
+     17          #include "mem2.h"
+     18          #include "..\include\dir.h"
+     19          #include "lib_clara_original.h"
+     20          #undef new
+     21          #undef delete
+     22          
+     23          
+     24          static char* leaktypes[]={
+     25          	"memory",
+     26          	"strid",
+     27          	"iconid",
+     28          	"timer",
+     29          	"file",
+     30          	"hook",
+     31          	"dll",
+     32          	"gc",
+     33          	"gvi",
+     34          	"gui",
+     35          	"book",
+     36          	"process",
+     37          	"ose buffer",
+     38          	"metadatadesc",
+     39          	"fileitemstruct",
+     40          	"w_dir",
+     41          
+     42          	"unallocated"
+     43          };
+     44          
+     45          static bool started=false;
+     46          
+     47          static LIST* buffers[trace_typescount];
+     48          
+     49          #define LISTDATACOUNT 3
+     50          
+     51          static int iconid_start=0xE800;
+     52          static int iconid_end=0xE8FF;
+     53          
+     54          
+     55          enum
+     56          {
+     57          	trace_list_timers_id,
+     58          	trace_list_timers_proc,
+     59          	trace_list_file,
+     60          	trace_list_line,
+     61          
+     62          	trace_list_size
+     63          };
+     64          static LIST* buffers2[trace_list_size];
+     65          
+     66          static wchar_t logname[64]=_T("memory.txt");
+     67          
+     68          
+     69          void trace_init(wchar_t* arg_logname)
+     70          {
+     71          	if(arg_logname)
+     72          		wstrncpy(logname,arg_logname,MAXELEMS(logname));
+     73          
+     74          	for(int i=0;i<trace_typescount;i++)
+     75          		buffers[i]=__original_List_Create();
+     76          	started=true;
+     77          
+     78          	for(int i=0;i<trace_list_size;i++)
+     79          		buffers2[i]=__original_List_Create();
+     80          
+     81          	int chipid = GetChipID() & CHIPID_MASK;
+     82          
+     83          	if( chipid == CHIPID_DB2000 || chipid == CHIPID_DB2010 )
+     84          	{
+     85          		int max=0;
+     86          		int iconid;
+     87          
+     88          		if( iconidname2id( _T("RN_SHORTCUT_LIST_CALL_LIST_ICN"), TEXTID_ANY_LEN, &iconid ) )
+     89          			if( max < iconid )
+     90          				max = iconid;
+     91          		if( iconidname2id( _T("ZERO_ROW_SEPARATOR_ICN"), TEXTID_ANY_LEN, &iconid ) )
+     92          			if( max < iconid )
+     93          				max = iconid;
+     94          		if( iconidname2id( _T("WV_YAHOO_STATUSBAR_SYSTEMMSG_ICN"), TEXTID_ANY_LEN, &iconid ) )
+     95          			if( max < iconid )
+     96          				max = iconid;
+     97          
+     98          		if( max )
+     99          		{
+    100          			iconid_start = ( max + 0xFF ) & ~0xFF;
+    101          			iconid_end = 0xFFFE; //сомнительно
+    102          		}
+    103          	}
+    104          }
+    105          
+    106          void trace_done()
+    107          {
+    108          	char tmp[256];
+    109          
+    110          	started=false;
+    111          
+    112          	BOOL detected=FALSE;
+    113          
+    114          	__original_w_chdir(GetDir(DIR_OTHER|MEM_INTERNAL));
+    115          	int f=__original_w_fopen(logname,WA_Write+WA_Create+WA_Truncate,0x1FF,0);
+    116          
+    117          	for(int memtype=0;memtype<trace_typescount;memtype++)
+    118          	{
+    119          		if(buffers[memtype]->FirstFree)
+    120          		{
+    121          			detected=TRUE;
+    122          
+    123          			__original_w_fwrite(f,tmp,__original_sprintf(tmp,"leak type \"%s\"\n",leaktypes[memtype]));
+    124          
+    125          			for(int j=0;j<buffers[memtype]->FirstFree;j+=LISTDATACOUNT)
+    126          			{
+    127          				__original_w_fwrite(f,tmp,
+    128          						__original_sprintf(tmp,"- %s:%d (%x)\n",
+    129          						__original_List_Get(buffers[memtype],j+1),//file
+    130          						__original_List_Get(buffers[memtype],j+2),//line
+    131          						__original_List_Get(buffers[memtype],j)//value
+    132          						)
+    133          					);
+    134          			}
+    135          		}
+    136          		__original_List_Destroy(buffers[memtype]);
+    137          	}
+    138          
+    139          	if(!detected)
+    140          		__original_w_fwrite(f,tmp, __original_sprintf(tmp,"no leaks detected\n") );
+    141          
+    142          	if(buffers2[trace_list_file]->FirstFree)
+    143          		__original_w_fwrite(f,tmp, __original_sprintf(tmp,"new/delete counter broken\n") );
+    144          
+    145          	__original_w_fclose(f);
+    146          
+    147          	while(buffers2[trace_list_timers_id]->FirstFree)
+    148          	{
+    149          		u16 timerid=(u16)(int)__original_List_RemoveAt(buffers2[trace_list_timers_id],0);
+    150          		__original_List_RemoveAt(buffers2[trace_list_timers_proc],0);
+    151          		__original_Timer_Kill(&timerid);//pervent reboots
+    152          	}
+    153          
+    154          	for(int i=0;i<trace_list_size;i++)
+    155          		__original_List_Destroy(buffers2[i]);
+    156          }
+    157          
+    158          void trace_alloc(int mt, void* ptr, const char* file, int line)
+    159          {
+    160          	__original_List_InsertLast(buffers[mt],ptr);
+    161          	__original_List_InsertLast(buffers[mt],(void*)file);
+    162          	__original_List_InsertLast(buffers[mt],(void*)line);
+    163          }
+    164          
+    165          void* trace_alloc_ret(int mt, void* ptr, void* badvalue, const char* file, int line)
+    166          {
+    167          	if( ptr != badvalue )
+    168          		trace_alloc( mt, ptr, file, line);
+    169          	return ptr;
+    170          }
+    171          
+    172          
+    173          void trace_free(int mt,void* p, const char* file, int line)
+    174          {
+    175          	if(started)
+    176          	{
+    177          		bool found=false;
+    178          		for(int i=0;i<buffers[mt]->FirstFree;i+=LISTDATACOUNT)
+    179          		{
+    180          			if(__original_List_Get(buffers[mt],i)==p)
+    181          			{
+    182          				for(int j=0;j<LISTDATACOUNT;j++)
+    183          					__original_List_RemoveAt(buffers[mt],i);
+    184          				found=true;
+    185          				break;
+    186          			}
+    187          		}
+    188          		if(!found)
+    189          		{
+    190          			__original_List_InsertLast(buffers[trace_unallocated],(void*)p);
+    191          			__original_List_InsertLast(buffers[trace_unallocated],(void*)file);
+    192          			__original_List_InsertLast(buffers[trace_unallocated],(void*)line);
+    193          		}
+    194          	}
+    195          }
+    196          
+    197          
+    198          static int findtimercb(void* listitem, void* itemtofind)
+    199          {
+    200          	return ! (listitem==itemtofind);
+    201          }
+    202          
+    203          void trace_timerkill(u16* timerid)
+    204          {
+    205          	int idx=__original_List_Find(buffers2[trace_list_timers_id],(void*)*timerid,findtimercb);
+    206          	if(idx!=LIST_ERROR)
+    207          	{
+    208          		__original_List_RemoveAt(buffers2[trace_list_timers_id],idx);
+    209          		__original_List_RemoveAt(buffers2[trace_list_timers_proc],idx);
+    210          	}
+    211          	__original_Timer_Kill(timerid);
+    212          }
+    213          
+    214          static void trace_onTimer(u16 timerID,LPARAM lparam)
+    215          {
+    216          	int idx=__original_List_Find(buffers2[trace_list_timers_id],(void*)timerID,findtimercb);
+    217          	if(idx!=LIST_ERROR)
+    218          	{
+    219          		void(*onTimer)(u16,LPARAM)=(void(*)(u16,LPARAM))__original_List_Get(buffers2[trace_list_timers_proc],idx);
+    220          		onTimer(timerID,lparam);
+    221          		trace_timerkill(&timerID);
+    222          	}
+    223          }
+    224          
+    225          u16 trace_timerset(int time, void(*onTimer)(u16 timerID,LPARAM lparam), LPARAM lparam)
+    226          {
+    227          	u16 ret=__original_Timer_Set(time,trace_onTimer,lparam);
+    228          	if(ret)
+    229          	{
+    230          		__original_List_InsertLast(buffers2[trace_list_timers_id],(void*)ret);
+    231          		__original_List_InsertLast(buffers2[trace_list_timers_proc],(void*)onTimer);
+    232          	}
+    233          	return ret;
+    234          }
+    235          
+    236          
+    237          bool isallocatedstrid(TEXTID strid)
+    238          {
+    239          	return (strid!=EMPTY_TEXTID) && ((strid&0xFFFF0000)!=0);
+    240          }
+    241          
+    242          bool isallocatediconid(IMAGEID iconid)
+    243          {
+    244          	return iconid >= iconid_start && iconid <= iconid_end;
+    245          }
+    246          
+    247          
+    248          void __deleaker_pushfileline( const char* __file__, int __line__ )
+    249          {
+    250          	__original_List_InsertLast(buffers2[trace_list_file],(void*)__file__);
+    251          	__original_List_InsertLast(buffers2[trace_list_line],(void*)__line__);
+    252          }
+    253          
+    254          void __deleaker_popfileline( const char*& __file__, int& __line__ )
+    255          {
+    256          	if(0==buffers2[trace_list_file]->FirstFree)
+    257          	{
+    258          		__file__="internal error";
+    259          		__line__=-1;
+    260          	}else
+    261          	{
+    262          		__file__=(char const*)__original_List_RemoveAt(buffers2[trace_list_file],buffers2[trace_list_file]->FirstFree-1);
+    263          		__line__=(int)__original_List_RemoveAt(buffers2[trace_list_line],buffers2[trace_list_line]->FirstFree-1);
+    264          	}
+    265          }
+    266          
+    267          void operator delete(void* p)
+    268          {
+    269          	const char* file;
+    270          	int line;
+    271          	__deleaker_popfileline(file,line);
+    272          	__deleaker_mfree( file, line, p );
+    273          }
+    274          
+    275          void operator delete[](void* p)
+    276          {
+    277          	const char* file;
+    278          	int line;
+    279          	__deleaker_popfileline(file,line);
+    280          	__deleaker_mfree( file, line, p );
+    281          }
+    282          
+    283          void* operator new(size_t sz)
+    284          {
+    285          	const char* file;
+    286          	int line;
+    287          	__deleaker_popfileline(file,line);
+    288          	return __deleaker_malloc( file, line, sz);
+    289          };
+    290          
+    291          void* operator new[](size_t sz)
+    292          {
+    293          	const char* file;
+    294          	int line;
+    295          	__deleaker_popfileline(file,line);
+    296          	return __deleaker_malloc( file, line, sz);
+    297          };
+    298          
+    299          void operator delete (void*, void*)
+    300          {
+    301          	const char* file;
+    302          	int line;
+    303          	__deleaker_popfileline(file,line);
+    304          }
+    305          
+    306          void operator delete[] (void*, void*)
+    307          {
+    308          	const char* file;
+    309          	int line;
+    310          	__deleaker_popfileline(file,line);
+    311          }
+    312          
+    313          void* operator new(size_t size, void* p)
+    314          {
+    315          	const char* file;
+    316          	int line;
+    317          	__deleaker_popfileline(file,line);
+    318          	return p;
+    319          }
+    320          
+    321          void* operator new[](size_t size, void* p)
+    322          {
+    323          	const char* file;
+    324          	int line;
+    325          	__deleaker_popfileline(file,line);
+    326          	return p;
+    327          }
+    328          
+    329          //---------------------------------------------------------------------------
+    330          
+    331          
+    332          
+    333          
+    334          
+    335          void* __deleaker_malloc( const char* __file__, int __line__, int size )
+    336          {
+    337          	void* ret = __original_malloc(size);
+    338          	if(ret)trace_alloc(trace_memory, (void*)ret, __file__, __line__);
+    339          	return ret;
+    340          }
+    341          
+    342          void mfree_(void* p)
+    343          {
+    344          	mfree(p);
+    345          }
+    346          
+    347          void* __deleaker_mfree_adr( const char* __file__, int __line__ )
+    348          {
+    349          	return (void*)mfree_;
+    350          }
+    351          
+    352          void __deleaker_mfree( const char* __file__, int __line__, void* p )
+    353          {
+    354          	trace_free(trace_memory, p, __file__, __line__);
+    355          	__original_mfree(p);
+    356          }
+    357          
+    358          int __deleaker_CreateBook( const char* __file__, int __line__, BOOK* pbook, void (*onClose)( BOOK* ), const PAGE_DESC* bp, const char* name, int ParentBookID, const APP_DESC* appdesc )
+    359          {
+    360          	trace_free(trace_memory, pbook, __file__, __line__);
+    361          	trace_alloc(trace_book, pbook, __file__, __line__);
+    362          	return __original_CreateBook(pbook, onClose, bp, name, ParentBookID, appdesc);
+    363          }
+    364          
+    365          void __deleaker_FreeBook( const char* __file__, int __line__, BOOK* book )
+    366          {
+    367          	trace_free(trace_book, book, __file__, __line__);
+    368          	__original_FreeBook(book);
+    369          }
+    370          
+    371          void __deleaker_BookObj_KillBook( const char* __file__, int __line__, BOOK* book )
+    372          {
+    373          	trace_free(trace_book, book, __file__, __line__);
+    374          	__original_BookObj_KillBook(book);
+    375          }
+    376          
+    377          LIST* __deleaker_List_Create( const char* __file__, int __line__ )
+    378          {
+    379          	LIST* ret = __original_List_Create();
+    380          	if(ret)trace_alloc(trace_memory, (void*)ret, __file__, __line__);
+    381          	return ret;
+    382          }
+    383          
+    384          void __deleaker_List_Destroy( const char* __file__, int __line__, LIST* lst )
+    385          {
+    386          	trace_free(trace_memory, lst, __file__, __line__);
+    387          	__original_List_Destroy(lst);
+    388          }
+    389          
+    390          char* __deleaker_manifest_GetParam( const char* __file__, int __line__, const char* buf, const char* param_name, int unk )
+    391          {
+    392          	char* ret = __original_manifest_GetParam(buf, param_name, unk);
+    393          	if(ret)trace_alloc(trace_memory, (void*)ret, __file__, __line__);
+    394          	return ret;
+    395          }
+    396          
+    397          DIR_HANDLE* __deleaker_AllocDirHandle( const char* __file__, int __line__, const wchar_t* path )
+    398          {
+    399          	DIR_HANDLE* ret = __original_AllocDirHandle(path);
+    400          	if(ret)trace_alloc(trace_memory, (void*)ret, __file__, __line__);
+    401          	return ret;
+    402          }
+    403          
+    404          void __deleaker_DestroyDirHandle( const char* __file__, int __line__, DIR_HANDLE* handle )
+    405          {
+    406          	trace_free(trace_memory, handle, __file__, __line__);
+    407          	__original_DestroyDirHandle(handle);
+    408          }
+    409          
+    410          int __deleaker_GUIObject_Create( const char* __file__, int __line__, GUI* __unknwnargname1, void (*GuiDestroy)( GUI* ), void (*DispDescCreate)( DISP_DESC* ), BOOK* __unknwnargname4, void (*DispObjCallBack)( DISP_OBJ*, void* msg, GUI* ), int display, int size_of_gui )
+    411          {
+    412          	trace_free(trace_memory, __unknwnargname1, __file__, __line__);
+    413          	trace_alloc(trace_gui, __unknwnargname1, __file__, __line__);
+    414          	return __original_GUIObject_Create(__unknwnargname1, GuiDestroy, DispDescCreate, __unknwnargname4, DispObjCallBack, display, size_of_gui);
+    415          }
+    416          
+    417          GUI* __deleaker_GUIObject_Destroy( const char* __file__, int __line__, GUI* __unknwnargname1 )
+    418          {
+    419          	trace_free(trace_gui, __unknwnargname1, __file__, __line__);
+    420          	return __original_GUIObject_Destroy(__unknwnargname1);
+    421          }
+    422          
+    423          int __deleaker__fopen( const char* __file__, int __line__, const wchar_t* filpath, const wchar_t* filname, unsigned int mode, unsigned int rights, FILELISTITEM* destfname )
+    424          {
+    425          	int ret = __original__fopen(filpath, filname, mode, rights, destfname);
+    426          	if(ret!=-1)trace_alloc(trace_file, (void*)ret, __file__, __line__);
+    427          	return ret;
+    428          }
+    429          
+    430          int __deleaker_fopen( const char* __file__, int __line__, const wchar_t* fname, int mode, int rights )
+    431          {
+    432          	int ret = __original_fopen(fname, mode, rights);
+    433          	if(ret!=-1)trace_alloc(trace_file, (void*)ret, __file__, __line__);
+    434          	return ret;
+    435          }
+    436          
+    437          int __deleaker_fclose( const char* __file__, int __line__, int file )
+    438          {
+    439          	trace_free(trace_file, (void*)file, __file__, __line__);
+    440          	return __original_fclose(file);
+    441          }
+    442          
+    443          int __deleaker_w_fopen( const char* __file__, int __line__, const wchar_t* name, int attr, int rights, int err )
+    444          {
+    445          	//тот же trace_file?
+    446          	int ret = __original_w_fopen(name, attr, rights, err);
+    447          	if(ret!=-1)trace_alloc(trace_file, (void*)ret, __file__, __line__);
+    448          	return ret;
+    449          }
+    450          
+    451          int __deleaker_w_fclose( const char* __file__, int __line__, int f )
+    452          {
+    453          	trace_free(trace_file, (void*)f, __file__, __line__);
+    454          	return __original_w_fclose(f);
+    455          }
+    456          
+    457          GUI_LIST* __deleaker_CreateListMenu( const char* __file__, int __line__, BOOK* __unknwnargname1, int display )
+    458          {
+    459          	GUI_LIST* ret = __original_CreateListMenu(__unknwnargname1, display);
+    460          	if(ret)trace_alloc(trace_gui, (void*)ret, __file__, __line__);
+    461          	return ret;
+    462          }
+    463          
+    464          GUI_NOFMANY* __deleaker_CreateNOfMany( const char* __file__, int __line__, BOOK* book )
+    465          {
+    466          	GUI_NOFMANY* ret = __original_CreateNOfMany(book);
+    467          	if(ret)trace_alloc(trace_gui, (void*)ret, __file__, __line__);
+    468          	return ret;
+    469          }
+    470          
+    471          GUI_ONEOFMANY* __deleaker_CreateOneOfMany( const char* __file__, int __line__, BOOK* book )
+    472          {
+    473          	GUI_ONEOFMANY* ret = __original_CreateOneOfMany(book);
+    474          	if(ret)trace_alloc(trace_gui, (void*)ret, __file__, __line__);
+    475          	return ret;
+    476          }
+    477          
+    478          GUI_TABMENUBAR* __deleaker_CreateTabMenuBar( const char* __file__, int __line__, BOOK* book )
+    479          {
+    480          	GUI_TABMENUBAR* ret = __original_CreateTabMenuBar(book);
+    481          	if(ret)trace_alloc(trace_gui, (void*)ret, __file__, __line__);
+    482          	return ret;
+    483          }
+    484          
+    485          GUI* __deleaker_CreateProgressBar( const char* __file__, int __line__, BOOK* book, int display )
+    486          {
+    487          	GUI* ret = __original_CreateProgressBar(book, display);
+    488          	if(ret)trace_alloc(trace_gui, (void*)ret, __file__, __line__);
+    489          	return ret;
+    490          }
+    491          
+    492          TEXTID __deleaker_TextID_Create( const char* __file__, int __line__, const void* wstr, TEXT_ENCODING flag, int len )
+    493          {
+    494          	TEXTID ret = __original_TextID_Create(wstr, flag, len);
+    495          	if(isallocatedstrid(ret))
+    496          	{
+    497          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    498          		if(flag==ENC_TEXTID)
+    499          		{
+    500          			for(int i=0;i<len;i++)
+    501          				trace_free(trace_strid, (void*)((TEXTID*)wstr)[i], __file__, __line__);
+    502          		}
+    503          	}
+    504          	return ret;
+    505          }
+    506          
+    507          TEXTID __deleaker_TextID_Copy( const char* __file__, int __line__, TEXTID __unknwnargname1 )
+    508          {
+    509          	TEXTID ret = __original_TextID_Copy(__unknwnargname1);
+    510          	if(isallocatedstrid(ret))
+    511          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    512          	return ret;
+    513          }
+    514          
+    515          TEXTID __deleaker_TextID_CreateIntegerID( const char* __file__, int __line__, int num )
+    516          {
+    517          	TEXTID ret = __original_TextID_CreateIntegerID(num);
+    518          	if(isallocatedstrid(ret))
+    519          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    520          	return ret;
+    521          }
+    522          
+    523          void __deleaker_TextID_Destroy( const char* __file__, int __line__, TEXTID __unknwnargname1 )
+    524          {
+    525          	if(isallocatedstrid(__unknwnargname1))trace_free(trace_strid, (void*)__unknwnargname1, __file__, __line__ );
+    526          	return __original_TextID_Destroy(__unknwnargname1);
+    527          }
+    528          
+    529          void __deleaker_GUIObject_SetTitleText( const char* __file__, int __line__, GUI* __unknwnargname1, TEXTID __unknwnargname2 )
+    530          {
+    531          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    532          	return __original_GUIObject_SetTitleText(__unknwnargname1, __unknwnargname2);
+    533          }
+    534          
+    535          void __deleaker_GUIObject_SoftKeys_SetText( const char* __file__, int __line__, GUI* __unknwnargname1, u16 actionID, TEXTID __unknwnargname3 )
+    536          {
+    537          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    538          	return __original_GUIObject_SoftKeys_SetText(__unknwnargname1, actionID, __unknwnargname3);
+    539          }
+    540          
+    541          char __deleaker_GUIonMessage_SetMenuItemText( const char* __file__, int __line__, GUI_MESSAGE* msg, TEXTID __unknwnargname2 )
+    542          {
+    543          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    544          	return __original_GUIonMessage_SetMenuItemText(msg, __unknwnargname2);
+    545          }
+    546          
+    547          char __deleaker_GUIonMessage_SetMenuItemSecondLineText( const char* __file__, int __line__, GUI_MESSAGE* msg, TEXTID __unknwnargname2 )
+    548          {
+    549          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    550          	return __original_GUIonMessage_SetMenuItemSecondLineText(msg, __unknwnargname2);
+    551          }
+    552          
+    553          char __deleaker_GUIonMessage_SetMenuItemInfoText( const char* __file__, int __line__, GUI_MESSAGE* msg, TEXTID __unknwnargname2 )
+    554          {
+    555          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    556          	return __original_GUIonMessage_SetMenuItemInfoText(msg, __unknwnargname2);
+    557          }
+    558          
+    559          char __deleaker_GUIonMessage_SetMenuItemUnavailableText( const char* __file__, int __line__, GUI_MESSAGE* msg, TEXTID __unknwnargname2 )
+    560          {
+    561          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    562          	return __original_GUIonMessage_SetMenuItemUnavailableText(msg, __unknwnargname2);
+    563          }
+    564          
+    565          int __deleaker_MessageBox( const char* __file__, int __line__, TEXTID header_text, TEXTID message_text, IMAGEID __unknwnargname3, int style, int time, BOOK* book )
+    566          {
+    567          	if(isallocatedstrid(header_text))trace_free(trace_strid, (void*)header_text, __file__, __line__ );
+    568          	if(isallocatedstrid(message_text))trace_free(trace_strid, (void*)message_text, __file__, __line__ );
+    569          	if(isallocatediconid(__unknwnargname3))trace_free(trace_iconid, (void*)__unknwnargname3, __file__, __line__ );
+    570          	return __original_MessageBox(header_text, message_text, __unknwnargname3, style, time, book);
+    571          }
+    572          
+    573          void __deleaker_BookObj_SoftKeys_SetText( const char* __file__, int __line__, BOOK* book, int actionID, TEXTID __unknwnargname3 )
+    574          {
+    575          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    576          	return __original_BookObj_SoftKeys_SetText(book, actionID, __unknwnargname3);
+    577          }
+    578          
+    579          void __deleaker_DataBrowserDesc_SetHeaderText( const char* __file__, int __line__, void* DataBrowserDesc, TEXTID __unknwnargname2 )
+    580          {
+    581          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    582          	return __original_DataBrowserDesc_SetHeaderText(DataBrowserDesc, __unknwnargname2);
+    583          }
+    584          
+    585          void __deleaker_DataBrowserDesc_SetOKSoftKeyText( const char* __file__, int __line__, void* DataBrowserDesc, TEXTID __unknwnargname2 )
+    586          {
+    587          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    588          	return __original_DataBrowserDesc_SetOKSoftKeyText(DataBrowserDesc, __unknwnargname2);
+    589          }
+    590          
+    591          void __deleaker_DispObject_SetTitleText( const char* __file__, int __line__, DISP_OBJ* __unknwnargname1, TEXTID __unknwnargname2 )
+    592          {
+    593          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    594          	return __original_DispObject_SetTitleText(__unknwnargname1, __unknwnargname2);
+    595          }
+    596          
+    597          void __deleaker_GUIObject_SoftKeys_AddErrorStr( const char* __file__, int __line__, GUI* __unknwnargname1, u16 actionID, TEXTID __unknwnargname3 )
+    598          {
+    599          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    600          	return __original_GUIObject_SoftKeys_AddErrorStr(__unknwnargname1, actionID, __unknwnargname3);
+    601          }
+    602          
+    603          void __deleaker_ProgressBar_SetText( const char* __file__, int __line__, GUI* __unknwnargname1, TEXTID text )
+    604          {
+    605          	if(isallocatedstrid(text))trace_free(trace_strid, (void*)text, __file__, __line__ );
+    606          	return __original_ProgressBar_SetText(__unknwnargname1, text);
+    607          }
+    608          
+    609          void __deleaker_StatusIndication_Item8_SetText( const char* __file__, int __line__, TEXTID __unknwnargname1 )
+    610          {
+    611          	if(isallocatedstrid(__unknwnargname1))trace_free(trace_strid, (void*)__unknwnargname1, __file__, __line__ );
+    612          	return __original_StatusIndication_Item8_SetText(__unknwnargname1);
+    613          }
+    614          
+    615          void __deleaker_StatusIndication_SetItemText( const char* __file__, int __line__, GUI* __unknwnargname1, int item, TEXTID __unknwnargname3 )
+    616          {
+    617          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    618          	return __original_StatusIndication_SetItemText(__unknwnargname1, item, __unknwnargname3);
+    619          }
+    620          
+    621          void __deleaker_StatusIndication_ShowNotes( const char* __file__, int __line__, TEXTID __unknwnargname1 )
+    622          {
+    623          	if(isallocatedstrid(__unknwnargname1))trace_free(trace_strid, (void*)__unknwnargname1, __file__, __line__ );
+    624          	return __original_StatusIndication_ShowNotes(__unknwnargname1);
+    625          }
+    626          
+    627          void __deleaker_StringInput_DispObject_SetText( const char* __file__, int __line__, DISP_OBJ* __unknwnargname1, TEXTID __unknwnargname2 )
+    628          {
+    629          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    630          	return __original_StringInput_DispObject_SetText(__unknwnargname1, __unknwnargname2);
+    631          }
+    632          
+    633          void __deleaker_GUIObject_SoftKeys_SetInfoText( const char* __file__, int __line__, GUI* __unknwnargname1, u16 actionID, TEXTID __unknwnargname3 )
+    634          {
+    635          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    636          	return __original_GUIObject_SoftKeys_SetInfoText(__unknwnargname1, actionID, __unknwnargname3);
+    637          }
+    638          
+    639          void __deleaker_ListMenu_SetItemSecondLineText( const char* __file__, int __line__, GUI_LIST* __unknwnargname1, int elem_num, TEXTID __unknwnargname3 )
+    640          {
+    641          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    642          	return __original_ListMenu_SetItemSecondLineText(__unknwnargname1, elem_num, __unknwnargname3);
+    643          }
+    644          
+    645          void __deleaker_GUIonMessage_SubItem_SetText( const char* __file__, int __line__, GUI_MESSAGE* msg, TEXTID __unknwnargname2 )
+    646          {
+    647          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    648          	return __original_GUIonMessage_SubItem_SetText(msg, __unknwnargname2);
+    649          }
+    650          
+    651          void __deleaker_Feedback_SetTextExtended( const char* __file__, int __line__, GUI_FEEDBACK* __unknwnargname1, TEXTID text, int where )
+    652          {
+    653          	if(isallocatedstrid(text))trace_free(trace_strid, (void*)text, __file__, __line__ );
+    654          	return __original_Feedback_SetTextExtended(__unknwnargname1, text, where);
+    655          }
+    656          
+    657          void __deleaker_GUIObject_SoftKeys_SetTexts( const char* __file__, int __line__, GUI* __unknwnargname1, u16 actionID, TEXTID short_text, TEXTID full_text )
+    658          {
+    659          	if(isallocatedstrid(short_text))trace_free(trace_strid, (void*)short_text, __file__, __line__ );
+    660          	if(isallocatedstrid(full_text))trace_free(trace_strid, (void*)full_text, __file__, __line__ );
+    661          	return __original_GUIObject_SoftKeys_SetTexts(__unknwnargname1, actionID, short_text, full_text);
+    662          }
+    663          
+    664          TEXTID __deleaker_PNUM2Name( const char* __file__, int __line__, BCD_TEXT pnum, int isIconNeeded, int only_full_number_flag )
+    665          {
+    666          	TEXTID ret = __original_PNUM2Name(pnum, isIconNeeded, only_full_number_flag);
+    667          	if(isallocatedstrid(ret))
+    668          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    669          	return ret;
+    670          }
+    671          
+    672          TEXTID __deleaker_Date2ID( const char* __file__, int __line__, DATE* __unknwnargname1, int DateFormat, int __unknwnargname3 )
+    673          {
+    674          	TEXTID ret = __original_Date2ID(__unknwnargname1, DateFormat, __unknwnargname3);
+    675          	if(isallocatedstrid(ret))
+    676          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    677          	return ret;
+    678          }
+    679          
+    680          TEXTID __deleaker_Time2ID( const char* __file__, int __line__, TIME* __unknwnargname1, char TimeFormat, int isSec )
+    681          {
+    682          	TEXTID ret = __original_Time2ID(__unknwnargname1, TimeFormat, isSec);
+    683          	if(isallocatedstrid(ret))
+    684          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    685          	return ret;
+    686          }
+    687          
+    688          TEXTID __deleaker_KeyCode2Name( const char* __file__, int __line__, int key_code )
+    689          {
+    690          	TEXTID ret = __original_KeyCode2Name(key_code);
+    691          	if(isallocatedstrid(ret))trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    692          	return ret;
+    693          }
+    694          
+    695          void __deleaker_NOfMany_SetTexts( const char* __file__, int __line__, GUI_NOFMANY* __unknwnargname1, TEXTID* strids, int items_count )
+    696          {
+    697          	for(int i=0;i<items_count;i++)
+    698          		if(isallocatedstrid(strids[i]))trace_free(trace_strid, (void*)strids[i], __file__, __line__ );
+    699          	__original_NOfMany_SetTexts(__unknwnargname1, strids, items_count);
+    700          }
+    701          
+    702          void __deleaker_OneOfMany_SetTexts( const char* __file__, int __line__, GUI_ONEOFMANY* __unknwnargname1, TEXTID* strids, int Count )
+    703          {
+    704          	for(int i=0;i<Count;i++)
+    705          		if(isallocatedstrid(strids[i]))trace_free(trace_strid, (void*)strids[i], __file__, __line__ );
+    706          	__original_OneOfMany_SetTexts(__unknwnargname1, strids, Count);
+    707          }
+    708          
+    709          void __deleaker_Feedback_SetText( const char* __file__, int __line__, GUI_FEEDBACK* __unknwnargname1, TEXTID __unknwnargname2 )
+    710          {
+    711          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    712          	return __original_Feedback_SetText(__unknwnargname1, __unknwnargname2);
+    713          }
+    714          
+    715          int __deleaker_Gif2ID( const char* __file__, int __line__, u16 IMAGEHANDLE, const wchar_t* path, const wchar_t* fname, IMAGEID* __unknwnargname4 )
+    716          {//проверить код ошибки
+    717          	int ret = __original_Gif2ID(IMAGEHANDLE, path, fname, __unknwnargname4);
+    718          	if(ret)trace_alloc(trace_iconid, (void*)*__unknwnargname4, __file__, __line__);
+    719          	return ret;
+    720          }
+    721          
+    722          void __deleaker_GUIObject_SetTitleIcon( const char* __file__, int __line__, GUI* __unknwnargname1, IMAGEID __unknwnargname2 )
+    723          {
+    724          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    725          	__original_GUIObject_SetTitleIcon(__unknwnargname1, __unknwnargname2);
+    726          }
+    727          
+    728          void __deleaker_GUIInput_SetIcon( const char* __file__, int __line__, GUI* __unknwnargname1, IMAGEID __unknwnargname2 )
+    729          {
+    730          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    731          	__original_GUIInput_SetIcon(__unknwnargname1, __unknwnargname2);
+    732          }
+    733          
+    734          void __deleaker_ProgressBar_SetIcon( const char* __file__, int __line__, GUI* __unknwnargname1, IMAGEID __unknwnargname2 )
+    735          {
+    736          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    737          	__original_ProgressBar_SetIcon(__unknwnargname1, __unknwnargname2);
+    738          }
+    739          
+    740          void __deleaker_GUIonMessage_SetMenuItemIcon( const char* __file__, int __line__, GUI_MESSAGE* msg, int align, IMAGEID __unknwnargname3 )
+    741          {
+    742          	if(isallocatediconid(__unknwnargname3))trace_free(trace_iconid, (void*)__unknwnargname3, __file__, __line__ );
+    743          	__original_GUIonMessage_SetMenuItemIcon(msg, align, __unknwnargname3);
+    744          }
+    745          
+    746          void __deleaker_TabMenuBar_SetTabIcon( const char* __file__, int __line__, GUI_TABMENUBAR* __unknwnargname1, int tab, IMAGEID __unknwnargname3, int for_state )
+    747          {
+    748          	if(isallocatediconid(__unknwnargname3))trace_free(trace_iconid, (void*)__unknwnargname3, __file__, __line__ );
+    749          	__original_TabMenuBar_SetTabIcon(__unknwnargname1, tab, __unknwnargname3, for_state);
+    750          }
+    751          
+    752          void __deleaker_VCALL_SetNameIcon( const char* __file__, int __line__, void* vc, IMAGEID __unknwnargname2 )
+    753          {
+    754          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    755          	__original_VCALL_SetNameIcon(vc, __unknwnargname2);
+    756          }
+    757          
+    758          int __deleaker_ModifyKeyHook( const char* __file__, int __line__, KEYHOOKPROC proc, int mode, LPARAM lparam )
+    759          {
+    760          	int ret = __original_ModifyKeyHook(proc, mode, lparam);
+    761          	if(mode==KEY_HOOK_REMOVE)trace_free(trace_hook, (void*)proc, __file__, __line__ );
+    762          	if(mode==KEY_HOOK_ADD)trace_alloc(trace_hook, (void*)proc, __file__, __line__);
+    763          	return ret;
+    764          }
+    765          
+    766          int __deleaker_ModifyUIPageHook( const char* __file__, int __line__, int event, PAGEHOOKPROC proc, LPARAM ClientData, int mode )
+    767          {
+    768          	int ret = __original_ModifyUIPageHook(event, proc, ClientData, mode);
+    769          	if(mode==PAGE_HOOK_REMOVE)trace_free(trace_hook, (void*)proc, __file__, __line__ );
+    770          	if(mode==PAGE_HOOK_ADD_BEFORE || mode==PAGE_HOOK_ADD_AFTER)trace_alloc(trace_hook, (void*)proc, __file__, __line__);
+    771          	return ret;
+    772          }
+    773          
+    774          int __deleaker_ImageID_Get( const char* __file__, int __line__, const wchar_t* fpath, const wchar_t* fname, IMAGEID* __unknwnargname3 )
+    775          {
+    776          	int ret = __original_ImageID_Get(fpath, fname, __unknwnargname3);
+    777          	if(ret>=0 && isallocatediconid(*__unknwnargname3))
+    778          		trace_alloc(trace_iconid, (void*)(*__unknwnargname3), __file__, __line__);
+    779          	return ret;
+    780          }
+    781          
+    782          int __deleaker_ImageID_GetIndirect( const char* __file__, int __line__, void* buf_image, int size, int __NULL, wchar_t* image_type, IMAGEID* __unknwnargname5 )
+    783          {//проверить возвращаемое значение
+    784          	int ret = __original_ImageID_GetIndirect(buf_image, size, __NULL, image_type, __unknwnargname5);
+    785          	trace_free(trace_memory, buf_image, __file__, __line__);
+    786          	trace_alloc(trace_iconid, (void*)(*__unknwnargname5), __file__, __line__);
+    787          	return ret;
+    788          }
+    789          
+    790          void __deleaker_ImageID_Free( const char* __file__, int __line__, IMAGEID __unknwnargname1 )
+    791          {
+    792          	if(isallocatediconid(__unknwnargname1))trace_free(trace_iconid, (void*)__unknwnargname1, __file__, __line__);
+    793          	__original_ImageID_Free(__unknwnargname1);
+    794          }
+    795          
+    796          GC* __deleaker_GC_CreateMemoryGC( const char* __file__, int __line__, int xsize, int ysize, int bpp, int unk, void* somefn, int unk2 )
+    797          {
+    798          	GC* ret = __original_GC_CreateMemoryGC(xsize, ysize, bpp, unk, somefn, unk2);
+    799          	if(ret)trace_alloc(trace_gc, (void*)ret, __file__, __line__);
+    800          	return ret;
+    801          }
+    802          
+    803          void __deleaker_GC_FreeGC( const char* __file__, int __line__, GC* gc )
+    804          {
+    805          	trace_free(trace_gc, gc, __file__, __line__);
+    806          	__original_GC_FreeGC(gc);
+    807          }
+    808          
+    809          GVI_PEN __deleaker_GVI_CreateDashedPen( const char* __file__, int __line__, char thikness, int color, int bitmask, int step, int offset )
+    810          {
+    811          	GVI_PEN ret = __original_GVI_CreateDashedPen(thikness, color, bitmask, step, offset);
+    812          	if(ret)trace_alloc(trace_gvi, (void*)ret, __file__, __line__);
+    813          	return ret;
+    814          }
+    815          
+    816          GVI_PEN __deleaker_GVI_CreatePen( const char* __file__, int __line__, char thikness, int color )
+    817          {
+    818          	GVI_PEN ret = __original_GVI_CreatePen(thikness, color);
+    819          	if(ret)trace_alloc(trace_gvi, (void*)ret, __file__, __line__);
+    820          	return ret;
+    821          }
+    822          
+    823          GVI_BRUSH __deleaker_GVI_CreateSolidBrush( const char* __file__, int __line__, int color )
+    824          {
+    825          	GVI_BRUSH ret = __original_GVI_CreateSolidBrush(color);
+    826          	if(ret)trace_alloc(trace_gvi, (void*)ret, __file__, __line__);
+    827          	return ret;
+    828          }
+    829          
+    830          GVI_BMP __deleaker_GVI_CreateBitmap( const char* __file__, int __line__, int xsize, int ysize, int bpp )
+    831          {
+    832          	GVI_BMP ret = __original_GVI_CreateBitmap(xsize, ysize, bpp);
+    833          	if(ret)trace_alloc(trace_gvi, (void*)ret, __file__, __line__);
+    834          	return ret;
+    835          }
+    836          
+    837          GVI_GC __deleaker_GVI_CreateMemoryGC( const char* __file__, int __line__, GVI_BMP bitmap )
+    838          {
+    839          	GVI_GC ret = __original_GVI_CreateMemoryGC(bitmap);
+    840          	if(ret)trace_alloc(trace_gvi, (void*)ret, __file__, __line__);
+    841          	return ret;
+    842          }
+    843          
+    844          BOOL __deleaker_GVI_Delete_GVI_Object( const char* __file__, int __line__, GVI_OBJ* __unknwnargname1 )
+    845          {
+    846          	trace_free(trace_gvi, *__unknwnargname1, __file__, __line__);
+    847          	return __original_GVI_Delete_GVI_Object(__unknwnargname1);
+    848          }
+    849          
+    850          void __deleaker_GVI_DeleteMemoryGC( const char* __file__, int __line__, GVI_GC gc )
+    851          {
+    852          	trace_free(trace_gvi, gc, __file__, __line__);
+    853          	return __original_GVI_DeleteMemoryGC(gc);
+    854          }
+    855          
+    856          GUI_FEEDBACK* __deleaker_TextFeedbackWindow( const char* __file__, int __line__, BOOK* book, int zero )
+    857          {
+    858          	GUI_FEEDBACK* ret = __original_TextFeedbackWindow(book, zero);
+    859          	if(ret)trace_alloc(trace_gui, (void*)ret, __file__, __line__);
+    860          	return ret;
+    861          }
+    862          
+    863          void* __deleaker_DataBrowserDesc_Create( const char* __file__, int __line__ )
+    864          {
+    865          	void* ret = __original_DataBrowserDesc_Create();
+    866          	if(ret)trace_alloc(trace_memory, (void*)ret, __file__, __line__);
+    867          	return ret;
+    868          }
+    869          
+    870          void __deleaker_DataBrowserDesc_Destroy( const char* __file__, int __line__, void* DataBrowserDesc )
+    871          {
+    872          	trace_free(trace_memory, DataBrowserDesc, __file__, __line__);
+    873          	return __original_DataBrowserDesc_Destroy(DataBrowserDesc);
+    874          }
+    875          
+    876          GUI_FEEDBACK* __deleaker_CreateMonitorFeedback( const char* __file__, int __line__, TEXTID __unknwnargname1, BOOK* __unknwnargname2, void (*onbusy)(BOOK*), void (*onedit)(BOOK*), void (*ondelete)(BOOK*) )
+    877          {
+    878          	GUI_FEEDBACK* ret = __original_CreateMonitorFeedback(__unknwnargname1, __unknwnargname2, onbusy, onedit, ondelete);
+    879          	if(ret)trace_alloc(trace_gui, (void*)ret, __file__, __line__);
+    880          	return ret;
+    881          }
+    882          
+    883          void* __deleaker_LoadDLL( const char* __file__, int __line__, wchar_t* DllName )
+    884          {
+    885          	void* ret = __original_LoadDLL(DllName);
+    886          	if(ret)trace_alloc(trace_dll, (void*)ret, __file__, __line__);
+    887          	return ret;
+    888          }
+    889          
+    890          int __deleaker_UnLoadDLL( const char* __file__, int __line__, void* DllData )
+    891          {
+    892          	trace_free(trace_dll, DllData, __file__, __line__);
+    893          	return __original_UnLoadDLL(DllData);
+    894          }
+    895          
+    896          void __deleaker_GUIObject_SetSecondRowTitleText( const char* __file__, int __line__, GUI* __unknwnargname1, TEXTID __unknwnargname2 )
+    897          {
+    898          	if(isallocatedstrid(__unknwnargname2))trace_free(trace_strid, (void*)__unknwnargname2, __file__, __line__ );
+    899          	return __original_GUIObject_SetSecondRowTitleText(__unknwnargname1, __unknwnargname2);
+    900          }
+    901          
+    902          void __deleaker_ListMenu_SetNoItemText( const char* __file__, int __line__, GUI_LIST* __unknwnargname1, TEXTID str )
+    903          {
+    904          	if(isallocatedstrid(str))trace_free(trace_strid, (void*)str, __file__, __line__ );
+    905          	return __original_ListMenu_SetNoItemText(__unknwnargname1, str);
+    906          }
+    907          
+    908          void __deleaker_TabMenuBar_SetTabTitle( const char* __file__, int __line__, GUI_TABMENUBAR* __unknwnargname1, int tab_num, TEXTID __unknwnargname3 )
+    909          {
+    910          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    911          	return __original_TabMenuBar_SetTabTitle(__unknwnargname1, tab_num, __unknwnargname3);
+    912          }
+    913          
+    914          void __deleaker_DispObject_SetBackgroundImage( const char* __file__, int __line__, DISP_OBJ* __unknwnargname1, IMAGEID __unknwnargname2 )
+    915          {
+    916          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    917          	__original_DispObject_SetBackgroundImage(__unknwnargname1, __unknwnargname2);
+    918          }
+    919          
+    920          void __deleaker_DispObject_SetCursorImage( const char* __file__, int __line__, DISP_OBJ* __unknwnargname1, IMAGEID __unknwnargname2 )
+    921          {
+    922          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    923          	__original_DispObject_SetCursorImage(__unknwnargname1, __unknwnargname2);
+    924          }
+    925          
+    926          void __deleaker_DispObject_SetTitleBackgroundImage( const char* __file__, int __line__, DISP_OBJ* __unknwnargname1, IMAGEID __unknwnargname2 )
+    927          {
+    928          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    929          	__original_DispObject_SetTitleBackgroundImage(__unknwnargname1, __unknwnargname2);
+    930          }
+    931          
+    932          void __deleaker_GUIObject_SetBackgroundImage( const char* __file__, int __line__, GUI* __unknwnargname1, IMAGEID __unknwnargname2 )
+    933          {
+    934          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    935          	__original_GUIObject_SetBackgroundImage(__unknwnargname1, __unknwnargname2);
+    936          }
+    937          
+    938          void __deleaker_GUIObject_SetCursorImage( const char* __file__, int __line__, GUI* __unknwnargname1, IMAGEID __unknwnargname2 )
+    939          {
+    940          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    941          	__original_GUIObject_SetCursorImage(__unknwnargname1, __unknwnargname2);
+    942          }
+    943          
+    944          void __deleaker_GUIObject_SetTitleBackgroundImage( const char* __file__, int __line__, GUI* __unknwnargname1, IMAGEID __unknwnargname2 )
+    945          {
+    946          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    947          	__original_GUIObject_SetTitleBackgroundImage(__unknwnargname1, __unknwnargname2);
+    948          }
+    949          
+    950          TEXTID __deleaker_Shortcut_Get_MenuItemName( const char* __file__, int __line__, void* __unknwnargname1 )
+    951          {
+    952          	TEXTID ret = __original_Shortcut_Get_MenuItemName(__unknwnargname1);
+    953          	trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+    954          	return ret;
+    955          }
+    956          
+    957          void __deleaker_YesNoQuestion_SetIcon( const char* __file__, int __line__, GUI* __unknwnargname1, IMAGEID __unknwnargname2 )
+    958          {
+    959          	if(isallocatediconid(__unknwnargname2))trace_free(trace_iconid, (void*)__unknwnargname2, __file__, __line__ );
+    960          	__original_YesNoQuestion_SetIcon(__unknwnargname1, __unknwnargname2);
+    961          }
+    962          
+    963          int __deleaker_ListMenu_SetItemIcon( const char* __file__, int __line__, GUI_LIST* __unknwnargname1, int Item, wchar_t unk_FFFF, int mode, IMAGEID __unknwnargname5 )
+    964          {
+    965          	//!!!unknown arg unk_FFFF
+    966          	if(isallocatediconid(__unknwnargname5))trace_free(trace_iconid, (void*)__unknwnargname5, __file__, __line__ );
+    967          	return __original_ListMenu_SetItemIcon(__unknwnargname1, Item, unk_FFFF, mode, __unknwnargname5);
+    968          }
+    969          
+    970          IMAGEID __deleaker_Shortcut_Get_MenuItemIconID( const char* __file__, int __line__, void* __unknwnargname1 )
+    971          {
+    972          	IMAGEID ret = __original_Shortcut_Get_MenuItemIconID(__unknwnargname1);
+    973          	if(isallocatediconid(ret))trace_alloc(trace_iconid, (void*)ret, __file__, __line__);
+    974          	return ret;
+    975          }
+    976          
+    977          PROCESS __deleaker_create_process( const char* __file__, int __line__, PROCESS_TYPE proc_type, char* name, OSENTRYPOINT* entrypoint, OSADDRESS stack_size, OSPRIORITY priority, OSTIME timeslice, PROCESS pid_block, void* redir_table, OSVECTOR vector, OSUSER user )
+    978          {
+    979          	PROCESS ret = __original_create_process(proc_type, name, entrypoint, stack_size, priority, timeslice, pid_block, redir_table, vector, user);
+    980          	trace_alloc(trace_process, (void*)ret, __file__, __line__);
+    981          	return ret;
+    982          }
+    983          
+    984          void __deleaker_kill_proc( const char* __file__, int __line__, PROCESS pid )
+    985          {
+    986          	trace_free(trace_process, (void*)pid, __file__, __line__);
+    987          	return __original_kill_proc(pid);
+    988          }
+    989          
+    990          void __deleaker_MediaPlayer_SoftKeys_AddHelpStr( const char* __file__, int __line__, GUI* player_gui, int item, TEXTID __unknwnargname3 )
+    991          {
+    992          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    993          	__original_MediaPlayer_SoftKeys_AddHelpStr(player_gui, item, __unknwnargname3);
+    994          }
+    995          
+    996          void __deleaker_MediaPlayer_SoftKeys_SetText( const char* __file__, int __line__, GUI* player_gui, int actionID, TEXTID __unknwnargname3 )
+    997          {
+    998          	if(isallocatedstrid(__unknwnargname3))trace_free(trace_strid, (void*)__unknwnargname3, __file__, __line__ );
+    999          	__original_MediaPlayer_SoftKeys_SetText(player_gui, actionID, __unknwnargname3);
+   1000          }
+   1001          
+   1002          wchar_t* __deleaker_MenuBook_Desktop_GetSelectedItemID( const char* __file__, int __line__, BOOK* MenuBook_Desktop )
+   1003          {
+   1004          	wchar_t* ret = __original_MenuBook_Desktop_GetSelectedItemID(MenuBook_Desktop);
+   1005          	if(ret)trace_alloc(trace_memory, (void*)ret, __file__, __line__);
+   1006          	return ret;
+   1007          }
+   1008          
+   1009          char* __deleaker_CreateURI( const char* __file__, int __line__, wchar_t* fpath, wchar_t* fname, char* URIScheme )
+   1010          {
+   1011          	char* ret = __original_CreateURI(fpath, fname, URIScheme);
+   1012          	if(ret)trace_alloc(trace_memory, (void*)ret, __file__, __line__);
+   1013          	return ret;
+   1014          }
+   1015          
+   1016          void __deleaker_Timer_Kill( const char* __file__, int __line__, u16* timerID )
+   1017          {
+   1018          	trace_free(trace_timer, (void*)*timerID, __file__, __line__);
+   1019          	trace_timerkill(timerID);
+   1020          }
+   1021          
+   1022          u16 __deleaker_Timer_Set( const char* __file__, int __line__, int time, TIMERPROC onTimer, LPARAM lparam )
+   1023          {
+   1024          	u16 ret = trace_timerset(time,(void(*)(u16,LPARAM))onTimer,(LPARAM)lparam);
+   1025          	if(ret)trace_alloc(trace_timer, (void*)ret, __file__, __line__);
+   1026          	return ret;
+   1027          }
+   1028          
+   1029          void __deleaker_Timer_ReSet( const char* __file__, int __line__, u16* timer, int time, TIMERPROC onTimer, LPARAM lparam )
+   1030          {
+   1031          	trace_free(trace_timer, (void*)*timer, __file__, __line__);
+   1032          	trace_timerkill(timer);
+   1033          
+   1034          	u16 ret = trace_timerset(time,(void(*)(u16,LPARAM))onTimer,(LPARAM)lparam);
+   1035          	if(ret)trace_alloc(trace_timer, (void*)ret, __file__, __line__);
+   1036          	*timer=ret;
+   1037          }
+   1038          
+   1039          union SIGNAL* __deleaker_alloc( const char* __file__, int __line__, OSBUFSIZE size, SIGSELECT signo )
+   1040          {
+   1041          	union SIGNAL* ret = __original_alloc(size, signo);
+   1042          	if(ret)trace_alloc(trace_osebuff, ret, __file__, __line__);
+   1043          	return ret;
+   1044          }
+   1045          
+   1046          union SIGNAL* __deleaker_receive( const char* __file__, int __line__, const SIGSELECT* sigsel )
+   1047          {
+   1048          	union SIGNAL* ret = __original_receive(sigsel);
+   1049          	if(ret)trace_alloc(trace_osebuff, ret, __file__, __line__);
+   1050          	return ret;
+   1051          }
+   1052          
+   1053          union SIGNAL* __deleaker_receive_w_tmo( const char* __file__, int __line__, OSTIME timeout, SIGSELECT* sel )
+   1054          {
+   1055          	union SIGNAL* ret = __original_receive_w_tmo(timeout, sel);
+   1056          	if(ret)trace_alloc(trace_osebuff, ret, __file__, __line__);
+   1057          	return ret;
+   1058          }
+   1059          
+   1060          void __deleaker_free_buf( const char* __file__, int __line__, union SIGNAL** sig )
+   1061          {
+   1062          	trace_free(trace_osebuff, *sig, __file__, __line__);
+   1063          	__original_free_buf(sig);
+   1064          }
+   1065          
+   1066          void __deleaker_send( const char* __file__, int __line__, union SIGNAL** sig, PROCESS to )
+   1067          {
+   1068          	trace_free(trace_osebuff, *sig, __file__, __line__);
+   1069          	__original_send(sig, to);
+   1070          }
+   1071          
+   1072          OSBOOLEAN __deleaker_hunt( const char* __file__, int __line__, const char* name, OSUSER user, PROCESS* name_, union SIGNAL** hunt_sig )
+   1073          {
+   1074          	if(hunt_sig)
+   1075          		trace_free(trace_osebuff, *hunt_sig, __file__, __line__);
+   1076          	return __original_hunt(name, user, name_, hunt_sig);
+   1077          }
+   1078          
+   1079          int __deleaker_JavaApp_LogoImageID_Get( const char* __file__, int __line__, wchar_t* fullpath, IMAGEID* __unknwnargname2 )
+   1080          {
+   1081          	int ret = __original_JavaApp_LogoImageID_Get(fullpath, __unknwnargname2);
+   1082          	if(ret>=0 && isallocatediconid(*__unknwnargname2))
+   1083          		trace_alloc(trace_iconid, (void*)(*__unknwnargname2), __file__, __line__);
+   1084          	return ret;
+   1085          }
+   1086          
+   1087          void __deleaker_ObexSendFile( const char* __file__, int __line__, SEND_OBEX_STRUCT* __unknwnargname1 )
+   1088          {
+   1089          	if(isallocatedstrid(__unknwnargname1->send))trace_free(trace_strid, (void*)__unknwnargname1->send, __file__, __line__ );
+   1090          	if(isallocatedstrid(__unknwnargname1->sent))trace_free(trace_strid, (void*)__unknwnargname1->sent, __file__, __line__ );
+   1091          	__original_ObexSendFile(__unknwnargname1);
+   1092          }
+   1093          
+   1094          TEXTID __deleaker_JavaSession_GetName( const char* __file__, int __line__ )
+   1095          {
+   1096          	TEXTID ret = __original_JavaSession_GetName();
+   1097          	if(isallocatedstrid(ret))
+   1098          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+   1099          	return ret;
+   1100          }
+   1101          
+   1102          void* __deleaker_MetaData_Desc_Create( const char* __file__, int __line__, wchar_t* path, wchar_t* name )
+   1103          {
+   1104          	void* ret = __original_MetaData_Desc_Create(path, name);
+   1105          	if(ret)trace_alloc(trace_metadatadesc, ret, __file__, __line__);
+   1106          	return ret;
+   1107          }
+   1108          
+   1109          void __deleaker_MetaData_Desc_Destroy( const char* __file__, int __line__, void* MetaData_Desc )
+   1110          {
+   1111          	trace_free(trace_metadatadesc, MetaData_Desc, __file__, __line__);
+   1112          	__original_MetaData_Desc_Destroy(MetaData_Desc);
+   1113          }
+   1114          
+   1115          FILEITEM* __deleaker_FILEITEM_Create( const char* __file__, int __line__ )
+   1116          {
+   1117          	FILEITEM* ret = __original_FILEITEM_Create();
+   1118          	if(ret)trace_alloc(trace_fileitemstruct, ret, __file__, __line__);
+   1119          	return ret;
+   1120          }
+   1121          
+   1122          FILEITEM* __deleaker_FILEITEM_CreateCopy( const char* __file__, int __line__, FILEITEM* __unknwnargname1 )
+   1123          {
+   1124          	FILEITEM* ret = __original_FILEITEM_CreateCopy(__unknwnargname1);
+   1125          	if(ret)trace_alloc(trace_fileitemstruct, ret, __file__, __line__);
+   1126          	return ret;
+   1127          }
+   1128          
+   1129          void __deleaker_FILEITEM_Destroy( const char* __file__, int __line__, FILEITEM* __unknwnargname1 )
+   1130          {
+   1131          	trace_free(trace_fileitemstruct, __unknwnargname1, __file__, __line__);
+   1132          	__original_FILEITEM_Destroy(__unknwnargname1);
+   1133          }
+   1134          
+   1135          int __deleaker_w_dirclose( const char* __file__, int __line__, void* __unknwnargname1 )
+   1136          {
+   1137          	trace_free(trace_w_dir, __unknwnargname1, __file__, __line__);
+   1138          	return __original_w_dirclose(__unknwnargname1);
+   1139          }
+   1140          
+   1141          void* __deleaker_w_diropen( const char* __file__, int __line__, const wchar_t* dir )
+   1142          {
+   1143          	void* ret = __original_w_diropen(dir);
+   1144          	if(ret)trace_alloc(trace_w_dir, ret, __file__, __line__);
+   1145          	return ret;
+   1146          }
+   1147          
+   1148          void* __deleaker_SoundRecorderDesc_Create( const char* __file__, int __line__ )
+   1149          {
+   1150          	void* ret = __original_SoundRecorderDesc_Create();
+   1151          	if(ret)trace_alloc(trace_memory, ret, __file__, __line__);
+   1152          	return ret;
+   1153          }
+   1154          
+   1155          void __deleaker_SoundRecorderDesc_Destroy( const char* __file__, int __line__, void* desc )
+   1156          {
+   1157          	trace_free(trace_memory, desc, __file__, __line__);
+   1158          	__original_SoundRecorderDesc_Destroy(desc);
+   1159          }
+   1160          
+   1161          TEXTID __deleaker_AB_NAME_ITEM2TextID( const char* __file__, int __line__, AB_STR_ITEM* ab_name )
+   1162          {
+   1163          	TEXTID ret = __original_AB_NAME_ITEM2TextID(ab_name);
+   1164          	if(isallocatedstrid(ret))
+   1165          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+   1166          	return ret;
+   1167          }
+   1168          
+   1169          TEXTID __deleaker_AB_NUM_ITEM2TextID( const char* __file__, int __line__, AB_NUM_ITEM* ab_num_item )
+   1170          {
+   1171          	TEXTID ret = __original_AB_NUM_ITEM2TextID(ab_num_item);
+   1172          	if(isallocatedstrid(ret))
+   1173          		trace_alloc(trace_strid, (void*)ret, __file__, __line__);
+   1174          	return ret;
+   1175          }
+   1176          //__swi __arm GUI* CreateDateInputVA( int zero, ... );
+   1177          //__swi __arm GUI* CreatePercentInputVA( int zero, ... );
+   1178          //__swi __arm GUI* CreateStringInputVA( int, ... );
+   1179          //__swi __arm GUI* CreateTimeInputVA( int zero, ... );
+   1180          //__swi __arm GUI* CreateYesNoQuestionVA( int zero, ... );
+   1181          //__swi __arm LIST* DataBrowserBook_GetCurrentFoldersList( BOOK* DataBrowserBook );
+   1182          //__swi __arm SUB_EXECUTE* DataBrowser_CreateSubExecute( int BookID, FILEITEM* );
+   1183          //__swi __arm int DataBrowser_ExecuteSubroutine( SUB_EXECUTE* sub, int action, u16* unk );
+   1184          //__swi __arm IMAGEID ImageID_Copy( IMAGEID );
+   1185          //__swi __arm int JavaAppDesc_Get( int unk1, void** JavaDesc );
+   1186          //__swi __arm int JavaAppDesc_GetFirstApp( void* JavaDesc );
+   1187          //__swi __arm int JavaAppDesc_GetJavaAppFullpath( void* JavaDesc, JavaAppFullpath* );
+   1188          //__swi __arm int JavaAppDesc_GetJavaAppID( void* JavaDesc );
+   1189          //__swi __arm int JavaAppDesc_GetJavaAppInfo( void* JavaDesc, int ID, wchar_t** wstr );
+   1190          //__swi __arm int JavaAppDesc_GetNextApp( void* JavaDesc );
+   1191          //__swi __arm void JavaDialog_Close( int unk1 );
+   1192          //__swi __arm int JavaDialog_Open( int unk1, char* unk2, void** JavaDesc );
+   1193          //__swi __arm int MSG_SendMessage_AddRecipient( void*, wchar_t*, wchar_t*, int, int );
+   1194          //__swi __arm int MSG_SendMessage_CreateMessage( int, void* );
+   1195          //__swi __arm int MSG_SendMessage_DestroyMessage( void* );
+   1196          //__swi __arm int MSG_SendMessage_Start( int, void*, int );
+   1197          //__swi __arm int REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE( const int* sync, u16* ImageHandler, char* unk );
+   1198          //__swi __arm int REQUEST_IMAGEHANDLER_INTERNAL_REGISTER( const int* sync, u16 ImageHandler, wchar_t* path, wchar_t* fname, int unk, IMAGEID*, char* error );
+   1199          //__swi __arm int REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER( const int* sync, u16 ImageHandler, u16*, u16*, IMAGEID, int unk_1, char* error );
+   1200          //__swi __arm int REQUEST_PHONEBOOK_ACCESSSTATUS_TOTAL_GET( const int* sync, int* );
+   1201          //__swi __arm int REQUEST_PROFILE_GETPROFILENAME( const int* sync, int unk, TEXTID_DATA*, char* error );
+   1202          //__swi __arm int Request_EventChannel_Subscribe( const int* sync, int mode, int event );
+   1203          //__swi __arm int SoundRecorder_Create( void* desc );
+   1204          //__swi __arm int SoundRecorder_RecordCall( BOOK* OngoingCallBook );
+   1205          //__swi __arm int inflate( z_streamp strm, int flush );
+   1206          //__swi __arm int inflateEnd( z_streamp strm );
+   1207          //__swi __arm int inflateInit2_( z_streamp strm, int windowBits, const char* version, int stream_size );
+   1208          //__swi __arm png_infop png_create_info_struct( png_structp png_ptr );
+   1209          //__swi __arm png_structp png_create_read_struct_2( png_const_charp user_png_ver, png_voidp error_ptr, png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr, png_malloc_ptr malloc_fn, png_free_ptr free_fn );
+   1210          //__swi __arm void png_destroy_info_struct( png_structp png_ptr, png_infopp info_ptr_ptr );
+   1211          //__swi __arm void png_destroy_read_struct( png_structpp png_ptr_ptr, png_infopp info_ptr_ptr, png_infopp end_info_ptr_ptr );
+   1212          //__swi __arm png_uint_32 png_get_IHDR( png_structp png_ptr, png_infop info_ptr, png_uint_32* width, png_uint_32* height, int* bit_depth, int* color_type, int* interlace_method, int* compression_method, int* filter_method );
+   1213          //__swi __arm void png_process_data( png_structp png_ptr, png_infop info_ptr, png_bytep buffer, png_size_t buffer_size );
+   1214          //__swi __arm void png_progressive_combine_row( png_structp png_ptr, png_bytep old_row, png_bytep new_row );
+   1215          //__swi __arm void png_read_update_info( png_structp png_ptr, png_infop info_ptr );
+   1216          //__swi __arm void png_set_filler( png_structp png_ptr, png_uint_32 filler, int flags );
+   1217          //__swi __arm void png_set_progressive_read_fn( png_structp png_ptr, png_voidp progressive_ptr, png_progressive_info_ptr info_fn, png_progressive_row_ptr row_fn, png_progressive_end_ptr end_fn );
+   1218          //__swi __arm int png_sig_cmp( png_bytep sig, png_size_t start, png_size_t num_to_check );
+   1219          
+   1220          #endif
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     operator delete(void *)            4
+     operator delete(void *, void *)
+                                        0
+     operator delete[](void *)          4
+     operator delete[](void *, void *)
+                                        0
+     operator new(size_t)               4
+     operator new(size_t, void *)       0
+     operator new[](size_t)             4
+     operator new[](size_t, void *)     0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     operator new(size_t)             12
+     operator new[](size_t)           12
+     operator delete(void *)          12
+     operator delete[](void *)        12
+     operator new(size_t, void *)      8
+     operator new[](size_t, void *)    8
+     operator delete(void *, void *)
+                                       4
+     operator delete[](void *, void *)
+                                       4
+      Others                          32
+
+ 
+ 104 bytes in segment CODE
+ 
+ 72 bytes of CODE memory (+ 32 bytes shared)
+
+Errors: none
+Warnings: none

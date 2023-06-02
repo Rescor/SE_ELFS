@@ -1,0 +1,416 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:02:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\scrol #
+#                       ling.c                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\scrol #
+#                       ling.c -D NDEBUG -D OLDFUNCTIONS -lC                 #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\ -lA Z:\home\perk11\www\perk11.info\svn\SE\CoverA #
+#                       rt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\CoverArt\LNG-RU.h -I Z:\home\perk11\IAR2\arm\INC\ #
+#                        --inline_threshold=2                                #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\scrolling.lst                                     #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Ob #
+#                       j\scrolling.r79                                      #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\scrolling.c
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\dir.h"
+      3          #include "config_data.h"
+      4          #include "structs.h"
+      5          
+      6          #define NUM 10
+      7          #define LEFT 0
+      8          #define RIGHT 1
+      9          #define NMODE 2
+     10          #define NMODE2 3
+     11          
+     12          extern LABEL labels[NUM];
+     13          extern bool isInStandby;
+     14          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     15          int isScrollable(LABEL *lbl, int mode)
+     16          {
+   \                     ??isScrollable:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     17             if (lbl->SHOW==true && lbl->scr.SCROLL_USE==true)
+   \   00000008   0402D4E5           LDRB     R0,[R4, #+516]
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   2802D415           LDRBNE   R0,[R4, #+552]
+   \   00000018   00005013           CMPNE    R0,#+0
+   \   0000001C   3080BD08           POPEQ    {R4,R5,PC}
+     18             {
+     19               // ДравЛайну надо знать, скроллить или нет :-)
+     20               int len=0;
+     21               if (ScrollingMode==true)
+   \   00000020   ........           LDR      R0,??DataTable1  ;; ScrollingMode
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   010050E3           CMP      R0,#+1
+     22               {
+     23                 len=lbl->scr.SCROLL_FLEN;
+   \   0000002C   48029405           LDREQ    R0,[R4, #+584]
+   \   00000030   0100000A           BEQ      ??isScrollable_1
+     24               }
+     25               else
+     26               {
+     27                 len=wstrlen(lbl->label);
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   570100EF           SWI      +343
+     28               }
+     29               if ((mode==1 || ScrollWhenNot==true) || (mode==1 && ScrollWhenNot==true))
+   \                     ??isScrollable_1:
+   \   0000003C   010055E3           CMP      R5,#+1
+   \   00000040   0300000A           BEQ      ??isScrollable_2
+   \   00000044   20109FE5           LDR      R1,??isScrollable_3  ;; ScrollWhenNot
+   \   00000048   001091E5           LDR      R1,[R1, #+0]
+   \   0000004C   010051E3           CMP      R1,#+1
+   \   00000050   0300001A           BNE      ??isScrollable_4
+     30               {
+     31                  // Если надо скроллить и если мы находимся в правильном месте
+     32                  if (len>=lbl->scr.SCROLL_STRLEN)
+   \                     ??isScrollable_2:
+   \   00000054   441294E5           LDR      R1,[R4, #+580]
+   \   00000058   010050E1           CMP      R0,R1
+     33                  {
+     34                    return 1;
+   \   0000005C   0100A0A3           MOVGE    R0,#+1
+   \   00000060   3080BDA8           POPGE    {R4,R5,PC}
+     35                  }
+     36               }
+     37             }
+     38             return 0;
+   \                     ??isScrollable_4:
+   \   00000064   0000A0E3           MOV      R0,#+0
+   \   00000068   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??isScrollable_3:
+   \   0000006C   ........           DC32     ScrollWhenNot
+     39          };
+     40          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     41          void NextScrollFrame(int mode)
+     42          {
+   \                     ??NextScrollFrame:
+   \   00000000   F14F2DE9           PUSH     {R0,R4-R11,LR}
+     43            int x=0;
+     44            for (x=0;x<NUM;x++)
+   \   00000004   0040A0E3           MOV      R4,#+0
+   \   00000008   0160A0E3           MOV      R6,#+1
+   \   0000000C   8F8FA0E3           MOV      R8,#+572
+   \   00000010   8E9FA0E3           MOV      R9,#+568
+   \   00000014   93AFA0E3           MOV      R10,#+588
+   \   00000018   90BFA0E3           MOV      R11,#+576
+     45            {
+     46              if (isScrollable(&labels[x],mode))
+   \                     ??NextScrollFrame_1:
+   \   0000001C   F8119FE5           LDR      R1,??NextScrollFrame_2  ;; labels
+   \   00000020   9B0FA0E3           MOV      R0,#+620
+   \   00000024   901425E0           MLA      R5,R0,R4,R1
+   \   00000028   00109DE5           LDR      R1,[SP, #+0]
+   \   0000002C   947FA0E3           MOV      R7,#+592
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   ........           BL       ??isScrollable
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   6F00000A           BEQ      ??NextScrollFrame_3
+     47              {
+     48                    labels[x].scr.SCROLL_NEED_SCROLL=true;
+   \   00000040   056087E7           STR      R6,[R7, +R5]
+   \   00000044   300295E5           LDR      R0,[R5, #+560]
+   \   00000048   8D7FA0E3           MOV      R7,#+564
+   \   0000004C   010050E3           CMP      R0,#+1
+   \   00000050   0C00001A           BNE      ??NextScrollFrame_4
+     49                    if (labels[x].scr.SCROLL_WHERETO==RIGHT)
+     50                    {
+     51                      //Скролл идёт вправо
+     52                      if (labels[x].X<=labels[x].scr.SCROLL_RIGHT)
+   \   00000054   080295E5           LDR      R0,[R5, #+520]
+   \   00000058   051099E7           LDR      R1,[R9, +R5]
+   \   0000005C   000051E1           CMP      R1,R0
+     53                      {
+     54                        labels[x].X=labels[x].X+labels[x].scr.SCROLL_SPEED;
+   \   00000060   051098A7           LDRGE    R1,[R8, +R5]
+   \   00000064   000081A0           ADDGE    R0,R1,R0
+   \   00000068   660000AA           BGE      ??NextScrollFrame_5
+     55                      }
+     56                      else
+     57                      {
+     58                        labels[x].X=labels[x].scr.SCROLL_LEFT-(labels[x].scr.SCROLL_LENGTH*wstrlen(labels[x].label));
+   \   0000006C   0500A0E1           MOV      R0,R5
+   \   00000070   570100EF           SWI      +343
+   \   00000074   05209BE7           LDR      R2,[R11, +R5]
+   \   00000078   051097E7           LDR      R1,[R7, +R5]
+   \   0000007C   900202E0           MUL      R2,R0,R2
+   \   00000080   020041E0           SUB      R0,R1,R2
+   \   00000084   5F0000EA           B        ??NextScrollFrame_5
+     59                      }
+     60                    }
+     61                    else if (labels[x].scr.SCROLL_WHERETO==LEFT)
+   \                     ??NextScrollFrame_4:
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0E00001A           BNE      ??NextScrollFrame_6
+     62                    {
+     63                      //Скролл идёт вправо
+     64                      if (labels[x].X>=labels[x].scr.SCROLL_LEFT-(labels[x].scr.SCROLL_LENGTH*wstrlen(labels[x].label)))
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   570100EF           SWI      +343
+   \   00000098   05309BE7           LDR      R3,[R11, +R5]
+   \   0000009C   081295E5           LDR      R1,[R5, #+520]
+   \   000000A0   052097E7           LDR      R2,[R7, +R5]
+   \   000000A4   900303E0           MUL      R3,R0,R3
+   \   000000A8   030042E0           SUB      R0,R2,R3
+   \   000000AC   000051E1           CMP      R1,R0
+   \   000000B0   030000BA           BLT      ??NextScrollFrame_7
+     65                      {
+     66                        labels[x].X=labels[x].X-labels[x].scr.SCROLL_SPEED;
+   \   000000B4   0100A0E1           MOV      R0,R1
+   \                     ??NextScrollFrame_8:
+   \   000000B8   051098E7           LDR      R1,[R8, +R5]
+   \   000000BC   010040E0           SUB      R0,R0,R1
+   \   000000C0   500000EA           B        ??NextScrollFrame_5
+     67                      }
+     68                      else
+     69                      {
+     70                        labels[x].X=labels[x].scr.SCROLL_RIGHT;
+   \                     ??NextScrollFrame_7:
+   \   000000C4   050099E7           LDR      R0,[R9, +R5]
+   \   000000C8   4E0000EA           B        ??NextScrollFrame_5
+     71                      }
+     72                    }
+     73                    else if (labels[x].scr.SCROLL_WHERETO==NMODE)
+   \                     ??NextScrollFrame_6:
+   \   000000CC   ........           LDR      R1,??DataTable1  ;; ScrollingMode
+   \   000000D0   922FA0E3           MOV      R2,#+584
+   \   000000D4   001091E5           LDR      R1,[R1, #+0]
+   \   000000D8   020050E3           CMP      R0,#+2
+   \   000000DC   2500001A           BNE      ??NextScrollFrame_9
+     74                    {
+     75                      //Режим "от X до X"
+     76                      int len2=0;
+     77                      if (ScrollingMode==true)
+   \   000000E0   010051E3           CMP      R1,#+1
+     78                      {
+     79                        len2=labels[x].scr.SCROLL_FLEN;
+   \   000000E4   05009207           LDREQ    R0,[R2, +R5]
+   \   000000E8   0300000A           BEQ      ??NextScrollFrame_10
+     80                      }
+     81                      else
+     82                      {
+     83                        len2=wstrlen(labels[x].label)*labels[x].scr.SCROLL_LENGTH;
+   \   000000EC   0500A0E1           MOV      R0,R5
+   \   000000F0   570100EF           SWI      +343
+   \   000000F4   05109BE7           LDR      R1,[R11, +R5]
+   \   000000F8   910000E0           MUL      R0,R1,R0
+     84                      }
+     85                      if (labels[x].scr.SCROLL_WHERE==LEFT)
+   \                     ??NextScrollFrame_10:
+   \   000000FC   05109AE7           LDR      R1,[R10, +R5]
+   \   00000100   000051E3           CMP      R1,#+0
+   \   00000104   0C00001A           BNE      ??NextScrollFrame_11
+     86                      {
+     87                        //Сейчас скролл идёт влево
+     88                        if (labels[x].X > labels[x].scr.SCROLL_LEFT)
+   \   00000108   080295E5           LDR      R0,[R5, #+520]
+   \   0000010C   051097E7           LDR      R1,[R7, +R5]
+   \   00000110   000051E1           CMP      R1,R0
+     89                        {
+     90                          labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+   \   00000114   051098B7           LDRLT    R1,[R8, +R5]
+   \   00000118   010040B0           SUBLT    R0,R0,R1
+   \   0000011C   390000BA           BLT      ??NextScrollFrame_5
+     91                        }
+     92                        else if (labels[x].X <= labels[x].scr.SCROLL_LEFT)
+   \   00000120   000051E1           CMP      R1,R0
+   \   00000124   380000BA           BLT      ??NextScrollFrame_12
+     93                        {
+     94                          //Дошло до последней черты, идём влево
+     95                          labels[x].scr.SCROLL_WHERE=RIGHT;
+   \                     ??NextScrollFrame_13:
+   \   00000128   05608AE7           STR      R6,[R10, +R5]
+     96                          labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+   \                     ??NextScrollFrame_14:
+   \   0000012C   080295E5           LDR      R0,[R5, #+520]
+   \   00000130   051098E7           LDR      R1,[R8, +R5]
+   \   00000134   000081E0           ADD      R0,R1,R0
+   \   00000138   320000EA           B        ??NextScrollFrame_5
+     97                        }
+     98                      }
+     99                      else if (labels[x].scr.SCROLL_WHERE==RIGHT)
+   \                     ??NextScrollFrame_11:
+   \   0000013C   010051E3           CMP      R1,#+1
+   \   00000140   3100001A           BNE      ??NextScrollFrame_12
+    100                      {
+    101                        //Идёт скролл вправо
+    102                        if ((labels[x].X + len2) < labels[x].scr.SCROLL_RIGHT)
+   \   00000144   081295E5           LDR      R1,[R5, #+520]
+   \   00000148   052099E7           LDR      R2,[R9, +R5]
+   \   0000014C   011080E0           ADD      R1,R0,R1
+   \   00000150   020051E1           CMP      R1,R2
+   \   00000154   F4FFFFBA           BLT      ??NextScrollFrame_14
+    103                        {
+    104                          labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+    105                        }
+    106                        else if ((labels[x].X + len2) >= labels[x].scr.SCROLL_RIGHT)
+   \                     ??NextScrollFrame_15:
+   \   00000158   081295E5           LDR      R1,[R5, #+520]
+   \   0000015C   010080E0           ADD      R0,R0,R1
+   \   00000160   020050E1           CMP      R0,R2
+   \   00000164   280000BA           BLT      ??NextScrollFrame_12
+    107                        {
+    108                          //Идём вправо
+    109                          labels[x].scr.SCROLL_WHERE=LEFT;
+   \                     ??NextScrollFrame_16:
+   \   00000168   0000A0E3           MOV      R0,#+0
+   \   0000016C   05008AE7           STR      R0,[R10, +R5]
+    110                          labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+   \   00000170   080295E5           LDR      R0,[R5, #+520]
+   \   00000174   CFFFFFEA           B        ??NextScrollFrame_8
+    111                        }
+    112                      }
+    113                    }
+    114                    else if (labels[x].scr.SCROLL_WHERETO==NMODE2)
+   \                     ??NextScrollFrame_9:
+   \   00000178   030050E3           CMP      R0,#+3
+   \   0000017C   2200001A           BNE      ??NextScrollFrame_12
+    115                    {
+    116                      //Режим "от X до X" v2
+    117                      int len2=0;
+    118                      if (ScrollingMode==true)
+   \   00000180   010051E3           CMP      R1,#+1
+    119                      {
+    120                        len2=labels[x].scr.SCROLL_FLEN;
+   \   00000184   05009207           LDREQ    R0,[R2, +R5]
+   \   00000188   0300000A           BEQ      ??NextScrollFrame_17
+    121                      }
+    122                      else
+    123                      {
+    124                        len2=wstrlen(labels[x].label)*labels[x].scr.SCROLL_LENGTH;
+   \   0000018C   0500A0E1           MOV      R0,R5
+   \   00000190   570100EF           SWI      +343
+   \   00000194   05109BE7           LDR      R1,[R11, +R5]
+   \   00000198   910000E0           MUL      R0,R1,R0
+    125                      }
+    126                      if (labels[x].scr.SCROLL_WHERE==LEFT)
+   \                     ??NextScrollFrame_17:
+   \   0000019C   05109AE7           LDR      R1,[R10, +R5]
+   \   000001A0   000051E3           CMP      R1,#+0
+   \   000001A4   0A00001A           BNE      ??NextScrollFrame_18
+    127                      {
+    128                        //Сейчас скролл идёт влево
+    129                        if ((labels[x].X + len2) > labels[x].scr.SCROLL_LEFT)
+   \   000001A8   081295E5           LDR      R1,[R5, #+520]
+   \   000001AC   052097E7           LDR      R2,[R7, +R5]
+   \   000001B0   013080E0           ADD      R3,R0,R1
+   \   000001B4   030052E1           CMP      R2,R3
+    130                        {
+    131                          labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+   \   000001B8   050098B7           LDRLT    R0,[R8, +R5]
+   \   000001BC   000041B0           SUBLT    R0,R1,R0
+   \   000001C0   100000BA           BLT      ??NextScrollFrame_5
+    132                        }
+    133                        else if ((labels[x].X + len2)<= labels[x].scr.SCROLL_LEFT)
+   \   000001C4   010080E0           ADD      R0,R0,R1
+   \   000001C8   000052E1           CMP      R2,R0
+   \   000001CC   0E0000BA           BLT      ??NextScrollFrame_12
+   \   000001D0   D4FFFFEA           B        ??NextScrollFrame_13
+    134                        {
+    135                          //Дошло до последней черты, идём влево
+    136                          labels[x].scr.SCROLL_WHERE=RIGHT;
+    137                          labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+    138                        }
+    139                      }
+    140                      else if (labels[x].scr.SCROLL_WHERE==RIGHT)
+   \                     ??NextScrollFrame_18:
+   \   000001D4   010051E3           CMP      R1,#+1
+   \   000001D8   0B00001A           BNE      ??NextScrollFrame_12
+    141                      {
+    142                        //Идёт скролл вправо
+    143                        if (labels[x].X < labels[x].scr.SCROLL_RIGHT)
+   \   000001DC   080295E5           LDR      R0,[R5, #+520]
+   \   000001E0   051099E7           LDR      R1,[R9, +R5]
+   \   000001E4   010050E1           CMP      R0,R1
+    144                        {
+    145                          labels[x].X = labels[x].X + labels[x].scr.SCROLL_SPEED;
+   \   000001E8   051098B7           LDRLT    R1,[R8, +R5]
+   \   000001EC   000081B0           ADDLT    R0,R1,R0
+   \   000001F0   040000BA           BLT      ??NextScrollFrame_5
+    146                        }
+    147                        else if (labels[x].X >= labels[x].scr.SCROLL_RIGHT)
+   \   000001F4   010050E1           CMP      R0,R1
+   \   000001F8   030000BA           BLT      ??NextScrollFrame_12
+   \   000001FC   D9FFFFEA           B        ??NextScrollFrame_16
+    148                        {
+    149                          //Идём вправо
+    150                          labels[x].scr.SCROLL_WHERE=LEFT;
+    151                          labels[x].X = labels[x].X - labels[x].scr.SCROLL_SPEED;
+    152                        }
+    153                      }
+    154                    }
+    155              }
+    156              else
+    157              {
+    158                labels[x].scr.SCROLL_NEED_SCROLL=false;
+   \                     ??NextScrollFrame_3:
+   \   00000200   050087E7           STR      R0,[R7, +R5]
+    159                labels[x].X=labels[x].scr.SCROLL_DEF_X;
+   \   00000204   2C0295E5           LDR      R0,[R5, #+556]
+   \                     ??NextScrollFrame_5:
+   \   00000208   080285E5           STR      R0,[R5, #+520]
+    160              }
+    161            }
+   \                     ??NextScrollFrame_12:
+   \   0000020C   014084E2           ADD      R4,R4,#+1
+   \   00000210   0A0054E3           CMP      R4,#+10
+   \   00000214   80FFFFBA           BLT      ??NextScrollFrame_1
+    162          };
+   \   00000218   F18FBDE8           POP      {R0,R4-R11,PC}   ;; return
+   \                     ??NextScrollFrame_2:
+   \   0000021C   ........           DC32     labels
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     ScrollingMode
+    163          
+    164          
+
+   Maximum stack usage in bytes:
+
+     Function                   CSTACK
+     --------                   ------
+     NextScrollFrame(int)          40
+     isScrollable(LABEL *, int)    12
+
+
+   Segment part sizes:
+
+     Function/Label             Bytes
+     --------------             -----
+     isScrollable(LABEL *, int)  112
+     NextScrollFrame(int)        544
+     ??DataTable1                  4
+      Others                       8
+
+ 
+ 668 bytes in segment CODE
+ 
+ 660 bytes of CODE memory (+ 8 bytes shared)
+
+Errors: none
+Warnings: none

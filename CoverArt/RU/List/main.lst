@@ -1,0 +1,653 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:02:31 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\main. #
+#                       cpp                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\main. #
+#                       cpp -D NDEBUG -D OLDFUNCTIONS -lC                    #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\ -lA Z:\home\perk11\www\perk11.info\svn\SE\CoverA #
+#                       rt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\CoverArt\LNG-RU.h -I Z:\home\perk11\IAR2\arm\INC\ #
+#                        --inline_threshold=2                                #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\main.lst                                          #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Ob #
+#                       j\main.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\main.cpp
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\dir.h"
+      3          #include "revision.h"
+      4          #include "book.h"
+      5          #include "Standby.h"
+      6          #include "conf_loader.h"
+      7          #include "config_data.h"
+      8          #include "Externals.h"
+      9          #include "string.h"
+     10          #include "structs.h"
+     11          #include "decoder.h"
+     12          
+     13          u16 StartupTimer;
+     14          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     15          int StatusSize=18;
+   \                     StatusSize:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for StatusSize>`
+     16          int SoftSize=26;
+   \                     SoftSize:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for SoftSize>`
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     StartupTimer:
+   \   00000000                      DS8 2
+   \   00000002                      DS8 2
+     17          
+     18          wchar_t extFolder[512];
+     19          wchar_t intFolder[512];
+     20          int YSize;
+   \                     YSize:
+   \   00000004                      DS8 4
+   \                     extFolder:
+   \   00000008                      DS8 1024
+   \                     intFolder:
+   \   00000408                      DS8 1024
+     21          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     22          wchar_t *checkfile(wchar_t *name)
+     23          {
+   \                     ??checkfile:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     24            FSTAT fst;
+     25            if (fstat(extFolder,name,&fst)==0)
+   \   00000004   44509FE5           LDR      R5,??checkfile_1  ;; StartupTimer
+   \   00000008   1CD04DE2           SUB      SP,SP,#+28
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0D20A0E1           MOV      R2,SP
+   \   00000014   0410A0E1           MOV      R1,R4
+   \   00000018   080085E2           ADD      R0,R5,#+8
+   \   0000001C   1C0100EF           SWI      +284
+   \   00000020   000050E3           CMP      R0,#+0
+     26            {
+     27              return extFolder;
+   \   00000024   08008502           ADDEQ    R0,R5,#+8
+   \   00000028   0600000A           BEQ      ??checkfile_2
+     28            }
+     29            else if (fstat(intFolder,name,&fst)==0)
+   \   0000002C   0860A0E3           MOV      R6,#+8
+   \   00000030   406E86E3           ORR      R6,R6,#0x400
+   \   00000034   0D20A0E1           MOV      R2,SP
+   \   00000038   0410A0E1           MOV      R1,R4
+   \   0000003C   050086E0           ADD      R0,R6,R5
+   \   00000040   1C0100EF           SWI      +284
+   \   00000044   050086E0           ADD      R0,R6,R5
+     30            {
+     31              return intFolder;
+     32            }
+     33            return intFolder;
+   \                     ??checkfile_2:
+   \   00000048   1CD08DE2           ADD      SP,SP,#+28       ;; stack cleaning
+   \   0000004C   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??checkfile_1:
+   \   00000050   ........           DC32     StartupTimer
+     34          };
+     35          
+     36          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     37          void GetSize()
+     38          {
+   \                     ??GetSize:
+   \   00000000   00402DE9           PUSH     {LR}
+     39            // Получаем размер статуса и софтов
+     40            int a=Display_GetHeight(0);
+     41            switch (a)
+   \   00000004   0000A0E3           MOV      R0,#+0
+   \   00000008   580200EF           SWI      +600
+   \   0000000C   A00050E2           SUBS     R0,R0,#+160
+   \   00000010   0500000A           BEQ      ??GetSize_1
+   \   00000014   A00050E2           SUBS     R0,R0,#+160
+   \   00000018   1200A013           MOVNE    R0,#+18
+   \   0000001C   1A10A013           MOVNE    R1,#+26
+     42            {
+     43            case 320:
+     44              StatusSize=24;
+   \   00000020   1800A003           MOVEQ    R0,#+24
+     45              SoftSize=30;
+   \   00000024   1E10A003           MOVEQ    R1,#+30
+   \   00000028   010000EA           B        ??GetSize_2
+     46              break;
+     47            case 220:
+     48              StatusSize=18;
+     49              SoftSize=26;
+     50              break;
+     51            case 160:
+     52              StatusSize=14;
+   \                     ??GetSize_1:
+   \   0000002C   0E00A0E3           MOV      R0,#+14
+     53              SoftSize=18;
+   \   00000030   1210A0E3           MOV      R1,#+18
+   \                     ??GetSize_2:
+   \   00000034   08209FE5           LDR      R2,??GetSize_3   ;; StatusSize
+   \   00000038   041082E5           STR      R1,[R2, #+4]
+   \   0000003C   000082E5           STR      R0,[R2, #+0]
+     54              break;
+     55            default:
+     56              StatusSize=18;
+     57              SoftSize=26;
+     58              break;
+     59            }
+     60          };
+   \   00000040   0080BDE8           POP      {PC}             ;; return
+   \                     ??GetSize_3:
+   \   00000044   ........           DC32     StatusSize
+     61          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     62          int Startup()
+     63          {
+   \                     ??Startup:
+   \   00000000   00402DE9           PUSH     {LR}
+     64            // Функция запуска кавера
+     65            Lang_Initialize();
+   \   00000004   ........           _BLF     ??Lang_Initialize,??Lang_Initialize??rA
+     66            Anim_Init();
+   \   00000008   ........           _BLF     ??Anim_Init,??Anim_Init??rA
+     67            CustomLbls();
+   \   0000000C   ........           _BLF     ??CustomLbls,??CustomLbls??rA
+     68            CreateCABook();
+   \   00000010   ........           _BLF     ??CreateCABook,??CreateCABook??rA
+     69            Images_Load();
+   \   00000014   ........           _BLF     ??Images_Load,??Images_Load??rA
+     70            GetSize();
+   \   00000018   ........           BL       ??GetSize
+     71            Standby_SetOnRedraw();
+   \   0000001C   ........           _BLF     ??Standby_SetOnRedraw,??Standby_SetOnRedraw??rA
+     72            if (AllowAnim)
+   \   00000020   2C009FE5           LDR      R0,??Startup_1   ;; AllowAnim
+     73            {
+     74              locTime=AnimUpdateTime;
+     75            }
+     76            else
+     77            {
+     78              locTime=DefUpdateTime;
+   \   00000024   2C109FE5           LDR      R1,??Startup_1+0x4  ;; locTime
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   24009F15           LDRNE    R0,??Startup_1+0x8  ;; AnimUpdateTime
+   \   00000034   24009F05           LDREQ    R0,??Startup_1+0xC  ;; DefUpdateTime
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   000081E5           STR      R0,[R1, #+0]
+     79            }
+     80            nowmusic.meta.HasImage=false;
+   \   00000040   1C009FE5           LDR      R0,??Startup_1+0x10  ;; nowmusic + 10280
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0010C0E5           STRB     R1,[R0, #+0]
+     81            return 0;
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   0080BDE8           POP      {PC}             ;; return
+   \                     ??Startup_1:
+   \   00000054   ........           DC32     AllowAnim
+   \   00000058   ........           DC32     locTime
+   \   0000005C   ........           DC32     AnimUpdateTime
+   \   00000060   ........           DC32     DefUpdateTime
+   \   00000064   ........           DC32     nowmusic + 10280
+     82          };
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          void Startup_OnTimer(u16 timer,LPARAM lparam)
+     85          {
+     86            if (StartupMode==1)
+   \                     ??Startup_OnTimer:
+   \   00000000   ........           LDR      R0,??DataTable4  ;; StartupMode
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   ........           LDR      R4,??DataTable3  ;; StartupTimer
+   \   00000010   010050E3           CMP      R0,#+1
+   \   00000014   0300001A           BNE      ??Startup_OnTimer_1
+     87            {
+     88              Startup();
+   \                     ??Startup_OnTimer_2:
+   \   00000018   ........           BL       ??Startup
+     89              Timer_Kill(&StartupTimer);
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   2A0100EF           SWI      +298
+   \   00000024   1080BDE8           POP      {R4,PC}
+     90            }
+     91            else if (StartupMode==2)
+   \                     ??Startup_OnTimer_1:
+   \   00000028   020050E3           CMP      R0,#+2
+   \   0000002C   1080BD18           POPNE    {R4,PC}
+     92            {
+     93              if (FindBook(get_IsAudioPlayerBook()))
+   \   00000030   8B8200EF           SWI      +33419
+   \   00000034   300100EF           SWI      +304
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   F5FFFF1A           BNE      ??Startup_OnTimer_2
+     94              {
+     95                Startup();
+     96                Timer_Kill(&StartupTimer);
+     97              }
+     98              else
+     99              {
+    100                Timer_ReSet(&StartupTimer,1000,Startup_OnTimer,0);
+   \   00000040   ........           LDR      R2,??DataTable5  ;; ??Startup_OnTimer
+   \   00000044   0030A0E3           MOV      R3,#+0
+   \   00000048   FA1FA0E3           MOV      R1,#+1000
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   280100EF           SWI      +296
+    101              }
+    102            }
+    103          };
+   \   00000054   1080BDE8           POP      {R4,PC}          ;; return
+    104          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    105          int check(int smth)
+    106          {
+    107            if (smth!=0xFFFFFFFF && smth!=0)
+   \                     ??check:
+   \   00000000   010070E3           CMN      R0,#+1
+   \   00000004   0300000A           BEQ      ??check_1
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   1EFF2F01           BXEQ     LR
+    108            {
+    109              return 1;
+   \   00000010   0100A0E3           MOV      R0,#+1
+   \   00000014   1EFF2FE1           BX       LR
+    110            }
+    111            return 0;
+   \                     ??check_1:
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   1EFF2FE1           BX       LR               ;; return
+    112          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+    113          int checkevents()
+    114          {
+    115            int res=0;
+    116            res=res+check(UI_MEDIAPLAYER_PLAY_PRESSED_EVENT);
+   \                     ??checkevents:
+   \   00000000   C8009FE5           LDR      R0,??checkevents_1  ;; UI_MEDIAPLAYER_PLAY_PRESSED_EVENT
+   \   00000004   001090E5           LDR      R1,[R0, #+0]
+   \   00000008   0000E0E3           MVN      R0,#+0
+   \   0000000C   000051E1           CMP      R1,R0
+   \   00000010   0300000A           BEQ      ??checkevents_2
+   \   00000014   000051E3           CMP      R1,#+0
+   \   00000018   0200000A           BEQ      ??checkevents_3
+   \   0000001C   0110A0E3           MOV      R1,#+1
+   \   00000020   000000EA           B        ??checkevents_3
+   \                     ??checkevents_2:
+   \   00000024   0010A0E3           MOV      R1,#+0
+    117            res=res+check(UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT);
+   \                     ??checkevents_3:
+   \   00000028   A4209FE5           LDR      R2,??checkevents_1+0x4  ;; UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT
+   \   0000002C   002092E5           LDR      R2,[R2, #+0]
+   \   00000030   000052E1           CMP      R2,R0
+   \   00000034   0300000A           BEQ      ??checkevents_4
+   \   00000038   000052E3           CMP      R2,#+0
+   \   0000003C   0200000A           BEQ      ??checkevents_5
+   \   00000040   0120A0E3           MOV      R2,#+1
+   \   00000044   000000EA           B        ??checkevents_5
+   \                     ??checkevents_4:
+   \   00000048   0020A0E3           MOV      R2,#+0
+   \                     ??checkevents_5:
+   \   0000004C   011082E0           ADD      R1,R2,R1
+    118            res=res+check(UI_MEDIAPLAYER_CREATED_EVENT);
+   \   00000050   80209FE5           LDR      R2,??checkevents_1+0x8  ;; UI_MEDIAPLAYER_CREATED_EVENT
+   \   00000054   002092E5           LDR      R2,[R2, #+0]
+   \   00000058   000052E1           CMP      R2,R0
+   \   0000005C   0300000A           BEQ      ??checkevents_6
+   \   00000060   000052E3           CMP      R2,#+0
+   \   00000064   0200000A           BEQ      ??checkevents_7
+   \   00000068   0120A0E3           MOV      R2,#+1
+   \   0000006C   000000EA           B        ??checkevents_7
+   \                     ??checkevents_6:
+   \   00000070   0020A0E3           MOV      R2,#+0
+   \                     ??checkevents_7:
+   \   00000074   011082E0           ADD      R1,R2,R1
+    119            res=res+check(UI_MEDIAPLAYER_DESTROYED_EVENT);
+   \   00000078   5C209FE5           LDR      R2,??checkevents_1+0xC  ;; UI_MEDIAPLAYER_DESTROYED_EVENT
+   \   0000007C   002092E5           LDR      R2,[R2, #+0]
+   \   00000080   000052E1           CMP      R2,R0
+   \   00000084   0300000A           BEQ      ??checkevents_8
+   \   00000088   000052E3           CMP      R2,#+0
+   \   0000008C   0200000A           BEQ      ??checkevents_9
+   \   00000090   0120A0E3           MOV      R2,#+1
+   \   00000094   000000EA           B        ??checkevents_9
+   \                     ??checkevents_8:
+   \   00000098   0020A0E3           MOV      R2,#+0
+   \                     ??checkevents_9:
+   \   0000009C   011082E0           ADD      R1,R2,R1
+    120            res=res+check(UI_MEDIAPLAYER_PAUSE_PRESSED_EVENT);
+   \   000000A0   38209FE5           LDR      R2,??checkevents_1+0x10  ;; UI_MEDIAPLAYER_PAUSE_PRESSED_EVENT
+   \   000000A4   002092E5           LDR      R2,[R2, #+0]
+   \   000000A8   000052E1           CMP      R2,R0
+   \   000000AC   00005213           CMPNE    R2,#+0
+   \   000000B0   0100A013           MOVNE    R0,#+1
+   \   000000B4   0000A003           MOVEQ    R0,#+0
+   \   000000B8   010080E0           ADD      R0,R0,R1
+    121            if (res<5)
+   \   000000BC   050050E3           CMP      R0,#+5
+    122            {
+    123              return 0;
+   \   000000C0   0000A0B3           MOVLT    R0,#+0
+   \   000000C4   1EFF2FB1           BXLT     LR
+    124            }
+    125            return 1;
+   \   000000C8   0100A0E3           MOV      R0,#+1
+   \   000000CC   1EFF2FE1           BX       LR               ;; return
+   \                     ??checkevents_1:
+   \   000000D0   ........           DC32     UI_MEDIAPLAYER_PLAY_PRESSED_EVENT
+   \   000000D4   ........           DC32     UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT
+   \   000000D8   ........           DC32     UI_MEDIAPLAYER_CREATED_EVENT
+   \   000000DC   ........           DC32     UI_MEDIAPLAYER_DESTROYED_EVENT
+   \   000000E0   ........           DC32     UI_MEDIAPLAYER_PAUSE_PRESSED_EVENT
+    126          };
+    127          //#define launchDEBUG
+
+   \                                 In segment CODE, align 4, keep-with-next
+    128          int main()
+    129          {   
+   \                     main:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    130          #ifdef launchDEBUG
+    131            TRACK_DESC *ntrack=TrackDesc_Get(FindBook(get_IsAudioPlayerBook()));
+    132            wchar_t hz[500];
+    133            snwprintf(hz,499,L"%ls/%ls\n\n%d:%d:%d",ntrack->path, ntrack->name, ntrack->fulltime, ntrack->pos, ntrack->tracks_count);
+    134            MessageBox(SID_NULL,TextID_Create(hz,ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+    135            return 0;
+    136          #else
+    137            if (!checkevents())
+   \   00000004   64419FE5           LDR      R4,??main_0      ;; `?<Constant L"\\x41e\\x442\\x441\\x443\\x442\\x441\\x4`
+   \   00000008   64519FE5           LDR      R5,??main_0+0x4  ;; ??CA_Kill
+   \   0000000C   FF60A0E3           MOV      R6,#+255
+   \   00000010   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000014   ........           BL       ??checkevents
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0E00001A           BNE      ??main_1
+    138            {
+    139              MessageBox(SID_NULL,TextID_Create(lngAbsentConsts,ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+   \   00000020   0620A0E1           MOV      R2,R6
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   5D0100EF           SWI      +349
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   02002DE9           PUSH     {R1}
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   0130A0E3           MOV      R3,#+1
+   \   00000040   0620A0E1           MOV      R2,R6
+   \   00000044   0010A0E1           MOV      R1,R0
+   \   00000048   9004E0E3           MVN      R0,#-1879048192
+   \   0000004C   570200EF           SWI      +599
+    140              SUBPROC(CA_Kill);
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   080100EF           SWI      +264
+   \   00000058   08D08DE2           ADD      SP,SP,#+8
+    141            }
+    142            if (FindBook(isCoverArtBook))
+   \                     ??main_1:
+   \   0000005C   14019FE5           LDR      R0,??main_0+0x8  ;; ??isCoverArtBook
+   \   00000060   300100EF           SWI      +304
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   0F00000A           BEQ      ??main_2
+    143            {
+    144              // Уже запущен кавер
+    145              MessageBox(SID_NULL,TextID_Create(lngRunned,ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+   \   0000006C   0620A0E1           MOV      R2,R6
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   900084E2           ADD      R0,R4,#+144
+   \   00000078   5D0100EF           SWI      +349
+   \   0000007C   0010A0E1           MOV      R1,R0
+   \   00000080   0000A0E3           MOV      R0,#+0
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   01002DE9           PUSH     {R0}
+   \   0000008C   0130A0E3           MOV      R3,#+1
+   \   00000090   0620A0E1           MOV      R2,R6
+   \   00000094   9004E0E3           MVN      R0,#-1879048192
+   \   00000098   570200EF           SWI      +599
+    146              SUBPROC(CA_Kill);
+   \   0000009C   0500A0E1           MOV      R0,R5
+   \   000000A0   080100EF           SWI      +264
+   \   000000A4   08D08DE2           ADD      SP,SP,#+8
+   \   000000A8   240000EA           B        ??main_3
+    147            }
+    148            else
+    149            {
+    150              if (GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG))
+   \                     ??main_2:
+   \   000000AC   ........           LDR      R5,??DataTable3  ;; StartupTimer
+   \   000000B0   1400A0E3           MOV      R0,#+20
+   \   000000B4   050100EF           SWI      +261
+   \   000000B8   000050E3           CMP      R0,#+0
+    151              {
+    152                wstrcpy(extFolder,GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG));
+   \   000000BC   1400A013           MOVNE    R0,#+20
+    153                wstrcat(extFolder,L"/CoverArt/");
+    154              }
+    155              else
+    156              {
+    157                wstrcpy(extFolder,GetDir(MEM_INTERNAL+DIR_ELFS_CONFIG));
+   \   000000C0   1500A003           MOVEQ    R0,#+21
+   \   000000C4   050100EF           SWI      +261
+   \   000000C8   0010A0E1           MOV      R1,R0
+   \   000000CC   080085E2           ADD      R0,R5,#+8
+   \   000000D0   520100EF           SWI      +338
+    158                wstrcat(extFolder,L"/CoverArt/");
+   \   000000D4   D41084E2           ADD      R1,R4,#+212
+   \   000000D8   080085E2           ADD      R0,R5,#+8
+   \   000000DC   540100EF           SWI      +340
+    159              }
+    160              wstrcpy(intFolder,GetDir(MEM_INTERNAL+DIR_ELFS_CONFIG));
+   \   000000E0   1500A0E3           MOV      R0,#+21
+   \   000000E4   050100EF           SWI      +261
+   \   000000E8   0860A0E3           MOV      R6,#+8
+   \   000000EC   406E86E3           ORR      R6,R6,#0x400
+   \   000000F0   0010A0E1           MOV      R1,R0
+   \   000000F4   050086E0           ADD      R0,R6,R5
+   \   000000F8   520100EF           SWI      +338
+    161              wstrcat(intFolder,L"/CoverArt/");
+   \   000000FC   D41084E2           ADD      R1,R4,#+212
+   \   00000100   050086E0           ADD      R0,R6,R5
+   \   00000104   540100EF           SWI      +340
+    162              YSize=Display_GetHeight(0);
+   \   00000108   0000A0E3           MOV      R0,#+0
+   \   0000010C   580200EF           SWI      +600
+   \   00000110   040085E5           STR      R0,[R5, #+4]
+    163              InitConfig();
+   \   00000114   ........           _BLF     ??InitConfig,??InitConfig??rA
+    164              switch (StartupMode)
+   \   00000118   ........           LDR      R0,??DataTable4  ;; StartupMode
+   \   0000011C   ........           LDR      R1,??DataTable5  ;; ??Startup_OnTimer
+   \   00000120   000090E5           LDR      R0,[R0, #+0]
+   \   00000124   0020A0E3           MOV      R2,#+0
+   \   00000128   000050E3           CMP      R0,#+0
+   \   0000012C   0500000A           BEQ      ??main_4
+   \   00000130   010050E2           SUBS     R0,R0,#+1
+   \   00000134   0500000A           BEQ      ??main_5
+   \   00000138   010050E2           SUBS     R0,R0,#+1
+   \   0000013C   0600000A           BEQ      ??main_6
+   \                     ??main_3:
+   \   00000140   0000A0E3           MOV      R0,#+0
+   \   00000144   7080BDE8           POP      {R4-R6,PC}
+    165              {
+    166                case 0:
+    167                  Startup();
+   \                     ??main_4:
+   \   00000148   ........           BL       ??Startup
+   \   0000014C   FBFFFFEA           B        ??main_3
+    168                  break;
+    169                case 1:
+    170                  StartupTimer=Timer_Set(60000, Startup_OnTimer, 0);
+   \                     ??main_5:
+   \   00000150   6000A0E3           MOV      R0,#+96
+   \   00000154   EA0C80E3           ORR      R0,R0,#0xEA00
+   \   00000158   000000EA           B        ??main_7
+    171                  break;
+    172                case 2:
+    173                  StartupTimer=Timer_Set(1000, Startup_OnTimer, 0);
+   \                     ??main_6:
+   \   0000015C   FA0FA0E3           MOV      R0,#+1000
+   \                     ??main_7:
+   \   00000160   290100EF           SWI      +297
+   \   00000164   B000C5E1           STRH     R0,[R5, #+0]
+    174                  break;
+    175              }
+    176            }
+    177            return 0;
+   \   00000168   0000A0E3           MOV      R0,#+0
+   \   0000016C   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??main_0:
+   \   00000170   ........           DC32     `?<Constant L"\\x41e\\x442\\x441\\x443\\x442\\x441\\x4`
+   \   00000174   ........           DC32     ??CA_Kill
+   \   00000178   ........           DC32     ??isCoverArtBook
+    178          #endif
+    179          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     StartupTimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     StartupMode
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     ??Startup_OnTimer
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for StatusSize>`:
+   \   00000000   12000000           DC32 18
+   \                     `?<Initializer for SoftSize>`:
+   \   00000004   1A000000           DC32 26
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x442\\x441\\x443\\x442\\x441\\x4`:
+   \   00000000   1E0442044104       DC8 1EH, 4, 42H, 4, 41H, 4, 43H, 4
+   \              4304        
+   \   00000008   420441044204       DC8 42H, 4, 41H, 4, 42H, 4, 32H, 4
+   \              3204        
+   \   00000010   43044E044204       DC8 43H, 4, 4EH, 4, 42H, 4, 20H, 0
+   \              2000        
+   \   00000018   3D0435043E04       DC8 3DH, 4, 35H, 4, 3EH, 4, 31H, 4
+   \              3104        
+   \   00000020   45043E043404       DC8 45H, 4, 3EH, 4, 34H, 4, 38H, 4
+   \              3804        
+   \   00000028   3C044B043504       DC8 3CH, 4, 4BH, 4, 35H, 4, 20H, 0
+   \              2000        
+   \   00000030   34043B044F04       DC8 34H, 4, 3BH, 4, 4FH, 4, 20H, 0
+   \              2000        
+   \   00000038   4D043B044C04       DC8 4DH, 4, 3BH, 4, 4CH, 4, 44H, 4
+   \              4404        
+   \   00000040   300420003A04       DC8 30H, 4, 20H, 0, 3AH, 4, 3EH, 4
+   \              3E04        
+   \   00000048   3D0441044204       DC8 3DH, 4, 41H, 4, 42H, 4, 30H, 4
+   \              3004        
+   \   00000050   3D0442044B04       DC8 3DH, 4, 42H, 4, 4BH, 4, 2EH, 0
+   \              2E00        
+   \   00000058   20001E043104       DC8 20H, 0, 1EH, 4, 31H, 4, 3DH, 4
+   \              3D04        
+   \   00000060   3E0432043804       DC8 3EH, 4, 32H, 4, 38H, 4, 42H, 4
+   \              4204        
+   \   00000068   350420003204       DC8 35H, 4, 20H, 0, 32H, 4, 30H, 4
+   \              3004        
+   \   00000070   480420004400       DC8 48H, 4, 20H, 0, 44H, 0, 59H, 0
+   \              5900        
+   \   00000078   4E005F004300       DC8 4EH, 0, 5FH, 0, 43H, 0, 4FH, 0
+   \              4F00        
+   \   00000080   4E0053005400       DC8 4EH, 0, 53H, 0, 54H, 0, 2EH, 0
+   \              2E00        
+   \   00000088   620069006E00       DC8 62H, 0, 69H, 0, 6EH, 0, 0, 0
+   \              0000        
+   \   00000090   43006F007600       DC8 43H, 0, 6FH, 0, 76H, 0, 65H, 0
+   \              6500        
+   \   00000098   720020004100       DC8 72H, 0, 20H, 0, 41H, 0, 72H, 0
+   \              7200        
+   \   000000A0   740020006900       DC8 74H, 0, 20H, 0, 69H, 0, 6EH, 0
+   \              6E00        
+   \   000000A8   200053007400       DC8 20H, 0, 53H, 0, 74H, 0, 61H, 0
+   \              6100        
+   \   000000B0   6E0064006200       DC8 6EH, 0, 64H, 0, 62H, 0, 79H, 0
+   \              7900        
+   \   000000B8   200043043604       DC8 20H, 0, 43H, 4, 36H, 4, 35H, 4
+   \              3504        
+   \   000000C0   200037043004       DC8 20H, 0, 37H, 4, 30H, 4, 3FH, 4
+   \              3F04        
+   \   000000C8   430449043504       DC8 43H, 4, 49H, 4, 35H, 4, 3DH, 4
+   \              3D04        
+   \   000000D0   0000               DC8 0, 0
+   \   000000D2   0000               DC8 0, 0
+   \   000000D4   2F0043006F00       DC8 2FH, 0, 43H, 0, 6FH, 0, 76H, 0
+   \              7600        
+   \   000000DC   650072004100       DC8 65H, 0, 72H, 0, 41H, 0, 72H, 0
+   \              7200        
+   \   000000E4   74002F000000       DC8 74H, 0, 2FH, 0, 0, 0
+   \   000000EA   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                     CSTACK
+     --------                     ------
+     GetSize()                        4
+     Startup()                        4
+     Startup_OnTimer(u16, LPARAM)     8
+     check(int)                       0
+     checkevents()                    0
+     checkfile(wchar_t *)            44
+     main()                          24
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     StatusSize                        8
+     StartupTimer                   2056
+     checkfile(wchar_t *)             84
+     GetSize()                        72
+     Startup()                       104
+     Startup_OnTimer(u16, LPARAM)     88
+     check(int)                       32
+     checkevents()                   228
+     main()                          380
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ??DataTable5                      4
+     ?<Initializer for StatusSize>     8
+     ?<Constant L"\x41e\x442\x441\x443\x442\x441\x4
+                                     236
+      Others                         136
+
+ 
+ 1 112 bytes in segment CODE
+   236 bytes in segment DATA_C
+     8 bytes in segment DATA_I
+     8 bytes in segment DATA_ID
+ 2 056 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 1 000 bytes of CODE  memory (+ 136 bytes shared)
+   244 bytes of CONST memory
+ 2 064 bytes of DATA  memory
+
+Errors: none
+Warnings: none

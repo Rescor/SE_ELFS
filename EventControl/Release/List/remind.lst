@@ -1,0 +1,1567 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:53 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\r #
+#                       emind.cpp                                            #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\r #
+#                       emind.cpp -D NDEBUG -D OLDFUNCTIONS -lC              #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\remind.lst                               #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\remind.r79                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\remind.cpp
+      1          /*
+      2          *===========================================================================
+      3          *                   Модуль GUI_REMIND, напоминальщика. Второй вариант.
+      4          *===========================================================================
+      5          */
+      6          #include "..\deleaker\mem2.h"
+      7          #include "..\include\Lib_Clara.h" 
+      8          #include "..\include\Dir.h"
+      9          #include "header\structs.h"
+     10          #include "header\lng.h"
+     11          
+     12          #define MBK(a) MyBOOK *mbk=(MyBOOK*)a;
+     13          #define GET_BLUE(x) ((unsigned int)x&0xFF)
+     14          #define GET_GREEN(x) (((unsigned int)x>>8)&0xFF)
+     15          #define GET_RED(x) (((unsigned int)x>>16)&0xFF)
+     16          #define GET_ALPHA(x) (((unsigned int)x>>24)&0xFF)
+     17          #define BG_COLOR 0xCC000000
+     18          
+     19          extern char h,m,s;
+     20          extern MyBOOK *ECBook;
+     21          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     22          static const char RemindGuiName[]="gui_reminder";
+   \                     RemindGuiName:
+   \   00000000   6775695F7265       DC8 "gui_reminder"
+   \              6D696E646572
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+     23          
+     24          int GuiRemind_NextRemind(GUI_REMIND *g);
+     25          int GuiRemind_NextRemind(GUI_REMIND *g);
+     26          void GuiRemind_CheckSelected(GUI_REMIND *g);
+     27          wchar_t *checkfile(wchar_t*);
+     28          /*
+     29          *===========================================================================
+     30          *                    Создание списка напоминаний
+     31          *===========================================================================
+     32          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     33          int GUI_REMIND_OnCreate(DISP_OBJ_REMIND *db)
+     34          {
+   \                     ??GUI_REMIND_OnCreate:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     35            db->num=0;
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   6C0184E5           STR      R0,[R4, #+364]
+   \   00000010   ........           LDR      R0,??DataTable2  ;; ECBook
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   2C0090E5           LDR      R0,[R0, #+44]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0000001A           BNE      ??GUI_REMIND_OnCreate_1
+     36            if (!ECBook->remlst)
+     37              db->rems=List_Create();
+   \   00000024   690100EF           SWI      +361
+     38            else
+     39              db->rems=ECBook->remlst;
+   \                     ??GUI_REMIND_OnCreate_1:
+   \   00000028   700184E5           STR      R0,[R4, #+368]
+     40            return 1;
+   \   0000002C   0100A0E3           MOV      R0,#+1
+   \   00000030   1080BDE8           POP      {R4,PC}          ;; return
+     41          };
+     42          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     43          int GetIconID(wchar_t *txt)
+     44          {
+   \                     ??GetIconID:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     45            int id=NOIMAGE;
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000010   00208DE5           STR      R2,[SP, #+0]
+     46            iconidname2id(txt,0xFFFFFFFF,&id);
+   \   00000014   0D20A0E1           MOV      R2,SP
+   \   00000018   0010E0E3           MVN      R1,#+0
+   \   0000001C   860200EF           SWI      +646
+     47            return id;
+   \   00000020   00009DE5           LDR      R0,[SP, #+0]
+   \   00000024   0280BDE8           POP      {R1,PC}          ;; return
+     48          };
+     49          /*
+     50          *===========================================================================
+     51          *                         Уничтожение списка напоминаний
+     52          *===========================================================================
+     53          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     54          void kill_rems(LIST *lst, MyBOOK *mbk, bool check)
+     55          {
+   \                     ??kill_rems:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+     56            if (lst)
+   \   00000010   000054E3           CMP      R4,#+0
+   \   00000014   F081BD08           POPEQ    {R4-R8,PC}
+     57            {
+     58              int x=0;
+   \   00000018   0070A0E3           MOV      R7,#+0
+   \   0000001C   100000EA           B        ??kill_rems_1
+     59              while (1)
+     60              {
+     61                if (x>=lst->FirstFree || x<0)break;
+     62                REMIND* rem=(REMIND*)List_Get(lst,x);
+     63                if (rem && (rem->checked || check==false))
+     64                {
+     65                  if (rem->text)delete(rem->text);
+   \                     ??kill_rems_2:
+   \   00000020   000098E5           LDR      R0,[R8, #+0]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0000000A           BEQ      ??kill_rems_3
+   \   0000002C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     66                  if (rem->utext)delete(rem->utext);
+   \                     ??kill_rems_3:
+   \   00000030   040098E5           LDR      R0,[R8, #+4]
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0000000A           BEQ      ??kill_rems_4
+   \   0000003C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     67                  if (rem->time)delete(rem->time);
+   \                     ??kill_rems_4:
+   \   00000040   080098E5           LDR      R0,[R8, #+8]
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   0000000A           BEQ      ??kill_rems_5
+   \   0000004C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     68                  delete(rem);
+   \                     ??kill_rems_5:
+   \   00000050   0800A0E1           MOV      R0,R8
+   \   00000054   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     69                  List_RemoveAt(lst, x);
+   \   00000058   0710A0E1           MOV      R1,R7
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   790100EF           SWI      +377
+     70                }
+   \                     ??kill_rems_1:
+   \   00000064   B200D4E1           LDRH     R0,[R4, #+2]
+   \   00000068   000057E1           CMP      R7,R0
+   \   0000006C   010000AA           BGE      ??kill_rems_6
+   \   00000070   000057E3           CMP      R7,#+0
+   \   00000074   0C00005A           BPL      ??kill_rems_7
+     71                else
+     72                {
+     73                  x++;
+     74                }
+     75              }
+     76              wchar_t icon=GetIconID(L"CALE_RN_TASK_STATUS_ICN");
+   \                     ??kill_rems_6:
+   \   00000078   6C009FE5           LDR      R0,??kill_rems_8  ;; `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x52\\x4e\\x5f\\`
+   \   0000007C   ........           BL       ??GetIconID
+   \   00000080   0068A0E1           MOV      R6,R0, LSL #+16
+     77              if (lst->FirstFree==0)
+   \   00000084   B200D4E1           LDRH     R0,[R4, #+2]
+   \   00000088   2668A0E1           MOV      R6,R6, LSR #+16
+   \   0000008C   000050E3           CMP      R0,#+0
+   \   00000090   1000001A           BNE      ??kill_rems_9
+     78              {
+     79                List_Destroy(lst);
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   6A0100EF           SWI      +362
+     80                mbk->remlst=0;
+   \   0000009C   0000A0E3           MOV      R0,#+0
+   \   000000A0   2C0085E5           STR      R0,[R5, #+44]
+     81                SetTrayIcon(icon, 0);
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   0C0000EA           B        ??kill_rems_10
+     82              }
+   \                     ??kill_rems_7:
+   \   000000AC   0710A0E1           MOV      R1,R7
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   AD0100EF           SWI      +429
+   \   000000B8   0080B0E1           MOVS     R8,R0
+   \   000000BC   0300000A           BEQ      ??kill_rems_11
+   \   000000C0   0C00D8E5           LDRB     R0,[R8, #+12]
+   \   000000C4   011026E2           EOR      R1,R6,#0x1
+   \   000000C8   000091E1           ORRS     R0,R1,R0
+   \   000000CC   D3FFFF1A           BNE      ??kill_rems_2
+   \                     ??kill_rems_11:
+   \   000000D0   017087E2           ADD      R7,R7,#+1
+   \   000000D4   E2FFFFEA           B        ??kill_rems_1
+     83              else
+     84              {
+     85                mbk->remlst=lst;
+   \                     ??kill_rems_9:
+   \   000000D8   2C4085E5           STR      R4,[R5, #+44]
+     86                SetTrayIcon(icon, 1);
+   \   000000DC   0110A0E3           MOV      R1,#+1
+   \                     ??kill_rems_10:
+   \   000000E0   0600A0E1           MOV      R0,R6
+   \   000000E4   4D0300EF           SWI      +845
+     87              }
+     88            }
+     89          };
+   \   000000E8   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??kill_rems_8:
+   \   000000EC   ........           DC32     `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x52\\x4e\\x5f\\`
+     90          /*
+     91          *===========================================================================
+     92          *                     Рисуем горизонтальный градиент
+     93          *===========================================================================
+     94          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     95          void DrawGradient(int x, int y, int x2, int y2, int upc, int loc)
+     96          {
+   \                     ??DrawGradient:
+   \   00000000   FB4F2DE9           PUSH     {R0,R1,R3-R11,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   38009DE5           LDR      R0,[SP, #+56]
+   \   0000000C   3C109DE5           LDR      R1,[SP, #+60]
+     97            int r1=GET_RED(upc),g1=GET_GREEN(upc),b1=GET_BLUE(upc);
+   \   00000010   FF30A0E3           MOV      R3,#+255
+   \   00000014   204803E0           AND      R4,R3,R0, LSR #+16
+   \   00000018   205403E0           AND      R5,R3,R0, LSR #+8
+   \   0000001C   FF6000E2           AND      R6,R0,#0xFF
+     98            int r2=GET_RED(loc),g2=GET_GREEN(loc),b2=GET_BLUE(loc);
+     99            int a1=GET_ALPHA(upc),a2=GET_ALPHA(loc);
+   \   00000020   208CA0E1           LSR      R8,R0,#+24
+    100            int i;
+    101            for(i=0;i<x2-x;i++)
+   \   00000024   08009DE5           LDR      R0,[SP, #+8]
+   \   00000028   217803E0           AND      R7,R3,R1, LSR #+16
+   \   0000002C   00708DE5           STR      R7,[SP, #+0]
+   \   00000030   217403E0           AND      R7,R3,R1, LSR #+8
+   \   00000034   04708DE5           STR      R7,[SP, #+4]
+   \   00000038   FF7001E2           AND      R7,R1,#0xFF
+   \   0000003C   219CA0E1           LSR      R9,R1,#+24
+   \   00000040   00A0A0E3           MOV      R10,#+0
+   \   00000044   00B042E0           SUB      R11,R2,R0
+   \   00000048   01005BE3           CMP      R11,#+1
+   \   0000004C   250000AA           BGE      ??DrawGradient_1
+   \   00000050   14D08DE2           ADD      SP,SP,#+20
+   \   00000054   F08FBDE8           POP      {R4-R11,PC}
+    102            { 
+    103              int r,g,b,a;
+    104              r = r1 + (i * (r2-r1) / (x2-x));
+    105              g = g1 + (i * (g2-g1) / (x2-x));
+    106              b = b1 + (i * (b2-b1) / (x2-x));
+    107              a = a1 + (i * (a2-a1) / (x2-x));
+    108              int cl=a*0x1000000 + r * 0x10000 + g *0x100 + b;
+   \                     ??DrawGradient_2:
+   \   00000058   04009DE5           LDR      R0,[SP, #+4]
+   \   0000005C   051040E0           SUB      R1,R0,R5
+   \   00000060   910A00E0           MUL      R0,R1,R10
+   \   00000064   0B10A0E1           MOV      R1,R11
+   \   00000068   ........           _BLF     ??div32_a,??rA??div32_a
+   \   0000006C   050081E0           ADD      R0,R1,R5
+   \   00000070   002486E0           ADD      R2,R6,R0, LSL #+8
+   \   00000074   081049E0           SUB      R1,R9,R8
+   \   00000078   910A00E0           MUL      R0,R1,R10
+   \   0000007C   0B10A0E1           MOV      R1,R11
+   \   00000080   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000084   080081E0           ADD      R0,R1,R8
+   \   00000088   002C82E0           ADD      R2,R2,R0, LSL #+24
+   \   0000008C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000090   041040E0           SUB      R1,R0,R4
+   \   00000094   910A00E0           MUL      R0,R1,R10
+   \   00000098   0B10A0E1           MOV      R1,R11
+   \   0000009C   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000000A0   040081E0           ADD      R0,R1,R4
+   \   000000A4   002882E0           ADD      R2,R2,R0, LSL #+16
+   \   000000A8   061047E0           SUB      R1,R7,R6
+   \   000000AC   910A00E0           MUL      R0,R1,R10
+   \   000000B0   0B10A0E1           MOV      R1,R11
+   \   000000B4   ........           _BLF     ??div32_a,??rA??div32_a
+    109              DrawRect(x+i,y,x+i+1,y2,cl,cl);
+   \   000000B8   08009DE5           LDR      R0,[SP, #+8]
+   \   000000BC   021081E0           ADD      R1,R1,R2
+   \   000000C0   0120A0E1           MOV      R2,R1
+   \   000000C4   04002DE9           PUSH     {R2}
+   \   000000C8   02002DE9           PUSH     {R1}
+   \   000000CC   18309DE5           LDR      R3,[SP, #+24]
+   \   000000D0   14109DE5           LDR      R1,[SP, #+20]
+   \   000000D4   00008AE0           ADD      R0,R10,R0
+   \   000000D8   012080E2           ADD      R2,R0,#+1
+   \   000000DC   EC0100EF           SWI      +492
+    110            }
+   \   000000E0   01A08AE2           ADD      R10,R10,#+1
+   \   000000E4   08D08DE2           ADD      SP,SP,#+8
+   \                     ??DrawGradient_1:
+   \   000000E8   0B005AE1           CMP      R10,R11
+   \   000000EC   D9FFFFBA           BLT      ??DrawGradient_2
+    111          };
+   \   000000F0   14D08DE2           ADD      SP,SP,#+20       ;; stack cleaning
+   \   000000F4   F08FBDE8           POP      {R4-R11,PC}      ;; return
+    112          
+    113          /*
+    114          *===========================================================================
+    115          *                      Рисуем вертикальный градиент
+    116          *===========================================================================
+    117          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    118          void DrawGradientVert(int x, int y, int x2, int y2, int upc, int loc)
+    119          {
+   \                     ??DrawGradientVert:
+   \   00000000   F74F2DE9           PUSH     {R0-R2,R4-R11,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   38009DE5           LDR      R0,[SP, #+56]
+   \   0000000C   3C109DE5           LDR      R1,[SP, #+60]
+    120            int r1=GET_RED(upc),g1=GET_GREEN(upc),b1=GET_BLUE(upc);
+   \   00000010   FF20A0E3           MOV      R2,#+255
+   \   00000014   204802E0           AND      R4,R2,R0, LSR #+16
+   \   00000018   205402E0           AND      R5,R2,R0, LSR #+8
+   \   0000001C   FF6000E2           AND      R6,R0,#0xFF
+    121            int r2=GET_RED(loc),g2=GET_GREEN(loc),b2=GET_BLUE(loc);
+    122            int a1=GET_ALPHA(upc),a2=GET_ALPHA(loc);
+   \   00000020   208CA0E1           LSR      R8,R0,#+24
+    123            int i;
+    124            for(i=0;i<y2-y;i++)
+   \   00000024   0C009DE5           LDR      R0,[SP, #+12]
+   \   00000028   217802E0           AND      R7,R2,R1, LSR #+16
+   \   0000002C   00708DE5           STR      R7,[SP, #+0]
+   \   00000030   217402E0           AND      R7,R2,R1, LSR #+8
+   \   00000034   04708DE5           STR      R7,[SP, #+4]
+   \   00000038   FF7001E2           AND      R7,R1,#0xFF
+   \   0000003C   219CA0E1           LSR      R9,R1,#+24
+   \   00000040   00A0A0E3           MOV      R10,#+0
+   \   00000044   00B043E0           SUB      R11,R3,R0
+   \   00000048   01005BE3           CMP      R11,#+1
+   \   0000004C   250000AA           BGE      ??DrawGradientVert_1
+   \   00000050   14D08DE2           ADD      SP,SP,#+20
+   \   00000054   F08FBDE8           POP      {R4-R11,PC}
+    125            { 
+    126              int r,g,b,a;
+    127              r = r1 + (i * (r2-r1) / (y2-y));
+    128              g = g1 + (i * (g2-g1) / (y2-y));
+    129              b = b1 + (i * (b2-b1) / (y2-y));
+    130              a = a1 + (i * (a2-a1) / (y2-y));
+    131              int cl=a*0x1000000 + r * 0x10000 + g *0x100 + b;
+   \                     ??DrawGradientVert_2:
+   \   00000058   04009DE5           LDR      R0,[SP, #+4]
+   \   0000005C   051040E0           SUB      R1,R0,R5
+   \   00000060   910A00E0           MUL      R0,R1,R10
+   \   00000064   0B10A0E1           MOV      R1,R11
+   \   00000068   ........           _BLF     ??div32_a,??rA??div32_a
+   \   0000006C   050081E0           ADD      R0,R1,R5
+   \   00000070   002486E0           ADD      R2,R6,R0, LSL #+8
+   \   00000074   081049E0           SUB      R1,R9,R8
+   \   00000078   910A00E0           MUL      R0,R1,R10
+   \   0000007C   0B10A0E1           MOV      R1,R11
+   \   00000080   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000084   080081E0           ADD      R0,R1,R8
+   \   00000088   002C82E0           ADD      R2,R2,R0, LSL #+24
+   \   0000008C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000090   041040E0           SUB      R1,R0,R4
+   \   00000094   910A00E0           MUL      R0,R1,R10
+   \   00000098   0B10A0E1           MOV      R1,R11
+   \   0000009C   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000000A0   040081E0           ADD      R0,R1,R4
+   \   000000A4   002882E0           ADD      R2,R2,R0, LSL #+16
+   \   000000A8   061047E0           SUB      R1,R7,R6
+   \   000000AC   910A00E0           MUL      R0,R1,R10
+   \   000000B0   0B10A0E1           MOV      R1,R11
+   \   000000B4   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000000B8   020081E0           ADD      R0,R1,R2
+    132              DrawRect(x, y+i, x2, y+i+1, cl, cl);
+   \   000000BC   0C109DE5           LDR      R1,[SP, #+12]
+   \   000000C0   0020A0E1           MOV      R2,R0
+   \   000000C4   04002DE9           PUSH     {R2}
+   \   000000C8   01002DE9           PUSH     {R0}
+   \   000000CC   18209DE5           LDR      R2,[SP, #+24]
+   \   000000D0   10009DE5           LDR      R0,[SP, #+16]
+   \   000000D4   01108AE0           ADD      R1,R10,R1
+   \   000000D8   013081E2           ADD      R3,R1,#+1
+   \   000000DC   EC0100EF           SWI      +492
+    133            }
+   \   000000E0   01A08AE2           ADD      R10,R10,#+1
+   \   000000E4   08D08DE2           ADD      SP,SP,#+8
+   \                     ??DrawGradientVert_1:
+   \   000000E8   0B005AE1           CMP      R10,R11
+   \   000000EC   D9FFFFBA           BLT      ??DrawGradientVert_2
+    134          };
+   \   000000F0   14D08DE2           ADD      SP,SP,#+20       ;; stack cleaning
+   \   000000F4   F08FBDE8           POP      {R4-R11,PC}      ;; return
+    135          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    136          void GUI_REMIND_OnClose(DISP_OBJ_REMIND *db)
+    137          {
+   \                     ??GUI_REMIND_OnClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    138            if (db->rems)kill_rems(db->rems, ECBook, true);
+   \   00000008   700194E5           LDR      R0,[R4, #+368]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0400000A           BEQ      ??GUI_REMIND_OnClose_1
+   \   00000014   ........           LDR      R1,??DataTable2  ;; ECBook
+   \   00000018   0120A0E3           MOV      R2,#+1
+   \   0000001C   001091E5           LDR      R1,[R1, #+0]
+   \   00000020   ........           BL       ??kill_rems
+    139            db->rems=0;
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \                     ??GUI_REMIND_OnClose_1:
+   \   00000028   700184E5           STR      R0,[R4, #+368]
+    140          };
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+    141          
+    142          /*
+    143          *===========================================================================
+    144          *                      Рисование прогрессбара с вертикальным градиентом
+    145          *===========================================================================
+    146          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    147          void DrawProgressVert(RECT rect, int progress, int time, int upc, int loc)
+    148          {
+   \                     ??DrawProgressVert:
+   \   00000000   0F002DE9           PUSH     {R0-R3}
+   \   00000004   F0412DE9           PUSH     {R4-R8,LR}
+    149            float Length;
+    150            float CurLength=(float)progress;
+    151            float inLength=(float)time;
+    152            float Procent=(float)CurLength/inLength;
+    153            float size=(float)((float)rect.x2-(float)rect.x1);
+    154            float start = (float)rect.x1;
+    155            Length = start+((Procent)*size);
+    156            DrawGradientVert(rect.x1, rect.y1, (int)Length, rect.y2, upc, loc);
+   \   00000008   B801DDE1           LDRH     R0,[SP, #+24]
+   \   0000000C   28709DE5           LDR      R7,[SP, #+40]
+   \   00000010   2C809DE5           LDR      R8,[SP, #+44]
+   \   00000014   0240A0E1           MOV      R4,R2
+   \   00000018   0350A0E1           MOV      R5,R3
+   \   0000001C   ........           _BLF     __ulongToFloat,??__ulongToFloat??rA
+   \   00000020   00012DE9           PUSH     {R8}
+   \   00000024   80002DE9           PUSH     {R7}
+   \   00000028   B672DDE1           LDRH     R7,[SP, #+38]
+   \   0000002C   0060A0E1           MOV      R6,R0
+   \   00000030   B202DDE1           LDRH     R0,[SP, #+34]
+   \   00000034   ........           _BLF     __ulongToFloat,??__ulongToFloat??rA
+   \   00000038   0610A0E1           MOV      R1,R6
+   \   0000003C   ........           _BLF     __fSub,??__fSub??rA
+   \   00000040   0080A0E1           MOV      R8,R0
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   0000004C   0040A0E1           MOV      R4,R0
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   00000058   0010A0E1           MOV      R1,R0
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   ........           _BLF     __fDiv,??__fDiv??rA
+   \   00000064   0810A0E1           MOV      R1,R8
+   \   00000068   ........           _BLF     __fMul,??__fMul??rA
+   \   0000006C   0610A0E1           MOV      R1,R6
+   \   00000070   ........           _BLF     __fAdd,??__fAdd??rA
+   \   00000074   ........           _BLF     __floatToLong,??__floatToLong??rA
+   \   00000078   B412DDE1           LDRH     R1,[SP, #+36]
+   \   0000007C   0020A0E1           MOV      R2,R0
+   \   00000080   B002DDE1           LDRH     R0,[SP, #+32]
+   \   00000084   0730A0E1           MOV      R3,R7
+   \   00000088   ........           BL       ??DrawGradientVert
+    157          };
+   \   0000008C   F341BDE8           POP      {R0,R1,R4-R8,LR}
+   \   00000090   10D08DE2           ADD      SP,SP,#+16
+   \   00000094   1EFF2FE1           BX       LR               ;; return
+    158          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    159          void DrawLine(int str, int ct, int x, int y, int x2, int y2, int between, int c)
+    160          {
+   \                     ??DrawLine:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   14C09DE5           LDR      R12,[SP, #+20]
+   \   00000008   1C509DE5           LDR      R5,[SP, #+28]
+   \   0000000C   18E09DE5           LDR      LR,[SP, #+24]
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   10009DE5           LDR      R0,[SP, #+16]
+    161            DrawString(str,ct,x,y,x2,y2,between,3,c,c);
+   \   00000018   0560A0E1           MOV      R6,R5
+   \   0000001C   40002DE9           PUSH     {R6}
+   \   00000020   20002DE9           PUSH     {R5}
+   \   00000024   0350A0E3           MOV      R5,#+3
+   \   00000028   20002DE9           PUSH     {R5}
+   \   0000002C   00402DE9           PUSH     {LR}
+   \   00000030   00102DE9           PUSH     {R12}
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   ED0100EF           SWI      +493
+    162            TextID_Destroy(str);
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   610100EF           SWI      +353
+    163          };
+   \   00000048   18D08DE2           ADD      SP,SP,#+24
+   \   0000004C   7080BDE8           POP      {R4-R6,PC}       ;; return
+    164          /*
+    165          *===========================================================================
+    166          *                      Прорисовка элементов гуя
+    167          *===========================================================================
+    168          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    169          void GUI_REMIND_OnRedraw(DISP_OBJ_REMIND *db,int ,int,int)
+    170          {
+   \                     ??GUI_REMIND_OnRedraw:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   D8D04DE2           SUB      SP,SP,#+216
+   \   00000008   00A0A0E1           MOV      R10,R0
+    171            DispObject_SetLayerColor((DISP_OBJ*)db,BG_COLOR);
+   \   0000000C   CC14A0E3           MOV      R1,#-872415232
+   \   00000010   090300EF           SWI      +777
+    172            if (db->rems && db->rems->FirstFree)
+   \   00000014   70019AE5           LDR      R0,[R10, #+368]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   B200D011           LDRHNE   R0,[R0, #+2]
+   \   00000020   00005013           CMPNE    R0,#+0
+   \   00000024   4B01000A           BEQ      ??GUI_REMIND_OnRedraw_1
+    173            {
+    174              int width=Display_GetWidth(0);
+    175              int height=Display_GetHeight(0);
+    176              REMIND *rem=(REMIND*)List_Get(db->rems,db->num);
+    177              int cl=0xFFAA0000;
+    178              if (rem->checked)cl=0xFF00AA00;
+    179              SetFont(FONT_E_16R);
+    180              DrawGradientVert(0, 0, width, 25, cl, 0);//BG_COLOR);
+    181              wchar_t str[50];
+    182              snwprintf(str,49,L"%02d/%02d",db->num+1,db->rems->FirstFree);
+   \   00000028   30859FE5           LDR      R8,??GUI_REMIND_OnRedraw_2  ;; `?<Constant {0, 0, 0, 0}>`
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   590200EF           SWI      +601
+   \   00000034   0040A0E1           MOV      R4,R0
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   580200EF           SWI      +600
+   \   00000040   6C119AE5           LDR      R1,[R10, #+364]
+   \   00000044   0050A0E1           MOV      R5,R0
+   \   00000048   70019AE5           LDR      R0,[R10, #+368]
+   \   0000004C   FF74A0E3           MOV      R7,#-16777216
+   \   00000050   AD0100EF           SWI      +429
+   \   00000054   08159FE5           LDR      R1,??GUI_REMIND_OnRedraw_2+0x4  ;; FONT_E_16R
+   \   00000058   0060A0E1           MOV      R6,R0
+   \   0000005C   0C00D6E5           LDRB     R0,[R6, #+12]
+   \   00000060   001091E5           LDR      R1,[R1, #+0]
+   \   00000064   AA7887E3           ORR      R7,R7,#0xAA0000
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   FF74A013           MOVNE    R7,#-16777216
+   \   00000070   AA7C8713           ORRNE    R7,R7,#0xAA00
+   \   00000074   00108DE5           STR      R1,[SP, #+0]
+   \   00000078   0100A0E1           MOV      R0,R1
+   \   0000007C   F10100EF           SWI      +497
+   \   00000080   0000A0E3           MOV      R0,#+0
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   1930A0E3           MOV      R3,#+25
+   \   0000008C   0420A0E1           MOV      R2,R4
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   0700A0E1           MOV      R0,R7
+   \   00000098   01002DE9           PUSH     {R0}
+    183              DrawLine(TextID_Create(L"EventControl",ENC_UCS2,TEXTID_ANY_LEN),0,25,0,width,25,20,clWhite);
+   \   0000009C   FF90A0E3           MOV      R9,#+255
+   \   000000A0   FF9C89E3           ORR      R9,R9,#0xFF00
+   \   000000A4   0000A0E3           MOV      R0,#+0
+   \   000000A8   ........           BL       ??DrawGradientVert
+   \   000000AC   70019AE5           LDR      R0,[R10, #+368]
+   \   000000B0   082088E2           ADD      R2,R8,#+8
+   \   000000B4   B200D0E1           LDRH     R0,[R0, #+2]
+   \   000000B8   3110A0E3           MOV      R1,#+49
+   \   000000BC   01002DE9           PUSH     {R0}
+   \   000000C0   6C019AE5           LDR      R0,[R10, #+364]
+   \   000000C4   013080E2           ADD      R3,R0,#+1
+   \   000000C8   1C008DE2           ADD      R0,SP,#+28
+   \   000000CC   150100EF           SWI      +277
+   \   000000D0   0920A0E1           MOV      R2,R9
+   \   000000D4   0010A0E3           MOV      R1,#+0
+   \   000000D8   1C0088E2           ADD      R0,R8,#+28
+   \   000000DC   5D0100EF           SWI      +349
+   \   000000E0   00B0A0E1           MOV      R11,R0
+   \   000000E4   0000E0E3           MVN      R0,#+0
+   \   000000E8   01002DE9           PUSH     {R0}
+   \   000000EC   01002DE9           PUSH     {R0}
+   \   000000F0   0030A0E3           MOV      R3,#+0
+   \   000000F4   1920A0E3           MOV      R2,#+25
+   \   000000F8   0310A0E1           MOV      R1,R3
+   \   000000FC   0300A0E3           MOV      R0,#+3
+   \   00000100   01002DE9           PUSH     {R0}
+   \   00000104   1400A0E3           MOV      R0,#+20
+   \   00000108   01002DE9           PUSH     {R0}
+   \   0000010C   1900A0E3           MOV      R0,#+25
+   \   00000110   01002DE9           PUSH     {R0}
+   \   00000114   0400A0E1           MOV      R0,R4
+   \   00000118   01002DE9           PUSH     {R0}
+   \   0000011C   0B00A0E1           MOV      R0,R11
+   \   00000120   ED0100EF           SWI      +493
+   \   00000124   24D08DE2           ADD      SP,SP,#+36
+   \   00000128   0B00A0E1           MOV      R0,R11
+   \   0000012C   610100EF           SWI      +353
+    184              DrawLine(TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN),1,0,0,width,25,20,clWhite);
+   \   00000130   0920A0E1           MOV      R2,R9
+   \   00000134   0010A0E3           MOV      R1,#+0
+   \   00000138   10008DE2           ADD      R0,SP,#+16
+   \   0000013C   5D0100EF           SWI      +349
+   \   00000140   00B0A0E1           MOV      R11,R0
+   \   00000144   0000E0E3           MVN      R0,#+0
+   \   00000148   01002DE9           PUSH     {R0}
+   \   0000014C   01002DE9           PUSH     {R0}
+   \   00000150   0030A0E3           MOV      R3,#+0
+   \   00000154   0320A0E1           MOV      R2,R3
+   \   00000158   0110A0E3           MOV      R1,#+1
+   \   0000015C   0300A0E3           MOV      R0,#+3
+   \   00000160   01002DE9           PUSH     {R0}
+   \   00000164   1400A0E3           MOV      R0,#+20
+   \   00000168   01002DE9           PUSH     {R0}
+   \   0000016C   1900A0E3           MOV      R0,#+25
+   \   00000170   01002DE9           PUSH     {R0}
+   \   00000174   0400A0E1           MOV      R0,R4
+   \   00000178   01002DE9           PUSH     {R0}
+   \   0000017C   0B00A0E1           MOV      R0,R11
+   \   00000180   ED0100EF           SWI      +493
+   \   00000184   0B00A0E1           MOV      R0,R11
+   \   00000188   610100EF           SWI      +353
+    185          
+    186              int icon_id=NOIMAGE;
+   \   0000018C   1C908DE5           STR      R9,[SP, #+28]
+    187              iconidname2id(L"CALE_RN_APPOINTMENT_STATUS_ICN",-1,&icon_id);
+   \   00000190   1C208DE2           ADD      R2,SP,#+28
+   \   00000194   0010E0E3           MVN      R1,#+0
+   \   00000198   380088E2           ADD      R0,R8,#+56
+   \   0000019C   860200EF           SWI      +646
+    188              GC *gc=get_DisplayGC();
+   \   000001A0   E50100EF           SWI      +485
+    189              GC_PutChar(gc,0,0,0,0,icon_id);
+   \   000001A4   1C109DE5           LDR      R1,[SP, #+28]
+   \   000001A8   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000001AC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000001B0   02002DE9           PUSH     {R1}
+   \   000001B4   0010A0E3           MOV      R1,#+0
+   \   000001B8   02002DE9           PUSH     {R1}
+   \   000001BC   0130A0E1           MOV      R3,R1
+   \   000001C0   0120A0E1           MOV      R2,R1
+   \   000001C4   400100EF           SWI      +320
+    190              SetFont(FONT_E_20I);
+   \   000001C8   98039FE5           LDR      R0,??GUI_REMIND_OnRedraw_2+0x8  ;; FONT_E_20I
+   \   000001CC   000090E5           LDR      R0,[R0, #+0]
+   \   000001D0   F10100EF           SWI      +497
+    191              DrawLine(TextID_Create(rem->text,ENC_UCS2,TEXTID_ANY_LEN),2,0,height/2-10,width,height,20,clWhite);
+   \   000001D4   000096E5           LDR      R0,[R6, #+0]
+   \   000001D8   0920A0E1           MOV      R2,R9
+   \   000001DC   0010A0E3           MOV      R1,#+0
+   \   000001E0   5D0100EF           SWI      +349
+   \   000001E4   00B0A0E1           MOV      R11,R0
+   \   000001E8   0000E0E3           MVN      R0,#+0
+   \   000001EC   01002DE9           PUSH     {R0}
+   \   000001F0   01002DE9           PUSH     {R0}
+   \   000001F4   0020A0E3           MOV      R2,#+0
+   \   000001F8   0210A0E3           MOV      R1,#+2
+   \   000001FC   0300A0E3           MOV      R0,#+3
+   \   00000200   01002DE9           PUSH     {R0}
+   \   00000204   1400A0E3           MOV      R0,#+20
+   \   00000208   01002DE9           PUSH     {R0}
+   \   0000020C   0500A0E1           MOV      R0,R5
+   \   00000210   01002DE9           PUSH     {R0}
+   \   00000214   0400A0E1           MOV      R0,R4
+   \   00000218   01002DE9           PUSH     {R0}
+   \   0000021C   A50F85E0           ADD      R0,R5,R5, LSR #+31
+   \   00000220   C000A0E1           ASR      R0,R0,#+1
+   \   00000224   0A3040E2           SUB      R3,R0,#+10
+   \   00000228   0B00A0E1           MOV      R0,R11
+   \   0000022C   ED0100EF           SWI      +493
+   \   00000230   38D08DE2           ADD      SP,SP,#+56
+   \   00000234   0B00A0E1           MOV      R0,R11
+   \   00000238   610100EF           SWI      +353
+    192              SetFont(FONT_E_16R);
+   \   0000023C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000240   F10100EF           SWI      +497
+    193              DrawLine(TextID_Create(rem->utext,ENC_UCS2,TEXTID_ANY_LEN),2,0,height-44,width,height,0,clWhite);
+   \   00000244   040096E5           LDR      R0,[R6, #+4]
+   \   00000248   0920A0E1           MOV      R2,R9
+   \   0000024C   0010A0E3           MOV      R1,#+0
+   \   00000250   5D0100EF           SWI      +349
+   \   00000254   00B0A0E1           MOV      R11,R0
+   \   00000258   0000E0E3           MVN      R0,#+0
+   \   0000025C   01002DE9           PUSH     {R0}
+   \   00000260   01002DE9           PUSH     {R0}
+   \   00000264   2C3045E2           SUB      R3,R5,#+44
+   \   00000268   0020A0E3           MOV      R2,#+0
+   \   0000026C   0210A0E3           MOV      R1,#+2
+   \   00000270   0300A0E3           MOV      R0,#+3
+   \   00000274   01002DE9           PUSH     {R0}
+   \   00000278   0000A0E3           MOV      R0,#+0
+   \   0000027C   01002DE9           PUSH     {R0}
+   \   00000280   0500A0E1           MOV      R0,R5
+   \   00000284   01002DE9           PUSH     {R0}
+   \   00000288   0400A0E1           MOV      R0,R4
+   \   0000028C   01002DE9           PUSH     {R0}
+   \   00000290   0B00A0E1           MOV      R0,R11
+   \   00000294   ED0100EF           SWI      +493
+   \   00000298   0B00A0E1           MOV      R0,R11
+   \   0000029C   610100EF           SWI      +353
+    194              RECT rec={0,width,height-25,height};
+   \   000002A0   0C0098E8           LDM      R8,{R2,R3}
+   \   000002A4   20008DE2           ADD      R0,SP,#+32
+   \   000002A8   0C0080E8           STM      R0,{R2,R3}
+   \   000002AC   B242CDE1           STRH     R4,[SP, #+34]
+    195              DrawProgressVert(rec, db->num+1, db->rems->FirstFree, clBlack, cl);
+   \   000002B0   0700A0E1           MOV      R0,R7
+   \   000002B4   1820C9E3           BIC      R2,R9,#0x18
+   \   000002B8   051082E0           ADD      R1,R2,R5
+   \   000002BC   B412CDE1           STRH     R1,[SP, #+36]
+   \   000002C0   B652CDE1           STRH     R5,[SP, #+38]
+   \   000002C4   01002DE9           PUSH     {R0}
+   \   000002C8   FF04A0E3           MOV      R0,#-16777216
+   \   000002CC   01002DE9           PUSH     {R0}
+   \   000002D0   70019AE5           LDR      R0,[R10, #+368]
+   \   000002D4   B200D0E1           LDRH     R0,[R0, #+2]
+   \   000002D8   01002DE9           PUSH     {R0}
+   \   000002DC   6C019AE5           LDR      R0,[R10, #+364]
+    196              DrawGradient(width-80, 60, width, 85, 0, cl);
+   \   000002E0   50A044E2           SUB      R10,R4,#+80
+   \   000002E4   010080E2           ADD      R0,R0,#+1
+   \   000002E8   01002DE9           PUSH     {R0}
+   \   000002EC   30008DE2           ADD      R0,SP,#+48
+   \   000002F0   08D04DE2           SUB      SP,SP,#+8
+   \   000002F4   001090E5           LDR      R1,[R0, #0]
+   \   000002F8   0D20A0E1           MOV      R2,SP
+   \   000002FC   001082E5           STR      R1,[R2, #+0]
+   \   00000300   041090E5           LDR      R1,[R0, #+4]
+   \   00000304   041082E5           STR      R1,[R2, #+4]
+   \   00000308   0F00BDE8           POP      {R0-R3}
+   \   0000030C   ........           BL       ??DrawProgressVert
+   \   00000310   80002DE9           PUSH     {R7}
+   \   00000314   0000A0E3           MOV      R0,#+0
+   \   00000318   01002DE9           PUSH     {R0}
+   \   0000031C   5530A0E3           MOV      R3,#+85
+   \   00000320   0420A0E1           MOV      R2,R4
+   \   00000324   3C10A0E3           MOV      R1,#+60
+   \   00000328   0A00A0E1           MOV      R0,R10
+   \   0000032C   ........           BL       ??DrawGradient
+    197              wchar_t time[50];
+    198              snwprintf(time, 49, L"/%02d:%02d:%02d", h, m, s);
+   \   00000330   34029FE5           LDR      R0,??GUI_REMIND_OnRedraw_2+0xC  ;; s
+   \   00000334   28D08DE2           ADD      SP,SP,#+40
+   \   00000338   0000D0E5           LDRB     R0,[R0, #+0]
+   \   0000033C   782088E2           ADD      R2,R8,#+120
+   \   00000340   3110A0E3           MOV      R1,#+49
+   \   00000344   01002DE9           PUSH     {R0}
+   \   00000348   20029FE5           LDR      R0,??GUI_REMIND_OnRedraw_2+0x10  ;; m
+   \   0000034C   0000D0E5           LDRB     R0,[R0, #+0]
+   \   00000350   01002DE9           PUSH     {R0}
+   \   00000354   18029FE5           LDR      R0,??GUI_REMIND_OnRedraw_2+0x14  ;; h
+   \   00000358   0030D0E5           LDRB     R3,[R0, #+0]
+   \   0000035C   7C008DE2           ADD      R0,SP,#+124
+   \   00000360   150100EF           SWI      +277
+    199              SetFont(FONT_E_20R);
+   \   00000364   0C029FE5           LDR      R0,??GUI_REMIND_OnRedraw_2+0x18  ;; FONT_E_20R
+   \   00000368   000090E5           LDR      R0,[R0, #+0]
+   \   0000036C   F10100EF           SWI      +497
+    200              DrawLine(TextID_Create(time,ENC_UCS2,TEXTID_ANY_LEN),1,0,60,width,80,0,clWhite);
+   \   00000370   0920A0E1           MOV      R2,R9
+   \   00000374   0010A0E3           MOV      R1,#+0
+   \   00000378   7C008DE2           ADD      R0,SP,#+124
+   \   0000037C   5D0100EF           SWI      +349
+   \   00000380   0070A0E1           MOV      R7,R0
+   \   00000384   0000E0E3           MVN      R0,#+0
+   \   00000388   01002DE9           PUSH     {R0}
+   \   0000038C   01002DE9           PUSH     {R0}
+   \   00000390   3C30A0E3           MOV      R3,#+60
+   \   00000394   0020A0E3           MOV      R2,#+0
+   \   00000398   0110A0E3           MOV      R1,#+1
+   \   0000039C   0300A0E3           MOV      R0,#+3
+   \   000003A0   01002DE9           PUSH     {R0}
+   \   000003A4   0000A0E3           MOV      R0,#+0
+   \   000003A8   01002DE9           PUSH     {R0}
+   \   000003AC   5000A0E3           MOV      R0,#+80
+   \   000003B0   01002DE9           PUSH     {R0}
+   \   000003B4   0400A0E1           MOV      R0,R4
+   \   000003B8   01002DE9           PUSH     {R0}
+   \   000003BC   0700A0E1           MOV      R0,R7
+   \   000003C0   ED0100EF           SWI      +493
+   \   000003C4   0700A0E1           MOV      R0,R7
+   \   000003C8   610100EF           SWI      +353
+    201              SetFont(FONT_E_16R);
+   \   000003CC   20009DE5           LDR      R0,[SP, #+32]
+   \   000003D0   F10100EF           SWI      +497
+    202              DrawLine(TextID_Create(rem->time,ENC_UCS2,TEXTID_ANY_LEN),1,0,63,width-80,80,0,clWhite);
+   \   000003D4   080096E5           LDR      R0,[R6, #+8]
+   \   000003D8   0920A0E1           MOV      R2,R9
+   \   000003DC   0010A0E3           MOV      R1,#+0
+   \   000003E0   5D0100EF           SWI      +349
+   \   000003E4   0060A0E1           MOV      R6,R0
+   \   000003E8   0000E0E3           MVN      R0,#+0
+   \   000003EC   01002DE9           PUSH     {R0}
+   \   000003F0   01002DE9           PUSH     {R0}
+   \   000003F4   3F30A0E3           MOV      R3,#+63
+   \   000003F8   0020A0E3           MOV      R2,#+0
+   \   000003FC   0110A0E3           MOV      R1,#+1
+   \   00000400   0300A0E3           MOV      R0,#+3
+   \   00000404   01002DE9           PUSH     {R0}
+   \   00000408   0000A0E3           MOV      R0,#+0
+   \   0000040C   01002DE9           PUSH     {R0}
+   \   00000410   5000A0E3           MOV      R0,#+80
+   \   00000414   01002DE9           PUSH     {R0}
+   \   00000418   00042DE9           PUSH     {R10}
+   \   0000041C   0600A0E1           MOV      R0,R6
+   \   00000420   ED0100EF           SWI      +493
+   \   00000424   38D08DE2           ADD      SP,SP,#+56
+   \   00000428   0600A0E1           MOV      R0,R6
+    203              int font_y=GetImageHeight(L' ')+4;
+    204              DrawLine(TextID_Create(lng[LNG_INFO],ENC_UCS2,TEXTID_ANY_LEN),0,0,height-font_y,width,height,0,clWhite);
+   \   0000042C   48619FE5           LDR      R6,??GUI_REMIND_OnRedraw_2+0x1C  ;; lng
+   \   00000430   610100EF           SWI      +353
+   \   00000434   2000A0E3           MOV      R0,#+32
+   \   00000438   940200EF           SWI      +660
+   \   0000043C   047080E2           ADD      R7,R0,#+4
+   \   00000440   080096E5           LDR      R0,[R6, #+8]
+   \   00000444   0920A0E1           MOV      R2,R9
+   \   00000448   0010A0E3           MOV      R1,#+0
+   \   0000044C   5D0100EF           SWI      +349
+   \   00000450   0080A0E1           MOV      R8,R0
+   \   00000454   0000E0E3           MVN      R0,#+0
+   \   00000458   01002DE9           PUSH     {R0}
+   \   0000045C   01002DE9           PUSH     {R0}
+   \   00000460   077045E0           SUB      R7,R5,R7
+   \   00000464   0730A0E1           MOV      R3,R7
+   \   00000468   0020A0E3           MOV      R2,#+0
+   \   0000046C   0300A0E3           MOV      R0,#+3
+   \   00000470   01002DE9           PUSH     {R0}
+   \   00000474   0210A0E1           MOV      R1,R2
+   \   00000478   0000A0E3           MOV      R0,#+0
+   \   0000047C   01002DE9           PUSH     {R0}
+   \   00000480   0500A0E1           MOV      R0,R5
+   \   00000484   01002DE9           PUSH     {R0}
+   \   00000488   0400A0E1           MOV      R0,R4
+   \   0000048C   01002DE9           PUSH     {R0}
+   \   00000490   0800A0E1           MOV      R0,R8
+   \   00000494   ED0100EF           SWI      +493
+   \   00000498   0800A0E1           MOV      R0,R8
+   \   0000049C   610100EF           SWI      +353
+    205              DrawLine(TextID_Create(lng[LNG_OK],ENC_UCS2,TEXTID_ANY_LEN),2,0,height-font_y,width,height,0,clWhite);
+   \   000004A0   280096E5           LDR      R0,[R6, #+40]
+   \   000004A4   0920A0E1           MOV      R2,R9
+   \   000004A8   0010A0E3           MOV      R1,#+0
+   \   000004AC   5D0100EF           SWI      +349
+   \   000004B0   0080A0E1           MOV      R8,R0
+   \   000004B4   0000E0E3           MVN      R0,#+0
+   \   000004B8   01002DE9           PUSH     {R0}
+   \   000004BC   01002DE9           PUSH     {R0}
+   \   000004C0   0730A0E1           MOV      R3,R7
+   \   000004C4   0020A0E3           MOV      R2,#+0
+   \   000004C8   0210A0E3           MOV      R1,#+2
+   \   000004CC   0300A0E3           MOV      R0,#+3
+   \   000004D0   01002DE9           PUSH     {R0}
+   \   000004D4   0000A0E3           MOV      R0,#+0
+   \   000004D8   01002DE9           PUSH     {R0}
+   \   000004DC   0500A0E1           MOV      R0,R5
+   \   000004E0   01002DE9           PUSH     {R0}
+   \   000004E4   0400A0E1           MOV      R0,R4
+   \   000004E8   01002DE9           PUSH     {R0}
+   \   000004EC   0800A0E1           MOV      R0,R8
+   \   000004F0   ED0100EF           SWI      +493
+   \   000004F4   30D08DE2           ADD      SP,SP,#+48
+   \   000004F8   0800A0E1           MOV      R0,R8
+   \   000004FC   610100EF           SWI      +353
+    206              DrawLine(TextID_Create(lng[LNG_MARK],ENC_UCS2,TEXTID_ANY_LEN),1,0,height-font_y,width,height,0,clWhite);
+   \   00000500   2C0096E5           LDR      R0,[R6, #+44]
+   \   00000504   0920A0E1           MOV      R2,R9
+   \   00000508   0010A0E3           MOV      R1,#+0
+   \   0000050C   5D0100EF           SWI      +349
+   \   00000510   0060A0E1           MOV      R6,R0
+   \   00000514   0000E0E3           MVN      R0,#+0
+   \   00000518   01002DE9           PUSH     {R0}
+   \   0000051C   01002DE9           PUSH     {R0}
+   \   00000520   0730A0E1           MOV      R3,R7
+   \   00000524   0110A0E3           MOV      R1,#+1
+   \   00000528   0300A0E3           MOV      R0,#+3
+   \   0000052C   01002DE9           PUSH     {R0}
+   \   00000530   0000A0E3           MOV      R0,#+0
+   \   00000534   01002DE9           PUSH     {R0}
+   \   00000538   20002DE9           PUSH     {R5}
+   \   0000053C   10002DE9           PUSH     {R4}
+   \   00000540   0020A0E1           MOV      R2,R0
+   \   00000544   0600A0E1           MOV      R0,R6
+   \   00000548   ED0100EF           SWI      +493
+   \   0000054C   0600A0E1           MOV      R0,R6
+   \   00000550   610100EF           SWI      +353
+   \   00000554   18D08DE2           ADD      SP,SP,#+24
+    207            }
+    208          };
+   \                     ??GUI_REMIND_OnRedraw_1:
+   \   00000558   D8D08DE2           ADD      SP,SP,#+216      ;; stack cleaning
+   \   0000055C   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??GUI_REMIND_OnRedraw_2:
+   \   00000560   ........           DC32     `?<Constant {0, 0, 0, 0}>`
+   \   00000564   ........           DC32     FONT_E_16R
+   \   00000568   ........           DC32     FONT_E_20I
+   \   0000056C   ........           DC32     s
+   \   00000570   ........           DC32     m
+   \   00000574   ........           DC32     h
+   \   00000578   ........           DC32     FONT_E_20R
+   \   0000057C   ........           DC32     lng
+    209          
+    210          /*
+    211          *===========================================================================
+    212          *                       Обработчик нажатия кнопки ОК/Назад
+    213          *===========================================================================
+    214          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    215          void Reminder_onInfo(BOOK *bk, void *)
+    216          {
+    217            MessageBox(EMPTY_TEXTID,TextID_Create(lng[LNG_FINFO],ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+   \                     ??Reminder_onInfo:
+   \   00000000   3C009FE5           LDR      R0,??Reminder_onInfo_1  ;; lng + 36
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   FF40A0E3           MOV      R4,#+255
+   \   00000014   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   00000018   0420A0E1           MOV      R2,R4
+   \   0000001C   5D0100EF           SWI      +349
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   02002DE9           PUSH     {R1}
+   \   00000028   02002DE9           PUSH     {R1}
+   \   0000002C   0130A0E3           MOV      R3,#+1
+   \   00000030   0420A0E1           MOV      R2,R4
+   \   00000034   0010A0E1           MOV      R1,R0
+   \   00000038   9004E0E3           MVN      R0,#-1879048192
+   \   0000003C   570200EF           SWI      +599
+    218          };
+   \   00000040   1380BDE8           POP      {R0,R1,R4,PC}    ;; return
+   \                     ??Reminder_onInfo_1:
+   \   00000044   ........           DC32     lng + 36
+    219          
+    220          /*
+    221          *===========================================================================
+    222          *                       Обработчик нажатия кнопки ОК/Назад
+    223          *===========================================================================
+    224          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    225          void Reminder_onOK(BOOK *bk, void *)
+    226          {
+   \                     ??Reminder_onOK:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    227            PlayFile(checkfile(L"stop.mp3"),L"stop.mp3");
+   \   00000004   48509FE5           LDR      R5,??Reminder_onOK_1  ;; `?<Constant L"\\x73\\x74\\x6f\\x70\\x2e\\x6d\\x70\\x33"`
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0500A0E1           MOV      R0,R5
+   \   00000010   ........           _BLF     ??checkfile,??checkfile??rA
+   \   00000014   0510A0E1           MOV      R1,R5
+   \   00000018   B20100EF           SWI      +434
+    228            MBK(bk);
+    229            if (!mbk->remind) 
+   \   0000001C   240094E5           LDR      R0,[R4, #+36]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0600000A           BEQ      ??Reminder_onOK_2
+    230            {
+    231              BookObj_Hide(bk, 0);
+    232              return;
+    233            }
+    234            int res=GuiRemind_NextRemind(mbk->remind);
+    235            if (res==0)
+   \                     ??Reminder_onOK_3:
+   \   00000028   ........           BL       ??GuiRemind_NextRemind
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   3080BD18           POPNE    {R4,R5,PC}
+    236            {
+    237              GUIObject_Destroy(mbk->remind);
+   \   00000034   240094E5           LDR      R0,[R4, #+36]
+   \   00000038   CE0100EF           SWI      +462
+    238              mbk->remind=0;
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   240084E5           STR      R0,[R4, #+36]
+    239              BookObj_Hide(bk, 0);
+   \                     ??Reminder_onOK_2:
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   710100EF           SWI      +369
+   \   00000050   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Reminder_onOK_1:
+   \   00000054   ........           DC32     `?<Constant L"\\x73\\x74\\x6f\\x70\\x2e\\x6d\\x70\\x33"`
+    240            }
+    241          };
+    242          
+    243          /*
+    244          *===========================================================================
+    245          *                       Обработчик нажатия кнопки "C"
+    246          *===========================================================================
+    247          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    248          void Reminder_onDel(BOOK *bk, void *)
+    249          {
+    250            MBK(bk);
+    251            GuiRemind_CheckSelected(mbk->remind);
+   \                     ??Reminder_onDel:
+   \   00000000   240090E5           LDR      R0,[R0, #+36]
+   \   00000004   ........           B        ??GuiRemind_CheckSelected  ;; tailcall
+    252          };
+    253          
+    254          /*
+    255          *===========================================================================
+    256          *                      Функция обработки нажатия клавиш
+    257          *===========================================================================
+    258          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    259          void GUI_REMIND_OnKey(DISP_OBJ_REMIND *db,int key,int,int repeat,int type)
+    260          {
+   \                     ??GUI_REMIND_OnKey:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   10009DE5           LDR      R0,[SP, #+16]
+   \   0000000C   0150A0E1           MOV      R5,R1
+    261            if (type==KBD_SHORT_PRESS)
+   \   00000010   E8109FE5           LDR      R1,??GUI_REMIND_OnKey_1  ;; KBD_SHORT_PRESS
+   \   00000014   001091E5           LDR      R1,[R1, #+0]
+   \   00000018   010050E1           CMP      R0,R1
+   \   0000001C   7080BD18           POPNE    {R4-R6,PC}
+    262            {
+    263              if (key==KEY_DEL || key==KEY_RIGHT_SOFT)
+   \   00000020   DC009FE5           LDR      R0,??GUI_REMIND_OnKey_1+0x4  ;; KEY_DEL
+   \   00000024   ........           LDR      R6,??DataTable2  ;; ECBook
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   000055E1           CMP      R5,R0
+   \   00000030   0300000A           BEQ      ??GUI_REMIND_OnKey_2
+   \   00000034   CC009FE5           LDR      R0,??GUI_REMIND_OnKey_1+0x8  ;; KEY_RIGHT_SOFT
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   000055E1           CMP      R5,R0
+   \   00000040   0200001A           BNE      ??GUI_REMIND_OnKey_3
+    264              {
+    265                Reminder_onDel(&ECBook->bk,0);
+   \                     ??GUI_REMIND_OnKey_2:
+   \   00000044   000096E5           LDR      R0,[R6, #+0]
+   \   00000048   240090E5           LDR      R0,[R0, #+36]
+   \   0000004C   ........           BL       ??GuiRemind_CheckSelected
+    266              }
+    267              if (key==KEY_ENTER || key==KEY_ESC)
+   \                     ??GUI_REMIND_OnKey_3:
+   \   00000050   B4009FE5           LDR      R0,??GUI_REMIND_OnKey_1+0xC  ;; KEY_ENTER
+   \   00000054   000090E5           LDR      R0,[R0, #+0]
+   \   00000058   000055E1           CMP      R5,R0
+   \   0000005C   0300000A           BEQ      ??GUI_REMIND_OnKey_4
+   \   00000060   A8009FE5           LDR      R0,??GUI_REMIND_OnKey_1+0x10  ;; KEY_ESC
+   \   00000064   000090E5           LDR      R0,[R0, #+0]
+   \   00000068   000055E1           CMP      R5,R0
+   \   0000006C   0200001A           BNE      ??GUI_REMIND_OnKey_5
+    268              {
+    269                Reminder_onOK(&ECBook->bk,0);
+   \                     ??GUI_REMIND_OnKey_4:
+   \   00000070   000096E5           LDR      R0,[R6, #+0]
+   \   00000074   0010A0E3           MOV      R1,#+0
+   \   00000078   ........           BL       ??Reminder_onOK
+    270              }
+    271              if (key==KEY_LEFT_SOFT)
+   \                     ??GUI_REMIND_OnKey_5:
+   \   0000007C   90009FE5           LDR      R0,??GUI_REMIND_OnKey_1+0x14  ;; KEY_LEFT_SOFT
+   \   00000080   000090E5           LDR      R0,[R0, #+0]
+   \   00000084   000055E1           CMP      R5,R0
+   \   00000088   0200001A           BNE      ??GUI_REMIND_OnKey_6
+    272              {
+    273                Reminder_onInfo(&ECBook->bk,0);
+   \   0000008C   000096E5           LDR      R0,[R6, #+0]
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   ........           BL       ??Reminder_onInfo
+    274              }
+    275              if (key==KEY_LEFT)
+   \                     ??GUI_REMIND_OnKey_6:
+   \   00000098   78009FE5           LDR      R0,??GUI_REMIND_OnKey_1+0x18  ;; KEY_LEFT
+   \   0000009C   000090E5           LDR      R0,[R0, #+0]
+   \   000000A0   000055E1           CMP      R5,R0
+   \   000000A4   0600001A           BNE      ??GUI_REMIND_OnKey_7
+    276              {
+    277                if (db->num)db->num--;
+   \   000000A8   6C0194E5           LDR      R0,[R4, #+364]
+    278                DispObject_InvalidateRect((DISP_OBJ*)db,0);
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   000050E3           CMP      R0,#+0
+   \   000000B4   01004012           SUBNE    R0,R0,#+1
+   \   000000B8   6C018415           STRNE    R0,[R4, #+364]
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   EF0100EF           SWI      +495
+    279              }
+    280              if (key==KEY_RIGHT)
+   \                     ??GUI_REMIND_OnKey_7:
+   \   000000C4   50009FE5           LDR      R0,??GUI_REMIND_OnKey_1+0x1C  ;; KEY_RIGHT
+   \   000000C8   000090E5           LDR      R0,[R0, #+0]
+   \   000000CC   000055E1           CMP      R5,R0
+   \   000000D0   7080BD18           POPNE    {R4-R6,PC}
+    281              {
+    282                if (db->num!=db->rems->FirstFree-1)db->num++;
+   \   000000D4   701194E5           LDR      R1,[R4, #+368]
+   \   000000D8   6C0194E5           LDR      R0,[R4, #+364]
+   \   000000DC   B210D1E1           LDRH     R1,[R1, #+2]
+   \   000000E0   011041E2           SUB      R1,R1,#+1
+   \   000000E4   010050E1           CMP      R0,R1
+   \   000000E8   01008012           ADDNE    R0,R0,#+1
+   \   000000EC   6C018415           STRNE    R0,[R4, #+364]
+    283                DispObject_InvalidateRect((DISP_OBJ*)db,0);
+   \   000000F0   0010A0E3           MOV      R1,#+0
+   \   000000F4   0400A0E1           MOV      R0,R4
+   \   000000F8   EF0100EF           SWI      +495
+    284              }
+    285            }
+    286          };
+   \   000000FC   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??GUI_REMIND_OnKey_1:
+   \   00000100   ........           DC32     KBD_SHORT_PRESS
+   \   00000104   ........           DC32     KEY_DEL
+   \   00000108   ........           DC32     KEY_RIGHT_SOFT
+   \   0000010C   ........           DC32     KEY_ENTER
+   \   00000110   ........           DC32     KEY_ESC
+   \   00000114   ........           DC32     KEY_LEFT_SOFT
+   \   00000118   ........           DC32     KEY_LEFT
+   \   0000011C   ........           DC32     KEY_RIGHT
+    287          
+    288          
+    289          /*
+    290          *===========================================================================
+    291          *                     Функция вызова прорисовки
+    292          *===========================================================================
+    293          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    294          void GUI_REMIND_OnRefresh(DISP_OBJ_REMIND *DO)
+    295          {
+   \                     ??GUI_REMIND_OnRefresh:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    296            DispObject_SetRefreshTimer((DISP_OBJ*)DO, 1000);
+   \   00000004   FA1FA0E3           MOV      R1,#+1000
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   DD0200EF           SWI      +733
+    297            DispObject_InvalidateRect((DISP_OBJ*)DO, 0);
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   EF0100EF           SWI      +495
+    298          };
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    299          
+    300          /*
+    301          *===========================================================================
+    302          *                     Конструктор гуя
+    303          *===========================================================================
+    304          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    305          void GUI_REMIND_constr(DISP_DESC *desc)
+    306          {
+    307            DISP_DESC_SetName(desc,RemindGuiName);
+   \                     ??GUI_REMIND_constr:
+   \   00000000   54109FE5           LDR      R1,??GUI_REMIND_constr_1  ;; RemindGuiName
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   200200EF           SWI      +544
+    308            DISP_DESC_SetSize(desc,sizeof(DISP_OBJ_REMIND));
+   \   00000010   5D1FA0E3           MOV      R1,#+372
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   220200EF           SWI      +546
+    309            DISP_DESC_SetOnCreate(desc,(DISP_OBJ_ONCREATE_METHOD)GUI_REMIND_OnCreate);
+   \   0000001C   3C109FE5           LDR      R1,??GUI_REMIND_constr_1+0x4  ;; ??GUI_REMIND_OnCreate
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   240200EF           SWI      +548
+    310            DISP_DESC_SetOnClose(desc,(DISP_OBJ_ONCLOSE_METHOD)GUI_REMIND_OnClose);
+   \   00000028   34109FE5           LDR      R1,??GUI_REMIND_constr_1+0x8  ;; ??GUI_REMIND_OnClose
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   260200EF           SWI      +550
+    311            DISP_DESC_SetOnRedraw(desc,(DISP_OBJ_ONREDRAW_METHOD)GUI_REMIND_OnRedraw);
+   \   00000034   2C109FE5           LDR      R1,??GUI_REMIND_constr_1+0xC  ;; ??GUI_REMIND_OnRedraw
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   280200EF           SWI      +552
+    312            DISP_DESC_SetOnKey(desc,(DISP_OBJ_ONKEY_METHOD)GUI_REMIND_OnKey);
+   \   00000040   24109FE5           LDR      R1,??GUI_REMIND_constr_1+0x10  ;; ??GUI_REMIND_OnKey
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   2A0200EF           SWI      +554
+    313            DISP_DESC_SetOnRefresh(desc,(DISP_OBJ_METHOD)GUI_REMIND_OnRefresh);
+   \   0000004C   1C109FE5           LDR      R1,??GUI_REMIND_constr_1+0x14  ;; ??GUI_REMIND_OnRefresh
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   2C0200EF           SWI      +556
+    314          };
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??GUI_REMIND_constr_1:
+   \   0000005C   ........           DC32     RemindGuiName
+   \   00000060   ........           DC32     ??GUI_REMIND_OnCreate
+   \   00000064   ........           DC32     ??GUI_REMIND_OnClose
+   \   00000068   ........           DC32     ??GUI_REMIND_OnRedraw
+   \   0000006C   ........           DC32     ??GUI_REMIND_OnKey
+   \   00000070   ........           DC32     ??GUI_REMIND_OnRefresh
+    315          
+    316          /*
+    317          *===========================================================================
+    318          *                       Деструктор гуя
+    319          *===========================================================================
+    320          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    321          void GUI_REMIND_destr( GUI* )
+    322          {
+    323            return;
+   \                     ??GUI_REMIND_destr:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    324          };
+    325          
+    326          /*
+    327          *===========================================================================
+    328          *                             Создание гуя
+    329          *===========================================================================
+    330          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    331          GUI_REMIND *GUI_REMIND_Create(BOOK *bk)
+    332          {
+   \                     ??GUI_REMIND_Create:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    333            GUI_REMIND *gui_read=new GUI_REMIND;
+   \   00000008   9000A0E3           MOV      R0,#+144
+   \   0000000C   ........           _BLF     `??operator new`,`??operator new??rA`
+    334            if (!GUIObject_Create( gui_read,GUI_REMIND_destr, GUI_REMIND_constr,bk,0,0,0))
+   \   00000010   84209FE5           LDR      R2,??GUI_REMIND_Create_1  ;; ??GUI_REMIND_constr
+   \   00000014   84109FE5           LDR      R1,??GUI_REMIND_Create_1+0x4  ;; ??GUI_REMIND_destr
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0430A0E1           MOV      R3,R4
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   F00100EF           SWI      +496
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0CD08DE2           ADD      SP,SP,#+12
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   0200001A           BNE      ??GUI_REMIND_Create_2
+    335            {
+    336              delete gui_read;
+   \   00000048   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    337              return 0;    
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   3080BDE8           POP      {R4,R5,PC}
+    338            }
+    339            DispObject_SetLayerColor( GUIObject_GetDispObject( gui_read), BG_COLOR);
+   \                     ??GUI_REMIND_Create_2:
+   \   00000054   680100EF           SWI      +360
+   \   00000058   CC14A0E3           MOV      R1,#-872415232
+   \   0000005C   090300EF           SWI      +777
+    340            if (bk) BookObj_AddGUIObject(bk, gui_read);
+   \   00000060   000054E3           CMP      R4,#+0
+   \   00000064   0200000A           BEQ      ??GUI_REMIND_Create_3
+   \   00000068   0510A0E1           MOV      R1,R5
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   EB0100EF           SWI      +491
+    341            DispObject_SetLayerColor( GUIObject_GetDispObject( gui_read), BG_COLOR);
+   \                     ??GUI_REMIND_Create_3:
+   \   00000074   0500A0E1           MOV      R0,R5
+   \   00000078   680100EF           SWI      +360
+   \   0000007C   CC14A0E3           MOV      R1,#-872415232
+   \   00000080   090300EF           SWI      +777
+    342            DispObject_SetRefreshTimer( GUIObject_GetDispObject( gui_read), 1000);
+   \   00000084   0500A0E1           MOV      R0,R5
+   \   00000088   680100EF           SWI      +360
+   \   0000008C   FA1FA0E3           MOV      R1,#+1000
+   \   00000090   DD0200EF           SWI      +733
+    343            return gui_read;
+   \   00000094   0500A0E1           MOV      R0,R5
+   \   00000098   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??GUI_REMIND_Create_1:
+   \   0000009C   ........           DC32     ??GUI_REMIND_constr
+   \   000000A0   ........           DC32     ??GUI_REMIND_destr
+    344          };
+    345          
+    346          /*
+    347          *===========================================================================
+    348          *                 Добавление в гуй нового напоминания
+    349          *===========================================================================
+    350          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    351          void GuiRemind_AddNote(GUI_REMIND *g, REMIND *rem)
+    352          {
+   \                     ??GuiRemind_AddNote:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    353            if (!g)return;
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   0140A0E1           MOV      R4,R1
+    354            if (!rem)return;
+   \   0000000C   00005413           CMPNE    R4,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    355            DISP_OBJ_REMIND *DO=(DISP_OBJ_REMIND*) GUIObject_GetDispObject(g);
+   \   00000014   680100EF           SWI      +360
+    356            if (!DO)return;
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1080BD08           POPEQ    {R4,PC}
+    357            List_InsertLast(DO->rems,rem);
+   \   00000020   700190E5           LDR      R0,[R0, #+368]
+   \   00000024   0410A0E1           MOV      R1,R4
+   \   00000028   B00100EF           SWI      +432
+    358          };
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+    359          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    360          void GuiRemind_CheckSelected(GUI_REMIND *g)
+    361          {
+   \                     ??GuiRemind_CheckSelected:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    362            GUI *gb = g;
+    363            DISP_OBJ_REMIND *db= (DISP_OBJ_REMIND*)GUIObject_GetDispObject(gb);
+   \   00000008   680100EF           SWI      +360
+   \   0000000C   0050A0E1           MOV      R5,R0
+    364            if (db->rems && db->num<db->rems->FirstFree)
+   \   00000010   700195E5           LDR      R0,[R5, #+368]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   3080BD08           POPEQ    {R4,R5,PC}
+   \   0000001C   B220D0E1           LDRH     R2,[R0, #+2]
+   \   00000020   6C1195E5           LDR      R1,[R5, #+364]
+   \   00000024   020051E1           CMP      R1,R2
+   \   00000028   3080BDA8           POPGE    {R4,R5,PC}
+    365            {
+    366              REMIND *rem=(REMIND*)List_Get(db->rems,db->num);
+   \   0000002C   AD0100EF           SWI      +429
+    367              if (rem->checked)
+   \   00000030   0C10D0E5           LDRB     R1,[R0, #+12]
+   \   00000034   000051E3           CMP      R1,#+0
+    368                rem->checked=false;
+   \   00000038   0010A013           MOVNE    R1,#+0
+   \   0000003C   0C10C015           STRBNE   R1,[R0, #+12]
+   \   00000040   0300001A           BNE      ??GuiRemind_CheckSelected_1
+    369              else
+    370              {
+    371                rem->checked=true;
+   \   00000044   0110A0E3           MOV      R1,#+1
+   \   00000048   0C10C0E5           STRB     R1,[R0, #+12]
+    372                GuiRemind_NextRemind(g);
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   ........           BL       ??GuiRemind_NextRemind
+    373              }
+    374              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+   \                     ??GuiRemind_CheckSelected_1:
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   0500A0E1           MOV      R0,R5
+   \   0000005C   EF0100EF           SWI      +495
+    375            }
+    376          };
+   \   00000060   3080BDE8           POP      {R4,R5,PC}       ;; return
+    377          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    378          int GuiRemind_NextRemind(GUI_REMIND *g)
+    379          {
+   \                     ??GuiRemind_NextRemind:
+   \   00000000   00402DE9           PUSH     {LR}
+    380            GUI *gb = g;
+    381            DISP_OBJ_REMIND *db=(DISP_OBJ_REMIND*)GUIObject_GetDispObject(gb);
+   \   00000004   680100EF           SWI      +360
+    382            if (db->rems)
+   \   00000008   701190E5           LDR      R1,[R0, #+368]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0A00000A           BEQ      ??GuiRemind_NextRemind_1
+    383            {
+    384              if (db->num!=db->rems->FirstFree-1)
+   \   00000014   B210D1E1           LDRH     R1,[R1, #+2]
+   \   00000018   6C2190E5           LDR      R2,[R0, #+364]
+   \   0000001C   011041E2           SUB      R1,R1,#+1
+   \   00000020   010052E1           CMP      R2,R1
+   \   00000024   0500000A           BEQ      ??GuiRemind_NextRemind_1
+    385                db->num++;
+   \   00000028   011082E2           ADD      R1,R2,#+1
+   \   0000002C   6C1180E5           STR      R1,[R0, #+364]
+    386              else
+    387                return 0;
+    388              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   EF0100EF           SWI      +495
+    389            }
+    390            else
+    391              return 0;
+    392            return 1;
+   \   00000038   0100A0E3           MOV      R0,#+1
+   \   0000003C   0080BDE8           POP      {PC}
+   \                     ??GuiRemind_NextRemind_1:
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+    393          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     ECBook
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x41\\x4c\\x45\\x5f\\x52\\x4e\\x5f\\`:
+   \   00000000   430041004C00       DC8 43H, 0, 41H, 0, 4CH, 0, 45H, 0
+   \              4500        
+   \   00000008   5F0052004E00       DC8 5FH, 0, 52H, 0, 4EH, 0, 5FH, 0
+   \              5F00        
+   \   00000010   540041005300       DC8 54H, 0, 41H, 0, 53H, 0, 4BH, 0
+   \              4B00        
+   \   00000018   5F0053005400       DC8 5FH, 0, 53H, 0, 54H, 0, 41H, 0
+   \              4100        
+   \   00000020   540055005300       DC8 54H, 0, 55H, 0, 53H, 0, 5FH, 0
+   \              5F00        
+   \   00000028   490043004E00       DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {0, 0, 0, 0}>`:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   250030003200       DC8 25H, 0, 30H, 0, 32H, 0, 64H, 0
+   \              6400        
+   \   00000010   2F0025003000       DC8 2FH, 0, 25H, 0, 30H, 0, 32H, 0
+   \              3200        
+   \   00000018   64000000           DC8 64H, 0, 0, 0
+   \   0000001C   450076006500       DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+   \              6E00        
+   \   00000024   740043006F00       DC8 74H, 0, 43H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   0000002C   740072006F00       DC8 74H, 0, 72H, 0, 6FH, 0, 6CH, 0
+   \              6C00        
+   \   00000034   0000               DC8 0, 0
+   \   00000036   0000               DC8 0, 0
+   \   00000038   430041004C00       DC8 43H, 0, 41H, 0, 4CH, 0, 45H, 0
+   \              4500        
+   \   00000040   5F0052004E00       DC8 5FH, 0, 52H, 0, 4EH, 0, 5FH, 0
+   \              5F00        
+   \   00000048   410050005000       DC8 41H, 0, 50H, 0, 50H, 0, 4FH, 0
+   \              4F00        
+   \   00000050   49004E005400       DC8 49H, 0, 4EH, 0, 54H, 0, 4DH, 0
+   \              4D00        
+   \   00000058   45004E005400       DC8 45H, 0, 4EH, 0, 54H, 0, 5FH, 0
+   \              5F00        
+   \   00000060   530054004100       DC8 53H, 0, 54H, 0, 41H, 0, 54H, 0
+   \              5400        
+   \   00000068   550053005F00       DC8 55H, 0, 53H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000070   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   00000076   0000               DC8 0, 0
+   \   00000078   2F0025003000       DC8 2FH, 0, 25H, 0, 30H, 0, 32H, 0
+   \              3200        
+   \   00000080   64003A002500       DC8 64H, 0, 3AH, 0, 25H, 0, 30H, 0
+   \              3000        
+   \   00000088   320064003A00       DC8 32H, 0, 64H, 0, 3AH, 0, 25H, 0
+   \              2500        
+   \   00000090   300032006400       DC8 30H, 0, 32H, 0, 64H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x73\\x74\\x6f\\x70\\x2e\\x6d\\x70\\x33"`:
+   \   00000000   730074006F00       DC8 73H, 0, 74H, 0, 6FH, 0, 70H, 0
+   \              7000        
+   \   00000008   2E006D007000       DC8 2EH, 0, 6DH, 0, 70H, 0, 33H, 0
+   \              3300        
+   \   00000010   0000               DC8 0, 0
+   \   00000012   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     DrawGradient(int, int, int, int, int, int)
+                                       64
+     DrawGradientVert(int, int, int, int, int, int)
+                                       64
+     DrawLine(int, int, int, int, int, int, int, int)
+                                       40
+     DrawProgressVert(RECT, int, int, int, int)
+                                       32
+     GUI_REMIND_Create(BOOK *)         24
+     GUI_REMIND_OnClose(DISP_OBJ_REMIND *)
+                                        8
+     GUI_REMIND_OnCreate(DISP_OBJ_REMIND *)
+                                        8
+     GUI_REMIND_OnKey(DISP_OBJ_REMIND *, int, int, int, int)
+                                       16
+     GUI_REMIND_OnRedraw(DISP_OBJ_REMIND *, int, int, int)
+                                      308
+     GUI_REMIND_OnRefresh(DISP_OBJ_REMIND *)
+                                        8
+     GUI_REMIND_constr(DISP_DESC *)     8
+     GUI_REMIND_destr(GUI *)            0
+     GetIconID(wchar_t *)               8
+     GuiRemind_AddNote(GUI *, REMIND *)
+                                        8
+     GuiRemind_CheckSelected(GUI *)    12
+     GuiRemind_NextRemind(GUI *)        4
+     Reminder_onDel(BOOK *, void *)     4
+     Reminder_onInfo(BOOK *, void *)
+                                       16
+     Reminder_onOK(BOOK *, void *)     12
+     kill_rems(LIST *, MyBOOK *, bool)
+                                       24
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     RemindGuiName                    16
+     GUI_REMIND_OnCreate(DISP_OBJ_REMIND *)
+                                      52
+     GetIconID(wchar_t *)             40
+     kill_rems(LIST *, MyBOOK *, bool)
+                                     240
+     DrawGradient(int, int, int, int, int, int)
+                                     248
+     DrawGradientVert(int, int, int, int, int, int)
+                                     248
+     GUI_REMIND_OnClose(DISP_OBJ_REMIND *)
+                                      48
+     DrawProgressVert(RECT, int, int, int, int)
+                                     152
+     DrawLine(int, int, int, int, int, int, int, int)
+                                      80
+     GUI_REMIND_OnRedraw(DISP_OBJ_REMIND *, int, int, int)
+                                    1408
+     Reminder_onInfo(BOOK *, void *)
+                                      72
+     Reminder_onOK(BOOK *, void *)    88
+     Reminder_onDel(BOOK *, void *)    8
+     GUI_REMIND_OnKey(DISP_OBJ_REMIND *, int, int, int, int)
+                                     288
+     GUI_REMIND_OnRefresh(DISP_OBJ_REMIND *)
+                                      32
+     GUI_REMIND_constr(DISP_DESC *)  116
+     GUI_REMIND_destr(GUI *)           4
+     GUI_REMIND_Create(BOOK *)       164
+     GuiRemind_AddNote(GUI *, REMIND *)
+                                      48
+     GuiRemind_CheckSelected(GUI *)  100
+     GuiRemind_NextRemind(GUI *)      72
+     ??DataTable2                      4
+     ?<Constant L"\x43\x41\x4c\x45\x5f\x52\x4e\x5f\
+                                      48
+     ?<Constant {0, 0, 0, 0}>        152
+     ?<Constant L"\x73\x74\x6f\x70\x2e\x6d\x70\x33"
+                                      20
+      Others                         212
+
+ 
+ 3 724 bytes in segment CODE
+   236 bytes in segment DATA_C
+ 
+ 3 512 bytes of CODE  memory (+ 212 bytes shared)
+   236 bytes of CONST memory
+
+Errors: none
+Warnings: none

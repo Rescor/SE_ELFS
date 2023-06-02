@@ -1,0 +1,431 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:52:11 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\strin #
+#                       g.cpp                                                #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\strin #
+#                       g.cpp -D NDEBUG -lC Z:\home\perk11\www\perk11.info\s #
+#                       vn\SE\SoftEdit\Release\List\ -o                      #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\List\string.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\string.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\string.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          #include "header\structs.h"
+      4          #include "header\extern.h"
+      5          #define F_READ 0x001
+      6          #define F_RIGHTS 0x180
+      7          #define F_WRITE 0x204
+      8          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      9          int getint(char *line, int *pos,char end)
+     10          {
+   \                     ??getint:
+   \   00000000   70002DE9           PUSH     {R4-R6}
+     11            bool minus=false;
+     12            if (line[pos[0]]=='-')
+   \   00000004   003091E5           LDR      R3,[R1, #+0]
+   \   00000008   00C0A0E3           MOV      R12,#+0
+   \   0000000C   0040D3E7           LDRB     R4,[R3, +R0]
+     13            {
+     14              minus=true;
+     15              pos[0]++;
+     16            }
+     17            int ret=0;
+   \   00000010   0A60A0E3           MOV      R6,#+10
+   \   00000014   2D0054E3           CMP      R4,#+45
+   \   00000018   01308302           ADDEQ    R3,R3,#+1
+   \   0000001C   00308105           STREQ    R3,[R1, #+0]
+   \   00000020   004091E5           LDR      R4,[R1, #+0]
+   \   00000024   01C0A003           MOVEQ    R12,#+1
+   \   00000028   0040D4E7           LDRB     R4,[R4, +R0]
+   \   0000002C   0030A0E3           MOV      R3,#+0
+   \   00000030   020054E1           CMP      R4,R2
+   \   00000034   0800000A           BEQ      ??getint_1
+     18            while (line[pos[0]]!=end)
+     19            {
+     20              ret=(ret*10)+(line[pos[0]]-0x30);
+   \                     ??getint_2:
+   \   00000038   004091E5           LDR      R4,[R1, #+0]
+   \   0000003C   0050D4E7           LDRB     R5,[R4, +R0]
+     21              pos[0]++;
+   \   00000040   014084E2           ADD      R4,R4,#+1
+   \   00000044   004081E5           STR      R4,[R1, #+0]
+     22            }
+   \   00000048   0040D4E7           LDRB     R4,[R4, +R0]
+   \   0000004C   965323E0           MLA      R3,R6,R3,R5
+   \   00000050   020054E1           CMP      R4,R2
+   \   00000054   303043E2           SUB      R3,R3,#+48
+   \   00000058   F6FFFF1A           BNE      ??getint_2
+     23            pos[0]++;
+   \                     ??getint_1:
+   \   0000005C   000091E5           LDR      R0,[R1, #+0]
+     24            if (minus)ret=-ret;
+   \   00000060   00005CE3           CMP      R12,#+0
+   \   00000064   010080E2           ADD      R0,R0,#+1
+   \   00000068   000081E5           STR      R0,[R1, #+0]
+     25            return ret;
+   \   0000006C   7000BDE8           POP      {R4-R6}
+   \   00000070   00306312           RSBNE    R3,R3,#+0
+   \   00000074   0300A0E1           MOV      R0,R3
+   \   00000078   1EFF2FE1           BX       LR               ;; return
+     26          };
+     27          
+     28          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     29          char *getchr(char *line, int *pos, char end)
+     30          {
+   \                     ??getchr:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     31            char *ret;
+     32            int start,en;
+     33            start=pos[0];
+   \   00000004   005091E5           LDR      R5,[R1, #+0]
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   000000EA           B        ??getchr_1
+     34            while (line[pos[0]]!=end && line[pos[0]]!=0)
+     35            {
+     36              pos[0]++;
+   \                     ??getchr_2:
+   \   00000010   000081E5           STR      R0,[R1, #+0]
+     37            }
+   \                     ??getchr_1:
+   \   00000014   003091E5           LDR      R3,[R1, #+0]
+   \   00000018   010083E2           ADD      R0,R3,#+1
+   \   0000001C   04C083E0           ADD      R12,R3,R4
+   \   00000020   0060DCE5           LDRB     R6,[R12, #+0]
+   \   00000024   020056E1           CMP      R6,R2
+   \   00000028   00005613           CMPNE    R6,#+0
+   \   0000002C   F7FFFF1A           BNE      ??getchr_2
+     38            en=pos[0];
+     39            pos[0]++;
+   \   00000030   000081E5           STR      R0,[R1, #+0]
+     40            if ((en-start)<=0)
+   \   00000034   056043E0           SUB      R6,R3,R5
+   \   00000038   010056E3           CMP      R6,#+1
+     41            {
+     42              return 0;
+   \   0000003C   0000A0B3           MOVLT    R0,#+0
+   \   00000040   F080BDB8           POPLT    {R4-R7,PC}
+     43            }
+     44            ret = new char[en-start+1];
+   \   00000044   010086E2           ADD      R0,R6,#+1
+   \   00000048   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000004C   0070A0E1           MOV      R7,R0
+     45            memcpy(ret, &line[start], en-start);
+   \   00000050   0620A0E1           MOV      R2,R6
+   \   00000054   041085E0           ADD      R1,R5,R4
+   \   00000058   130100EF           SWI      +275
+     46            ret[en-start]='\0';
+   \   0000005C   0000A0E3           MOV      R0,#+0
+   \   00000060   0700C6E7           STRB     R0,[R6, +R7]
+     47            return ret;
+   \   00000064   0700A0E1           MOV      R0,R7
+   \   00000068   F080BDE8           POP      {R4-R7,PC}       ;; return
+     48          };
+     49          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          wchar_t *getwchr(char *line, int *pos, char end)
+     51          {
+   \                     ??getwchr:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+     52            int start,en;
+     53            start=pos[0];
+   \   00000004   005091E5           LDR      R5,[R1, #+0]
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0400D5E7           LDRB     R0,[R5, +R4]
+   \   00000010   020050E1           CMP      R0,R2
+   \   00000014   0500000A           BEQ      ??getwchr_1
+     54            while (line[pos[0]]!=end)
+     55            {
+     56              pos[0]++;
+   \                     ??getwchr_2:
+   \   00000018   000091E5           LDR      R0,[R1, #+0]
+   \   0000001C   010080E2           ADD      R0,R0,#+1
+   \   00000020   000081E5           STR      R0,[R1, #+0]
+     57            }
+   \   00000024   0400D0E7           LDRB     R0,[R0, +R4]
+   \   00000028   020050E1           CMP      R0,R2
+   \   0000002C   F9FFFF1A           BNE      ??getwchr_2
+     58            en=pos[0];
+   \                     ??getwchr_1:
+   \   00000030   000091E5           LDR      R0,[R1, #+0]
+     59            pos[0]++;
+   \   00000034   012080E2           ADD      R2,R0,#+1
+   \   00000038   002081E5           STR      R2,[R1, #+0]
+     60            if ((en-start)<=0)
+   \   0000003C   056040E0           SUB      R6,R0,R5
+   \   00000040   010056E3           CMP      R6,#+1
+     61            {
+     62              return 0;
+   \   00000044   0000A0B3           MOVLT    R0,#+0
+   \   00000048   F081BDB8           POPLT    {R4-R8,PC}
+     63            }
+     64            int len=en-start;
+     65            wchar_t *wret=new wchar_t[len/2+1];
+   \   0000004C   A60F86E0           ADD      R0,R6,R6, LSR #+31
+   \   00000050   C070A0E1           ASR      R7,R0,#+1
+   \   00000054   010087E2           ADD      R0,R7,#+1
+   \   00000058   8000A0E1           LSL      R0,R0,#+1
+   \   0000005C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000060   0080A0E1           MOV      R8,R0
+     66            memcpy(wret,&line[start], len);
+   \   00000064   0620A0E1           MOV      R2,R6
+   \   00000068   041085E0           ADD      R1,R5,R4
+   \   0000006C   130100EF           SWI      +275
+     67            wret[len/2]=L'\0';
+   \   00000070   870088E0           ADD      R0,R8,R7, LSL #+1
+   \   00000074   0010A0E3           MOV      R1,#+0
+   \   00000078   B010C0E1           STRH     R1,[R0, #+0]
+     68            return wret;
+   \   0000007C   0800A0E1           MOV      R0,R8
+   \   00000080   F081BDE8           POP      {R4-R8,PC}       ;; return
+     69          };
+     70          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     71          void *memmem(const unsigned char *haystack, size_t haystacklen, const void *needle, size_t needlelen)
+     72          {
+   \                     ??memmem:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0250A0E1           MOV      R5,R2
+   \   0000000C   0360A0E1           MOV      R6,R3
+     73            const unsigned char *cursor;
+     74            const unsigned char *last_possible_needle_location = (unsigned char *)haystack + haystacklen - needlelen;
+   \   00000010   0600A0E1           MOV      R0,R6
+   \   00000014   000060E2           RSB      R0,R0,#+0
+   \   00000018   042081E0           ADD      R2,R1,R4
+   \   0000001C   027080E0           ADD      R7,R0,R2
+     75            if (needlelen > haystacklen) return(NULL);
+   \   00000020   060051E1           CMP      R1,R6
+   \   00000024   0100002A           BCS      ??memmem_1
+   \                     ??memmem_2:
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   F080BDE8           POP      {R4-R7,PC}
+     76            if (needle == NULL) return(NULL);
+   \                     ??memmem_1:
+   \   00000030   000055E3           CMP      R5,#+0
+     77            if (haystack == NULL) return(NULL);
+   \   00000034   00005413           CMPNE    R4,#+0
+     78            if (needlelen == 0) return(NULL);
+   \   00000038   00005613           CMPNE    R6,#+0
+     79            if (haystacklen == 0) return(NULL);
+   \   0000003C   00005113           CMPNE    R1,#+0
+   \   00000040   F8FFFF0A           BEQ      ??memmem_2
+     80            
+     81            for (cursor = haystack; cursor <= last_possible_needle_location; cursor++) {
+   \   00000044   000000EA           B        ??memmem_3
+   \                     ??memmem_4:
+   \   00000048   014084E2           ADD      R4,R4,#+1
+   \                     ??memmem_3:
+   \   0000004C   040057E1           CMP      R7,R4
+   \   00000050   F4FFFF3A           BCC      ??memmem_2
+     82              if (memcmp(needle, cursor, needlelen) == 0) {
+   \   00000054   0620A0E1           MOV      R2,R6
+   \   00000058   0410A0E1           MOV      R1,R4
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   7D0200EF           SWI      +637
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   F6FFFF1A           BNE      ??memmem_4
+     83                return((void *) cursor);
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   F080BDE8           POP      {R4-R7,PC}       ;; return
+     84              }
+     85            }
+     86            return(NULL);
+     87          };
+     88          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          char *getparam(char *buf, char *mask, char end, int fsize)
+     90          {
+   \                     ??getparam:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+   \   0000000C   0240A0E1           MOV      R4,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+     91            char *str=0;
+     92            if (str=(char*)memmem((unsigned char const*)buf,fsize,mask,strlen(mask)))
+   \   00000014   0600A0E1           MOV      R0,R6
+   \   00000018   5A0100EF           SWI      +346
+   \   0000001C   0030A0E1           MOV      R3,R0
+   \   00000020   0620A0E1           MOV      R2,R6
+   \   00000024   0710A0E1           MOV      R1,R7
+   \   00000028   0500A0E1           MOV      R0,R5
+   \   0000002C   ........           BL       ??memmem
+   \   00000030   0050B0E1           MOVS     R5,R0
+   \   00000034   1700000A           BEQ      ??getparam_1
+     93            {
+     94              char *ret=0;;
+     95              int addr=(int)str;
+     96              str=(char*)(addr+strlen(mask)+2);
+   \   00000038   0600A0E1           MOV      R0,R6
+   \   0000003C   5A0100EF           SWI      +346
+   \   00000040   050080E0           ADD      R0,R0,R5
+   \   00000044   025080E2           ADD      R5,R0,#+2
+     97              int x=0;
+     98              int len=0;
+   \   00000048   0010D5E5           LDRB     R1,[R5, #+0]
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   040051E1           CMP      R1,R4
+   \   00000054   0100001A           BNE      ??getparam_2
+   \   00000058   030000EA           B        ??getparam_3
+     99              while (str[x]!=end)
+    100              {
+    101                x++;
+   \                     ??getparam_4:
+   \   0000005C   010080E2           ADD      R0,R0,#+1
+    102              }
+   \                     ??getparam_2:
+   \   00000060   0510D0E7           LDRB     R1,[R0, +R5]
+   \   00000064   040051E1           CMP      R1,R4
+   \   00000068   FBFFFF1A           BNE      ??getparam_4
+    103              len=x+1;
+   \                     ??getparam_3:
+   \   0000006C   014080E2           ADD      R4,R0,#+1
+    104              ret=new char[len+1];
+   \   00000070   010084E2           ADD      R0,R4,#+1
+   \   00000074   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000078   0060A0E1           MOV      R6,R0
+    105              memcpy(ret,str,len);
+   \   0000007C   0420A0E1           MOV      R2,R4
+   \   00000080   0510A0E1           MOV      R1,R5
+   \   00000084   130100EF           SWI      +275
+    106              ret[len]='\0';
+   \   00000088   0000A0E3           MOV      R0,#+0
+   \   0000008C   0600C4E7           STRB     R0,[R4, +R6]
+    107              return ret;
+   \   00000090   0600A0E1           MOV      R0,R6
+   \   00000094   F080BDE8           POP      {R4-R7,PC}
+    108            }
+    109            return 0;
+   \                     ??getparam_1:
+   \   00000098   0000A0E3           MOV      R0,#+0
+   \   0000009C   F080BDE8           POP      {R4-R7,PC}       ;; return
+    110          };
+    111          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    112          char *file_read(wchar_t *path, wchar_t *name, int *len)
+    113          {
+   \                     ??file_read:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   1CD04DE2           SUB      SP,SP,#+28
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+   \   00000010   0240A0E1           MOV      R4,R2
+    114            int file;
+    115            FSTAT fst;
+    116            if (fstat(path,name,&fst)==0)
+   \   00000014   0D20A0E1           MOV      R2,SP
+   \   00000018   1C0100EF           SWI      +284
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   1900001A           BNE      ??file_read_1
+    117            {
+    118              if ((file=_fopen(path,name,F_READ,F_RIGHTS,0))>=0)
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   603FA0E3           MOV      R3,#+384
+   \   0000002C   0120A0E3           MOV      R2,#+1
+   \   00000030   0610A0E1           MOV      R1,R6
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   160100EF           SWI      +278
+   \   0000003C   0050B0E1           MOVS     R5,R0
+   \   00000040   04D08DE2           ADD      SP,SP,#+4
+   \   00000044   0F00004A           BMI      ??file_read_2
+    119              {
+    120                char *buf=0;
+    121                buf=new char[fst.fsize+1];
+   \   00000048   08009DE5           LDR      R0,[SP, #+8]
+   \   0000004C   010080E2           ADD      R0,R0,#+1
+   \   00000050   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    122                fread(file,buf,fst.fsize);
+   \   00000054   08209DE5           LDR      R2,[SP, #+8]
+   \   00000058   0060A0E1           MOV      R6,R0
+   \   0000005C   0610A0E1           MOV      R1,R6
+   \   00000060   0500A0E1           MOV      R0,R5
+   \   00000064   180100EF           SWI      +280
+    123                fclose(file);
+   \   00000068   0500A0E1           MOV      R0,R5
+   \   0000006C   170100EF           SWI      +279
+    124                if (len)
+   \   00000070   000054E3           CMP      R4,#+0
+    125                {
+    126                  len[0]=fst.fsize;
+   \   00000074   08009D15           LDRNE    R0,[SP, #+8]
+   \   00000078   00008415           STRNE    R0,[R4, #+0]
+    127                }
+    128                return buf;
+   \   0000007C   0600A0E1           MOV      R0,R6
+   \   00000080   1CD08DE2           ADD      SP,SP,#+28
+   \   00000084   7080BDE8           POP      {R4-R6,PC}
+    129              }
+    130              fclose(file);
+   \                     ??file_read_2:
+   \   00000088   170100EF           SWI      +279
+    131            }
+    132            return 0;
+   \                     ??file_read_1:
+   \   0000008C   0000A0E3           MOV      R0,#+0
+   \   00000090   1CD08DE2           ADD      SP,SP,#+28
+   \   00000094   7080BDE8           POP      {R4-R6,PC}       ;; return
+    133          };
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     file_read(wchar_t *, wchar_t *, int *)
+                                       48
+     getchr(char *, int *, char)       20
+     getint(char *, int *, char)       12
+     getparam(char *, char *, char, int)
+                                       20
+     getwchr(char *, int *, char)      24
+     memmem(unsigned char const *, size_t, void const *, size_t)
+                                       20
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     getint(char *, int *, char)     124
+     getchr(char *, int *, char)     108
+     getwchr(char *, int *, char)    132
+     memmem(unsigned char const *, size_t, void const *, size_t)
+                                     116
+     getparam(char *, char *, char, int)
+                                     160
+     file_read(wchar_t *, wchar_t *, int *)
+                                     152
+      Others                          36
+
+ 
+ 828 bytes in segment CODE
+ 
+ 792 bytes of CODE memory (+ 36 bytes shared)
+
+Errors: none
+Warnings: none

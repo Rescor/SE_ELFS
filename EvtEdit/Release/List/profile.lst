@@ -1,0 +1,658 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:56:07 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\profil #
+#                       e.c                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\profil #
+#                       e.c -D NDEBUG -D OLDFUNCTIONS -lC                    #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Ev #
+#                       tEdit\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\EvtEdit\Release\Obj\ -s9 --cpu_mode arm     #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --enable_multibytes --fpu None        #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\profile.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\Obj\profile.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\profile.c
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "header\pages.h"
+      6          #include "header\lng.h"
+      7          #include "header\externals.h"
+
+   \                                 In segment DATA_I, align 4, align-sorted
+      8          wchar_t *profiles[]={L"IA_AUTOMATIC_TXT",L"NORMAL_TXT",L"MEETING_TXT",L"IN_CAR_TXT",L"OUTDOORS_TXT",L"HANDSFREE_PROFILE_TXT",L"HOME_TXT",L"OFFICE_TXT"};
+   \                     profiles:
+   \   00000000                      DS8 32
+   \   00000020                      REQUIRE `?<Initializer for profiles>`
+      9          wchar_t *picns[]={L"JOYSTICK_DESKTOP_MENU_ICN",L"PROFILE_NORMAL_LIST_ICN", L"PROFILE_MEETING_LIST_ICN", L"PROFILE_INCAR_LIST_ICN", L"PROFILE_OUTDOORS_LIST_ICN", L"PROFILE_PHF_LIST_ICN", L"PROFILE_HOME_LIST_ICN", L"PROFILE_OFFICE_LIST_ICN"};
+   \                     picns:
+   \   00000020                      DS8 32
+   \   00000040                      REQUIRE `?<Initializer for picns>`
+     10          
+     11          int isEvtEditBook(BOOK * struc);
+     12          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          void Profiles_OnSelect(BOOK *bk, GUI* )
+     14          {
+   \                     ??Profiles_OnSelect:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     15            MyBOOK *mbk=(MyBOOK *)bk;
+     16            int item=ListMenu_GetSelectedItem(mbk->profiles);
+   \   00000008   6C0094E5           LDR      R0,[R4, #+108]
+   \   0000000C   3E0100EF           SWI      +318
+   \   00000010   0050A0E1           MOV      R5,R0
+     17            if (mbk->selev->param)delete(mbk->selev->param);
+   \   00000014   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000018   340090E5           LDR      R0,[R0, #+52]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0200000A           BEQ      ??Profiles_OnSelect_1
+   \   00000024   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000028   340090E5           LDR      R0,[R0, #+52]
+   \   0000002C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     18            mbk->selev->param=new wchar_t[2];
+   \                     ??Profiles_OnSelect_1:
+   \   00000030   0400A0E3           MOV      R0,#+4
+   \   00000034   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000038   1C1094E5           LDR      R1,[R4, #+28]
+     19            snwprintf(mbk->selev->param,1,L"%d",item);
+   \   0000003C   34209FE5           LDR      R2,??Profiles_OnSelect_2  ;; `?<Constant L"\\x25\\x64">`
+   \   00000040   340081E5           STR      R0,[R1, #+52]
+   \   00000044   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000048   0530A0E1           MOV      R3,R5
+   \   0000004C   340090E5           LDR      R0,[R0, #+52]
+   \   00000050   0110A0E3           MOV      R1,#+1
+   \   00000054   150100EF           SWI      +277
+     20            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \   00000058   ........           LDR      R0,??DataTable1  ;; PREVIOUS_EVENT
+   \   0000005C   001090E5           LDR      R1,[R0, #+0]
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   2E0100EF           SWI      +302
+     21            BookObj_CallPage(bk,&bk_main);
+   \   00000068   0C109FE5           LDR      R1,??Profiles_OnSelect_2+0x4  ;; bk_main
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   B80200EF           SWI      +696
+     22          };
+   \   00000074   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Profiles_OnSelect_2:
+   \   00000078   ........           DC32     `?<Constant L"\\x25\\x64">`
+   \   0000007C   ........           DC32     bk_main
+     23          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     24          int Profiles_onLBMessage(GUI_MESSAGE * msg)
+     25          {
+   \                     ??Profiles_onLBMessage:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   0040A0E1           MOV      R4,R0
+     26            switch( GUIonMessage_GetMsg(msg) )
+   \   0000000C   740300EF           SWI      +884
+   \   00000010   010050E3           CMP      R0,#+1
+   \   00000014   2400001A           BNE      ??Profiles_onLBMessage_1
+     27            {
+     28            case 1:
+     29              MyBOOK *mbk=(MyBOOK*)FindBook(isEvtEditBook);
+   \   00000018   94009FE5           LDR      R0,??Profiles_onLBMessage_2  ;; ??isEvtEditBook
+     30              int item=GUIonMessage_GetCreatedItemIndex(msg);
+     31              int id=EMPTY_TEXTID;
+     32              textidname2id(profiles[item],0xFFFFFFFF,&id);
+   \   0000001C   94709FE5           LDR      R7,??Profiles_onLBMessage_2+0x4  ;; profiles
+   \   00000020   300100EF           SWI      +304
+   \   00000024   0050A0E1           MOV      R5,R0
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   370100EF           SWI      +311
+   \   00000030   0060A0E1           MOV      R6,R0
+   \   00000034   9014E0E3           MVN      R1,#-1879048192
+   \   00000038   00108DE5           STR      R1,[SP, #+0]
+   \   0000003C   060197E7           LDR      R0,[R7, +R6, LSL #+2]
+   \   00000040   0D20A0E1           MOV      R2,SP
+   \   00000044   901481E3           ORR      R1,R1,#0x90000000
+   \   00000048   870200EF           SWI      +647
+     33              GUIonMessage_SetMenuItemText(msg,id);
+   \   0000004C   00109DE5           LDR      R1,[SP, #+0]
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   380100EF           SWI      +312
+     34              int ic=NOIMAGE;
+   \   00000058   FF10A0E3           MOV      R1,#+255
+   \   0000005C   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000060   04108DE5           STR      R1,[SP, #+4]
+     35              iconidname2id(picns[item],0xFFFFFFFF,&ic);
+   \   00000064   04208DE2           ADD      R2,SP,#+4
+   \   00000068   0010E0E3           MVN      R1,#+0
+   \   0000006C   060187E0           ADD      R0,R7,R6, LSL #+2
+   \   00000070   200090E5           LDR      R0,[R0, #+32]
+   \   00000074   860200EF           SWI      +646
+     36              GUIonMessage_SetMenuItemIcon (msg,0, ic);
+   \   00000078   04209DE5           LDR      R2,[SP, #+4]
+   \   0000007C   0010A0E3           MOV      R1,#+0
+   \   00000080   0228A0E1           MOV      R2,R2, LSL #+16
+   \   00000084   2228A0E1           MOV      R2,R2, LSR #+16
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   3C0100EF           SWI      +316
+     37              if (item==0 && mbk->prof_type==1)
+   \   00000090   000056E3           CMP      R6,#+0
+   \   00000094   9C009505           LDREQ    R0,[R5, #+156]
+   \   00000098   01005003           CMPEQ    R0,#+1
+   \   0000009C   0200001A           BNE      ??Profiles_onLBMessage_1
+     38              {
+     39                GUIonMessage_SetItemDisabled(msg, 1);
+   \   000000A0   0110A0E3           MOV      R1,#+1
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   820200EF           SWI      +642
+     40              }
+     41            }
+     42            return(1);
+   \                     ??Profiles_onLBMessage_1:
+   \   000000AC   0100A0E3           MOV      R0,#+1
+   \   000000B0   F680BDE8           POP      {R1,R2,R4-R7,PC}  ;; return
+   \                     ??Profiles_onLBMessage_2:
+   \   000000B4   ........           DC32     ??isEvtEditBook
+   \   000000B8   ........           DC32     profiles
+     43          };
+     44          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     45          void Profiles_OnBack(BOOK *bk, GUI* )
+     46          {
+     47            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \                     ??Profiles_OnBack:
+   \   00000000   ........           LDR      R1,??DataTable1  ;; PREVIOUS_EVENT
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   2E0100EF           SWI      +302
+     48          };
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     49          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          GUI_LIST * Profiles_CreateGuiList(BOOK * book)
+     51          {
+   \                     ??Profiles_CreateGuiList:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     52            GUI_LIST * lo=0;
+     53            if (lo=CreateListMenu(book,0))
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   C00100EF           SWI      +448
+   \   0000000C   0040B0E1           MOVS     R4,R0
+   \   00000010   2200000A           BEQ      ??Profiles_CreateGuiList_1
+     54            {
+     55              GUIObject_SetTitleText(lo,TextID_Create(lng[CHOOSE_PROF],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000014   8C009FE5           LDR      R0,??Profiles_CreateGuiList_2  ;; lng + 160
+   \   00000018   FF20A0E3           MOV      R2,#+255
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   5D0100EF           SWI      +349
+   \   0000002C   0010A0E1           MOV      R1,R0
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   330100EF           SWI      +307
+     56              ListMenu_SetItemCount(lo,8);
+   \   00000038   0810A0E3           MOV      R1,#+8
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   C10100EF           SWI      +449
+     57              ListMenu_SetCursorToItem(lo,0);
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   350100EF           SWI      +309
+     58              ListMenu_SetOnMessage(lo,Profiles_onLBMessage);
+   \   00000050   54109FE5           LDR      R1,??Profiles_CreateGuiList_2+0x4  ;; ??Profiles_onLBMessage
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   740100EF           SWI      +372
+     59              ListMenu_SetItemStyle(lo,0);
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   3F0100EF           SWI      +319
+     60              GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, Profiles_OnBack);
+   \   00000068   40009FE5           LDR      R0,??Profiles_CreateGuiList_2+0x8  ;; ACTION_BACK
+   \   0000006C   40209FE5           LDR      R2,??Profiles_CreateGuiList_2+0xC  ;; ??Profiles_OnBack
+   \   00000070   001090E5           LDR      R1,[R0, #+0]
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000007C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000080   4B0100EF           SWI      +331
+     61              GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,Profiles_OnSelect);
+   \   00000084   2C009FE5           LDR      R0,??Profiles_CreateGuiList_2+0x10  ;; ACTION_SELECT1
+   \   00000088   2C209FE5           LDR      R2,??Profiles_CreateGuiList_2+0x14  ;; ??Profiles_OnSelect
+   \   0000008C   001090E5           LDR      R1,[R0, #+0]
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000098   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000009C   4B0100EF           SWI      +331
+     62            }
+     63            return(lo);
+   \                     ??Profiles_CreateGuiList_1:
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??Profiles_CreateGuiList_2:
+   \   000000A8   ........           DC32     lng + 160
+   \   000000AC   ........           DC32     ??Profiles_onLBMessage
+   \   000000B0   ........           DC32     ACTION_BACK
+   \   000000B4   ........           DC32     ??Profiles_OnBack
+   \   000000B8   ........           DC32     ACTION_SELECT1
+   \   000000BC   ........           DC32     ??Profiles_OnSelect
+     64          };
+     65          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          GUI_LIST *create_profiles(BOOK *book)
+     67          {
+   \                     ??create_profiles:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     68            MyBOOK *mbk=(MyBOOK *)book;
+     69            mbk->profiles=Profiles_CreateGuiList(book);
+   \   00000008   ........           BL       ??Profiles_CreateGuiList
+   \   0000000C   6C0084E5           STR      R0,[R4, #+108]
+     70            GUIObject_Show(mbk->profiles);
+   \   00000010   340100EF           SWI      +308
+     71            return(mbk->profiles);
+   \   00000014   6C0094E5           LDR      R0,[R4, #+108]
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+     72          };
+     73          
+     74          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     75          static int Profiles_OnEnter(void *, BOOK * bk)
+     76          {
+   \                     ??Profiles_OnEnter:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+     77            create_profiles(bk);
+   \   00000008   ........           BL       ??create_profiles
+     78            return 1;
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     79          };
+     80          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     81          static int Profiles_OnExit(void *, BOOK * bk)
+     82          {
+   \                     ??Profiles_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     83            MyBOOK *mbk=(MyBOOK *)bk;
+     84            FREE_GUI(mbk->profiles);
+   \   00000008   6C0094E5           LDR      R0,[R4, #+108]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??Profiles_OnExit_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   6C0084E5           STR      R0,[R4, #+108]
+     85            return (1);  
+   \                     ??Profiles_OnExit_1:
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+     86          };
+     87          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+     88          const PAGE_MSG bk_msglst_profiles[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_profiles:
+   \   00000000   42000000....       DC32 66, ??Profiles_OnEnter, 67, ??Profiles_OnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+     89          {
+     90            PAGE_ENTER_EVENT_TAG,    Profiles_OnEnter,
+     91            PAGE_EXIT_EVENT_TAG,     Profiles_OnExit,
+     92            NIL_EVENT_TAG,           NULL
+     93          };
+     94          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     95          const PAGE_DESC bk_profiles = {"EvtEdit_Profiles_Page",0,bk_msglst_profiles};
+   \                     bk_profiles:
+   \   00000000   ........0000       DC32 `?<Constant "EvtEdit_Profiles_Page">`, 0H, bk_msglst_profiles
+   \              0000........
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     PREVIOUS_EVENT
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for profiles>`:
+   \   00000000   ........           DC32 `?<Constant L"\\x49\\x41\\x5f\\x41\\x55\\x54\\x4f\\x4d\\`
+   \   00000004   ........           DC32 `?<Constant L"\\x4e\\x4f\\x52\\x4d\\x41\\x4c\\x5f\\x54\\`
+   \   00000008   ........           DC32 `?<Constant L"\\x4d\\x45\\x45\\x54\\x49\\x4e\\x47\\x5f\\`
+   \   0000000C   ........           DC32 `?<Constant L"\\x49\\x4e\\x5f\\x43\\x41\\x52\\x5f\\x54\\`
+   \   00000010   ........           DC32 `?<Constant L"\\x4f\\x55\\x54\\x44\\x4f\\x4f\\x52\\x53\\`
+   \   00000014   ........           DC32 `?<Constant L"\\x48\\x41\\x4e\\x44\\x53\\x46\\x52\\x45\\`
+   \   00000018   ........           DC32 `?<Constant L"\\x48\\x4f\\x4d\\x45\\x5f\\x54\\x58\\x54"`
+   \   0000001C   ........           DC32 `?<Constant L"\\x4f\\x46\\x46\\x49\\x43\\x45\\x5f\\x54\\`
+   \                     `?<Initializer for picns>`:
+   \   00000020   ........           DC32 `?<Constant L"\\x4a\\x4f\\x59\\x53\\x54\\x49\\x43\\x4b\\`
+   \   00000024   ........           DC32 `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\`
+   \   00000028   ........           DC32 `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_1`
+   \   0000002C   ........           DC32 `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_2`
+   \   00000030   ........           DC32 `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_3`
+   \   00000034   ........           DC32 `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_4`
+   \   00000038   ........           DC32 `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_5`
+   \   0000003C   ........           DC32 `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_6`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x49\\x41\\x5f\\x41\\x55\\x54\\x4f\\x4d\\`:
+   \   00000000   490041005F00       DC8 49H, 0, 41H, 0, 5FH, 0, 41H, 0
+   \              4100        
+   \   00000008   550054004F00       DC8 55H, 0, 54H, 0, 4FH, 0, 4DH, 0
+   \              4D00        
+   \   00000010   410054004900       DC8 41H, 0, 54H, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000018   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4e\\x4f\\x52\\x4d\\x41\\x4c\\x5f\\x54\\`:
+   \   00000000   4E004F005200       DC8 4EH, 0, 4FH, 0, 52H, 0, 4DH, 0
+   \              4D00        
+   \   00000008   41004C005F00       DC8 41H, 0, 4CH, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000010   580054000000       DC8 58H, 0, 54H, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x45\\x45\\x54\\x49\\x4e\\x47\\x5f\\`:
+   \   00000000   4D0045004500       DC8 4DH, 0, 45H, 0, 45H, 0, 54H, 0
+   \              5400        
+   \   00000008   49004E004700       DC8 49H, 0, 4EH, 0, 47H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   540058005400       DC8 54H, 0, 58H, 0, 54H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x49\\x4e\\x5f\\x43\\x41\\x52\\x5f\\x54\\`:
+   \   00000000   49004E005F00       DC8 49H, 0, 4EH, 0, 5FH, 0, 43H, 0
+   \              4300        
+   \   00000008   410052005F00       DC8 41H, 0, 52H, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000010   580054000000       DC8 58H, 0, 54H, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4f\\x55\\x54\\x44\\x4f\\x4f\\x52\\x53\\`:
+   \   00000000   4F0055005400       DC8 4FH, 0, 55H, 0, 54H, 0, 44H, 0
+   \              4400        
+   \   00000008   4F004F005200       DC8 4FH, 0, 4FH, 0, 52H, 0, 53H, 0
+   \              5300        
+   \   00000010   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x48\\x41\\x4e\\x44\\x53\\x46\\x52\\x45\\`:
+   \   00000000   480041004E00       DC8 48H, 0, 41H, 0, 4EH, 0, 44H, 0
+   \              4400        
+   \   00000008   530046005200       DC8 53H, 0, 46H, 0, 52H, 0, 45H, 0
+   \              4500        
+   \   00000010   45005F005000       DC8 45H, 0, 5FH, 0, 50H, 0, 52H, 0
+   \              5200        
+   \   00000018   4F0046004900       DC8 4FH, 0, 46H, 0, 49H, 0, 4CH, 0
+   \              4C00        
+   \   00000020   45005F005400       DC8 45H, 0, 5FH, 0, 54H, 0, 58H, 0
+   \              5800        
+   \   00000028   54000000           DC8 54H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x48\\x4f\\x4d\\x45\\x5f\\x54\\x58\\x54"`:
+   \   00000000   48004F004D00       DC8 48H, 0, 4FH, 0, 4DH, 0, 45H, 0
+   \              4500        
+   \   00000008   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000010   0000               DC8 0, 0
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4f\\x46\\x46\\x49\\x43\\x45\\x5f\\x54\\`:
+   \   00000000   4F0046004600       DC8 4FH, 0, 46H, 0, 46H, 0, 49H, 0
+   \              4900        
+   \   00000008   430045005F00       DC8 43H, 0, 45H, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000010   580054000000       DC8 58H, 0, 54H, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4a\\x4f\\x59\\x53\\x54\\x49\\x43\\x4b\\`:
+   \   00000000   4A004F005900       DC8 4AH, 0, 4FH, 0, 59H, 0, 53H, 0
+   \              5300        
+   \   00000008   540049004300       DC8 54H, 0, 49H, 0, 43H, 0, 4BH, 0
+   \              4B00        
+   \   00000010   5F0044004500       DC8 5FH, 0, 44H, 0, 45H, 0, 53H, 0
+   \              5300        
+   \   00000018   4B0054004F00       DC8 4BH, 0, 54H, 0, 4FH, 0, 50H, 0
+   \              5000        
+   \   00000020   5F004D004500       DC8 5FH, 0, 4DH, 0, 45H, 0, 4EH, 0
+   \              4E00        
+   \   00000028   55005F004900       DC8 55H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000030   4E000000           DC8 4EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\`:
+   \   00000000   500052004F00       DC8 50H, 0, 52H, 0, 4FH, 0, 46H, 0
+   \              4600        
+   \   00000008   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   4E004F005200       DC8 4EH, 0, 4FH, 0, 52H, 0, 4DH, 0
+   \              4D00        
+   \   00000018   41004C005F00       DC8 41H, 0, 4CH, 0, 5FH, 0, 4CH, 0
+   \              4C00        
+   \   00000020   490053005400       DC8 49H, 0, 53H, 0, 54H, 0, 5FH, 0
+   \              5F00        
+   \   00000028   490043004E00       DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_1`:
+   \   00000000   500052004F00       DC8 50H, 0, 52H, 0, 4FH, 0, 46H, 0
+   \              4600        
+   \   00000008   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   4D0045004500       DC8 4DH, 0, 45H, 0, 45H, 0, 54H, 0
+   \              5400        
+   \   00000018   49004E004700       DC8 49H, 0, 4EH, 0, 47H, 0, 5FH, 0
+   \              5F00        
+   \   00000020   4C0049005300       DC8 4CH, 0, 49H, 0, 53H, 0, 54H, 0
+   \              5400        
+   \   00000028   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000030   0000               DC8 0, 0
+   \   00000032   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_2`:
+   \   00000000   500052004F00       DC8 50H, 0, 52H, 0, 4FH, 0, 46H, 0
+   \              4600        
+   \   00000008   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   49004E004300       DC8 49H, 0, 4EH, 0, 43H, 0, 41H, 0
+   \              4100        
+   \   00000018   52005F004C00       DC8 52H, 0, 5FH, 0, 4CH, 0, 49H, 0
+   \              4900        
+   \   00000020   530054005F00       DC8 53H, 0, 54H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000028   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   0000002E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_3`:
+   \   00000000   500052004F00       DC8 50H, 0, 52H, 0, 4FH, 0, 46H, 0
+   \              4600        
+   \   00000008   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   4F0055005400       DC8 4FH, 0, 55H, 0, 54H, 0, 44H, 0
+   \              4400        
+   \   00000018   4F004F005200       DC8 4FH, 0, 4FH, 0, 52H, 0, 53H, 0
+   \              5300        
+   \   00000020   5F004C004900       DC8 5FH, 0, 4CH, 0, 49H, 0, 53H, 0
+   \              5300        
+   \   00000028   54005F004900       DC8 54H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000030   4E000000           DC8 4EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_4`:
+   \   00000000   500052004F00       DC8 50H, 0, 52H, 0, 4FH, 0, 46H, 0
+   \              4600        
+   \   00000008   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   500048004600       DC8 50H, 0, 48H, 0, 46H, 0, 5FH, 0
+   \              5F00        
+   \   00000018   4C0049005300       DC8 4CH, 0, 49H, 0, 53H, 0, 54H, 0
+   \              5400        
+   \   00000020   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000028   0000               DC8 0, 0
+   \   0000002A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_5`:
+   \   00000000   500052004F00       DC8 50H, 0, 52H, 0, 4FH, 0, 46H, 0
+   \              4600        
+   \   00000008   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   48004F004D00       DC8 48H, 0, 4FH, 0, 4DH, 0, 45H, 0
+   \              4500        
+   \   00000018   5F004C004900       DC8 5FH, 0, 4CH, 0, 49H, 0, 53H, 0
+   \              5300        
+   \   00000020   54005F004900       DC8 54H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000028   4E000000           DC8 4EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x50\\x52\\x4f\\x46\\x49\\x4c\\x45\\x5f\\_6`:
+   \   00000000   500052004F00       DC8 50H, 0, 52H, 0, 4FH, 0, 46H, 0
+   \              4600        
+   \   00000008   49004C004500       DC8 49H, 0, 4CH, 0, 45H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   4F0046004600       DC8 4FH, 0, 46H, 0, 46H, 0, 49H, 0
+   \              4900        
+   \   00000018   430045005F00       DC8 43H, 0, 45H, 0, 5FH, 0, 4CH, 0
+   \              4C00        
+   \   00000020   490053005400       DC8 49H, 0, 53H, 0, 54H, 0, 5FH, 0
+   \              5F00        
+   \   00000028   490043004E00       DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtEdit_Profiles_Page">`:
+   \   00000000   457674456469       DC8 "EvtEdit_Profiles_Page"
+   \              745F50726F66
+   \              696C65735F50
+   \              61676500    
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x64">`:
+   \   00000000   250064000000       DC8 25H, 0, 64H, 0, 0, 0
+   \   00000006   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Profiles_CreateGuiList(BOOK *)     8
+     Profiles_OnBack(BOOK *, GUI *)     4
+     Profiles_OnEnter(void *, BOOK *)
+                                        4
+     Profiles_OnExit(void *, BOOK *)
+                                        8
+     Profiles_OnSelect(BOOK *, GUI *)
+                                       12
+     Profiles_onLBMessage(GUI_MESSAGE *)
+                                       28
+     create_profiles(BOOK *)            8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     profiles                         64
+     Profiles_OnSelect(BOOK *, GUI *)
+                                     128
+     Profiles_onLBMessage(GUI_MESSAGE *)
+                                     188
+     Profiles_OnBack(BOOK *, GUI *)   20
+     Profiles_CreateGuiList(BOOK *)  192
+     create_profiles(BOOK *)          28
+     Profiles_OnEnter(void *, BOOK *)
+                                      20
+     Profiles_OnExit(void *, BOOK *)
+                                      36
+     bk_msglst_profiles               24
+     bk_profiles                      12
+     ??DataTable1                      4
+     ?<Initializer for profiles>      64
+     ?<Constant L"\x49\x41\x5f\x41\x55\x54\x4f\x4d\
+                                      36
+     ?<Constant L"\x4e\x4f\x52\x4d\x41\x4c\x5f\x54\
+                                      24
+     ?<Constant L"\x4d\x45\x45\x54\x49\x4e\x47\x5f\
+                                      24
+     ?<Constant L"\x49\x4e\x5f\x43\x41\x52\x5f\x54\
+                                      24
+     ?<Constant L"\x4f\x55\x54\x44\x4f\x4f\x52\x53\
+                                      28
+     ?<Constant L"\x48\x41\x4e\x44\x53\x46\x52\x45\
+                                      44
+     ?<Constant L"\x48\x4f\x4d\x45\x5f\x54\x58\x54"
+                                      20
+     ?<Constant L"\x4f\x46\x46\x49\x43\x45\x5f\x54\
+                                      24
+     ?<Constant L"\x4a\x4f\x59\x53\x54\x49\x43\x4b\
+                                      52
+     ?<Constant L"\x50\x52\x4f\x46\x49\x4c\x45\x5f\
+                                      48
+     ?<Constant L"\x50\x52\x4f\x46\x49\x4c\x45\x5f\_1
+                                      52
+     ?<Constant L"\x50\x52\x4f\x46\x49\x4c\x45\x5f\_2
+                                      48
+     ?<Constant L"\x50\x52\x4f\x46\x49\x4c\x45\x5f\_3
+                                      52
+     ?<Constant L"\x50\x52\x4f\x46\x49\x4c\x45\x5f\_4
+                                      44
+     ?<Constant L"\x50\x52\x4f\x46\x49\x4c\x45\x5f\_5
+                                      44
+     ?<Constant L"\x50\x52\x4f\x46\x49\x4c\x45\x5f\_6
+                                      48
+     ?<Constant "EvtEdit_Profiles_Page">
+                                      24
+     ?<Constant L"\x25\x64">           8
+      Others                          64
+
+ 
+ 668 bytes in segment CODE
+ 656 bytes in segment DATA_C
+  64 bytes in segment DATA_I
+  64 bytes in segment DATA_ID
+  24 bytes in segment DYN_PAGE
+  12 bytes in segment INITTAB
+ 
+ 616 bytes of CODE  memory (+ 64 bytes shared)
+ 744 bytes of CONST memory
+  64 bytes of DATA  memory
+
+Errors: none
+Warnings: none

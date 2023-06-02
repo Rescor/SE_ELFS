@@ -1,0 +1,786 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:11:06 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \DecoderInit.cpp                                     #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \DecoderInit.cpp -D NDEBUG -D ENG -D OLDFUNCTIONS    #
+#                       -lC Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDis #
+#                       play\Release_ENG\List\ -lA                           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\ -o Z:\home\perk11\www\perk11.info #
+#                       \svn\SE\WalkmanDisplay\Release_ENG\Obj\ -s9          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\List\DecoderInit.lst                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_ENG\Obj\DecoderInit.r79                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\DecoderInit.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "..\include\dir.h"
+      4          #include "header\wdisplay.h"
+      5          #include "header\decoder.h"
+      6          #include "header\config_data.h"
+      7          
+      8          #define TAG_TITLE 1
+      9          #define TAG_ALBUM 2
+     10          #define TAG_ARTIST 0
+     11          #define TAG_YEAR 3
+     12          #define TAG_GENRE 4
+     13          
+     14          wchar_t GetBitmap(wchar_t *path, wchar_t *name);
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     15          MUSIC nowmusic;
+   \                     nowmusic:
+   \   00000000                      DS8 10280
+     16          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     17          wchar_t *types[4]={
+   \                     types:
+   \   00000000                      DS8 16
+   \   00000010                      REQUIRE `?<Initializer for types>`
+     18            L"jpg",
+     19            L"gif",
+     20            L"png",
+     21            L"bmp"
+     22          };
+     23          
+     24          #pragma optimize = z 9
+
+   \                                 In segment CODE, align 4, keep-with-next
+     25          wchar_t * GetType_str(int cover_type)
+     26          {
+     27            if (cover_type<=3)
+   \                     ??GetType_str:
+   \   00000000   040050E3           CMP      R0,#+4
+     28            {
+     29              return types[cover_type];
+   \   00000004   0C109FB5           LDRLT    R1,??GetType_str_1  ;; types
+   \   00000008   000191B7           LDRLT    R0,[R1, +R0, LSL #+2]
+   \   0000000C   1EFF2FB1           BXLT     LR
+     30            }
+     31            return 0;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+   \                     ??GetType_str_1:
+   \   00000018   ........           DC32     types
+     32          };
+     33          
+     34          #pragma optimize = z 9
+
+   \                                 In segment CODE, align 4, keep-with-next
+     35          wchar_t GetCover(void *TagStructure, wchar_t *path, wchar_t *name, METADATA *meta)
+     36          {
+   \                     ??GetCover:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   28D04DE2           SUB      SP,SP,#+40
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   0270A0E1           MOV      R7,R2
+   \   00000010   0410A0E3           MOV      R1,#+4
+   \   00000014   A01D81E3           ORR      R1,R1,#0x2800
+   \   00000018   035081E0           ADD      R5,R1,R3
+   \   0000001C   FF60A0E3           MOV      R6,#+255
+   \   00000020   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000024   B060C5E1           STRH     R6,[R5, #+0]
+     37            char cover_type;
+     38            int size;
+     39            int cover_offset;
+     40            meta->ImageID=NOIMAGE;
+     41            if (MetaData_Desc_GetCoverInfo(TagStructure,&cover_type,&size,&cover_offset)!=0)
+   \   00000028   04308DE2           ADD      R3,SP,#+4
+   \   0000002C   0D20A0E1           MOV      R2,SP
+   \   00000030   08108DE2           ADD      R1,SP,#+8
+   \   00000034   010300EF           SWI      +769
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   2900000A           BEQ      ??GetCover_1
+     42            {
+     43              if (cover_offset>0 && size>0)
+   \   00000040   04009DE5           LDR      R0,[SP, #+4]
+   \   00000044   010050E3           CMP      R0,#+1
+   \   00000048   00009DA5           LDRGE    R0,[SP, #+0]
+   \   0000004C   010050A3           CMPGE    R0,#+1
+   \   00000050   240000BA           BLT      ??GetCover_1
+     44              {
+     45                int f;
+     46                if (f=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0x0)>=0)
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   01002DE9           PUSH     {R0}
+   \   0000005C   603FA0E3           MOV      R3,#+384
+   \   00000060   0120A0E3           MOV      R2,#+1
+   \   00000064   0710A0E1           MOV      R1,R7
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   160100EF           SWI      +278
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   04D08DE2           ADD      SP,SP,#+4
+   \   00000078   2A00004A           BMI      ??GetCover_2
+     47                {
+     48                  if (lseek(f,cover_offset,0)>=0)
+   \   0000007C   04109DE5           LDR      R1,[SP, #+4]
+   \   00000080   0170A0E3           MOV      R7,#+1
+   \   00000084   0020A0E3           MOV      R2,#+0
+   \   00000088   0100A0E3           MOV      R0,#+1
+   \   0000008C   760100EF           SWI      +374
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   1100004A           BMI      ??GetCover_3
+     49                  {
+     50                    char * my_buf=new char[size+1];
+   \   00000098   00009DE5           LDR      R0,[SP, #+0]
+   \   0000009C   010080E2           ADD      R0,R0,#+1
+   \   000000A0   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+     51                    fread(f,my_buf,size);
+   \   000000A4   00209DE5           LDR      R2,[SP, #+0]
+   \   000000A8   0080A0E1           MOV      R8,R0
+   \   000000AC   0810A0E1           MOV      R1,R8
+   \   000000B0   0100A0E3           MOV      R0,#+1
+   \   000000B4   180100EF           SWI      +280
+     52                    
+     53                    ImageID_GetIndirect(my_buf,size,0,GetType_str(cover_type),&meta->ImageID);
+   \   000000B8   0800DDE5           LDRB     R0,[SP, #+8]
+   \   000000BC   ........           BL       ??GetType_str
+   \   000000C0   0510A0E1           MOV      R1,R5
+   \   000000C4   02002DE9           PUSH     {R1}
+   \   000000C8   0030A0E1           MOV      R3,R0
+   \   000000CC   0020A0E3           MOV      R2,#+0
+   \   000000D0   04109DE5           LDR      R1,[SP, #+4]
+   \   000000D4   0800A0E1           MOV      R0,R8
+   \   000000D8   020300EF           SWI      +770
+   \   000000DC   04D08DE2           ADD      SP,SP,#+4
+     54                  }
+     55                }
+     56                fclose(f);
+   \                     ??GetCover_3:
+   \   000000E0   0700A0E1           MOV      R0,R7
+   \   000000E4   170100EF           SWI      +279
+     57              }
+     58            }
+     59          
+     60            if (meta->ImageID==NOIMAGE && use_albumpng==true)
+   \                     ??GetCover_1:
+   \   000000E8   B000D5E1           LDRH     R0,[R5, #+0]
+   \   000000EC   060050E1           CMP      R0,R6
+   \   000000F0   6C009F05           LDREQ    R0,??GetCover_4  ;; use_albumpng
+   \   000000F4   00009005           LDREQ    R0,[R0, #+0]
+   \   000000F8   01005003           CMPEQ    R0,#+1
+   \   000000FC   1500001A           BNE      ??GetCover_5
+     61            {
+     62              FSTAT fst;
+     63              if (fstat(path,L"album.png",&fst)==0)
+   \   00000100   60609FE5           LDR      R6,??GetCover_4+0x4  ;; `?<Constant L"\\x61\\x6c\\x62\\x75\\x6d\\x2e\\x70\\x6e\\`
+   \   00000104   0C208DE2           ADD      R2,SP,#+12
+   \   00000108   0610A0E1           MOV      R1,R6
+   \   0000010C   0400A0E1           MOV      R0,R4
+   \   00000110   1C0100EF           SWI      +284
+   \   00000114   000050E3           CMP      R0,#+0
+   \   00000118   0400001A           BNE      ??GetCover_6
+     64              {
+     65                ImageID_Get(path,L"album.png",&meta->ImageID);
+   \   0000011C   0520A0E1           MOV      R2,R5
+   \   00000120   0610A0E1           MOV      R1,R6
+   \   00000124   090000EA           B        ??GetCover_7
+     66              }
+   \                     ??GetCover_2:
+   \   00000128   0070A0E3           MOV      R7,#+0
+   \   0000012C   EBFFFFEA           B        ??GetCover_3
+     67              else if (fstat(path,L"cover.png",&fst)==0)
+   \                     ??GetCover_6:
+   \   00000130   0C208DE2           ADD      R2,SP,#+12
+   \   00000134   141086E2           ADD      R1,R6,#+20
+   \   00000138   0400A0E1           MOV      R0,R4
+   \   0000013C   1C0100EF           SWI      +284
+   \   00000140   000050E3           CMP      R0,#+0
+   \   00000144   0300001A           BNE      ??GetCover_5
+     68              {
+     69                ImageID_Get(path,L"cover.png",&meta->ImageID);
+   \   00000148   0520A0E1           MOV      R2,R5
+   \   0000014C   141086E2           ADD      R1,R6,#+20
+   \                     ??GetCover_7:
+   \   00000150   0400A0E1           MOV      R0,R4
+   \   00000154   CC0200EF           SWI      +716
+     70              }
+     71            }
+     72            return meta->ImageID;
+   \                     ??GetCover_5:
+   \   00000158   B000D5E1           LDRH     R0,[R5, #+0]
+   \   0000015C   28D08DE2           ADD      SP,SP,#+40
+   \   00000160   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??GetCover_4:
+   \   00000164   ........           DC32     use_albumpng
+   \   00000168   ........           DC32     `?<Constant L"\\x61\\x6c\\x62\\x75\\x6d\\x2e\\x70\\x6e\\`
+     73          }
+     74          
+     75          void metadata_Read(wchar_t *path, wchar_t *name, METADATA *mt, TAG_REQUEST tr);
+     76          
+     77          #pragma optimize = z 9
+
+   \                                 In segment CODE, align 4, keep-with-next
+     78          void metadata_Get(wchar_t *path, wchar_t *name, METADATA *meta, int format)
+     79          {
+   \                     ??metadata_Get:
+   \   00000000   F34D2DE9           PUSH     {R0,R1,R4-R8,R10,R11,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+     80            metadata_reset(meta);
+   \   00000014   0600A0E1           MOV      R0,R6
+   \   00000018   ........           _BLF     ??metadata_reset,??metadata_reset??rA
+     81            if (wstrlen(name)>5)
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   570100EF           SWI      +343
+   \   00000024   060050E3           CMP      R0,#+6
+   \   00000028   060000BA           BLT      ??metadata_Get_1
+     82            {
+     83              wstrncpy(meta->Title,name, wstrlen(name)-4);
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   570100EF           SWI      +343
+   \   00000034   042040E2           SUB      R2,R0,#+4
+   \   00000038   0510A0E1           MOV      R1,R5
+   \   0000003C   0600A0E1           MOV      R0,R6
+   \   00000040   530100EF           SWI      +339
+   \   00000044   020000EA           B        ??metadata_Get_2
+     84            }
+     85            else
+     86            {
+     87              wstrcpy(meta->Title,name);
+   \                     ??metadata_Get_1:
+   \   00000048   0510A0E1           MOV      R1,R5
+   \   0000004C   0600A0E1           MOV      R0,R6
+   \   00000050   520100EF           SWI      +338
+     88            }
+     89            TAG_REQUEST tr;
+     90            tr.album=1;
+   \                     ??metadata_Get_2:
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   0200CDE5           STRB     R0,[SP, #+2]
+     91            tr.title=1;
+   \   0000005C   0000CDE5           STRB     R0,[SP, #+0]
+     92            tr.artist=1;
+   \   00000060   0100CDE5           STRB     R0,[SP, #+1]
+     93            tr.genre=1;
+   \   00000064   0400CDE5           STRB     R0,[SP, #+4]
+     94            tr.year=1;
+   \   00000068   0300CDE5           STRB     R0,[SP, #+3]
+     95            void *TagStructure=0;
+     96            if (TagStructure=MetaData_Desc_Create(path,name))
+   \   0000006C   0510A0E1           MOV      R1,R5
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   EF0200EF           SWI      +751
+   \   00000078   00A0B0E1           MOVS     R10,R0
+   \   0000007C   5200000A           BEQ      ??metadata_Get_3
+   \   00000080   A08D86E2           ADD      R8,R6,#+10240
+   \   00000084   0630A0E1           MOV      R3,R6
+   \   00000088   0520A0E1           MOV      R2,R5
+   \   0000008C   0410A0E1           MOV      R1,R4
+     97            {
+     98              meta->ImageID=GetCover(TagStructure, path, name, meta);
+   \   00000090   ........           BL       ??GetCover
+   \   00000094   B400C8E1           STRH     R0,[R8, #+4]
+     99              
+    100              wchar_t *tag=0;
+    101          
+    102              if (tag=MetaData_Desc_GetTags(TagStructure, TAG_TITLE))
+   \   00000098   0110A0E3           MOV      R1,#+1
+   \   0000009C   0A00A0E1           MOV      R0,R10
+   \   000000A0   F10200EF           SWI      +753
+   \   000000A4   0010B0E1           MOVS     R1,R0
+    103              {
+    104                if (tag[0]!=0)
+   \   000000A8   B000D111           LDRHNE   R0,[R1, #+0]
+   \   000000AC   00005013           CMPNE    R0,#+0
+   \   000000B0   0300000A           BEQ      ??metadata_Get_4
+    105                {
+    106                  wstrcpy(meta->Title,tag);
+   \   000000B4   0600A0E1           MOV      R0,R6
+   \   000000B8   520100EF           SWI      +338
+    107                  tr.title=0;
+   \   000000BC   0010A0E3           MOV      R1,#+0
+   \   000000C0   0010CDE5           STRB     R1,[SP, #+0]
+    108                }
+    109              }
+    110              
+    111              tag=0;
+    112              if (tag=MetaData_Desc_GetTags(TagStructure, TAG_ALBUM))
+   \                     ??metadata_Get_4:
+   \   000000C4   0210A0E3           MOV      R1,#+2
+   \   000000C8   0A00A0E1           MOV      R0,R10
+   \   000000CC   F10200EF           SWI      +753
+   \   000000D0   000050E3           CMP      R0,#+0
+   \   000000D4   0700000A           BEQ      ??metadata_Get_5
+    113              {
+    114                if (tag[0]!=0)
+   \   000000D8   B010D0E1           LDRH     R1,[R0, #+0]
+   \   000000DC   000051E3           CMP      R1,#+0
+   \   000000E0   0500000A           BEQ      ??metadata_Get_6
+    115                {
+    116                  wstrcpy(meta->Album,tag);
+   \   000000E4   0010A0E1           MOV      R1,R0
+   \   000000E8   800E86E2           ADD      R0,R6,#+2048
+   \   000000EC   520100EF           SWI      +338
+    117                  tr.album=0;
+   \   000000F0   0010A0E3           MOV      R1,#+0
+   \   000000F4   0210CDE5           STRB     R1,[SP, #+2]
+    118                }
+    119              }
+    120              
+    121              tag=0;
+    122              if (tag=MetaData_Desc_GetTags(TagStructure, TAG_ARTIST))
+   \                     ??metadata_Get_5:
+   \   000000F8   0010A0E3           MOV      R1,#+0
+   \                     ??metadata_Get_6:
+   \   000000FC   0A00A0E1           MOV      R0,R10
+   \   00000100   F10200EF           SWI      +753
+   \   00000104   000050E3           CMP      R0,#+0
+    123              {
+    124                if (tag[0]!=0)
+   \   00000108   B010D011           LDRHNE   R1,[R0, #+0]
+   \   0000010C   00005113           CMPNE    R1,#+0
+   \   00000110   0400000A           BEQ      ??metadata_Get_7
+    125                {
+    126                  wstrcpy(meta->Artist,tag);
+   \   00000114   0010A0E1           MOV      R1,R0
+   \   00000118   400D86E2           ADD      R0,R6,#+4096
+   \   0000011C   520100EF           SWI      +338
+    127                  tr.artist=0;
+   \   00000120   0010A0E3           MOV      R1,#+0
+   \   00000124   0110CDE5           STRB     R1,[SP, #+1]
+    128                }
+    129              }
+    130              
+    131              tag=0;
+    132              if (tag=MetaData_Desc_GetTags(TagStructure, TAG_YEAR))
+   \                     ??metadata_Get_7:
+   \   00000128   0310A0E3           MOV      R1,#+3
+   \   0000012C   0A00A0E1           MOV      R0,R10
+   \   00000130   F10200EF           SWI      +753
+   \   00000134   00B0B0E1           MOVS     R11,R0
+    133              {
+    134                if (tag[0]!=0)
+   \   00000138   B000DB11           LDRHNE   R0,[R11, #+0]
+   \   0000013C   00005013           CMPNE    R0,#+0
+   \   00000140   0700000A           BEQ      ??metadata_Get_8
+    135                {
+    136                  wstrcpy(meta->Year,tag);
+   \   00000144   0B10A0E1           MOV      R1,R11
+   \   00000148   600D86E2           ADD      R0,R6,#+6144
+   \   0000014C   520100EF           SWI      +338
+    137                  if (wstrlen(tag)>1)
+   \   00000150   0B00A0E1           MOV      R0,R11
+   \   00000154   570100EF           SWI      +343
+   \   00000158   020050E3           CMP      R0,#+2
+    138                  {
+    139                    tr.year=0;
+   \   0000015C   0010A0A3           MOVGE    R1,#+0
+   \   00000160   0310CDA5           STRBGE   R1,[SP, #+3]
+    140                  }
+    141                }
+    142              }
+    143              
+    144              tag=0;
+    145              if (tag=MetaData_Desc_GetTags(TagStructure, TAG_GENRE))
+   \                     ??metadata_Get_8:
+   \   00000164   0410A0E3           MOV      R1,#+4
+   \   00000168   0A00A0E1           MOV      R0,R10
+   \   0000016C   F10200EF           SWI      +753
+   \   00000170   000050E3           CMP      R0,#+0
+   \   00000174   0700000A           BEQ      ??metadata_Get_9
+    146              {
+    147                if (tag[0]!=0)
+   \   00000178   B010D0E1           LDRH     R1,[R0, #+0]
+   \   0000017C   000051E3           CMP      R1,#+0
+   \   00000180   0500000A           BEQ      ??metadata_Get_10
+    148                {
+    149                  wstrcpy(meta->Genre,tag);
+   \   00000184   0010A0E1           MOV      R1,R0
+   \   00000188   800D86E2           ADD      R0,R6,#+8192
+   \   0000018C   520100EF           SWI      +338
+    150                  tr.genre=0;
+   \   00000190   0010A0E3           MOV      R1,#+0
+   \   00000194   0410CDE5           STRB     R1,[SP, #+4]
+    151                }
+    152              }
+    153              
+    154              if (MetaData_Desc_GetTrackNum(TagStructure, 0)!=-1)
+   \                     ??metadata_Get_9:
+   \   00000198   0010A0E3           MOV      R1,#+0
+   \                     ??metadata_Get_10:
+   \   0000019C   0A00A0E1           MOV      R0,R10
+   \   000001A0   F20200EF           SWI      +754
+   \   000001A4   010070E3           CMN      R0,#+1
+   \   000001A8   0300000A           BEQ      ??metadata_Get_11
+    155              {
+    156                meta->TrackNum=MetaData_Desc_GetTrackNum(TagStructure, 0);
+   \   000001AC   0010A0E3           MOV      R1,#+0
+   \   000001B0   0A00A0E1           MOV      R0,R10
+   \   000001B4   F20200EF           SWI      +754
+   \   000001B8   000000EA           B        ??metadata_Get_12
+    157              }
+    158              else
+    159              {
+    160                meta->TrackNum=0;
+   \                     ??metadata_Get_11:
+   \   000001BC   0000A0E3           MOV      R0,#+0
+   \                     ??metadata_Get_12:
+   \   000001C0   000088E5           STR      R0,[R8, #+0]
+    161              }
+    162              MetaData_Desc_Destroy(TagStructure);
+   \   000001C4   0A00A0E1           MOV      R0,R10
+   \   000001C8   F00200EF           SWI      +752
+    163            }
+    164            if ((tr.title || tr.album || tr.artist || tr.year || tr.genre) && format==FORMAT_MP3)
+   \                     ??metadata_Get_3:
+   \   000001CC   0000DDE5           LDRB     R0,[SP, #+0]
+   \   000001D0   0210DDE5           LDRB     R1,[SP, #+2]
+   \   000001D4   000081E1           ORR      R0,R1,R0
+   \   000001D8   0110DDE5           LDRB     R1,[SP, #+1]
+   \   000001DC   000081E1           ORR      R0,R1,R0
+   \   000001E0   0310DDE5           LDRB     R1,[SP, #+3]
+   \   000001E4   000081E1           ORR      R0,R1,R0
+   \   000001E8   0410DDE5           LDRB     R1,[SP, #+4]
+   \   000001EC   000091E1           ORRS     R0,R1,R0
+   \   000001F0   F38DBD08           POPEQ    {R0,R1,R4-R8,R10,R11,PC}
+   \   000001F4   010057E3           CMP      R7,#+1
+   \   000001F8   F38DBD18           POPNE    {R0,R1,R4-R8,R10,R11,PC}
+    165            {
+    166              metadata_Read(path, name, meta, tr);
+   \   000001FC   0D00A0E1           MOV      R0,SP
+   \   00000200   08D04DE2           SUB      SP,SP,#+8
+   \   00000204   001090E5           LDR      R1,[R0, #0]
+   \   00000208   0D20A0E1           MOV      R2,SP
+   \   0000020C   001082E5           STR      R1,[R2, #+0]
+   \   00000210   041090E5           LDR      R1,[R0, #+4]
+   \   00000214   0400A0E1           MOV      R0,R4
+   \   00000218   041082E5           STR      R1,[R2, #+4]
+   \   0000021C   0800BDE8           POP      {R3}
+   \   00000220   0620A0E1           MOV      R2,R6
+   \   00000224   0510A0E1           MOV      R1,R5
+   \   00000228   ........           _BLF     ??metadata_Read,??metadata_Read??rA
+   \   0000022C   04D08DE2           ADD      SP,SP,#+4
+    167            }
+    168          };
+   \   00000230   F38DBDE8           POP      {R0,R1,R4-R8,R10,R11,PC}
+    169          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    170          void Cover_Free()
+    171          {
+   \                     ??Cover_Free:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    172            if(nowmusic.meta.ImageID!=NOIMAGE)
+   \   00000004   1C409FE5           LDR      R4,??Cover_Free_1  ;; nowmusic + 10272
+   \   00000008   FF50A0E3           MOV      R5,#+255
+   \   0000000C   B000D4E1           LDRH     R0,[R4, #+0]
+   \   00000010   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000014   050050E1           CMP      R0,R5
+   \   00000018   0000000A           BEQ      ??Cover_Free_2
+    173            {
+    174              ImageID_Free(nowmusic.meta.ImageID);
+   \   0000001C   CD0200EF           SWI      +717
+    175            }
+    176            nowmusic.meta.ImageID=NOIMAGE;
+   \                     ??Cover_Free_2:
+   \   00000020   B050C4E1           STRH     R5,[R4, #+0]
+    177          };
+   \   00000024   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Cover_Free_1:
+   \   00000028   ........           DC32     nowmusic + 10272
+    178          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    179          int getFormat(wchar_t *name)
+    180          {
+   \                     ??getFormat:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    181            if (name)
+   \   00000004   8C409FE5           LDR      R4,??getFormat_1  ;; `?<Constant "\\nWalkmanDisplay: getF...">`
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   1D00000A           BEQ      ??getFormat_2
+    182            {
+    183              wchar_t *ext=wstrrchr(name,L'.');
+   \   00000010   2E10A0E3           MOV      R1,#+46
+   \   00000014   AE0100EF           SWI      +430
+   \   00000018   0050B0E1           MOVS     R5,R0
+    184              if (ext)
+   \   0000001C   1900000A           BEQ      ??getFormat_2
+    185              {
+    186                ext++;
+    187                if (wstrlen(ext)>1)
+   \   00000020   025080E2           ADD      R5,R0,#+2
+   \   00000024   0500A0E1           MOV      R0,R5
+   \   00000028   570100EF           SWI      +343
+   \   0000002C   020050E3           CMP      R0,#+2
+   \   00000030   140000BA           BLT      ??getFormat_2
+    188                {
+    189                  debug_printf("\nWalkmanDisplay: getFormat: %ls extension\n", ext);
+   \   00000034   0510A0E1           MOV      R1,R5
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   B10100EF           SWI      +433
+    190                  if (wstrcmpi(ext,L"mp3")==0)
+   \   00000040   3C1084E2           ADD      R1,R4,#+60
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   9F0200EF           SWI      +671
+   \   0000004C   000050E3           CMP      R0,#+0
+    191                  {
+    192                    return FORMAT_MP3;
+   \   00000050   0100A003           MOVEQ    R0,#+1
+   \   00000054   3080BD08           POPEQ    {R4,R5,PC}
+    193                  }
+    194                  else if (wstrcmpi(ext,L"m4a")==0)
+   \   00000058   341084E2           ADD      R1,R4,#+52
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   9F0200EF           SWI      +671
+   \   00000064   000050E3           CMP      R0,#+0
+    195                  {
+    196                    return FORMAT_M4A;
+   \   00000068   0200A003           MOVEQ    R0,#+2
+   \   0000006C   3080BD08           POPEQ    {R4,R5,PC}
+    197                  }
+    198                  else if (wstrcmpi(ext,L"wma")==0)
+   \   00000070   2C1084E2           ADD      R1,R4,#+44
+   \   00000074   0500A0E1           MOV      R0,R5
+   \   00000078   9F0200EF           SWI      +671
+   \   0000007C   000050E3           CMP      R0,#+0
+    199                  {
+    200                    return FORMAT_WMA;
+   \   00000080   0300A003           MOVEQ    R0,#+3
+   \   00000084   3080BD08           POPEQ    {R4,R5,PC}
+    201                  }
+    202                }
+    203              }
+    204            }
+    205            debug_printf("\nWalkmanDisplay: getFormat: unknown extension or name is empty\n");
+   \                     ??getFormat_2:
+   \   00000088   440084E2           ADD      R0,R4,#+68
+   \   0000008C   B10100EF           SWI      +433
+    206            return FORMAT_OTHER;
+   \   00000090   0400A0E3           MOV      R0,#+4
+   \   00000094   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??getFormat_1:
+   \   00000098   ........           DC32     `?<Constant "\\nWalkmanDisplay: getF...">`
+    207          };
+    208          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    209          void freemeta(MUSIC *music)
+    210          {
+   \                     ??freemeta:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    211            memset(&music->meta,0,sizeof(METADATA));
+   \   00000004   0820A0E3           MOV      R2,#+8
+   \   00000008   A02D82E3           ORR      R2,R2,#0x2800
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   1C0084E2           ADD      R0,R4,#+28
+   \   00000018   120100EF           SWI      +274
+    212            music->meta.ImageID=NOIMAGE;
+   \   0000001C   2000A0E3           MOV      R0,#+32
+   \   00000020   A00D80E3           ORR      R0,R0,#0x2800
+   \   00000024   FF10A0E3           MOV      R1,#+255
+   \   00000028   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   0000002C   B41080E1           STRH     R1,[R0, +R4]
+    213            memset(&music->hdr,0,sizeof(HEADER_INFO));
+   \   00000030   1C20A0E3           MOV      R2,#+28
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   120100EF           SWI      +274
+    214          };
+   \   00000040   1080BDE8           POP      {R4,PC}          ;; return
+    215          
+    216          #pragma optimize = s 9
+
+   \                                 In segment CODE, align 4, keep-with-next
+    217          void decoder_Init(wchar_t *path, wchar_t *name)
+    218          {
+   \                     ??decoder_Init:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    219            Cover_Free();
+    220            freemeta(&nowmusic);
+   \   00000004   70409FE5           LDR      R4,??decoder_Init_1  ;; nowmusic
+   \   00000008   1CD04DE2           SUB      SP,SP,#+28
+   \   0000000C   0050A0E1           MOV      R5,R0
+   \   00000010   0160A0E1           MOV      R6,R1
+   \   00000014   ........           BL       ??Cover_Free
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   ........           BL       ??freemeta
+    221            int format=getFormat(name);
+   \   00000020   0600A0E1           MOV      R0,R6
+   \   00000024   ........           BL       ??getFormat
+   \   00000028   0070A0E1           MOV      R7,R0
+    222            nowmusic.format=format;
+   \   0000002C   2400A0E3           MOV      R0,#+36
+   \   00000030   A00D80E3           ORR      R0,R0,#0x2800
+   \   00000034   047080E7           STR      R7,[R0, +R4]
+    223            metadata_Get(path, name, &nowmusic.meta, format);
+   \   00000038   0730A0E1           MOV      R3,R7
+   \   0000003C   1C2084E2           ADD      R2,R4,#+28
+   \   00000040   0610A0E1           MOV      R1,R6
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   ........           BL       ??metadata_Get
+    224            if (format==FORMAT_MP3 || format==FORMAT_OTHER)
+   \   0000004C   010057E3           CMP      R7,#+1
+   \   00000050   04005713           CMPNE    R7,#+4
+   \   00000054   0600001A           BNE      ??decoder_Init_2
+    225            {
+    226              nowmusic.hdr=ReadMP3Information(path, name);
+   \   00000058   0620A0E1           MOV      R2,R6
+   \   0000005C   0510A0E1           MOV      R1,R5
+   \   00000060   0D00A0E1           MOV      R0,SP
+   \   00000064   ........           _BLF     ??ReadMP3Information,??ReadMP3Information??rA
+   \   00000068   0D00A0E1           MOV      R0,SP
+   \   0000006C   EE1090E8           LDM      R0,{R1-R3,R5-R7,R12}
+   \   00000070   EE1084E8           STM      R4,{R1-R3,R5-R7,R12}
+    227            }
+    228          };
+   \                     ??decoder_Init_2:
+   \   00000074   1CD08DE2           ADD      SP,SP,#+28       ;; stack cleaning
+   \   00000078   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??decoder_Init_1:
+   \   0000007C   ........           DC32     nowmusic
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for types>`:
+   \   00000000   ............       DC32 `?<Constant L"\\x6a\\x70\\x67">`, `?<Constant L"\\x67\\x69\\x66">`
+   \              ....        
+   \   00000008   ............       DC32 `?<Constant L"\\x70\\x6e\\x67">`, `?<Constant L"\\x62\\x6d\\x70">`
+   \              ....        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x6a\\x70\\x67">`:
+   \   00000000   6A0070006700       DC8 6AH, 0, 70H, 0, 67H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x67\\x69\\x66">`:
+   \   00000000   670069006600       DC8 67H, 0, 69H, 0, 66H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x70\\x6e\\x67">`:
+   \   00000000   70006E006700       DC8 70H, 0, 6EH, 0, 67H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x62\\x6d\\x70">`:
+   \   00000000   62006D007000       DC8 62H, 0, 6DH, 0, 70H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x61\\x6c\\x62\\x75\\x6d\\x2e\\x70\\x6e\\`:
+   \   00000000   61006C006200       DC8 61H, 0, 6CH, 0, 62H, 0, 75H, 0
+   \              7500        
+   \   00000008   6D002E007000       DC8 6DH, 0, 2EH, 0, 70H, 0, 6EH, 0
+   \              6E00        
+   \   00000010   67000000           DC8 67H, 0, 0, 0
+   \   00000014   63006F007600       DC8 63H, 0, 6FH, 0, 76H, 0, 65H, 0
+   \              6500        
+   \   0000001C   72002E007000       DC8 72H, 0, 2EH, 0, 70H, 0, 6EH, 0
+   \              6E00        
+   \   00000024   67000000           DC8 67H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\nWalkmanDisplay: getF...">`:
+   \   00000000   0A57616C6B6D       DC8 "\012WalkmanDisplay: getFormat: %ls extension\012"
+   \              616E44697370
+   \              6C61793A2067
+   \              6574466F726D
+   \              61743A20256C
+   \              732065787465
+   \              6E73696F6E0A
+   \              00          
+   \   0000002B   00                 DC8 0
+   \   0000002C   77006D006100       DC8 77H, 0, 6DH, 0, 61H, 0, 0, 0
+   \              0000        
+   \   00000034   6D0034006100       DC8 6DH, 0, 34H, 0, 61H, 0, 0, 0
+   \              0000        
+   \   0000003C   6D0070003300       DC8 6DH, 0, 70H, 0, 33H, 0, 0, 0
+   \              0000        
+   \   00000044   0A57616C6B6D       DC8 0AH, 57H, 61H, 6CH, 6BH, 6DH, 61H, 6EH
+   \              616E        
+   \   0000004C   446973706C61       DC8 44H, 69H, 73H, 70H, 6CH, 61H, 79H, 3AH
+   \              793A        
+   \   00000054   20676574466F       DC8 20H, 67H, 65H, 74H, 46H, 6FH, 72H, 6DH
+   \              726D        
+   \   0000005C   61743A20756E       DC8 61H, 74H, 3AH, 20H, 75H, 6EH, 6BH, 6EH
+   \              6B6E        
+   \   00000064   6F776E206578       DC8 6FH, 77H, 6EH, 20H, 65H, 78H, 74H, 65H
+   \              7465        
+   \   0000006C   6E73696F6E20       DC8 6EH, 73H, 69H, 6FH, 6EH, 20H, 6FH, 72H
+   \              6F72        
+   \   00000074   206E616D6520       DC8 20H, 6EH, 61H, 6DH, 65H, 20H, 69H, 73H
+   \              6973        
+   \   0000007C   20656D707479       DC8 20H, 65H, 6DH, 70H, 74H, 79H, 0AH, 0
+   \              0A00        
+    229          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Cover_Free()                      12
+     GetCover(void *, wchar_t *, wchar_t *, METADATA *)
+                                       68
+     GetType_str(int)                   0
+     decoder_Init(wchar_t *, wchar_t *)
+                                       48
+     freemeta(MUSIC *)                  8
+     getFormat(wchar_t *)              12
+     metadata_Get(wchar_t *, wchar_t *, METADATA *, int)
+                                       52
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     nowmusic                       10280
+     types                             16
+     GetType_str(int)                  28
+     GetCover(void *, wchar_t *, wchar_t *, METADATA *)
+                                      364
+     metadata_Get(wchar_t *, wchar_t *, METADATA *, int)
+                                      564
+     Cover_Free()                      44
+     getFormat(wchar_t *)             156
+     freemeta(MUSIC *)                 68
+     decoder_Init(wchar_t *, wchar_t *)
+                                      128
+     ?<Initializer for types>          16
+     ?<Constant L"\x6a\x70\x67">        8
+     ?<Constant L"\x67\x69\x66">        8
+     ?<Constant L"\x70\x6e\x67">        8
+     ?<Constant L"\x62\x6d\x70">        8
+     ?<Constant L"\x61\x6c\x62\x75\x6d\x2e\x70\x6e\
+                                       40
+     ?<Constant "\nWalkmanDisplay: getF...">
+                                      132
+      Others                          100
+
+ 
+  1 428 bytes in segment CODE
+    204 bytes in segment DATA_C
+     16 bytes in segment DATA_I
+     16 bytes in segment DATA_ID
+ 10 280 bytes in segment DATA_Z
+     24 bytes in segment INITTAB
+ 
+  1 352 bytes of CODE  memory (+ 100 bytes shared)
+    220 bytes of CONST memory
+ 10 296 bytes of DATA  memory
+
+Errors: none
+Warnings: none

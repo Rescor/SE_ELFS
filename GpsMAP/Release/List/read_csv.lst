@@ -1,0 +1,476 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:41:45 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\read_cs #
+#                       v.c                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\read_cs #
+#                       v.c -D NDEBUG -D OLDFUNCTIONS -lCN                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\Gps #
+#                       MAP\Release\List\ -o Z:\home\perk11\www\perk11.info\ #
+#                       svn\SE\GpsMAP\Release\Obj\ -s9 --no_unroll           #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\read_csv.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \Obj\read_csv.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\read_csv.c
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "read_ini.h"
+      4          #include "read_csv.h"
+      5          
+      6          
+      7          extern "C" long strtol(const char *, char **, int);
+      8          
+      9          enum CSV_STATE {CSV_CI, CSV_LAC, CSV_POINT_X, CSV_POINT_Y, CSV_SKIP};
+     10          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          int ReadCsvFile(TOWN *town)
+     12          {
+   \                     ??ReadCsvFile:
+   \   00000000   F14F2DE9           PUSH     {R0,R4-R11,LR}
+   \   00000004   E0D04DE2           SUB      SP,SP,#+224
+     13            wchar_t dir[64];
+     14            FSTAT stat;
+     15            int f;
+     16            char *buf,*s;
+     17            int c;
+     18            char tmp[64],*d;
+     19            int state, created_elem=0;
+     20            int ci, lac;
+     21            float point_x, point_y;
+     22            snwprintf(dir,63,L"%ls/GpsMAP/%s",GetDir(DIR_ELFS),town->name);
+   \   00000008   D4919FE5           LDR      R9,??ReadCsvFile_1  ;; `?<Constant L"\\x25\\x6c\\x73\\x2f\\x47\\x70\\x73\\x4d\\`
+   \   0000000C   1000A0E3           MOV      R0,#+16
+   \   00000010   050100EF           SWI      +261
+   \   00000014   0030A0E1           MOV      R3,R0
+   \   00000018   E0009DE5           LDR      R0,[SP, #+224]
+   \   0000001C   0080A0E3           MOV      R8,#+0
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   0920A0E1           MOV      R2,R9
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   3F10A0E3           MOV      R1,#+63
+   \   00000030   48008DE2           ADD      R0,SP,#+72
+   \   00000034   150100EF           SWI      +277
+     23            if (fstat(dir,L"bs_dat.csv",&stat)>=0)
+   \   00000038   C8208DE2           ADD      R2,SP,#+200
+   \   0000003C   1C1089E2           ADD      R1,R9,#+28
+   \   00000040   48008DE2           ADD      R0,SP,#+72
+   \   00000044   1C0100EF           SWI      +284
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   04D08DE2           ADD      SP,SP,#+4
+   \   00000050   6000004A           BMI      ??ReadCsvFile_2
+     24            {
+     25              if ((f=_fopen(dir,L"bs_dat.csv",FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,NULL))>=0)
+   \   00000054   8C119FE5           LDR      R1,??ReadCsvFile_1+0x4  ;; `?<Constant L"\\x25\\x6c\\x73\\x2f\\x47\\x70\\x73\\x4d\\` + 28
+   \   00000058   0000A0E3           MOV      R0,#+0
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   603FA0E3           MOV      R3,#+384
+   \   00000064   0120A0E3           MOV      R2,#+1
+   \   00000068   48008DE2           ADD      R0,SP,#+72
+   \   0000006C   160100EF           SWI      +278
+   \   00000070   04008DE5           STR      R0,[SP, #+4]
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   04D08DE2           ADD      SP,SP,#+4
+   \   0000007C   5500004A           BMI      ??ReadCsvFile_2
+     26              {
+     27                int fsize=stat.fsize;
+   \   00000080   CCB09DE5           LDR      R11,[SP, #+204]
+     28                s=buf=new char[fsize+1];
+   \   00000084   01008BE2           ADD      R0,R11,#+1
+   \   00000088   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000008C   0090A0E1           MOV      R9,R0
+     29                buf[fread(f,buf,fsize)]=0;
+   \   00000090   00009DE5           LDR      R0,[SP, #+0]
+   \   00000094   09A0A0E1           MOV      R10,R9
+   \   00000098   0B20A0E1           MOV      R2,R11
+   \   0000009C   0910A0E1           MOV      R1,R9
+   \   000000A0   180100EF           SWI      +280
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   0910C0E7           STRB     R1,[R0, +R9]
+     30                fclose(f);
+   \   000000AC   00009DE5           LDR      R0,[SP, #+0]
+   \   000000B0   170100EF           SWI      +279
+     31                state=CSV_CI;
+   \   000000B4   0800A0E1           MOV      R0,R8
+     32                d=tmp;
+   \   000000B8   04108DE2           ADD      R1,SP,#+4
+   \   000000BC   020000EA           B        ??ReadCsvFile_3
+     33                for(;;)
+     34                {
+     35                  c=*s;
+     36                  if ((d-tmp)<63) *d++=c;
+     37                  if (c==';' || c=='\r' || c=='\n' || !c)
+     38                  {
+     39                    *(d-1)=0;
+     40                    switch(state)
+     41                    {
+     42                    case CSV_CI:
+     43                      ci=strtol(tmp,0,10);
+     44                      state=CSV_LAC;
+     45                      break;
+     46                    case CSV_LAC:
+     47                      lac=strtol(tmp,0,10);
+     48                      state=CSV_POINT_X;
+     49                      break;
+     50                    case CSV_POINT_X:
+     51                      point_x=str_tof(tmp,0);
+     52                      state=CSV_POINT_Y;
+     53                      break;
+     54                    case CSV_POINT_Y:
+     55                      point_y=str_tof(tmp,0);
+     56                      state=CSV_SKIP;
+     57                      break;
+     58                    }
+     59                    if (c=='\r' || c=='\n' || !c)
+     60                    {
+     61                      if (state==CSV_SKIP)
+     62                      {
+     63                        BS_POINT *bs=new BS_POINT;
+     64                        bs->ci=ci;
+     65                        bs->lac=lac;
+     66                        bs->point_x=point_x;
+     67                        bs->point_y=point_y;
+     68                        created_elem++;
+     69                        List_InsertLast(town->bs_dat,bs);
+     70                      }
+     71                      if (!c) break;
+     72                      state=CSV_CI;
+   \                     ??ReadCsvFile_4:
+   \   000000C0   0000A0E3           MOV      R0,#+0
+     73                    }
+     74                    d=tmp;
+   \                     ??ReadCsvFile_5:
+   \   000000C4   04108DE2           ADD      R1,SP,#+4
+     75                  }
+     76                  s++;
+   \                     ??ReadCsvFile_6:
+   \   000000C8   01A08AE2           ADD      R10,R10,#+1
+   \                     ??ReadCsvFile_3:
+   \   000000CC   00B0DAE5           LDRB     R11,[R10, #+0]
+   \   000000D0   04208DE2           ADD      R2,SP,#+4
+   \   000000D4   022041E0           SUB      R2,R1,R2
+   \   000000D8   3F0052E3           CMP      R2,#+63
+   \   000000DC   ........           STRBLT   R11,[R1], #+1
+   \   000000E0   3B005BE3           CMP      R11,#+59
+   \   000000E4   0D005B13           CMPNE    R11,#+13
+   \   000000E8   0A005B13           CMPNE    R11,#+10
+   \   000000EC   00005B13           CMPNE    R11,#+0
+   \   000000F0   F4FFFF1A           BNE      ??ReadCsvFile_6
+   \   000000F4   0020A0E3           MOV      R2,#+0
+   \   000000F8   012041E5           STRB     R2,[R1, #-1]
+   \   000000FC   0010B0E1           MOVS     R1,R0
+   \   00000100   0600000A           BEQ      ??ReadCsvFile_7
+   \   00000104   011050E2           SUBS     R1,R0,#+1
+   \   00000108   0B00000A           BEQ      ??ReadCsvFile_8
+   \   0000010C   011051E2           SUBS     R1,R1,#+1
+   \   00000110   1000000A           BEQ      ??ReadCsvFile_9
+   \   00000114   011051E2           SUBS     R1,R1,#+1
+   \   00000118   1400000A           BEQ      ??ReadCsvFile_10
+   \   0000011C   180000EA           B        ??ReadCsvFile_11
+   \                     ??ReadCsvFile_7:
+   \   00000120   0A20A0E3           MOV      R2,#+10
+   \   00000124   0010A0E3           MOV      R1,#+0
+   \   00000128   04008DE2           ADD      R0,SP,#+4
+   \   0000012C   ........           _BLF     strtol,??strtol??rA
+   \   00000130   0040A0E1           MOV      R4,R0
+   \   00000134   0100A0E3           MOV      R0,#+1
+   \   00000138   110000EA           B        ??ReadCsvFile_11
+   \                     ??ReadCsvFile_8:
+   \   0000013C   0A20A0E3           MOV      R2,#+10
+   \   00000140   0010A0E3           MOV      R1,#+0
+   \   00000144   04008DE2           ADD      R0,SP,#+4
+   \   00000148   ........           _BLF     strtol,??strtol??rA
+   \   0000014C   0050A0E1           MOV      R5,R0
+   \   00000150   0200A0E3           MOV      R0,#+2
+   \   00000154   0A0000EA           B        ??ReadCsvFile_11
+   \                     ??ReadCsvFile_9:
+   \   00000158   0010A0E3           MOV      R1,#+0
+   \   0000015C   04008DE2           ADD      R0,SP,#+4
+   \   00000160   ........           _BLF     ??str_tof,??str_tof??rA
+   \   00000164   0060A0E1           MOV      R6,R0
+   \   00000168   0300A0E3           MOV      R0,#+3
+   \   0000016C   040000EA           B        ??ReadCsvFile_11
+   \                     ??ReadCsvFile_10:
+   \   00000170   0010A0E3           MOV      R1,#+0
+   \   00000174   04008DE2           ADD      R0,SP,#+4
+   \   00000178   ........           _BLF     ??str_tof,??str_tof??rA
+   \   0000017C   0070A0E1           MOV      R7,R0
+   \   00000180   0400A0E3           MOV      R0,#+4
+   \                     ??ReadCsvFile_11:
+   \   00000184   0D005BE3           CMP      R11,#+13
+   \   00000188   0A005B13           CMPNE    R11,#+10
+   \   0000018C   00005B13           CMPNE    R11,#+0
+   \   00000190   CBFFFF1A           BNE      ??ReadCsvFile_5
+   \   00000194   040050E3           CMP      R0,#+4
+   \   00000198   0A00001A           BNE      ??ReadCsvFile_12
+   \   0000019C   0C00A0E3           MOV      R0,#+12
+   \   000001A0   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   000001A4   B040C0E1           STRH     R4,[R0, #+0]
+   \   000001A8   B250C0E1           STRH     R5,[R0, #+2]
+   \   000001AC   046080E5           STR      R6,[R0, #+4]
+   \   000001B0   087080E5           STR      R7,[R0, #+8]
+   \   000001B4   0010A0E1           MOV      R1,R0
+   \   000001B8   E0009DE5           LDR      R0,[SP, #+224]
+   \   000001BC   018088E2           ADD      R8,R8,#+1
+   \   000001C0   300090E5           LDR      R0,[R0, #+48]
+   \   000001C4   B00100EF           SWI      +432
+   \                     ??ReadCsvFile_12:
+   \   000001C8   00005BE3           CMP      R11,#+0
+   \   000001CC   BBFFFF1A           BNE      ??ReadCsvFile_4
+     77                }
+     78                delete buf;
+   \   000001D0   0900A0E1           MOV      R0,R9
+   \   000001D4   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     79              }
+     80            }
+     81            return created_elem;
+   \                     ??ReadCsvFile_2:
+   \   000001D8   0800A0E1           MOV      R0,R8
+   \   000001DC   E4D08DE2           ADD      SP,SP,#+228
+   \   000001E0   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??ReadCsvFile_1:
+   \   000001E4   ........           DC32     `?<Constant L"\\x25\\x6c\\x73\\x2f\\x47\\x70\\x73\\x4d\\`
+   \   000001E8   ........           DC32     `?<Constant L"\\x25\\x6c\\x73\\x2f\\x47\\x70\\x73\\x4d\\` + 28
+     82          }
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          void DestroyCsvList(TOWN *town)
+     85          {
+   \                     ??DestroyCsvList:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   300094E5           LDR      R0,[R4, #+48]
+   \   0000000C   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+     86            while(town->bs_dat->FirstFree)
+     87            {
+     88              BS_POINT *bs=(BS_POINT *)List_RemoveAt(town->bs_dat,0);
+   \                     ??DestroyCsvList_1:
+   \   00000018   300094E5           LDR      R0,[R4, #+48]
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   790100EF           SWI      +377
+     89              delete bs;    
+   \   00000024   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     90            }
+   \   00000028   300094E5           LDR      R0,[R4, #+48]
+   \   0000002C   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   F7FFFF1A           BNE      ??DestroyCsvList_1
+     91          }
+   \   00000038   1080BDE8           POP      {R4,PC}          ;; return
+     92          
+     93          
+     94          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     95          int FindBSByCiLac(void *what, void *where)
+     96          {
+     97            BS_POINT *bs=(BS_POINT *)what;
+     98            int cid=((int *)where)[0];
+     99            int lac=((int *)where)[1];
+    100            return (cid/10==bs->ci && lac==bs->lac)?0:1;
+   \                     ??FindBSByCiLac:
+   \   00000000   ........           LDR      R3,??DataTable1  ;; 0x66666667
+   \   00000004   10002DE9           PUSH     {R4}
+   \   00000008   002091E5           LDR      R2,[R1, #+0]
+   \   0000000C   93C2C4E0           SMULL    R12,R4,R3,R2
+   \   00000010   B030D0E1           LDRH     R3,[R0, #+0]
+   \   00000014   4441A0E1           ASR      R4,R4,#+2
+   \   00000018   A22F84E0           ADD      R2,R4,R2, LSR #+31
+   \   0000001C   030052E1           CMP      R2,R3
+   \   00000020   0400001A           BNE      ??FindBSByCiLac_1
+   \   00000024   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000028   041091E5           LDR      R1,[R1, #+4]
+   \   0000002C   000051E1           CMP      R1,R0
+   \   00000030   0000A003           MOVEQ    R0,#+0
+   \   00000034   0000000A           BEQ      ??FindBSByCiLac_2
+   \                     ??FindBSByCiLac_1:
+   \   00000038   0100A0E3           MOV      R0,#+1
+   \                     ??FindBSByCiLac_2:
+   \   0000003C   1000BDE8           POP      {R4}
+   \   00000040   1EFF2FE1           BX       LR               ;; return
+    101          }
+    102          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    103          int FindTownById(void *what, void *where)
+    104          {
+    105            return ((int)where==((TOWN *)what)->map_index)?0:1;  
+   \                     ??FindTownById:
+   \   00000000   040090E5           LDR      R0,[R0, #+4]
+   \   00000004   000051E1           CMP      R1,R0
+   \   00000008   0000A003           MOVEQ    R0,#+0
+   \   0000000C   1EFF2F01           BXEQ     LR
+   \   00000010   0100A0E3           MOV      R0,#+1
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+    106          }
+    107          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    108          TOWN *FindTownByCiLac(MAIN_INI *ini, int ci, int lac)
+    109          {
+   \                     ??FindTownByCiLac:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+    110            for (int t=0; t<ini->towns->FirstFree; t++)
+   \   00000010   0070A0E3           MOV      R7,#+0
+   \   00000014   020000EA           B        ??FindTownByCiLac_1
+    111            {
+    112              TOWN *town=(TOWN *)List_Get(ini->towns,t);
+    113              if (ReadCsvFile(town))
+    114              {
+    115                for (int b=0; b<town->bs_dat->FirstFree; b++)
+    116                {
+    117                  BS_POINT *bs=(BS_POINT *)List_Get(town->bs_dat,b);
+    118                  if (bs->ci==ci/10 && bs->lac==lac)
+    119                  {
+    120                    if (bs->point_x>=town->start_x && bs->point_x<=town->end_x &&
+    121                        bs->point_y>=town->start_y && bs->point_y<=town->end_y)  return (town);
+    122                  }
+    123                }
+    124                DestroyCsvList(town);  // Если не то то выкидываем на хуй
+   \                     ??FindTownByCiLac_2:
+   \   00000018   0800A0E1           MOV      R0,R8
+   \   0000001C   ........           BL       ??DestroyCsvList
+   \                     ??FindTownByCiLac_3:
+   \   00000020   017087E2           ADD      R7,R7,#+1
+   \                     ??FindTownByCiLac_1:
+   \   00000024   000094E5           LDR      R0,[R4, #+0]
+   \   00000028   B200D0E1           LDRH     R0,[R0, #+2]
+   \   0000002C   000057E1           CMP      R7,R0
+   \   00000030   300000AA           BGE      ??FindTownByCiLac_4
+   \   00000034   000094E5           LDR      R0,[R4, #+0]
+   \   00000038   0710A0E1           MOV      R1,R7
+   \   0000003C   AD0100EF           SWI      +429
+   \   00000040   0080A0E1           MOV      R8,R0
+   \   00000044   ........           BL       ??ReadCsvFile
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   F3FFFF0A           BEQ      ??FindTownByCiLac_3
+   \   00000050   0090A0E3           MOV      R9,#+0
+   \   00000054   000000EA           B        ??FindTownByCiLac_5
+   \                     ??FindTownByCiLac_6:
+   \   00000058   019089E2           ADD      R9,R9,#+1
+   \                     ??FindTownByCiLac_5:
+   \   0000005C   300098E5           LDR      R0,[R8, #+48]
+   \   00000060   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000064   000059E1           CMP      R9,R0
+   \   00000068   EAFFFFAA           BGE      ??FindTownByCiLac_2
+   \   0000006C   300098E5           LDR      R0,[R8, #+48]
+   \   00000070   0910A0E1           MOV      R1,R9
+   \   00000074   AD0100EF           SWI      +429
+   \   00000078   ........           LDR      R1,??DataTable1  ;; 0x66666667
+   \   0000007C   00A0A0E1           MOV      R10,R0
+   \   00000080   B000DAE1           LDRH     R0,[R10, #+0]
+   \   00000084   9125C3E0           SMULL    R2,R3,R1,R5
+   \   00000088   4331A0E1           ASR      R3,R3,#+2
+   \   0000008C   A51F83E0           ADD      R1,R3,R5, LSR #+31
+   \   00000090   010050E1           CMP      R0,R1
+   \   00000094   B200DA01           LDRHEQ   R0,[R10, #+2]
+   \   00000098   06005001           CMPEQ    R0,R6
+   \   0000009C   EDFFFF1A           BNE      ??FindTownByCiLac_6
+   \   000000A0   04009AE5           LDR      R0,[R10, #+4]
+   \   000000A4   081098E5           LDR      R1,[R8, #+8]
+   \   000000A8   ........           _BLF     __fGreaterEqual,??__fGreaterEqual??rA
+   \   000000AC   000050E3           CMP      R0,#+0
+   \   000000B0   E8FFFF0A           BEQ      ??FindTownByCiLac_6
+   \   000000B4   100098E5           LDR      R0,[R8, #+16]
+   \   000000B8   04109AE5           LDR      R1,[R10, #+4]
+   \   000000BC   ........           _BLF     __fGreaterEqual,??__fGreaterEqual??rA
+   \   000000C0   000050E3           CMP      R0,#+0
+   \   000000C4   E3FFFF0A           BEQ      ??FindTownByCiLac_6
+   \   000000C8   08009AE5           LDR      R0,[R10, #+8]
+   \   000000CC   0C1098E5           LDR      R1,[R8, #+12]
+   \   000000D0   ........           _BLF     __fGreaterEqual,??__fGreaterEqual??rA
+   \   000000D4   000050E3           CMP      R0,#+0
+   \   000000D8   DEFFFF0A           BEQ      ??FindTownByCiLac_6
+   \   000000DC   140098E5           LDR      R0,[R8, #+20]
+   \   000000E0   08109AE5           LDR      R1,[R10, #+8]
+   \   000000E4   ........           _BLF     __fGreaterEqual,??__fGreaterEqual??rA
+   \   000000E8   000050E3           CMP      R0,#+0
+   \   000000EC   D9FFFF0A           BEQ      ??FindTownByCiLac_6
+   \   000000F0   0800A0E1           MOV      R0,R8
+   \   000000F4   F087BDE8           POP      {R4-R10,PC}
+    125              }
+    126            }
+    127            return (NULL);
+   \                     ??FindTownByCiLac_4:
+   \   000000F8   0000A0E3           MOV      R0,#+0
+   \   000000FC   F087BDE8           POP      {R4-R10,PC}      ;; return
+    128          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   67666666           DC32     0x66666667
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x6c\\x73\\x2f\\x47\\x70\\x73\\x4d\\`:
+   \   00000000   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 2FH, 0
+   \              2F00        
+   \   00000008   470070007300       DC8 47H, 0, 70H, 0, 73H, 0, 4DH, 0
+   \              4D00        
+   \   00000010   410050002F00       DC8 41H, 0, 50H, 0, 2FH, 0, 25H, 0
+   \              2500        
+   \   00000018   73000000           DC8 73H, 0, 0, 0
+   \   0000001C   620073005F00       DC8 62H, 0, 73H, 0, 5FH, 0, 64H, 0
+   \              6400        
+   \   00000024   610074002E00       DC8 61H, 0, 74H, 0, 2EH, 0, 63H, 0
+   \              6300        
+   \   0000002C   730076000000       DC8 73H, 0, 76H, 0, 0, 0
+   \   00000032   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     DestroyCsvList(TOWN *)             8
+     FindBSByCiLac(void *, void *)      4
+     FindTownByCiLac(MAIN_INI *, int, int)
+                                       32
+     FindTownById(void *, void *)       0
+     ReadCsvFile(TOWN *)              268
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     ReadCsvFile(TOWN *)             492
+     DestroyCsvList(TOWN *)           60
+     FindBSByCiLac(void *, void *)    68
+     FindTownById(void *, void *)     24
+     FindTownByCiLac(MAIN_INI *, int, int)
+                                     256
+     ??DataTable1                      4
+     ?<Constant L"\x25\x6c\x73\x2f\x47\x70\x73\x4d\
+                                      52
+      Others                          92
+
+ 
+ 996 bytes in segment CODE
+  52 bytes in segment DATA_C
+ 
+ 904 bytes of CODE  memory (+ 92 bytes shared)
+  52 bytes of CONST memory
+
+Errors: none
+Warnings: none

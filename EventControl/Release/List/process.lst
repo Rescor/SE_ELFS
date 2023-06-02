@@ -1,0 +1,213 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:40 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\p #
+#                       rocess.cpp                                           #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\p #
+#                       rocess.cpp -D NDEBUG -D OLDFUNCTIONS -lC             #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\process.lst                              #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\process.r79                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\process.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "header\lng.h"
+      6          #include "header\process.h"
+      7          
+      8          extern PROCESS proc_;
+      9          
+     10          #define WORKER_SIG 0x7FF0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     11          const SIGSELECT sg[]={1,WORKER_SIG};
+   \                     sg:
+   \   00000000   01000000F07F       DC32 1, 32752
+   \              0000        
+     12          
+     13          struct WORKER_SIGNAL
+     14          {
+     15            SIGSELECT signo;
+     16            void(*PROC)(int,void*);
+     17            int   param1;
+     18            void * param2;
+     19          };
+     20          
+     21          union SIGNAL
+     22          {
+     23            SIGSELECT signo;
+     24            struct WORKER_SIGNAL hsig;
+     25          };
+     26          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     27          OS_PROCESS(worker_entrypoint)
+     28          {
+   \                     ??worker_entrypoint:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   48409FE5           LDR      R4,??worker_entrypoint_1  ;; sg
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+     29            union SIGNAL *sig;
+     30            for(;;)
+     31            {
+     32              sig=receive(sg);
+   \                     ??worker_entrypoint_2:
+   \   0000000C   0400A0E1           MOV      R0,R4
+   \   00000010   7D0100EF           SWI      +381
+   \   00000014   00008DE5           STR      R0,[SP, #+0]
+     33              switch(sig->signo)
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   F010A0E3           MOV      R1,#+240
+   \   00000020   7F1C81E3           ORR      R1,R1,#0x7F00
+   \   00000024   010050E1           CMP      R0,R1
+   \   00000028   0600001A           BNE      ??worker_entrypoint_3
+     34              {
+     35              case WORKER_SIG:
+     36                {
+     37          	if (sig->hsig.PROC) sig->hsig.PROC(sig->hsig.param1,sig->hsig.param2);
+   \   0000002C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000030   042090E5           LDR      R2,[R0, #+4]
+   \   00000034   000052E3           CMP      R2,#+0
+   \   00000038   0200000A           BEQ      ??worker_entrypoint_3
+   \   0000003C   0C1090E5           LDR      R1,[R0, #+12]
+   \   00000040   080090E5           LDR      R0,[R0, #+8]
+   \   00000044   32FF2FE1           BLX      R2
+     38                }
+     39                break;
+     40              }
+     41              free_buf(&sig);
+   \                     ??worker_entrypoint_3:
+   \   00000048   0D00A0E1           MOV      R0,SP
+   \   0000004C   800100EF           SWI      +384
+   \   00000050   EDFFFFEA           B        ??worker_entrypoint_2
+   \                     ??worker_entrypoint_1:
+   \   00000054   ........           DC32     sg
+     42            }
+     43          };
+     44          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     45          void SUBPROC_(void(*PROC)(int,void*),int p1 , void * p2)
+     46          {
+   \                     ??SUBPROC_:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+   \   00000010   0240A0E1           MOV      R4,R2
+     47            union SIGNAL *sig;
+     48          
+     49            sig = alloc(sizeof(union SIGNAL),WORKER_SIG);
+   \   00000014   F010A0E3           MOV      R1,#+240
+   \   00000018   7F1C81E3           ORR      R1,R1,#0x7F00
+   \   0000001C   1000A0E3           MOV      R0,#+16
+   \   00000020   7C0100EF           SWI      +380
+   \   00000024   00008DE5           STR      R0,[SP, #+0]
+     50            sig->hsig.PROC=PROC;
+   \   00000028   045080E5           STR      R5,[R0, #+4]
+     51            sig->hsig.param1=p1;
+   \   0000002C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000030   086080E5           STR      R6,[R0, #+8]
+     52            sig->hsig.param2=p2;
+   \   00000034   00009DE5           LDR      R0,[SP, #+0]
+   \   00000038   0C4080E5           STR      R4,[R0, #+12]
+     53            send(&sig,proc_);
+   \   0000003C   ........           LDR      R0,??DataTable1  ;; proc_
+   \   00000040   001090E5           LDR      R1,[R0, #+0]
+   \   00000044   0D00A0E1           MOV      R0,SP
+   \   00000048   7E0100EF           SWI      +382
+     54          };
+   \   0000004C   7180BDE8           POP      {R0,R4-R6,PC}    ;; return
+     55          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          void SUBPROC_(void(*PROC)(EVENT *),EVENT *p1, void * p2)
+     57          {
+   \                     ??SUBPROC__1:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+   \   00000010   0240A0E1           MOV      R4,R2
+     58            union SIGNAL *sig;
+     59          
+     60            sig = alloc(sizeof(union SIGNAL),WORKER_SIG);
+   \   00000014   F010A0E3           MOV      R1,#+240
+   \   00000018   7F1C81E3           ORR      R1,R1,#0x7F00
+   \   0000001C   1000A0E3           MOV      R0,#+16
+   \   00000020   7C0100EF           SWI      +380
+   \   00000024   00008DE5           STR      R0,[SP, #+0]
+     61            sig->hsig.PROC=(void (*)(int,void*))PROC;
+   \   00000028   045080E5           STR      R5,[R0, #+4]
+     62            sig->hsig.param1=(int)p1;
+   \   0000002C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000030   086080E5           STR      R6,[R0, #+8]
+     63            sig->hsig.param2=p2;
+   \   00000034   00009DE5           LDR      R0,[SP, #+0]
+   \   00000038   0C4080E5           STR      R4,[R0, #+12]
+     64            send(&sig,proc_);
+   \   0000003C   ........           LDR      R0,??DataTable1  ;; proc_
+   \   00000040   001090E5           LDR      R1,[R0, #+0]
+   \   00000044   0D00A0E1           MOV      R0,SP
+   \   00000048   7E0100EF           SWI      +382
+     65          };
+   \   0000004C   7180BDE8           POP      {R0,R4-R6,PC}    ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     proc_
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     SUBPROC_(void (*)(EVENT *), EVENT *, void *)
+                                       20
+     SUBPROC_(void (*)(int, void *), int, void *)
+                                       20
+     worker_entrypoint()               12
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     sg                                8
+     worker_entrypoint()              88
+     SUBPROC_(void (*)(int, void *), int, void *)
+                                      80
+     SUBPROC_(void (*)(EVENT *), EVENT *, void *)
+                                      80
+     ??DataTable1                      4
+      Others                          12
+
+ 
+ 264 bytes in segment CODE
+   8 bytes in segment DATA_C
+ 
+ 252 bytes of CODE  memory (+ 12 bytes shared)
+   8 bytes of CONST memory
+
+Errors: none
+Warnings: none

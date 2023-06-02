@@ -1,0 +1,125 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:03:09 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\C++\_cpp2.cpp  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\C++\_cpp2.cpp  #
+#                       -D NDEBUG -D OLDFUNCTIONS -lC                        #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\EN\Li #
+#                       st\ -lA Z:\home\perk11\www\perk11.info\svn\SE\CoverA #
+#                       rt\EN\List\ -o Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \CoverArt\EN\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\CoverArt\LNG-EN.h -I Z:\home\perk11\IAR2\arm\INC\ #
+#                        --inline_threshold=2                                #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\EN\Li #
+#                       st\_cpp2.lst                                         #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\EN\Ob #
+#                       j\_cpp2.r79                                          #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\C++\_cpp2.cpp
+      1          #include "..\include\Lib_Clara.h"
+      2          
+      3          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      4          void* operator new(size_t sz){return malloc(sz);};
+   \                     `??operator new`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   030100EF           SWI      +259
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      5          void* operator new[](size_t sz){return malloc(sz);};
+   \                     `??operator new[]`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   030100EF           SWI      +259
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          void operator delete(void * p){mfree(p);};
+   \                     `??operator delete`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   040100EF           SWI      +260
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      7          void operator delete[](void * p){mfree(p);};
+   \                     `??operator delete[]`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   040100EF           SWI      +260
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+      8          
+      9          //placement version
+
+   \                                 In segment CODE, align 4, keep-with-next
+     10          void* operator new(size_t size, void* p){ return p; }
+   \                     `??operator new_1`:
+   \   00000000   0100A0E1           MOV      R0,R1
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          void* operator new[](size_t size, void* p){ return p; }
+   \                     `??operator new[]_1`:
+   \   00000000   0100A0E1           MOV      R0,R1
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          void operator delete (void*, void*) { }
+   \                     `??operator delete_1`:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          void operator delete[] (void*, void*) { }
+   \                     `??operator delete[]_1`:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     operator delete(void *)            4
+     operator delete(void *, void *)
+                                        0
+     operator delete[](void *)          4
+     operator delete[](void *, void *)
+                                        0
+     operator new(size_t)               4
+     operator new(size_t, void *)       0
+     operator new[](size_t)             4
+     operator new[](size_t, void *)     0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     operator new(size_t)             12
+     operator new[](size_t)           12
+     operator delete(void *)          12
+     operator delete[](void *)        12
+     operator new(size_t, void *)      8
+     operator new[](size_t, void *)    8
+     operator delete(void *, void *)
+                                       4
+     operator delete[](void *, void *)
+                                       4
+      Others                          32
+
+ 
+ 104 bytes in segment CODE
+ 
+ 72 bytes of CODE memory (+ 32 bytes shared)
+
+Errors: none
+Warnings: none

@@ -1,0 +1,499 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:55:28 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\date. /
+//                       c                                                   /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\date. /
+//                       c -D NDEBUG -D OLDFUNCTIONS -lC                     /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\ /
+//                       EvtEdit\Release\List\ -o                            /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu    /
+//                       ARM926EJ-S --stack_align 4 --interwork -e           /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\List\date.s79                                    /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME `date`
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??AcceptDIinput
+        FUNCTION ??AcceptDIinput,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??AcceptDIinput??rT
+        PUBLIC ??CloseDIinput
+        FUNCTION ??CloseDIinput,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??CloseDIinput??rT
+        FUNCTION ??DI_OnEnter,0603H
+        LOCFRAME CSTACK, 56, STACK
+        FUNCTION ??DI_OnExit,0603H
+        LOCFRAME CSTACK, 8, STACK
+??DataTable0 EQU 0
+        PUBLIC bk_date_input
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??AcceptDIinput??rT SYMBOL "??rT", ??AcceptDIinput
+
+??CloseDIinput??rT  SYMBOL "??rT", ??CloseDIinput
+
+        EXTERN ACTION_ACCEPT
+        EXTERN ACTION_BACK
+        EXTERN PREVIOUS_EVENT
+        EXTERN SYNC
+        EXTERN VAR_ARG_BOOK
+        EXTERN VAR_ARG_DATEINP_DATE
+        EXTERN VAR_ARG_DATEINP_DATE_FORMAT
+        EXTERN VAR_ARG_HTEXT
+        EXTERN lng
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??AcceptDIinput??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??AcceptDIinput
+// Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\date.c
+//    1 #include "..\deleaker\mem2.h"
+//    2 #include "..\include\Lib_Clara.h" 
+//    3 #include "..\include\Dir.h" 
+//    4 #include "header\structs.h"
+//    5 #include "..\include\var_arg.h"
+//    6 #include "header\pages.h"
+//    7 #include "header\lng.h"
+//    8 #include "header\externals.h"
+//    9 
+//   10 #define IDN_TIME_INPUT_ICON L"FR_INPUT_GUI_SET_TIME_ICN"
+//   11 #define IDN_DATE_INPUT_ICON L"FR_INPUT_GUI_SET_DATE_ICN"
+//   12 
+//   13 #define DI_GET_YEAR(x) ((unsigned int)x&0xFFFF)
+//   14 #define DI_GET_MONTH(x) (((unsigned int)x>>16)&0xFF)
+//   15 #define DI_GET_DAY(x) ((unsigned int)x>>24)
+//   16 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??AcceptDIinput
+        ARM
+//   17 void AcceptDIinput(BOOK *bk, GUI* data)
+//   18 {
+??AcceptDIinput:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+        MOV      R0,R1
+//   19   MyBOOK *mbk=(MyBOOK *)bk;
+//   20   unsigned int i=DateInput_GetDateInt(data);
+        SWI      +697
+//   21   DATE *date=mbk->curdate;
+        LDR      R1,[R4, #+88]
+//   22   date->year=DI_GET_YEAR(i);
+//   23   date->mon=DI_GET_MONTH(i);
+        LSR      R2,R0,#+16
+        STRH     R0,[R1, #+0]
+        STRB     R2,[R1, #+2]
+//   24   date->day=DI_GET_DAY(i);
+        LSR      R0,R0,#+24
+        STRB     R0,[R1, #+3]
+//   25   BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+        LDR      R0,??DataTable1  ;; PREVIOUS_EVENT
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +302
+//   26 };
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CloseDIinput??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??CloseDIinput
+//   27 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??CloseDIinput
+        ARM
+//   28 void CloseDIinput(BOOK * bk, GUI* )
+//   29 {
+//   30   BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+??CloseDIinput:
+        LDR      R1,??DataTable1  ;; PREVIOUS_EVENT
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R1,[R1, #+0]
+        SWI      +302
+//   31 };
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable1:
+        DC32     PREVIOUS_EVENT
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DI_OnEnter??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??DI_OnEnter
+//   32 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??DI_OnEnter
+        ARM
+//   33 static int DI_OnEnter(void *, BOOK * bk)
+//   34 {
+??DI_OnEnter:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+12
+        CFI CFA R13+32
+//   35   MyBOOK *mbk=(MyBOOK *)bk;
+//   36   DATE d;
+//   37   DATE *date=mbk->curdate;
+//   38   int date_format=4;
+//   39   char date_f;
+//   40   int icon_id;
+//   41   if (date->year==0)
+//   42   {
+//   43     d.year=2000;
+//   44   }
+//   45   else
+//   46   {
+//   47     d.year=date->year;
+//   48   }
+//   49   if (date->mon==0)
+//   50   {
+//   51     d.mon=1;
+//   52   }
+//   53   else
+//   54   {
+//   55     d.mon=date->mon;
+//   56   }
+//   57   if (date->day==0)
+//   58   {
+//   59     d.day=1;
+//   60   }
+//   61   else
+//   62   {
+//   63     d.day=date->day;
+//   64   }
+//   65   if (!REQUEST_DATEFORMAT_GET(SYNC,&date_f)) date_format=date_f;
+//   66   mbk->dinput=CreateDateInputVA(0,
+//   67                                 VAR_HEADER_TEXT(TextID_Create(lng[LNG_DATE],ENC_UCS2,TEXTID_ANY_LEN)),
+//   68                                 VAR_DATEINP_DATEFORMAT(date_format),
+//   69                                 VAR_DATEINP_DATE(&d),
+//   70                                 VAR_BOOK(&mbk->book),
+//   71                                 0);
+//   72   GUIObject_SoftKeys_SetAction(mbk->dinput,ACTION_ACCEPT, AcceptDIinput);
+//   73   GUIObject_SoftKeys_SetText(mbk->dinput,ACTION_ACCEPT,STR("OK"));
+        LDR      R7,??DI_OnEnter_1  ;; `?<Constant L"\\x4f\\x4b">`
+        MOV      R4,R1
+        LDR      R0,[R4, #+88]
+        MOV      R5,#+4
+        LDRH     R1,[R0, #+0]
+        MOV      R6,#+255
+        ORR      R6,R6,#0xFF00
+        CMP      R1,#+0
+        MOVEQ    R2,#+2000
+        STRHEQ   R2,[SP, #+0]
+        STRHNE   R1,[SP, #+0]
+        LDRB     R1,[R0, #+2]
+        MOV      R2,#+1
+        CMP      R1,#+0
+        STRBEQ   R2,[SP, #+2]
+        STRBNE   R1,[SP, #+2]
+        LDRB     R0,[R0, #+3]
+        ADD      R1,SP,#+4
+        CMP      R0,#+0
+        STRBNE   R0,[SP, #+3]
+        LDR      R0,??DI_OnEnter_1+0x4  ;; SYNC
+        STRBEQ   R2,[SP, #+3]
+        LDR      R0,[R0, #+0]
+        SWI      +444
+        CMP      R0,#+0
+        LDR      R0,??DI_OnEnter_1+0x8  ;; lng + 276
+        LDRBEQ   R5,[SP, #+4]
+        LDR      R0,[R0, #+0]
+        MOV      R2,R6
+        MOV      R1,#+0
+        SWI      +349
+        LDR      R3,??DI_OnEnter_1+0xC  ;; VAR_ARG_DATEINP_DATE_FORMAT
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+36
+        MOV      R2,R0
+        MOV      R0,#+0
+        MOV      R1,R4
+        PUSH     {R1}
+        CFI CFA R13+40
+        LDR      R1,??DI_OnEnter_1+0x10  ;; VAR_ARG_BOOK
+        PUSH     {R1}
+        CFI CFA R13+44
+        ADD      R1,SP,#+12
+        PUSH     {R1}
+        CFI CFA R13+48
+        LDR      R1,??DI_OnEnter_1+0x14  ;; VAR_ARG_DATEINP_DATE
+        PUSH     {R1}
+        CFI CFA R13+52
+        LDR      R1,??DI_OnEnter_1+0x18  ;; VAR_ARG_HTEXT
+        PUSH     {R5}
+        CFI CFA R13+56
+        SWI      +693
+        LDR      R2,??DI_OnEnter_1+0x1C  ;; ??AcceptDIinput
+        STR      R0,[R4, #+84]
+        LDR      R0,??DI_OnEnter_1+0x20  ;; ACTION_ACCEPT
+        LDR      R5,[R0, #+0]
+        LDR      R0,[R4, #+84]
+        MOV      R1,R5, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+        MOV      R2,R6
+        MOV      R1,#+0
+        MOV      R0,R7
+        SWI      +349
+        MOV      R2,R0
+        LDR      R0,[R4, #+84]
+        MOV      R1,R5, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +332
+//   74   GUIObject_SoftKeys_SetVisible(mbk->dinput,ACTION_ACCEPT,1);
+        LDR      R0,[R4, #+84]
+        MOV      R2,#+1
+        MOV      R1,R5, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +336
+//   75   GUIObject_SoftKeys_SetAction(mbk->dinput,ACTION_BACK, CloseDIinput);
+        LDR      R0,??DI_OnEnter_1+0x24  ;; ACTION_BACK
+        LDR      R2,??DI_OnEnter_1+0x28  ;; ??CloseDIinput
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R4, #+84]
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+//   76   if (iconidname2id(IDN_DATE_INPUT_ICON,-1,&icon_id))
+        ADD      R2,SP,#+32
+        MVN      R1,#+0
+        ADD      R0,R7,#+8
+        SWI      +646
+        CMP      R0,#+0
+        ADD      SP,SP,#+24
+        CFI CFA R13+32
+        BEQ      ??DI_OnEnter_2
+//   77     GUIInput_SetIcon(mbk->dinput,icon_id);
+        LDR      R1,[SP, #+8]
+        LDR      R0,[R4, #+84]
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +463
+//   78   return (1);
+??DI_OnEnter_2:
+        MOV      R0,#+1
+        POP      {R1-R7,PC}       ;; return
+        DATA
+??DI_OnEnter_1:
+        DC32     `?<Constant L"\\x4f\\x4b">`
+        DC32     SYNC
+        DC32     lng + 276
+        DC32     VAR_ARG_DATEINP_DATE_FORMAT
+        DC32     VAR_ARG_BOOK
+        DC32     VAR_ARG_DATEINP_DATE
+        DC32     VAR_ARG_HTEXT
+        DC32     ??AcceptDIinput
+        DC32     ACTION_ACCEPT
+        DC32     ACTION_BACK
+        DC32     ??CloseDIinput
+        CFI EndBlock cfiBlock5
+//   79 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DI_OnExit??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??DI_OnExit
+//   80 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??DI_OnExit
+        ARM
+//   81 static int DI_OnExit(void *, BOOK * bk)
+//   82 {
+??DI_OnExit:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R1
+//   83   MyBOOK *mbk=(MyBOOK *)bk;
+//   84   FREE_GUI(mbk->dinput);
+        LDR      R0,[R4, #+84]
+        CMP      R0,#+0
+        BEQ      ??DI_OnExit_1
+        SWI      +462
+        STR      R0,[R4, #+84]
+//   85   return (1);  
+??DI_OnExit_1:
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock7
+//   86 };
+//   87 
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+//   88 const PAGE_MSG bk_msglst_dateinput[] @ "DYN_PAGE"  = 
+bk_msglst_dateinput:
+        DATA
+        DC32 66, ??DI_OnEnter, 67, ??DI_OnExit, 64, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "EvtEdit_DateInput_Page">`:
+        DATA
+        DC8 "EvtEdit_DateInput_Page"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x4f\\x4b">`:
+        DATA
+        DC8 4FH, 0, 4BH, 0, 0, 0
+        DC8 0, 0
+        DC8 46H, 0, 52H, 0, 5FH, 0, 49H, 0
+        DC8 4EH, 0, 50H, 0, 55H, 0, 54H, 0
+        DC8 5FH, 0, 47H, 0, 55H, 0, 49H, 0
+        DC8 5FH, 0, 53H, 0, 45H, 0, 54H, 0
+        DC8 5FH, 0, 44H, 0, 41H, 0, 54H, 0
+        DC8 45H, 0, 5FH, 0, 49H, 0, 43H, 0
+        DC8 4EH, 0, 0, 0
+//   89 {
+//   90   PAGE_ENTER_EVENT_TAG,    DI_OnEnter,
+//   91   PAGE_EXIT_EVENT_TAG,     DI_OnExit,
+//   92   NIL_EVENT_TAG,           NULL
+//   93 };
+//   94 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//   95 const PAGE_DESC bk_date_input = {"EvtEdit_DateInput_Page",0,bk_msglst_dateinput};
+bk_date_input:
+        DATA
+        DC32 `?<Constant "EvtEdit_DateInput_Page">`, 0H, bk_msglst_dateinput
+
+        END
+// 
+// 548 bytes in segment CODE
+//  96 bytes in segment DATA_C
+//  24 bytes in segment DYN_PAGE
+// 
+// 532 bytes of CODE  memory (+ 16 bytes shared)
+// 120 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,433 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:43:59 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\book.c                                           /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\book.c -D NDEBUG -lC Z:\home\perk11\www\perk11.i /
+//                       nfo\svn\SE\GPRSSessionInfo\Release\List\ -lA        /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\Release\List\ -o Z:\home\perk11\www\perk11.info\ /
+//                       svn\SE\GPRSSessionInfo\Release\Obj\ -s9 --cpu_mode  /
+//                       arm --endian little --cpu ARM926EJ-S --stack_align  /
+//                       4 --interwork -e --fpu None --eec++ --dlib_config   /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionIn /
+//                       fo\Release\List\book.s79                            /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME book
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??GPRS_Terminated
+        FUNCTION ??GPRS_Terminated,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??GPRS_Terminated??rT
+        MULTWEAK ??InitConfig??rA
+        FUNCTION ??ShowAuthorInfo,0603H
+        LOCFRAME CSTACK, 8, STACK
+        FUNCTION ??TerminateElf,0603H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC ??isGSIBook
+        FUNCTION ??isGSIBook,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??isGSIBook??rT
+        MULTWEAK ??mbox_Create??rA
+        FUNCTION ??onReconfigEvent,0603H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC bk_base
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+??GPRS_Terminated??rT SYMBOL "??rT", ??GPRS_Terminated
+??InitConfig??rA    SYMBOL "??rA", ??InitConfig
+
+??isGSIBook??rT     SYMBOL "??rT", ??isGSIBook
+??mbox_Create??rA   SYMBOL "??rA", ??mbox_Create
+
+        EXTERN ??InitConfig
+        FUNCTION ??InitConfig,0202H
+        EXTERN ??isRealGSIBook
+        FUNCTION ??isRealGSIBook,0602H
+        EXTERN ??mbox_Create
+        FUNCTION ??mbox_Create,0202H
+        EXTERN bk_main
+        EXTERN successed_config_name
+        EXTERN successed_config_path
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isGSIBook??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??isGSIBook
+// Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInfo\book.c
+//    1 #include "..\\include\Lib_Clara.h"
+//    2 #include "..\\include\Dir.h"
+//    3 #include "structs.h"
+//    4 #include "conf_loader.h"
+//    5 #include "..\\include\cfg_items.h"
+//    6 
+//    7 void mbox_Create(BOOK *bk, int type);
+//    8 int isRealGSIBook(BOOK * struc);
+//    9 
+//   10 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??isGSIBook
+        ARM
+//   11 int isGSIBook(BOOK *bk)
+//   12 {
+??isGSIBook:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+//   13   if (!strcmp(bk->xbook->name,"GSI")) return 1; 
+        LDR      R0,[R0, #+0]
+        ADR      R1,??isGSIBook_1  ;; "GSI"
+        LDR      R0,[R0, #+4]
+        SWI      +345
+        CMP      R0,#+0
+        MOVEQ    R0,#+1
+        POPEQ    {PC}
+//   14   return 0; 
+        MOV      R0,#+0
+        POP      {PC}             ;; return
+        DATA
+??isGSIBook_1:
+        DC8      "GSI"
+        CFI EndBlock cfiBlock1
+//   15 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??TerminateElf??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??TerminateElf
+//   16 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??TerminateElf
+        ARM
+//   17 static int TerminateElf(void *mess ,BOOK *bk)
+//   18 {
+??TerminateElf:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R0,R1
+//   19   FreeBook(bk);
+        SWI      +303
+//   20   return(1);
+        MOV      R0,#+1
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+//   21 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ShowAuthorInfo??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??ShowAuthorInfo
+//   22 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??ShowAuthorInfo
+        ARM
+//   23 static int ShowAuthorInfo(void *mess ,BOOK *bk)
+//   24 {
+//   25   MyBOOK *mbk=(MyBOOK*)FindBook(isRealGSIBook);
+??ShowAuthorInfo:
+        LDR      R0,??ShowAuthorInfo_1  ;; ??isRealGSIBook
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SWI      +304
+        MOV      R4,R0
+//   26   mbk->stat=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+32]
+//   27   mbox_Create(&mbk->book, 0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        _BLF     ??mbox_Create,??mbox_Create??rA
+//   28   BookObj_SetFocus(&mbk->book,0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +306
+//   29   return(1);
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        DATA
+??ShowAuthorInfo_1:
+        DC32     ??isRealGSIBook
+        CFI EndBlock cfiBlock5
+//   30 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??GPRS_Terminated??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??GPRS_Terminated
+//   31 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??GPRS_Terminated
+        ARM
+//   32 int GPRS_Terminated(void *mess ,BOOK *bk)
+//   33 {
+??GPRS_Terminated:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   34   MyBOOK *mbk=(MyBOOK*)bk;
+//   35   mbk->stat=1;
+        MOV      R0,#+1
+        MOV      R4,R1
+//   36   BookObj_GotoPage(bk,&bk_main);
+        LDR      R1,??GPRS_Terminated_1  ;; bk_main
+        STR      R0,[R4, #+32]
+        MOV      R0,R4
+        SWI      +301
+//   37   mbk->stat=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+32]
+//   38   BookObj_SetFocus(bk,0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +306
+//   39   return 0;
+        MOV      R0,#+0
+        POP      {R4,PC}          ;; return
+        DATA
+??GPRS_Terminated_1:
+        DC32     bk_main
+        CFI EndBlock cfiBlock7
+//   40 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onReconfigEvent??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??onReconfigEvent
+//   41 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??onReconfigEvent
+        ARM
+//   42 static int onReconfigEvent(void *mess ,BOOK *book)
+//   43 {
+??onReconfigEvent:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+//   44   RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+//   45   int result=0;
+//   46   if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+        LDR      R0,??onReconfigEvent_1  ;; successed_config_path
+        MOV      R5,#+0
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +671
+        CMP      R0,#+0
+        BNE      ??onReconfigEvent_2
+        LDR      R0,??onReconfigEvent_1+0x4  ;; successed_config_name
+        LDR      R1,[R0, #+0]
+        ADD      R0,R4,#+128
+        SWI      +671
+        CMP      R0,#+0
+        BNE      ??onReconfigEvent_2
+//   47   {
+//   48     InitConfig();
+        _BLF     ??InitConfig,??InitConfig??rA
+//   49     result=1;
+        MOV      R5,#+1
+//   50   }
+//   51   return(result);
+??onReconfigEvent_2:
+        MOV      R0,R5
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??onReconfigEvent_1:
+        DC32     successed_config_path
+        DC32     successed_config_name
+        CFI EndBlock cfiBlock9
+//   52 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??mbox_Create??rA:
+        LDR      R12,??Subroutine5_0  ;; ??mbox_Create
+        BX       R12
+        DATA
+??Subroutine5_0:
+        DC32     ??mbox_Create
+        CFI EndBlock cfiBlock10
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??InitConfig??rA:
+        LDR      R12,??Subroutine6_0  ;; ??InitConfig
+        BX       R12
+        DATA
+??Subroutine6_0:
+        DC32     ??InitConfig
+        CFI EndBlock cfiBlock11
+//   53 
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+//   54 const PAGE_MSG bk_msglst_base[] @ "DYN_PAGE"  =
+bk_msglst_base:
+        DATA
+        DC32 997, ??TerminateElf, 998, ??ShowAuthorInfo, 996, ??onReconfigEvent
+        DC32 465, ??GPRS_Terminated, 64, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "GSI_Base_Page">`:
+        DATA
+        DC8 "GSI_Base_Page"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+        DATA
+        DC8 "GSI"
+//   55 {
+//   56   ELF_TERMINATE_EVENT,                              TerminateElf,
+//   57   ELF_SHOW_INFO_EVENT,                              ShowAuthorInfo,
+//   58   ELF_RECONFIG_EVENT,                               onReconfigEvent,
+//   59   UI_CONNECTIONMANAGER_SESSION_TERMINATED_EVENT_TAG,GPRS_Terminated,
+//   60   NIL_EVENT_TAG,           NULL
+//   61 };
+//   62 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//   63 const PAGE_DESC bk_base = {"GSI_Base_Page",0,bk_msglst_base};
+bk_base:
+        DATA
+        DC32 `?<Constant "GSI_Base_Page">`, 0H, bk_msglst_base
+
+        END
+//   64 
+// 
+// 312 bytes in segment CODE
+//  32 bytes in segment DATA_C
+//  40 bytes in segment DYN_PAGE
+// 
+// 268 bytes of CODE  memory (+ 44 bytes shared)
+//  72 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

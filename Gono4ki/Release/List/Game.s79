@@ -1,0 +1,2956 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:58:21 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Game. /
+//                       c                                                   /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Game. /
+//                       c -D NDEBUG -D OLDFUNCTIONS -lC                     /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Relea /
+//                       se\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\ /
+//                       Gono4ki\Release\List\ -o                            /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Relea /
+//                       se\Obj\ -s9 --no_unroll --no_inline --cpu_mode arm  /
+//                       --endian little --cpu ARM926EJ-S --stack_align 4    /
+//                       --interwork -e --enable_multibytes --fpu None       /
+//                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\d /
+//                       l5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\        /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Relea /
+//                       se\List\Game.s79                                    /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME Game
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        EXTERN ??div32_a
+
+        PUBLIC ??Check
+        FUNCTION ??Check,0203H
+        MULTWEAK ??Check??rT
+        PUBLIC ??CreateGame
+        FUNCTION ??CreateGame,0203H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??CreateGame??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable2 EQU 0
+??DataTable4 EQU 0
+??DataTable5 EQU 0
+??DataTable6 EQU 0
+        PUBLIC ??DrawCub
+        FUNCTION ??DrawCub,0203H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??DrawCub??rT
+        PUBLIC ??DrawP
+        FUNCTION ??DrawP,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??DrawP??rT
+        PUBLIC ??DrawPause
+        FUNCTION ??DrawPause,0203H
+        LOCFRAME CSTACK, 72, STACK
+        MULTWEAK ??DrawPause??rT
+        PUBLIC ??DrawTank
+        FUNCTION ??DrawTank,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??DrawTank??rT
+        PUBLIC ??DrawText
+        FUNCTION ??DrawText,0203H
+        LOCFRAME CSTACK, 112, STACK
+        MULTWEAK ??DrawText??rT
+        MULTWEAK ??GetDis??rA
+        MULTWEAK ??GetFSize??rA
+        PUBWEAK ??LPARAM
+        FUNCTION ??LPARAM,0203H
+        MULTWEAK ??LPARAM??rA
+        MULTWEAK ??MyBK??rA
+        MULTWEAK ??PlayMyMusic??rA
+        PUBLIC ??custom_constr
+        FUNCTION ??custom_constr,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??custom_constr??rT
+        PUBLIC ??custom_create
+        FUNCTION ??custom_create,0203H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??custom_create??rT
+        PUBLIC ??custom_destr
+        FUNCTION ??custom_destr,0603H
+        MULTWEAK ??custom_destr??rT
+        PUBLIC ??custom_onClose
+        FUNCTION ??custom_onClose,0603H
+        MULTWEAK ??custom_onClose??rT
+        PUBLIC ??custom_onCreate
+        FUNCTION ??custom_onCreate,0603H
+        MULTWEAK ??custom_onCreate??rT
+        MULTWEAK ??isBookX??rA
+        PUBLIC ??myOnKey
+        FUNCTION ??myOnKey,0603H
+        LOCFRAME CSTACK, 48, STACK
+        MULTWEAK ??myOnKey??rT
+        PUBLIC ??myOnRedraw
+        FUNCTION ??myOnRedraw,0603H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??myOnRedraw??rT
+        PUBLIC ??onfTimer
+        FUNCTION ??onfTimer,0603H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??onfTimer??rT
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new??rA`
+        MULTWEAK ??rA??div32_a
+        MULTWEAK ??rand??rA
+        MULTWEAK ??randInit??rA
+        MULTWEAK ??vibra??rA
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC dd
+        PUBLIC ftimer
+        PUBLIC np
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+
+
+
+
+
+
+??Check??rT         SYMBOL "??rT", ??Check
+
+??CreateGame??rT    SYMBOL "??rT", ??CreateGame
+
+??DrawCub??rT       SYMBOL "??rT", ??DrawCub
+
+??DrawP??rT         SYMBOL "??rT", ??DrawP
+
+??DrawPause??rT     SYMBOL "??rT", ??DrawPause
+
+??DrawTank??rT      SYMBOL "??rT", ??DrawTank
+
+??DrawText??rT      SYMBOL "??rT", ??DrawText
+??GetDis??rA        SYMBOL "??rA", ??GetDis
+??GetFSize??rA      SYMBOL "??rA", ??GetFSize
+
+??LPARAM??rA        SYMBOL "??rA", ??LPARAM
+??MyBK??rA          SYMBOL "??rA", ??MyBK
+??PlayMyMusic??rA   SYMBOL "??rA", ??PlayMyMusic
+
+??custom_constr??rT SYMBOL "??rT", ??custom_constr
+
+??custom_create??rT SYMBOL "??rT", ??custom_create
+
+??custom_destr??rT  SYMBOL "??rT", ??custom_destr
+
+??custom_onClose??rT SYMBOL "??rT", ??custom_onClose
+
+??custom_onCreate??rT SYMBOL "??rT", ??custom_onCreate
+??isBookX??rA       SYMBOL "??rA", ??isBookX
+
+??myOnKey??rT       SYMBOL "??rT", ??myOnKey
+
+??myOnRedraw??rT    SYMBOL "??rT", ??myOnRedraw
+
+??onfTimer??rT      SYMBOL "??rT", ??onfTimer
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new??rA` SYMBOL "??rA", `??operator new`
+??rand??rA          SYMBOL "??rA", ??rand
+??randInit??rA      SYMBOL "??rA", ??randInit
+??vibra??rA         SYMBOL "??rA", ??vibra
+
+        EXTERN ??CreateGO
+        FUNCTION ??CreateGO,0602H
+        EXTERN ??GetDis
+        FUNCTION ??GetDis,0202H
+        EXTERN ??GetFSize
+        FUNCTION ??GetFSize,0202H
+        EXTERN ??MyBK
+        FUNCTION ??MyBK,0202H
+        EXTERN ??PlayMyMusic
+        FUNCTION ??PlayMyMusic,0202H
+        EXTERN ??isBookX
+        FUNCTION ??isBookX,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new`
+        FUNCTION `??operator new`,0202H
+        EXTERN ??rand
+        FUNCTION ??rand,0202H
+        EXTERN ??randInit
+        FUNCTION ??randInit,0202H
+        EXTERN ??vibra
+        FUNCTION ??vibra,0202H
+        EXTERN KBD_LONG_PRESS
+        EXTERN KBD_LONG_RELEASE
+        EXTERN KBD_SHORT_PRESS
+        EXTERN KBD_SHORT_RELEASE
+        EXTERN KEY_DIGITAL_0
+        EXTERN KEY_ENTER
+        EXTERN KEY_ESC
+        EXTERN KEY_LEFT
+        EXTERN KEY_RIGHT
+        EXTERN SYNC
+
+// Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Game.c
+//    1 #include "..\\include\Lib_Clara.h"
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function ??LPARAM
+        ARM
+// __??Code32?? __code __interwork __atpcs LPARAM::LPARAM(int)
+??LPARAM:
+        STR      R1,[R0, #+0]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock0
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??custom_onCreate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock1
+        REQUIRE ??custom_onCreate
+//    2 #include "..\\include\Dir.h"
+//    3 #include "..\\include\var_arg.h"
+//    4 #include "..\\include\cfg_items.h"
+//    5 #include "StructBook.h"
+//    6 #include "Menu.h"
+//    7 #include "MyFUNC.h"
+//    8 #include "rand.h"
+//    9 #include "NewRecord.h"
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//   10 u16 ftimer;
+ftimer:
+        DS8 2
+        DS8 2
+//   11 
+//   12 typedef GUI GUI_CUSTOM;
+//   13 
+//   14 DISP_DESC *dd;
+dd:
+        DS8 4
+//   15 GUI_CUSTOM* np;
+np:
+        DS8 4
+//   16 
+//   17 static const char custom_guiname[]="gui_custom";
+//   18 
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+//   19 const PAGE_MSG bk_msglst_go[] @ "DYN_PAGE"  = 
+bk_msglst_go:
+        DATA
+        DC32 66, ??CreateGO, 64, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "Game_GuiMenu_Page">`:
+        DATA
+        DC8 "Game_GuiMenu_Page"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x41e\\x447\\x43a\\x438\\x3a">`:
+        DATA
+        DC8 1EH, 4, 47H, 4, 3AH, 4, 38H, 4
+        DC8 3AH, 0, 0, 0
+        DC8 12H, 4, 40H, 4, 35H, 4, 3CH, 4
+        DC8 4FH, 4, 3AH, 0, 0AH, 0, 0, 0
+        DC8 23H, 4, 40H, 4, 3EH, 4, 32H, 4
+        DC8 35H, 4, 3DH, 4, 4CH, 4, 3AH, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+        DATA
+        DC8 3AH, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x41f\\x430\\x443\\x437\\x430">`:
+        DATA
+        DC8 1FH, 4, 30H, 4, 43H, 4, 37H, 4
+        DC8 30H, 4, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\`:
+        DATA
+        DC8 54H, 0, 52H, 0, 5FH, 0, 41H, 0
+        DC8 4CH, 0, 41H, 0, 52H, 0, 4DH, 0
+        DC8 5FH, 0, 4FH, 0, 4EH, 0, 5FH, 0
+        DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+        DC8 54H, 0, 52H, 0, 5FH, 0, 41H, 0
+        DC8 4CH, 0, 41H, 0, 52H, 0, 4DH, 0
+        DC8 5FH, 0, 4FH, 0, 46H, 0, 46H, 0
+        DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+        DC8 0, 0
+        DC8 0, 0
+        DC8 "Gono4ki"
+        DC8 "Gono4ki"
+        DC32 `?<Constant "Game_GuiMenu_Page">`, 0H, bk_msglst_go
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+custom_guiname:
+        DATA
+        DC8 "gui_custom"
+        DC8 0
+//   20 {
+//   21   PAGE_ENTER_EVENT_TAG,    CreateGO,
+//   22   NIL_EVENT_TAG,           NULL
+//   23 };
+//   24 
+//   25 const PAGE_DESC bk_go = {"Game_GuiMenu_Page",0,bk_msglst_go};
+//   26 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function ??custom_onCreate
+        ARM
+//   27 int custom_onCreate(DISP_OBJ *DO)
+//   28 {
+//   29   return 1;
+??custom_onCreate:
+        MOV      R0,#+1
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock2
+//   30 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??custom_onClose??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock3
+        REQUIRE ??custom_onClose
+//   31 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI Function ??custom_onClose
+        ARM
+//   32 void custom_onClose(DISP_OBJ *DO)
+//   33 {
+//   34   return;
+??custom_onClose:
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock4
+//   35 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??custom_constr??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock5
+        REQUIRE ??custom_constr
+//   36 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI Function ??custom_constr
+        ARM
+//   37 void custom_constr(DISP_DESC *desc)
+//   38 {
+//   39   DISP_DESC_SetName(desc,custom_guiname);
+??custom_constr:
+        LDR      R1,??custom_constr_1  ;; custom_guiname
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+        SWI      +544
+//   40   DISP_DESC_SetSize(desc,sizeof(DISP_OBJ));
+        MOV      R1,#+364
+        MOV      R0,R4
+        SWI      +546
+//   41   DISP_DESC_SetOnCreate(desc,(DISP_OBJ_ONCREATE_METHOD)custom_onCreate);
+        LDR      R1,??custom_constr_1+0x4  ;; ??custom_onCreate
+        MOV      R0,R4
+        SWI      +548
+//   42   DISP_DESC_SetOnClose(desc,(DISP_OBJ_ONCLOSE_METHOD)custom_onClose);
+        LDR      R1,??custom_constr_1+0x8  ;; ??custom_onClose
+        MOV      R0,R4
+        SWI      +550
+//   43 };
+        POP      {R4,PC}          ;; return
+        DATA
+??custom_constr_1:
+        DC32     custom_guiname
+        DC32     ??custom_onCreate
+        DC32     ??custom_onClose
+        CFI EndBlock cfiBlock6
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??custom_destr??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock7
+        REQUIRE ??custom_destr
+//   44 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI Function ??custom_destr
+        ARM
+//   45 void custom_destr( GUI* )
+//   46 {
+//   47   return;
+??custom_destr:
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock8
+//   48 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??custom_create??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock9
+        REQUIRE ??custom_create
+//   49 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI Function ??custom_create
+        ARM
+//   50 GUI_CUSTOM *custom_create(BOOK *bk)
+//   51 {
+??custom_create:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+//   52   GUI_CUSTOM *gui_cs=new GUI_CUSTOM;
+        MOV      R0,#+144
+        _BLF     `??operator new`,`??operator new??rA`
+//   53   if (!GUIObject_Create(gui_cs,custom_destr, custom_constr,bk,0,0,0))
+        LDR      R2,??custom_create_1  ;; ??custom_constr
+        LDR      R1,??custom_create_1+0x4  ;; ??custom_destr
+        MOV      R5,R0
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+16
+        PUSH     {R0}
+        CFI CFA R13+20
+        PUSH     {R0}
+        CFI CFA R13+24
+        MOV      R3,R4
+        MOV      R0,R5
+        SWI      +496
+        CMP      R0,#+0
+        ADD      SP,SP,#+12
+        CFI CFA R13+12
+        BNE      ??custom_create_2
+//   54   {
+//   55     delete gui_cs;
+        MOV      R0,R5
+        _BLF     `??operator delete`,`??operator delete??rA`
+//   56     return 0;    
+        MOV      R0,#+0
+        POP      {R4,R5,PC}
+//   57   }
+//   58   if (bk) BookObj_AddGUIObject(bk,gui_cs);
+??custom_create_2:
+        CMP      R4,#+0
+        BEQ      ??custom_create_3
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +491
+//   59   GUIObject_SetStyle(gui_cs, 4);
+??custom_create_3:
+        MOV      R1,#+4
+        MOV      R0,R5
+        SWI      +310
+//   60   GUIObject_SetTitleType(gui_cs, 1);
+        MOV      R1,#+1
+        MOV      R0,R5
+        SWI      +641
+//   61   GUIObject_SoftKeys_Hide(gui_cs);
+        MOV      R0,R5
+        SWI      +673
+//   62   return gui_cs;
+        MOV      R0,R5
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??custom_create_1:
+        DC32     ??custom_constr
+        DC32     ??custom_destr
+        CFI EndBlock cfiBlock10
+//   63 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DrawCub??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock11
+        REQUIRE ??DrawCub
+//   64 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI Function ??DrawCub
+        ARM
+//   65 void DrawCub(int cx, int cy, int ob)
+//   66 {
+??DrawCub:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        MOV      R6,R1
+        MOV      R8,R0
+        MOV      R5,R2
+//   67   int cub=MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R7,[R0, #+8]
+//   68   int x=MyBK()->dis[GetDis()]->x;
+        _BLF     ??MyBK,??MyBK??rA
+        _BLF     ??GetDis,??GetDis??rA
+//   69   int y=MyBK()->dis[GetDis()]->y;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R4,[R0, #+4]
+//   70   if(MyBK()->image->fi[2])
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+804]
+        LDR      R0,[R0, #+20]
+        CMP      R0,#+0
+        BEQ      ??DrawCub_1
+//   71   {
+//   72     GC_PutChar(get_DisplayGC() , cx*cub, y-(cy*cub), 0, 0, MyBK()->image->im[2]->ImageID);
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        SWI      +485
+        LDR      R1,[R5, #+804]
+        MOV      R3,#+0
+        LDR      R1,[R1, #+8]
+        LDRH     R1,[R1, #+0]
+        PUSH     {R1}
+        CFI CFA R13+32
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+36
+        MUL      R1,R7,R6
+        SUB      R2,R4,R1
+        MUL      R1,R7,R8
+        SWI      +320
+        ADD      SP,SP,#+8
+        CFI CFA R13+28
+        POP      {R4-R9,PC}
+//   73   }
+//   74   else
+//   75   {
+//   76     DrawRect(cx*cub, y-(cy*cub), cub+cx*cub, y+cub-(cy*cub), ob*0xFF000000, 0x00000000);
+??DrawCub_1:
+        MUL      R0,R7,R6
+        ADD      R1,R7,R4
+        SUB      R6,R1,R0
+        SUB      R4,R4,R0
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+32
+        LSL      R1,R5,#+24
+        RSB      R5,R1,#+0
+        MOV      R0,R5
+        PUSH     {R0}
+        CFI CFA R13+36
+        MUL      R8,R7,R8
+        MOV      R3,R6
+        ADD      R9,R8,R7
+        MOV      R2,R9
+        MOV      R1,R4
+        MOV      R0,R8
+        SWI      +492
+//   77     DrawRect(cx*cub+2, y-(cy*cub)+2, cub+cx*cub-2, y+cub-(cy*cub)-2, ob*0xFF000000, 0xFF000000);
+        MOV      R0,#-16777216
+        PUSH     {R0}
+        CFI CFA R13+40
+        PUSH     {R5}
+        CFI CFA R13+44
+        SUB      R3,R6,#+2
+        SUB      R2,R9,#+2
+        ADD      R1,R4,#+2
+        ADD      R0,R8,#+2
+        SWI      +492
+        ADD      SP,SP,#+16
+        CFI CFA R13+28
+//   78   }
+//   79 }
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock12
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DrawP??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock13
+        REQUIRE ??DrawP
+//   80 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI Function ??DrawP
+        ARM
+//   81 void DrawP(PREGRADA*p)
+//   82 {
+??DrawP:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+//   83   for(int i=0; i<4; i++)
+        MOV      R5,#+0
+//   84   {
+//   85     if(p->x[i]==1) DrawCub(i*3, p->y, 1);
+??DrawP_1:
+        ADD      R6,R4,R5, LSL #+2
+        LDR      R0,[R6, #+0]
+        ADD      R7,R5,R5, LSL #+1
+        CMP      R0,#+1
+        BNE      ??DrawP_2
+        LDR      R1,[R4, #+16]
+        MOV      R2,#+1
+        MOV      R0,R7
+        BL       ??DrawCub
+//   86     if(p->x[i]==1) DrawCub(i*3+1, p->y, 1);    
+??DrawP_2:
+        LDR      R0,[R6, #+0]
+        CMP      R0,#+1
+        BNE      ??DrawP_3
+        LDR      R1,[R4, #+16]
+        MOV      R2,#+1
+        ADD      R0,R7,#+1
+        BL       ??DrawCub
+//   87     if(p->x[i]==1) DrawCub(i*3+2, p->y, 1);
+??DrawP_3:
+        LDR      R0,[R6, #+0]
+        CMP      R0,#+1
+        BNE      ??DrawP_4
+        LDR      R1,[R4, #+16]
+        MOV      R2,#+1
+        ADD      R0,R7,#+2
+        BL       ??DrawCub
+//   88   }
+??DrawP_4:
+        ADD      R5,R5,#+1
+        CMP      R5,#+4
+        BLT      ??DrawP_1
+//   89 }
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock14
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DrawTank??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock15
+        REQUIRE ??DrawTank
+//   90   
+//   91 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI Function ??DrawTank
+        ARM
+//   92 void DrawTank(int step)
+//   93 {
+??DrawTank:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//   94   DrawCub(step*3, 1, 1);
+        ADD      R4,R0,R0, LSL #+1
+        MOV      R2,#+1
+        MOV      R1,#+1
+        MOV      R0,R4
+        BL       ??DrawCub
+//   95   DrawCub(step*3+2, 1, 1);
+        ADD      R5,R4,#+2
+        MOV      R2,#+1
+        MOV      R1,R2
+        MOV      R0,R5
+        BL       ??DrawCub
+//   96   DrawCub(step*3+1, 2, 1);
+        ADD      R6,R4,#+1
+        MOV      R2,#+1
+        MOV      R1,#+2
+        MOV      R0,R6
+        BL       ??DrawCub
+//   97   DrawCub(step*3, 3, 1);
+        MOV      R2,#+1
+        MOV      R1,#+3
+        MOV      R0,R4
+        BL       ??DrawCub
+//   98   DrawCub(step*3+1, 3, 0);
+        MOV      R2,#+0
+        MOV      R1,#+3
+        MOV      R0,R6
+        BL       ??DrawCub
+//   99   DrawCub(step*3+2, 3, 1);
+        MOV      R2,#+1
+        MOV      R1,#+3
+        MOV      R0,R5
+        BL       ??DrawCub
+//  100   DrawCub(step*3+1, 4, 1);
+        MOV      R2,#+1
+        MOV      R1,#+4
+        MOV      R0,R6
+        BL       ??DrawCub
+//  101 }
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock16
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DrawText??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock17
+        REQUIRE ??DrawText
+//  102 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI Function ??DrawText
+        ARM
+//  103 void DrawText(MyBook*bk, int FSize, int x, int y, int cub)
+//  104 {
+??DrawText:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+28
+        CFI CFA R13+64
+        LDR      R9,[SP, #+64]
+        MOV      R6,R0
+        MOV      R4,R1
+        MOV      R8,R3
+//  105   SetFont(FSize);
+        MOV      R0,R4
+        SWI      +497
+        LDR      R0,??DrawText_1+0x4  ;; `?<Constant L"\\x41e\\x447\\x43a\\x438\\x3a">`
+        MOV      R5,#+255
+        ORR      R5,R5,#0xFF00
+        MOV      R2,R5
+        MOV      R1,#+0
+//  106   int o[2];
+//  107   o[0]=STR("Очки:");
+        SWI      +349
+        STR      R0,[SP, #+0]
+//  108   o[1]=TextID_CreateIntegerID(bk->point);
+        LDR      R0,[R6, #+816]
+        SWI      +348
+        STR      R0,[SP, #+4]
+//  109   DrawString(o[0],0, cub*12+5, y-20*cub, cub*12+5+GetFSize(FSize)*5, y-20*cub+GetFSize(FSize), 1, 0x01,0xFFFF0000,0xFFFFFFFF);
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R10,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R1,#+12
+        MUL      R6,R1,R9
+        MOV      R1,#+20
+        MUL      R2,R1,R9
+        MVN      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+68
+        SUB      R8,R8,R2
+        ADD      R0,R0,R0, LSL #+2
+        ADD      R0,R0,R6
+        MVN      R1,R5
+        PUSH     {R1}
+        CFI CFA R13+72
+        ADD      R0,R0,#+5
+        ADD      R7,R6,#+5
+        MOV      R3,R8
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+76
+        PUSH     {R1}
+        CFI CFA R13+80
+        MOV      R2,R7
+        ADD      R1,R10,R8
+        PUSH     {R1}
+        CFI CFA R13+84
+        PUSH     {R0}
+        CFI CFA R13+88
+        LDR      R0,[SP, #+24]
+        MOV      R1,#+0
+        SWI      +493
+//  110   DrawString(o[1],0, cub*12+5, y-20*cub+GetFSize(FSize)+1, cub*12+5+GetFSize(FSize)*4, y-20*cub+2*GetFSize(FSize)+1, 1, 0x01,0xFFFF0000,0xFFFFFFFF);
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R9,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R10,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        LDR      R11,[SP, #+28]
+        MVN      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+92
+        ADD      R0,R0,R8
+        ADD      R3,R0,#+1
+        MOV      R2,R7
+        MVN      R1,R5
+        PUSH     {R1}
+        CFI CFA R13+96
+        MOV      R0,R11
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+100
+        PUSH     {R1}
+        CFI CFA R13+104
+        ADD      R1,R8,R9, LSL #+1
+        ADD      R1,R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+108
+        ADD      R1,R6,R10, LSL #+2
+        ADD      R1,R1,#+5
+        PUSH     {R1}
+        CFI CFA R13+112
+        MOV      R1,#+0
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+64
+//  111   TextID_Destroy(o[0]);
+        LDR      R0,[SP, #+0]
+        SWI      +353
+//  112   TextID_Destroy(o[1]);
+        MOV      R0,R11
+        SWI      +353
+//  113   int met[3];
+//  114   int ID;
+//  115   DATETIME dt;
+//  116   REQUEST_DATEANDTIME_GET(SYNC, &dt);
+        LDR      R0,??DrawText_1+0x8  ;; SYNC
+        ADD      R1,SP,#+20
+        LDR      R0,[R0, #+0]
+        SWI      +366
+//  117   ID=STR("Время:\n");
+        LDR      R0,??DrawText_1+0xC  ;; `?<Constant L"\\x41e\\x447\\x43a\\x438\\x3a">` + 12
+        MOV      R2,R5
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R9,R0
+//  118   DrawString(ID,0, cub*12+5, y-20*cub+2*GetFSize(FSize)+6, cub*12+5+GetFSize(FSize)*6, y-20*cub+3*GetFSize(FSize)+6, 1, 0x01,0xFFFF0000,0xFFFFFFFF);
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R10,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R11,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MVN      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+68
+        ADD      R0,R8,R0, LSL #+1
+        ADD      R3,R0,#+6
+        MOV      R0,R9
+        MVN      R1,R5
+        PUSH     {R1}
+        CFI CFA R13+72
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+76
+        PUSH     {R1}
+        CFI CFA R13+80
+        ADD      R1,R10,R10, LSL #+1
+        ADD      R1,R1,R8
+        ADD      R1,R1,#+6
+        PUSH     {R1}
+        CFI CFA R13+84
+        MOV      R1,#+6
+        MLA      R2,R1,R11,R6
+        ADD      R1,R2,#+5
+        PUSH     {R1}
+        CFI CFA R13+88
+        MOV      R2,R7
+        MOV      R1,#+0
+        SWI      +493
+//  119   TextID_Destroy(ID);
+        MOV      R0,R9
+        SWI      +353
+//  120   met[0]=TextID_CreateIntegerID(dt.time.hour);
+        LDRB     R0,[SP, #+48]
+        SWI      +348
+        STR      R0,[SP, #+32]
+//  121   met[1]=STR(":");
+        MOV      R2,R5
+        MOV      R1,#+0
+        ADR      R0,??DrawText_1  ;; 0x3A, 0x00, 0x00, 0x00
+        SWI      +349
+        STR      R0,[SP, #+36]
+//  122   met[2]=TextID_CreateIntegerID(dt.time.min);
+        LDRB     R0,[SP, #+49]
+        SWI      +348
+        STR      R0,[SP, #+40]
+//  123   ID=TextID_Create(met, ENC_TEXTID, 3);
+        MOV      R2,#+3
+        MOV      R1,#+5
+        ADD      R0,SP,#+32
+        SWI      +349
+        MOV      R9,R0
+//  124   DrawString(ID,0, cub*12+5, y-20*cub+3*GetFSize(FSize)+7, cub*12+5+GetFSize(FSize)*5, y-20*cub+4*GetFSize(FSize)+6, 1, 0x01,0xFFFF0000,0xFFFFFFFF);
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R10,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R11,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MVN      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+92
+        ADD      R0,R0,R0, LSL #+1
+        ADD      R0,R0,R8
+        ADD      R3,R0,#+7
+        MVN      R1,R5
+        PUSH     {R1}
+        CFI CFA R13+96
+        MOV      R2,R7
+        MOV      R0,R9
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+100
+        PUSH     {R1}
+        CFI CFA R13+104
+        ADD      R1,R8,R10, LSL #+2
+        ADD      R1,R1,#+6
+        PUSH     {R1}
+        CFI CFA R13+108
+        ADD      R1,R11,R11, LSL #+2
+        ADD      R1,R1,R6
+        ADD      R1,R1,#+5
+        PUSH     {R1}
+        CFI CFA R13+112
+        MOV      R1,#+0
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+64
+//  125   TextID_Destroy(ID);
+        MOV      R0,R9
+        SWI      +353
+//  126   TextID_Destroy(met[0]);
+        LDR      R0,[SP, #+8]
+        SWI      +353
+//  127   TextID_Destroy(met[1]);
+        LDR      R0,[SP, #+12]
+        SWI      +353
+//  128   TextID_Destroy(met[2]);
+        LDR      R0,[SP, #+16]
+        SWI      +353
+//  129   ID=STR("Уровень:");
+        LDR      R0,??DrawText_1+0x10  ;; `?<Constant L"\\x41e\\x447\\x43a\\x438\\x3a">` + 28
+        MOV      R2,R5
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R5,R0
+//  130   DrawString(ID, 0, cub*12+5, y-20*cub+4*GetFSize(FSize)+9, cub*12+5+GetFSize(FSize)*8, y-20*cub+5*GetFSize(FSize)+9, 1, 0x01, 0xFFFF0000,0xFFFFFFFF);
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R9,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R10,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MVN      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+68
+        ADD      R0,R8,R0, LSL #+2
+        ADD      R3,R0,#+9
+        MOV      R2,R7
+        MOV      R1,#-16777216
+        ORR      R1,R1,#0xFF0000
+        PUSH     {R1}
+        CFI CFA R13+72
+        MOV      R0,R5
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+76
+        PUSH     {R1}
+        CFI CFA R13+80
+        ADD      R1,R9,R9, LSL #+2
+        ADD      R1,R1,R8
+        ADD      R1,R1,#+9
+        PUSH     {R1}
+        CFI CFA R13+84
+        ADD      R1,R6,R10, LSL #+3
+        ADD      R1,R1,#+5
+        PUSH     {R1}
+        CFI CFA R13+88
+        MOV      R1,#+0
+        SWI      +493
+//  131   TextID_Destroy(ID);
+        MOV      R0,R5
+        SWI      +353
+//  132   ID=TextID_CreateIntegerID(MyBK()->palka/10);
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+860]
+        LDR      R1,??DrawText_1+0x14  ;; 0x66666667
+        SMULL    R2,R3,R1,R0
+        ASR      R3,R3,#+2
+        ADD      R0,R3,R0, LSR #+31
+        SWI      +348
+        MOV      R5,R0
+//  133   DrawString(ID, 0, cub*12+5, y-20*cub+5*GetFSize(FSize)+10, cub*12+5+GetFSize(FSize)*3, y-20*cub+6*GetFSize(FSize)+10, 1, 0x01, 0xFFFF0000,0xFFFFFFFF);
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R9,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R10,R0
+        MOV      R0,R4
+        _BLF     ??GetFSize,??GetFSize??rA
+        MVN      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+92
+        ADD      R0,R0,R0, LSL #+2
+        ADD      R0,R0,R8
+        ADD      R3,R0,#+10
+        MOV      R1,#-16777216
+        ORR      R1,R1,#0xFF0000
+        PUSH     {R1}
+        CFI CFA R13+96
+        MOV      R0,R5
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+100
+        PUSH     {R1}
+        CFI CFA R13+104
+        MOV      R1,#+6
+        MLA      R2,R1,R9,R8
+        ADD      R1,R2,#+10
+        PUSH     {R1}
+        CFI CFA R13+108
+        MOV      R2,R7
+        ADD      R1,R10,R10, LSL #+1
+        ADD      R1,R1,R6
+        ADD      R1,R1,#+5
+        PUSH     {R1}
+        CFI CFA R13+112
+        MOV      R1,#+0
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+64
+//  134   TextID_Destroy(ID);
+        MOV      R0,R5
+        SWI      +353
+//  135 }
+        ADD      SP,SP,#+28
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??DrawText_1:
+        DC8      0x3A, 0x00, 0x00, 0x00
+        DC32     `?<Constant L"\\x41e\\x447\\x43a\\x438\\x3a">`
+        DC32     SYNC
+        DC32     `?<Constant L"\\x41e\\x447\\x43a\\x438\\x3a">` + 12
+        DC32     `?<Constant L"\\x41e\\x447\\x43a\\x438\\x3a">` + 28
+        DC32     0x66666667
+        CFI EndBlock cfiBlock18
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DrawPause??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock19
+        REQUIRE ??DrawPause
+//  136 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI Function ??DrawPause
+        ARM
+//  137 void DrawPause(int FSize, int x, int y)
+//  138 {
+??DrawPause:
+        PUSH     {R1,R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+40
+        MOV      R4,R2
+//  139   DrawRect(0,0,x,y, 0xa0000000, 0xa0000000);
+        MOV      R3,R4
+        MOV      R11,R0
+        MOV      R0,#-1610612736
+        PUSH     {R0}
+        CFI CFA R13+44
+        PUSH     {R0}
+        CFI CFA R13+48
+        MOV      R2,R1
+        MOV      R1,#+0
+        MOV      R0,#+0
+        SWI      +492
+//  140   SetFont(FSize);
+        MOV      R0,R11
+        SWI      +497
+//  141   int ID=STR("Пауза");
+        LDR      R0,??DrawPause_1  ;; `?<Constant L"\\x41f\\x430\\x443\\x437\\x430">`
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R5,R0
+//  142   DrawString(ID, 0, (x-GetFSize(FSize)*5)/2, (y-GetFSize(FSize))/2, (x-GetFSize(FSize)*5)/2+5*GetFSize(FSize), (y-GetFSize(FSize))/2+GetFSize(FSize), 1, 0x01,0xFFFF0000,0xFFFFFFFF);
+        MOV      R0,R11
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R6,R0
+        MOV      R0,R11
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R7,R0
+        MOV      R0,R11
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R8,R0
+        MOV      R0,R11
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R9,R0
+        MOV      R0,R11
+        _BLF     ??GetFSize,??GetFSize??rA
+        MOV      R10,R0
+        MOV      R0,R11
+        _BLF     ??GetFSize,??GetFSize??rA
+        LDR      R2,[SP, #+8]
+        SUB      R1,R4,R6
+        ADD      R3,R8,R8, LSL #+2
+        SUB      R2,R2,R3
+        SUB      R3,R4,R10
+        LDR      R4,[SP, #+8]
+        ADD      R0,R0,R0, LSL #+2
+        SUB      R0,R4,R0
+        MVN      R4,#+0
+        PUSH     {R4}
+        CFI CFA R13+52
+        ADD      R1,R1,R1, LSR #+31
+        ADD      R1,R7,R1, ASR #+1
+        ADD      R0,R0,R0, LSR #+31
+        MOV      R4,#-16777216
+        ORR      R4,R4,#0xFF0000
+        PUSH     {R4}
+        CFI CFA R13+56
+        MOV      R4,#+1
+        PUSH     {R4}
+        CFI CFA R13+60
+        PUSH     {R4}
+        CFI CFA R13+64
+        PUSH     {R1}
+        CFI CFA R13+68
+        ADD      R1,R2,R2, LSR #+31
+        ADD      R2,R9,R9, LSL #+2
+        ADD      R1,R2,R1, ASR #+1
+        PUSH     {R1}
+        CFI CFA R13+72
+        ASR      R2,R0,#+1
+        MOV      R0,R5
+        ADD      R1,R3,R3, LSR #+31
+        ASR      R3,R1,#+1
+        MOV      R1,#+0
+        SWI      +493
+//  143 }
+        ADD      SP,SP,#+36
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??DrawPause_1:
+        DC32     `?<Constant L"\\x41f\\x430\\x443\\x437\\x430">`
+        CFI EndBlock cfiBlock20
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??myOnRedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock21
+        REQUIRE ??myOnRedraw
+//  144 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI Function ??myOnRedraw
+        ARM
+//  145 void myOnRedraw(DISP_OBJ *DO, int a, int b, int c)
+//  146 {
+??myOnRedraw:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        SUB      SP,SP,#+4
+        CFI CFA R13+36
+//  147   int cub=MyBK()->dis[GetDis()]->cub;
+//  148   int x=MyBK()->dis[GetDis()]->x;
+//  149   int y=MyBK()->dis[GetDis()]->y;
+//  150   if(MyBK()->image->fi[0] && MyBK()->nast->im->on)
+        MOV      R7,#+255
+        ORR      R7,R7,#0xFF000000
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R6,[R0, #+8]
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R4,[R0, #+0]
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R5,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R5,[R0, #+4]
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+804]
+        LDR      R0,[R0, #+12]
+        CMP      R0,#+0
+        BEQ      ??myOnRedraw_1
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+820]
+        LDR      R0,[R0, #+4]
+        LDR      R0,[R0, #+768]
+        CMP      R0,#+0
+        BEQ      ??myOnRedraw_1
+//  151   {
+//  152     GC_PutChar(get_DisplayGC() , 0, 0, 0, 0, MyBK()->image->im[0]->ImageID);
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R8,R0
+        SWI      +485
+        LDR      R1,[R8, #+804]
+        MOV      R3,#+0
+        LDR      R1,[R1, #+0]
+        LDRH     R1,[R1, #+0]
+        PUSH     {R1}
+        CFI CFA R13+40
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+44
+        MOV      R2,R1
+        SWI      +320
+        B        ??myOnRedraw_2
+        CFI CFA R13+36
+//  153   }
+//  154   else
+//  155   {
+//  156     DrawRect(0,0,x,y, 0xFF0000FF, 0xFF000000);
+??myOnRedraw_1:
+        MOV      R0,#-16777216
+        PUSH     {R0}
+        CFI CFA R13+40
+        MOV      R3,R5
+        MOV      R2,R4
+        MOV      R1,#+0
+        MOV      R0,R7
+        PUSH     {R0}
+        CFI CFA R13+44
+        MOV      R0,#+0
+        SWI      +492
+//  157   }
+//  158   if(MyBK()->image->fi[1] && MyBK()->nast->im->on)
+??myOnRedraw_2:
+        MOV      R0,#+20
+        MUL      R1,R0,R6
+        ADD      SP,SP,#+8
+        CFI CFA R13+36
+        SUB      R8,R5,R1
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+804]
+        LDR      R0,[R0, #+16]
+        CMP      R0,#+0
+        BEQ      ??myOnRedraw_3
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+820]
+        LDR      R0,[R0, #+4]
+        LDR      R0,[R0, #+768]
+        CMP      R0,#+0
+        BEQ      ??myOnRedraw_3
+//  159   {
+//  160     GC_PutChar(get_DisplayGC() , 0, y-(20*cub), 0, 0, MyBK()->image->im[1]->ImageID);
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        SWI      +485
+        LDR      R1,[R7, #+804]
+        MOV      R3,#+0
+        LDR      R1,[R1, #+4]
+        MOV      R2,R8
+        LDRH     R1,[R1, #+0]
+        PUSH     {R1}
+        CFI CFA R13+40
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+44
+        SWI      +320
+        B        ??myOnRedraw_4
+        CFI CFA R13+36
+//  161   }
+//  162   else
+//  163   {
+//  164     DrawRect(0, y-(20*cub), 12*cub, y, 0xFF0000FF, 0xFFFFFFFF);
+??myOnRedraw_3:
+        MVN      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+40
+        PUSH     {R7}
+        CFI CFA R13+44
+        MOV      R3,R5
+        MOV      R0,#+12
+        MUL      R2,R0,R6
+        MOV      R1,R8
+        MOV      R0,#+0
+        SWI      +492
+//  165   }
+//  166   DrawP(MyBK()->p[0]);
+//  167   DrawP(MyBK()->p[1]);
+//  168   DrawTank(((MyBook*)isBookX(NameMyElf, 0))->tank->x);
+??myOnRedraw_4:
+        LDR      R7,??DataTable3  ;; `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\`
+        ADD      SP,SP,#+8
+        CFI CFA R13+36
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+848]
+        BL       ??DrawP
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+852]
+        BL       ??DrawP
+        MOV      R1,#+0
+        ADD      R0,R7,#+76
+        _BLF     ??isBookX,??isBookX??rA
+        LDR      R0,[R0, #+800]
+        LDR      R0,[R0, #+0]
+        BL       ??DrawTank
+//  169   DrawText(MyBK(), MyBK()->dis[GetDis()]->FS,x,y,cub);
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R8,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R9,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R1,R6
+        PUSH     {R1}
+        CFI CFA R13+40
+        MOV      R3,R5
+        MOV      R2,R4
+        ADD      R1,R8,R9, LSL #+2
+        LDR      R1,[R1, #+828]
+        LDR      R1,[R1, #+16]
+        BL       ??DrawText
+//  170   int id;
+//  171   if(MyBK()->nast->sound->sound)
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+820]
+        MVN      R1,#+0
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+3096]
+        ADD      SP,SP,#+4
+        CFI CFA R13+36
+        CMP      R0,#+0
+        MOV      R2,SP
+//  172   {    
+//  173     iconidname2id(L"TR_ALARM_ON_ICN", -1, &id);
+        MOVNE    R0,R7
+//  174   }
+//  175   else
+//  176   {
+//  177     iconidname2id(L"TR_ALARM_OFF_ICN", -1, &id);
+        ADDEQ    R0,R7,#+32
+        SWI      +646
+//  178   }
+//  179   GC_PutChar(get_DisplayGC() , MyBK()->dis[GetDis()]->x-2*cub, MyBK()->dis[GetDis()]->y-2*cub, 0, 0, id);
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R8,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R9,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R10,R0
+        SWI      +485
+        LDR      R2,[SP, #+0]
+        LSL      R1,R6,#+1
+        MOV      R2,R2, LSL #+16
+        MOV      R2,R2, LSR #+16
+        PUSH     {R2}
+        CFI CFA R13+40
+        ADD      R6,R9,R10, LSL #+2
+        MOV      R3,#+0
+        MOV      R2,#+0
+        PUSH     {R2}
+        CFI CFA R13+44
+        LDR      R6,[R6, #+828]
+        ADD      R2,R7,R8, LSL #+2
+        LDR      R6,[R6, #+0]
+        LDR      R2,[R2, #+828]
+        LDR      R2,[R2, #+4]
+        SUB      R2,R2,R1
+        SUB      R1,R6,R1
+        SWI      +320
+//  180   if(MyBK()->pause)
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+824]
+        ADD      SP,SP,#+8
+        CFI CFA R13+36
+        CMP      R0,#+0
+        POPEQ    {R0,R4-R10,PC}
+//  181   {
+//  182     DrawPause(MyBK()->dis[GetDis()]->FP, x, y);
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R6,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        MOV      R2,R5
+        LDR      R0,[R0, #+12]
+        MOV      R1,R4
+        BL       ??DrawPause
+//  183   }
+//  184   //DrawRect(((MyBook*)isBookX(NameMyElf, 0))->tank->x, ((MyBook*)isBookX(NameMyElf, 0))->tank->y, ((MyBook*)isBookX(NameMyElf, 0))->tank->x+10,((MyBook*)isBookX(NameMyElf, 0))->tank->y+10, 0xFFFF0000, 0xFF000000);  
+//  185 }
+        POP      {R0,R4-R10,PC}   ;; return
+        CFI EndBlock cfiBlock22
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??Check??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock23
+        REQUIRE ??Check
+//  186 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI Function ??Check
+        ARM
+//  187 int Check(PREGRADA*p, COORDINAT*t)
+//  188 {
+//  189   if(p->y<=4)
+??Check:
+        LDR      R2,[R0, #+16]
+        CMP      R2,#+5
+        BGE      ??Check_1
+//  190   {
+//  191     for(int i=0; i<4; i++)
+        MOV      R2,#+0
+//  192     {
+//  193       if(t->x==i&&p->x[i]==1) return 0;
+??Check_2:
+        LDR      R3,[R1, #+0]
+        CMP      R3,R2
+        LDREQ    R3,[R0, +R2, LSL #+2]
+        CMPEQ    R3,#+1
+        MOVEQ    R0,#+0
+        BXEQ     LR
+//  194     }
+        ADD      R2,R2,#+1
+        CMP      R2,#+4
+        BLT      ??Check_2
+//  195   }
+//  196   return 1;
+??Check_1:
+        MOV      R0,#+1
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock24
+//  197 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??myOnKey??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock25
+        REQUIRE ??myOnKey
+//  198 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI Function ??myOnKey
+        ARM
+//  199 void myOnKey(DISP_OBJ *db,int key,int a,int b,int type)
+//  200 {  
+??myOnKey:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+8
+        CFI CFA R13+44
+        LDR      R6,[SP, #+44]
+        MOV      R4,R0
+        MOV      R5,R1
+//  201   RECT*rs=new RECT;
+        MOV      R0,#+8
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R7,R0
+//  202   if((key==KEY_ENTER || key==KEY_DIGITAL_0+5) && (type==KBD_LONG_PRESS || type==KBD_SHORT_PRESS))
+        LDR      R0,??myOnKey_1   ;; KEY_ENTER
+        MOV      R11,#+1
+        LDR      R8,[R0, #+0]
+        CMP      R5,R8
+        BEQ      ??myOnKey_2
+        LDR      R0,??myOnKey_1+0x4  ;; KEY_DIGITAL_0
+        LDR      R0,[R0, #+0]
+        ADD      R0,R0,#+5
+        CMP      R5,R0
+        BNE      ??myOnKey_3
+??myOnKey_2:
+        LDR      R0,??myOnKey_1+0x8  ;; KBD_LONG_PRESS
+        LDR      R0,[R0, #+0]
+        CMP      R6,R0
+        BEQ      ??myOnKey_4
+        LDR      R0,??myOnKey_1+0xC  ;; KBD_SHORT_PRESS
+        LDR      R0,[R0, #+0]
+        CMP      R6,R0
+        BNE      ??myOnKey_5
+//  203   {
+//  204     MyBK()->megaspeed=3;
+??myOnKey_4:
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R1,#+3
+        STR      R1,[R0, #+856]
+//  205   }
+//  206   if((key==KEY_ENTER || key==KEY_DIGITAL_0+5)&& (type==KBD_LONG_RELEASE || type==KBD_SHORT_RELEASE))
+??myOnKey_5:
+        CMP      R5,R8
+        BEQ      ??myOnKey_6
+??myOnKey_3:
+        LDR      R0,??myOnKey_1+0x4  ;; KEY_DIGITAL_0
+        LDR      R0,[R0, #+0]
+        ADD      R0,R0,#+5
+        CMP      R5,R0
+        BNE      ??myOnKey_7
+??myOnKey_6:
+        LDR      R0,??myOnKey_1+0x10  ;; KBD_LONG_RELEASE
+        LDR      R0,[R0, #+0]
+        CMP      R6,R0
+        BEQ      ??myOnKey_8
+        LDR      R0,??myOnKey_1+0x14  ;; KBD_SHORT_RELEASE
+        LDR      R0,[R0, #+0]
+        CMP      R6,R0
+        BNE      ??myOnKey_7
+//  207   {
+//  208     MyBK()->megaspeed=1;
+??myOnKey_8:
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R11,[R0, #+856]
+//  209   }
+//  210   if(key==KEY_ESC && type==KBD_LONG_PRESS)
+??myOnKey_7:
+        LDR      R0,??myOnKey_1+0x14  ;; KBD_SHORT_RELEASE
+        LDR      R9,??DataTable7  ;; ftimer
+        LDR      R8,[R0, #+0]
+        LDR      R0,??myOnKey_1+0x18  ;; KEY_ESC
+        LDR      R10,??DataTable3  ;; `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\`
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        BNE      ??myOnKey_9
+        LDR      R0,??myOnKey_1+0x8  ;; KBD_LONG_PRESS
+        LDR      R0,[R0, #+0]
+        CMP      R6,R0
+        BEQ      ??myOnKey_10
+        CMP      R6,R8
+        BNE      ??myOnKey_9
+//  211   {
+//  212     GUIObject_Destroy(np);
+//  213     BookObj_GotoPage(isBookX(NameMyElf, 0),&bk_go);
+//  214     Timer_Kill(&ftimer);
+//  215     return;
+//  216   }
+//  217   if(key==KEY_ESC && type==KBD_SHORT_RELEASE)
+//  218   {
+//  219     if(MyBK()->pause==0) MyBK()->pause=1;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+824]
+        CMP      R0,#+0
+        BNE      ??myOnKey_11
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R11,[R0, #+824]
+        B        ??myOnKey_12
+//  220     else MyBK()->pause=0;
+??myOnKey_11:
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R1,#+0
+        STR      R1,[R0, #+824]
+//  221     PlayMyMusic(4);
+??myOnKey_12:
+        MOV      R0,#+4
+        _BLF     ??PlayMyMusic,??PlayMyMusic??rA
+//  222     DispObject_InvalidateRect(db,0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +495
+        POP      {R0,R1,R4-R11,PC}
+//  223     return;
+//  224   }
+//  225   if(key==KEY_DIGITAL_0+10 && type==KBD_SHORT_RELEASE)
+??myOnKey_9:
+        LDR      R1,??myOnKey_1+0x4  ;; KEY_DIGITAL_0
+        LDR      R1,[R1, #+0]
+        STR      R1,[SP, #+0]
+        ADD      R0,R1,#+10
+        CMP      R5,R0
+        CMPEQ    R6,R8
+        BNE      ??myOnKey_13
+//  226   {
+//  227     BookObj_Hide((BOOK*)MyBK(), 0);
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R1,#+0
+        SWI      +369
+//  228     if(MyBK()->pause==0) MyBK()->pause=1;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+824]
+        CMP      R0,#+0
+        POPNE    {R0,R1,R4-R11,PC}
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R11,[R0, #+824]
+        POP      {R0,R1,R4-R11,PC}
+//  229     return;
+//  230   }
+//  231   if(key==KEY_DIGITAL_0+11 && type==KBD_SHORT_RELEASE)
+??myOnKey_13:
+        ADD      R0,R1,#+11
+        CMP      R5,R0
+        CMPEQ    R6,R8
+        BNE      ??myOnKey_14
+//  232   {
+//  233     if(MyBK()->nast->sound->sound) MyBK()->nast->sound->sound=0;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+820]
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+3096]
+        CMP      R0,#+0
+        BEQ      ??myOnKey_15
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+820]
+        MOV      R1,#+0
+        LDR      R0,[R0, #+0]
+        STR      R1,[R0, #+3096]
+        B        ??myOnKey_16
+//  234     else MyBK()->nast->sound->sound=1;
+??myOnKey_15:
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+820]
+        LDR      R0,[R0, #+0]
+        STR      R11,[R0, #+3096]
+//  235     RECT*rs=new RECT;
+??myOnKey_16:
+        MOV      R0,#+8
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R5,R0
+//  236     rs->x1=MyBK()->dis[GetDis()]->x-MyBK()->dis[GetDis()]->cub*2;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R7,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R8,R0
+        ADD      R0,R6,R7, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R6,[R0, #+0]
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R8,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        SUB      R0,R6,R0, LSL #+1
+        STRH     R0,[R5, #+0]
+//  237     rs->x2=MyBK()->dis[GetDis()]->x;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R6,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+0]
+        STRH     R0,[R5, #+2]
+//  238     rs->y1=MyBK()->dis[GetDis()]->y-MyBK()->dis[GetDis()]->cub*2;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R7,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R8,R0
+        ADD      R0,R6,R7, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R6,[R0, #+4]
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R8,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        SUB      R0,R6,R0, LSL #+1
+        STRH     R0,[R5, #+4]
+//  239     rs->y2=MyBK()->dis[GetDis()]->y;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R6,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+//  240     DispObject_InvalidateRect(db,rs);
+        MOV      R1,R5
+        LDR      R0,[R0, #+4]
+        STRH     R0,[R5, #+6]
+        MOV      R0,R4
+        SWI      +495
+//  241     return;
+        POP      {R0,R1,R4-R11,PC}
+//  242   }
+//  243   if((key==KEY_LEFT || key==KEY_DIGITAL_0+4) && type==KBD_SHORT_RELEASE && !MyBK()->pause)
+??myOnKey_14:
+        LDR      R0,??myOnKey_1+0x1C  ;; KEY_LEFT
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        ADDNE    R0,R1,#+4
+        CMPNE    R5,R0
+        CMPEQ    R6,R8
+        BNE      ??myOnKey_17
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+824]
+        CMP      R0,#+0
+        BNE      ??myOnKey_17
+//  244   {
+//  245     
+//  246     if(((MyBook*)isBookX(NameMyElf, 0))->tank->x>0)
+        MOV      R1,#+0
+        ADD      R0,R10,#+76
+        _BLF     ??isBookX,??isBookX??rA
+        LDR      R0,[R0, #+800]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        BLT      ??myOnKey_17
+//  247     {
+//  248       rs->x2=(MyBK()->tank->x+1)*3*MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R0,[SP, #+4]
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R11,R0
+        LDR      R0,[SP, #+4]
+        LDR      R0,[R0, #+800]
+        LDR      R0,[R0, #+0]
+        ADD      R0,R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+48
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R11,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R1,[R0, #+8]
+        POP      {R0}
+        CFI CFA R13+44
+        MUL      R0,R1,R0
+//  249       ((MyBook*)isBookX(NameMyElf, 0))->tank->x+=-1;
+        MOV      R1,#+0
+        ADD      R0,R0,R0, LSL #+1
+        STRH     R0,[R7, #+2]
+        ADD      R0,R10,#+76
+        _BLF     ??isBookX,??isBookX??rA
+        LDR      R1,[R0, #+800]
+        LDR      R0,[R1, #+0]
+        SUB      R0,R0,#+1
+        STR      R0,[R1, #+0]
+//  250       rs->x1=MyBK()->tank->x*3*MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R0,[SP, #+4]
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R11,R0
+        LDR      R0,[SP, #+4]
+        LDR      R0,[R0, #+800]
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+48
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R11,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R1,[R0, #+8]
+        POP      {R0}
+        CFI CFA R13+44
+        MUL      R0,R1,R0
+        ADD      R0,R0,R0, LSL #+1
+        STRH     R0,[R7, #+0]
+//  251       
+//  252     }
+//  253     //PlayMyMusic(5);
+//  254   }
+//  255   if((key==KEY_RIGHT || key==KEY_DIGITAL_0+6) && type==KBD_SHORT_RELEASE && !MyBK()->pause)
+??myOnKey_17:
+        LDR      R0,??myOnKey_1+0x20  ;; KEY_RIGHT
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        BEQ      ??myOnKey_18
+        LDR      R0,[SP, #+0]
+        ADD      R0,R0,#+6
+        CMP      R5,R0
+        BNE      ??myOnKey_19
+??myOnKey_18:
+        CMP      R6,R8
+        BNE      ??myOnKey_19
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+824]
+        CMP      R0,#+0
+        BNE      ??myOnKey_19
+//  256   {
+//  257     if(((MyBook*)isBookX(NameMyElf, 0))->tank->x<3)
+        MOV      R1,#+0
+        ADD      R0,R10,#+76
+        _BLF     ??isBookX,??isBookX??rA
+        LDR      R0,[R0, #+800]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+3
+        BGE      ??myOnKey_19
+//  258     {
+//  259       rs->x1=MyBK()->tank->x*3*MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        LDR      R0,[R5, #+800]
+        LDR      R5,[R0, #+0]
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R6,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        MUL      R1,R0,R5
+        ADD      R0,R1,R1, LSL #+1
+        STRH     R0,[R7, #+0]
+//  260       ((MyBook*)isBookX(NameMyElf, 0))->tank->x+=1;
+        MOV      R1,#+0
+        ADD      R0,R10,#+76
+        _BLF     ??isBookX,??isBookX??rA
+        LDR      R1,[R0, #+800]
+        LDR      R0,[R1, #+0]
+        ADD      R0,R0,#+1
+        STR      R0,[R1, #+0]
+//  261       rs->x2=(MyBK()->tank->x+1)*3*MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        LDR      R0,[R6, #+800]
+        LDR      R0,[R0, #+0]
+        ADD      R6,R0,#+1
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R5,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        MUL      R1,R0,R6
+        ADD      R0,R1,R1, LSL #+1
+        STRH     R0,[R7, #+2]
+//  262     }      
+//  263     //PlayMyMusic(5);
+//  264   }
+//  265   rs->y1=MyBK()->dis[GetDis()]->y-MyBK()->dis[GetDis()]->cub*4;
+??myOnKey_19:
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R8,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        ADD      R0,R6,R8, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R6,[R0, #+4]
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R5,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        SUB      R0,R6,R0, LSL #+2
+        STRH     R0,[R7, #+4]
+//  266   rs->y2=MyBK()->dis[GetDis()]->y;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R5,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+//  267   DispObject_InvalidateRect(db,rs);
+        MOV      R1,R7
+        LDR      R0,[R0, #+4]
+        STRH     R0,[R7, #+6]
+        MOV      R0,R4
+        SWI      +495
+//  268   for(int i=0; i<2; i++)
+        MOV      R4,#+0
+//  269   {
+//  270   if(!Check(MyBK()->p[i], MyBK()->tank))
+??myOnKey_20:
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R5, #+800]
+        ADD      R0,R0,R4, LSL #+2
+        LDR      R0,[R0, #+848]
+        BL       ??Check
+        CMP      R0,#+0
+        BNE      ??myOnKey_21
+//  271     {
+//  272       vibra();
+        _BLF     ??vibra,??vibra??rA
+//  273       GUIObject_Destroy(np);
+??myOnKey_10:
+        LDR      R0,[R9, #+8]
+        SWI      +462
+//  274       BookObj_GotoPage(isBookX(NameMyElf, 0),&bk_go);
+        MOV      R1,#+0
+        ADD      R0,R10,#+76
+        _BLF     ??isBookX,??isBookX??rA
+        ADD      R1,R10,#+84
+        SWI      +301
+//  275       Timer_Kill(&ftimer);
+        MOV      R0,R9
+        SWI      +298
+//  276       return;
+        POP      {R0,R1,R4-R11,PC}
+//  277     }
+//  278   }
+??myOnKey_21:
+        ADD      R4,R4,#+1
+        CMP      R4,#+2
+        BLT      ??myOnKey_20
+        POP      {R0,R1,R4-R11,PC}  ;; return
+        DATA
+??myOnKey_1:
+        DC32     KEY_ENTER
+        DC32     KEY_DIGITAL_0
+        DC32     KBD_LONG_PRESS
+        DC32     KBD_SHORT_PRESS
+        DC32     KBD_LONG_RELEASE
+        DC32     KBD_SHORT_RELEASE
+        DC32     KEY_ESC
+        DC32     KEY_LEFT
+        DC32     KEY_RIGHT
+        CFI EndBlock cfiBlock26
+//  279 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??onfTimer??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock27
+        REQUIRE ??onfTimer
+//  280 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI Function ??onfTimer
+        ARM
+//  281 void onfTimer (u16 tmr , LPARAM)
+//  282 {
+??onfTimer:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+8
+        CFI CFA R13+44
+//  283   if(!MyBK()->pause)
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+824]
+        CMP      R0,#+0
+        BNE      ??onfTimer_1
+//  284   {
+//  285     MyBK()->p[0]->y+=-1;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,#+848
+        LDR      R0,[R5, +R0]
+//  286     MyBK()->p[1]->y+=-1;
+        MOV      R4,#+852
+        LDR      R1,[R0, #+16]
+//  287     if(MyBK()->p[1]->y==0)
+        MOV      R6,#+20
+        SUB      R1,R1,#+1
+        STR      R1,[R0, #+16]
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R4, +R0]
+        LDR      R1,[R0, #+16]
+        SUB      R1,R1,#+1
+        STR      R1,[R0, #+16]
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R4, +R0]
+        LDR      R0,[R0, #+16]
+        CMP      R0,#+0
+        BNE      ??onfTimer_2
+//  288     {
+//  289       MyBK()->palka++;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R0, #+860]
+        ADD      R1,R1,#+1
+        STR      R1,[R0, #+860]
+//  290       PlayMyMusic(1);
+        MOV      R0,#+1
+        _BLF     ??PlayMyMusic,??PlayMyMusic??rA
+//  291       MyBK()->point++;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R0, #+816]
+        ADD      R1,R1,#+1
+        STR      R1,[R0, #+816]
+//  292       if((MyBK()->megaspeed)>1)
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+856]
+        CMP      R0,#+2
+        BLT      ??onfTimer_3
+//  293       {
+//  294         MyBK()->point+=rand();
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        _BLF     ??rand,??rand??rA
+        LDR      R1,[R7, #+816]
+        ADD      R0,R0,R1
+        STR      R0,[R7, #+816]
+//  295       }
+//  296       MyBK()->p[1]->y=20;
+??onfTimer_3:
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R4, +R0]
+//  297       for(int i=0; i<4; i++)
+        MOV      R7,#+0
+        STR      R6,[R0, #+16]
+//  298       {
+//  299         MyBK()->p[1]->x[i]=1;
+??onfTimer_4:
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R4, +R0]
+        MOV      R1,#+1
+        STR      R1,[R0, +R7, LSL #+2]
+//  300       }
+        ADD      R7,R7,#+1
+        CMP      R7,#+4
+        BLT      ??onfTimer_4
+//  301       int r=rand();
+        _BLF     ??rand,??rand??rA
+        MOV      R7,R0
+//  302       MyBK()->p[1]->x[r]=0;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R4, +R0]
+        MOV      R1,#+0
+        STR      R1,[R0, +R7, LSL #+2]
+//  303       if(MyBK()->speed==1)
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+812]
+        CMP      R0,#+1
+        BNE      ??onfTimer_2
+//  304       {
+//  305         r=rand();
+        _BLF     ??rand,??rand??rA
+        MOV      R7,R0
+//  306         MyBK()->p[1]->x[r]=0;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R4, +R0]
+        MOV      R1,#+0
+        STR      R1,[R0, +R7, LSL #+2]
+//  307       }      
+//  308     }
+//  309     if(MyBK()->p[0]->y==0)
+??onfTimer_2:
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R5, +R0]
+        LDR      R0,[R0, #+16]
+        CMP      R0,#+0
+        BNE      ??onfTimer_5
+//  310     {
+//  311       MyBK()->palka++;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R0, #+860]
+        ADD      R1,R1,#+1
+        STR      R1,[R0, #+860]
+//  312       PlayMyMusic(1);
+        MOV      R0,#+1
+        _BLF     ??PlayMyMusic,??PlayMyMusic??rA
+//  313       MyBK()->point++;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R0, #+816]
+        ADD      R1,R1,#+1
+        STR      R1,[R0, #+816]
+//  314       if((MyBK()->megaspeed)>1)
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+856]
+        CMP      R0,#+2
+        BLT      ??onfTimer_6
+//  315       {
+//  316         MyBK()->point+=rand();
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        _BLF     ??rand,??rand??rA
+        LDR      R1,[R7, #+816]
+        ADD      R0,R0,R1
+        STR      R0,[R7, #+816]
+//  317       }
+//  318       MyBK()->p[0]->y=20;
+??onfTimer_6:
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R5, +R0]
+        STR      R6,[R0, #+16]
+//  319       for(int i=0; i<4; i++)
+        MOV      R6,#+0
+//  320       {
+//  321         MyBK()->p[0]->x[i]=1;
+??onfTimer_7:
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R5, +R0]
+        MOV      R1,#+1
+        STR      R1,[R0, +R6, LSL #+2]
+//  322       }
+        ADD      R6,R6,#+1
+        CMP      R6,#+4
+        BLT      ??onfTimer_7
+//  323       int r=rand();
+        _BLF     ??rand,??rand??rA
+        MOV      R6,R0
+//  324       MyBK()->p[0]->x[r]=0;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R5, +R0]
+        MOV      R1,#+0
+        STR      R1,[R0, +R6, LSL #+2]
+//  325       if(MyBK()->speed==1)
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R0, #+812]
+        CMP      R0,#+1
+        BNE      ??onfTimer_5
+//  326       {
+//  327         r=rand();
+        _BLF     ??rand,??rand??rA
+        MOV      R6,R0
+//  328         MyBK()->p[0]->x[r]=0;
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R0,[R5, +R0]
+        MOV      R1,#+0
+        STR      R1,[R0, +R6, LSL #+2]
+//  329       } 
+//  330     }
+//  331     RECT*rs=new RECT;
+??onfTimer_5:
+        MOV      R0,#+8
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R6,R0
+//  332     rs->x1=0;
+        MOV      R0,#+0
+        STRH     R0,[R6, #+0]
+//  333     rs->x2=MyBK()->dis[GetDis()]->cub*12;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R7,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        MOV      R1,#+12
+        LDR      R0,[R0, #+8]
+        MUL      R0,R1,R0
+        STRH     R0,[R6, #+2]
+//  334     rs->y1=MyBK()->dis[GetDis()]->y-MyBK()->p[0]->y*MyBK()->dis[GetDis()]->cub-MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R0,[SP, #+0]
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R7,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R8,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R9,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R10,R0
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R5, +R8]
+        MOV      R11,R0
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R1, #+16]
+        ADD      R2,R9,R10, LSL #+2
+        LDR      R2,[R2, #+828]
+        ADD      R0,R0,R7, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R2,[R2, #+8]
+        LDR      R0,[R0, #+4]
+        MUL      R1,R2,R1
+        SUB      R7,R0,R1
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R11,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        SUB      R0,R7,R0
+        STRH     R0,[R6, #+4]
+//  335     rs->y2=MyBK()->dis[GetDis()]->y-MyBK()->p[0]->y*MyBK()->dis[GetDis()]->cub+MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R0,[SP, #+0]
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R7,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R8,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R9,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R10,R0
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R5, +R8]
+        MOV      R11,R0
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R1, #+16]
+        ADD      R2,R9,R10, LSL #+2
+        LDR      R2,[R2, #+828]
+        ADD      R0,R0,R7, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R2,[R2, #+8]
+        LDR      R0,[R0, #+4]
+        MUL      R1,R2,R1
+        SUB      R5,R0,R1
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R11,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        ADD      R0,R0,R5
+        STRH     R0,[R6, #+6]
+//  336     DispObject_InvalidateRect( GUIObject_GetDispObject(np), rs);
+        LDR      R0,??onfTimer_8  ;; ftimer + 8
+        LDR      R0,[R0, #+0]
+        SWI      +360
+        MOV      R1,R6
+        SWI      +495
+//  337     rs->x1=0;
+        MOV      R0,#+0
+        STRH     R0,[R6, #+0]
+//  338     rs->x2=MyBK()->dis[GetDis()]->cub*12;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R5,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        MOV      R1,#+12
+        LDR      R0,[R0, #+8]
+        MUL      R0,R1,R0
+        STRH     R0,[R6, #+2]
+//  339     rs->y1=MyBK()->dis[GetDis()]->y-MyBK()->p[1]->y*MyBK()->dis[GetDis()]->cub-MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R10,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R11,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R8,R0
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R4, +R5]
+        ADD      R2,R7,R8, LSL #+2
+        LDR      R2,[R2, #+828]
+        LDR      R1,[R1, #+16]
+        LDR      R2,[R2, #+8]
+        MOV      R9,R0
+        ADD      R0,R10,R11, LSL #+2
+        LDR      R0,[R0, #+828]
+        MUL      R1,R2,R1
+        LDR      R0,[R0, #+4]
+        SUB      R5,R0,R1
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R9,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        SUB      R0,R5,R0
+        STRH     R0,[R6, #+4]
+//  340     rs->y2=MyBK()->dis[GetDis()]->y-MyBK()->p[1]->y*MyBK()->dis[GetDis()]->cub+MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R10,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R11,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R8,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R9,R0
+        LDR      R1,[R4, +R5]
+        ADD      R2,R7,R8, LSL #+2
+        LDR      R2,[R2, #+828]
+        LDR      R1,[R1, #+16]
+        LDR      R2,[R2, #+8]
+        ADD      R0,R10,R11, LSL #+2
+        LDR      R0,[R0, #+828]
+        MUL      R1,R2,R1
+        LDR      R0,[R0, #+4]
+        SUB      R4,R0,R1
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R9,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        ADD      R0,R0,R4
+        STRH     R0,[R6, #+6]
+//  341     DispObject_InvalidateRect( GUIObject_GetDispObject(np), rs);
+        LDR      R0,??onfTimer_8  ;; ftimer + 8
+        LDR      R0,[R0, #+0]
+        SWI      +360
+        MOV      R1,R6
+        SWI      +495
+//  342     rs->x1=MyBK()->dis[GetDis()]->cub*12;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        MOV      R1,#+12
+        LDR      R0,[R0, #+8]
+        MUL      R0,R1,R0
+        STRH     R0,[R6, #+0]
+//  343     rs->x2=MyBK()->dis[GetDis()]->x;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+0]
+        STRH     R0,[R6, #+2]
+//  344     rs->y1=MyBK()->dis[GetDis()]->y-MyBK()->dis[GetDis()]->cub*20;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        ADD      R0,R4,R5, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R4,[R0, #+4]
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R7,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        MOV      R1,#+20
+        LDR      R0,[R0, #+8]
+        MUL      R0,R1,R0
+        SUB      R0,R4,R0
+        STRH     R0,[R6, #+4]
+//  345     rs->y2=MyBK()->dis[GetDis()]->y-MyBK()->dis[GetDis()]->cub*20+MyBK()->dis[GetDis()]->FS*8;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R8,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R9,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        ADD      R1,R4,R5, LSL #+2
+        LDR      R1,[R1, #+828]
+        MOV      R7,R0
+        LDR      R1,[R1, #+8]
+        ADD      R0,R8,R9, LSL #+2
+        LDR      R0,[R0, #+828]
+        MOV      R2,#+20
+        LDR      R0,[R0, #+4]
+        MUL      R1,R2,R1
+        SUB      R4,R0,R1
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R7,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+16]
+        ADD      R0,R4,R0, LSL #+3
+        STRH     R0,[R6, #+6]
+//  346     DispObject_InvalidateRect( GUIObject_GetDispObject(np), rs);
+        LDR      R0,??onfTimer_8  ;; ftimer + 8
+        LDR      R0,[R0, #+0]
+        SWI      +360
+        MOV      R1,R6
+        SWI      +495
+//  347     rs->x1=0;
+        MOV      R0,#+0
+        STRH     R0,[R6, #+0]
+//  348     rs->x2=MyBK()->dis[GetDis()]->cub*12;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        MOV      R1,#+12
+        LDR      R0,[R0, #+8]
+        MUL      R0,R1,R0
+        STRH     R0,[R6, #+2]
+//  349     rs->y1=MyBK()->dis[GetDis()]->y-MyBK()->dis[GetDis()]->cub;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R7,R0
+        ADD      R0,R4,R5, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R4,[R0, #+4]
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R7,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+        LDR      R0,[R0, #+8]
+        SUB      R0,R4,R0
+        STRH     R0,[R6, #+4]
+//  350     rs->y2=MyBK()->dis[GetDis()]->y;
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??GetDis,??GetDis??rA
+        ADD      R0,R4,R0, LSL #+2
+        LDR      R0,[R0, #+828]
+//  351     DispObject_InvalidateRect( GUIObject_GetDispObject(np), rs);
+//  352     for(int i=0; i<2; i++)
+        MOV      R4,#+0
+        LDR      R0,[R0, #+4]
+        STRH     R0,[R6, #+6]
+        LDR      R0,??onfTimer_8  ;; ftimer + 8
+        LDR      R0,[R0, #+0]
+        SWI      +360
+        MOV      R1,R6
+        SWI      +495
+//  353     {
+//  354       if(!Check(MyBK()->p[i], MyBK()->tank))
+??onfTimer_9:
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R1,[R5, #+800]
+        ADD      R0,R0,R4, LSL #+2
+        LDR      R0,[R0, #+848]
+        BL       ??Check
+        CMP      R0,#+0
+        BNE      ??onfTimer_10
+//  355       {
+//  356         PlayMyMusic(2);
+//  357         vibra();
+//  358         GUIObject_Destroy(np);
+//  359         BookObj_GotoPage(isBookX(NameMyElf, 0),&bk_go);
+        LDR      R4,??DataTable3  ;; `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\`
+        MOV      R0,#+2
+        _BLF     ??PlayMyMusic,??PlayMyMusic??rA
+        _BLF     ??vibra,??vibra??rA
+        LDR      R0,??onfTimer_8  ;; ftimer + 8
+        LDR      R0,[R0, #+0]
+        SWI      +462
+        MOV      R1,#+0
+        ADD      R0,R4,#+76
+        _BLF     ??isBookX,??isBookX??rA
+        ADD      R1,R4,#+84
+        SWI      +301
+//  360         Timer_Kill(&ftimer);
+        LDR      R0,??DataTable7  ;; ftimer
+        SWI      +298
+//  361         return;
+        POP      {R0,R1,R4-R11,PC}
+//  362       }
+//  363     }
+??onfTimer_10:
+        ADD      R4,R4,#+1
+        CMP      R4,#+2
+        BLT      ??onfTimer_9
+//  364     if(!isBookX("Gono4ki", 1)) MyBK()->pause=1;
+        LDR      R0,??onfTimer_8+0x4  ;; `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\` + 68
+        MOV      R1,#+1
+        _BLF     ??isBookX,??isBookX??rA
+        CMP      R0,#+0
+        BNE      ??onfTimer_1
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R1,#+1
+        STR      R1,[R0, #+824]
+//  365   }
+//  366   int time=(1000/MyBK()->speed-MyBK()->palka*MyBK()->speed)/MyBK()->megaspeed;
+??onfTimer_1:
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R4,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R5,R0
+        _BLF     ??MyBK,??MyBK??rA
+        MOV      R6,R0
+        _BLF     ??MyBK,??MyBK??rA
+        LDR      R2,[R0, #+856]
+        LDR      R1,[R4, #+812]
+        LDR      R3,[R6, #+812]
+        MOV      R0,#+1000
+        _BLF     ??div32_a,??rA??div32_a
+        LDR      R0,[R5, #+860]
+        MUL      R0,R3,R0
+        SUB      R0,R1,R0
+        MOV      R1,R2
+        _BLF     ??div32_a,??rA??div32_a
+        MOV      R4,R1
+//  367   if(time<=0) time=10;
+        CMP      R4,#+1
+        MOVLT    R4,#+10
+//  368   Timer_ReSet(&ftimer,time,onfTimer,0);
+        MOV      R1,#+0
+        ADD      R0,SP,#+4
+        _BLF     ??LPARAM,??LPARAM??rA
+        LDR      R3,[SP, #+4]
+        LDR      R2,??DataTable8  ;; ??onfTimer
+        LDR      R0,??DataTable7  ;; ftimer
+        MOV      R1,R4
+        SWI      +296
+//  369 }
+        POP      {R0,R1,R4-R11,PC}  ;; return
+        DATA
+??onfTimer_8:
+        DC32     ftimer + 8
+        DC32     `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\` + 68
+        CFI EndBlock cfiBlock28
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable3:
+        DC32     `?<Constant L"\\x54\\x52\\x5f\\x41\\x4c\\x41\\x52\\x4d\\`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CreateGame??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock29
+        REQUIRE ??CreateGame
+//  370 
+//  371 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI Function ??CreateGame
+        ARM
+//  372 int CreateGame(void*, BOOK*bk)
+//  373 {
+??CreateGame:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        SUB      SP,SP,#+4
+        CFI CFA R13+28
+        MOV      R4,R1
+//  374   randInit();
+//  375   for(int i=0; i<2; i++)
+        MOV      R5,#+0
+        _BLF     ??randInit,??randInit??rA
+        MOV      R7,#+1
+        MOV      R8,#+0
+//  376   {
+//  377     for(int j=0; j<4; j++)
+??CreateGame_1:
+        MOV      R0,#+0
+        ADD      R6,R4,R5, LSL #+2
+//  378     {
+//  379       ((MyBook*)bk)->p[i]->x[j]=1;
+??CreateGame_2:
+        LDR      R1,[R6, #+848]
+        STR      R7,[R1, +R0, LSL #+2]
+//  380     }
+        ADD      R0,R0,#+1
+        CMP      R0,#+4
+        BLT      ??CreateGame_2
+//  381     ((MyBook*)bk)->p[i]->y=20-i*10;
+        LDR      R0,[R6, #+848]
+        MOV      R1,#+10
+        MUL      R2,R1,R5
+//  382     int r=rand();
+//  383     ((MyBook*)bk)->p[i]->x[r]=0;
+//  384   }
+        ADD      R5,R5,#+1
+        RSB      R1,R2,#+20
+        STR      R1,[R0, #+16]
+        _BLF     ??rand,??rand??rA
+        LDR      R1,[R6, #+848]
+        CMP      R5,#+2
+        STR      R8,[R1, +R0, LSL #+2]
+        BLT      ??CreateGame_1
+//  385   MyBK()->megaspeed=1;
+//  386   MyBK()->point=0;
+//  387   MyBK()->pause=0;
+//  388   MyBK()->palka=0;
+//  389   np=custom_create(bk);
+        LDR      R5,??DataTable7  ;; ftimer
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R7,[R0, #+856]
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R8,[R0, #+816]
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R8,[R0, #+824]
+        _BLF     ??MyBK,??MyBK??rA
+        STR      R8,[R0, #+860]
+        MOV      R0,R4
+        BL       ??custom_create
+        STR      R0,[R5, #+8]
+//  390   dd=DispObject_GetDESC ( GUIObject_GetDispObject(np) ); 
+        SWI      +360
+        SWI      +543
+//  391   DISP_DESC_SetOnKey(dd, myOnKey);
+        LDR      R1,??CreateGame_3  ;; ??myOnKey
+        STR      R0,[R5, #+4]
+        SWI      +554
+//  392   DISP_DESC_SetOnRedraw(dd, myOnRedraw);
+        LDR      R1,??CreateGame_3+0x4  ;; ??myOnRedraw
+        LDR      R0,[R5, #+4]
+        SWI      +552
+//  393   GUIObject_Show(np);
+        LDR      R0,[R5, #+8]
+        SWI      +308
+//  394   BookObj_Show(bk, 0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +370
+//  395   BookObj_SetFocus(bk, 0);
+        MOV      R1,R8
+        MOV      R0,R4
+        SWI      +306
+//  396   PlayMyMusic(0);
+        MOV      R0,R8
+        _BLF     ??PlayMyMusic,??PlayMyMusic??rA
+//  397   ftimer=Timer_Set(1000/((MyBook*)bk)->speed,onfTimer,0);
+        MOV      R1,R8
+        MOV      R0,SP
+        _BLF     ??LPARAM,??LPARAM??rA
+        LDR      R1,??DataTable8  ;; ??onfTimer
+        LDR      R2,[SP, #+0]
+        MOV      R3,R1
+        LDR      R1,[R4, #+812]
+        MOV      R0,#+1000
+        _BLF     ??div32_a,??rA??div32_a
+        MOV      R0,R1
+        MOV      R1,R3
+        SWI      +297
+        STRH     R0,[R5, #+0]
+//  398   return 0;
+        MOV      R0,R8
+        POP      {R1,R4-R8,PC}    ;; return
+        DATA
+??CreateGame_3:
+        DC32     ??myOnKey
+        DC32     ??myOnRedraw
+        CFI EndBlock cfiBlock30
+//  399 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable7:
+        DC32     ftimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable8:
+        DC32     ??onfTimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon0
+        CFI NoFunction
+        ARM
+`??operator new??rA`:
+        LDR      R12,??Subroutine15_0  ;; `??operator new`
+        BX       R12
+        DATA
+??Subroutine15_0:
+        DC32     `??operator new`
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine16_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine16_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??MyBK??rA:
+        LDR      R12,??Subroutine17_0  ;; ??MyBK
+        BX       R12
+        DATA
+??Subroutine17_0:
+        DC32     ??MyBK
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??GetDis??rA:
+        LDR      R12,??Subroutine18_0  ;; ??GetDis
+        BX       R12
+        DATA
+??Subroutine18_0:
+        DC32     ??GetDis
+        CFI EndBlock cfiBlock34
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??GetFSize??rA:
+        LDR      R12,??Subroutine19_0  ;; ??GetFSize
+        BX       R12
+        DATA
+??Subroutine19_0:
+        DC32     ??GetFSize
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??isBookX??rA:
+        LDR      R12,??Subroutine20_0  ;; ??isBookX
+        BX       R12
+        DATA
+??Subroutine20_0:
+        DC32     ??isBookX
+        CFI EndBlock cfiBlock36
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??PlayMyMusic??rA:
+        LDR      R12,??Subroutine21_0  ;; ??PlayMyMusic
+        BX       R12
+        DATA
+??Subroutine21_0:
+        DC32     ??PlayMyMusic
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??vibra??rA:
+        LDR      R12,??Subroutine22_0  ;; ??vibra
+        BX       R12
+        DATA
+??Subroutine22_0:
+        DC32     ??vibra
+        CFI EndBlock cfiBlock38
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??rand??rA:
+        LDR      R12,??Subroutine23_0  ;; ??rand
+        BX       R12
+        DATA
+??Subroutine23_0:
+        DC32     ??rand
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??rA??div32_a:
+        LDR      R12,??Subroutine24_0  ;; ??div32_a
+        MOV      PC,R12
+        DATA
+??Subroutine24_0:
+        DC32     ??div32_a
+        CFI EndBlock cfiBlock40
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??LPARAM??rA:
+        LDR      R12,??Subroutine25_0  ;; ??LPARAM
+        BX       R12
+        DATA
+??Subroutine25_0:
+        DC32     ??LPARAM
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??randInit??rA:
+        LDR      R12,??Subroutine26_0  ;; ??randInit
+        BX       R12
+        DATA
+??Subroutine26_0:
+        DC32     ??randInit
+        CFI EndBlock cfiBlock42
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        END
+// 
+// 6 428 bytes in segment CODE
+//   192 bytes in segment DATA_C
+//    12 bytes in segment DATA_Z
+//    16 bytes in segment DYN_PAGE
+//    12 bytes in segment INITTAB
+// 
+// 6 216 bytes of CODE  memory (+ 224 bytes shared)
+//   208 bytes of CONST memory
+//    12 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

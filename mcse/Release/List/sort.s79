@@ -1,0 +1,914 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:48:12 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\sort.cpp /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\sort.cpp /
+//                        -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN          /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcs /
+//                       e\Release\List\ -o Z:\home\perk11\www\perk11.info\s /
+//                       vn\SE\mcse\Release\Obj\ -s9 --no_unroll             /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h --preinclude Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\mcse\..\deleaker\mem2.h -I                     /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\sort.s79                                       /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME sort
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        MULTWEAK ??GetFileExt??rA
+        MULTWEAK ??MsgBoxError??rA
+        PUBLIC ??SortFiles
+        FUNCTION ??SortFiles,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??SortFiles??rT
+        PUBLIC ??SortList
+        FUNCTION ??SortList,0203H
+        LOCFRAME CSTACK, 36, STACK
+        MULTWEAK ??SortList??rT
+        PUBLIC ??filenamecmp
+        FUNCTION ??filenamecmp,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??filenamecmp??rT
+        PUBLIC ??fn_prepare
+        FUNCTION ??fn_prepare,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??fn_prepare??rT
+        PUBLIC ??isDateGreater
+        FUNCTION ??isDateGreater,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??isDateGreater??rT
+        PUBLIC ??isExtGreater
+        FUNCTION ??isExtGreater,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??isExtGreater??rT
+        PUBLIC ??isNameGreater
+        FUNCTION ??isNameGreater,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??isNameGreater??rT
+        MULTWEAK ??isNumericWstr??rA
+        PUBLIC ??isSizeGreater
+        FUNCTION ??isSizeGreater,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??isSizeGreater??rT
+        MULTWEAK ??muitxt??rA
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new??rA`
+        MULTWEAK `??operator new[]??rA`
+        MULTWEAK ??quickSort??rA
+        MULTWEAK ??wcharlow??rA
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+
+
+
+
+??GetFileExt??rA    SYMBOL "??rA", ??GetFileExt
+??MsgBoxError??rA   SYMBOL "??rA", ??MsgBoxError
+
+??SortFiles??rT     SYMBOL "??rT", ??SortFiles
+
+??SortList??rT      SYMBOL "??rT", ??SortList
+
+??filenamecmp??rT   SYMBOL "??rT", ??filenamecmp
+
+??fn_prepare??rT    SYMBOL "??rT", ??fn_prepare
+
+??isDateGreater??rT SYMBOL "??rT", ??isDateGreater
+
+??isExtGreater??rT  SYMBOL "??rT", ??isExtGreater
+
+??isNameGreater??rT SYMBOL "??rT", ??isNameGreater
+??isNumericWstr??rA SYMBOL "??rA", ??isNumericWstr
+
+??isSizeGreater??rT SYMBOL "??rT", ??isSizeGreater
+??muitxt??rA        SYMBOL "??rA", ??muitxt
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new??rA` SYMBOL "??rA", `??operator new`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+??quickSort??rA     SYMBOL "??rA", ??quickSort
+??wcharlow??rA      SYMBOL "??rA", ??wcharlow
+
+        EXTERN ??GetFileExt
+        FUNCTION ??GetFileExt,0202H
+        EXTERN ??MsgBoxError
+        FUNCTION ??MsgBoxError,0202H
+        EXTERN ??isNumericWstr
+        FUNCTION ??isNumericWstr,0202H
+        EXTERN ??muitxt
+        FUNCTION ??muitxt,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new`
+        FUNCTION `??operator new`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+        EXTERN ??quickSort
+        FUNCTION ??quickSort,0202H
+        EXTERN ??wcharlow
+        FUNCTION ??wcharlow,0202H
+        EXTERN FileListBase
+        EXTERN str_empty
+        EXTERN tabs
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??fn_prepare??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??fn_prepare
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??fn_prepare
+        ARM
+??fn_prepare:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R5
+        B        ??fn_prepare_1
+??fn_prepare_2:
+        _BLF     ??wcharlow,??wcharlow??rA
+        STRH     R0,[R6], #+2
+??fn_prepare_1:
+        LDRH     R0,[R4], #+2
+        CMP      R0,#+0
+        BNE      ??fn_prepare_2
+        STRH     R0,[R6, #+0]
+        MOV      R0,R5
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??filenamecmp??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??filenamecmp
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??filenamecmp
+        ARM
+??filenamecmp:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        LDR      R4,[R0, #+0]
+        LDR      R5,[R1, #+0]
+        B        ??filenamecmp_1
+??filenamecmp_2:
+        ADD      R4,R4,#+2
+        ADD      R5,R5,#+2
+??filenamecmp_1:
+        LDRH     R6,[R4, #+0]
+        LDRH     R7,[R5, #+0]
+        CMP      R6,R7
+        BEQ      ??filenamecmp_3
+        LDR      R0,[R0, #+4]
+        LDR      R1,[R1, #+4]
+        SWI      +671
+        CMP      R0,#+0
+        BNE      ??filenamecmp_4
+        MOV      R0,R4
+        _BLF     ??isNumericWstr,??isNumericWstr??rA
+        CMP      R0,#+0
+        BEQ      ??filenamecmp_4
+        MOV      R0,R5
+        _BLF     ??isNumericWstr,??isNumericWstr??rA
+        CMP      R0,#+0
+        BEQ      ??filenamecmp_4
+        MOV      R0,R4
+        SWI      +343
+        MOV      R4,R0
+        MOV      R0,R5
+        SWI      +343
+        CMP      R4,R0
+        BEQ      ??filenamecmp_4
+        SUB      R0,R4,R0
+        POP      {R4-R7,PC}
+??filenamecmp_3:
+        CMP      R6,#+0
+        CMPEQ    R7,#+0
+        BNE      ??filenamecmp_2
+        MOV      R0,#+0
+        POP      {R4-R7,PC}
+??filenamecmp_4:
+        SUB      R0,R6,R7
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isNameGreater??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??isNameGreater
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??isNameGreater
+        ARM
+??isNameGreater:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        MOV      R5,R1
+        BL       ??filenamecmp
+        CMP      R0,#+0
+        BNE      ??isNameGreater_1
+        LDR      R1,[R5, #+4]
+        LDR      R0,[R4, #+4]
+        SWI      +671
+??isNameGreater_1:
+        CMP      R0,#+1
+        MOVGE    R0,#+1
+        POPGE    {R4,R5,PC}
+        MOV      R0,#+0
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isExtGreater??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??isExtGreater
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??isExtGreater
+        ARM
+??isExtGreater:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        LDR      R0,[R4, #+4]
+        MOV      R5,R1
+        LDR      R1,[R5, #+4]
+        SWI      +671
+        CMP      R0,#+0
+        BNE      ??isExtGreater_1
+        MOV      R1,R5
+        MOV      R0,R4
+        BL       ??filenamecmp
+??isExtGreater_1:
+        CMP      R0,#+1
+        MOVGE    R0,#+1
+        POPGE    {R4,R5,PC}
+        MOV      R0,#+0
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isSizeGreater??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??isSizeGreater
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??isSizeGreater
+        ARM
+??isSizeGreater:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R2,[R0, #+12]
+        LDR      R3,[R1, #+12]
+        SUBS     R2,R2,R3
+        BNE      ??isSizeGreater_1
+        LDR      R0,[R0, #+32]
+        LDR      R1,[R1, #+32]
+        SWI      +671
+        CMP      R0,#+1
+        BLT      ??isSizeGreater_2
+        MOV      R0,#+1
+        POP      {PC}
+??isSizeGreater_1:
+        CMP      R2,#+1
+        MOVGE    R0,#+1
+        POPGE    {PC}
+??isSizeGreater_2:
+        MOV      R0,#+0
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isDateGreater??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ??isDateGreater
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??isDateGreater
+        ARM
+??isDateGreater:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R2,[R0, #+20]
+        LDR      R3,[R1, #+20]
+        SUBS     R2,R2,R3
+        BNE      ??isDateGreater_1
+        LDR      R0,[R0, #+32]
+        LDR      R1,[R1, #+32]
+        SWI      +671
+        CMP      R0,#+1
+        BLT      ??isDateGreater_2
+        MOV      R0,#+1
+        POP      {PC}
+??isDateGreater_1:
+        CMP      R2,#+1
+        MOVGE    R0,#+1
+        POPGE    {PC}
+??isDateGreater_2:
+        MOV      R0,#+0
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SortList??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ??SortList
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??SortList
+        ARM
+??SortList:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        MOV      R4,R0
+        AND      R5,R1,#0xF
+        AND      R6,R1,#0x100
+        MOV      R7,#+0
+        MOVS     R8,R4
+        POPEQ    {R4-R11,PC}
+??SortList_1:
+        LDR      R8,[R8, #+68]
+        ADD      R7,R7,#+1
+        CMP      R8,#+0
+        BNE      ??SortList_1
+        CMP      R7,#+2
+        POPLT    {R4-R11,PC}
+        CMP      R5,#+0
+        CMPNE    R5,#+1
+        BNE      ??SortList_2
+        LSL      R0,R7,#+2
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOVS     R9,R0
+        BEQ      ??SortList_3
+        MOV      R10,#+0
+        MOV      R8,R4
+??SortList_4:
+        ADD      R11,R9,R10, LSL #+2
+        MOV      R0,#+12
+        _BLF     `??operator new`,`??operator new??rA`
+        STR      R0,[R11, #+0]
+        CMP      R0,#+0
+        BEQ      ??SortList_5
+        STR      R8,[R0, #+8]
+        MOV      R0,#+512
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        LDR      R1,[R11, #+0]
+        STR      R0,[R1, #+0]
+        LDR      R0,[R11, #+0]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??SortList_5
+        LDR      R0,[R11, #+0]
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R8, #+32]
+        BL       ??fn_prepare
+        LDR      R0,[R11, #+0]
+        LDR      R0,[R0, #+0]
+        _BLF     ??GetFileExt,??GetFileExt??rA
+        LDR      R1,[R11, #+0]
+        STR      R0,[R1, #+4]
+        LDR      R0,[R11, #+0]
+        LDR      R0,[R0, #+4]
+        CMP      R0,#+0
+        LDR      R0,[R9, +R10, LSL #+2]
+        LDREQ    R1,??SortList_6  ;; str_empty
+        LDRNE    R0,[R0, #+4]
+        MOVNE    R1,#+0
+        STREQ    R1,[R0, #+4]
+        STRHNE   R1,[R0, #-2]
+        LDR      R8,[R8, #+68]
+        ADD      R10,R10,#+1
+        CMP      R8,#+0
+        BNE      ??SortList_4
+        CMP      R5,#+0
+        LDREQ    R2,??SortList_6+0x4  ;; ??isNameGreater
+        BEQ      ??SortList_7
+        CMP      R5,#+1
+        BNE      ??SortList_8
+        LDR      R2,??SortList_6+0x8  ;; ??isExtGreater
+??SortList_7:
+        MOV      R1,R7
+        MOV      R0,R9
+        _BLF     ??quickSort,??quickSort??rA
+??SortList_8:
+        CMP      R6,#+0
+        BEQ      ??SortList_9
+        LDR      R0,[R9, #+0]
+        MOV      R10,#+0
+        LDR      R4,[R0, #+8]
+        SUB      R0,R7,#+1
+        CMP      R0,#+1
+        BGE      ??SortList_10
+        B        ??SortList_11
+??SortList_12:
+        ADD      R0,R9,R10, LSL #+2
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R0, #+4]
+        LDR      R1,[R1, #+8]
+        LDR      R0,[R0, #+8]
+        ADD      R10,R10,#+1
+        STR      R0,[R1, #+68]
+??SortList_10:
+        SUB      R0,R7,#+1
+        CMP      R10,R0
+        BLT      ??SortList_12
+??SortList_11:
+        ADD      R0,R9,R7, LSL #+2
+        LDR      R0,[R0, #-4]
+??SortList_13:
+        MOV      R1,#+0
+        LDR      R0,[R0, #+8]
+        STR      R1,[R0, #+68]
+??SortList_5:
+        SUBS     R5,R7,#+1
+        BMI      ??SortList_14
+??SortList_15:
+        LDR      R0,[R9, +R5, LSL #+2]
+        CMP      R0,#+0
+        BEQ      ??SortList_16
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??SortList_17
+        LDR      R0,[R9, +R5, LSL #+2]
+        LDR      R0,[R0, #+0]
+        _BLF     `??operator delete`,`??operator delete??rA`
+??SortList_17:
+        LDR      R0,[R9, +R5, LSL #+2]
+        _BLF     `??operator delete`,`??operator delete??rA`
+??SortList_16:
+        SUBS     R5,R5,#+1
+        BPL      ??SortList_15
+??SortList_14:
+        MOV      R0,R9
+        _BLF     `??operator delete`,`??operator delete??rA`
+        MOV      R0,R4
+        POP      {R4-R11,PC}
+??SortList_9:
+        ADD      R0,R9,R7, LSL #+2
+        LDR      R0,[R0, #-4]
+        SUB      R10,R7,#+1
+        LDR      R4,[R0, #+8]
+        CMP      R10,#+1
+        BLT      ??SortList_18
+??SortList_19:
+        ADD      R0,R9,R10, LSL #+2
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R0, #-4]
+        LDR      R1,[R1, #+8]
+        LDR      R0,[R0, #+8]
+        SUB      R10,R10,#+1
+        STR      R0,[R1, #+68]
+        CMP      R10,#+1
+        BGE      ??SortList_19
+??SortList_18:
+        LDR      R0,[R9, #+0]
+        B        ??SortList_13
+??SortList_2:
+        LSL      R0,R7,#+2
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOVS     R9,R0
+        BEQ      ??SortList_3
+        MOV      R0,#+0
+        MOV      R8,R4
+??SortList_20:
+        STR      R8,[R9, +R0, LSL #+2]
+        LDR      R8,[R8, #+68]
+        ADD      R0,R0,#+1
+        CMP      R8,#+0
+        BNE      ??SortList_20
+        CMP      R5,#+3
+        LDREQ    R2,??SortList_6+0xC  ;; ??isDateGreater
+        BEQ      ??SortList_21
+        CMP      R5,#+2
+        BNE      ??SortList_22
+        LDR      R2,??SortList_6+0x10  ;; ??isSizeGreater
+??SortList_21:
+        MOV      R1,R7
+        MOV      R0,R9
+        _BLF     ??quickSort,??quickSort??rA
+??SortList_22:
+        CMP      R6,#+0
+        BEQ      ??SortList_23
+        LDR      R4,[R9, #+0]
+        MOV      R5,#+0
+        SUB      R0,R7,#+1
+        CMP      R0,#+1
+        BGE      ??SortList_24
+        B        ??SortList_25
+??SortList_26:
+        ADD      R0,R9,R5, LSL #+2
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R0, #+4]
+        ADD      R5,R5,#+1
+        STR      R0,[R1, #+68]
+??SortList_24:
+        SUB      R0,R7,#+1
+        CMP      R5,R0
+        BLT      ??SortList_26
+??SortList_25:
+        ADD      R0,R9,R7, LSL #+2
+        LDR      R0,[R0, #-4]
+        B        ??SortList_27
+??SortList_23:
+        ADD      R0,R9,R7, LSL #+2
+        LDR      R4,[R0, #-4]
+        SUB      R5,R7,#+1
+        CMP      R5,#+1
+        BLT      ??SortList_28
+??SortList_29:
+        ADD      R0,R9,R5, LSL #+2
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R0, #-4]
+        SUB      R5,R5,#+1
+        STR      R0,[R1, #+68]
+        CMP      R5,#+1
+        BGE      ??SortList_29
+??SortList_28:
+        LDR      R0,[R9, #+0]
+??SortList_27:
+        MOV      R1,#+0
+        STR      R1,[R0, #+68]
+        B        ??SortList_14
+??SortList_3:
+        MOV      R0,#+87
+        _BLF     ??muitxt,??muitxt??rA
+        _BLF     ??MsgBoxError,??MsgBoxError??rA
+        MOV      R0,R4
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??SortList_6:
+        DC32     str_empty
+        DC32     ??isNameGreater
+        DC32     ??isExtGreater
+        DC32     ??isDateGreater
+        DC32     ??isSizeGreater
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SortFiles??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE ??SortFiles
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??SortFiles
+        ARM
+??SortFiles:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        LDR      R0,??SortFiles_1  ;; tabs
+        LDR      R0,[R0, +R4, LSL #+2]
+        LDRSH    R0,[R0, #+0]
+        CMP      R0,#+2
+        POPLT    {R4-R7,PC}
+        LDR      R1,??SortFiles_1+0x4  ;; FileListBase
+        MOV      R5,#+0
+        ADD      R1,R1,R4, LSL #+2
+        LDR      R1,[R1, #+0]
+        MOV      R0,#+0
+        LDR      R2,[R1, #+68]
+        CMP      R2,R1
+        BEQ      ??SortFiles_2
+??SortFiles_3:
+        LDRH     R1,[R2, #+8]
+        LDR      R3,[R2, #+68]
+        TST      R1,#0x4000
+        MOVNE    R1,R0
+        MOVEQ    R1,R5
+        STR      R1,[R2, #+68]
+        LDR      R1,??SortFiles_1+0x4  ;; FileListBase
+        MOVNE    R0,R2
+        LDR      R1,[R1, +R4, LSL #+2]
+        MOVEQ    R5,R2
+        MOV      R2,R3
+        CMP      R2,R1
+        BNE      ??SortFiles_3
+??SortFiles_2:
+        LDR      R1,??SortFiles_1+0x4  ;; FileListBase
+        ADD      R1,R1,R4, LSL #+2
+        LDR      R1,[R1, #+0]
+        STR      R1,[R1, #+68]
+        LDR      R1,??SortFiles_1  ;; tabs
+        LDR      R1,[R1, +R4, LSL #+2]
+        LDRSH    R7,[R1, #+2]
+        MOV      R1,R7
+        BL       ??SortList
+        MOV      R6,R0
+        MOV      R1,R7
+        MOV      R0,R5
+        BL       ??SortList
+        CMP      R0,#+0
+        BEQ      ??SortFiles_4
+??SortFiles_5:
+        LDR      R1,??SortFiles_1+0x4  ;; FileListBase
+        LDR      R3,[R0, #+68]
+        ADD      R1,R1,R4, LSL #+2
+        LDR      R1,[R1, #+0]
+        LDR      R2,[R1, #+68]
+        STR      R2,[R0, #+68]
+        STR      R0,[R1, #+68]
+        MOVS     R0,R3
+        BNE      ??SortFiles_5
+??SortFiles_4:
+        CMP      R6,#+0
+        POPEQ    {R4-R7,PC}
+        LDR      R1,??SortFiles_1+0x4  ;; FileListBase
+        LDR      R3,[R6, #+68]
+        ADD      R1,R1,R4, LSL #+2
+        LDR      R1,[R1, #+0]
+        LDR      R0,[R1, #+68]
+        STR      R0,[R6, #+68]
+        STR      R6,[R1, #+68]
+        MOV      R6,R3
+        B        ??SortFiles_4
+        DATA
+??SortFiles_1:
+        DC32     tabs
+        DC32     FileListBase
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??wcharlow??rA:
+        LDR      R12,??Subroutine8_0  ;; ??wcharlow
+        BX       R12
+        DATA
+??Subroutine8_0:
+        DC32     ??wcharlow
+        CFI EndBlock cfiBlock16
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??isNumericWstr??rA:
+        LDR      R12,??Subroutine9_0  ;; ??isNumericWstr
+        BX       R12
+        DATA
+??Subroutine9_0:
+        DC32     ??isNumericWstr
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine10_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine10_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock18
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new??rA`:
+        LDR      R12,??Subroutine11_0  ;; `??operator new`
+        BX       R12
+        DATA
+??Subroutine11_0:
+        DC32     `??operator new`
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??GetFileExt??rA:
+        LDR      R12,??Subroutine12_0  ;; ??GetFileExt
+        BX       R12
+        DATA
+??Subroutine12_0:
+        DC32     ??GetFileExt
+        CFI EndBlock cfiBlock20
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??quickSort??rA:
+        LDR      R12,??Subroutine13_0  ;; ??quickSort
+        BX       R12
+        DATA
+??Subroutine13_0:
+        DC32     ??quickSort
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine14_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine14_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock22
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??muitxt??rA:
+        LDR      R12,??Subroutine15_0  ;; ??muitxt
+        BX       R12
+        DATA
+??Subroutine15_0:
+        DC32     ??muitxt
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??MsgBoxError??rA:
+        LDR      R12,??Subroutine16_0  ;; ??MsgBoxError
+        BX       R12
+        DATA
+??Subroutine16_0:
+        DC32     ??MsgBoxError
+        CFI EndBlock cfiBlock24
+
+        END
+// 
+// 1 636 bytes in segment CODE
+// 
+// 1 496 bytes of CODE memory (+ 140 bytes shared)
+//
+//Errors: none
+//Warnings: none

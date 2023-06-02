@@ -1,0 +1,251 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:58:53 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Rec_Ch #
+#                       eck.c                                                #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Rec_Ch #
+#                       eck.c -D NDEBUG -D OLDFUNCTIONS -lC                  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Go #
+#                       no4ki\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\Gono4ki\Release\Obj\ -s9 --no_unroll        #
+#                       --no_inline --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e            #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\Rec_Check.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\Obj\Rec_Check.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Rec_Check.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          #include "..\\include\cfg_items.h"
+      5          #include "MyFUNC.h"
+      6          #include "StructBook.h"
+      7          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          wchar_t ImageHandler_Free(IMG*i)
+      9          {
+   \                     ??ImageHandler_Free:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     10            char error_code;
+     11            REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC,i->ImageHandle,0,0,i->ImageID,1,&error_code);
+   \   00000008   0030A0E3           MOV      R3,#+0
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0D00A0E1           MOV      R0,SP
+   \   00000014   01002DE9           PUSH     {R0}
+   \   00000018   0020A0E3           MOV      R2,#+0
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   B000D4E1           LDRH     R0,[R4, #+0]
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   B210D4E1           LDRH     R1,[R4, #+2]
+   \   00000030   ........           LDR      R0,??DataTable1  ;; SYNC
+   \   00000034   000090E5           LDR      R0,[R0, #+0]
+   \   00000038   840200EF           SWI      +644
+     12            i->ImageID=NOIMAGE;
+   \   0000003C   FF00A0E3           MOV      R0,#+255
+   \   00000040   FF0C80E3           ORR      R0,R0,#0xFF00
+   \   00000044   B000C4E1           STRH     R0,[R4, #+0]
+     13            i->ImageHandle=NOIMAGE;
+   \   00000048   B200C4E1           STRH     R0,[R4, #+2]
+     14            i->isImage=false;
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   1400C4E5           STRB     R0,[R4, #+20]
+     15            return 0;
+   \   00000054   10D08DE2           ADD      SP,SP,#+16
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+     16          };
+     17          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     18          void ImagesDel(BOOK*bk)
+     19          {
+   \                     ??ImagesDel:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     20            for(int i=0; i<3; i++)
+   \   00000008   0050A0E3           MOV      R5,#+0
+     21            {
+     22              if(((MyBook*)bk)->image->fi[i]) ImageHandler_Free(((MyBook*)bk)->image->im[i]);
+   \                     ??ImagesDel_1:
+   \   0000000C   240394E5           LDR      R0,[R4, #+804]
+   \   00000010   050180E0           ADD      R0,R0,R5, LSL #+2
+   \   00000014   0C0090E5           LDR      R0,[R0, #+12]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0200000A           BEQ      ??ImagesDel_2
+   \   00000020   240394E5           LDR      R0,[R4, #+804]
+   \   00000024   050190E7           LDR      R0,[R0, +R5, LSL #+2]
+   \   00000028   ........           BL       ??ImageHandler_Free
+     23            }
+   \                     ??ImagesDel_2:
+   \   0000002C   015085E2           ADD      R5,R5,#+1
+   \   00000030   030055E3           CMP      R5,#+3
+   \   00000034   F4FFFFBA           BLT      ??ImagesDel_1
+     24          }
+   \   00000038   3080BDE8           POP      {R4,R5,PC}       ;; return
+     25          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     26          u16 RegisterImage(IMG * i , wchar_t * path, wchar_t fname[256]) 
+     27          {
+   \                     ??RegisterImage:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+     28            char error_code;
+     29            i->ImageID=NOIMAGE;
+     30            i->ImageHandle=NOIMAGE;
+     31            if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC,&i->ImageHandle,&error_code))
+   \   00000004   ........           LDR      R8,??DataTable1  ;; SYNC
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   FF50A0E3           MOV      R5,#+255
+   \   00000014   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000018   B050C4E1           STRH     R5,[R4, #+0]
+   \   0000001C   B250C4E1           STRH     R5,[R4, #+2]
+   \   00000020   000098E5           LDR      R0,[R8, #+0]
+   \   00000024   0160A0E1           MOV      R6,R1
+   \   00000028   0270A0E1           MOV      R7,R2
+   \   0000002C   0D20A0E1           MOV      R2,SP
+   \   00000030   021084E2           ADD      R1,R4,#+2
+   \   00000034   6D0100EF           SWI      +365
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   1000001A           BNE      ??RegisterImage_1
+     32            {
+     33              if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC,i->ImageHandle,path, fname,0,&i->ImageID,&error_code))
+   \   00000040   0D00A0E1           MOV      R0,SP
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   0730A0E1           MOV      R3,R7
+   \   0000004C   0620A0E1           MOV      R2,R6
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   01002DE9           PUSH     {R0}
+   \   00000058   0000A0E3           MOV      R0,#+0
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   B210D4E1           LDRH     R1,[R4, #+2]
+   \   00000064   000098E5           LDR      R0,[R8, #+0]
+   \   00000068   830200EF           SWI      +643
+   \   0000006C   000050E3           CMP      R0,#+0
+   \   00000070   0CD08DE2           ADD      SP,SP,#+12
+   \   00000074   0200001A           BNE      ??RegisterImage_1
+     34              {
+     35                if (error_code)
+   \   00000078   0000DDE5           LDRB     R0,[SP, #+0]
+   \   0000007C   000050E3           CMP      R0,#+0
+     36                {
+     37                  i->ImageHandle=NOIMAGE;
+   \   00000080   B250C411           STRHNE   R5,[R4, #+2]
+     38                }
+     39              }
+     40            }
+     41            return(i->ImageID);
+   \                     ??RegisterImage_1:
+   \   00000084   B000D4E1           LDRH     R0,[R4, #+0]
+   \   00000088   F281BDE8           POP      {R1,R4-R8,PC}    ;; return
+     42          }
+     43          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          void OpenRes(IMGN*i, MyBook*bk)
+     45          {
+   \                     ??OpenRes:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+     46            for(int j=0; j<3; j++)
+   \   0000000C   0060A0E3           MOV      R6,#+0
+     47            {
+     48              if(!FindFile(GetConfigPath(), i->names[j]))
+   \                     ??OpenRes_1:
+   \   00000010   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   00000014   067484E0           ADD      R7,R4,R6, LSL #+8
+   \   00000018   0710A0E1           MOV      R1,R7
+   \   0000001C   ........           _BLF     ??FindFile,??FindFile??rA
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0900001A           BNE      ??OpenRes_2
+     49              {
+     50                RegisterImage(bk->image->im[j], GetConfigPath(), i->names[j]);
+   \   00000028   ........           _BLF     ??GetConfigPath,??GetConfigPath??rA
+   \   0000002C   0010A0E1           MOV      R1,R0
+   \   00000030   240395E5           LDR      R0,[R5, #+804]
+   \   00000034   0720A0E1           MOV      R2,R7
+   \   00000038   060190E7           LDR      R0,[R0, +R6, LSL #+2]
+   \   0000003C   ........           BL       ??RegisterImage
+     51                bk->image->fi[j]=1;
+   \   00000040   240395E5           LDR      R0,[R5, #+804]
+   \   00000044   0110A0E3           MOV      R1,#+1
+   \   00000048   060180E0           ADD      R0,R0,R6, LSL #+2
+   \   0000004C   0C1080E5           STR      R1,[R0, #+12]
+     52              }
+     53            }
+   \                     ??OpenRes_2:
+   \   00000050   016086E2           ADD      R6,R6,#+1
+   \   00000054   030056E3           CMP      R6,#+3
+   \   00000058   ECFFFFBA           BLT      ??OpenRes_1
+     54          }
+   \   0000005C   F080BDE8           POP      {R4-R7,PC}       ;; return
+     55          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          int CheckResurs(MyBook*bk)
+     57          {
+   \                     ??CheckResurs:
+   \   00000000   00402DE9           PUSH     {LR}
+     58            OpenRes(bk->nast->im, bk);
+   \   00000004   0010A0E1           MOV      R1,R0
+   \   00000008   340390E5           LDR      R0,[R0, #+820]
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   ........           BL       ??OpenRes
+     59            return 1;
+   \   00000014   0100A0E3           MOV      R0,#+1
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+     60          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     SYNC
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CheckResurs(MyBook *)              4
+     ImageHandler_Free(IMG *)          24
+     ImagesDel(BOOK *)                 12
+     OpenRes(IMGN *, MyBook *)         20
+     RegisterImage(IMG *, wchar_t *, wchar_t *)
+                                       40
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     ImageHandler_Free(IMG *)         92
+     ImagesDel(BOOK *)                60
+     RegisterImage(IMG *, wchar_t *, wchar_t *)
+                                     140
+     OpenRes(IMGN *, MyBook *)        96
+     CheckResurs(MyBook *)            28
+     ??DataTable1                      4
+      Others                          44
+
+ 
+ 464 bytes in segment CODE
+ 
+ 420 bytes of CODE memory (+ 44 bytes shared)
+
+Errors: none
+Warnings: none

@@ -1,0 +1,2123 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:08:47 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\main #
+#                       .c                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\main #
+#                       .c -D NDEBUG -D LANG_CN -D OLDFUNCTIONS -lC          #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\Tamagochi\Release_CN\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\Obj\ -s9 --no_unroll --no_inline --cpu_mode   #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --enable_multibytes --fpu None      #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\List\main.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\Obj\main.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\main.c
+      1          // Эльф-тамагочи
+      2          // Eraser @2007
+      3          // anis_1981@mail.ru
+      4          // ICQ:308911945
+      5          
+      6          #include "..\\include\Lib_Clara.h"
+      7          #include "..\\include\Dir.h"
+      8          #include "..\\include\var_arg.h"
+      9          #include "..\\include\cfg_items.h"
+     10          #include "Tamagochi.h"
+     11          #include "RANDOM.h"
+     12          #include "conf_loader.h"
+     13          #include "language.h"
+     14          #include "misc_util.h"
+     15          #include "crypt.h"
+     16          
+     17          #define ELF_HELLO_MSG_EVENT 777
+     18          #define NAME_LEN  64
+     19          
+     20          #define TESTPATH L"/tpa/system/settings"
+     21          #define TESTFILE L"filetype.bin"
+     22          
+     23          typedef struct
+     24          {
+     25            BOOK * book;
+     26            wchar_t name[NAME_LEN];
+     27          }HELLO_MSG;
+     28          
+     29          #define TMR_SECOND  1000
+     30          
+     31          #define STATUS_HEIGHT_128  14
+     32          #define STATUS_HEIGHT_160  14
+     33          #define STATUS_HEIGHT_208  18
+     34          #define STATUS_HEIGHT_220  18
+     35          #define STATUS_HEIGHT_320  25
+     36          
+     37          #define SOFT_HEIGHT_128  18
+     38          #define SOFT_HEIGHT_160  18
+     39          #define SOFT_HEIGHT_208  26
+     40          #define SOFT_HEIGHT_220  26
+     41          #define SOFT_HEIGHT_320  30
+     42          
+     43          enum SLEEP_TYPE {
+     44            NIGHT_SLEEP = 0,
+     45            FATIGUE_SLEEP,
+     46            HUNGER_SLEEP,
+     47            COMMAND_SLEEP
+     48          };
+     49          
+     50          enum FIND_NAME {
+     51            NOT_FOUND = 0,
+     52            GAME_FOUND,
+     53            PLAYER_FOUND
+     54          };
+     55          
+     56          typedef struct
+     57          {
+     58            BOOK * book;
+     59          }MSG;
+     60          
+     61          static const wchar_t * const SoundName[SOUND_NAME_COUNT]=
+     62          {
+     63            L"global.wav",     //tuk-tuk 0
+     64            L"hello.wav",      //privet 1
+     65            L"birthday.wav",   //den' rozhdeniya 2
+     66            L"alarm.wav",      //toropis'! 3
+     67            L"comeon.wav",     //nu davaj-davaj 4
+     68            L"illgetyou.wav",  //nu pogodi 5
+     69            L"boring.wav",     //skuchno 6
+     70            L"byebye.wav",     //poka 7
+     71            L"fatality.wav",   //ubit 8
+     72            L"firstblood.wav", //pervaya krov' 9
+     73            L"laugh.wav",      //haha 10
+     74            L"leaveme.wav",    //ostav' menya 11
+     75            L"nooo.wav",       //neee 12
+     76            L"ohdeer.wav",     //oj-e-e-e-ej 13
+     77            L"sleep.wav",      //zevaet 14
+     78            L"ouch.wav",       //oj bol'na 15
+     79            L"ow.wav",         //au! 16
+     80            L"yessir.wav",     //da ser 17
+     81            L"cry.wav",
+     82            L"cheer_female.wav",
+     83            L"cheer_male.wav",
+     84            L"bathe.wav"
+     85          };
+     86          
+     87          static const wchar_t * const icons_names[ICONS_NAMES_COUNT]=
+     88          {
+     89            L"smile.png",
+     90            L"death.png",
+     91            L"dream.png",
+     92            L"hunger.png",
+     93            L"Health.png",
+     94            L"Happiness.png",
+     95            L"Dirtiness.png",
+     96            L"Boredom.png",
+     97            L"Behaviour.png",
+     98            L"single.png",
+     99            L"in_love.png",
+    100            L"bathe.png"
+    101          };
+    102          
+    103          static const wchar_t * const icons_status[ICONS_STATUS_COUNT]=
+    104          {
+    105            L"null.png",
+    106            L"game.png",
+    107            L"moon.png",
+    108            L"music.png"
+    109          };
+    110          
+    111          static const wchar_t * const icons_menu[ICONS_MENU_COUNT]=
+    112          {
+    113            L"game.png",
+    114            L"vaccinate.png",
+    115            L"discipline.png",
+    116            L"sleep.png",
+    117            L"status.png",
+    118            L"sm_smile.png",
+    119            L"settings.png",
+    120            L"about.png",
+    121            L"sm_smile.png",
+    122            L"heart.png",
+    123            L"sm_hunger.png",
+    124            L"sm_Happiness.png",
+    125            L"sm_Dirtiness.png",
+    126            L"sm_Boredom.png",
+    127            L"sm_Behaviour.png",
+    128            L"sm_dream.png",
+    129            L"sm_sex.png",
+    130            L"sm_male.png",
+    131            L"sm_female.png",
+    132            L"sm_family.png",
+    133            L"sm_bathe.png",
+    134            L"room.png"
+    135          };
+    136          
+    137          DISP_OBJ_ONREDRAW_METHOD Status_oldReDraw = 0;
+    138          DISP_OBJ ** GUI_status = 0;
+    139          DISP_DESC * Status_desc = 0;
+    140          
+    141          DISP_OBJ_ONREDRAW_METHOD Display_oldReDraw = 0;
+    142          DISP_OBJ * GUI_display = 0;
+    143          DISP_DESC * Display_desc = 0;
+    144          
+    145          DISP_OBJ_ONREDRAW_METHOD Soft_oldReDraw = 0;
+    146          DISP_OBJ * GUI_soft = 0;
+    147          DISP_DESC * Soft_desc = 0;
+    148          
+    149          int DisplayWidth  = 0; //ширина дисплея в пикселях
+    150          int DisplayHeight = 0; //высота дисплея в пикселях
+    151          int SoftBarHeight   = 0;
+    152          int StatusBarHeight = 0;
+    153          int SoftBarY   = 0;
+    154          int StatusBarY = 0;
+    155          
+    156          MyBOOK *TamagochiBook = 0;
+    157          
+    158          static char myappname[128]=ELFNAME;
+    159          
+    160          IMAGEID img_names[ICONS_NAMES_COUNT] = {NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE,
+    161                                              NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE,
+    162                                              NOIMAGE,NOIMAGE,NOIMAGE};
+    163          
+    164          IMAGEID img_status[ICONS_STATUS_COUNT] = {NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE};
+    165          
+    166          IMAGEID img_menu[ICONS_MENU_COUNT] = {NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE,
+    167                                            NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE,
+    168                                            NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE,
+    169                                            NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE,
+    170                                            NOIMAGE,NOIMAGE,NOIMAGE,NOIMAGE,
+    171                                            NOIMAGE,NOIMAGE};
+    172          
+    173          int SmileSize = 0;
+    174          int StatSize  = 0;
+    175          
+    176          //Статусы питомцев
+    177          TStatusPets Pets[MAX_PET_COUNT_GLB];
+    178          
+    179          char game_list[GAME_PLAYER_LIST_LEN];
+    180          char player_list[GAME_PLAYER_LIST_LEN];
+    181          
+    182          u16 timer_save    = 0;
+    183          u16 timer_refresh = 0;
+    184          u16 timer_life    = 0;
+    185          
+    186          int screen = 0;
+    187          u16 timerScreen = 0;
+    188          u16 offtimerScreen = 0;
+    189          
+    190          void InitStatus(int indx, int age, int sex);
+    191          void InitPetVar(int indx);
+    192          int SaveStatus(int indx);
+    193          void LoadAllPets();
+    194          int NewKey(int key, int r1 , int mode, LPARAM, DISP_OBJ*);
+    195          int isTamagochiBook(BOOK * book);
+    196          void onTimer_save (u16 timerID, LPARAM lparam);
+    197          void onTimer_refresh (u16 timerID, LPARAM lparam);
+    198          void onTimer_life (u16 timerID, LPARAM lparam);
+    199          
+    200          int isBookmanDaemonBook(BOOK * book)
+    201          {
+    202            if(!strcmp(book->xbook->name,"BookManagerDaemon")) return(1);
+    203            return(0);
+    204          }
+    205          
+    206          // проверка, обрабатывает ли base_page книги событие
+    207          int CheckEv(BOOK * bk, int ev)
+    208          {
+    209            PAGE_MSG * pm;
+    210            if (bk->base_page)
+    211            {
+    212              pm=(PAGE_MSG *)bk->base_page->msg_lst;
+    213              if (pm)
+    214              {
+    215                while ((pm->msg) && (pm->proc))
+    216                {
+    217                  if (pm->msg==ev)
+    218                  {
+    219                    return(1);
+    220                  }
+    221                  pm++;
+    222                }
+    223              }
+    224            }
+    225            return(0);
+    226          }
+    227          
+    228          // получить имя жавы
+    229          int GetJavaName(BOOK * bk)
+    230          {
+    231            wchar_t ws[100];
+    232            TextID_GetWString(BookObj_GetSession(bk)->name,ws,100);
+    233            if (!wstrncmp(ws,L"Foreign app",11))
+    234            {
+    235              return(JavaSession_GetName());
+    236            }
+    237            if (!wstrcmp(ws,L"Java"))
+    238            {
+    239              return(JavaSession_GetName());
+    240            }
+    241            return(0);
+    242          }
+    243          
+    244          void WriteLog(char *buf)
+    245          {
+    246            int flog;
+    247            wchar_t path[256];
+    248            char msg[512];
+    249            DATETIME dt;
+    250          
+    251            REQUEST_DATEANDTIME_GET(SYNC,&dt);
+    252          
+    253            wstrcpy(path,GetDir(DIR_OTHER|MEM_EXTERNAL));
+    254            if ((flog=_fopen(path,L"TamagochiLog.txt",FSX_O_CREAT|FSX_O_APPEND|FSX_O_RDWR,FSX_S_IREAD|FSX_S_IWRITE,0)) < 0) { return; }
+    255          
+    256            sprintf(msg, "%02d:%02d:%02d %s\n", dt.time.hour, dt.time.min, dt.time.sec, buf);
+    257            fwrite(flog,msg,strlen(msg));
+    258            fclose(flog);
+    259          }
+    260          
+    261          /*
+    262          wchar_t ImageID=NOIMAGE;
+    263          wchar_t ImageHandle=NOIMAGE;
+    264          
+    265          wchar_t RegisterImage(wchar_t * path, wchar_t * fname)
+    266          {
+    267            FSTAT _fstat;
+    268            char error_code;
+    269            int sync=0;
+    270            if(fstat(path,fname,&_fstat)==0)
+    271            {
+    272              if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(&sync,(u16 *)&ImageHandle,&error_code))
+    273              {
+    274                if(!Gif2ID(ImageHandle,path,fname,&ImageID))
+    275                {
+    276                  if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(&sync,ImageHandle,path,fname,0,&ImageID,&error_code))
+    277                  {
+    278                    if (error_code) ImageHandle=NOIMAGE;
+    279                  }
+    280                }
+    281              }
+    282            }
+    283            return(ImageID);
+    284          }
+    285          
+    286          wchar_t UnRegisterImage()
+    287          {
+    288            char error_code;
+    289            REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC,ImageHandle,0,0,ImageID,1,&error_code);
+    290            ImageID=NOIMAGE;
+    291            ImageHandle=NOIMAGE;
+    292            return 0;
+    293          };
+    294          */
+    295          
+    296          void free_strings()
+    297          {
+    298          
+    299          }
+    300          
+    301          void load_strings()
+    302          {
+    303            free_strings();
+    304          
+    305          }
+    306          
+    307          void free_icons()
+    308          {
+    309            for (int i=0;i<ICONS_NAMES_COUNT;i++)
+    310            {
+    311                if(img_names[i] != NOIMAGE)
+    312                {
+    313                    ImageID_Free(img_names[i]);
+    314                    img_names[i] = NOIMAGE;
+    315                }
+    316            }
+    317            for (int i=0;i<ICONS_STATUS_COUNT;i++)
+    318            {
+    319                if(img_status[i] != NOIMAGE)
+    320                {
+    321                    ImageID_Free(img_status[i]);
+    322                    img_status[i] = NOIMAGE;
+    323                }
+    324            }
+    325            for (int i=0;i<ICONS_MENU_COUNT;i++)
+    326            {
+    327                if(img_menu[i] != NOIMAGE)
+    328                {
+    329                    ImageID_Free(img_menu[i]);
+    330                    img_menu[i] = NOIMAGE;
+    331                }
+    332            }
+    333          
+    334          //  UnRegisterImage();
+    335          }
+    336          
+    337          void load_icons()
+    338          {
+    339            FSTAT _fstat;
+    340            wchar_t path[128];
+    341            getdir(path,PIC_PATH);
+    342          
+    343            free_icons();
+    344          
+    345            for(int i=0; i< ICONS_NAMES_COUNT; i++)
+    346            {
+    347              if(fstat(path,icons_names[i],&_fstat)==0)
+    348              {
+    349                if(ImageID_Get(path,icons_names[i],&img_names[i])<0) img_names[i] = NOIMAGE;
+    350              }
+    351            }
+    352          
+    353            SmileSize = GetImageWidth(img_names[0]);
+    354          
+    355            for(int i=0; i< ICONS_STATUS_COUNT; i++)
+    356            {
+    357              if(fstat(path,icons_status[i],&_fstat)==0)
+    358              {
+    359                if(ImageID_Get(path,icons_status[i],&img_status[i])<0) img_status[i] = NOIMAGE;
+    360              }
+    361            }
+    362          
+    363            StatSize = GetImageWidth(img_status[0]);
+    364          
+    365            for(int i=0; i< ICONS_MENU_COUNT; i++)
+    366            {
+    367              if(fstat(path,icons_menu[i],&_fstat)==0)
+    368              {
+    369                if(ImageID_Get(path,icons_menu[i],&img_menu[i])<0) img_menu[i] = NOIMAGE;
+    370              }
+    371            }
+    372          //  RegisterImage(path, L"test.gif");
+    373          }
+    374          
+    375          // ----------------------------------------------------------------------------
+    376          static void UpdateName(void)
+    377          {
+    378            sprintf(myappname,"%s - %d age",ELFNAME, Pets[0].Status.Age);
+    379            TextID_Destroy(((BOOK *)TamagochiBook)->xbook->app_session->name);
+    380            ((BOOK *)TamagochiBook)->xbook->app_session->name = TextID_Create(myappname,ENC_LAT1,TEXTID_ANY_LEN);
+    381          }
+    382          
+    383          // ----------------------------------------------------------------------------
+    384          int isNight()
+    385          {
+    386            if (Night_Ena)
+    387            {
+    388                //проверка ночи
+    389                DATETIME dt;
+    390                REQUEST_DATEANDTIME_GET(SYNC,&dt);
+    391          
+    392                if (Night_begin>=Night_end)
+    393                  if ((dt.time.hour>=Night_begin)||(dt.time.hour<Night_end))
+    394                    return 1;
+    395          
+    396                if (Night_begin<Night_end)
+    397                  if ((dt.time.hour>=Night_begin)&&(dt.time.hour<Night_end))
+    398                    return 1;
+    399            }
+    400            return 0;
+    401          }
+    402          
+    403          // ----------------------------------------------------------------------------
+    404          void start_vibra(void)
+    405          {
+    406            if(Is_Vibra_Enabled)
+    407            {
+    408              int full,on,off;
+    409              if(VIBR_TYPE == 0)
+    410              {
+    411                on = vibraTime;
+    412                off = 0;
+    413                full = vibraTime;
+    414              }
+    415              else
+    416              {
+    417                int t = vibraTime/20;
+    418                on = 9*t;
+    419                off = t;
+    420                full = 20*t;
+    421              }
+    422              PAudioControl pAC = AudioControl_Init();
+    423              if( !pAC ) pAC = *GetAudioControlPtr();
+    424              AudioControl_Vibrate(pAC, on, off, full);
+    425            }
+    426          }
+    427          
+    428          // ----------------------------------------------------------------------------
+    429          void offTimerScreen(u16 timerID, LPARAM lparam)
+    430          {
+    431            if(timerScreen)
+    432            {
+    433              Timer_Kill(&timerScreen);
+    434              timerScreen = 0;
+    435              IndicationDevice_Backlight_FadeToLevel(0,cfg_screen_level);
+    436            }
+    437            screen = 0;
+    438          }
+    439          
+    440          void onTimerScreen(u16 timerID, LPARAM lparam)
+    441          {
+    442              IndicationDevice_Backlight_FadeToLevel(0,screen ^= cfg_screen_level);
+    443              Timer_ReSet(&timerScreen,cfg_screen_blink_speed,onTimerScreen,0);
+    444          }
+    445          
+    446          void Light()
+    447          {
+    448            if(Is_Screen_Enabled)
+    449            {
+    450              BOOK * ScreenSaverBook = FindBook(get_IsScreenSaverBook());
+    451              if (ScreenSaverBook)
+    452              {
+    453                UI_Event_toBookID(UI_SCREENSAVER_DEACTIVATE_EVENT,BookObj_GetBookID(ScreenSaverBook));
+    454              }
+    455              timerScreen=Timer_Set(cfg_screen_blink_speed,onTimerScreen,0);
+    456              offtimerScreen=Timer_Set(cfg_screen_time*1000,offTimerScreen,0);
+    457            }
+    458          }
+    459          
+    460          // ----------------------------------------------------------------------------
+    461          
+    462          void set_all_simg_status(int status)
+    463          {
+    464            for(int i=0; i<MAX_PET_COUNT_GLB; i++) Pets[i].simg_status = status;
+    465          }
+    466          
+    467          void set_all_old_img_status(int status)
+    468          {
+    469            for(int i=0; i<MAX_PET_COUNT_GLB; i++) Pets[i].old_img_status = status;
+    470          }
+    471          // ----------------------------------------------------------------------------
+    472          int FindName()
+    473          {
+    474            int i,j,k;
+    475            int mask=((int)LastExtDB())&0xF8000000;
+    476            BOOK * book;
+    477            UI_APP_SESSION * session;
+    478          
+    479            i=root_list_get_session_count();
+    480            for (j=0; j<i; j++)
+    481            {
+    482              session=root_list_get_session(j);
+    483              for (k=0;k<session->listbook->FirstFree;k++)
+    484              {
+    485                book=(BOOK*)List_Get(session->listbook,k);
+    486                if( (book->xguilist->guilist->FirstFree) || (((((int)book->onClose)&0xF8000000) != mask)))
+    487                {
+    488                  char s[100];
+    489                  wchar_t ws[100];
+    490                  if(strcmp(book->xbook->name,"CUIDisplayableBook"))
+    491                  {
+    492                    str2wstr(ws,book->xbook->name);
+    493                  }
+    494                  else
+    495                  {
+    496                    TextID_GetWString(book->xbook->app_session->name,ws,100);
+    497                  }
+    498                  int nameID;
+    499                  if((nameID = GetJavaName(book)))
+    500                  {
+    501                    TextID_GetWString(nameID,ws,100);
+    502                  }
+    503                  wstr2strn (s, ws, 99);
+    504                  if(strstr(game_list,s)) return GAME_FOUND;
+    505                  if(strstr(player_list,s)) return PLAYER_FOUND;
+    506                }
+    507              }
+    508            }
+    509            return NOT_FOUND;
+    510          }
+    511          
+    512          int GameDetected(void)
+    513          {
+    514            int find=0;
+    515          
+    516            if((find = FindName()) != NOT_FOUND) // поиск по game_list и player_list
+    517            {
+    518              if(find == GAME_FOUND)
+    519              {
+    520                set_all_simg_status(GAME_ICN);
+    521                return 1;
+    522              }
+    523              if(find == PLAYER_FOUND)
+    524              {
+    525                set_all_simg_status(MUSIC_ICN);
+    526                return 1;
+    527              }
+    528            }
+    529            else if(FindBook(get_IsAudioPlayerBook())) // ищем медиаплеер
+    530            {
+    531              set_all_simg_status(MUSIC_ICN);
+    532              return 1;
+    533            }
+    534            else if(FindBook(get_IsFmRadioBook())) // ищем радио
+    535            {
+    536              set_all_simg_status(MUSIC_ICN);
+    537              return 1;
+    538            }
+    539            return 0;
+    540          }
+    541          
+    542          // ----------------------------------------------------------------------------
+    543          void ChangeStatusImage(int indx, BOOK *bk, int snd)
+    544          {
+    545            TStatusPet *StatusPet = &Pets[indx].Status;
+    546            int SIZE = MINSIZE + StatusPet->Age;
+    547            if (SIZE > MAXSIZE) SIZE = MAXSIZE;
+    548          
+    549            Pets[indx].img_size = SmileSize * SIZE / 100;
+    550          
+    551            // Статусные картинки
+    552            StatusPet->ImageStatus=SMILE_ICN;
+    553            if (StatusPet->needFriend) StatusPet->ImageStatus=SINGLE_ICN;
+    554            if (StatusPet->haveFriend == 1) StatusPet->ImageStatus=INLOVE_ICN;
+    555            if (StatusPet->Behaviour < StatusPet->MaxBehaviour/3) StatusPet->ImageStatus=BEHAVIOUR_ICN;
+    556            if (StatusPet->Boredom   > StatusPet->MaxBoredom/2)   StatusPet->ImageStatus=BOREDOM_ICN;
+    557            if (StatusPet->Dirtiness > StatusPet->MaxDirtiness/2) StatusPet->ImageStatus=DIRTINESS_ICN;
+    558            if (StatusPet->Hunger    > StatusPet->MaxHunger/2)    StatusPet->ImageStatus=HUNGER_ICN;
+    559            if (StatusPet->Health    < StatusPet->MaxHealth/2)    StatusPet->ImageStatus=HEALTH_ICN;
+    560            if (StatusPet->Happiness < StatusPet->MaxHappiness/2) StatusPet->ImageStatus=HAPPINESS_ICN;
+    561          
+    562            if (Pets[indx].Bathe) StatusPet->ImageStatus = BATHE_ICN;
+    563            // сон
+    564            if (Pets[indx].Sleep != 0) StatusPet->ImageStatus = DREAM_ICN;
+    565            if (StatusPet->StatusDeath == 1) StatusPet->ImageStatus = DEATH_ICN;
+    566          
+    567            if (Pets[indx].old_simg_status != Pets[indx].simg_status)
+    568            {
+    569              Pets[indx].StatImg = &img_status[Pets[indx].simg_status];
+    570              Pets[indx].old_simg_status = Pets[indx].simg_status;
+    571            }
+    572          
+    573            if (Pets[indx].old_img_status != StatusPet->ImageStatus)
+    574            {
+    575              Pets[indx].Smile = &img_names[StatusPet->ImageStatus];
+    576              start_vibra();
+    577              Light();
+    578              Pets[indx].old_img_status = StatusPet->ImageStatus;
+    579            }
+    580          
+    581            if(StatusPet->StatusDeath == 1) return;
+    582          
+    583            const wchar_t *sound_name = 0;
+    584            wchar_t  sound_path[128];
+    585            getdir(sound_path,SOUND_PATH);
+    586          
+    587            if (StatusPet->Dirtiness >= (StatusPet->MaxDirtiness - 10))
+    588            {
+    589              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGDIRTINESS,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    590              sound_name = SoundName[OHDEER_SND];
+    591            }
+    592            if (StatusPet->Boredom >= (StatusPet->MaxBoredom - 10))
+    593            {
+    594              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGBOREDOM,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    595              sound_name = SoundName[BORING_SND];
+    596            }
+    597            if (StatusPet->Hunger >= (StatusPet->MaxHunger - 10))
+    598            {
+    599              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGHUNGER,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    600              sound_name = SoundName[ILLGETYOU_SND];
+    601            }
+    602            if (StatusPet->Health <= 10)
+    603            {
+    604              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGHEALTH,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    605              sound_name = SoundName[COMEON_SND];
+    606            }
+    607            if (StatusPet->Happiness <= 10)
+    608              sound_name = SoundName[NOOO_SND];
+    609          
+    610            if(sound_name && snd) PlayFileV(sound_path, sound_name, sndVolume);
+    611          }
+    612          
+    613          // ----------------------------------------------------------------------------
+    614          void VerifyStatus(int indx)
+    615          {
+    616            TStatusPet *StatusPet = &Pets[indx].Status;
+    617          // проверки максимальных - минимальных значений
+    618            if (StatusPet->Hunger > StatusPet->MaxHunger) StatusPet->Hunger = StatusPet->MaxHunger;
+    619            if (StatusPet->Hunger < 0) StatusPet->Hunger = 0;
+    620            if (StatusPet->Happiness > StatusPet->MaxHappiness) StatusPet->Happiness = StatusPet->MaxHappiness;
+    621            if (StatusPet->Happiness < 0) StatusPet->Happiness = 0;
+    622            if (StatusPet->Health > StatusPet->MaxHealth) StatusPet->Health = StatusPet->MaxHealth;
+    623            if (StatusPet->Health < 0) StatusPet->Health = 0;
+    624            if (StatusPet->Dirtiness > StatusPet->MaxDirtiness) StatusPet->Dirtiness = StatusPet->MaxDirtiness;
+    625            if (StatusPet->Dirtiness < 0) StatusPet->Dirtiness = 0;
+    626            if (StatusPet->Boredom > StatusPet->MaxBoredom) StatusPet->Boredom = StatusPet->MaxBoredom;
+    627            if (StatusPet->Boredom < 0) StatusPet->Boredom = 0;
+    628            if (StatusPet->Behaviour > StatusPet->MaxBehaviour) StatusPet->Behaviour = StatusPet->MaxBehaviour;
+    629            if (StatusPet->Behaviour < 0) StatusPet->Behaviour = 0;
+    630            if (Pets[indx].Fatigue > 100) Pets[indx].Fatigue = 100;
+    631            if (Pets[indx].Fatigue < 0) Pets[indx].Fatigue=0;
+    632          }
+    633          // ---------------------------------------------------------------------------
+    634          
+    635          void InfoStatus(int indx, BOOK * book, int)
+    636          {
+    637            ShowStatus(book);
+    638          }
+    639          // ----------------------------------------------------------------------------
+    640          void GamePlay(int indx, BOOK * bk, int snd)
+    641          {
+    642            wchar_t  sound_path[128];
+    643            getdir(sound_path,SOUND_PATH);
+    644          
+    645            if(Pets[indx].Status.StatusDeath == 1)
+    646            {
+    647              if(snd) PlayFileV(sound_path, SoundName[FATALITY_SND], sndVolume);
+    648              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMDIE,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    649              return;
+    650            }
+    651          
+    652            if(Pets[indx].Sleep != 0)
+    653            {
+    654              if(snd) PlayFileV(sound_path, SoundName[LEAVEME_SND], sndVolume);
+    655              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMSLEEP,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    656              return;
+    657            }
+    658          
+    659            Pets[indx].Status.Happiness += 10;
+    660            Pets[indx].Status.Boredom   -= 10;
+    661            Pets[indx].Status.Hunger    += 10;
+    662            Pets[indx].Fatigue                 += 10;
+    663            if(snd) PlayFileV(sound_path, SoundName[LAUGH_SND], sndVolume);
+    664            MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_COOL,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    665            ChangeStatusImage(indx, bk, snd);
+    666            VerifyStatus(indx);
+    667          }
+    668          // ----------------------------------------------------------------------------
+    669          void Vaccinate(int indx, BOOK * bk, int snd)
+    670          {
+    671            wchar_t  sound_path[128];
+    672            getdir(sound_path,SOUND_PATH);
+    673          
+    674            if (Pets[indx].Status.StatusDeath == 1)
+    675            {
+    676              if(snd) PlayFileV(sound_path, SoundName[FATALITY_SND], sndVolume);
+    677              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMDIE,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    678              return;
+    679            }
+    680            if (Pets[indx].Sleep != 0)
+    681            {
+    682              if(snd) PlayFileV(sound_path, SoundName[LEAVEME_SND], sndVolume);
+    683              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMSLEEP,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    684              return;
+    685            }
+    686            if (Pets[indx].Status.Behaviour < Pets[indx].Status.MaxBehaviour/4)
+    687            {
+    688              if(snd) PlayFileV(sound_path, SoundName[LEAVEME_SND], sndVolume);
+    689              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_DONTDISTURB,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    690              return;
+    691            }
+    692          
+    693            Pets[indx].Status.Happiness -= 10;
+    694            Pets[indx].Status.Health    += 10;
+    695            Pets[indx].Status.Boredom   -= 10;
+    696          
+    697            if(snd) PlayFileV(sound_path, SoundName[OUCH_SND], sndVolume);
+    698            MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_PAIN,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    699            ChangeStatusImage(indx, bk, snd);
+    700            VerifyStatus(indx);
+    701          }
+    702          // ----------------------------------------------------------------------------
+    703          void Discipline(int indx, BOOK * bk, int snd)
+    704          {
+    705            wchar_t  sound_path[128];
+    706            getdir(sound_path,SOUND_PATH);
+    707          
+    708            if (Pets[indx].Status.StatusDeath == 1)
+    709            {
+    710              if(snd) PlayFileV(sound_path, SoundName[FATALITY_SND], sndVolume);
+    711              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMDIE,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    712              return;
+    713            }
+    714            if (Pets[indx].Sleep != 0)
+    715            {
+    716              if(snd) PlayFileV(sound_path, SoundName[LEAVEME_SND], sndVolume);
+    717              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMSLEEP,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    718              return;
+    719            }
+    720          
+    721            Pets[indx].Status.Happiness -= 10;
+    722            Pets[indx].Status.Behaviour += 10;
+    723            Pets[indx].Status.Boredom   -= 10;
+    724          
+    725            if(snd) PlayFileV(sound_path, SoundName[YESSIR_SND], sndVolume);
+    726            MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_SHREW,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    727            ChangeStatusImage(indx, bk, snd);
+    728            VerifyStatus(indx);
+    729          }
+    730          // ----------------------------------------------------------------------------
+    731          void SleepProc(int indx, BOOK *bk, int snd, int type)
+    732          {
+    733            wchar_t sound_path[128];
+    734            const wchar_t *sound_name0;
+    735            wchar_t *msg0;
+    736            const wchar_t *sound_name1;
+    737            wchar_t *msg1;
+    738            getdir(sound_path,SOUND_PATH);
+    739          
+    740            if (Pets[indx].Status.StatusDeath==1)
+    741            {
+    742              if(snd) PlayFileV(sound_path, SoundName[FATALITY_SND], sndVolume);
+    743              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMDIE,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    744              return;
+    745            }
+    746          
+    747            if (Pets[indx].Status.Behaviour < Pets[indx].Status.MaxBehaviour/4)
+    748            {
+    749              if(snd) PlayFileV(sound_path, SoundName[LEAVEME_SND], sndVolume);
+    750              if(Pets[indx].Sleep)
+    751                MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMSLEEP,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    752              else
+    753                MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_DONTDISTURB,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    754              return;
+    755            }
+    756          
+    757            if(type == NIGHT_SLEEP)
+    758            {
+    759              sound_name0 = SoundName[SLEEP_SND];
+    760              sound_name1 = SoundName[OW_SND];
+    761              msg0 = LG_MSGNIGHTSLEEP;
+    762              msg1 = LG_MSGNIGHTNOTSLEEP;
+    763            }
+    764            else if(type == FATIGUE_SLEEP)
+    765            {
+    766              sound_name0 = SoundName[SLEEP_SND];
+    767              sound_name1 = SoundName[OW_SND];
+    768              msg0 = LG_MSGFATIGUESLEEP;
+    769              msg1 = LG_MSGFATIGUENOTSLEEP;
+    770            }
+    771            else if(type == HUNGER_SLEEP)
+    772            {
+    773              sound_name0 = SoundName[ILLGETYOU_SND];
+    774              sound_name1 = SoundName[ILLGETYOU_SND];
+    775              msg0 = LG_MSGHUNGER;
+    776              msg1 = LG_MSGHUNGER;
+    777            }
+    778            else
+    779            {
+    780              sound_name0 = SoundName[SLEEP_SND];
+    781              sound_name1 = SoundName[ILLGETYOU_SND];
+    782              msg0 = LG_MSGSLEEP;
+    783              msg1 = LG_MSGNOTSLEEP;
+    784            }
+    785          
+    786            if(Pets[indx].Sleep==0)
+    787            {
+    788              Pets[indx].Sleep=1;
+    789              Pets[indx].Bathe=0;
+    790              if(snd) PlayFileV(sound_path, sound_name0, sndVolume);
+    791              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(msg0,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    792            }
+    793            else
+    794            {
+    795              Pets[indx].Sleep=0;
+    796              if(snd) PlayFileV(sound_path, sound_name1, sndVolume);
+    797              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(msg1,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    798            }
+    799            ChangeStatusImage(indx, bk, snd);
+    800          
+    801          }
+    802          
+    803          // ----------------------------------------------------------------------------
+    804          void NightSleep(int indx, BOOK *bk, int snd)
+    805          {
+    806            SleepProc(indx, bk, snd, NIGHT_SLEEP);
+    807          }
+    808          
+    809          void FatigueSleep(int indx, BOOK *bk, int snd)
+    810          {
+    811            SleepProc(indx, bk, snd, FATIGUE_SLEEP);
+    812          }
+    813          
+    814          void HungerSleep(int indx, BOOK *bk, int snd)
+    815          {
+    816            SleepProc(indx, bk, snd, HUNGER_SLEEP);
+    817          }
+    818          
+    819          void SleepCommand(int indx, BOOK *bk, int snd)
+    820          {
+    821            SleepProc(indx, bk, snd, COMMAND_SLEEP);
+    822          }
+    823          
+    824          // ----------------------------------------------------------------------------
+    825          void BatheCommand(int indx, BOOK *bk, int snd)
+    826          {
+    827            wchar_t  sound_path[128];
+    828            getdir(sound_path,SOUND_PATH);
+    829          
+    830            if (Pets[indx].Status.StatusDeath == 1)
+    831            {
+    832              if(snd) PlayFileV(sound_path, SoundName[FATALITY_SND], sndVolume);
+    833              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMDIE,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    834              return;
+    835            }
+    836            if (Pets[indx].Sleep != 0)
+    837            {
+    838              if(snd) PlayFileV(sound_path, SoundName[LEAVEME_SND], sndVolume);
+    839              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_IAMSLEEP,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    840              return;
+    841            }
+    842          
+    843            Pets[indx].Bathe = 1;
+    844          
+    845            if(snd) PlayFileV(sound_path, SoundName[BATHE_SND], sndVolume);
+    846            MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_BLISS,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+    847            ChangeStatusImage(indx, bk, snd);
+    848            VerifyStatus(indx);
+    849          }
+    850          
+    851          // ----------------------------------------------------------------------------
+    852          void OnBackChangeName(BOOK * book, u16 *string, int len)
+    853          {
+    854            MyBOOK * bk = (MyBOOK *)book;
+    855            FREE_GUI(bk->text_input);
+    856          }
+    857          
+    858          void OnOkChangeName(BOOK * book, wchar_t *string, int len)
+    859          {
+    860            MyBOOK * bk=(MyBOOK *)book;
+    861            int indx = bk->cur_indx;
+    862          
+    863            if ((len < 1) || (len > MAXELEMS(Pets[indx].Status.name)))
+    864            {
+    865              wchar_t ustr[64];
+    866              snwprintf(ustr,MAXELEMS(ustr)-1,L"min_string_len: 1\nmax_string_len: %d",MAXELEMS(Pets[indx].Status.name));
+    867              MessageBox(EMPTY_TEXTID,TextID_Create(ustr,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, book);
+    868            }
+    869            else
+    870            {
+    871              wstrncpy(Pets[indx].Status.name,string,MAXELEMS(Pets[indx].Status.name)-1);
+    872              FREE_GUI(bk->text_input);
+    873          //    CloseMenu(book);
+    874          //    ShowMenu(book);
+    875            }
+    876          }
+    877          
+    878          void ChangeName(int indx, BOOK * book, int snd)
+    879          {
+    880            TEXTID text, header_name;
+    881            MyBOOK * bk = (MyBOOK *)book;
+    882            bk->cur_indx = indx;
+    883            header_name = TextID_Create(LG_NAME,ENC_UCS2,TEXTID_ANY_LEN);
+    884            text = TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN);
+    885            FREE_GUI(bk->text_input);
+    886            bk->text_input = CreateStringInputVA(0,
+    887                                                    VAR_HEADER_TEXT(header_name),
+    888                                                    VAR_STRINP_MIN_LEN(1),
+    889                                                    VAR_STRINP_MAX_LEN(MAXELEMS(Pets[indx].Status.name)),
+    890                                                    VAR_STRINP_MODE(IT_STRING),
+    891                                                    VAR_BOOK(bk),
+    892                                                    VAR_STRINP_TEXT(text),
+    893                                                    VAR_PREV_ACTION_PROC(OnBackChangeName),
+    894                                                    VAR_OK_PROC(OnOkChangeName),
+    895                                                    VAR_STRINP_IS_PASS_MODE(0),
+    896                                                    0);
+    897          }
+    898          
+    899          // ----------------------------------------------------------------------------
+    900          void FamilyLifeUpdate(int indx)
+    901          {
+    902            if((indx == 0) && (Pets[0].Status.Count > 1))
+    903            {
+    904              if((Pets[0].Status.Age >= PARENT_AGE) && (Pets[1].Status.Age >= PARENT_AGE))
+    905              {
+    906                ++Pets[0].Status.FamilyLife;
+    907                Pets[1].Status.FamilyLife = Pets[0].Status.FamilyLife;
+    908              }
+    909              else
+    910              {
+    911                Pets[0].Status.FamilyLife = 0;
+    912                Pets[1].Status.FamilyLife = 0;
+    913              }
+    914            }
+    915          }
+    916          
+    917          int NewBabyCheck(int indx)
+    918          {
+    919            if(indx == 0)
+    920            {
+    921              if((Pets[0].Status.Count > 1) && (Pets[0].Status.Count < (MAX_PET_COUNT - 1)))
+    922              {
+    923                if(Pets[0].Status.FamilyLife >= ((Pets[0].Status.Count - 1) * 2))
+    924                {
+    925                  int NewCount = (Pets[0].Status.FamilyLife/2) + 2;
+    926                  if(NewCount > MAX_PET_COUNT) NewCount = MAX_PET_COUNT;
+    927                  while(Pets[0].Status.Count < NewCount)
+    928                  {
+    929                    InitStatus(Pets[0].Status.Count, 0, 2);
+    930                    InitPetVar(Pets[0].Status.Count);
+    931                    ++Pets[0].Status.Count;
+    932                  }
+    933                  return 1;
+    934                }
+    935              }
+    936            }
+    937            return 0;
+    938          }
+    939          
+    940          // ----------------------------------------------------------------------------
+    941          
+    942          void onTimer_save (u16 timerID, LPARAM lparam)
+    943          {
+    944            Randomize();
+    945            for(int i=0; i < Pets[0].Status.Count; i++) { SaveStatus(i); }
+    946            Timer_ReSet(&timer_save,TMR_SECOND*60*5,onTimer_save,0);
+    947          }
+    948          
+    949          void UpdatePosition(int indx)
+    950          {
+    951            if((Pets[indx].Sleep == 0) && (Pets[indx].Status.StatusDeath != 1))
+    952            {
+    953              if ((Pets[indx].x > (DisplayWidth - Pets[indx].img_size - 5)) && (Pets[indx].dx > 0)) Pets[indx].dx = 0-Pets[indx].dx;
+    954              if ((Pets[indx].x < 5) && (Pets[indx].dx < 0)) Pets[indx].dx = 0-Pets[indx].dx;
+    955              Pets[indx].x += Pets[indx].dx;
+    956          
+    957              if ((Pets[indx].y > (DisplayHeight - SoftBarHeight - Pets[indx].img_size - 5)) && (Pets[indx].dy > 0)) Pets[indx].dy = 0-Pets[indx].dy;
+    958              if ((Pets[indx].y < (StatusBarHeight + 5)) && (Pets[indx].dy < 0)) Pets[indx].dy = 0-Pets[indx].dy;
+    959              Pets[indx].y += Pets[indx].dy;
+    960            }
+    961          }
+    962          
+    963          void onTimer_refresh (u16 timerID, LPARAM lparam)
+    964          {
+    965            if(Motion_Ena)
+    966            {
+    967              for(int i=0; i<Pets[0].Status.Count; i++)
+    968              {
+    969                UpdatePosition(i);
+    970              }
+    971            }
+    972            if(GUI_display) DispObject_InvalidateRect(GUI_display,0);
+    973            Timer_ReSet(&timer_refresh,REFRESH*TMR_SECOND/10,onTimer_refresh,0);
+    974          }
+    975          
+    976          //главная процедура жизненного цикла питомца
+    977          void life_proc(int indx, BOOK *bk, int snd)
+    978          {
+    979            wchar_t  sound_path[128];
+    980          
+    981            if (Pets[indx].Status.StatusDeath == 1)
+    982            {
+    983              Pets[indx].simg_status = NULL_ICN;
+    984              ChangeStatusImage(indx, bk, snd);
+    985              return ;
+    986            }
+    987          
+    988            BATT batt;
+    989            int isCharging = 0;
+    990            GetBatteryState(SYNC,&batt);
+    991            if((batt.ChargingState == 2) || (batt.ChargingState == 8))
+    992            {
+    993              isCharging = 1;
+    994            }
+    995          
+    996            if (Night_Ena)
+    997            {
+    998                //проверка ночи
+    999                int fNight=isNight();
+   1000                //если включена зарядка и можно поесть, то просыпаемся и едим
+   1001                if(isCharging && (Pets[indx].Status.Hunger > 0)) fNight = 0;
+   1002          
+   1003                if (Pets[indx].Sleep!=5)
+   1004                {
+   1005                  //не спит
+   1006                  if (fNight)
+   1007                  {
+   1008                    if (Pets[indx].Sleep!=0) NightSleep(indx, bk, snd);
+   1009                    Pets[indx].Sleep=5;
+   1010                    Pets[indx].Bathe=0;
+   1011                    Pets[indx].Status.ImageStatus=DREAM_ICN;
+   1012                    Pets[indx].simg_status=MOON_ICN;
+   1013                    ChangeStatusImage(indx, bk, snd);
+   1014                    return;
+   1015                  }
+   1016                }
+   1017                if (Pets[indx].Sleep==5)
+   1018                {
+   1019                  //спит
+   1020                  if (!fNight)
+   1021                  {
+   1022                   NightSleep(indx, bk, snd);
+   1023                   Pets[indx].simg_status=NULL_ICN;
+   1024                  }
+   1025                  else
+   1026                  {
+   1027                   Pets[indx].Status.ImageStatus=DREAM_ICN;
+   1028                   Pets[indx].simg_status=MOON_ICN;
+   1029                   ChangeStatusImage(indx, bk, snd);
+   1030                   return;
+   1031                  }
+   1032                }
+   1033            }
+   1034          
+   1035            getdir(sound_path,SOUND_PATH);
+   1036          
+   1037          // усталость =100 сон
+   1038          // усталость =0 подъем
+   1039            if ((Pets[indx].Fatigue >= 100))
+   1040              FatigueSleep(indx, bk, snd);
+   1041            if ((Pets[indx].Sleep != 0) && (Pets[indx].Fatigue <= 0))
+   1042              FatigueSleep(indx, bk, snd);
+   1043            if (Pets[indx].Sleep == 0) ++Pets[indx].Fatigue; else --Pets[indx].Fatigue;
+   1044          
+   1045          //  ++Behaviour;
+   1046            ++Pets[indx].Status.TimeAge;
+   1047            if (Pets[indx].Status.TimeAge >= Pets[indx].Status.Age*10+100)
+   1048            {
+   1049              ++Pets[indx].Status.Age;
+   1050              Pets[indx].Status.TimeAge       = 0;
+   1051              Pets[indx].Status.MaxHealth    += 2;
+   1052              Pets[indx].Status.MaxHunger    += 2;
+   1053              Pets[indx].Status.MaxHappiness += 2;
+   1054              Pets[indx].Status.MaxDirtiness += 2;
+   1055              Pets[indx].Status.MaxBoredom   += 2;
+   1056              Pets[indx].Status.MaxBehaviour += 2;
+   1057          
+   1058              //StatusPet.Health=StatusPet.MaxHealth;
+   1059              //StatusPet.Hunger=0;
+   1060              Pets[indx].Status.Happiness = Pets[indx].Status.MaxHappiness;
+   1061              Pets[indx].Status.Boredom=0;
+   1062              Pets[indx].Status.Behaviour = (int)2*Pets[indx].Status.MaxBehaviour/3;
+   1063          
+   1064              FamilyLifeUpdate(indx);
+   1065              if(NewBabyCheck(indx))
+   1066              {
+   1067                  if(snd) PlayFileV(sound_path, SoundName[CRY_SND], sndVolume);
+   1068                  start_vibra();
+   1069                  Light();
+   1070                  MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGNEWPET,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1071              }
+   1072              else
+   1073              {
+   1074                if(snd) PlayFileV(sound_path, SoundName[BIRTHDAY_SND], sndVolume);
+   1075                start_vibra();
+   1076                Light();
+   1077                MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGAGE,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1078              }
+   1079          
+   1080              UpdateName();
+   1081            }
+   1082          
+   1083            // сон - процессы замедляются
+   1084            if ((Pets[indx].Sleep != 0) && (Pets[indx].Sleep != 3))
+   1085            {
+   1086              ++ Pets[indx].Sleep;
+   1087              Pets[indx].Status.ImageStatus = DREAM_ICN;
+   1088              ChangeStatusImage(indx, bk, snd);
+   1089              return;
+   1090            }
+   1091          
+   1092            if (Pets[indx].Sleep != 0) Pets[indx].Sleep = 1;
+   1093          
+   1094            //во время сна
+   1095            if (Pets[indx].Sleep != 0)
+   1096            {
+   1097              ++Pets[indx].Status.Happiness;
+   1098              Pets[indx].Bathe = 0;
+   1099            }
+   1100          
+   1101            //когда не спит
+   1102            if (Pets[indx].Sleep == 0)
+   1103            {
+   1104                if(!isCharging) --Pets[indx].Status.Behaviour; // дисциплина
+   1105                // пакость = убивает процесс, если совсем дисциплина на нуле,
+   1106                // и чтобы сильно не ругали дисциплина увеличивается до 30%
+   1107          
+   1108                 if ((Pets[indx].Status.Behaviour <= 0) && Malware_Ena)
+   1109                 {
+   1110                   int i,j,k;
+   1111                   int mask=((int)LastExtDB())&0xF8000000;
+   1112                   BOOK * book;
+   1113                   UI_APP_SESSION * session;
+   1114                   int fkill=1;
+   1115          
+   1116                   i=root_list_get_session_count();
+   1117                   for (j=0;j<i;j++)
+   1118                   {
+   1119                     session=root_list_get_session(j);
+   1120                     for (k=0;k<session->listbook->FirstFree;k++)
+   1121                     {
+   1122                       book=(BOOK*)List_Get(session->listbook,k);
+   1123                       if (fkill)
+   1124                       if (!isBookmanDaemonBook(book))
+   1125                       {
+   1126                         if((book->xguilist->guilist->FirstFree)||(((((int)book->onClose)&0xF8000000)!=mask)))
+   1127                         {
+   1128                           if((!IsVolumeControllerBook(book))&&(!IsRightNowBook(book)))
+   1129                           {
+   1130                             if (((((int)book->onClose)&0xF8000000)==mask))
+   1131                             {// book or java
+   1132                               if (Find_StandbyBook()!=book)
+   1133                               {
+   1134                                 if (int nameID = GetJavaName(book))
+   1135                                 {
+   1136                                   JavaSession_Manager(0x0E);
+   1137                                 }
+   1138                                 else
+   1139                                 {
+   1140                                   UI_Event_toBookID(RETURN_TO_STANDBY_EVENT,BookObj_GetBookID(book));
+   1141                                   UI_Event_toBookID(TERMINATE_SESSION_EVENT,BookObj_GetBookID(book));
+   1142                                 }
+   1143                                 fkill=0;
+   1144                                 Pets[indx].Status.Behaviour = Pets[indx].Status.MaxBehaviour/3;
+   1145                                 if(snd) PlayFileV(sound_path, SoundName[OHDEER_SND], sndVolume);
+   1146                               }
+   1147                             }
+   1148                             else
+   1149                             {// elf
+   1150                               if(!isTamagochiBook(book))
+   1151                               {
+   1152                                 if(Find_StandbyBook()!=book)
+   1153                                 {
+   1154                                   if (CheckEv(book,ELF_TERMINATE_EVENT))
+   1155                                   {
+   1156                                     UI_Event_toBookID(ELF_TERMINATE_EVENT,BookObj_GetBookID(book));
+   1157                                     fkill=0;
+   1158                                     Pets[indx].Status.Behaviour = Pets[indx].Status.MaxBehaviour/3;
+   1159                                     if(snd) PlayFileV(sound_path, SoundName[OHDEER_SND], sndVolume);
+   1160                                   }
+   1161                                 }
+   1162                               }
+   1163                             }
+   1164                           }
+   1165                         }
+   1166                       }
+   1167                     }
+   1168                   }
+   1169                 }
+   1170          
+   1171                // проверка на наличие в процессах игр
+   1172                if (Scan_Game_Ena)
+   1173                {
+   1174                  if (GameDetected())
+   1175                  {
+   1176                    --Pets[indx].Status.Boredom; // скука
+   1177                    ++Pets[indx].Status.Happiness;
+   1178                  }
+   1179                  else
+   1180                  {
+   1181                    //--StatusPet.Happiness;
+   1182                    if(Pets[indx].Bathe == 0) ++Pets[indx].Status.Boredom; // скука
+   1183                    Pets[indx].simg_status=0;
+   1184                  }
+   1185                }
+   1186                else
+   1187                {
+   1188                    if(Pets[indx].Bathe == 0) ++Pets[indx].Status.Boredom; // скука
+   1189                }
+   1190                // если скучно включаем музыку (если разрешили)
+   1191                if(Music_Ena)
+   1192                if(Pets[indx].Status.Boredom > (Pets[indx].Status.MaxBoredom - 10))
+   1193                {
+   1194                  if(!FindBook(get_IsAudioPlayerBook()) && (!FindBook(get_IsFmRadioBook())))
+   1195                  {
+   1196                    GoMusic();
+   1197                  }
+   1198                }
+   1199            }
+   1200            else
+   1201            {
+   1202                // проверка на наличие в процессах игр
+   1203                if (Scan_Game_Ena)
+   1204                {
+   1205                  // Если игры найдены, то просыпаемся поиграть
+   1206                  if (GameDetected())
+   1207                  {
+   1208                    SleepCommand(indx, bk, snd);
+   1209                    --Pets[indx].Status.Boredom; // скука
+   1210                    ++Pets[indx].Status.Happiness;
+   1211                  }
+   1212                }
+   1213            }
+   1214          
+   1215            // питание
+   1216            if(!isCharging) ++Pets[indx].Status.Hunger;
+   1217            // проверка наличия жратвы и наличие мусора
+   1218            int Eat=0;
+   1219            if (Pets[indx].Status.Hunger > (int)Pets[indx].Status.MaxHunger/3) Eat=1;
+   1220            // ест только когда не спит
+   1221            if (Pets[indx].Sleep!=0) Eat=0;
+   1222            //если зарядка, то будем кушать
+   1223            if(isCharging) Eat=1;
+   1224          
+   1225            int findgvn=0;
+   1226            int fEat=0;
+   1227            wchar_t eat_path[256];
+   1228            wchar_t eat_filter[128];
+   1229            DIR_HANDLE * dirHandle = 0;
+   1230            wchar_t * ext;
+   1231          
+   1232            getdir(eat_path, ROOM_PATH);
+   1233            wstrcpy(eat_filter,eat_path);
+   1234            wstrcat(eat_filter,L"/*.*");
+   1235          
+   1236            dirHandle = AllocDirHandle(eat_path);
+   1237            if(dirHandle)
+   1238            {
+   1239              DirHandle_SetFilterStr(dirHandle, eat_filter);
+   1240              FILELISTITEM *buf = (FILELISTITEM *)malloc(sizeof(FILELISTITEM));
+   1241              FILELISTITEM *item = GetFname(dirHandle,buf);
+   1242              FSTAT _fstat;
+   1243              while(item)
+   1244              {
+   1245                ext = getFileExtention(item->fname);
+   1246                fstat(item->path,item->fname,&_fstat);
+   1247          
+   1248                chmod(item->path,item->fname, 0x1FF);
+   1249          
+   1250                if(wstrncmp(ext,L"gvn",3) == 0)
+   1251                {
+   1252                  int err = 0;
+   1253                  if((findgvn < BATHE_THRESHOLD) && (Pets[indx].Bathe)) FileDelete(item->path,item->fname,&err);
+   1254                  ++findgvn;
+   1255                }
+   1256                else
+   1257                {
+   1258                  //кормимся
+   1259                  if (Eat)
+   1260                  if (Pets[indx].Status.Hunger > 0)
+   1261                  // Если зарядка включена, то вместо файлов питаемся от зарядки.
+   1262                  if(isCharging)
+   1263                  {
+   1264                    Pets[indx].Status.Hunger -= 5;
+   1265                    fEat=1;
+   1266                    Eat = 0; // при зарядке едим один раз за цикл
+   1267                  }
+   1268                  else
+   1269                  {
+   1270                    if (_fstat.fsize < (Pets[indx].Status.Age+1+5)*1024)
+   1271                    {
+   1272                      int in = (int)_fstat.fsize/1024;
+   1273                      if (in == 0) in = 1;
+   1274                      Pets[indx].Status.Hunger -= in;
+   1275                      // файл перименовываем в мусор
+   1276                      wchar_t name2[256];
+   1277                      wstrcpy(name2,item->fname);
+   1278                      wstrcat(name2,L".gvn");
+   1279                      rename(item->path, item->fname, item->path, name2, 0);
+   1280                      fEat=1;
+   1281                    }
+   1282                  }
+   1283                }
+   1284                item = GetFname(dirHandle,buf);
+   1285              }
+   1286              if(fEat && snd) PlayFileV(sound_path, SoundName[OHDEER_SND], sndVolume);
+   1287              mfree(buf);
+   1288              DestroyDirHandle(dirHandle);
+   1289            }
+   1290            else
+   1291            {
+   1292              if(snd) PlayFileV(sound_path, SoundName[OHDEER_SND], sndVolume);
+   1293              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGROOMERR,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1294            }
+   1295            // голод
+   1296            if (Pets[indx].Status.Hunger > 2*Pets[indx].Status.MaxHunger/3)
+   1297            {
+   1298              if(!isCharging) --Pets[indx].Status.Happiness;
+   1299              if (Pets[indx].Sleep!=0) HungerSleep(indx, bk, snd);
+   1300            }
+   1301            // сытый
+   1302            if (Pets[indx].Status.Hunger==0) ++Pets[indx].Status.Happiness;
+   1303          
+   1304            // чистота
+   1305            Pets[indx].Status.Dirtiness = findgvn;
+   1306            if (Pets[indx].Status.Dirtiness == 0) Pets[indx].Bathe = 0;
+   1307            if (Pets[indx].Status.Dirtiness > Pets[indx].Status.MaxDirtiness/2) --Pets[indx].Status.Health;
+   1308            if (Pets[indx].Status.Dirtiness > 2*Pets[indx].Status.MaxDirtiness/3) --Pets[indx].Status.Happiness;
+   1309          
+   1310            if (Pets[indx].Status.Behaviour <= Pets[indx].Status.MaxBehaviour/10) --Pets[indx].Status.Health;
+   1311            if (Pets[indx].Status.Boredom   >  Pets[indx].Status.MaxBoredom/2) --Pets[indx].Status.Happiness;
+   1312            if (Pets[indx].Status.Happiness <= Pets[indx].Status.MaxHappiness/2) --Pets[indx].Status.Health;
+   1313          
+   1314            // проверки максимальных - минимальных значений
+   1315            VerifyStatus(indx);
+   1316          
+   1317            // только для основного питомца
+   1318            if(indx == 0)
+   1319            {
+   1320          //    MyBOOK* book = (MyBOOK *)bk;
+   1321              if(Pets[0].Status.Age >= PARENT_AGE)
+   1322              if(Pets[0].Status.Count == 1)
+   1323              {
+   1324                if(Pets[0].Sleep == 0)
+   1325                if((Pets[0].Status.TimeAge & 0xF) == 0)
+   1326                if((Pets[0].Status.Sex == 0) || (Pets[0].Status.Sex == 1))
+   1327                {
+   1328                  if(Pets[0].Status.Sex == 0)
+   1329                    MessageBox(TextID_Create(Pets[0].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGNEEDFRIEND,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1330                  else
+   1331                    MessageBox(TextID_Create(Pets[0].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGNEEDGIRL,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1332          
+   1333                  if(snd) PlayFileV(sound_path, SoundName[OW_SND], sndVolume);
+   1334                  start_vibra();
+   1335                  Light();
+   1336                  Pets[0].Status.needFriend = 1;
+   1337                }
+   1338              }
+   1339              else
+   1340              {
+   1341                Pets[0].Status.needFriend = 0;
+   1342              }
+   1343            }
+   1344          
+   1345            // суицид и смерть
+   1346            if ((Pets[indx].Status.Health == 0) ||
+   1347                (Pets[indx].Status.Hunger >= Pets[indx].Status.MaxHunger) ||
+   1348                (Pets[indx].Status.Happiness == 0))
+   1349            {
+   1350              Pets[indx].Status.StatusDeath=1;
+   1351              if(snd) PlayFileV(sound_path, SoundName[BYEBYE_SND], sndVolume);
+   1352              start_vibra();
+   1353              Light();
+   1354            }
+   1355          
+   1356            ChangeStatusImage(indx, bk, snd);
+   1357          
+   1358            // звуки и сообщения
+   1359            // дисциплина
+   1360            if (Pets[indx].Status.StatusDeath !=1)
+   1361            if (Pets[indx].Sleep==0)
+   1362            if (Pets[indx].Behaviour >= Pets[indx].Status.Behaviour)
+   1363            {
+   1364              if(snd) PlayFileV(sound_path, SoundName[GLOBAL_SND], sndVolume);
+   1365              start_vibra();
+   1366              Light();
+   1367              Pets[indx].Behaviour=0;
+   1368              MessageBox(TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(SpeakMessage[Random() & mess_mask],ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1369            }
+   1370          }
+   1371          
+   1372          void onTimer_life (u16 timerID, LPARAM lparam)
+   1373          {
+   1374            BOOK *bk = (BOOK *)lparam;
+   1375            int snd = (!GetSilent() || sndOnSilent) && sndEnable && (!isNight());
+   1376          
+   1377            for(int i=0; i<Pets[0].Status.Count; i++) life_proc(i, bk, snd);
+   1378          
+   1379            Timer_ReSet(&timer_life,TMR_SECOND*60*(SpeedLife+1),onTimer_life,lparam);
+   1380          }
+   1381          
+   1382          // ----------------------------------------------------------------------------
+   1383          
+   1384          int NewKey(int key, int r1 , int mode, LPARAM, DISP_OBJ*)
+   1385          {
+   1386            if(!isKeylocked())
+   1387            {
+   1388              if (mode==ACTIVE_KEY_STYLE)
+   1389              {
+   1390                if (key==ACTIVE_KEY)
+   1391                {
+   1392                  if (isKeylocked()) return(0);
+   1393                  if(MyBOOK * bk = (MyBOOK *)FindBook(isTamagochiBook))
+   1394                  {
+   1395                    if(!bk->gui)
+   1396                    {
+   1397                      ShowMenu((BOOK *)bk);
+   1398                      return(-1);
+   1399                    }
+   1400                    else
+   1401                    {
+   1402                      CloseMenu((BOOK *)bk);
+   1403                    }
+   1404                  }
+   1405                }
+   1406              }
+   1407            }
+   1408            return(0);
+   1409          }
+   1410          
+   1411          // ----------------------------------------------------------------------------
+   1412          void DrawParams(int y)
+   1413          {
+   1414            GC *GC_DISP=get_DisplayGC ();
+   1415            for(int i=0; i<Pets[0].Status.Count; i++)
+   1416            {
+   1417              GC_PutChar(GC_DISP, Pets[i].x, Pets[i].y - y, Pets[i].img_size, Pets[i].img_size, img_names[Pets[i].Status.ImageStatus]);
+   1418              if(Pets[i].simg_status) GC_PutChar(GC_DISP, Pets[i].x + Pets[i].img_size - StatSize, Pets[i].y + Pets[i].img_size - StatSize - y, StatSize, StatSize, img_status[Pets[i].simg_status]);
+   1419            }
+   1420          //  if(ImageID != NOIMAGE) DrawString(ImageID + 0x78000000,0,50,50,150,150,1,1,clGreen,clRed);
+   1421          //  if(ImageID != NOIMAGE) GC_PutChar(GC_DISP, 150, 150, 0, 0, ImageID);
+   1422          }
+   1423          
+   1424          void Display_ReDraw(DISP_OBJ* DO,int a,int b,int c)
+   1425          {
+   1426            DrawParams(StatusBarY);
+   1427            if(Display_oldReDraw) Display_oldReDraw(DO,a,b,c);
+   1428          }
+   1429          
+   1430          void Status_ReDraw(DISP_OBJ * d, int a, int b, int c)
+   1431          {
+   1432            if(Status_oldReDraw) Status_oldReDraw(d, a, b, c);
+   1433          //  DrawParams(0);
+   1434          }
+   1435          
+   1436          void Soft_ReDraw(DISP_OBJ* DO,int a,int b,int c)
+   1437          {
+   1438          //  DrawParams(SoftBarY);
+   1439            if(Soft_oldReDraw) Soft_oldReDraw(DO,a,b,c);
+   1440          }
+   1441          
+   1442          void InitStatus(int indx, int age, int sex)
+   1443          {
+   1444              Pets[indx].Status.TimeAge      = 0;
+   1445              Pets[indx].Status.Age          = age;
+   1446              Pets[indx].Status.Health       = 100 + (2*age);
+   1447              Pets[indx].Status.MaxHealth    = 100 + (2*age);
+   1448              Pets[indx].Status.Hunger       = 0;
+   1449              Pets[indx].Status.MaxHunger    = 100 + (2*age);
+   1450              Pets[indx].Status.Happiness    = 100 + (2*age);
+   1451              Pets[indx].Status.MaxHappiness = 100 + (2*age);
+   1452              Pets[indx].Status.Dirtiness    = 0;
+   1453              Pets[indx].Status.MaxDirtiness = 100 + (2*age);
+   1454              Pets[indx].Status.Boredom      = 0;
+   1455              Pets[indx].Status.MaxBoredom   = 100 + (2*age);
+   1456              Pets[indx].Status.Behaviour    = 100 + (2*age);
+   1457              Pets[indx].Status.MaxBehaviour = 100 + (2*age);
+   1458              Pets[indx].Status.StatusDeath  = 0;
+   1459              Pets[indx].Status.ImageStatus  = SMILE_ICN;
+   1460              if(indx == 0)
+   1461                wstrncpy(Pets[indx].Status.name,L"Pet",MAXELEMS(Pets[indx].Status.name));
+   1462              else
+   1463                snwprintf(Pets[indx].Status.name,MAXELEMS(Pets[indx].Status.name)-1,L"Pet%d",indx);
+   1464              Pets[indx].Status.Sex = 2;
+   1465              Pets[indx].Status.Count = 1;
+   1466              if((sex == 0) || (sex == 1)) Pets[indx].Status.Sex = sex;
+   1467              Pets[indx].Status.FamilyLife = 0;
+   1468              Pets[indx].Status.needFriend = 0;
+   1469              Pets[indx].Status.haveFriend = 0;
+   1470              Pets[indx].Status.crc = myCrc32((unsigned char *)&Pets[indx].Status, sizeof(TStatusPet) - sizeof(unsigned int));
+   1471          }
+   1472          
+   1473          int LoadStatus(int indx)
+   1474          {
+   1475            FSTAT _fstat,_fstat2;
+   1476            int f, l;
+   1477            wchar_t path[64];
+   1478            wchar_t name[64];
+   1479            unsigned  char inp[sizeof(TStatusPet)], out[sizeof(TStatusPet)];
+   1480          
+   1481            getdir(path,PET_PATH);
+   1482            if(indx == 0)
+   1483            {
+   1484              wstrncpy(name,CFG_NAME,MAXELEMS(name));
+   1485            }
+   1486            else
+   1487            {
+   1488              snwprintf(name,MAXELEMS(name)-1,CFG_NAME_FORMAT,indx);
+   1489            }
+   1490          
+   1491            if (fstat(path,name,&_fstat) != -1)
+   1492            {
+   1493              if ((f=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   1494              {
+   1495                InitStatus(indx, 0, 2);
+   1496                l = fread(f,&inp, sizeof(TStatusPet));
+   1497                fclose(f);
+   1498          
+   1499                if(l !=_fstat.fsize)
+   1500                {
+   1501                  return -1;
+   1502                }
+   1503                unsigned int len = _fstat.fsize - sizeof(unsigned int);
+   1504                unsigned int crc;
+   1505                memcpy(&crc, &inp[len], sizeof(unsigned int));
+   1506                decrypt(out, inp, len, crc);
+   1507                if(crc == myCrc32(out, len))
+   1508                {
+   1509                  memcpy(&Pets[indx].Status, out, len);
+   1510                }
+   1511                else
+   1512                {
+   1513                  if (fstat(TESTPATH,TESTFILE,&_fstat2) != -1)
+   1514                  {
+   1515                  }
+   1516                  else
+   1517                  {
+   1518                    memcpy(&Pets[indx].Status, inp, _fstat.fsize);
+   1519                  }
+   1520                }
+   1521                return 0;
+   1522              }
+   1523            }
+   1524            return -1;
+   1525          }
+   1526          
+   1527          int SaveStatus(int indx)
+   1528          {
+   1529            int f;
+   1530            wchar_t path[64];
+   1531            wchar_t name[64];
+   1532            TStatusPet out;
+   1533          
+   1534            if(indx >= MAX_PET_COUNT_GLB) return -1;
+   1535          
+   1536            getdir(path,PET_PATH);
+   1537            if(indx == 0)
+   1538            {
+   1539              wstrncpy(name,CFG_NAME,MAXELEMS(name));
+   1540            }
+   1541            else
+   1542            {
+   1543              snwprintf(name,MAXELEMS(name)-1,CFG_NAME_FORMAT,indx);
+   1544            }
+   1545            if ((f=_fopen(path,name,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   1546            {
+   1547              unsigned int len = sizeof(TStatusPet) - sizeof(unsigned int);
+   1548              Pets[indx].Status.crc = myCrc32((unsigned char *)&Pets[indx].Status, len);
+   1549              encrypt(&out, &Pets[indx].Status, len, Pets[indx].Status.crc);
+   1550              out.crc = Pets[indx].Status.crc;
+   1551              fwrite(f,&out, sizeof(TStatusPet));
+   1552              fclose(f);
+   1553              return 0;
+   1554            }
+   1555            return -1;
+   1556          }
+   1557          
+   1558          void InitPetPos(int indx)
+   1559          {
+   1560            Pets[indx].x = POS_X + 10 * indx;
+   1561            Pets[indx].y = POS_Y + 10 * indx;
+   1562            Pets[indx].dx = (Random() > 128) ? 2 : -2;
+   1563            Pets[indx].dy = (Random() > 128) ? 3 : -3;
+   1564          }
+   1565          
+   1566          void InitPetVar(int indx)
+   1567          {
+   1568            Pets[indx].Fatigue=0; //усталость
+   1569            Pets[indx].Sleep=0;
+   1570            Pets[indx].Behaviour=0;
+   1571            Pets[indx].Bathe=0;
+   1572          
+   1573            // для отрисовки смайла и статуса
+   1574            Pets[indx].Smile = 0;
+   1575            Pets[indx].StatImg = 0;
+   1576            Pets[indx].old_img_status  = 99;
+   1577            Pets[indx].old_simg_status = 99;
+   1578            Pets[indx].simg_status     = 0;
+   1579            Pets[indx].img_size        = 0;
+   1580            InitPetPos(indx);
+   1581          }
+   1582          
+   1583          void CreateTestFile()
+   1584          {
+   1585            FSTAT _fstat;
+   1586            int f;
+   1587            if (fstat(TESTPATH,TESTFILE,&_fstat) != -1) return;
+   1588            if ((f=_fopen(TESTPATH,TESTFILE,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0) fclose(f);
+   1589          }
+   1590          
+   1591          void LoadAllPets()
+   1592          {
+   1593            LoadStatus(0);
+   1594            if(Pets[0].Status.Count > MAX_PET_COUNT) Pets[0].Status.Count = MAX_PET_COUNT;
+   1595            if(Pets[0].Status.Age >= PARENT_AGE)
+   1596            {
+   1597              for(int i = 1; i < Pets[0].Status.Count; i++)
+   1598              {
+   1599                if(LoadStatus(i))
+   1600                {
+   1601                  if(i == 1)
+   1602                  {
+   1603                    InitStatus(i, 0, Pets[0].Status.Sex ^ 1);
+   1604                  }
+   1605                  else
+   1606                  {
+   1607                    InitStatus(i, 0, 2);
+   1608                  }
+   1609                }
+   1610                InitPetVar(i);
+   1611              }
+   1612            }
+   1613          }
+   1614          
+   1615          // ----------------------------------------------------------------------------
+   1616          static int MainPageOnCreate(void *, BOOK *bk)
+   1617          {
+   1618            load_icons();
+   1619            load_strings();
+   1620          
+   1621            if(LoadStatus(0))
+   1622            {
+   1623              InitStatus(0, 0, 2);
+   1624              if(SaveStatus(0))
+   1625              {
+   1626                MessageBox(TextID_Create(Pets[0].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_ERRSTATUS,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1627              }
+   1628            }
+   1629            InitPetVar(0);
+   1630          
+   1631            //Если достигли возраста родителя, то пробуем загрузить остальных
+   1632            LoadAllPets();
+   1633            CreateTestFile();
+   1634          
+   1635            if(Pets[0].Status.Count > 1)
+   1636            {
+   1637              Pets[0].Status.needFriend = 0;
+   1638              Pets[0].Status.haveFriend = 1;
+   1639              Pets[1].Status.needFriend = 0;
+   1640              Pets[1].Status.haveFriend = 1;
+   1641            }
+   1642            else
+   1643              Pets[0].Status.haveFriend = 0;
+   1644          
+   1645            FSTAT _fstat;
+   1646            int f, sz;
+   1647            wchar_t path[256];
+   1648            wchar_t name[64];
+   1649          
+   1650            //Загрузка списка игр
+   1651            extractdir(path, name, GAMELIST_PATH);
+   1652            game_list[0] = 0;
+   1653            if(fstat(path,name,&_fstat)!= -1)
+   1654            {
+   1655              if ((f=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   1656              {
+   1657                sz = fread(f,game_list, GAME_PLAYER_LIST_LEN - 1);
+   1658                fclose(f);
+   1659                if(sz >= 0) game_list[sz] = 0;
+   1660              }
+   1661            }
+   1662          
+   1663            //Загрузка списка плейеров
+   1664            extractdir(path, name, PLAYERLIST_PATH);
+   1665            player_list[0] = 0;
+   1666            if(fstat(path,name,&_fstat)!= -1)
+   1667            {
+   1668              if ((f=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   1669              {
+   1670                sz = fread(f,player_list, GAME_PLAYER_LIST_LEN - 1);
+   1671                fclose(f);
+   1672                if(sz >= 0) player_list[sz] = 0;
+   1673              }
+   1674            }
+   1675          
+   1676            UpdateName();
+   1677            int snd = (!GetSilent() || sndOnSilent) && sndEnable && (!isNight());
+   1678            for(int i=0; i<Pets[0].Status.Count; i++) ChangeStatusImage(i, bk, snd);
+   1679          
+   1680            if(!GUI_status)
+   1681            {
+   1682              GUI_status = StatusRow_p();
+   1683              Status_desc = DispObject_GetDESC (* GUI_status);
+   1684              Status_oldReDraw = DispObject_GetOnRedraw (* GUI_status);
+   1685              DISP_DESC_SetOnRedraw (Status_desc, (DISP_OBJ_ONREDRAW_METHOD)Status_ReDraw);
+   1686            }
+   1687            if(!GUI_soft)
+   1688            {
+   1689              GUI_soft = DispObject_SoftKeys_Get();
+   1690              Soft_desc = DispObject_GetDESC (GUI_soft);
+   1691              Soft_oldReDraw = DispObject_GetOnRedraw(GUI_soft);
+   1692              DISP_DESC_SetOnRedraw(Soft_desc, (DISP_OBJ_ONREDRAW_METHOD)Soft_ReDraw);
+   1693            }
+   1694            if(!GUI_display)
+   1695            {
+   1696              GUI_display = GUIObject_GetDispObject( SBY_GetStatusIndication(Find_StandbyBook()) );
+   1697              Display_oldReDraw = DispObject_GetOnRedraw(GUI_display);
+   1698              Display_desc = DispObject_GetDESC (GUI_display);
+   1699              DISP_DESC_SetOnRedraw(Display_desc, Display_ReDraw);
+   1700            }
+   1701          
+   1702            //запуск жизненного цикла
+   1703            Timer_ReSet(&timer_life,TMR_SECOND,onTimer_life,(LPARAM)bk);
+   1704            Timer_ReSet(&timer_save,TMR_SECOND*60*5,onTimer_save,0);
+   1705            Timer_ReSet(&timer_refresh,REFRESH*TMR_SECOND/10,onTimer_refresh,0);
+   1706          
+   1707            return 1;
+   1708          }
+   1709          
+   1710          const PAGE_MSG Tamagochi_MainPageEvents[]@ "DYN_PAGE" ={
+   1711            PAGE_ENTER_EVENT_TAG, MainPageOnCreate,
+   1712            NIL_EVENT_TAG,        NULL
+   1713          };
+   1714          
+   1715          PAGE_DESC main_page ={"Tamagochi_MainPage",0,Tamagochi_MainPageEvents};
+   1716          
+   1717          void Send_REDRAW_RELEASE()
+   1718          {
+   1719            REDRAW_RELEASE_MESSAGE * sbm = new REDRAW_RELEASE_MESSAGE;
+   1720          
+   1721            // Status
+   1722            sbm->SI_OldOnRedraw = Status_oldReDraw;
+   1723            sbm->SI_NewOnRedraw = Status_ReDraw;
+   1724            // Screen
+   1725            sbm->SB_OldOnRedraw = Display_oldReDraw;
+   1726            sbm->SB_NewOnRedraw = Display_ReDraw;
+   1727            // Soft
+   1728            sbm->SK_OldOnRedraw = Soft_oldReDraw;
+   1729            sbm->SK_NewOnRedraw = Soft_ReDraw;
+   1730          
+   1731            // посылаем всем  мессагу со старыми и своими методами Redraw
+   1732            UI_Event_wData(SBY_REDRAW_RELEASE_EVENT, sbm, (void (*)(void*))mfree_adr());
+   1733          }
+   1734          
+   1735          int SB_ELF_Killed(void *mess, BOOK* book)
+   1736          {
+   1737            // если был убит эльф рисующий на ГЭ или просто нужно перетосовать методы
+   1738            REDRAW_RELEASE_MESSAGE * sbm =(REDRAW_RELEASE_MESSAGE*)mess;
+   1739            REDRAW_RELEASE_MESSAGE * ms = 0;
+   1740          
+   1741            //Проверим статус
+   1742            //его ли метод мы используем в качестве oldRedraw?
+   1743            if (sbm->SI_NewOnRedraw == Status_oldReDraw)
+   1744            {
+   1745              ms = new REDRAW_RELEASE_MESSAGE;
+   1746              memcpy(ms, sbm, sizeof(REDRAW_RELEASE_MESSAGE));
+   1747          
+   1748              // если он был убит, то заменяем свой oldRedraw на его..
+   1749              if (sbm->SI_OldOnRedraw!=EMPTY_REDRAW_METHOD) Status_oldReDraw = sbm->SI_OldOnRedraw;
+   1750          
+   1751              // ставим свой метод наверх
+   1752              DISP_DESC_SetOnRedraw(DispObject_GetDESC(*GUI_status), Status_ReDraw);
+   1753          
+   1754              // и шлём мессагу снова, чтоб следующие ельфы сделали тоже самое
+   1755              ms->SI_OldOnRedraw = EMPTY_REDRAW_METHOD;
+   1756              ms->SI_NewOnRedraw = Status_ReDraw;
+   1757            }
+   1758          
+   1759            //Проверим главный экран
+   1760            //его ли метод мы используем в качестве oldRedraw?
+   1761            if (sbm->SB_NewOnRedraw == Display_oldReDraw)
+   1762            {
+   1763              if(!ms)
+   1764              {
+   1765                ms = new REDRAW_RELEASE_MESSAGE;
+   1766                memcpy(ms, sbm, sizeof(REDRAW_RELEASE_MESSAGE));
+   1767              }
+   1768          
+   1769              // если он был убит, то заменяем свой oldRedraw на его..
+   1770              if (sbm->SB_OldOnRedraw!=EMPTY_REDRAW_METHOD) Display_oldReDraw = sbm->SB_OldOnRedraw;
+   1771          
+   1772              // ставим сdой метод наверх
+   1773              DISP_DESC_SetOnRedraw(DispObject_GetDESC(GUI_display), Display_ReDraw);
+   1774          
+   1775              // и шлём мессагу снова, чтоб следующие ельфы сделали тоже самое
+   1776              ms->SB_OldOnRedraw = EMPTY_REDRAW_METHOD;
+   1777              ms->SB_NewOnRedraw = Display_ReDraw;
+   1778            }
+   1779          
+   1780            //Проверим софт
+   1781            //его ли метод мы используем в качестве oldRedraw?
+   1782            if (sbm->SK_NewOnRedraw == Soft_oldReDraw)
+   1783            {
+   1784              if(!ms)
+   1785              {
+   1786                ms = new REDRAW_RELEASE_MESSAGE;
+   1787                memcpy(ms, sbm, sizeof(REDRAW_RELEASE_MESSAGE));
+   1788              }
+   1789          
+   1790              // если он был убит, то заменяем свой oldRedraw на его..
+   1791              if (sbm->SK_OldOnRedraw!=EMPTY_REDRAW_METHOD) Soft_oldReDraw = sbm->SK_OldOnRedraw;
+   1792          
+   1793              // ставим сdой метод наверх
+   1794              DISP_DESC_SetOnRedraw(DispObject_GetDESC(GUI_soft), Soft_ReDraw);
+   1795          
+   1796              // и шлём мессагу снова, чтоб следующие ельфы сделали тоже самое
+   1797              ms->SK_OldOnRedraw = EMPTY_REDRAW_METHOD;
+   1798              ms->SK_NewOnRedraw = Soft_ReDraw;
+   1799            }
+   1800            if(ms)
+   1801            {
+   1802              UI_Event_wData(SBY_REDRAW_RELEASE_EVENT ,ms,(void (*)(void*))mfree_adr());
+   1803              return(BLOCK_EVENT_GLOBALLY);
+   1804            }
+   1805            return(0);
+   1806          }
+   1807          
+   1808          int TerminateElf(void *, BOOK* book)
+   1809          {
+   1810            Send_REDRAW_RELEASE();
+   1811            FreeBook(book);
+   1812            ModifyKeyHook(NewKey,KEY_HOOK_REMOVE,NULL);
+   1813            return(1);
+   1814          }
+   1815          
+   1816          int ShowAuthorInfo(void *mess ,BOOK* book)
+   1817          {
+   1818            MSG * msg = (MSG*)mess;
+   1819          #if (!defined(LANG_RU) && !defined(LANG_EN))
+   1820            MessageBox(EMPTY_TEXTID,TextID_Create( LELFNAME _T("\n") LELFVERSION _T("\n") LAUTHORINFO _T("\n") LTRANSLATED TRANSLATED_BY,0,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, msg->book);
+                                                                                                                                                ^
+Error[Pe167]: argument of type "int" is incompatible with parameter of type
+          "TEXT_ENCODING"
+   1821          #else
+   1822            MessageBox(EMPTY_TEXTID,TextID_Create( LELFNAME _T("\n") LELFVERSION _T("\n") LAUTHORINFO,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, msg->book);
+   1823          #endif
+   1824            return(1);
+   1825          }
+   1826          
+   1827          static int onReconfigElf(void *mess , BOOK *book)
+   1828          {
+   1829            RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+   1830            int result=0;
+   1831            if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+   1832            {
+   1833              MessageBox(EMPTY_TEXTID, TextID_Create(LG_UPDSETTING,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   1834              InitConfig();
+   1835              load_icons();
+   1836              load_strings();
+   1837              set_all_old_img_status(99);
+   1838              int snd = (!GetSilent() || sndOnSilent) && sndEnable;
+   1839              for(int i=0; i < Pets[0].Status.Count; i++) { SaveStatus(i); }
+   1840          
+   1841              LoadAllPets();
+   1842          
+   1843              for(int i=0; i<Pets[0].Status.Count; i++)
+   1844              {
+   1845                InitPetPos(i);
+   1846                ChangeStatusImage(i, book, snd);
+   1847              }
+   1848              result=1;
+   1849            }
+   1850            return(result);
+   1851          }
+   1852          
+   1853          int onBcfgConfig(void* mess, BOOK* bk)
+   1854          {
+   1855            int snd = (!GetSilent() || sndOnSilent) && sndEnable;
+   1856            EditConfig(0, bk, snd);
+   1857            return 1;
+   1858          }
+   1859          
+   1860          int onHelloMsg(void* mess, BOOK* book)
+   1861          {
+   1862            HELLO_MSG * msg = (HELLO_MSG*)mess;
+   1863            MyBOOK * bk = (MyBOOK *) FindBook(isTamagochiBook);
+   1864            if(!wstrcmp(msg->name,LELFNAME))
+   1865            {
+   1866              if((Pets[0].Status.needFriend == 1) && (Pets[0].Status.Count == 1) && ((Pets[0].Status.Sex == 0) || (Pets[0].Status.Sex == 1)))
+   1867              {
+   1868                int indx_snd;
+   1869                wchar_t  sound_path[128];
+   1870                getdir(sound_path,SOUND_PATH);
+   1871          
+   1872                if(Pets[0].Status.Sex == 0)
+   1873                {
+   1874                  InitStatus(1,Pets[0].Status.Age+1,1);
+   1875                  indx_snd = CHEER_F_SND;
+   1876                }
+   1877                else
+   1878                {
+   1879                  InitStatus(1,Pets[0].Status.Age-1,0);
+   1880                  indx_snd = CHEER_M_SND;
+   1881                }
+   1882                InitPetVar(1);
+   1883                int snd = (!GetSilent() || sndOnSilent) && sndEnable;
+   1884                Pets[0].Status.needFriend = 0;
+   1885                Pets[0].Status.haveFriend = 1;
+   1886                Pets[1].Status.haveFriend = 1;
+   1887                ChangeStatusImage(0, book, snd);
+   1888                ChangeStatusImage(1, book, snd);
+   1889                Pets[0].Status.Count = 2;
+   1890          
+   1891                if(snd) PlayFileV(sound_path, SoundName[indx_snd], sndVolume);
+   1892                MessageBox(TextID_Create(Pets[0].Status.name,ENC_UCS2,TEXTID_ANY_LEN), TextID_Create(LG_MSGNEWPET,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+   1893          
+   1894              }
+   1895              else
+   1896              {
+   1897                MessageBox(EMPTY_TEXTID, TextID_Create(LELFNAME _T("\n") LG_ALREADY_STARTED,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+   1898              }
+   1899            }
+   1900            return 1;
+   1901          }
+   1902          
+   1903          const PAGE_MSG Tamagochi_BasePageEvents[]@ "DYN_PAGE" ={
+   1904            SBY_REDRAW_RELEASE_EVENT,  SB_ELF_Killed,
+   1905            ELF_TERMINATE_EVENT,       TerminateElf,
+   1906            ELF_SHOW_INFO_EVENT,       ShowAuthorInfo,
+   1907            ELF_RECONFIG_EVENT,        onReconfigElf,
+   1908            ELF_HELLO_MSG_EVENT,       onHelloMsg,
+   1909            NIL_EVENT_TAG,             NULL
+   1910          };
+   1911          
+   1912          PAGE_DESC base_page ={"Tamagochi_BasePage",0,Tamagochi_BasePageEvents};
+   1913          
+   1914          void elf_exit(void)
+   1915          {
+   1916            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   1917          }
+   1918          
+   1919          int isTamagochiBook(BOOK * book)
+   1920          {
+   1921            if(!strncmp(book->xbook->name, myappname, strlen(ELFNAME))) return 1;
+   1922            return 0;
+   1923          }
+   1924          
+   1925          void onCloseTamagochiBook(BOOK * book)
+   1926          {
+   1927            wchar_t  sound_path[128];
+   1928            MyBOOK *bk = (MyBOOK *)book;
+   1929          
+   1930            if (bk)
+   1931            {
+   1932              if(timer_refresh) { Timer_Kill(&timer_refresh); }
+   1933              if(timer_save)    { Timer_Kill(&timer_save); }
+   1934              if(timer_life)    { Timer_Kill(&timer_life); }
+   1935          
+   1936              if(timerScreen)    offTimerScreen(0,0);
+   1937              if(offtimerScreen) Timer_Kill(&offtimerScreen);
+   1938          
+   1939              if(Display_desc) DISP_DESC_SetOnRedraw(Display_desc, Display_oldReDraw);
+   1940              if(Status_desc)  DISP_DESC_SetOnRedraw(Status_desc, Status_oldReDraw);
+   1941              if(Soft_desc)    DISP_DESC_SetOnRedraw(Soft_desc, Soft_oldReDraw);
+   1942          
+   1943              getdir(sound_path,SOUND_PATH);
+   1944              if((!GetSilent() || sndOnSilent) && sndEnable) PlayFileV(sound_path, SoundName[BYEBYE_SND], sndVolume);
+   1945          
+   1946              free_icons();
+   1947              free_strings();
+   1948          
+   1949              for(int i=0; i < Pets[0].Status.Count; i++) { SaveStatus(i); }
+   1950          
+   1951              if(bk->gui)
+   1952              {
+   1953                GUIObject_Destroy( bk->gui);
+   1954                bk->gui = 0;
+   1955              }
+   1956          
+   1957              FREE_GUI(bk->stat_list);
+   1958              FREE_GUI(bk->cbox_gui);
+   1959              FREE_GUI(bk->text_input);
+   1960              FREE_GUI(bk->yesno);
+   1961          
+   1962              for(int i=0; i < MAX_PET_COUNT_GLB; i++)
+   1963              {
+   1964                FREE_GUI(bk->menu_list[i]);
+   1965              }
+   1966          
+   1967              SUBPROC(elf_exit);
+   1968            }
+   1969          }
+   1970          
+   1971          int main (void)
+   1972          {
+   1973            BOOK *bk;
+   1974            DisplayHeight = Display_GetHeight(0);
+   1975            DisplayWidth  = Display_GetWidth(0);
+   1976          
+   1977            switch(DisplayHeight){
+   1978              case 128:
+   1979                  StatusBarY = STATUS_HEIGHT_128;
+   1980                  SoftBarY   = DisplayHeight - SOFT_HEIGHT_128;
+   1981                  StatusBarHeight = STATUS_HEIGHT_128;
+   1982                  SoftBarHeight   = SOFT_HEIGHT_128;
+   1983                  break;
+   1984              case 160:
+   1985                  StatusBarY = STATUS_HEIGHT_160;
+   1986                  SoftBarY   = DisplayHeight - SOFT_HEIGHT_160;
+   1987                  StatusBarHeight = STATUS_HEIGHT_160;
+   1988                  SoftBarHeight   = SOFT_HEIGHT_160;
+   1989                  break;
+   1990              case 208:
+   1991                  StatusBarY = STATUS_HEIGHT_208;
+   1992                  SoftBarY   = DisplayHeight - SOFT_HEIGHT_208;
+   1993                  StatusBarHeight = STATUS_HEIGHT_208;
+   1994                  SoftBarHeight   = SOFT_HEIGHT_208;
+   1995                  break;
+   1996              case 220:
+   1997                  StatusBarY = STATUS_HEIGHT_220;
+   1998                  SoftBarY   = DisplayHeight - SOFT_HEIGHT_220;
+   1999                  StatusBarHeight = STATUS_HEIGHT_220;
+   2000                  SoftBarHeight   = SOFT_HEIGHT_220;
+   2001                  break;
+   2002              case 320:
+   2003                  StatusBarY = STATUS_HEIGHT_320;
+   2004                  SoftBarY   = DisplayHeight - SOFT_HEIGHT_320;
+   2005                  StatusBarHeight = STATUS_HEIGHT_320;
+   2006                  SoftBarHeight   = SOFT_HEIGHT_320;
+   2007                  break;
+   2008            }
+   2009          
+   2010            bk = FindBook(isTamagochiBook);
+   2011            if(bk)
+   2012            {
+   2013              if(CheckEv(bk,ELF_HELLO_MSG_EVENT))
+   2014              {
+   2015                HELLO_MSG * msg = new HELLO_MSG;
+   2016                msg->book = 0;
+   2017                snwprintf(msg->name,NAME_LEN - 1,L"%ls",LELFNAME);
+   2018                UI_Event_toBookIDwData(ELF_HELLO_MSG_EVENT,BookObj_GetBookID(bk),msg,(void(*)(void*))mfree_adr());
+   2019              }
+   2020              else
+   2021              {
+   2022                MessageBox(EMPTY_TEXTID, TextID_Create(LELFNAME _T("\n") LG_ALREADY_STARTED,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+   2023              }
+   2024              SUBPROC(elf_exit);
+   2025              return 0;
+   2026            }
+   2027          
+   2028            InitConfig();
+   2029            TamagochiBook = new MyBOOK;
+   2030            memset(TamagochiBook,0,sizeof(MyBOOK));
+   2031            if(!CreateBook((BOOK*)TamagochiBook,onCloseTamagochiBook,&base_page,myappname,-1,0))
+   2032            {
+   2033              delete TamagochiBook;
+   2034              SUBPROC(elf_exit);
+   2035              return 0;
+   2036            }
+   2037            ModifyKeyHook(NewKey,KEY_HOOK_ADD,NULL);
+   2038            if(ENA_HELLO_MSG) MessageBox(EMPTY_TEXTID, TextID_Create(LG_LOADING,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+   2039            BookObj_GotoPage((BOOK *)TamagochiBook,&main_page);
+   2040            return 0;
+   2041          }
+   2042          
+   2043          /*
+   2044          Revision history:
+   2045            4.1
+   2046                + Теперь, если умер, то ничего не просит.
+   2047                + The brazilian portuguese version was added.
+   2048                + улучшения/исправления/оптимизация
+   2049            4.0
+   2050                + Изменения в конигурационном файле.
+   2051                + Добавлена возможность помыть питомца.
+   2052                + Добавлен переход в комнату с едой из меню.
+   2053                + Добавлено мигание экраном.
+   2054                + улучшения/исправления/оптимизация
+   2055            3.0
+   2056                + Изменения в конигурационном файле.
+   2057                + Переработан алгоритм жизненного цикла :-)
+   2058                + улучшения/исправления/оптимизация
+   2059            2.0
+   2060                + Изменения в конигурационном файле.
+   2061                + Переработан код
+   2062                + Можно дать имя питомцу (отбражается в меню/статусе)
+   2063                + Можно задать/посмотреть пол питомца (отбражается в статусе)
+   2064                + Динамическое движение по экрану
+   2065                + Изменен алгоритм засыпания.
+   2066                + Загрузка внешнего списка игр/плейеров, размером не более 1кбайта (один раз при старте)
+   2067                + Просыпается если включается музыка/радио/игры
+   2068                + улучшения/исправления/оптимизация
+   2069            1.2.1
+   2070                + Небольшое исправление ошибок и оптимизация.
+   2071            1.2
+   2072                + Изменения в конигурационном файле.
+   2073                + При низкой дисциплине капризничает  (не ложится спать, не лечится)
+   2074                + Добавлена вибрация.
+   2075                + Добавлена возможность использовать для навигации цифровые клавиши в меню/статусе.
+   2076                + Выбор времени показа сообщений.
+   2077                + улучшения/исправления/оптимизация
+   2078            1.1
+   2079                + Изменения в конигурационном файле.
+   2080                + Отображение возраста в букменеджере
+   2081                + Возожность отключать звуки во время ночного сна (за исключением действий в меню).
+   2082                + Если не спит, то при скуке включает музыку (плейер/радио)
+   2083                + Кушает если включена зарядка
+   2084            1.0
+   2085                + Начальная версия
+   2086          */
+   2087          
+
+Errors: 1
+Warnings: none

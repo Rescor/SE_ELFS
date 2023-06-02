@@ -1,0 +1,1537 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:52:51 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\E #
+#                       vents.c                                              #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\E #
+#                       vents.c -D NDEBUG -D OLDFUNCTIONS -lC                #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\Events.lst                               #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\Events.r79                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\Events.c
+      1          /*
+      2          *===========================================================================
+      3          *                 Модуль создания/уничтожения списка событий
+      4          *===========================================================================
+      5          */
+      6          #include "..\deleaker\mem2.h"
+      7          #include "..\include\Lib_Clara.h" 
+      8          #include "..\include\Dir.h" 
+      9          #include "header\structs.h"
+     10          #include "header\string.h"
+     11          
+     12          extern MyBOOK *ECBook;
+     13          
+     14          void SortList(LIST *lst);
+     15          void InitializeFolders();
+     16          void date_increase(DATE date, int num, char *day, char *mon, u16 *year);
+     17          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     18          LIST *events;
+   \                     events:
+   \   00000000                      DS8 4
+     19          wchar_t *extFolder=0;
+   \                     extFolder:
+   \   00000004                      DS8 4
+     20          wchar_t *intFolder=0;
+   \                     intFolder:
+   \   00000008                      DS8 4
+     21          
+     22          /*
+     23          *==============================================================================
+     24          * Заполнение глобальных переменных extFolder и intFolder путями к папкам эльфа
+     25          *==============================================================================
+     26          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     27          void InitializeFolders()
+     28          {
+   \                     ??InitializeFolders:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     29            if (extFolder==0)
+   \   00000004   AC409FE5           LDR      R4,??InitializeFolders_1  ;; `?<Constant L"\\x2f\\x45\\x76\\x65\\x6e\\x74\\x43\\x6f\\`
+   \   00000008   AC509FE5           LDR      R5,??InitializeFolders_1+0x4  ;; events
+   \   0000000C   040095E5           LDR      R0,[R5, #+4]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1100001A           BNE      ??InitializeFolders_2
+     30            {
+     31              int size=wstrlen(GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG))+wstrlen(L"/EventControl/");
+   \   00000018   1400A0E3           MOV      R0,#+20
+   \   0000001C   050100EF           SWI      +261
+   \   00000020   570100EF           SWI      +343
+   \   00000024   0060A0E1           MOV      R6,R0
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   570100EF           SWI      +343
+   \   00000030   066080E0           ADD      R6,R0,R6
+     32              extFolder = new wchar_t[size+1];
+   \   00000034   010086E2           ADD      R0,R6,#+1
+   \   00000038   8000A0E1           LSL      R0,R0,#+1
+   \   0000003C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000040   040085E5           STR      R0,[R5, #+4]
+     33              snwprintf(extFolder,size,L"%ls/EventControl/",GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG));
+   \   00000044   1400A0E3           MOV      R0,#+20
+   \   00000048   050100EF           SWI      +261
+   \   0000004C   0030A0E1           MOV      R3,R0
+   \   00000050   040095E5           LDR      R0,[R5, #+4]
+   \   00000054   202084E2           ADD      R2,R4,#+32
+   \   00000058   0610A0E1           MOV      R1,R6
+   \   0000005C   150100EF           SWI      +277
+     34            }
+     35            if (intFolder==0)
+   \                     ??InitializeFolders_2:
+   \   00000060   080095E5           LDR      R0,[R5, #+8]
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   7080BD18           POPNE    {R4-R6,PC}
+     36            {
+     37              int size=wstrlen(GetDir(MEM_INTERNAL+DIR_ELFS_CONFIG))+wstrlen(L"/EventControl/");
+   \   0000006C   1500A0E3           MOV      R0,#+21
+   \   00000070   050100EF           SWI      +261
+   \   00000074   570100EF           SWI      +343
+   \   00000078   0060A0E1           MOV      R6,R0
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   570100EF           SWI      +343
+   \   00000084   066080E0           ADD      R6,R0,R6
+     38              intFolder = new wchar_t[size+1];
+   \   00000088   010086E2           ADD      R0,R6,#+1
+   \   0000008C   8000A0E1           LSL      R0,R0,#+1
+   \   00000090   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000094   080085E5           STR      R0,[R5, #+8]
+     39              snwprintf(intFolder,size,L"%ls/EventControl/",GetDir(MEM_INTERNAL+DIR_ELFS_CONFIG));
+   \   00000098   1500A0E3           MOV      R0,#+21
+   \   0000009C   050100EF           SWI      +261
+   \   000000A0   0030A0E1           MOV      R3,R0
+   \   000000A4   080095E5           LDR      R0,[R5, #+8]
+   \   000000A8   202084E2           ADD      R2,R4,#+32
+   \   000000AC   0610A0E1           MOV      R1,R6
+   \   000000B0   150100EF           SWI      +277
+     40            }
+     41          };
+   \   000000B4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??InitializeFolders_1:
+   \   000000B8   ........           DC32     `?<Constant L"\\x2f\\x45\\x76\\x65\\x6e\\x74\\x43\\x6f\\`
+   \   000000BC   ........           DC32     events
+     42          
+     43          /*
+     44          *===========================================================================
+     45          *             Функция парсинга строки, содержащей дату/дни/GPS
+     46          *===========================================================================
+     47          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     48          void SetDate(char *param, EVENT *ev, int type)
+     49          {
+   \                     ??SetDate:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   0140A0E1           MOV      R4,R1
+     50            if (type==0) //Указаны дни
+   \   00000010   0160A0E3           MOV      R6,#+1
+   \   00000014   000052E3           CMP      R2,#+0
+   \   00000018   0A00001A           BNE      ??SetDate_1
+     51            {
+     52              int x=0;
+     53              for (x=0;x<strlen(param);x++)
+   \   0000001C   0070A0E3           MOV      R7,#+0
+   \                     ??SetDate_2:
+   \   00000020   0500A0E1           MOV      R0,R5
+   \   00000024   5A0100EF           SWI      +346
+   \   00000028   000057E1           CMP      R7,R0
+   \   0000002C   F180BDA8           POPGE    {R0,R4-R7,PC}
+     54              {
+     55                ev->days[param[x]-0x30]=true;
+   \   00000030   0500D7E7           LDRB     R0,[R7, +R5]
+     56              }
+   \   00000034   017087E2           ADD      R7,R7,#+1
+   \   00000038   300040E2           SUB      R0,R0,#+48
+   \   0000003C   000184E0           ADD      R0,R4,R0, LSL #+2
+   \   00000040   706080E5           STR      R6,[R0, #+112]
+   \   00000044   F5FFFFEA           B        ??SetDate_2
+     57            }
+     58            else if (type==1) //Указана даты начала и конца
+   \                     ??SetDate_1:
+   \   00000048   010052E3           CMP      R2,#+1
+   \   0000004C   4E00001A           BNE      ??SetDate_3
+     59            {
+     60              int x=0;
+   \   00000050   0010D5E5           LDRB     R1,[R5, #+0]
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   0A30A0E3           MOV      R3,#+10
+   \   0000005C   2D0051E3           CMP      R1,#+45
+   \   00000060   0500001A           BNE      ??SetDate_4
+   \   00000064   070000EA           B        ??SetDate_5
+     61              while (param[x]!='-')
+     62              {
+     63                ev->date.day=(ev->date.day*10)+(param[x]-0x30);
+   \                     ??SetDate_6:
+   \   00000068   6B20D4E5           LDRB     R2,[R4, #+107]
+     64                x++;
+   \   0000006C   010080E2           ADD      R0,R0,#+1
+   \   00000070   931221E0           MLA      R1,R3,R2,R1
+   \   00000074   D01081E2           ADD      R1,R1,#+208
+   \   00000078   6B10C4E5           STRB     R1,[R4, #+107]
+     65              }
+   \                     ??SetDate_4:
+   \   0000007C   0510D0E7           LDRB     R1,[R0, +R5]
+   \   00000080   2D0051E3           CMP      R1,#+45
+   \   00000084   F7FFFF1A           BNE      ??SetDate_6
+     66              x++;
+   \                     ??SetDate_5:
+   \   00000088   010080E2           ADD      R0,R0,#+1
+   \   0000008C   0510D0E7           LDRB     R1,[R0, +R5]
+   \   00000090   2D0051E3           CMP      R1,#+45
+   \   00000094   0800000A           BEQ      ??SetDate_7
+     67              while (param[x]!='-')
+     68              {
+     69                ev->date.mon=(ev->date.mon*10)+(param[x]-0x30);
+   \                     ??SetDate_8:
+   \   00000098   6A20D4E5           LDRB     R2,[R4, #+106]
+   \   0000009C   0510D0E7           LDRB     R1,[R0, +R5]
+     70                x++;
+   \   000000A0   010080E2           ADD      R0,R0,#+1
+   \   000000A4   931221E0           MLA      R1,R3,R2,R1
+   \   000000A8   D01081E2           ADD      R1,R1,#+208
+   \   000000AC   6A10C4E5           STRB     R1,[R4, #+106]
+     71              }
+   \   000000B0   0510D0E7           LDRB     R1,[R0, +R5]
+   \   000000B4   2D0051E3           CMP      R1,#+45
+   \   000000B8   F6FFFF1A           BNE      ??SetDate_8
+     72              x++;
+   \                     ??SetDate_7:
+   \   000000BC   011080E2           ADD      R1,R0,#+1
+   \   000000C0   0520D1E7           LDRB     R2,[R1, +R5]
+   \   000000C4   D000A0E3           MOV      R0,#+208
+   \   000000C8   FF0C80E3           ORR      R0,R0,#0xFF00
+   \   000000CC   2E0052E3           CMP      R2,#+46
+   \   000000D0   0A60A0E3           MOV      R6,#+10
+   \   000000D4   0800000A           BEQ      ??SetDate_9
+     73              while (param[x]!='.')
+     74              {
+     75                ev->date.year=(ev->date.year*10)+(param[x]-0x30);
+   \                     ??SetDate_10:
+   \   000000D8   B836D4E1           LDRH     R3,[R4, #+104]
+   \   000000DC   0520D1E7           LDRB     R2,[R1, +R5]
+     76                x++;
+   \   000000E0   011081E2           ADD      R1,R1,#+1
+   \   000000E4   962322E0           MLA      R2,R6,R3,R2
+   \   000000E8   022080E0           ADD      R2,R0,R2
+   \   000000EC   B826C4E1           STRH     R2,[R4, #+104]
+     77              }
+   \   000000F0   0520D1E7           LDRB     R2,[R1, +R5]
+   \   000000F4   2E0052E3           CMP      R2,#+46
+   \   000000F8   F6FFFF1A           BNE      ??SetDate_10
+     78              x++;
+   \                     ??SetDate_9:
+   \   000000FC   011081E2           ADD      R1,R1,#+1
+   \   00000100   0520D1E7           LDRB     R2,[R1, +R5]
+   \   00000104   2D0052E3           CMP      R2,#+45
+   \   00000108   0800000A           BEQ      ??SetDate_11
+     79              while (param[x]!='-')
+     80              {
+     81                ev->date2.day=(ev->date2.day*10)+(param[x]-0x30);
+   \                     ??SetDate_12:
+   \   0000010C   6F30D4E5           LDRB     R3,[R4, #+111]
+   \   00000110   0520D1E7           LDRB     R2,[R1, +R5]
+     82                x++;
+   \   00000114   011081E2           ADD      R1,R1,#+1
+   \   00000118   962322E0           MLA      R2,R6,R3,R2
+   \   0000011C   D02082E2           ADD      R2,R2,#+208
+   \   00000120   6F20C4E5           STRB     R2,[R4, #+111]
+     83              }
+   \   00000124   0520D1E7           LDRB     R2,[R1, +R5]
+   \   00000128   2D0052E3           CMP      R2,#+45
+   \   0000012C   F6FFFF1A           BNE      ??SetDate_12
+     84              x++;
+   \                     ??SetDate_11:
+   \   00000130   011081E2           ADD      R1,R1,#+1
+   \   00000134   0520D1E7           LDRB     R2,[R1, +R5]
+   \   00000138   2D0052E3           CMP      R2,#+45
+   \   0000013C   0800000A           BEQ      ??SetDate_13
+     85              while (param[x]!='-')
+     86              {
+     87                ev->date2.mon=(ev->date2.mon*10)+(param[x]-0x30);
+   \                     ??SetDate_14:
+   \   00000140   6E30D4E5           LDRB     R3,[R4, #+110]
+   \   00000144   0520D1E7           LDRB     R2,[R1, +R5]
+     88                x++;
+   \   00000148   011081E2           ADD      R1,R1,#+1
+   \   0000014C   962322E0           MLA      R2,R6,R3,R2
+   \   00000150   D02082E2           ADD      R2,R2,#+208
+   \   00000154   6E20C4E5           STRB     R2,[R4, #+110]
+     89              }
+   \   00000158   0520D1E7           LDRB     R2,[R1, +R5]
+   \   0000015C   2D0052E3           CMP      R2,#+45
+   \   00000160   F6FFFF1A           BNE      ??SetDate_14
+     90              x++;
+   \                     ??SetDate_13:
+   \   00000164   011081E2           ADD      R1,R1,#+1
+     91              while (param[x]!=':' && param[x]!=0)
+   \   00000168   0520D1E7           LDRB     R2,[R1, +R5]
+   \   0000016C   3A0052E3           CMP      R2,#+58
+   \   00000170   00005213           CMPNE    R2,#+0
+   \   00000174   F180BD08           POPEQ    {R0,R4-R7,PC}
+     92              {
+     93                ev->date2.year=(ev->date2.year*10)+(param[x]-0x30);
+   \   00000178   BC36D4E1           LDRH     R3,[R4, #+108]
+   \   0000017C   962322E0           MLA      R2,R6,R3,R2
+   \   00000180   022080E0           ADD      R2,R0,R2
+   \   00000184   BC26C4E1           STRH     R2,[R4, #+108]
+     94                x++;
+   \   00000188   F5FFFFEA           B        ??SetDate_13
+     95              }
+     96              x++;
+     97            }
+     98            else   
+     99            {
+    100              int x=0;
+   \                     ??SetDate_3:
+   \   0000018C   0010A0E3           MOV      R1,#+0
+   \   00000190   00108DE5           STR      R1,[SP, #+0]
+    101              ev->gps=getchr(param,&x,'.');
+   \   00000194   2E20A0E3           MOV      R2,#+46
+   \   00000198   0D10A0E1           MOV      R1,SP
+   \   0000019C   ........           _BLF     ??getchr,??getchr??rA
+   \   000001A0   A00084E5           STR      R0,[R4, #+160]
+    102              char *par=getchr(param,&x,0);
+   \   000001A4   0020A0E3           MOV      R2,#+0
+   \   000001A8   0D10A0E1           MOV      R1,SP
+   \   000001AC   0500A0E1           MOV      R0,R5
+   \   000001B0   ........           _BLF     ??getchr,??getchr??rA
+   \   000001B4   0050B0E1           MOVS     R5,R0
+    103              if (par)
+   \   000001B8   0F00000A           BEQ      ??SetDate_15
+    104              {
+    105                for (x=0;x<strlen(par);x++)
+   \   000001BC   0010A0E3           MOV      R1,#+0
+   \   000001C0   050000EA           B        ??SetDate_16
+    106                {
+    107                  ev->days[par[x]-0x30]=true; 
+   \                     ??SetDate_17:
+   \   000001C4   0500D1E7           LDRB     R0,[R1, +R5]
+   \   000001C8   300040E2           SUB      R0,R0,#+48
+   \   000001CC   000184E0           ADD      R0,R4,R0, LSL #+2
+   \   000001D0   706080E5           STR      R6,[R0, #+112]
+    108                }
+   \   000001D4   00109DE5           LDR      R1,[SP, #+0]
+   \   000001D8   011081E2           ADD      R1,R1,#+1
+   \                     ??SetDate_16:
+   \   000001DC   00108DE5           STR      R1,[SP, #+0]
+   \   000001E0   0500A0E1           MOV      R0,R5
+   \   000001E4   5A0100EF           SWI      +346
+   \   000001E8   00109DE5           LDR      R1,[SP, #+0]
+   \   000001EC   000051E1           CMP      R1,R0
+   \   000001F0   F3FFFFBA           BLT      ??SetDate_17
+    109                delete(par);
+   \   000001F4   0500A0E1           MOV      R0,R5
+   \   000001F8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    110              }
+    111              ev->isGps=true;
+   \                     ??SetDate_15:
+   \   000001FC   6060C4E5           STRB     R6,[R4, #+96]
+    112            }
+    113          };
+   \   00000200   F180BDE8           POP      {R0,R4-R7,PC}    ;; return
+    114          /*
+    115          *===========================================================================
+    116          *                 Функция парсинга строки, содержащей время
+    117          *===========================================================================
+    118          */
+    119          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    120          void SetTime(char *param, EVENT *ev, int type)
+    121          {
+   \                     ??SetTime:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    122            if (type==0) //Указано время без конечного
+   \   00000004   000052E3           CMP      R2,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   2C00001A           BNE      ??SetTime_1
+    123            {
+    124              memset(&ev->time,0,sizeof(TIME));
+   \   00000014   0420A0E3           MOV      R2,#+4
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   900085E2           ADD      R0,R5,#+144
+   \   00000020   120100EF           SWI      +274
+    125              memset(&ev->time2,0,sizeof(TIME));
+   \   00000024   0420A0E3           MOV      R2,#+4
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   940085E2           ADD      R0,R5,#+148
+   \   00000030   120100EF           SWI      +274
+    126              int x=0;
+   \   00000034   0010D4E5           LDRB     R1,[R4, #+0]
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   0A30A0E3           MOV      R3,#+10
+   \   00000040   2D0051E3           CMP      R1,#+45
+   \   00000044   0500001A           BNE      ??SetTime_2
+   \   00000048   070000EA           B        ??SetTime_3
+    127              while (param[x]!='-')
+    128              {
+    129                ev->time.hour=(ev->time.hour*10)+(param[x]-0x30);
+   \                     ??SetTime_4:
+   \   0000004C   9020D5E5           LDRB     R2,[R5, #+144]
+    130                x++;
+   \   00000050   010080E2           ADD      R0,R0,#+1
+   \   00000054   931221E0           MLA      R1,R3,R2,R1
+   \   00000058   D01081E2           ADD      R1,R1,#+208
+   \   0000005C   9010C5E5           STRB     R1,[R5, #+144]
+    131              }
+   \                     ??SetTime_2:
+   \   00000060   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000064   2D0051E3           CMP      R1,#+45
+   \   00000068   F7FFFF1A           BNE      ??SetTime_4
+    132              x++;
+   \                     ??SetTime_3:
+   \   0000006C   011080E2           ADD      R1,R0,#+1
+   \   00000070   050000EA           B        ??SetTime_5
+    133              while (param[x]!='-' && param[x]!=0)
+    134              {
+    135                ev->time.min=(ev->time.min*10)+(param[x]-0x30);
+   \                     ??SetTime_6:
+   \   00000074   0210A0E1           MOV      R1,R2
+   \   00000078   9120D5E5           LDRB     R2,[R5, #+145]
+   \   0000007C   931221E0           MLA      R1,R3,R2,R1
+   \   00000080   D01081E2           ADD      R1,R1,#+208
+   \   00000084   9110C5E5           STRB     R1,[R5, #+145]
+    136                x++;
+   \   00000088   0010A0E1           MOV      R1,R0
+    137              }
+   \                     ??SetTime_5:
+   \   0000008C   0420D1E7           LDRB     R2,[R1, +R4]
+   \   00000090   010081E2           ADD      R0,R1,#+1
+   \   00000094   2D0052E3           CMP      R2,#+45
+   \   00000098   00005213           CMPNE    R2,#+0
+   \   0000009C   F4FFFF1A           BNE      ??SetTime_6
+    138              x++;
+    139              while (param[x]!=':' && param[x]!=0)
+   \                     ??SetTime_7:
+   \   000000A0   0410D0E7           LDRB     R1,[R0, +R4]
+   \   000000A4   3A0051E3           CMP      R1,#+58
+   \   000000A8   00005113           CMPNE    R1,#+0
+   \   000000AC   3080BD08           POPEQ    {R4,R5,PC}
+    140              {
+    141                ev->time.sec=(ev->time.sec*10)+(param[x]-0x30);
+   \   000000B0   9220D5E5           LDRB     R2,[R5, #+146]
+    142                x++;
+   \   000000B4   010080E2           ADD      R0,R0,#+1
+   \   000000B8   931221E0           MLA      R1,R3,R2,R1
+   \   000000BC   D01081E2           ADD      R1,R1,#+208
+   \   000000C0   9210C5E5           STRB     R1,[R5, #+146]
+   \   000000C4   F5FFFFEA           B        ??SetTime_7
+    143              }
+    144            }
+    145            else if (type==1) //Указаны даты начала и конца
+   \                     ??SetTime_1:
+   \   000000C8   010052E3           CMP      R2,#+1
+   \   000000CC   3080BD18           POPNE    {R4,R5,PC}
+    146            {
+    147              memset(&ev->time,0,sizeof(TIME));
+   \   000000D0   0420A0E3           MOV      R2,#+4
+   \   000000D4   0010A0E3           MOV      R1,#+0
+   \   000000D8   900085E2           ADD      R0,R5,#+144
+   \   000000DC   120100EF           SWI      +274
+    148              memset(&ev->time2,0,sizeof(TIME));
+   \   000000E0   0420A0E3           MOV      R2,#+4
+   \   000000E4   0010A0E3           MOV      R1,#+0
+   \   000000E8   940085E2           ADD      R0,R5,#+148
+   \   000000EC   120100EF           SWI      +274
+    149              int x=0;
+   \   000000F0   0010D4E5           LDRB     R1,[R4, #+0]
+   \   000000F4   0000A0E3           MOV      R0,#+0
+   \   000000F8   0A30A0E3           MOV      R3,#+10
+   \   000000FC   2D0051E3           CMP      R1,#+45
+   \   00000100   0500001A           BNE      ??SetTime_8
+   \   00000104   070000EA           B        ??SetTime_9
+    150              while (param[x]!='-')
+    151              {
+    152                ev->time.hour=(ev->time.hour*10)+(param[x]-0x30);
+   \                     ??SetTime_10:
+   \   00000108   9020D5E5           LDRB     R2,[R5, #+144]
+    153                x++;
+   \   0000010C   010080E2           ADD      R0,R0,#+1
+   \   00000110   931221E0           MLA      R1,R3,R2,R1
+   \   00000114   D01081E2           ADD      R1,R1,#+208
+   \   00000118   9010C5E5           STRB     R1,[R5, #+144]
+    154              }
+   \                     ??SetTime_8:
+   \   0000011C   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000120   2D0051E3           CMP      R1,#+45
+   \   00000124   F7FFFF1A           BNE      ??SetTime_10
+    155              x++;
+   \                     ??SetTime_9:
+   \   00000128   010080E2           ADD      R0,R0,#+1
+   \   0000012C   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000130   2D0051E3           CMP      R1,#+45
+   \   00000134   0800000A           BEQ      ??SetTime_11
+    156              while (param[x]!='-')
+    157              {
+    158                ev->time.min=(ev->time.min*10)+(param[x]-0x30);
+   \                     ??SetTime_12:
+   \   00000138   9120D5E5           LDRB     R2,[R5, #+145]
+   \   0000013C   0410D0E7           LDRB     R1,[R0, +R4]
+    159                x++;
+   \   00000140   010080E2           ADD      R0,R0,#+1
+   \   00000144   931221E0           MLA      R1,R3,R2,R1
+   \   00000148   D01081E2           ADD      R1,R1,#+208
+   \   0000014C   9110C5E5           STRB     R1,[R5, #+145]
+    160              }
+   \   00000150   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000154   2D0051E3           CMP      R1,#+45
+   \   00000158   F6FFFF1A           BNE      ??SetTime_12
+    161              x++;
+   \                     ??SetTime_11:
+   \   0000015C   010080E2           ADD      R0,R0,#+1
+   \   00000160   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000164   2E0051E3           CMP      R1,#+46
+   \   00000168   0800000A           BEQ      ??SetTime_13
+    162              while (param[x]!='.')
+    163              {
+    164                ev->time.sec=(ev->time.sec*10)+(param[x]-0x30);
+   \                     ??SetTime_14:
+   \   0000016C   9220D5E5           LDRB     R2,[R5, #+146]
+   \   00000170   0410D0E7           LDRB     R1,[R0, +R4]
+    165                x++;
+   \   00000174   010080E2           ADD      R0,R0,#+1
+   \   00000178   931221E0           MLA      R1,R3,R2,R1
+   \   0000017C   D01081E2           ADD      R1,R1,#+208
+   \   00000180   9210C5E5           STRB     R1,[R5, #+146]
+    166              }
+   \   00000184   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000188   2E0051E3           CMP      R1,#+46
+   \   0000018C   F6FFFF1A           BNE      ??SetTime_14
+    167              x++;
+   \                     ??SetTime_13:
+   \   00000190   010080E2           ADD      R0,R0,#+1
+   \   00000194   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000198   2D0051E3           CMP      R1,#+45
+   \   0000019C   0800000A           BEQ      ??SetTime_15
+    168              while (param[x]!='-')
+    169              {
+    170                ev->time2.hour=(ev->time2.hour*10)+(param[x]-0x30);
+   \                     ??SetTime_16:
+   \   000001A0   9420D5E5           LDRB     R2,[R5, #+148]
+   \   000001A4   0410D0E7           LDRB     R1,[R0, +R4]
+    171                x++;
+   \   000001A8   010080E2           ADD      R0,R0,#+1
+   \   000001AC   931221E0           MLA      R1,R3,R2,R1
+   \   000001B0   D01081E2           ADD      R1,R1,#+208
+   \   000001B4   9410C5E5           STRB     R1,[R5, #+148]
+    172              }
+   \   000001B8   0410D0E7           LDRB     R1,[R0, +R4]
+   \   000001BC   2D0051E3           CMP      R1,#+45
+   \   000001C0   F6FFFF1A           BNE      ??SetTime_16
+    173              x++;
+   \                     ??SetTime_15:
+   \   000001C4   011080E2           ADD      R1,R0,#+1
+   \   000001C8   050000EA           B        ??SetTime_17
+    174              while (param[x]!='-' && param[x]!=0)
+    175              {
+    176                ev->time2.min=(ev->time2.min*10)+(param[x]-0x30);
+   \                     ??SetTime_18:
+   \   000001CC   0210A0E1           MOV      R1,R2
+   \   000001D0   9520D5E5           LDRB     R2,[R5, #+149]
+   \   000001D4   931221E0           MLA      R1,R3,R2,R1
+   \   000001D8   D01081E2           ADD      R1,R1,#+208
+   \   000001DC   9510C5E5           STRB     R1,[R5, #+149]
+    177                x++;
+   \   000001E0   0010A0E1           MOV      R1,R0
+    178              }
+   \                     ??SetTime_17:
+   \   000001E4   0420D1E7           LDRB     R2,[R1, +R4]
+   \   000001E8   010081E2           ADD      R0,R1,#+1
+   \   000001EC   2D0052E3           CMP      R2,#+45
+   \   000001F0   0700000A           BEQ      ??SetTime_19
+   \   000001F4   000052E3           CMP      R2,#+0
+   \   000001F8   F3FFFF1A           BNE      ??SetTime_18
+    179              x++;
+   \   000001FC   040000EA           B        ??SetTime_19
+    180              while (param[x]!=':' && param[x]!=0)
+    181              {
+    182                ev->time2.sec=(ev->time2.sec*10)+(param[x]-0x30);
+   \                     ??SetTime_20:
+   \   00000200   9620D5E5           LDRB     R2,[R5, #+150]
+    183                x++;
+   \   00000204   010080E2           ADD      R0,R0,#+1
+   \   00000208   931221E0           MLA      R1,R3,R2,R1
+   \   0000020C   D01081E2           ADD      R1,R1,#+208
+   \   00000210   9610C5E5           STRB     R1,[R5, #+150]
+    184              }
+   \                     ??SetTime_19:
+   \   00000214   0410D0E7           LDRB     R1,[R0, +R4]
+   \   00000218   3A0051E3           CMP      R1,#+58
+   \   0000021C   00005113           CMPNE    R1,#+0
+   \   00000220   F6FFFF1A           BNE      ??SetTime_20
+    185            }
+    186          };
+   \   00000224   3080BDE8           POP      {R4,R5,PC}       ;; return
+    187          
+    188          /*
+    189          *===========================================================================
+    190          *                      Вычисление дня недели
+    191          *===========================================================================
+    192          * 1) cur - "базовый" день, ask - на сколько надо сместить день
+    193          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    194          int calcday(int cur, int ask)
+    195          {
+    196            int ret=cur+ask;
+   \                     ??calcday:
+   \   00000000   000081E0           ADD      R0,R1,R0
+    197            if (ret>6)
+   \   00000004   070050E3           CMP      R0,#+7
+   \   00000008   080000BA           BLT      ??calcday_1
+    198            {
+    199              ret=ret%7;
+   \   0000000C   30109FE5           LDR      R1,??calcday_2   ;; 0xffffffff92492493
+   \   00000010   9021C3E0           SMULL    R2,R3,R0,R1
+   \   00000014   0720A0E3           MOV      R2,#+7
+   \   00000018   003083E0           ADD      R3,R3,R0
+   \   0000001C   4331A0E1           ASR      R3,R3,#+2
+   \   00000020   A03F83E0           ADD      R3,R3,R0, LSR #+31
+   \   00000024   920303E0           MUL      R3,R2,R3
+   \   00000028   030040E0           SUB      R0,R0,R3
+   \   0000002C   1EFF2FE1           BX       LR
+    200            }
+    201            else if (ret<0)
+   \                     ??calcday_1:
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   1EFF2F51           BXPL     LR
+    202            {
+    203              while (ret<0)ret=7+ret;
+   \                     ??calcday_3:
+   \   00000038   070090E2           ADDS     R0,R0,#+7
+   \   0000003C   FDFFFF4A           BMI      ??calcday_3
+    204            }
+    205            return ret;
+   \   00000040   1EFF2FE1           BX       LR               ;; return
+   \                     ??calcday_2:
+   \   00000044   93244992           DC32     0xffffffff92492493
+    206          };
+    207          
+    208          /*
+    209          *===========================================================================
+    210          *   Функция расширения списка дней, при которых выполняется событие
+    211          *===========================================================================
+    212          * 1) *d - список rem_days, days - указатель на текущие дни, 
+    213          * num - на сколько необходимо сместить дни
+    214          */
+    215          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    216          void shiftdays(int *d, int *days, int num)
+    217          {
+   \                     ??shiftdays:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+    218            for (int x=0;x<7;x++)
+   \   00000010   0070A0E3           MOV      R7,#+0
+    219            {
+    220              if (days[x])
+   \                     ??shiftdays_1:
+   \   00000014   070195E7           LDR      R0,[R5, +R7, LSL #+2]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0400000A           BEQ      ??shiftdays_2
+    221              {
+    222                d[calcday(x, num)]=1;
+   \   00000020   0610A0E1           MOV      R1,R6
+   \   00000024   0700A0E1           MOV      R0,R7
+   \   00000028   ........           BL       ??calcday
+   \   0000002C   0110A0E3           MOV      R1,#+1
+   \   00000030   001184E7           STR      R1,[R4, +R0, LSL #+2]
+    223              }
+    224            }
+   \                     ??shiftdays_2:
+   \   00000034   017087E2           ADD      R7,R7,#+1
+   \   00000038   070057E3           CMP      R7,#+7
+   \   0000003C   F4FFFFBA           BLT      ??shiftdays_1
+    225          };
+   \   00000040   F080BDE8           POP      {R4-R7,PC}       ;; return
+    226          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    227          void shiftdate(DATE date, DATE *dt, int num)
+    228          {
+   \                     ??shiftdate:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   02C0A0E1           MOV      R12,R2
+    229            date_increase(date, num, &dt->day, &dt->mon, &dt->year);
+   \   00000008   0120A0E1           MOV      R2,R1
+   \   0000000C   04002DE9           PUSH     {R2}
+   \   00000010   023081E2           ADD      R3,R1,#+2
+   \   00000014   032081E2           ADD      R2,R1,#+3
+   \   00000018   0C10A0E1           MOV      R1,R12
+   \   0000001C   ........           _BLF     ??date_increase,??date_increase??rA
+    230          };
+   \   00000020   0180BDE8           POP      {R0,PC}          ;; return
+    231          /*
+    232          *===========================================================================
+    233          *      Функция парсинга строки, создание EVENT*, занесения его в лист
+    234          *===========================================================================
+    235          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    236          void AddEvent(char *line)
+    237          {
+   \                     ??AddEvent:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0050A0E1           MOV      R5,R0
+    238            char endstr=0xFE;
+    239            char endline=0xFF;
+    240            EVENT *ev=new EVENT;
+   \   0000000C   C000A0E3           MOV      R0,#+192
+   \   00000010   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000014   0040A0E1           MOV      R4,R0
+    241            memset(ev,0,sizeof(EVENT));
+   \   00000018   C020A0E3           MOV      R2,#+192
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   120100EF           SWI      +274
+    242            int x=0;
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   00108DE5           STR      R1,[SP, #+0]
+    243            ev->rem=getint(line,&x,':');
+   \   0000002C   3A20A0E3           MOV      R2,#+58
+   \   00000030   0D10A0E1           MOV      R1,SP
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           _BLF     ??getint,??getint??rA
+   \   0000003C   BC0084E5           STR      R0,[R4, #+188]
+    244            ev->AskBefore=getint(line,&x,':');
+   \   00000040   3A20A0E3           MOV      R2,#+58
+   \   00000044   0D10A0E1           MOV      R1,SP
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   ........           _BLF     ??getint,??getint??rA
+   \   00000050   540084E5           STR      R0,[R4, #+84]
+    245            ev->AskAfter=getint(line,&x,':');
+   \   00000054   3A20A0E3           MOV      R2,#+58
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   ........           _BLF     ??getint,??getint??rA
+   \   00000064   5C0084E5           STR      R0,[R4, #+92]
+    246            ev->type=getint(line,&x,':');
+   \   00000068   3A20A0E3           MOV      R2,#+58
+   \   0000006C   0D10A0E1           MOV      R1,SP
+   \   00000070   0500A0E1           MOV      R0,R5
+   \   00000074   ........           _BLF     ??getint,??getint??rA
+   \   00000078   500084E5           STR      R0,[R4, #+80]
+    247            ev->dtype=getint(line,&x,':');
+   \   0000007C   3A20A0E3           MOV      R2,#+58
+   \   00000080   0D10A0E1           MOV      R1,SP
+   \   00000084   0500A0E1           MOV      R0,R5
+   \   00000088   ........           _BLF     ??getint,??getint??rA
+   \   0000008C   640084E5           STR      R0,[R4, #+100]
+    248            char *date=getchr(line,&x,':');
+   \   00000090   3A20A0E3           MOV      R2,#+58
+   \   00000094   0D10A0E1           MOV      R1,SP
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   ........           _BLF     ??getchr,??getchr??rA
+   \   000000A0   0060B0E1           MOVS     R6,R0
+    249            if (date)
+   \   000000A4   0400000A           BEQ      ??AddEvent_1
+    250            {
+    251              SetDate(date,ev,ev->dtype);
+   \   000000A8   642094E5           LDR      R2,[R4, #+100]
+   \   000000AC   0410A0E1           MOV      R1,R4
+   \   000000B0   ........           BL       ??SetDate
+    252              delete(date);
+   \   000000B4   0600A0E1           MOV      R0,R6
+   \   000000B8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    253            }
+    254            ev->ttype=getint(line,&x,':');
+   \                     ??AddEvent_1:
+   \   000000BC   3A20A0E3           MOV      R2,#+58
+   \   000000C0   0D10A0E1           MOV      R1,SP
+   \   000000C4   0500A0E1           MOV      R0,R5
+   \   000000C8   ........           _BLF     ??getint,??getint??rA
+   \   000000CC   8C0084E5           STR      R0,[R4, #+140]
+    255            char *time=getchr(line,&x,':');
+   \   000000D0   3A20A0E3           MOV      R2,#+58
+   \   000000D4   0D10A0E1           MOV      R1,SP
+   \   000000D8   0500A0E1           MOV      R0,R5
+   \   000000DC   ........           _BLF     ??getchr,??getchr??rA
+   \   000000E0   0060B0E1           MOVS     R6,R0
+    256            if (time)
+   \   000000E4   0400000A           BEQ      ??AddEvent_2
+    257            {
+    258              SetTime(time,ev,ev->ttype);
+   \   000000E8   8C2094E5           LDR      R2,[R4, #+140]
+   \   000000EC   0410A0E1           MOV      R1,R4
+   \   000000F0   ........           BL       ??SetTime
+    259              delete(time);
+   \   000000F4   0600A0E1           MOV      R0,R6
+   \   000000F8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    260            }
+    261            ev->txt=getwchr(line,&x,endstr);
+   \                     ??AddEvent_2:
+   \   000000FC   FE20A0E3           MOV      R2,#+254
+   \   00000100   0D10A0E1           MOV      R1,SP
+   \   00000104   0500A0E1           MOV      R0,R5
+   \   00000108   ........           _BLF     ??getwchr,??getwchr??rA
+   \   0000010C   9C0084E5           STR      R0,[R4, #+156]
+    262            ev->param=getwchr(line,&x,endline);
+   \   00000110   FF20A0E3           MOV      R2,#+255
+   \   00000114   0D10A0E1           MOV      R1,SP
+   \   00000118   0500A0E1           MOV      R0,R5
+   \   0000011C   ........           _BLF     ??getwchr,??getwchr??rA
+   \   00000120   980084E5           STR      R0,[R4, #+152]
+    263            ev->tm_start=(ev->time.hour*3600) + (ev->time.min * 60) + ev->time.sec;
+   \   00000124   9000D4E5           LDRB     R0,[R4, #+144]
+   \   00000128   9120D4E5           LDRB     R2,[R4, #+145]
+   \   0000012C   E11EA0E3           MOV      R1,#+3600
+   \   00000130   3C30A0E3           MOV      R3,#+60
+   \   00000134   930202E0           MUL      R2,R3,R2
+   \   00000138   912020E0           MLA      R0,R1,R0,R2
+   \   0000013C   9210D4E5           LDRB     R1,[R4, #+146]
+   \   00000140   000081E0           ADD      R0,R1,R0
+   \   00000144   040084E5           STR      R0,[R4, #+4]
+    264            ev->ask_before=ev->tm_start+(ev->AskBefore*60);
+   \   00000148   541094E5           LDR      R1,[R4, #+84]
+   \   0000014C   930121E0           MLA      R1,R3,R1,R0
+   \   00000150   0C1084E5           STR      R1,[R4, #+12]
+    265            if (ev->ttype==1)
+   \   00000154   8C1094E5           LDR      R1,[R4, #+140]
+   \   00000158   010051E3           CMP      R1,#+1
+   \   0000015C   0600001A           BNE      ??AddEvent_3
+    266            {
+    267              ev->tm_end=(ev->time2.hour*3600) + (ev->time2.min * 60) + ev->time2.sec;
+   \   00000160   9400D4E5           LDRB     R0,[R4, #+148]
+   \   00000164   9520D4E5           LDRB     R2,[R4, #+149]
+   \   00000168   E11EA0E3           MOV      R1,#+3600
+   \   0000016C   930202E0           MUL      R2,R3,R2
+   \   00000170   912020E0           MLA      R0,R1,R0,R2
+   \   00000174   9610D4E5           LDRB     R1,[R4, #+150]
+   \   00000178   000081E0           ADD      R0,R1,R0
+    268            }
+    269            else
+    270            {
+    271              ev->tm_end=(ev->time.hour*3600) + (ev->time.min *60) + ev->time.sec;
+   \                     ??AddEvent_3:
+   \   0000017C   080084E5           STR      R0,[R4, #+8]
+    272            }
+    273            ev->ask_after=ev->tm_end+(ev->AskAfter*60);
+   \   00000180   5C1094E5           LDR      R1,[R4, #+92]
+    274            if (!ev->ask_after)ev->after_done=true;
+   \   00000184   0150A0E3           MOV      R5,#+1
+   \   00000188   930120E0           MLA      R0,R3,R1,R0
+   \   0000018C   100084E5           STR      R0,[R4, #+16]
+   \   00000190   000050E3           CMP      R0,#+0
+   \   00000194   4C50C405           STRBEQ   R5,[R4, #+76]
+    275            ev->d_shift_0=0;
+   \   00000198   0000A0E3           MOV      R0,#+0
+   \   0000019C   AC0084E5           STR      R0,[R4, #+172]
+    276            ev->d_shift_1=0;
+   \   000001A0   B00084E5           STR      R0,[R4, #+176]
+    277            if (ev->dtype==0)
+   \   000001A4   640094E5           LDR      R0,[R4, #+100]
+   \   000001A8   506BA0E3           MOV      R6,#+81920
+   \   000001AC   466D86E3           ORR      R6,R6,#0x1180
+   \   000001B0   007065E2           RSB      R7,R5,#+0
+   \   000001B4   008066E2           RSB      R8,R6,#+0
+   \   000001B8   000050E3           CMP      R0,#+0
+   \   000001BC   3000001A           BNE      ??AddEvent_4
+    278            {
+    279              shiftdays(ev->days, ev->days, 0);
+   \   000001C0   0020A0E3           MOV      R2,#+0
+   \   000001C4   701084E2           ADD      R1,R4,#+112
+   \   000001C8   700084E2           ADD      R0,R4,#+112
+   \   000001CC   ........           BL       ??shiftdays
+    280              if (ev->ask_before>=86400)
+   \   000001D0   0C0094E5           LDR      R0,[R4, #+12]
+   \   000001D4   060050E1           CMP      R0,R6
+   \   000001D8   070000BA           BLT      ??AddEvent_5
+    281              {
+    282                shiftdays(ev->remdays, ev->days, 1);
+   \   000001DC   0120A0E3           MOV      R2,#+1
+   \   000001E0   701084E2           ADD      R1,R4,#+112
+   \   000001E4   140084E2           ADD      R0,R4,#+20
+   \   000001E8   ........           BL       ??shiftdays
+    283                ev->d_shift_0=1;
+   \   000001EC   AC5084E5           STR      R5,[R4, #+172]
+    284                ev->ask_before=ev->ask_before-86400;
+   \   000001F0   0C0094E5           LDR      R0,[R4, #+12]
+   \   000001F4   000088E0           ADD      R0,R8,R0
+   \   000001F8   0C0084E5           STR      R0,[R4, #+12]
+    285              }
+    286              if (ev->ask_before<0)
+   \                     ??AddEvent_5:
+   \   000001FC   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000200   000050E3           CMP      R0,#+0
+   \   00000204   0700005A           BPL      ??AddEvent_6
+    287              {
+    288                shiftdays(ev->remdays, ev->days, -1);
+   \   00000208   0720A0E1           MOV      R2,R7
+   \   0000020C   701084E2           ADD      R1,R4,#+112
+   \   00000210   140084E2           ADD      R0,R4,#+20
+   \   00000214   ........           BL       ??shiftdays
+    289                ev->d_shift_0=-1;
+   \   00000218   AC7084E5           STR      R7,[R4, #+172]
+    290                ev->ask_before=ev->ask_before+86400;
+   \   0000021C   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000220   000086E0           ADD      R0,R6,R0
+   \   00000224   0C0084E5           STR      R0,[R4, #+12]
+    291              }
+    292              if (ev->ask_after>=86400)
+   \                     ??AddEvent_6:
+   \   00000228   100094E5           LDR      R0,[R4, #+16]
+   \   0000022C   060050E1           CMP      R0,R6
+   \   00000230   070000BA           BLT      ??AddEvent_7
+    293              {
+    294                shiftdays(ev->remdays2, ev->days, 1);
+   \   00000234   0120A0E3           MOV      R2,#+1
+   \   00000238   701084E2           ADD      R1,R4,#+112
+   \   0000023C   300084E2           ADD      R0,R4,#+48
+   \   00000240   ........           BL       ??shiftdays
+    295                ev->d_shift_1=1;
+   \   00000244   B05084E5           STR      R5,[R4, #+176]
+    296                ev->ask_after=ev->ask_after-86400;
+   \   00000248   100094E5           LDR      R0,[R4, #+16]
+   \   0000024C   000088E0           ADD      R0,R8,R0
+   \   00000250   100084E5           STR      R0,[R4, #+16]
+    297              }
+    298              if (ev->ask_after<0)
+   \                     ??AddEvent_7:
+   \   00000254   100094E5           LDR      R0,[R4, #+16]
+   \   00000258   000050E3           CMP      R0,#+0
+   \   0000025C   5700005A           BPL      ??AddEvent_8
+    299              {
+    300                shiftdays(ev->remdays2, ev->days, -1);
+   \   00000260   0720A0E1           MOV      R2,R7
+   \   00000264   701084E2           ADD      R1,R4,#+112
+   \   00000268   300084E2           ADD      R0,R4,#+48
+   \   0000026C   ........           BL       ??shiftdays
+    301                ev->d_shift_1=-1;
+   \   00000270   B07084E5           STR      R7,[R4, #+176]
+    302                ev->ask_after=ev->ask_after+86400;
+   \   00000274   100094E5           LDR      R0,[R4, #+16]
+   \   00000278   000086E0           ADD      R0,R6,R0
+   \   0000027C   100084E5           STR      R0,[R4, #+16]
+   \   00000280   4E0000EA           B        ??AddEvent_8
+    303              }
+    304            }
+    305            else if (ev->dtype==1)
+   \                     ??AddEvent_4:
+   \   00000284   010050E3           CMP      R0,#+1
+   \   00000288   4C00001A           BNE      ??AddEvent_8
+    306            {
+    307              if (ev->ask_before>86400)
+   \   0000028C   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000290   019086E3           ORR      R9,R6,#0x1
+   \   00000294   090050E1           CMP      R0,R9
+   \   00000298   0F0000BA           BLT      ??AddEvent_9
+    308              {
+    309                shiftdate(ev->date, &ev->date_0, 1);
+   \   0000029C   A40084E2           ADD      R0,R4,#+164
+   \   000002A0   0010A0E1           MOV      R1,R0
+   \   000002A4   02002DE9           PUSH     {R1}
+   \   000002A8   02B080E2           ADD      R11,R0,#+2
+   \   000002AC   03A080E2           ADD      R10,R0,#+3
+   \   000002B0   683084E2           ADD      R3,R4,#+104
+   \   000002B4   0110A0E3           MOV      R1,#+1
+   \   000002B8   ........           _BLF     ??ldr32h_a,??rA??ldr32h_a
+   \   000002BC   0B30A0E1           MOV      R3,R11
+   \   000002C0   0A20A0E1           MOV      R2,R10
+   \   000002C4   ........           _BLF     ??date_increase,??date_increase??rA
+    310                ev->d_shift_0=1;
+   \   000002C8   AC5084E5           STR      R5,[R4, #+172]
+    311                ev->ask_before=ev->ask_before-86400;
+   \   000002CC   0C0094E5           LDR      R0,[R4, #+12]
+   \   000002D0   000088E0           ADD      R0,R8,R0
+   \   000002D4   0C0084E5           STR      R0,[R4, #+12]
+   \   000002D8   04D08DE2           ADD      SP,SP,#+4
+    312              }
+    313              if (ev->ask_before<0)
+   \                     ??AddEvent_9:
+   \   000002DC   0C0094E5           LDR      R0,[R4, #+12]
+   \   000002E0   000050E3           CMP      R0,#+0
+   \   000002E4   0F00005A           BPL      ??AddEvent_10
+    314              {
+    315                shiftdate(ev->date, &ev->date_0, -1);
+   \   000002E8   A40084E2           ADD      R0,R4,#+164
+   \   000002EC   0010A0E1           MOV      R1,R0
+   \   000002F0   02002DE9           PUSH     {R1}
+   \   000002F4   02B080E2           ADD      R11,R0,#+2
+   \   000002F8   03A080E2           ADD      R10,R0,#+3
+   \   000002FC   683084E2           ADD      R3,R4,#+104
+   \   00000300   0710A0E1           MOV      R1,R7
+   \   00000304   ........           _BLF     ??ldr32h_a,??rA??ldr32h_a
+   \   00000308   0B30A0E1           MOV      R3,R11
+   \   0000030C   0A20A0E1           MOV      R2,R10
+   \   00000310   ........           _BLF     ??date_increase,??date_increase??rA
+    316                ev->d_shift_0=-1;
+   \   00000314   AC7084E5           STR      R7,[R4, #+172]
+    317                ev->ask_before=ev->ask_before+86400;
+   \   00000318   0C0094E5           LDR      R0,[R4, #+12]
+   \   0000031C   000086E0           ADD      R0,R6,R0
+   \   00000320   0C0084E5           STR      R0,[R4, #+12]
+   \   00000324   04D08DE2           ADD      SP,SP,#+4
+    318              }
+    319              if (ev->ask_after>86400)
+   \                     ??AddEvent_10:
+   \   00000328   100094E5           LDR      R0,[R4, #+16]
+   \   0000032C   090050E1           CMP      R0,R9
+   \   00000330   0F0000BA           BLT      ??AddEvent_11
+    320              {
+    321                shiftdate(ev->date, &ev->date_1, 1);
+   \   00000334   A80084E2           ADD      R0,R4,#+168
+   \   00000338   0010A0E1           MOV      R1,R0
+   \   0000033C   02002DE9           PUSH     {R1}
+   \   00000340   02A080E2           ADD      R10,R0,#+2
+   \   00000344   039080E2           ADD      R9,R0,#+3
+   \   00000348   683084E2           ADD      R3,R4,#+104
+   \   0000034C   0110A0E3           MOV      R1,#+1
+   \   00000350   ........           _BLF     ??ldr32h_a,??rA??ldr32h_a
+   \   00000354   0A30A0E1           MOV      R3,R10
+   \   00000358   0920A0E1           MOV      R2,R9
+   \   0000035C   ........           _BLF     ??date_increase,??date_increase??rA
+    322                ev->d_shift_1=1;
+   \   00000360   B05084E5           STR      R5,[R4, #+176]
+    323                ev->ask_after=ev->ask_after-86400;
+   \   00000364   100094E5           LDR      R0,[R4, #+16]
+   \   00000368   000088E0           ADD      R0,R8,R0
+   \   0000036C   100084E5           STR      R0,[R4, #+16]
+   \   00000370   04D08DE2           ADD      SP,SP,#+4
+    324              }
+    325              if (ev->ask_after<0)
+   \                     ??AddEvent_11:
+   \   00000374   100094E5           LDR      R0,[R4, #+16]
+   \   00000378   000050E3           CMP      R0,#+0
+   \   0000037C   0F00005A           BPL      ??AddEvent_8
+    326              {
+    327                shiftdate(ev->date, &ev->date_1, -1);
+   \   00000380   A80084E2           ADD      R0,R4,#+168
+   \   00000384   0010A0E1           MOV      R1,R0
+   \   00000388   02002DE9           PUSH     {R1}
+   \   0000038C   028080E2           ADD      R8,R0,#+2
+   \   00000390   035080E2           ADD      R5,R0,#+3
+   \   00000394   683084E2           ADD      R3,R4,#+104
+   \   00000398   0710A0E1           MOV      R1,R7
+   \   0000039C   ........           _BLF     ??ldr32h_a,??rA??ldr32h_a
+   \   000003A0   0830A0E1           MOV      R3,R8
+   \   000003A4   0520A0E1           MOV      R2,R5
+   \   000003A8   ........           _BLF     ??date_increase,??date_increase??rA
+    328                ev->d_shift_1=-1;
+   \   000003AC   B07084E5           STR      R7,[R4, #+176]
+    329                ev->ask_after=ev->ask_after+86400;
+   \   000003B0   100094E5           LDR      R0,[R4, #+16]
+   \   000003B4   000086E0           ADD      R0,R6,R0
+   \   000003B8   100084E5           STR      R0,[R4, #+16]
+   \   000003BC   04D08DE2           ADD      SP,SP,#+4
+    330              }
+    331            }
+    332            if (!events)
+   \                     ??AddEvent_8:
+   \   000003C0   ........           LDR      R5,??DataTable3  ;; events
+   \   000003C4   000095E5           LDR      R0,[R5, #+0]
+   \   000003C8   000050E3           CMP      R0,#+0
+   \   000003CC   0500001A           BNE      ??AddEvent_12
+    333            {
+    334              events=List_Create();
+   \   000003D0   690100EF           SWI      +361
+   \   000003D4   000085E5           STR      R0,[R5, #+0]
+    335              ECBook->lst=events;
+   \   000003D8   18009FE5           LDR      R0,??AddEvent_13  ;; ECBook
+   \   000003DC   001095E5           LDR      R1,[R5, #+0]
+   \   000003E0   000090E5           LDR      R0,[R0, #+0]
+   \   000003E4   281080E5           STR      R1,[R0, #+40]
+    336            }
+    337            List_InsertLast(events, ev);
+   \                     ??AddEvent_12:
+   \   000003E8   000095E5           LDR      R0,[R5, #+0]
+   \   000003EC   0410A0E1           MOV      R1,R4
+   \   000003F0   B00100EF           SWI      +432
+    338          };
+   \   000003F4   F18FBDE8           POP      {R0,R4-R11,PC}   ;; return
+   \                     ??AddEvent_13:
+   \   000003F8   ........           DC32     ECBook
+    339          
+    340          /*
+    341          *===========================================================================
+    342          *   Функция чтение конфиг-файла, занесения событий в лист
+    343          *===========================================================================
+    344          */
+    345          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    346          int readConfig(MyBOOK *mbk, wchar_t *myFolder, wchar_t *fname)
+    347          {
+   \                     ??readConfig:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   A0D04DE2           SUB      SP,SP,#+160
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   0180A0E1           MOV      R8,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+    348            char endline=0xFF;
+    349            int result=-1; //файл не найден
+   \   00000014   0070E0E3           MVN      R7,#+0
+    350            int file;
+    351            FSTAT fst;
+    352            if (fstat(myFolder,fname,&fst)==0)
+   \   00000018   04208DE2           ADD      R2,SP,#+4
+   \   0000001C   0610A0E1           MOV      R1,R6
+   \   00000020   0800A0E1           MOV      R0,R8
+   \   00000024   1C0100EF           SWI      +284
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   7F00001A           BNE      ??readConfig_1
+    353            {
+    354              if ((file=_fopen(myFolder,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   603FA0E3           MOV      R3,#+384
+   \   00000038   0120A0E3           MOV      R2,#+1
+   \   0000003C   0610A0E1           MOV      R1,R6
+   \   00000040   0800A0E1           MOV      R0,R8
+   \   00000044   160100EF           SWI      +278
+   \   00000048   0040B0E1           MOVS     R4,R0
+   \   0000004C   04D08DE2           ADD      SP,SP,#+4
+   \   00000050   7500004A           BMI      ??readConfig_2
+    355              {
+    356                char * buf;
+    357                char * param;
+    358                
+    359                buf=new char[fst.fsize+1];
+   \   00000054   0C009DE5           LDR      R0,[SP, #+12]
+    360                fread(file,buf,fst.fsize);
+    361                int x=0;
+   \   00000058   00A0A0E3           MOV      R10,#+0
+   \   0000005C   010080E2           ADD      R0,R0,#+1
+   \   00000060   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000064   0C209DE5           LDR      R2,[SP, #+12]
+   \   00000068   0070A0E1           MOV      R7,R0
+   \   0000006C   0710A0E1           MOV      R1,R7
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   180100EF           SWI      +280
+   \   00000078   6F9F8FE2           ADR      R9,??readConfig_3  ;; "%d)"
+   \   0000007C   030000EA           B        ??readConfig_4
+    362                while (1)
+    363                {
+    364                  char pattern[128];
+    365                  sprintf(pattern,"%d)",x);
+    366                  if (param=getparam(buf,pattern,endline, fst.fsize))
+    367                  {
+    368                    AddEvent(param);
+   \                     ??readConfig_5:
+   \   00000080   ........           BL       ??AddEvent
+    369                    mfree(param);
+   \   00000084   0B00A0E1           MOV      R0,R11
+   \   00000088   040100EF           SWI      +260
+    370                  }
+    371                  else
+    372                  {
+    373                    break;
+    374                  }
+    375                  param=0;
+    376                  x++;
+   \   0000008C   01A08AE2           ADD      R10,R10,#+1
+   \                     ??readConfig_4:
+   \   00000090   0A20A0E1           MOV      R2,R10
+   \   00000094   0910A0E1           MOV      R1,R9
+   \   00000098   20008DE2           ADD      R0,SP,#+32
+   \   0000009C   140100EF           SWI      +276
+   \   000000A0   0C309DE5           LDR      R3,[SP, #+12]
+   \   000000A4   FF20A0E3           MOV      R2,#+255
+   \   000000A8   20108DE2           ADD      R1,SP,#+32
+   \   000000AC   0700A0E1           MOV      R0,R7
+   \   000000B0   ........           _BLF     ??getparam,??getparam??rA
+   \   000000B4   00B0B0E1           MOVS     R11,R0
+   \   000000B8   F0FFFF1A           BNE      ??readConfig_5
+    377                }
+    378                if (param=getparam(buf,"ind_item)", endline, fst.fsize))
+   \   000000BC   7C919FE5           LDR      R9,??readConfig_3+0x4  ;; `?<Constant "ind_item)">`
+   \   000000C0   0C309DE5           LDR      R3,[SP, #+12]
+   \   000000C4   FF20A0E3           MOV      R2,#+255
+   \   000000C8   0910A0E1           MOV      R1,R9
+   \   000000CC   0700A0E1           MOV      R0,R7
+   \   000000D0   ........           _BLF     ??getparam,??getparam??rA
+   \   000000D4   00A0B0E1           MOVS     R10,R0
+   \   000000D8   0700000A           BEQ      ??readConfig_6
+    379                {
+    380                  int x2=0;
+   \   000000DC   0010A0E3           MOV      R1,#+0
+   \   000000E0   00108DE5           STR      R1,[SP, #+0]
+    381                  mbk->rem_types=getint(param,&x2,0xFF);
+   \   000000E4   FF20A0E3           MOV      R2,#+255
+   \   000000E8   0D10A0E1           MOV      R1,SP
+   \   000000EC   ........           _BLF     ??getint,??getint??rA
+   \   000000F0   380085E5           STR      R0,[R5, #+56]
+    382                  mfree(param);
+   \   000000F4   0A00A0E1           MOV      R0,R10
+   \   000000F8   040100EF           SWI      +260
+    383                }
+    384                if (mbk->indpath)
+   \                     ??readConfig_6:
+   \   000000FC   3C0095E5           LDR      R0,[R5, #+60]
+   \   00000100   000050E3           CMP      R0,#+0
+   \   00000104   0000000A           BEQ      ??readConfig_7
+    385                  delete(mbk->indpath);
+   \   00000108   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    386                if (param=getparam(buf,"ind_path)", endline, fst.fsize))
+   \                     ??readConfig_7:
+   \   0000010C   0C309DE5           LDR      R3,[SP, #+12]
+   \   00000110   FF20A0E3           MOV      R2,#+255
+   \   00000114   0C1089E2           ADD      R1,R9,#+12
+   \   00000118   0700A0E1           MOV      R0,R7
+   \   0000011C   ........           _BLF     ??getparam,??getparam??rA
+   \   00000120   00A0B0E1           MOVS     R10,R0
+   \   00000124   0700000A           BEQ      ??readConfig_8
+    387                {
+    388                  int x2=0;
+   \   00000128   0010A0E3           MOV      R1,#+0
+   \   0000012C   00108DE5           STR      R1,[SP, #+0]
+    389                  mbk->indpath=getwchr(param,&x2,0xFF);
+   \   00000130   FF20A0E3           MOV      R2,#+255
+   \   00000134   0D10A0E1           MOV      R1,SP
+   \   00000138   ........           _BLF     ??getwchr,??getwchr??rA
+   \   0000013C   3C0085E5           STR      R0,[R5, #+60]
+    390                  mfree(param);
+   \   00000140   0A00A0E1           MOV      R0,R10
+   \   00000144   040100EF           SWI      +260
+    391                }
+    392                if (mbk->indname)
+   \                     ??readConfig_8:
+   \   00000148   400095E5           LDR      R0,[R5, #+64]
+   \   0000014C   000050E3           CMP      R0,#+0
+   \   00000150   0000000A           BEQ      ??readConfig_9
+    393                  delete(mbk->indname);
+   \   00000154   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    394                if (param=getparam(buf,"ind_name)", endline, fst.fsize))
+   \                     ??readConfig_9:
+   \   00000158   0C309DE5           LDR      R3,[SP, #+12]
+   \   0000015C   FF20A0E3           MOV      R2,#+255
+   \   00000160   181089E2           ADD      R1,R9,#+24
+   \   00000164   0700A0E1           MOV      R0,R7
+   \   00000168   ........           _BLF     ??getparam,??getparam??rA
+   \   0000016C   0090B0E1           MOVS     R9,R0
+   \   00000170   0700000A           BEQ      ??readConfig_10
+    395                {
+    396                  int x2=0;
+   \   00000174   0010A0E3           MOV      R1,#+0
+   \   00000178   00108DE5           STR      R1,[SP, #+0]
+    397                  mbk->indname=getwchr(param,&x2,0xFF);
+   \   0000017C   FF20A0E3           MOV      R2,#+255
+   \   00000180   0D10A0E1           MOV      R1,SP
+   \   00000184   ........           _BLF     ??getwchr,??getwchr??rA
+   \   00000188   400085E5           STR      R0,[R5, #+64]
+    398                  mfree(param);
+   \   0000018C   0900A0E1           MOV      R0,R9
+   \   00000190   040100EF           SWI      +260
+    399                }
+    400                delete(buf);
+   \                     ??readConfig_10:
+   \   00000194   0700A0E1           MOV      R0,R7
+   \   00000198   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    401                result=0;
+    402                if (mbk->path)delete(mbk->path);
+   \   0000019C   1C0095E5           LDR      R0,[R5, #+28]
+   \   000001A0   0070A0E3           MOV      R7,#+0
+   \   000001A4   000050E3           CMP      R0,#+0
+   \   000001A8   0000000A           BEQ      ??readConfig_11
+   \   000001AC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    403                mbk->path=new wchar_t[wstrlen(myFolder)+1];
+   \                     ??readConfig_11:
+   \   000001B0   0800A0E1           MOV      R0,R8
+   \   000001B4   570100EF           SWI      +343
+   \   000001B8   010080E2           ADD      R0,R0,#+1
+   \   000001BC   8000A0E1           LSL      R0,R0,#+1
+   \   000001C0   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000001C4   1C0085E5           STR      R0,[R5, #+28]
+    404                wstrcpy(mbk->path,myFolder);
+   \   000001C8   0810A0E1           MOV      R1,R8
+   \   000001CC   520100EF           SWI      +338
+    405                if (mbk->name)delete(mbk->name);
+   \   000001D0   200095E5           LDR      R0,[R5, #+32]
+   \   000001D4   000050E3           CMP      R0,#+0
+   \   000001D8   0000000A           BEQ      ??readConfig_12
+   \   000001DC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    406                mbk->name=new wchar_t[wstrlen(fname)+1];
+   \                     ??readConfig_12:
+   \   000001E0   0600A0E1           MOV      R0,R6
+   \   000001E4   570100EF           SWI      +343
+   \   000001E8   010080E2           ADD      R0,R0,#+1
+   \   000001EC   8000A0E1           LSL      R0,R0,#+1
+   \   000001F0   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000001F4   200085E5           STR      R0,[R5, #+32]
+    407                wstrcpy(mbk->name,fname);
+   \   000001F8   0610A0E1           MOV      R1,R6
+   \   000001FC   520100EF           SWI      +338
+    408          
+    409                if (events->FirstFree>1)
+   \   00000200   ........           LDR      R0,??DataTable3  ;; events
+   \   00000204   000090E5           LDR      R0,[R0, #+0]
+   \   00000208   B210D0E1           LDRH     R1,[R0, #+2]
+   \   0000020C   020051E3           CMP      R1,#+2
+   \   00000210   0000003A           BCC      ??readConfig_13
+    410                {
+    411                  SortList(events);
+   \   00000214   ........           _BLF     ??SortList,??SortList??rA
+    412                }
+    413                fclose(file);
+   \                     ??readConfig_13:
+   \   00000218   0400A0E1           MOV      R0,R4
+   \   0000021C   170100EF           SWI      +279
+   \   00000220   0700A0E1           MOV      R0,R7
+   \   00000224   A0D08DE2           ADD      SP,SP,#+160
+   \   00000228   F08FBDE8           POP      {R4-R11,PC}
+    414              }
+    415              else
+    416              {
+    417                result=-2;
+   \                     ??readConfig_2:
+   \   0000022C   0170C7E3           BIC      R7,R7,#0x1
+    418              }
+    419            }
+    420            return result;
+   \                     ??readConfig_1:
+   \   00000230   0700A0E1           MOV      R0,R7
+   \   00000234   A0D08DE2           ADD      SP,SP,#+160
+   \   00000238   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??readConfig_3:
+   \   0000023C   25642900           DC8      "%d)"
+   \   00000240   ........           DC32     `?<Constant "ind_item)">`
+    421          };
+    422          
+    423          /*
+    424          *===========================================================================
+    425          *                       Чтение дефолтных событий
+    426          *===========================================================================
+    427          * 1) Возвращает 1 в случае удачного прочтения конфиг-файла, иначе - 0
+    428          * 2) Порядок проверки: карта памяти/Config/EventControl/, память телефона/Config/EventControl
+    429          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    430          int InitializeEvents(MyBOOK *myBook)
+    431          {
+   \                     ??InitializeEvents:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    432            events=List_Create();
+   \   00000004   ........           LDR      R5,??DataTable3  ;; events
+    433            myBook->lst=events;
+    434            if (readConfig(myBook, extFolder, L"Events.evt")<0)
+   \   00000008   48609FE5           LDR      R6,??InitializeEvents_1  ;; `?<Constant L"\\x45\\x76\\x65\\x6e\\x74\\x73\\x2e\\x65\\`
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   690100EF           SWI      +361
+   \   00000014   000085E5           STR      R0,[R5, #+0]
+   \   00000018   280084E5           STR      R0,[R4, #+40]
+   \   0000001C   041095E5           LDR      R1,[R5, #+4]
+   \   00000020   0620A0E1           MOV      R2,R6
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   ........           BL       ??readConfig
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0600005A           BPL      ??InitializeEvents_2
+    435            {
+    436              if (readConfig(myBook, intFolder, L"Events.evt")<0)
+   \   00000034   081095E5           LDR      R1,[R5, #+8]
+   \   00000038   0620A0E1           MOV      R2,R6
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   ........           BL       ??readConfig
+   \   00000044   000050E3           CMP      R0,#+0
+    437              {
+    438                return 0;
+   \   00000048   0000A043           MOVMI    R0,#+0
+   \   0000004C   7080BD48           POPMI    {R4-R6,PC}
+    439              }
+    440            }
+    441            return 1;
+   \                     ??InitializeEvents_2:
+   \   00000050   0100A0E3           MOV      R0,#+1
+   \   00000054   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??InitializeEvents_1:
+   \   00000058   ........           DC32     `?<Constant L"\\x45\\x76\\x65\\x6e\\x74\\x73\\x2e\\x65\\`
+    442          };
+    443          
+    444          /*
+    445          *===========================================================================
+    446          *               Функция уничтожения списка событий
+    447          *===========================================================================
+    448          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    449          void DestroyEvents(MyBOOK *myBook)
+    450          {
+   \                     ??DestroyEvents:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    451            if (!events)
+   \   00000004   ........           LDR      R6,??DataTable3  ;; events
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   000096E5           LDR      R0,[R6, #+0]
+   \   00000010   0050A0E3           MOV      R5,#+0
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   1300001A           BNE      ??DestroyEvents_1
+    452            {
+    453              myBook->lst=0;
+   \   0000001C   285084E5           STR      R5,[R4, #+40]
+   \   00000020   F080BDE8           POP      {R4-R7,PC}
+    454              return;
+    455            }
+    456            while (events->FirstFree)
+    457            {
+    458              EVENT* event=(EVENT*)List_RemoveAt(events,0);
+   \                     ??DestroyEvents_2:
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   790100EF           SWI      +377
+   \   0000002C   0070B0E1           MOVS     R7,R0
+    459              if (event)
+   \   00000030   0D00000A           BEQ      ??DestroyEvents_1
+    460              {
+    461                if (event->param)delete(event->param);
+   \   00000034   980097E5           LDR      R0,[R7, #+152]
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0000000A           BEQ      ??DestroyEvents_3
+   \   00000040   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    462                if (event->gps)delete(event->gps);
+   \                     ??DestroyEvents_3:
+   \   00000044   A00097E5           LDR      R0,[R7, #+160]
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   0000000A           BEQ      ??DestroyEvents_4
+   \   00000050   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    463                if (event->txt)delete(event->txt);
+   \                     ??DestroyEvents_4:
+   \   00000054   9C0097E5           LDR      R0,[R7, #+156]
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   0000000A           BEQ      ??DestroyEvents_5
+   \   00000060   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    464                delete(event);
+   \                     ??DestroyEvents_5:
+   \   00000064   0700A0E1           MOV      R0,R7
+   \   00000068   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    465              }
+    466            }
+   \                     ??DestroyEvents_1:
+   \   0000006C   000096E5           LDR      R0,[R6, #+0]
+   \   00000070   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000074   000051E3           CMP      R1,#+0
+   \   00000078   E9FFFF1A           BNE      ??DestroyEvents_2
+    467            List_Destroy(events);
+   \   0000007C   6A0100EF           SWI      +362
+    468            events=0;
+   \   00000080   005086E5           STR      R5,[R6, #+0]
+    469            myBook->lst=0;
+   \   00000084   285084E5           STR      R5,[R4, #+40]
+    470          };
+   \   00000088   F080BDE8           POP      {R4-R7,PC}       ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     events
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x2f\\x45\\x76\\x65\\x6e\\x74\\x43\\x6f\\`:
+   \   00000000   2F0045007600       DC8 2FH, 0, 45H, 0, 76H, 0, 65H, 0
+   \              6500        
+   \   00000008   6E0074004300       DC8 6EH, 0, 74H, 0, 43H, 0, 6FH, 0
+   \              6F00        
+   \   00000010   6E0074007200       DC8 6EH, 0, 74H, 0, 72H, 0, 6FH, 0
+   \              6F00        
+   \   00000018   6C002F000000       DC8 6CH, 0, 2FH, 0, 0, 0
+   \   0000001E   0000               DC8 0, 0
+   \   00000020   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 2FH, 0
+   \              2F00        
+   \   00000028   450076006500       DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+   \              6E00        
+   \   00000030   740043006F00       DC8 74H, 0, 43H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000038   740072006F00       DC8 74H, 0, 72H, 0, 6FH, 0, 6CH, 0
+   \              6C00        
+   \   00000040   2F000000           DC8 2FH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   25642900           DC8 "%d)"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ind_item)">`:
+   \   00000000   696E645F6974       DC8 "ind_item)"
+   \              656D2900    
+   \   0000000A   0000               DC8 0, 0
+   \   0000000C   696E645F7061       DC8 "ind_path)"
+   \              74682900    
+   \   00000016   0000               DC8 0, 0
+   \   00000018   696E645F6E61       DC8 "ind_name)"
+   \              6D652900    
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x45\\x76\\x65\\x6e\\x74\\x73\\x2e\\x65\\`:
+   \   00000000   450076006500       DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+   \              6E00        
+   \   00000008   740073002E00       DC8 74H, 0, 73H, 0, 2EH, 0, 65H, 0
+   \              6500        
+   \   00000010   760074000000       DC8 76H, 0, 74H, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+    471          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     AddEvent(char *)                  44
+     DestroyEvents(MyBOOK *)           20
+     InitializeEvents(MyBOOK *)        16
+     InitializeFolders()               16
+     SetDate(char *, EVENT *, int)     24
+     SetTime(char *, EVENT *, int)     12
+     calcday(int, int)                  0
+     readConfig(MyBOOK *, wchar_t *, wchar_t *)
+                                      200
+     shiftdate(DATE, DATE *, int)       8
+     shiftdays(int *, int *, int)      20
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     events                           12
+     InitializeFolders()             192
+     SetDate(char *, EVENT *, int)   516
+     SetTime(char *, EVENT *, int)   552
+     calcday(int, int)                72
+     shiftdays(int *, int *, int)     68
+     shiftdate(DATE, DATE *, int)     36
+     AddEvent(char *)               1020
+     readConfig(MyBOOK *, wchar_t *, wchar_t *)
+                                     580
+     InitializeEvents(MyBOOK *)       92
+     DestroyEvents(MyBOOK *)         140
+     ??DataTable3                      4
+     ?<Constant L"\x2f\x45\x76\x65\x6e\x74\x43\x6f\
+                                      68
+     ?<Constant "%d)">                 4
+     ?<Constant "ind_item)">          36
+     ?<Constant L"\x45\x76\x65\x6e\x74\x73\x2e\x65\
+                                      24
+      Others                         172
+
+ 
+ 3 432 bytes in segment CODE
+   132 bytes in segment DATA_C
+    12 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 3 272 bytes of CODE  memory (+ 172 bytes shared)
+   132 bytes of CONST memory
+    12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

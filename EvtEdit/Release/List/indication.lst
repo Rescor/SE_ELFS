@@ -1,0 +1,750 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:55:43 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\indica #
+#                       tion.cpp                                             #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\indica #
+#                       tion.cpp -D NDEBUG -D OLDFUNCTIONS -lC               #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Ev #
+#                       tEdit\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\EvtEdit\Release\Obj\ -s9 --cpu_mode arm     #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --enable_multibytes --fpu None        #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\indication.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\Obj\indication.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\indication.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "header\pages.h"
+      6          #include "header\externals.h"
+      7          #include "header\lng.h"
+      8          
+      9          #define MUSIC 1
+     10          
+     11          extern const PAGE_DESC bk_indic;
+     12          extern const PAGE_DESC bk_Switch;
+     13          extern const PAGE_DESC bk_main;
+     14          extern const PAGE_DESC bk_indic;
+     15          
+     16          void kill_switchlst(MyBOOK *mbk);
+     17          int isEvtEditBook(BOOK *);
+     18          int Switch_onLBMessage(GUI_MESSAGE * msg);
+     19          void Switch_OnBack(BOOK * bk, GUI* );
+     20          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     21          int indic_last=0;
+   \                     indic_last:
+   \   00000000                      DS8 4
+     22          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     23          int set_param(int par, int item)
+     24          {
+     25            int x;
+     26            int f=0xF;
+   \                     ??set_param:
+   \   00000000   0F20A0E3           MOV      R2,#+15
+     27            for (x=0;x<item;x++)
+   \   00000004   0030A0E3           MOV      R3,#+0
+   \   00000008   010051E3           CMP      R1,#+1
+   \   0000000C   020000AA           BGE      ??set_param_1
+   \   00000010   030000EA           B        ??set_param_2
+     28            {
+     29              f=f*0x10;
+   \                     ??set_param_3:
+   \   00000014   0222A0E1           LSL      R2,R2,#+4
+     30            }
+   \   00000018   013083E2           ADD      R3,R3,#+1
+   \                     ??set_param_1:
+   \   0000001C   010053E1           CMP      R3,R1
+   \   00000020   FBFFFFBA           BLT      ??set_param_3
+     31            return par^f;
+   \                     ??set_param_2:
+   \   00000024   000022E0           EOR      R0,R2,R0
+   \   00000028   1EFF2FE1           BX       LR               ;; return
+     32          };
+     33          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     34          int Indic_onLBMessage(GUI_MESSAGE * msg)
+     35          {
+   \                     ??Indic_onLBMessage:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     36            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   4700001A           BNE      ??Indic_onLBMessage_1
+     37            {
+     38            case 1:
+     39              MyBOOK *mbk=(MyBOOK*)FindBook(isEvtEditBook);
+   \   00000014   20019FE5           LDR      R0,??Indic_onLBMessage_2  ;; ??isEvtEditBook
+     40              int item=GUIonMessage_GetCreatedItemIndex(msg);
+     41              wchar_t* str=(wchar_t *)List_Get(mbk->switch_lst,item);
+     42              GUIonMessage_SetMenuItemText(msg,TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN));
+     43              if (item==0)
+   \   00000018   ........           LDR      R7,??DataTable2  ;; 0x55555555
+   \   0000001C   300100EF           SWI      +304
+   \   00000020   0050A0E1           MOV      R5,R0
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   370100EF           SWI      +311
+   \   0000002C   0060A0E1           MOV      R6,R0
+   \   00000030   B40095E5           LDR      R0,[R5, #+180]
+   \   00000034   0610A0E1           MOV      R1,R6
+   \   00000038   AD0100EF           SWI      +429
+   \   0000003C   FF80A0E3           MOV      R8,#+255
+   \   00000040   FF8C88E3           ORR      R8,R8,#0xFF00
+   \   00000044   0820A0E1           MOV      R2,R8
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   5D0100EF           SWI      +349
+   \   00000050   0010A0E1           MOV      R1,R0
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   380100EF           SWI      +312
+   \   0000005C   ........           LDR      R1,??DataTable6  ;; lng
+   \   00000060   000056E3           CMP      R6,#+0
+   \   00000064   1200001A           BNE      ??Indic_onLBMessage_3
+     44              {
+     45                if (mbk->selev)
+   \   00000068   7C0091E5           LDR      R0,[R1, #+124]
+   \   0000006C   803091E5           LDR      R3,[R1, #+128]
+   \   00000070   1C1095E5           LDR      R1,[R5, #+28]
+   \   00000074   000051E3           CMP      R1,#+0
+   \   00000078   0B00000A           BEQ      ??Indic_onLBMessage_4
+     46                  GUIonMessage_SetMenuItemSecondLineText(msg,mbk->selev->rem==0x55555555 ? TextID_Create(lng[ON],ENC_UCS2,TEXTID_ANY_LEN) : TextID_Create(lng[OFF],ENC_UCS2,TEXTID_ANY_LEN));
+   \   0000007C   401091E5           LDR      R1,[R1, #+64]
+   \                     ??Indic_onLBMessage_5:
+   \   00000080   0820A0E1           MOV      R2,R8
+   \   00000084   070051E1           CMP      R1,R7
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   0300A001           MOVEQ    R0,R3
+   \   00000090   5D0100EF           SWI      +349
+   \   00000094   0010A0E1           MOV      R1,R0
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   390100EF           SWI      +313
+   \   000000A0   1C0095E5           LDR      R0,[R5, #+28]
+   \   000000A4   000050E3           CMP      R0,#+0
+   \   000000A8   1D0000EA           B        ??Indic_onLBMessage_6
+     47                else
+     48                  GUIonMessage_SetMenuItemSecondLineText(msg,mbk->rem_types==0x55555555 ? TextID_Create(lng[ON],ENC_UCS2,TEXTID_ANY_LEN) : TextID_Create(lng[OFF],ENC_UCS2,TEXTID_ANY_LEN));
+   \                     ??Indic_onLBMessage_4:
+   \   000000AC   BC1095E5           LDR      R1,[R5, #+188]
+   \   000000B0   F2FFFFEA           B        ??Indic_onLBMessage_5
+     49              }
+     50              else
+     51              {
+     52                if (mbk->selev)
+   \                     ??Indic_onLBMessage_3:
+   \   000000B4   803091E5           LDR      R3,[R1, #+128]
+   \   000000B8   010046E2           SUB      R0,R6,#+1
+   \   000000BC   0021A0E1           LSL      R2,R0,#+2
+   \   000000C0   7C0091E5           LDR      R0,[R1, #+124]
+   \   000000C4   1C1095E5           LDR      R1,[R5, #+28]
+   \   000000C8   000051E3           CMP      R1,#+0
+   \   000000CC   0100000A           BEQ      ??Indic_onLBMessage_7
+     53                  GUIonMessage_SetMenuItemSecondLineText(msg,((mbk->selev->rem>>(4*(item-1)))&0xF) ? TextID_Create(lng[ON],ENC_UCS2,TEXTID_ANY_LEN) : TextID_Create(lng[OFF],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000D0   401091E5           LDR      R1,[R1, #+64]
+   \   000000D4   000000EA           B        ??Indic_onLBMessage_8
+     54                else
+     55                  GUIonMessage_SetMenuItemSecondLineText(msg,((mbk->rem_types>>(4*(item-1)))&0xF) ? TextID_Create(lng[ON],ENC_UCS2,TEXTID_ANY_LEN) : TextID_Create(lng[OFF],ENC_UCS2,TEXTID_ANY_LEN));
+   \                     ??Indic_onLBMessage_7:
+   \   000000D8   BC1095E5           LDR      R1,[R5, #+188]
+   \                     ??Indic_onLBMessage_8:
+   \   000000DC   5112A0E1           ASR      R1,R1,R2
+   \   000000E0   0F0011E3           TST      R1,#0xF
+   \   000000E4   0820A0E1           MOV      R2,R8
+   \   000000E8   0010A0E3           MOV      R1,#+0
+   \   000000EC   0300A011           MOVNE    R0,R3
+   \   000000F0   5D0100EF           SWI      +349
+   \   000000F4   0010A0E1           MOV      R1,R0
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   390100EF           SWI      +313
+     56              }
+     57              if (item==0 && !mbk->selev)
+     58                GUIonMessage_SetItemDisabled (msg,1);
+     59              if (item>0)
+   \   00000100   010056E3           CMP      R6,#+1
+   \   00000104   0A0000BA           BLT      ??Indic_onLBMessage_1
+     60              {
+     61                if (mbk->selev && mbk->selev->rem==0x55555555)
+   \   00000108   1C0095E5           LDR      R0,[R5, #+28]
+   \   0000010C   000050E3           CMP      R0,#+0
+   \   00000110   0100000A           BEQ      ??Indic_onLBMessage_9
+   \   00000114   400090E5           LDR      R0,[R0, #+64]
+   \   00000118   000000EA           B        ??Indic_onLBMessage_10
+     62                  GUIonMessage_SetItemDisabled (msg,1);
+     63                else if (!mbk->selev && mbk->rem_types==0x55555555)
+   \                     ??Indic_onLBMessage_9:
+   \   0000011C   BC0095E5           LDR      R0,[R5, #+188]
+   \                     ??Indic_onLBMessage_10:
+   \   00000120   070050E1           CMP      R0,R7
+   \                     ??Indic_onLBMessage_6:
+   \   00000124   0200001A           BNE      ??Indic_onLBMessage_1
+     64                  GUIonMessage_SetItemDisabled (msg,1);
+   \   00000128   0110A0E3           MOV      R1,#+1
+   \   0000012C   0400A0E1           MOV      R0,R4
+   \   00000130   820200EF           SWI      +642
+     65              }
+     66              break;
+     67            }
+     68            return(1);
+   \                     ??Indic_onLBMessage_1:
+   \   00000134   0100A0E3           MOV      R0,#+1
+   \   00000138   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??Indic_onLBMessage_2:
+   \   0000013C   ........           DC32     ??isEvtEditBook
+     69          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+     70          void Indic_OnSelect(BOOK *bk, GUI* )
+     71          {
+   \                     ??Indic_OnSelect:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     72            MyBOOK *mbk=(MyBOOK*)bk;
+     73            int item=ListMenu_GetSelectedItem(mbk->ind);
+   \   00000008   700094E5           LDR      R0,[R4, #+112]
+   \   0000000C   3E0100EF           SWI      +318
+     74            if (mbk->selev)
+   \   00000010   1C2094E5           LDR      R2,[R4, #+28]
+   \   00000014   0050A0E1           MOV      R5,R0
+   \   00000018   ........           LDR      R0,??DataTable2  ;; 0x55555555
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   000052E3           CMP      R2,#+0
+   \   00000024   0E00000A           BEQ      ??Indic_OnSelect_1
+     75            {
+     76              if (item==0)
+   \   00000028   000055E3           CMP      R5,#+0
+   \   0000002C   0800001A           BNE      ??Indic_OnSelect_2
+     77              {
+     78                if (mbk->selev->rem!=0x55555555)
+   \   00000030   402092E5           LDR      R2,[R2, #+64]
+   \   00000034   000052E1           CMP      R2,R0
+   \   00000038   0200000A           BEQ      ??Indic_OnSelect_3
+     79                  mbk->selev->rem=0x55555555;
+   \                     ??Indic_OnSelect_4:
+   \   0000003C   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000040   400081E5           STR      R0,[R1, #+64]
+   \   00000044   110000EA           B        ??Indic_OnSelect_5
+     80                else
+     81                  mbk->selev->rem=0;
+   \                     ??Indic_OnSelect_3:
+   \   00000048   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000004C   401080E5           STR      R1,[R0, #+64]
+   \   00000050   0E0000EA           B        ??Indic_OnSelect_5
+     82              }
+     83              else
+     84              {
+     85                int t=set_param(mbk->selev->rem, item-1);
+     86                mbk->selev->rem=t;
+   \                     ??Indic_OnSelect_2:
+   \   00000054   400092E5           LDR      R0,[R2, #+64]
+   \   00000058   011045E2           SUB      R1,R5,#+1
+   \   0000005C   ........           BL       ??set_param
+   \   00000060   F5FFFFEA           B        ??Indic_OnSelect_4
+     87              }
+     88            }
+     89            else
+     90            {
+     91              if (item==0)
+   \                     ??Indic_OnSelect_1:
+   \   00000064   000055E3           CMP      R5,#+0
+   \   00000068   0400001A           BNE      ??Indic_OnSelect_6
+     92              {
+     93                if (mbk->rem_types!=0x55555555)
+   \   0000006C   BC2094E5           LDR      R2,[R4, #+188]
+   \   00000070   000052E1           CMP      R2,R0
+   \   00000074   0400001A           BNE      ??Indic_OnSelect_7
+     94                  mbk->rem_types=0x55555555;
+     95                else
+     96                  mbk->rem_types=0;
+   \   00000078   BC1084E5           STR      R1,[R4, #+188]
+   \   0000007C   030000EA           B        ??Indic_OnSelect_5
+     97              }
+     98              else
+     99              {
+    100                int t=set_param(mbk->rem_types, item-1);
+    101                mbk->rem_types=t;
+   \                     ??Indic_OnSelect_6:
+   \   00000080   BC0094E5           LDR      R0,[R4, #+188]
+   \   00000084   011045E2           SUB      R1,R5,#+1
+   \   00000088   ........           BL       ??set_param
+   \                     ??Indic_OnSelect_7:
+   \   0000008C   BC0084E5           STR      R0,[R4, #+188]
+    102              }
+    103            }
+    104            
+    105            indic_last=item;
+   \                     ??Indic_OnSelect_5:
+   \   00000090   ........           LDR      R0,??DataTable4  ;; indic_last
+   \   00000094   005080E5           STR      R5,[R0, #+0]
+    106            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \   00000098   18009FE5           LDR      R0,??Indic_OnSelect_8  ;; PREVIOUS_EVENT
+   \   0000009C   001090E5           LDR      R1,[R0, #+0]
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   2E0100EF           SWI      +302
+    107            BookObj_CallPage(bk,&bk_indic);
+   \   000000A8   0C109FE5           LDR      R1,??Indic_OnSelect_8+0x4  ;; bk_indic
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   B80200EF           SWI      +696
+    108          };
+   \   000000B4   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Indic_OnSelect_8:
+   \   000000B8   ........           DC32     PREVIOUS_EVENT
+   \   000000BC   ........           DC32     bk_indic
+    109          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    110          void Switch_SetIndfile(BOOK *bk, GUI* )
+    111          {
+   \                     ??Switch_SetIndfile:
+   \   00000000   00402DE9           PUSH     {LR}
+    112            MyBOOK *mbk=(MyBOOK*)bk;
+    113            mbk->selectfiletype=2;
+   \   00000004   0210A0E3           MOV      R1,#+2
+   \   00000008   801080E5           STR      R1,[R0, #+128]
+    114            mbk->fType=MUSIC;
+   \   0000000C   0110A0E3           MOV      R1,#+1
+   \   00000010   7C1080E5           STR      R1,[R0, #+124]
+    115            mbk->dir1=DIR_AUDIO+MEM_INTERNAL;
+   \   00000014   741080E5           STR      R1,[R0, #+116]
+    116            mbk->dir2=DIR_AUDIO+MEM_EXTERNAL;
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   781080E5           STR      R1,[R0, #+120]
+    117            BookObj_CallPage(bk,&SelectFile_page);
+   \   00000020   04109FE5           LDR      R1,??Switch_SetIndfile_1  ;; SelectFile_page
+   \   00000024   B80200EF           SWI      +696
+    118          };
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+   \                     ??Switch_SetIndfile_1:
+   \   0000002C   ........           DC32     SelectFile_page
+    119          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    120          void Switch_curstat(BOOK *bk, GUI* )
+    121          {
+   \                     ??Switch_curstat:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    122            MyBOOK *mbk=(MyBOOK*)bk;
+    123            if (mbk->indpath && mbk->indname)
+   \   00000004   FF40A0E3           MOV      R4,#+255
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   C00095E5           LDR      R0,[R5, #+192]
+   \   00000010   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   C4009515           LDRNE    R0,[R5, #+196]
+   \   0000001C   00005013           CMPNE    R0,#+0
+   \   00000020   2100000A           BEQ      ??Switch_curstat_1
+    124            {
+    125              wchar_t *str=new wchar_t[wstrlen(mbk->indpath)+1+wstrlen(mbk->indname)+1];
+   \   00000024   C00095E5           LDR      R0,[R5, #+192]
+   \   00000028   570100EF           SWI      +343
+   \   0000002C   0060A0E1           MOV      R6,R0
+   \   00000030   C40095E5           LDR      R0,[R5, #+196]
+   \   00000034   570100EF           SWI      +343
+   \   00000038   060080E0           ADD      R0,R0,R6
+   \   0000003C   020080E2           ADD      R0,R0,#+2
+   \   00000040   8000A0E1           LSL      R0,R0,#+1
+   \   00000044   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    126              wstrcpy(str,mbk->indpath);
+   \   00000048   C01095E5           LDR      R1,[R5, #+192]
+   \   0000004C   0060A0E1           MOV      R6,R0
+   \   00000050   520100EF           SWI      +338
+    127              wstrcat(str,L"/");
+   \   00000054   231F8FE2           ADR      R1,??Switch_curstat_2  ;; 0x2F, 0x00, 0x00, 0x00
+   \   00000058   0600A0E1           MOV      R0,R6
+   \   0000005C   540100EF           SWI      +340
+    128              wstrcat(str,mbk->indname);
+   \   00000060   C41095E5           LDR      R1,[R5, #+196]
+   \   00000064   0600A0E1           MOV      R0,R6
+   \   00000068   540100EF           SWI      +340
+    129              MessageBox(EMPTY_TEXTID,TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+   \   0000006C   0420A0E1           MOV      R2,R4
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   0600A0E1           MOV      R0,R6
+   \   00000078   5D0100EF           SWI      +349
+   \   0000007C   0010A0E1           MOV      R1,R0
+   \   00000080   0000A0E3           MOV      R0,#+0
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   01002DE9           PUSH     {R0}
+   \   0000008C   0130A0E3           MOV      R3,#+1
+   \   00000090   0420A0E1           MOV      R2,R4
+   \   00000094   9004E0E3           MVN      R0,#-1879048192
+   \   00000098   570200EF           SWI      +599
+    130              delete(str);
+   \   0000009C   0600A0E1           MOV      R0,R6
+   \   000000A0   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   000000A4   08D08DE2           ADD      SP,SP,#+8
+   \   000000A8   7080BDE8           POP      {R4-R6,PC}
+    131            }
+    132            else
+    133              MessageBox(EMPTY_TEXTID,TextID_Create(lng[NOTSETTED],ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+   \                     ??Switch_curstat_1:
+   \   000000AC   38009FE5           LDR      R0,??Switch_curstat_2+0x4  ;; lng + 272
+   \   000000B0   0420A0E1           MOV      R2,R4
+   \   000000B4   000090E5           LDR      R0,[R0, #+0]
+   \   000000B8   0010A0E3           MOV      R1,#+0
+   \   000000BC   5D0100EF           SWI      +349
+   \   000000C0   0010A0E3           MOV      R1,#+0
+   \   000000C4   02002DE9           PUSH     {R1}
+   \   000000C8   02002DE9           PUSH     {R1}
+   \   000000CC   0130A0E3           MOV      R3,#+1
+   \   000000D0   0420A0E1           MOV      R2,R4
+   \   000000D4   0010A0E1           MOV      R1,R0
+   \   000000D8   9004E0E3           MVN      R0,#-1879048192
+   \   000000DC   570200EF           SWI      +599
+   \   000000E0   08D08DE2           ADD      SP,SP,#+8
+    134          };
+   \   000000E4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??Switch_curstat_2:
+   \   000000E8   2F000000           DC8      0x2F, 0x00, 0x00, 0x00
+   \   000000EC   ........           DC32     lng + 272
+    135          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    136          GUI_LIST * CreateIndicList(BOOK * book, int cnt)
+    137          {
+   \                     ??CreateIndicList:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+    138            GUI_LIST * lo=0;
+    139            if (lo=CreateListMenu(book,0))
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   C00100EF           SWI      +448
+   \   00000014   0040B0E1           MOVS     R4,R0
+   \   00000018   3700000A           BEQ      ??CreateIndicList_1
+    140            {
+    141              ListMenu_SetItemCount(lo, cnt);
+   \   0000001C   0610A0E1           MOV      R1,R6
+   \   00000020   C10100EF           SWI      +449
+    142              ListMenu_SetCursorToItem(lo, indic_last);
+   \   00000024   ........           LDR      R0,??DataTable4  ;; indic_last
+   \   00000028   001090E5           LDR      R1,[R0, #+0]
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   350100EF           SWI      +309
+    143              ListMenu_SetOnMessage(lo,Indic_onLBMessage);
+   \   00000034   C8109FE5           LDR      R1,??CreateIndicList_2  ;; ??Indic_onLBMessage
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   740100EF           SWI      +372
+    144              ListMenu_SetItemStyle(lo,3);
+   \   00000040   0310A0E3           MOV      R1,#+3
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   3F0100EF           SWI      +319
+    145              GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, Switch_OnBack);
+   \   0000004C   B4009FE5           LDR      R0,??CreateIndicList_2+0x4  ;; ACTION_BACK
+   \   00000050   B4209FE5           LDR      R2,??CreateIndicList_2+0x8  ;; ??Switch_OnBack
+   \   00000054   001090E5           LDR      R1,[R0, #+0]
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000060   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000064   4B0100EF           SWI      +331
+    146              GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,Indic_OnSelect);
+   \   00000068   A0009FE5           LDR      R0,??CreateIndicList_2+0xC  ;; ACTION_SELECT1
+   \   0000006C   A0209FE5           LDR      R2,??CreateIndicList_2+0x10  ;; ??Indic_OnSelect
+   \   00000070   001090E5           LDR      R1,[R0, #+0]
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000007C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000080   4B0100EF           SWI      +331
+    147              MyBOOK *mbk=(MyBOOK*)book;
+    148              if (!mbk->selev)
+   \   00000084   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   1A00001A           BNE      ??CreateIndicList_1
+    149              {
+    150                GUIObject_SoftKeys_SetAction(lo,1,Switch_SetIndfile);
+    151                GUIObject_SoftKeys_SetText(lo,1,TextID_Create(lng[MUSICFILE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000090   ........           LDR      R5,??DataTable6  ;; lng
+   \   00000094   7C209FE5           LDR      R2,??CreateIndicList_2+0x14  ;; ??Switch_SetIndfile
+   \   00000098   0110A0E3           MOV      R1,#+1
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   4B0100EF           SWI      +331
+   \   000000A4   080195E5           LDR      R0,[R5, #+264]
+   \   000000A8   FF60A0E3           MOV      R6,#+255
+   \   000000AC   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   000000B0   0620A0E1           MOV      R2,R6
+   \   000000B4   0010A0E3           MOV      R1,#+0
+   \   000000B8   5D0100EF           SWI      +349
+   \   000000BC   0020A0E1           MOV      R2,R0
+   \   000000C0   0110A0E3           MOV      R1,#+1
+   \   000000C4   0400A0E1           MOV      R0,R4
+   \   000000C8   4C0100EF           SWI      +332
+    152                GUIObject_SoftKeys_SetAction(lo,2,Switch_curstat);
+   \   000000CC   48209FE5           LDR      R2,??CreateIndicList_2+0x18  ;; ??Switch_curstat
+   \   000000D0   0210A0E3           MOV      R1,#+2
+   \   000000D4   0400A0E1           MOV      R0,R4
+   \   000000D8   4B0100EF           SWI      +331
+    153                GUIObject_SoftKeys_SetText(lo,2,TextID_Create(lng[CURSTATUS],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000DC   0C0195E5           LDR      R0,[R5, #+268]
+   \   000000E0   0620A0E1           MOV      R2,R6
+   \   000000E4   0010A0E3           MOV      R1,#+0
+   \   000000E8   5D0100EF           SWI      +349
+   \   000000EC   0020A0E1           MOV      R2,R0
+   \   000000F0   0210A0E3           MOV      R1,#+2
+   \   000000F4   0400A0E1           MOV      R0,R4
+   \   000000F8   4C0100EF           SWI      +332
+    154              }
+    155            }
+    156            return(lo);
+   \                     ??CreateIndicList_1:
+   \   000000FC   0400A0E1           MOV      R0,R4
+   \   00000100   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??CreateIndicList_2:
+   \   00000104   ........           DC32     ??Indic_onLBMessage
+   \   00000108   ........           DC32     ACTION_BACK
+   \   0000010C   ........           DC32     ??Switch_OnBack
+   \   00000110   ........           DC32     ACTION_SELECT1
+   \   00000114   ........           DC32     ??Indic_OnSelect
+   \   00000118   ........           DC32     ??Switch_SetIndfile
+   \   0000011C   ........           DC32     ??Switch_curstat
+    157          };
+    158          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    159          static int IndicPage_OnEnter(void *,BOOK * bk)
+    160          {
+   \                     ??IndicPage_OnEnter:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    161            MyBOOK *mbk=(MyBOOK*)bk;
+    162            if (!mbk->switch_lst)
+   \   00000008   B40094E5           LDR      R0,[R4, #+180]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100001A           BNE      ??IndicPage_OnEnter_1
+    163              mbk->switch_lst=List_Create();
+   \   00000014   690100EF           SWI      +361
+   \   00000018   B40084E5           STR      R0,[R4, #+180]
+    164            wchar_t *n=new wchar_t[30];
+    165            wstrcpy(n,lng[STANDART]);
+   \                     ??IndicPage_OnEnter_1:
+   \   0000001C   ........           LDR      R5,??DataTable6  ;; lng
+   \   00000020   3C00A0E3           MOV      R0,#+60
+   \   00000024   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000028   F41095E5           LDR      R1,[R5, #+244]
+   \   0000002C   0060A0E1           MOV      R6,R0
+   \   00000030   520100EF           SWI      +338
+    166            wchar_t *n1=new wchar_t[30];
+   \   00000034   3C00A0E3           MOV      R0,#+60
+   \   00000038   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    167            wstrcpy(n1, lng[COLORLEDS]);
+   \   0000003C   D41095E5           LDR      R1,[R5, #+212]
+   \   00000040   0070A0E1           MOV      R7,R0
+   \   00000044   520100EF           SWI      +338
+    168            wchar_t *n2=new wchar_t[30];
+   \   00000048   3C00A0E3           MOV      R0,#+60
+   \   0000004C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    169            wstrcpy(n2, lng[ORANGELEDS]);
+   \   00000050   D81095E5           LDR      R1,[R5, #+216]
+   \   00000054   0080A0E1           MOV      R8,R0
+   \   00000058   520100EF           SWI      +338
+    170            wchar_t *n3=new wchar_t[30];
+   \   0000005C   3C00A0E3           MOV      R0,#+60
+   \   00000060   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    171            wstrcpy(n3, lng[REDLEDS]);
+   \   00000064   DC1095E5           LDR      R1,[R5, #+220]
+   \   00000068   0090A0E1           MOV      R9,R0
+   \   0000006C   520100EF           SWI      +338
+    172            wchar_t *n4=new wchar_t[30];
+   \   00000070   3C00A0E3           MOV      R0,#+60
+   \   00000074   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    173            wstrcpy(n4, lng[VIBRA]);
+   \   00000078   E01095E5           LDR      R1,[R5, #+224]
+   \   0000007C   00A0A0E1           MOV      R10,R0
+   \   00000080   520100EF           SWI      +338
+    174            wchar_t *n5=new wchar_t[30];
+   \   00000084   3C00A0E3           MOV      R0,#+60
+   \   00000088   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    175            wstrcpy(n5, lng[SOUND]);
+   \   0000008C   E41095E5           LDR      R1,[R5, #+228]
+   \   00000090   00B0A0E1           MOV      R11,R0
+   \   00000094   520100EF           SWI      +338
+    176            List_InsertLast(mbk->switch_lst,n);
+   \   00000098   B40094E5           LDR      R0,[R4, #+180]
+   \   0000009C   0610A0E1           MOV      R1,R6
+   \   000000A0   B00100EF           SWI      +432
+    177            List_InsertLast(mbk->switch_lst,n1);
+   \   000000A4   B40094E5           LDR      R0,[R4, #+180]
+   \   000000A8   0710A0E1           MOV      R1,R7
+   \   000000AC   B00100EF           SWI      +432
+    178            List_InsertLast(mbk->switch_lst,n2);
+   \   000000B0   B40094E5           LDR      R0,[R4, #+180]
+   \   000000B4   0810A0E1           MOV      R1,R8
+   \   000000B8   B00100EF           SWI      +432
+    179            List_InsertLast(mbk->switch_lst,n3);
+   \   000000BC   B40094E5           LDR      R0,[R4, #+180]
+   \   000000C0   0910A0E1           MOV      R1,R9
+   \   000000C4   B00100EF           SWI      +432
+    180            List_InsertLast(mbk->switch_lst,n4);
+   \   000000C8   B40094E5           LDR      R0,[R4, #+180]
+   \   000000CC   0A10A0E1           MOV      R1,R10
+   \   000000D0   B00100EF           SWI      +432
+    181            List_InsertLast(mbk->switch_lst,n5);
+   \   000000D4   B40094E5           LDR      R0,[R4, #+180]
+   \   000000D8   0B10A0E1           MOV      R1,R11
+   \   000000DC   B00100EF           SWI      +432
+    182            mbk->ind=CreateIndicList(bk, mbk->switch_lst->FirstFree);
+   \   000000E0   B40094E5           LDR      R0,[R4, #+180]
+   \   000000E4   B210D0E1           LDRH     R1,[R0, #+2]
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   ........           BL       ??CreateIndicList
+   \   000000F0   700084E5           STR      R0,[R4, #+112]
+    183            GUIObject_SetTitleText(mbk->ind, TextID_Create(lng[INDICATION],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000F4   D00095E5           LDR      R0,[R5, #+208]
+   \   000000F8   FF20A0E3           MOV      R2,#+255
+   \   000000FC   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000100   0010A0E3           MOV      R1,#+0
+   \   00000104   5D0100EF           SWI      +349
+   \   00000108   0010A0E1           MOV      R1,R0
+   \   0000010C   700094E5           LDR      R0,[R4, #+112]
+   \   00000110   330100EF           SWI      +307
+    184            GUIObject_Show(mbk->ind);
+   \   00000114   700094E5           LDR      R0,[R4, #+112]
+   \   00000118   340100EF           SWI      +308
+    185            return 1;
+   \   0000011C   0100A0E3           MOV      R0,#+1
+   \   00000120   F08FBDE8           POP      {R4-R11,PC}      ;; return
+    186          };
+    187          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    188          static int IndicPage_OnExit(void *, BOOK * bk)
+    189          {
+   \                     ??IndicPage_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    190            MyBOOK *mbk=(MyBOOK *)bk;
+    191            kill_switchlst(mbk);
+   \   00000008   0400A0E1           MOV      R0,R4
+   \   0000000C   ........           _BLF     ??kill_switchlst,??kill_switchlst??rA
+    192            FREE_GUI(mbk->ind);
+   \   00000010   700094E5           LDR      R0,[R4, #+112]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100000A           BEQ      ??IndicPage_OnExit_1
+   \   0000001C   CE0100EF           SWI      +462
+   \   00000020   700084E5           STR      R0,[R4, #+112]
+    193            return 1;  
+   \                     ??IndicPage_OnExit_1:
+   \   00000024   0100A0E3           MOV      R0,#+1
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+    194          };
+    195          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    196          const PAGE_MSG bk_msglst_indic[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_indic:
+   \   00000000   42000000....       DC32 66, ??IndicPage_OnEnter, 67, ??IndicPage_OnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+    197          {
+    198            PAGE_ENTER_EVENT_TAG,    IndicPage_OnEnter,
+    199            PAGE_EXIT_EVENT_TAG,     IndicPage_OnExit,
+    200            NIL_EVENT_TAG,           NULL
+    201          };
+    202          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    203          const PAGE_DESC bk_indic = {"EvtEdit_IndicationMenu_Page", 0, bk_msglst_indic};
+   \                     bk_indic:
+   \   00000000   ........0000       DC32 `?<Constant "EvtEdit_IndicationMen...">`, 0H, bk_msglst_indic
+   \              0000........
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   55555555           DC32     0x55555555
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     indic_last
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     lng
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtEdit_IndicationMen...">`:
+   \   00000000   457674456469       DC8 "EvtEdit_IndicationMenu_Page"
+   \              745F496E6469
+   \              636174696F6E
+   \              4D656E755F50
+   \              61676500    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   2F000000           DC8 2FH, 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateIndicList(BOOK *, int)      16
+     IndicPage_OnEnter(void *, BOOK *)
+                                       36
+     IndicPage_OnExit(void *, BOOK *)
+                                        8
+     Indic_OnSelect(BOOK *, GUI *)     12
+     Indic_onLBMessage(GUI_MESSAGE *)
+                                       24
+     Switch_SetIndfile(BOOK *, GUI *)
+                                        4
+     Switch_curstat(BOOK *, GUI *)     24
+     set_param(int, int)                0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     indic_last                        4
+     set_param(int, int)              44
+     Indic_onLBMessage(GUI_MESSAGE *)
+                                     320
+     Indic_OnSelect(BOOK *, GUI *)   192
+     Switch_SetIndfile(BOOK *, GUI *)
+                                      48
+     Switch_curstat(BOOK *, GUI *)   240
+     CreateIndicList(BOOK *, int)    288
+     IndicPage_OnEnter(void *, BOOK *)
+                                     292
+     IndicPage_OnExit(void *, BOOK *)
+                                      44
+     bk_msglst_indic                  24
+     bk_indic                         12
+     ??DataTable2                      4
+     ??DataTable4                      4
+     ??DataTable6                      4
+     ?<Constant "EvtEdit_IndicationMen...">
+                                      28
+     ?<Constant L"\x2f">               4
+      Others                          80
+
+ 
+ 1 548 bytes in segment CODE
+    44 bytes in segment DATA_C
+     4 bytes in segment DATA_Z
+    24 bytes in segment DYN_PAGE
+    12 bytes in segment INITTAB
+ 
+ 1 480 bytes of CODE  memory (+ 80 bytes shared)
+    68 bytes of CONST memory
+     4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,70 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:44:41 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zHeade /
+//                       r.c                                                 /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zHeade /
+//                       r.c -D NDEBUG -D OLDFUNCTIONS -lcN                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7z /
+//                       lib\Release\List\ -o Z:\home\perk11\www\perk11.info /
+//                       \svn\SE\7zlib\Release\Obj\ -s9 --no_unroll          /
+//                       --no_code_motion --cpu_mode thumb --endian little   /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --library_module -I                      /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\7zHeader.s79                                  /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        MODULE `7zHeader`
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBWEAK `?*?DATA_ID`
+        PUBWEAK ?init?tab?DATA_I
+        PUBLIC k7zSignature
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+k7zSignature:
+        DS8 8
+        REQUIRE `?<Initializer for k7zSignature>`
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for k7zSignature>`:
+        DATA
+        DC8 55, 122, 188, 175, 39, 28, 0, 0
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?*?DATA_ID`:
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_I:
+        DCD      sfe(DATA_I) - sfb(DATA_I), sfb(DATA_I), sfb(DATA_ID)
+
+        END
+// 
+//  8 bytes in segment DATA_I
+//  8 bytes in segment DATA_ID
+// 12 bytes in segment INITTAB
+// 
+// 0 bytes of CODE  memory (+ 12 bytes shared)
+// 8 bytes of CONST memory
+// 8 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,140 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:50:45 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\ma #
+#                       in.cpp                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\ma #
+#                       in.cpp -D NDEBUG -D OLDFUNCTIONS -lC                 #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\StatusClock\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\List\main.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\Obj\main.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\main.cpp
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\Dir.h"
+      3          #include "conf_loader.h"
+      4          
+      5          void redraw_init();
+      6          BOOK * MyBook_Create();
+      7          
+
+   \                                 In segment DATA_Z, align 2, align-sorted
+      8          u16 timer;
+   \                     timer:
+   \   00000000                      DS8 2
+      9          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     10          void onTimer (u16 tmr, LPARAM lparam)
+     11          {
+     12            DATETIME dt;
+     13            REQUEST_DATEANDTIME_GET(SYNC,&dt);
+   \                     ??onTimer:
+   \   00000000   44009FE5           LDR      R0,??onTimer_1   ;; SYNC
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   0D10A0E1           MOV      R1,SP
+   \   00000014   6E0100EF           SWI      +366
+     14            if (dt.time.sec==0)
+   \   00000018   0600DDE5           LDRB     R0,[SP, #+6]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0300001A           BNE      ??onTimer_2
+     15            {
+     16              DispObject_InvalidateRect(*StatusRow_p(),0);
+   \   00000024   F28100EF           SWI      +33266
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   EF0100EF           SWI      +495
+     17            }
+     18            Timer_ReSet(&timer,1000,onTimer,0);
+   \                     ??onTimer_2:
+   \   00000034   ........           LDR      R2,??DataTable2  ;; ??onTimer
+   \   00000038   ........           LDR      R0,??DataTable3  ;; timer
+   \   0000003C   0030A0E3           MOV      R3,#+0
+   \   00000040   FA1FA0E3           MOV      R1,#+1000
+   \   00000044   280100EF           SWI      +296
+     19          }
+   \   00000048   0380BDE8           POP      {R0,R1,PC}       ;; return
+   \                     ??onTimer_1:
+   \   0000004C   ........           DC32     SYNC
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          int main()
+     22          {
+   \                     main:
+   \   00000000   00402DE9           PUSH     {LR}
+     23            MyBook_Create();
+   \   00000004   ........           _BLF     ??MyBook_Create,??MyBook_Create??rA
+     24            timer=Timer_Set(1000,onTimer,0);
+   \   00000008   ........           LDR      R1,??DataTable2  ;; ??onTimer
+   \   0000000C   0020A0E3           MOV      R2,#+0
+   \   00000010   FA0FA0E3           MOV      R0,#+1000
+   \   00000014   290100EF           SWI      +297
+   \   00000018   ........           LDR      R1,??DataTable3  ;; timer
+   \   0000001C   B000C1E1           STRH     R0,[R1, #+0]
+     25            InitConfig();
+   \   00000020   ........           _BLF     ??InitConfig,??InitConfig??rA
+     26            redraw_init();
+   \   00000024   ........           _BLF     ??redraw_init,??redraw_init??rA
+     27            return 0;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+     28          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     ??onTimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     timer
+
+   Maximum stack usage in bytes:
+
+     Function             CSTACK
+     --------             ------
+     main()                   4
+     onTimer(u16, LPARAM)    12
+
+
+   Segment part sizes:
+
+     Function/Label       Bytes
+     --------------       -----
+     timer                   2
+     onTimer(u16, LPARAM)   80
+     main()                 48
+     ??DataTable2            4
+     ??DataTable3            4
+      Others                56
+
+ 
+ 180 bytes in segment CODE
+   2 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 136 bytes of CODE memory (+ 56 bytes shared)
+   2 bytes of DATA memory
+
+Errors: none
+Warnings: none

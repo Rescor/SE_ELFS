@@ -1,0 +1,1081 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:54:33 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\main.c #
+#                       pp                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\main.c #
+#                       pp -D NDEBUG -lC Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EvtDesk\Release\List\ -lA                         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Releas #
+#                       e\List\ -o Z:\home\perk11\www\perk11.info\svn\SE\Evt #
+#                       Desk\Release\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --eec++ --dlib_config                  #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Releas #
+#                       e\List\main.lst                                      #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Releas #
+#                       e\Obj\main.r79                                       #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\main.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "config_data.h"
+      4          
+      5          typedef struct
+      6          {
+      7              BOOK bk;
+      8              void * update;
+      9              wchar_t *path;
+     10              wchar_t *name;
+     11              GUI *remind;
+     12              LIST *lst;
+     13              LIST *remlst;
+     14              GUI_LIST *g_test;
+     15              GUI_FEEDBACK *g_mbox;
+     16          }EVTBOOK;
+     17          
+     18            typedef struct
+     19            {
+     20              bool done;
+     21              signed int tm_start;
+     22              signed int tm_end;
+     23              signed int ask_before;
+     24              signed int ask_after;
+     25              int remdays[7];
+     26              int remdays2[7];
+     27              bool after_done;
+     28              bool before_done;
+     29              //-------------------
+     30              int type;
+     31              int AskBefore;
+     32              bool isMinusInBefore;
+     33              int AskAfter;
+     34              bool isGps;
+     35              bool isMinusInAfter;
+     36              int dtype;
+     37              DATE date;
+     38              DATE date2;
+     39              int days[7];
+     40              int ttype;
+     41              TIME time;
+     42              TIME time2;
+     43              wchar_t *param;
+     44              wchar_t *txt;
+     45              char *gps;
+     46              DATE date_0;
+     47              DATE date_1;
+     48              int d_shift_0;
+     49              int d_shift_1;
+     50              int day_1;
+     51              int day_2;
+     52              int rem;
+     53          }EVENT;
+     54            
+     55          typedef struct
+     56          {
+     57              wchar_t *text;
+     58              wchar_t *utext;
+     59              wchar_t *time;
+     60              bool checked;
+     61          }REMIND;
+     62          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     63          DISP_OBJ_ONREDRAW_METHOD Display_oldReDraw = 0;
+     64          DISP_OBJ * GUI_display = 0;
+     65          DISP_DESC * Display_desc = 0;
+     66          
+     67          int Height,Width;
+     68          u16 timer;
+   \                     timer:
+   \   00000000                      DS8 2
+   \   00000002                      DS8 2
+   \                     Display_oldReDraw:
+   \   00000004                      DS8 4
+   \                     GUI_display:
+   \   00000008                      DS8 4
+   \                     Display_desc:
+   \   0000000C                      DS8 4
+   \                     Height:
+   \   00000010                      DS8 4
+   \                     Width:
+   \   00000014                      DS8 4
+     69          BOOK * CreateEvtDeskBook();
+     70          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     71          int _x=100;
+   \                     _x:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for _x>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     72          int _y=100;
+   \                     _y:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for _y>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     73          int _dx=2;
+   \                     _dx:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for _dx>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     74          int _dy=3;
+   \                     _dy:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for _dy>`
+     75          
+     76          #define GET_BLUE(x) ((unsigned int)x&0xFF)
+     77          #define GET_GREEN(x) (((unsigned int)x>>8)&0xFF)
+     78          #define GET_RED(x) (((unsigned int)x>>16)&0xFF)
+     79          #define GET_ALPHA(x) (((unsigned int)x>>24)&0xFF)
+     80          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     81          void elf_exit(void)
+     82          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     83            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+     84          };
+     85          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     86          void onTimer (u16 tmr , LPARAM)
+     87          {
+   \                     ??onTimer:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     88            DispObject_InvalidateRect(GUI_display,0);
+   \   00000004   ........           LDR      R4,??DataTable3  ;; timer
+   \   00000008   0010A0E3           MOV      R1,#+0
+   \   0000000C   080094E5           LDR      R0,[R4, #+8]
+   \   00000010   EF0100EF           SWI      +495
+     89            Timer_ReSet(&timer,1000,onTimer,0);
+   \   00000014   ........           LDR      R2,??DataTable2  ;; ??onTimer
+   \   00000018   0030A0E3           MOV      R3,#+0
+   \   0000001C   FA1FA0E3           MOV      R1,#+1000
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   280100EF           SWI      +296
+     90          };
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     91          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     92          void DrawGradient(int x, int y, int x2, int y2, int upc, int loc)
+     93          {
+   \                     ??DrawGradient:
+   \   00000000   FB4F2DE9           PUSH     {R0,R1,R3-R11,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   38009DE5           LDR      R0,[SP, #+56]
+   \   0000000C   3C109DE5           LDR      R1,[SP, #+60]
+     94            int r1=GET_RED(upc),g1=GET_GREEN(upc),b1=GET_BLUE(upc);
+   \   00000010   FF30A0E3           MOV      R3,#+255
+   \   00000014   204803E0           AND      R4,R3,R0, LSR #+16
+   \   00000018   205403E0           AND      R5,R3,R0, LSR #+8
+   \   0000001C   FF6000E2           AND      R6,R0,#0xFF
+     95            int r2=GET_RED(loc),g2=GET_GREEN(loc),b2=GET_BLUE(loc);
+     96            int a1=GET_ALPHA(upc),a2=GET_ALPHA(loc);
+   \   00000020   208CA0E1           LSR      R8,R0,#+24
+     97            int i;
+     98            for(i=0;i<x2-x;i++)
+   \   00000024   08009DE5           LDR      R0,[SP, #+8]
+   \   00000028   217803E0           AND      R7,R3,R1, LSR #+16
+   \   0000002C   00708DE5           STR      R7,[SP, #+0]
+   \   00000030   217403E0           AND      R7,R3,R1, LSR #+8
+   \   00000034   04708DE5           STR      R7,[SP, #+4]
+   \   00000038   FF7001E2           AND      R7,R1,#0xFF
+   \   0000003C   219CA0E1           LSR      R9,R1,#+24
+   \   00000040   00A0A0E3           MOV      R10,#+0
+   \   00000044   00B042E0           SUB      R11,R2,R0
+   \   00000048   01005BE3           CMP      R11,#+1
+   \   0000004C   250000AA           BGE      ??DrawGradient_1
+   \   00000050   14D08DE2           ADD      SP,SP,#+20
+   \   00000054   F08FBDE8           POP      {R4-R11,PC}
+     99            { 
+    100              int r,g,b,a;
+    101              r = r1 + (i * (r2-r1) / (x2-x));
+    102              g = g1 + (i * (g2-g1) / (x2-x));
+    103              b = b1 + (i * (b2-b1) / (x2-x));
+    104              a = a1 + (i * (a2-a1) / (x2-x));
+    105              int cl=a*0x1000000 + r * 0x10000 + g *0x100 + b;
+   \                     ??DrawGradient_2:
+   \   00000058   04009DE5           LDR      R0,[SP, #+4]
+   \   0000005C   051040E0           SUB      R1,R0,R5
+   \   00000060   910A00E0           MUL      R0,R1,R10
+   \   00000064   0B10A0E1           MOV      R1,R11
+   \   00000068   ........           _BLF     ??div32_a,??rA??div32_a
+   \   0000006C   050081E0           ADD      R0,R1,R5
+   \   00000070   002486E0           ADD      R2,R6,R0, LSL #+8
+   \   00000074   081049E0           SUB      R1,R9,R8
+   \   00000078   910A00E0           MUL      R0,R1,R10
+   \   0000007C   0B10A0E1           MOV      R1,R11
+   \   00000080   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000084   080081E0           ADD      R0,R1,R8
+   \   00000088   002C82E0           ADD      R2,R2,R0, LSL #+24
+   \   0000008C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000090   041040E0           SUB      R1,R0,R4
+   \   00000094   910A00E0           MUL      R0,R1,R10
+   \   00000098   0B10A0E1           MOV      R1,R11
+   \   0000009C   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000000A0   040081E0           ADD      R0,R1,R4
+   \   000000A4   002882E0           ADD      R2,R2,R0, LSL #+16
+   \   000000A8   061047E0           SUB      R1,R7,R6
+   \   000000AC   910A00E0           MUL      R0,R1,R10
+   \   000000B0   0B10A0E1           MOV      R1,R11
+   \   000000B4   ........           _BLF     ??div32_a,??rA??div32_a
+    106              DrawRect(x+i,y,x+i+1,y2,cl,cl);
+   \   000000B8   08009DE5           LDR      R0,[SP, #+8]
+   \   000000BC   021081E0           ADD      R1,R1,R2
+   \   000000C0   0120A0E1           MOV      R2,R1
+   \   000000C4   04002DE9           PUSH     {R2}
+   \   000000C8   02002DE9           PUSH     {R1}
+   \   000000CC   18309DE5           LDR      R3,[SP, #+24]
+   \   000000D0   14109DE5           LDR      R1,[SP, #+20]
+   \   000000D4   00008AE0           ADD      R0,R10,R0
+   \   000000D8   012080E2           ADD      R2,R0,#+1
+   \   000000DC   EC0100EF           SWI      +492
+    107            }
+   \   000000E0   01A08AE2           ADD      R10,R10,#+1
+   \   000000E4   08D08DE2           ADD      SP,SP,#+8
+   \                     ??DrawGradient_1:
+   \   000000E8   0B005AE1           CMP      R10,R11
+   \   000000EC   D9FFFFBA           BLT      ??DrawGradient_2
+    108          };
+   \   000000F0   14D08DE2           ADD      SP,SP,#+20       ;; stack cleaning
+   \   000000F4   F08FBDE8           POP      {R4-R11,PC}      ;; return
+    109          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    110          void DrawGradientVert(int x, int y, int x2, int y2, int upc, int loc)
+    111          {
+   \                     ??DrawGradientVert:
+   \   00000000   F74F2DE9           PUSH     {R0-R2,R4-R11,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   38009DE5           LDR      R0,[SP, #+56]
+   \   0000000C   3C109DE5           LDR      R1,[SP, #+60]
+    112            int r1=GET_RED(upc),g1=GET_GREEN(upc),b1=GET_BLUE(upc);
+   \   00000010   FF20A0E3           MOV      R2,#+255
+   \   00000014   204802E0           AND      R4,R2,R0, LSR #+16
+   \   00000018   205402E0           AND      R5,R2,R0, LSR #+8
+   \   0000001C   FF6000E2           AND      R6,R0,#0xFF
+    113            int r2=GET_RED(loc),g2=GET_GREEN(loc),b2=GET_BLUE(loc);
+    114            int a1=GET_ALPHA(upc),a2=GET_ALPHA(loc);
+   \   00000020   208CA0E1           LSR      R8,R0,#+24
+    115            int i;
+    116            for(i=0;i<y2-y;i++)
+   \   00000024   0C009DE5           LDR      R0,[SP, #+12]
+   \   00000028   217802E0           AND      R7,R2,R1, LSR #+16
+   \   0000002C   00708DE5           STR      R7,[SP, #+0]
+   \   00000030   217402E0           AND      R7,R2,R1, LSR #+8
+   \   00000034   04708DE5           STR      R7,[SP, #+4]
+   \   00000038   FF7001E2           AND      R7,R1,#0xFF
+   \   0000003C   219CA0E1           LSR      R9,R1,#+24
+   \   00000040   00A0A0E3           MOV      R10,#+0
+   \   00000044   00B043E0           SUB      R11,R3,R0
+   \   00000048   01005BE3           CMP      R11,#+1
+   \   0000004C   250000AA           BGE      ??DrawGradientVert_1
+   \   00000050   14D08DE2           ADD      SP,SP,#+20
+   \   00000054   F08FBDE8           POP      {R4-R11,PC}
+    117            { 
+    118              int r,g,b,a;
+    119              r = r1 + (i * (r2-r1) / (y2-y));
+    120              g = g1 + (i * (g2-g1) / (y2-y));
+    121              b = b1 + (i * (b2-b1) / (y2-y));
+    122              a = a1 + (i * (a2-a1) / (y2-y));
+    123              int cl=a*0x1000000 + r * 0x10000 + g *0x100 + b;
+   \                     ??DrawGradientVert_2:
+   \   00000058   04009DE5           LDR      R0,[SP, #+4]
+   \   0000005C   051040E0           SUB      R1,R0,R5
+   \   00000060   910A00E0           MUL      R0,R1,R10
+   \   00000064   0B10A0E1           MOV      R1,R11
+   \   00000068   ........           _BLF     ??div32_a,??rA??div32_a
+   \   0000006C   050081E0           ADD      R0,R1,R5
+   \   00000070   002486E0           ADD      R2,R6,R0, LSL #+8
+   \   00000074   081049E0           SUB      R1,R9,R8
+   \   00000078   910A00E0           MUL      R0,R1,R10
+   \   0000007C   0B10A0E1           MOV      R1,R11
+   \   00000080   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000084   080081E0           ADD      R0,R1,R8
+   \   00000088   002C82E0           ADD      R2,R2,R0, LSL #+24
+   \   0000008C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000090   041040E0           SUB      R1,R0,R4
+   \   00000094   910A00E0           MUL      R0,R1,R10
+   \   00000098   0B10A0E1           MOV      R1,R11
+   \   0000009C   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000000A0   040081E0           ADD      R0,R1,R4
+   \   000000A4   002882E0           ADD      R2,R2,R0, LSL #+16
+   \   000000A8   061047E0           SUB      R1,R7,R6
+   \   000000AC   910A00E0           MUL      R0,R1,R10
+   \   000000B0   0B10A0E1           MOV      R1,R11
+   \   000000B4   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000000B8   020081E0           ADD      R0,R1,R2
+    124              DrawRect(x, y+i, x2, y+i+1, cl, cl);
+   \   000000BC   0C109DE5           LDR      R1,[SP, #+12]
+   \   000000C0   0020A0E1           MOV      R2,R0
+   \   000000C4   04002DE9           PUSH     {R2}
+   \   000000C8   01002DE9           PUSH     {R0}
+   \   000000CC   18209DE5           LDR      R2,[SP, #+24]
+   \   000000D0   10009DE5           LDR      R0,[SP, #+16]
+   \   000000D4   01108AE0           ADD      R1,R10,R1
+   \   000000D8   013081E2           ADD      R3,R1,#+1
+   \   000000DC   EC0100EF           SWI      +492
+    125            }
+   \   000000E0   01A08AE2           ADD      R10,R10,#+1
+   \   000000E4   08D08DE2           ADD      SP,SP,#+8
+   \                     ??DrawGradientVert_1:
+   \   000000E8   0B005AE1           CMP      R10,R11
+   \   000000EC   D9FFFFBA           BLT      ??DrawGradientVert_2
+    126          };
+   \   000000F0   14D08DE2           ADD      SP,SP,#+20       ;; stack cleaning
+   \   000000F4   F08FBDE8           POP      {R4-R11,PC}      ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    127          void DrawLine(int str, int ct, int x, int y, int x2, int y2, int between, int c)
+    128          {
+   \                     ??DrawLine:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   14C09DE5           LDR      R12,[SP, #+20]
+   \   00000008   1C509DE5           LDR      R5,[SP, #+28]
+   \   0000000C   18E09DE5           LDR      LR,[SP, #+24]
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   10009DE5           LDR      R0,[SP, #+16]
+    129            DrawString(str,ct,x,y,x2,y2,between,3,c,c);
+   \   00000018   0560A0E1           MOV      R6,R5
+   \   0000001C   40002DE9           PUSH     {R6}
+   \   00000020   20002DE9           PUSH     {R5}
+   \   00000024   0350A0E3           MOV      R5,#+3
+   \   00000028   20002DE9           PUSH     {R5}
+   \   0000002C   00402DE9           PUSH     {LR}
+   \   00000030   00102DE9           PUSH     {R12}
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   ED0100EF           SWI      +493
+    130            TextID_Destroy(str);
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   610100EF           SWI      +353
+    131          };
+   \   00000048   18D08DE2           ADD      SP,SP,#+24
+   \   0000004C   7080BDE8           POP      {R4-R6,PC}       ;; return
+    132          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    133          int isEvtBook(BOOK *bk)
+    134          {
+    135            if (strcmp(bk->xbook->name,"EventControl")==0)return 1;
+   \                     ??isEvtBook:
+   \   00000000   20109FE5           LDR      R1,??isEvtBook_1  ;; `?<Constant "EventControl">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   590100EF           SWI      +345
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100A003           MOVEQ    R0,#+1
+   \   0000001C   0080BD08           POPEQ    {PC}
+    136            return 0;
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+   \                     ??isEvtBook_1:
+   \   00000028   ........           DC32     `?<Constant "EventControl">`
+    137          };
+    138          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    139            int cmpdate(DATE d1, DATE d2)
+    140          {
+   \                     ??cmpdate:
+   \   00000000   03002DE9           PUSH     {R0,R1}
+    141            if      (d1.year<d2.year)return 2;
+   \   00000004   B000DDE1           LDRH     R0,[SP, #+0]
+   \   00000008   B410DDE1           LDRH     R1,[SP, #+4]
+   \   0000000C   010050E1           CMP      R0,R1
+   \   00000010   0200002A           BCS      ??cmpdate_1
+   \                     ??cmpdate_2:
+   \   00000014   0600BDE8           POP      {R1,R2}
+   \   00000018   0200A0E3           MOV      R0,#+2
+   \   0000001C   1EFF2FE1           BX       LR
+    142            else if (d1.year>d2.year)return 0;
+   \                     ??cmpdate_1:
+   \   00000020   0100A0E1           MOV      R0,R1
+   \   00000024   B010DDE1           LDRH     R1,[SP, #+0]
+   \   00000028   010050E1           CMP      R0,R1
+   \   0000002C   0200002A           BCS      ??cmpdate_3
+   \                     ??cmpdate_4:
+   \   00000030   0600BDE8           POP      {R1,R2}
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   1EFF2FE1           BX       LR
+    143            else
+    144            {
+    145              if      (d1.mon<d2.mon) return 2;
+   \                     ??cmpdate_3:
+   \   0000003C   0600DDE5           LDRB     R0,[SP, #+6]
+   \   00000040   0210DDE5           LDRB     R1,[SP, #+2]
+   \   00000044   000051E1           CMP      R1,R0
+   \   00000048   F1FFFF3A           BCC      ??cmpdate_2
+    146              else if (d1.mon>d2.mon) return 0;
+   \   0000004C   010050E1           CMP      R0,R1
+   \   00000050   F6FFFF3A           BCC      ??cmpdate_4
+    147              else
+    148              {
+    149                if (d1.day<d2.day)return 2;
+   \   00000054   0700DDE5           LDRB     R0,[SP, #+7]
+   \   00000058   0310DDE5           LDRB     R1,[SP, #+3]
+   \   0000005C   000051E1           CMP      R1,R0
+   \   00000060   EBFFFF3A           BCC      ??cmpdate_2
+    150                else if (d1.day>d2.day)return 0;
+   \   00000064   010050E1           CMP      R0,R1
+    151                else return 1;
+   \   00000068   0600BDE8           POP      {R1,R2}
+   \   0000006C   0000A033           MOVCC    R0,#+0
+   \   00000070   0100A023           MOVCS    R0,#+1
+   \   00000074   1EFF2FE1           BX       LR               ;; return
+    152              }
+    153            }
+    154          };
+    155          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    156          void Display_ReDraw(DISP_OBJ * db,int r1, int r2,int r3)
+    157          {
+   \                     ??Display_ReDraw:
+   \   00000000   FF4F2DE9           PUSH     {R0-R11,LR}
+   \   00000004   24D04DE2           SUB      SP,SP,#+36
+    158            DATETIME dt;
+    159            REQUEST_DATEANDTIME_GET(0,&dt);
+   \   00000008   14108DE2           ADD      R1,SP,#+20
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   6E0100EF           SWI      +366
+    160            int now=(dt.time.hour*3600) + (dt.time.min*60) + dt.time.sec;
+   \   00000014   1810DDE5           LDRB     R1,[SP, #+24]
+   \   00000018   1930DDE5           LDRB     R3,[SP, #+25]
+   \   0000001C   E12EA0E3           MOV      R2,#+3600
+   \   00000020   3C40A0E3           MOV      R4,#+60
+   \   00000024   940303E0           MUL      R3,R4,R3
+    161            char day;
+    162            DATE_GetWeekDay(&dt.date, &day);
+   \   00000028   14008DE2           ADD      R0,SP,#+20
+   \   0000002C   923121E0           MLA      R1,R2,R1,R3
+   \   00000030   1A20DDE5           LDRB     R2,[SP, #+26]
+    163            SetFont(ev_font);
+    164            DrawGradientVert(rc.x1, rc.y1, rc.x2, rc.y2, upp_color, low_color);
+    165            DrawLine(TextID_Create(str_events,ENC_UCS2,TEXTID_ANY_LEN), 0, rc.x1,rc.y1,rc.x2,rc.y2,40, ev_color);
+   \   00000034   FF40A0E3           MOV      R4,#+255
+   \   00000038   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   0000003C   011082E0           ADD      R1,R2,R1
+   \   00000040   20108DE5           STR      R1,[SP, #+32]
+   \   00000044   1C108DE2           ADD      R1,SP,#+28
+   \   00000048   9C0200EF           SWI      +668
+   \   0000004C   1C059FE5           LDR      R0,??Display_ReDraw_1  ;; ev_font
+   \   00000050   000090E5           LDR      R0,[R0, #+0]
+   \   00000054   F10100EF           SWI      +497
+   \   00000058   14159FE5           LDR      R1,??Display_ReDraw_1+0x4  ;; low_color
+   \   0000005C   14059FE5           LDR      R0,??Display_ReDraw_1+0x8  ;; rc
+   \   00000060   001091E5           LDR      R1,[R1, #+0]
+   \   00000064   B450D0E1           LDRH     R5,[R0, #+4]
+   \   00000068   B270D0E1           LDRH     R7,[R0, #+2]
+   \   0000006C   B660D0E1           LDRH     R6,[R0, #+6]
+   \   00000070   B080D0E1           LDRH     R8,[R0, #+0]
+   \   00000074   04108DE5           STR      R1,[SP, #+4]
+   \   00000078   0100A0E1           MOV      R0,R1
+   \   0000007C   01002DE9           PUSH     {R0}
+   \   00000080   F4049FE5           LDR      R0,??Display_ReDraw_1+0xC  ;; upp_color
+   \   00000084   0630A0E1           MOV      R3,R6
+   \   00000088   000090E5           LDR      R0,[R0, #+0]
+   \   0000008C   0720A0E1           MOV      R2,R7
+   \   00000090   01002DE9           PUSH     {R0}
+   \   00000094   0510A0E1           MOV      R1,R5
+   \   00000098   0800A0E1           MOV      R0,R8
+   \   0000009C   ........           BL       ??DrawGradientVert
+   \   000000A0   D8049FE5           LDR      R0,??Display_ReDraw_1+0x10  ;; str_events
+   \   000000A4   0420A0E1           MOV      R2,R4
+   \   000000A8   0010A0E3           MOV      R1,#+0
+   \   000000AC   5D0100EF           SWI      +349
+   \   000000B0   0090A0E1           MOV      R9,R0
+   \   000000B4   C8049FE5           LDR      R0,??Display_ReDraw_1+0x14  ;; ev_color
+   \   000000B8   0530A0E1           MOV      R3,R5
+   \   000000BC   000090E5           LDR      R0,[R0, #+0]
+    166            EVTBOOK *bk=(EVTBOOK*)FindBook(isEvtBook);
+    167            int pos=rc.y2;
+    168            if (!bk)
+   \   000000C0   C0549FE5           LDR      R5,??Display_ReDraw_1+0x18  ;; rc2
+   \   000000C4   0010A0E1           MOV      R1,R0
+   \   000000C8   02002DE9           PUSH     {R1}
+   \   000000CC   01002DE9           PUSH     {R0}
+   \   000000D0   0820A0E1           MOV      R2,R8
+   \   000000D4   0010A0E3           MOV      R1,#+0
+   \   000000D8   0300A0E3           MOV      R0,#+3
+   \   000000DC   01002DE9           PUSH     {R0}
+   \   000000E0   2800A0E3           MOV      R0,#+40
+   \   000000E4   01002DE9           PUSH     {R0}
+   \   000000E8   0600A0E1           MOV      R0,R6
+   \   000000EC   01002DE9           PUSH     {R0}
+   \   000000F0   80002DE9           PUSH     {R7}
+   \   000000F4   0900A0E1           MOV      R0,R9
+   \   000000F8   ED0100EF           SWI      +493
+   \   000000FC   0900A0E1           MOV      R0,R9
+   \   00000100   610100EF           SWI      +353
+   \   00000104   80049FE5           LDR      R0,??Display_ReDraw_1+0x1C  ;; ??isEvtBook
+   \   00000108   300100EF           SWI      +304
+   \   0000010C   28008DE5           STR      R0,[SP, #+40]
+   \   00000110   000050E3           CMP      R0,#+0
+   \   00000114   20D08DE2           ADD      SP,SP,#+32
+   \   00000118   2300001A           BNE      ??Display_ReDraw_2
+    169            {
+    170              DrawGradientVert(rc2.x1, pos, rc2.x2, pos+rc2.y2, low_color, low_color);
+   \   0000011C   B600D5E1           LDRH     R0,[R5, #+6]
+   \   00000120   B280D5E1           LDRH     R8,[R5, #+2]
+   \   00000124   B090D5E1           LDRH     R9,[R5, #+0]
+   \   00000128   067080E0           ADD      R7,R0,R6
+   \   0000012C   04009DE5           LDR      R0,[SP, #+4]
+   \   00000130   0730A0E1           MOV      R3,R7
+   \   00000134   01002DE9           PUSH     {R0}
+   \   00000138   01002DE9           PUSH     {R0}
+   \   0000013C   0820A0E1           MOV      R2,R8
+   \   00000140   0610A0E1           MOV      R1,R6
+   \   00000144   0900A0E1           MOV      R0,R9
+   \   00000148   ........           BL       ??DrawGradientVert
+    171              DrawLine(TextID_Create(str_off,ENC_UCS2,TEXTID_ANY_LEN), 2, rc2.x1, pos, rc2.x2, pos+rc2.y2, 40, clWhite);
+   \   0000014C   3C049FE5           LDR      R0,??Display_ReDraw_1+0x20  ;; str_off
+   \   00000150   0420A0E1           MOV      R2,R4
+   \   00000154   0010A0E3           MOV      R1,#+0
+   \   00000158   5D0100EF           SWI      +349
+   \   0000015C   0040A0E1           MOV      R4,R0
+   \   00000160   0000E0E3           MVN      R0,#+0
+   \   00000164   01002DE9           PUSH     {R0}
+   \   00000168   01002DE9           PUSH     {R0}
+   \   0000016C   0630A0E1           MOV      R3,R6
+   \   00000170   0920A0E1           MOV      R2,R9
+   \   00000174   0210A0E3           MOV      R1,#+2
+   \   00000178   0300A0E3           MOV      R0,#+3
+   \   0000017C   01002DE9           PUSH     {R0}
+   \   00000180   2800A0E3           MOV      R0,#+40
+   \   00000184   01002DE9           PUSH     {R0}
+   \   00000188   80002DE9           PUSH     {R7}
+   \   0000018C   00012DE9           PUSH     {R8}
+   \   00000190   0400A0E1           MOV      R0,R4
+   \   00000194   ED0100EF           SWI      +493
+   \   00000198   0400A0E1           MOV      R0,R4
+   \   0000019C   610100EF           SWI      +353
+    172              return;
+   \   000001A0   20D08DE2           ADD      SP,SP,#+32
+   \   000001A4   34D08DE2           ADD      SP,SP,#+52
+   \   000001A8   F08FBDE8           POP      {R4-R11,PC}
+    173            }
+    174            SetFont(text_font);
+   \                     ??Display_ReDraw_2:
+   \   000001AC   E0139FE5           LDR      R1,??Display_ReDraw_1+0x24  ;; text_font
+    175            int x=0;
+   \   000001B0   00A0A0E3           MOV      R10,#+0
+   \   000001B4   001091E5           LDR      R1,[R1, #+0]
+   \   000001B8   10108DE5           STR      R1,[SP, #+16]
+   \   000001BC   0100A0E1           MOV      R0,R1
+   \   000001C0   F10100EF           SWI      +497
+    176            int res=0;
+    177            if (bk->remlst && bk->remlst->FirstFree)
+   \   000001C4   08009DE5           LDR      R0,[SP, #+8]
+   \   000001C8   0070A0E3           MOV      R7,#+0
+   \   000001CC   2C0090E5           LDR      R0,[R0, #+44]
+   \   000001D0   000050E3           CMP      R0,#+0
+   \   000001D4   3600000A           BEQ      ??Display_ReDraw_3
+   \   000001D8   B200D0E1           LDRH     R0,[R0, #+2]
+   \   000001DC   000050E3           CMP      R0,#+0
+   \   000001E0   2E00001A           BNE      ??Display_ReDraw_4
+   \   000001E4   320000EA           B        ??Display_ReDraw_3
+    178            {
+    179              while (x<bk->remlst->FirstFree)
+    180              {
+    181                REMIND *rem=(REMIND*)bk->remlst->listdata[x++];
+   \                     ??Display_ReDraw_5:
+   \   000001E8   040090E5           LDR      R0,[R0, #+4]
+    182                DrawGradientVert(rc2.x1, pos, rc2.x2, pos+rc2.y2, miss_color, miss_color);
+    183                DrawLine(TextID_Create(rem->text,ENC_UCS2,TEXTID_ANY_LEN), 0, rc2.x1, pos, rc2.x2, pos+rc2.y2, 40, text_color);
+    184                pos+=rc2.y2;
+    185                res++;
+   \   000001EC   017087E2           ADD      R7,R7,#+1
+   \   000001F0   0A0190E7           LDR      R0,[R0, +R10, LSL #+2]
+   \   000001F4   01A08AE2           ADD      R10,R10,#+1
+   \   000001F8   00008DE5           STR      R0,[SP, #+0]
+   \   000001FC   B600D5E1           LDRH     R0,[R5, #+6]
+   \   00000200   B280D5E1           LDRH     R8,[R5, #+2]
+   \   00000204   B090D5E1           LDRH     R9,[R5, #+0]
+   \   00000208   06B080E0           ADD      R11,R0,R6
+   \   0000020C   84039FE5           LDR      R0,??Display_ReDraw_1+0x28  ;; miss_color
+   \   00000210   0B30A0E1           MOV      R3,R11
+   \   00000214   000090E5           LDR      R0,[R0, #+0]
+   \   00000218   0820A0E1           MOV      R2,R8
+   \   0000021C   0010A0E1           MOV      R1,R0
+   \   00000220   02002DE9           PUSH     {R1}
+   \   00000224   01002DE9           PUSH     {R0}
+   \   00000228   0610A0E1           MOV      R1,R6
+   \   0000022C   0900A0E1           MOV      R0,R9
+   \   00000230   ........           BL       ??DrawGradientVert
+   \   00000234   08009DE5           LDR      R0,[SP, #+8]
+   \   00000238   0420A0E1           MOV      R2,R4
+   \   0000023C   000090E5           LDR      R0,[R0, #+0]
+   \   00000240   0010A0E3           MOV      R1,#+0
+   \   00000244   5D0100EF           SWI      +349
+   \   00000248   4C139FE5           LDR      R1,??Display_ReDraw_1+0x2C  ;; text_color
+   \   0000024C   0630A0E1           MOV      R3,R6
+   \   00000250   001091E5           LDR      R1,[R1, #+0]
+   \   00000254   08008DE5           STR      R0,[SP, #+8]
+   \   00000258   0100A0E1           MOV      R0,R1
+   \   0000025C   01002DE9           PUSH     {R0}
+   \   00000260   02002DE9           PUSH     {R1}
+   \   00000264   0920A0E1           MOV      R2,R9
+   \   00000268   0300A0E3           MOV      R0,#+3
+   \   0000026C   01002DE9           PUSH     {R0}
+   \   00000270   0010A0E3           MOV      R1,#+0
+   \   00000274   0B60A0E1           MOV      R6,R11
+   \   00000278   2800A0E3           MOV      R0,#+40
+   \   0000027C   01002DE9           PUSH     {R0}
+   \   00000280   0B00A0E1           MOV      R0,R11
+   \   00000284   01002DE9           PUSH     {R0}
+   \   00000288   00012DE9           PUSH     {R8}
+   \   0000028C   20009DE5           LDR      R0,[SP, #+32]
+   \   00000290   ED0100EF           SWI      +493
+   \   00000294   20009DE5           LDR      R0,[SP, #+32]
+   \   00000298   610100EF           SWI      +353
+   \   0000029C   20D08DE2           ADD      SP,SP,#+32
+    186              }
+   \                     ??Display_ReDraw_4:
+   \   000002A0   08009DE5           LDR      R0,[SP, #+8]
+   \   000002A4   2C0090E5           LDR      R0,[R0, #+44]
+   \   000002A8   B210D0E1           LDRH     R1,[R0, #+2]
+   \   000002AC   01005AE1           CMP      R10,R1
+   \   000002B0   CCFFFFBA           BLT      ??Display_ReDraw_5
+    187            }
+    188            x=0;
+   \                     ??Display_ReDraw_3:
+   \   000002B4   0010A0E3           MOV      R1,#+0
+   \   000002B8   0C108DE5           STR      R1,[SP, #+12]
+    189            if (bk->lst)
+   \   000002BC   08009DE5           LDR      R0,[SP, #+8]
+   \   000002C0   280090E5           LDR      R0,[R0, #+40]
+   \   000002C4   000050E3           CMP      R0,#+0
+   \   000002C8   7700000A           BEQ      ??Display_ReDraw_6
+   \   000002CC   700000EA           B        ??Display_ReDraw_7
+    190            {
+    191              while (x<bk->lst->FirstFree)
+    192              {
+    193                EVENT *ev=(EVENT*)bk->lst->listdata[x++];
+   \                     ??Display_ReDraw_8:
+   \   000002D0   040090E5           LDR      R0,[R0, #+4]
+   \   000002D4   01A190E7           LDR      R10,[R0, +R1, LSL #+2]
+   \   000002D8   011081E2           ADD      R1,R1,#+1
+   \   000002DC   0C108DE5           STR      R1,[SP, #+12]
+    194                if (now<ev->tm_start)
+   \   000002E0   20009DE5           LDR      R0,[SP, #+32]
+   \   000002E4   04109AE5           LDR      R1,[R10, #+4]
+   \   000002E8   010050E1           CMP      R0,R1
+   \   000002EC   680000AA           BGE      ??Display_ReDraw_7
+    195                {
+    196                  wchar_t *txt=0;
+    197                  if (ev->txt && (ev->days[day] || cmpdate(ev->date, dt.date)==1) && ev->done!=true)
+   \   000002F0   9C009AE5           LDR      R0,[R10, #+156]
+   \   000002F4   000050E3           CMP      R0,#+0
+   \   000002F8   6500000A           BEQ      ??Display_ReDraw_7
+   \   000002FC   1C00DDE5           LDRB     R0,[SP, #+28]
+   \   00000300   00018AE0           ADD      R0,R10,R0, LSL #+2
+   \   00000304   700090E5           LDR      R0,[R0, #+112]
+   \   00000308   000050E3           CMP      R0,#+0
+   \   0000030C   0700001A           BNE      ??Display_ReDraw_9
+   \   00000310   14308DE2           ADD      R3,SP,#+20
+   \   00000314   ........           _BLF     ??ldr32h_a,??rA??ldr32h_a
+   \   00000318   0010A0E1           MOV      R1,R0
+   \   0000031C   68308AE2           ADD      R3,R10,#+104
+   \   00000320   ........           _BLF     ??ldr32h_a,??rA??ldr32h_a
+   \   00000324   ........           BL       ??cmpdate
+   \   00000328   010050E3           CMP      R0,#+1
+   \   0000032C   5800001A           BNE      ??Display_ReDraw_7
+   \                     ??Display_ReDraw_9:
+   \   00000330   0000DAE5           LDRB     R0,[R10, #+0]
+   \   00000334   000050E3           CMP      R0,#+0
+   \   00000338   5500001A           BNE      ??Display_ReDraw_7
+    198                  {
+    199                    SetFont(text_font);
+   \   0000033C   10009DE5           LDR      R0,[SP, #+16]
+    200                    txt=ev->txt;
+    201                    DrawGradientVert(rc2.x1, pos, rc2.x2, pos+rc2.y2, low_color, low_color);
+    202                    DrawLine(TextID_Create(txt,ENC_UCS2,TEXTID_ANY_LEN), 0, rc2.x1, pos, rc2.x2, pos+rc2.y2, 40, text_color);
+    203                    txt=new wchar_t[50];
+    204                    snwprintf(txt,49,L"%02d:%02d:%02d", ev->time.hour, ev->time.min, ev->time.sec);
+    205                    SetFont(time_font);
+    206                    DrawLine(TextID_Create(txt,ENC_UCS2,TEXTID_ANY_LEN), 1, rc2.x1, pos, rc2.x2, pos+rc2.y2, 40, time_color);
+    207                    delete(txt);
+    208                    pos+=rc2.y2;
+    209                    res++;
+   \   00000340   017087E2           ADD      R7,R7,#+1
+   \   00000344   F10100EF           SWI      +497
+   \   00000348   B600D5E1           LDRH     R0,[R5, #+6]
+   \   0000034C   9CB09AE5           LDR      R11,[R10, #+156]
+   \   00000350   0610A0E1           MOV      R1,R6
+   \   00000354   060080E0           ADD      R0,R0,R6
+   \   00000358   00008DE5           STR      R0,[SP, #+0]
+   \   0000035C   B280D5E1           LDRH     R8,[R5, #+2]
+   \   00000360   B090D5E1           LDRH     R9,[R5, #+0]
+   \   00000364   04009DE5           LDR      R0,[SP, #+4]
+   \   00000368   0820A0E1           MOV      R2,R8
+   \   0000036C   01002DE9           PUSH     {R0}
+   \   00000370   01002DE9           PUSH     {R0}
+   \   00000374   08309DE5           LDR      R3,[SP, #+8]
+   \   00000378   0900A0E1           MOV      R0,R9
+   \   0000037C   ........           BL       ??DrawGradientVert
+   \   00000380   0420A0E1           MOV      R2,R4
+   \   00000384   0010A0E3           MOV      R1,#+0
+   \   00000388   0B00A0E1           MOV      R0,R11
+   \   0000038C   5D0100EF           SWI      +349
+   \   00000390   04129FE5           LDR      R1,??Display_ReDraw_1+0x2C  ;; text_color
+   \   00000394   00B0A0E1           MOV      R11,R0
+   \   00000398   001091E5           LDR      R1,[R1, #+0]
+   \   0000039C   0630A0E1           MOV      R3,R6
+   \   000003A0   0100A0E1           MOV      R0,R1
+   \   000003A4   01002DE9           PUSH     {R0}
+   \   000003A8   02002DE9           PUSH     {R1}
+   \   000003AC   0920A0E1           MOV      R2,R9
+   \   000003B0   0300A0E3           MOV      R0,#+3
+   \   000003B4   01002DE9           PUSH     {R0}
+   \   000003B8   0010A0E3           MOV      R1,#+0
+   \   000003BC   2800A0E3           MOV      R0,#+40
+   \   000003C0   01002DE9           PUSH     {R0}
+   \   000003C4   18009DE5           LDR      R0,[SP, #+24]
+   \   000003C8   01002DE9           PUSH     {R0}
+   \   000003CC   0800A0E1           MOV      R0,R8
+   \   000003D0   01002DE9           PUSH     {R0}
+   \   000003D4   0B00A0E1           MOV      R0,R11
+   \   000003D8   ED0100EF           SWI      +493
+   \   000003DC   0B00A0E1           MOV      R0,R11
+   \   000003E0   610100EF           SWI      +353
+   \   000003E4   6400A0E3           MOV      R0,#+100
+   \   000003E8   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000003EC   AC219FE5           LDR      R2,??Display_ReDraw_1+0x30  ;; `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+   \   000003F0   00B0A0E1           MOV      R11,R0
+   \   000003F4   9200DAE5           LDRB     R0,[R10, #+146]
+   \   000003F8   3110A0E3           MOV      R1,#+49
+   \   000003FC   01002DE9           PUSH     {R0}
+   \   00000400   9100DAE5           LDRB     R0,[R10, #+145]
+   \   00000404   01002DE9           PUSH     {R0}
+   \   00000408   9030DAE5           LDRB     R3,[R10, #+144]
+   \   0000040C   0B00A0E1           MOV      R0,R11
+   \   00000410   150100EF           SWI      +277
+   \   00000414   88019FE5           LDR      R0,??Display_ReDraw_1+0x34  ;; time_font
+   \   00000418   28D08DE2           ADD      SP,SP,#+40
+   \   0000041C   000090E5           LDR      R0,[R0, #+0]
+   \   00000420   F10100EF           SWI      +497
+   \   00000424   0420A0E1           MOV      R2,R4
+   \   00000428   0010A0E3           MOV      R1,#+0
+   \   0000042C   0B00A0E1           MOV      R0,R11
+   \   00000430   5D0100EF           SWI      +349
+   \   00000434   00A0A0E1           MOV      R10,R0
+   \   00000438   68019FE5           LDR      R0,??Display_ReDraw_1+0x38  ;; time_color
+   \   0000043C   0630A0E1           MOV      R3,R6
+   \   00000440   000090E5           LDR      R0,[R0, #+0]
+   \   00000444   0920A0E1           MOV      R2,R9
+   \   00000448   0010A0E1           MOV      R1,R0
+   \   0000044C   02002DE9           PUSH     {R1}
+   \   00000450   01002DE9           PUSH     {R0}
+   \   00000454   0300A0E3           MOV      R0,#+3
+   \   00000458   01002DE9           PUSH     {R0}
+   \   0000045C   0110A0E3           MOV      R1,#+1
+   \   00000460   2800A0E3           MOV      R0,#+40
+   \   00000464   01002DE9           PUSH     {R0}
+   \   00000468   10009DE5           LDR      R0,[SP, #+16]
+   \   0000046C   01002DE9           PUSH     {R0}
+   \   00000470   00012DE9           PUSH     {R8}
+   \   00000474   0A00A0E1           MOV      R0,R10
+   \   00000478   ED0100EF           SWI      +493
+   \   0000047C   0A00A0E1           MOV      R0,R10
+   \   00000480   610100EF           SWI      +353
+   \   00000484   0B00A0E1           MOV      R0,R11
+   \   00000488   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   0000048C   18609DE5           LDR      R6,[SP, #+24]
+   \   00000490   18D08DE2           ADD      SP,SP,#+24
+    210                  }
+    211                }
+    212              }
+   \                     ??Display_ReDraw_7:
+   \   00000494   08009DE5           LDR      R0,[SP, #+8]
+   \   00000498   0C109DE5           LDR      R1,[SP, #+12]
+   \   0000049C   280090E5           LDR      R0,[R0, #+40]
+   \   000004A0   B220D0E1           LDRH     R2,[R0, #+2]
+   \   000004A4   020051E1           CMP      R1,R2
+   \   000004A8   88FFFFBA           BLT      ??Display_ReDraw_8
+    213            }
+    214            if (res==0)
+   \                     ??Display_ReDraw_6:
+   \   000004AC   000057E3           CMP      R7,#+0
+   \   000004B0   2300001A           BNE      ??Display_ReDraw_10
+    215            {
+    216              SetFont(text_font);
+   \   000004B4   10009DE5           LDR      R0,[SP, #+16]
+   \   000004B8   F10100EF           SWI      +497
+    217              DrawGradientVert(rc2.x1, pos, rc2.x2, pos+rc2.y2, low_color, low_color);
+   \   000004BC   B600D5E1           LDRH     R0,[R5, #+6]
+   \   000004C0   B280D5E1           LDRH     R8,[R5, #+2]
+   \   000004C4   B090D5E1           LDRH     R9,[R5, #+0]
+   \   000004C8   067080E0           ADD      R7,R0,R6
+   \   000004CC   04009DE5           LDR      R0,[SP, #+4]
+   \   000004D0   0730A0E1           MOV      R3,R7
+   \   000004D4   01002DE9           PUSH     {R0}
+   \   000004D8   01002DE9           PUSH     {R0}
+   \   000004DC   0820A0E1           MOV      R2,R8
+   \   000004E0   0610A0E1           MOV      R1,R6
+   \   000004E4   0900A0E1           MOV      R0,R9
+   \   000004E8   ........           BL       ??DrawGradientVert
+    218              DrawLine(TextID_Create(str_noevents,ENC_UCS2,TEXTID_ANY_LEN), 2, rc2.x1, pos, rc2.x2, pos+rc2.y2, 40, clWhite);
+   \   000004EC   B8009FE5           LDR      R0,??Display_ReDraw_1+0x3C  ;; str_noevents
+   \   000004F0   0420A0E1           MOV      R2,R4
+   \   000004F4   0010A0E3           MOV      R1,#+0
+   \   000004F8   5D0100EF           SWI      +349
+   \   000004FC   0040A0E1           MOV      R4,R0
+   \   00000500   0000E0E3           MVN      R0,#+0
+   \   00000504   01002DE9           PUSH     {R0}
+   \   00000508   01002DE9           PUSH     {R0}
+   \   0000050C   0630A0E1           MOV      R3,R6
+   \   00000510   0920A0E1           MOV      R2,R9
+   \   00000514   0210A0E3           MOV      R1,#+2
+   \   00000518   0300A0E3           MOV      R0,#+3
+   \   0000051C   01002DE9           PUSH     {R0}
+   \   00000520   2800A0E3           MOV      R0,#+40
+   \   00000524   01002DE9           PUSH     {R0}
+   \   00000528   80002DE9           PUSH     {R7}
+   \   0000052C   00012DE9           PUSH     {R8}
+   \   00000530   0400A0E1           MOV      R0,R4
+   \   00000534   ED0100EF           SWI      +493
+   \   00000538   0400A0E1           MOV      R0,R4
+   \   0000053C   610100EF           SWI      +353
+   \   00000540   20D08DE2           ADD      SP,SP,#+32
+   \                     ??Display_ReDraw_10:
+   \   00000544   64009FE5           LDR      R0,??Display_ReDraw_1+0x40  ;; timer + 4
+   \   00000548   004090E5           LDR      R4,[R0, #+0]
+   \   0000054C   000054E3           CMP      R4,#+0
+   \   00000550   0400000A           BEQ      ??Display_ReDraw_11
+    219            }
+    220             if(Display_oldReDraw) Display_oldReDraw(db,r1,r2,r3);
+   \   00000554   30309DE5           LDR      R3,[SP, #+48]
+   \   00000558   2C209DE5           LDR      R2,[SP, #+44]
+   \   0000055C   28109DE5           LDR      R1,[SP, #+40]
+   \   00000560   24009DE5           LDR      R0,[SP, #+36]
+   \   00000564   34FF2FE1           BLX      R4
+   \                     ??Display_ReDraw_11:
+   \   00000568   34D08DE2           ADD      SP,SP,#+52       ;; stack cleaning
+   \   0000056C   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??Display_ReDraw_1:
+   \   00000570   ........           DC32     ev_font
+   \   00000574   ........           DC32     low_color
+   \   00000578   ........           DC32     rc
+   \   0000057C   ........           DC32     upp_color
+   \   00000580   ........           DC32     str_events
+   \   00000584   ........           DC32     ev_color
+   \   00000588   ........           DC32     rc2
+   \   0000058C   ........           DC32     ??isEvtBook
+   \   00000590   ........           DC32     str_off
+   \   00000594   ........           DC32     text_font
+   \   00000598   ........           DC32     miss_color
+   \   0000059C   ........           DC32     text_color
+   \   000005A0   ........           DC32     `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+   \   000005A4   ........           DC32     time_font
+   \   000005A8   ........           DC32     time_color
+   \   000005AC   ........           DC32     str_noevents
+   \   000005B0   ........           DC32     timer + 4
+    221          };
+    222          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    223          void InitVar()
+    224          {
+   \                     ??InitVar:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    225            Height=Display_GetHeight(0);
+   \   00000004   50409FE5           LDR      R4,??InitVar_1   ;; timer
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   580200EF           SWI      +600
+   \   00000010   100084E5           STR      R0,[R4, #+16]
+    226            Width=Display_GetWidth(0);
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   590200EF           SWI      +601
+   \   0000001C   140084E5           STR      R0,[R4, #+20]
+    227            
+    228            if(!GUI_display)
+   \   00000020   080094E5           LDR      R0,[R4, #+8]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   1080BD18           POPNE    {R4,PC}
+    229              {
+    230                GUI_display = GUIObject_GetDispObject( SBY_GetStatusIndication(Find_StandbyBook()) );
+   \   0000002C   310100EF           SWI      +305
+   \   00000030   180200EF           SWI      +536
+   \   00000034   680100EF           SWI      +360
+   \   00000038   080084E5           STR      R0,[R4, #+8]
+    231                Display_oldReDraw = DispObject_GetOnRedraw(GUI_display);
+   \   0000003C   290200EF           SWI      +553
+   \   00000040   040084E5           STR      R0,[R4, #+4]
+    232                Display_desc = DispObject_GetDESC (GUI_display);
+   \   00000044   080094E5           LDR      R0,[R4, #+8]
+   \   00000048   1F0200EF           SWI      +543
+    233                DISP_DESC_SetOnRedraw(Display_desc, Display_ReDraw);
+   \   0000004C   0C109FE5           LDR      R1,??InitVar_1+0x4  ;; ??Display_ReDraw
+   \   00000050   0C0084E5           STR      R0,[R4, #+12]
+   \   00000054   280200EF           SWI      +552
+    234              }
+    235          }
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??InitVar_1:
+   \   0000005C   ........           DC32     timer
+   \   00000060   ........           DC32     ??Display_ReDraw
+    236          
+    237          #include "conf_loader.h"
+
+   \                                 In segment CODE, align 4, keep-with-next
+    238          int main (void)
+    239          {
+   \                     main:
+   \   00000000   00402DE9           PUSH     {LR}
+    240            InitVar();
+   \   00000004   ........           BL       ??InitVar
+    241            InitConfig();
+   \   00000008   ........           _BLF     ??InitConfig,??InitConfig??rA
+    242            
+    243            CreateEvtDeskBook();
+   \   0000000C   ........           _BLF     ??CreateEvtDeskBook,??CreateEvtDeskBook??rA
+    244            
+    245            timer=Timer_Set(1000,onTimer,0);
+   \   00000010   ........           LDR      R1,??DataTable2  ;; ??onTimer
+   \   00000014   0020A0E3           MOV      R2,#+0
+   \   00000018   FA0FA0E3           MOV      R0,#+1000
+   \   0000001C   290100EF           SWI      +297
+   \   00000020   ........           LDR      R1,??DataTable3  ;; timer
+   \   00000024   B000C1E1           STRH     R0,[R1, #+0]
+    246            return(0);
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+    247          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     ??onTimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     timer
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for _x>`:
+   \   00000000   64000000           DC32 100
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for _y>`:
+   \   00000000   64000000           DC32 100
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for _dx>`:
+   \   00000000   02000000           DC32 2
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for _dy>`:
+   \   00000000   03000000           DC32 3
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EventControl">`:
+   \   00000000   4576656E7443       DC8 "EventControl"
+   \              6F6E74726F6C
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`:
+   \   00000000   250030003200       DC8 25H, 0, 30H, 0, 32H, 0, 64H, 0
+   \              6400        
+   \   00000008   3A0025003000       DC8 3AH, 0, 25H, 0, 30H, 0, 32H, 0
+   \              3200        
+   \   00000010   64003A002500       DC8 64H, 0, 3AH, 0, 25H, 0, 30H, 0
+   \              3000        
+   \   00000018   320064000000       DC8 32H, 0, 64H, 0, 0, 0
+   \   0000001E   0000               DC8 0, 0
+    248          
+    249          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Display_ReDraw(DISP_OBJ *, int, int, int)
+                                      128
+     DrawGradient(int, int, int, int, int, int)
+                                       64
+     DrawGradientVert(int, int, int, int, int, int)
+                                       64
+     DrawLine(int, int, int, int, int, int, int, int)
+                                       40
+     InitVar()                          8
+     cmpdate(DATE, DATE)                8
+     elf_exit()                         4
+     isEvtBook(BOOK *)                  4
+     main()                             4
+     onTimer(u16, LPARAM)               8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     timer                            24
+     _x                                4
+     _y                                4
+     _dx                               4
+     _dy                               4
+     elf_exit()                       28
+     onTimer(u16, LPARAM)             44
+     DrawGradient(int, int, int, int, int, int)
+                                     248
+     DrawGradientVert(int, int, int, int, int, int)
+                                     248
+     DrawLine(int, int, int, int, int, int, int, int)
+                                      80
+     isEvtBook(BOOK *)                44
+     cmpdate(DATE, DATE)             120
+     Display_ReDraw(DISP_OBJ *, int, int, int)
+                                    1460
+     InitVar()                       100
+     main()                           48
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ?<Initializer for _x>             4
+     ?<Initializer for _y>             4
+     ?<Initializer for _dx>            4
+     ?<Initializer for _dy>            4
+     ?<Constant "EventControl">       16
+     ?<Constant L"\x25\x30\x32\x64\x3a\x25\x30\x32\
+                                      32
+      Others                         148
+
+ 
+ 2 552 bytes in segment CODE
+    48 bytes in segment DATA_C
+    16 bytes in segment DATA_I
+    16 bytes in segment DATA_ID
+    24 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 2 428 bytes of CODE  memory (+ 148 bytes shared)
+    64 bytes of CONST memory
+    40 bytes of DATA  memory
+
+Errors: none
+Warnings: none

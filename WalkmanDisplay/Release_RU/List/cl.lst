@@ -1,0 +1,168 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:09:10 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \cl.cpp                                              #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \cl.cpp -D NDEBUG -D RUS -D OLDFUNCTIONS -lC         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\List\ -lA Z:\home\perk11\www\perk11.info #
+#                       \svn\SE\WalkmanDisplay\Release_RU\List\ -o           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\Obj\ -s9 --cpu_mode arm --endian little  #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\List\cl.lst                              #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\Obj\cl.r79                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\cl.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "header\cl.h"
+      4          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      5          MyBOOK *MyBook=0;
+   \                     MyBook:
+   \   00000000                      DS8 4
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          static void __onClose(BOOK* bk)
+      7          {
+      8            ((CBook*)bk)->onClose();
+   \                     ??__onClose:
+   \   00000000   281090E5           LDR      R1,[R0, #+40]
+   \   00000004   041091E5           LDR      R1,[R1, #+4]
+   \   00000008   01F0A0E1           MOV      PC,R1            ;; tailcall
+      9          };
+     10          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          CBook::CBook(char* pBookName, const PAGE_DESC * bp)
+     12          {
+   \                     ??CBook:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     13            CreateBook( &bk, &__onClose, bp, pBookName, -1, 0);
+   \   00000004   0130A0E1           MOV      R3,R1
+   \   00000008   30109FE5           LDR      R1,??CBook_1     ;; ??__onClose
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   2C009FE5           LDR      R0,??CBook_1+0x4  ;; ??__vtbl
+   \   00000014   280084E5           STR      R0,[R4, #+40]
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   0000E0E1           MVN      R0,R0
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   2B0100EF           SWI      +299
+     14            MyBook=this;
+   \   00000030   10009FE5           LDR      R0,??CBook_1+0x8  ;; MyBook
+   \   00000034   004080E5           STR      R4,[R0, #+0]
+     15          };
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   1680BDE8           POP      {R1,R2,R4,PC}    ;; return
+   \                     ??CBook_1:
+   \   00000040   ........           DC32     ??__onClose
+   \   00000044   ........           DC32     ??__vtbl
+   \   00000048   ........           DC32     MyBook
+     16          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     17          void CBook::destroy()
+     18          {
+   \                     ??destroy:
+   \   00000000   00402DE9           PUSH     {LR}
+     19            FreeBook((BOOK*)this);
+   \   00000004   2F0100EF           SWI      +303
+     20          };
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+     21          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     22          CBook::~CBook()
+     23          {
+   \                     `?~CBook`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   01001113           TSTNE    R1,#0x1
+   \   0000000C   0080BD08           POPEQ    {PC}
+     24          };
+   \   00000010   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+     25          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     26          void CBook::onClose()
+     27          {
+     28          };
+   \                     ??onClose:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs CBook &CBook::new CBook(char *, PAGE_DESC const *)
+   \                     `??new CBook`:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   2C00A0E3           MOV      R0,#+44
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   3080BD08           POPEQ    {R4,R5,PC}
+   \   0000001C   0520A0E1           MOV      R2,R5
+   \   00000020   0410A0E1           MOV      R1,R4
+   \   00000024   3040BDE8           POP      {R4,R5,LR}       ;; Pop
+   \   00000028   ........           B        ??CBook          ;; tailcall
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CBook::CBook(char *, PAGE_DESC const *)
+                                       16
+     CBook::destroy()                   4
+     CBook::new CBook(char *, PAGE_DESC const *)
+                                       12
+     CBook::onClose()                   0
+     CBook::~CBook()                    4
+     __onClose(BOOK *)                  4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     MyBook                            4
+     __onClose(BOOK *)                12
+     CBook::CBook(char *, PAGE_DESC const *)
+                                      76
+     CBook::destroy()                 12
+     CBook::~CBook()                  24
+     CBook::onClose()                  4
+     CBook::new CBook(char *, PAGE_DESC const *)
+                                      44
+      Others                          68
+
+ 
+ 220 bytes in segment CODE
+   8 bytes in segment DATA_C
+   4 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 172 bytes of CODE  memory (+ 60 bytes shared)
+   8 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

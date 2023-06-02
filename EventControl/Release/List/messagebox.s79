@@ -1,0 +1,470 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:53:34 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       messagebox.cpp                                      /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       messagebox.cpp -D NDEBUG -D OLDFUNCTIONS -lC        /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\EventControl\Release\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\Obj\ -s9 --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\messagebox.s79                         /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME messagebox
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+        PUBLIC ??mbox_Create
+        FUNCTION ??mbox_Create,0203H
+        LOCFRAME CSTACK, 36, STACK
+        MULTWEAK ??mbox_Create??rT
+        PUBLIC ??mbox_OnClose
+        FUNCTION ??mbox_OnClose,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??mbox_OnClose??rT
+        PUBLIC ??mbox_onOK
+        FUNCTION ??mbox_onOK,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??mbox_onOK??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??mbox_Create??rT   SYMBOL "??rT", ??mbox_Create
+
+??mbox_OnClose??rT  SYMBOL "??rT", ??mbox_OnClose
+
+??mbox_onOK??rT     SYMBOL "??rT", ??mbox_onOK
+
+        EXTERN ACTION_BACK
+        EXTERN ACTION_OK
+        EXTERN ECBook
+        EXTERN lng
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??mbox_OnClose??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??mbox_OnClose
+// Z:\home\perk11\www\perk11.info\svn\SE\EventControl\messagebox.cpp
+//    1 /*
+//    2 *===========================================================================
+//    3 *                       Модуль MessageBox'а
+//    4 *===========================================================================
+//    5 */
+//    6 #include "..\deleaker\mem2.h"
+//    7 #include "..\include\Lib_Clara.h" 
+//    8 #include "..\include\Dir.h"
+//    9 #include "header\structs.h"
+//   10 #include "header\lng.h"
+//   11 extern MyBOOK *ECBook;
+//   12 #define MBK(a) MyBOOK *mbk=(MyBOOK*)a;
+//   13 /*
+//   14 *===========================================================================
+//   15 *                  Обработка автоматического закрытия мессагбокса..
+//   16 *===========================================================================
+//   17 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??mbox_OnClose
+        ARM
+//   18 void mbox_OnClose(BOOK *bk)
+//   19 {
+??mbox_OnClose:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+//   20   MBK(bk);
+//   21   GUIObject_Destroy(mbk->g_mbox);
+        LDR      R0,[R4, #+52]
+        SWI      +462
+//   22   mbk->g_mbox=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+52]
+//   23   if (bk==&ECBook->bk)
+        LDR      R0,??DataTable2  ;; ECBook
+        LDR      R0,[R0, #+0]
+        CMP      R4,R0
+        POPNE    {R4,PC}
+//   24     BookObj_Hide(bk, 0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +369
+//   25 };
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??mbox_onOK??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??mbox_onOK
+//   26 
+//   27 /*
+//   28 *===========================================================================
+//   29 *                          Обработка нажатия ОК
+//   30 *===========================================================================
+//   31 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??mbox_onOK
+        ARM
+//   32 void mbox_onOK(BOOK *bk, GUI* )
+//   33 {
+??mbox_onOK:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+//   34   MBK(bk);
+//   35   GUIObject_Destroy(mbk->g_mbox);
+        LDR      R0,[R4, #+52]
+        SWI      +462
+//   36   mbk->g_mbox=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+52]
+//   37   if (bk==&ECBook->bk)
+        LDR      R0,??DataTable2  ;; ECBook
+        LDR      R0,[R0, #+0]
+        CMP      R4,R0
+        POPNE    {R4,PC}
+//   38     BookObj_Hide(bk, 0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +369
+//   39 };
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??mbox_Create??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??mbox_Create
+//   40 
+//   41 /*
+//   42 *===========================================================================
+//   43 *                     Создаём мессагбокс...
+//   44 *===========================================================================
+//   45 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??mbox_Create
+        ARM
+//   46 void mbox_Create(BOOK * bk, wchar_t *text, int minutes, bool vibra)
+//   47 {
+??mbox_Create:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        SUB      SP,SP,#+8
+        CFI CFA R13+36
+        MOV      R4,R0
+        MOV      R9,R1
+        MOV      R8,R2
+//   48   if (vibra)
+        CMP      R3,#+0
+        BEQ      ??mbox_Create_1
+//   49   {
+//   50     PAudioControl pAC = AudioControl_Init();
+        SWI      +479
+//   51     if( !pAC )pAC = *GetAudioControlPtr();
+        CMP      R0,#+0
+        BNE      ??mbox_Create_2
+        SWI      +33233
+        LDR      R0,[R0, #+0]
+//   52     AudioControl_Vibrate(pAC, 500, 50, 3000);
+??mbox_Create_2:
+        MOV      R3,#+184
+        ORR      R3,R3,#0xB00
+        MOV      R2,#+50
+        MOV      R1,#+500
+        SWI      +466
+//   53   }
+//   54   if (!bk)bk=&ECBook->bk;
+??mbox_Create_1:
+        CMP      R4,#+0
+        LDREQ    R0,??DataTable2  ;; ECBook
+//   55   MBK(bk);
+//   56   bool created=false;
+        MOV      R5,#+0
+        LDREQ    R4,[R0, #+0]
+//   57   if (!mbk->g_mbox)
+        LDR      R0,[R4, #+52]
+        CMP      R0,#+0
+        BNE      ??mbox_Create_3
+//   58   {
+//   59     mbk->g_mbox=TextFeedbackWindow(bk, 0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +709
+        STR      R0,[R4, #+52]
+//   60     created=true;
+        MOV      R5,#+1
+//   61   }
+//   62   GUI_FEEDBACK *gMBox=mbk->g_mbox;
+??mbox_Create_3:
+        LDR      R6,[R4, #+52]
+//   63   Feedback_SetTextExtended(gMBox,TextID_Create(text, ENC_UCS2, TEXTID_ANY_LEN),0);
+        MOV      R7,#+255
+        ORR      R7,R7,#0xFF00
+        MOV      R2,R7
+        MOV      R1,#+0
+        MOV      R0,R9
+        SWI      +349
+        MOV      R1,R0
+        MOV      R2,#+0
+        MOV      R0,R6
+        SWI      +713
+//   64   if (minutes)
+        CMP      R8,#+0
+        BEQ      ??mbox_Create_4
+//   65   {
+//   66     int strids[2];
+//   67     int min=minutes;
+//   68     if (min<0)min=-min;
+        LDR      R9,??mbox_Create_5  ;; lng
+        BPL      ??mbox_Create_6
+//   69     if (minutes<0)
+//   70     {
+//   71       strids[0]=TextID_CreateIntegerID(min);
+        RSB      R0,R8,#+0
+        SWI      +348
+        STR      R0,[SP, #+0]
+//   72       strids[1]=TextID_Create(lng[LNG_MIN_REMAIN], ENC_UCS2, TEXTID_ANY_LEN);
+        LDR      R0,[R9, #+16]
+        B        ??mbox_Create_7
+//   73     }
+//   74     else
+//   75     {
+//   76       strids[0]=TextID_CreateIntegerID(min);
+??mbox_Create_6:
+        MOV      R0,R8
+        SWI      +348
+        STR      R0,[SP, #+0]
+//   77       strids[1]=TextID_Create(lng[LNG_MIN_AGO], ENC_UCS2, TEXTID_ANY_LEN);
+        LDR      R0,[R9, #+20]
+??mbox_Create_7:
+        MOV      R2,R7
+        MOV      R1,#+0
+        SWI      +349
+        STR      R0,[SP, #+4]
+//   78     }
+//   79     Feedback_SetTextExtended(gMBox,TextID_Create(strids,ENC_TEXTID,2),1);
+        MOV      R2,#+2
+        MOV      R1,#+5
+        MOV      R0,SP
+        SWI      +349
+        MOV      R2,#+1
+        MOV      R1,R0
+        MOV      R0,R6
+        SWI      +713
+//   80   }
+//   81   Feedback_SetOnClose(gMBox, mbox_OnClose);
+??mbox_Create_4:
+        LDR      R1,??mbox_Create_5+0x4  ;; ??mbox_OnClose
+//   82   GUIObject_SoftKeys_SetAction(gMBox,ACTION_OK,mbox_onOK);
+        LDR      R9,??mbox_Create_5+0x8  ;; ??mbox_onOK
+        MOV      R0,R6
+        SWI      +711
+        LDR      R0,??mbox_Create_5+0xC  ;; ACTION_OK
+        MOV      R2,R9
+        LDR      R8,[R0, #+0]
+        MOV      R0,R6
+        MOV      R1,R8, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+//   83   GUIObject_SoftKeys_SetText(gMBox,ACTION_OK,TextID_Create(L"OK",ENC_UCS2,TEXTID_ANY_LEN));
+        LDR      R0,??mbox_Create_5+0x10  ;; `?<Constant L"\\x4f\\x4b">`
+        MOV      R2,R7
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R2,R0
+        MOV      R1,R8, LSL #+16
+        MOV      R1,R1, LSR #+16
+        MOV      R0,R6
+        SWI      +332
+//   84   GUIObject_SoftKeys_SetAction(gMBox,ACTION_BACK,mbox_onOK);
+        LDR      R0,??mbox_Create_5+0x14  ;; ACTION_BACK
+        MOV      R2,R9
+        LDR      R1,[R0, #+0]
+        MOV      R0,R6
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+//   85   GUIObject_SetStyle(gMBox, 4);
+        MOV      R1,#+4
+        MOV      R0,R6
+        SWI      +310
+//   86   GUIObject_SetTitleType(gMBox, 1);
+        MOV      R1,#+1
+        MOV      R0,R6
+        SWI      +641
+//   87   GUIObject_SoftKeys_Hide(gMBox);
+        MOV      R0,R6
+        SWI      +673
+//   88   Feedback_SetTimeout(gMBox, 5000);
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        MOV      R0,R6
+        SWI      +712
+//   89   if (created==true)
+        CMP      R5,#+0
+        POPEQ    {R0,R1,R4-R9,PC}
+//   90   {
+//   91     GUIObject_Show(gMBox);
+        MOV      R0,R6
+        SWI      +308
+//   92     BookObj_Show(bk, 0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +370
+//   93     BookObj_SetFocus(bk, 0);
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +306
+//   94   }
+//   95 };
+        POP      {R0,R1,R4-R9,PC}  ;; return
+        DATA
+??mbox_Create_5:
+        DC32     lng
+        DC32     ??mbox_OnClose
+        DC32     ??mbox_onOK
+        DC32     ACTION_OK
+        DC32     `?<Constant L"\\x4f\\x4b">`
+        DC32     ACTION_BACK
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     ECBook
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x4f\\x4b">`:
+        DATA
+        DC8 4FH, 0, 4BH, 0, 0, 0
+        DC8 0, 0
+
+        END
+//   96 
+// 
+// 612 bytes in segment CODE
+//   8 bytes in segment DATA_C
+// 
+// 600 bytes of CODE  memory (+ 12 bytes shared)
+//   8 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

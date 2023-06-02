@@ -1,0 +1,514 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:56:27 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\vol_i /
+//                       np.cpp                                              /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\vol_i /
+//                       np.cpp -D NDEBUG -D OLDFUNCTIONS -lC                /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\ /
+//                       EvtEdit\Release\List\ -o                            /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu    /
+//                       ARM926EJ-S --stack_align 4 --interwork -e           /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Relea /
+//                       se\List\vol_inp.s79                                 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME vol_inp
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??CreateVolInput
+        FUNCTION ??CreateVolInput,0203H
+        LOCFRAME CSTACK, 36, STACK
+        MULTWEAK ??CreateVolInput??rT
+        FUNCTION ??VolInputPage_OnEnter,0603H
+        LOCFRAME CSTACK, 8, STACK
+        FUNCTION ??VolInputPage_OnExit,0603H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC ??Vol_OnBack
+        FUNCTION ??Vol_OnBack,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??Vol_OnBack??rT
+        PUBLIC ??Vol_OnSave
+        FUNCTION ??Vol_OnSave,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??Vol_OnSave??rT
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new[]??rA`
+        PUBLIC bk_VolInput
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+??CreateVolInput??rT SYMBOL "??rT", ??CreateVolInput
+
+??Vol_OnBack??rT    SYMBOL "??rT", ??Vol_OnBack
+
+??Vol_OnSave??rT    SYMBOL "??rT", ??Vol_OnSave
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+        EXTERN ACTION_BACK
+        EXTERN ACTION_SAVE
+        EXTERN PREVIOUS_EVENT
+        EXTERN SelectFile_page
+        EXTERN VAR_ARG_BOOK
+        EXTERN VAR_ARG_HTEXT
+        EXTERN VAR_ARG_PERINP_CUR_PERCENT
+        EXTERN VAR_ARG_PERINP_ROW_NUMBERS
+        EXTERN bk_main
+        EXTERN lng
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CreateVolInput??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??CreateVolInput
+// Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\vol_inp.cpp
+//    1 #include "..\deleaker\mem2.h"
+//    2 #include "..\include\Lib_Clara.h" 
+//    3 #include "..\include\Dir.h" 
+//    4 #include "header\structs.h"
+//    5 #include "..\include\var_arg.h"
+//    6 #include "header\pages.h"
+//    7 #include "header\externals.h"
+//    8 #include "header\lng.h"
+//    9 
+//   10 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??CreateVolInput
+        ARM
+//   11 GUI *CreateVolInput(BOOK *bk, int vol, int maxvol)
+//   12 {
+??CreateVolInput:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOV      R4,R0
+//   13   GUI *g=CreatePercentInputVA(0, 
+//   14                              VAR_BOOK(bk), 
+//   15                              VAR_PERINP_ROWNUM(maxvol),
+//   16                              VAR_PERINP_CURPERC(vol), 
+//   17                              VAR_HEADER_TEXT(TextID_Create(lng[VOLUME],ENC_UCS2,TEXTID_ANY_LEN)));
+        LDR      R0,??CreateVolInput_1  ;; lng + 252
+        MOV      R5,R1
+        LDR      R0,[R0, #+0]
+        MOV      R6,R2
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        SWI      +349
+        LDR      R3,??CreateVolInput_1+0x4  ;; VAR_ARG_PERINP_ROW_NUMBERS
+        LDR      R1,??CreateVolInput_1+0x8  ;; VAR_ARG_BOOK
+        PUSH     {R0}
+        CFI CFA R13+20
+        LDR      R0,??CreateVolInput_1+0xC  ;; VAR_ARG_HTEXT
+        MOV      R2,R4
+        PUSH     {R0}
+        CFI CFA R13+24
+        LDR      R0,??CreateVolInput_1+0x10  ;; VAR_ARG_PERINP_CUR_PERCENT
+        PUSH     {R5}
+        CFI CFA R13+28
+        PUSH     {R0}
+        CFI CFA R13+32
+        PUSH     {R6}
+        CFI CFA R13+36
+        MOV      R0,#+0
+        SWI      +838
+        MOV      R4,R0
+//   18   GUIInput_SetIcon(g, 0xEB42);
+        MOV      R1,#+66
+        ORR      R1,R1,#0xEB00
+        SWI      +463
+//   19   return g;
+        MOV      R0,R4
+        ADD      SP,SP,#+20
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??CreateVolInput_1:
+        DC32     lng + 252
+        DC32     VAR_ARG_PERINP_ROW_NUMBERS
+        DC32     VAR_ARG_BOOK
+        DC32     VAR_ARG_HTEXT
+        DC32     VAR_ARG_PERINP_CUR_PERCENT
+        CFI EndBlock cfiBlock1
+//   20 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Vol_OnSave??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??Vol_OnSave
+//   21 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??Vol_OnSave
+        ARM
+//   22 void Vol_OnSave(BOOK *bk, GUI* )
+//   23 {
+??Vol_OnSave:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+//   24   MyBOOK *mbk=(MyBOOK*)bk;
+//   25   int v=PercentInput_GetPercent(mbk->vol);
+        LDR      R0,[R4, #+136]
+        SWI      +839
+        MOV      R5,R0
+//   26   if (mbk->vol_type==0)
+        LDR      R0,[R4, #+152]
+        CMP      R0,#+0
+        BNE      ??Vol_OnSave_1
+//   27   {
+//   28     mbk->tempvol= v * mbk->vol_mod;
+        LDR      R0,[R4, #+148]
+        MUL      R1,R0,R5
+//   29     BookObj_CallPage(bk,&SelectFile_page);
+        MOV      R0,R4
+        STR      R1,[R4, #+132]
+        LDR      R1,??Vol_OnSave_2  ;; SelectFile_page
+        SWI      +696
+        POP      {R4,R5,PC}
+//   30   }
+//   31   else
+//   32   {
+//   33     DELETE(mbk->selev->param);
+??Vol_OnSave_1:
+        LDR      R0,[R4, #+28]
+        LDR      R0,[R0, #+52]
+        CMP      R0,#+0
+        BEQ      ??Vol_OnSave_3
+        LDR      R0,[R4, #+28]
+        LDR      R0,[R0, #+52]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        LDR      R0,[R4, #+28]
+        MOV      R1,#+0
+        STR      R1,[R0, #+52]
+//   34     mbk->selev->param=new wchar_t[2];
+??Vol_OnSave_3:
+        MOV      R0,#+4
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        LDR      R1,[R4, #+28]
+//   35     snwprintf(mbk->selev->param,1,L"%d", v);
+        LDR      R2,??Vol_OnSave_2+0x4  ;; `?<Constant L"\\x25\\x64">`
+        STR      R0,[R1, #+52]
+        LDR      R0,[R4, #+28]
+        MOV      R3,R5
+        LDR      R0,[R0, #+52]
+        MOV      R1,#+1
+        SWI      +277
+//   36     BookObj_CallPage(bk,&bk_main);
+        LDR      R1,??Vol_OnSave_2+0x8  ;; bk_main
+        MOV      R0,R4
+        SWI      +696
+//   37   }
+//   38 };
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??Vol_OnSave_2:
+        DC32     SelectFile_page
+        DC32     `?<Constant L"\\x25\\x64">`
+        DC32     bk_main
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Vol_OnBack??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??Vol_OnBack
+//   39 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??Vol_OnBack
+        ARM
+//   40 void Vol_OnBack(BOOK *bk, GUI* )
+//   41 {
+//   42   BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+??Vol_OnBack:
+        LDR      R1,??Vol_OnBack_1  ;; PREVIOUS_EVENT
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R1,[R1, #+0]
+        SWI      +302
+//   43 };
+        POP      {PC}             ;; return
+        DATA
+??Vol_OnBack_1:
+        DC32     PREVIOUS_EVENT
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??VolInputPage_OnEnter??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??VolInputPage_OnEnter
+//   44 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??VolInputPage_OnEnter
+        ARM
+//   45 static int VolInputPage_OnEnter(void *,BOOK * bk)
+//   46 {
+??VolInputPage_OnEnter:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R1
+//   47   MyBOOK *mbk=(MyBOOK*)bk;
+//   48   mbk->vol=CreateVolInput(bk, mbk->curvol, mbk->maxvol);
+        LDR      R2,[R4, #+144]
+        LDR      R1,[R4, #+140]
+        MOV      R0,R4
+        BL       ??CreateVolInput
+//   49   GUIObject_SoftKeys_SetAction(mbk->vol,ACTION_SAVE,Vol_OnSave);
+        LDR      R2,??VolInputPage_OnEnter_1  ;; ??Vol_OnSave
+        STR      R0,[R4, #+136]
+        LDR      R0,??VolInputPage_OnEnter_1+0x4  ;; ACTION_SAVE
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R4, #+136]
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+//   50   GUIObject_SoftKeys_SetAction(mbk->vol,ACTION_BACK,Vol_OnBack);
+        LDR      R0,??VolInputPage_OnEnter_1+0x8  ;; ACTION_BACK
+        LDR      R2,??VolInputPage_OnEnter_1+0xC  ;; ??Vol_OnBack
+        LDR      R1,[R0, #+0]
+        LDR      R0,[R4, #+136]
+        MOV      R1,R1, LSL #+16
+        MOV      R1,R1, LSR #+16
+        SWI      +331
+//   51   GUIObject_Show(mbk->vol);
+        LDR      R0,[R4, #+136]
+        SWI      +308
+//   52   return (1);
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        DATA
+??VolInputPage_OnEnter_1:
+        DC32     ??Vol_OnSave
+        DC32     ACTION_SAVE
+        DC32     ACTION_BACK
+        DC32     ??Vol_OnBack
+        CFI EndBlock cfiBlock7
+//   53 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??VolInputPage_OnExit??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??VolInputPage_OnExit
+//   54 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??VolInputPage_OnExit
+        ARM
+//   55 static int VolInputPage_OnExit(void *, BOOK * bk)
+//   56 {
+??VolInputPage_OnExit:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R1
+//   57   MyBOOK *mbk=(MyBOOK *)bk;
+//   58   FREE_GUI(mbk->vol);
+        LDR      R0,[R4, #+136]
+        CMP      R0,#+0
+        BEQ      ??VolInputPage_OnExit_1
+        SWI      +462
+        STR      R0,[R4, #+136]
+//   59   return (1);  
+??VolInputPage_OnExit_1:
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock9
+//   60 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine5_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine5_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock10
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine6_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine6_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock11
+//   61 
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+//   62 const PAGE_MSG bk_msglst_VolInput[] @ "DYN_PAGE"  = 
+bk_msglst_VolInput:
+        DATA
+        DC32 66, ??VolInputPage_OnEnter, 67, ??VolInputPage_OnExit, 64, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "EvtEdit_VolumeControl...">`:
+        DATA
+        DC8 "EvtEdit_VolumeControl_Page"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x25\\x64">`:
+        DATA
+        DC8 25H, 0, 64H, 0, 0, 0
+        DC8 0, 0
+//   63 {
+//   64   PAGE_ENTER_EVENT_TAG,    VolInputPage_OnEnter,
+//   65   PAGE_EXIT_EVENT_TAG,     VolInputPage_OnExit,
+//   66   NIL_EVENT_TAG,           NULL
+//   67 };
+//   68 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//   69 const PAGE_DESC bk_VolInput = {"EvtEdit_VolumeControl_Page",0,bk_msglst_VolInput};
+bk_VolInput:
+        DATA
+        DC32 `?<Constant "EvtEdit_VolumeControl...">`, 0H, bk_msglst_VolInput
+
+        END
+// 
+// 524 bytes in segment CODE
+//  48 bytes in segment DATA_C
+//  24 bytes in segment DYN_PAGE
+// 
+// 480 bytes of CODE  memory (+ 44 bytes shared)
+//  72 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

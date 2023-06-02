@@ -1,0 +1,615 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:01:39 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\StandByDraw\ma #
+#                       in.c                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\StandByDraw\ma #
+#                       in.c -D NDEBUG -D OLDFUNCTIONS -lC                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StandByDraw\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\StandByDraw\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StandByDraw\Re #
+#                       lease\Obj\ -s9 --no_unroll --no_inline --cpu_mode    #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --eec++ --dlib_config    #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\                         #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\StandByDraw\Re #
+#                       lease\List\main.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\StandByDraw\Re #
+#                       lease\Obj\main.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\StandByDraw\main.c
+      1          #include "..\\include\Lib_Clara.h"
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs LPARAM::LPARAM(int)
+   \                     ??LPARAM:
+   \   00000000   001080E5           STR      R1,[R0, #+0]
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+      2          #include "..\\include\Dir.h"
+      3          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+      4          DISP_OBJ * StatusIndication;
+      5          int Height,Width;
+      6          u16 ftimer;
+   \                     ftimer:
+   \   00000000                      DS8 2
+   \   00000002                      REQUIRE `?<Initializer for ftimer>`
+   \   00000002                      DS8 2
+   \                     StatusIndication:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for StatusIndication>`
+   \                     Height:
+   \   00000008                      DS8 4
+   \   0000000C                      REQUIRE `?<Initializer for Height>`
+   \                     Width:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for Width>`
+      7          
+      8          int _x=100;
+   \                     _x:
+   \   00000010                      DS8 4
+   \   00000014                      REQUIRE `?<Initializer for _x>`
+      9          int _y=100;
+   \                     _y:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for _y>`
+     10          int _dx=2;
+   \                     _dx:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for _dx>`
+     11          int _dy=3;
+   \                     _dy:
+   \   0000001C                      DS8 4
+   \   00000020                      REQUIRE `?<Initializer for _dy>`
+     12          
+     13          void (*SIonRedraw)(DISP_OBJ *,int r1,int r2,int r3);
+   \                     SIonRedraw:
+   \   00000020                      DS8 4
+   \   00000024                      REQUIRE `?<Initializer for SIonRedraw>`
+     14          void Draw(DISP_OBJ * db,int r1, int r2,int r3);
+     15          
+     16          typedef struct
+     17          {
+     18            BOOK * book;
+     19          }MSG;
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          void Send_REDRAW_RELEASE()
+     22          {
+   \                     ??Send_REDRAW_RELEASE:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     23            // посылаем всем  мессагу со старым и своим методами Redraw
+     24            REDRAW_RELEASE_MESSAGE * sbm= new REDRAW_RELEASE_MESSAGE;
+   \   00000004   1800A0E3           MOV      R0,#+24
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000000C   0040A0E1           MOV      R4,R0
+     25            memset(sbm,0,sizeof(REDRAW_RELEASE_MESSAGE));
+   \   00000010   1820A0E3           MOV      R2,#+24
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   120100EF           SWI      +274
+     26            sbm->SB_OldOnRedraw=SIonRedraw;
+   \   0000001C   28009FE5           LDR      R0,??Send_REDRAW_RELEASE_1  ;; ftimer + 32
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   000084E5           STR      R0,[R4, #+0]
+     27            sbm->SB_NewOnRedraw=Draw;
+   \   00000028   ........           LDR      R0,??DataTable8  ;; ??Draw
+   \   0000002C   040084E5           STR      R0,[R4, #+4]
+     28            UI_Event_wData(SBY_REDRAW_RELEASE_EVENT ,sbm,(void (*)(void*))mfree_adr());
+   \   00000030   048100EF           SWI      +33028
+   \   00000034   0020A0E1           MOV      R2,R0
+   \   00000038   0410A0E1           MOV      R1,R4
+   \   0000003C   E300A0E3           MOV      R0,#+227
+   \   00000040   C00F80E3           ORR      R0,R0,#0x300
+   \   00000044   A90100EF           SWI      +425
+     29          }
+   \   00000048   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??Send_REDRAW_RELEASE_1:
+   \   0000004C   ........           DC32     ftimer + 32
+     30          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     31          int TerminateSBDraw(void * ,BOOK* book)
+     32          {
+   \                     ??TerminateSBDraw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     33            Send_REDRAW_RELEASE();
+   \   00000008   ........           BL       ??Send_REDRAW_RELEASE
+     34            FreeBook(book);
+   \   0000000C   0400A0E1           MOV      R0,R4
+   \   00000010   2F0100EF           SWI      +303
+     35            return(1);
+   \   00000014   0100A0E3           MOV      R0,#+1
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+     36          }
+     37          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     38          int ShowAuthorInfo(void *mess ,BOOK* book)
+     39          {
+   \                     ??ShowAuthorInfo:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     40            MSG * msg = (MSG*)mess;
+     41            MessageBox(EMPTY_TEXTID,STR("StandBy Draw test..."), NOIMAGE, 1, 5000,msg->book);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   3C009FE5           LDR      R0,??ShowAuthorInfo_1  ;; `?<Constant L"\\x53\\x74\\x61\\x6e\\x64\\x42\\x79\\x20\\`
+   \   00000010   FF50A0E3           MOV      R5,#+255
+   \   00000014   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000018   0520A0E1           MOV      R2,R5
+   \   0000001C   5D0100EF           SWI      +349
+   \   00000020   001094E5           LDR      R1,[R4, #+0]
+   \   00000024   0130A0E3           MOV      R3,#+1
+   \   00000028   02002DE9           PUSH     {R1}
+   \   0000002C   0520A0E1           MOV      R2,R5
+   \   00000030   8810A0E3           MOV      R1,#+136
+   \   00000034   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   9004E0E3           MVN      R0,#-1879048192
+   \   00000044   570200EF           SWI      +599
+     42            return(1);
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   3680BDE8           POP      {R1,R2,R4,R5,PC}  ;; return
+   \                     ??ShowAuthorInfo_1:
+   \   00000050   ........           DC32     `?<Constant L"\\x53\\x74\\x61\\x6e\\x64\\x42\\x79\\x20\\`
+     43          }
+     44          
+     45          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     46          int SB_ELF_Killed(void *mess ,BOOK* book)
+     47          {
+   \                     ??SB_ELF_Killed:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     48            // если был убит эльф рисующий на ГЭ или просто нужно перетосовать методы
+     49            REDRAW_RELEASE_MESSAGE * sbm=(REDRAW_RELEASE_MESSAGE*)mess;
+     50            // его ли метод мы используем в качестве oldRedraw?
+     51            if (sbm->SB_NewOnRedraw==SIonRedraw)
+   \   00000004   ........           LDR      R5,??DataTable5  ;; ftimer
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   040094E5           LDR      R0,[R4, #+4]
+   \   00000010   201095E5           LDR      R1,[R5, #+32]
+   \   00000014   010050E1           CMP      R0,R1
+   \   00000018   1900001A           BNE      ??SB_ELF_Killed_1
+     52            {
+     53              REDRAW_RELEASE_MESSAGE *res=new REDRAW_RELEASE_MESSAGE;
+   \   0000001C   1800A0E3           MOV      R0,#+24
+   \   00000020   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000024   0060A0E1           MOV      R6,R0
+     54              
+     55              // скопируем существующие методы в нашу мессагу
+     56              memcpy(res,sbm,sizeof(REDRAW_RELEASE_MESSAGE));
+   \   00000028   1820A0E3           MOV      R2,#+24
+   \   0000002C   0410A0E1           MOV      R1,R4
+   \   00000030   130100EF           SWI      +275
+     57              
+     58              // если он был убит, то заменяем свой oldRedraw на его..
+     59              if (sbm->SB_OldOnRedraw!=EMPTY_REDRAW_METHOD) SIonRedraw=sbm->SB_OldOnRedraw;
+   \   00000034   000094E5           LDR      R0,[R4, #+0]
+     60          
+     61              // ставим свой метод наверх
+     62              DISP_DESC_SetOnRedraw(DispObject_GetDESC(StatusIndication),Draw);
+   \   00000038   ........           LDR      R4,??DataTable8  ;; ??Draw
+   \   0000003C   0070E0E3           MVN      R7,#+0
+   \   00000040   070050E1           CMP      R0,R7
+   \   00000044   20008515           STRNE    R0,[R5, #+32]
+   \   00000048   040095E5           LDR      R0,[R5, #+4]
+   \   0000004C   1F0200EF           SWI      +543
+   \   00000050   0410A0E1           MOV      R1,R4
+   \   00000054   280200EF           SWI      +552
+     63          
+     64              // и шлём мессагу снова, чтоб следующие эльфы сделали тоже самое
+     65              res->SB_OldOnRedraw=EMPTY_REDRAW_METHOD;
+   \   00000058   007086E5           STR      R7,[R6, #+0]
+     66              res->SB_NewOnRedraw=Draw;
+   \   0000005C   044086E5           STR      R4,[R6, #+4]
+     67              UI_Event_wData(SBY_REDRAW_RELEASE_EVENT ,res,(void (*)(void*))mfree_adr());
+   \   00000060   048100EF           SWI      +33028
+   \   00000064   0020A0E1           MOV      R2,R0
+   \   00000068   0610A0E1           MOV      R1,R6
+   \   0000006C   E300A0E3           MOV      R0,#+227
+   \   00000070   C00F80E3           ORR      R0,R0,#0x300
+   \   00000074   A90100EF           SWI      +425
+     68              return BLOCK_EVENT_GLOBALLY;
+   \   00000078   9A00A0E3           MOV      R0,#+154
+   \   0000007C   800F80E3           ORR      R0,R0,#0x200
+   \   00000080   F080BDE8           POP      {R4-R7,PC}
+     69            }
+     70            return 0;
+   \                     ??SB_ELF_Killed_1:
+   \   00000084   0000A0E3           MOV      R0,#+0
+   \   00000088   F080BDE8           POP      {R4-R7,PC}       ;; return
+     71          }
+     72          
+     73          
+     74          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+     75          const PAGE_MSG SBDraw_PageEvents[]@ "DYN_PAGE" ={
+   \                     SBDraw_PageEvents:
+   \   00000000   E3030000....       DC32 995, ??SB_ELF_Killed, 997, ??TerminateSBDraw, 998
+   \              ....E5030000
+   \              ........E603
+   \              0000        
+   \   00000014   ........4000       DC32 ??ShowAuthorInfo, 64, 0H
+   \              000000000000
+     76            SBY_REDRAW_RELEASE_EVENT  , SB_ELF_Killed,
+     77            ELF_TERMINATE_EVENT       , TerminateSBDraw,
+     78            ELF_SHOW_INFO_EVENT       , ShowAuthorInfo,
+     79            NIL_EVENT_TAG             , NULL
+     80          
+     81          };
+     82          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     83          PAGE_DESC base_page ={"SBDraw_BasePage",0,SBDraw_PageEvents};
+   \                     base_page:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for base_page>`
+     84          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     85          void elf_exit(void)
+     86          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     87            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+     88          }
+     89          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     90          void onfTimer (u16 tmr , LPARAM)
+     91          {
+   \                     ??onfTimer:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     92            DispObject_InvalidateRect(StatusIndication,0);
+   \   00000004   ........           LDR      R4,??DataTable7  ;; ftimer
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   040094E5           LDR      R0,[R4, #+4]
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   EF0100EF           SWI      +495
+     93            Timer_ReSet(&ftimer,20,onfTimer,0);
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   0D00A0E1           MOV      R0,SP
+   \   00000020   ........           _BLF     ??LPARAM,??LPARAM??rA
+   \   00000024   00309DE5           LDR      R3,[SP, #+0]
+   \   00000028   ........           LDR      R2,??DataTable9  ;; ??onfTimer
+   \   0000002C   1410A0E3           MOV      R1,#+20
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   280100EF           SWI      +296
+     94          }
+   \   00000038   1180BDE8           POP      {R0,R4,PC}       ;; return
+     95          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     96          void Draw(DISP_OBJ * db,int r1, int r2,int r3)
+     97          {
+   \                     ??Draw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     98            // вызываем родной onRedraw.
+     99            SIonRedraw(db,r1,r2,r3);
+   \   00000004   ........           LDR      R4,??DataTable5  ;; ftimer
+   \   00000008   20C094E5           LDR      R12,[R4, #+32]
+   \   0000000C   3CFF2FE1           BLX      R12
+    100          
+    101            DrawRect(_x,_y,_x+10,_y+10,clRed,clRed);
+   \   00000010   100094E5           LDR      R0,[R4, #+16]
+   \   00000014   141094E5           LDR      R1,[R4, #+20]
+   \   00000018   FF24A0E3           MOV      R2,#-16777216
+   \   0000001C   FF2882E3           ORR      R2,R2,#0xFF0000
+   \   00000020   04002DE9           PUSH     {R2}
+   \   00000024   04002DE9           PUSH     {R2}
+   \   00000028   0A3081E2           ADD      R3,R1,#+10
+   \   0000002C   0A2080E2           ADD      R2,R0,#+10
+   \   00000030   EC0100EF           SWI      +492
+    102            if ((_x>Width-11) && (_dx>0)) _dx=0-_dx;
+   \   00000034   101094E5           LDR      R1,[R4, #+16]
+   \   00000038   0C2094E5           LDR      R2,[R4, #+12]
+   \   0000003C   180094E5           LDR      R0,[R4, #+24]
+   \   00000040   0B2042E2           SUB      R2,R2,#+11
+   \   00000044   010052E1           CMP      R2,R1
+   \   00000048   08D08DE2           ADD      SP,SP,#+8
+   \   0000004C   010000AA           BGE      ??Draw_1
+   \   00000050   010050E3           CMP      R0,#+1
+   \   00000054   000060A2           RSBGE    R0,R0,#+0
+    103            if ((_x<9) && (_dx<0)) _dx=0-_dx;
+   \                     ??Draw_1:
+   \   00000058   090051E3           CMP      R1,#+9
+   \   0000005C   010000AA           BGE      ??Draw_2
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   00006042           RSBMI    R0,R0,#+0
+    104            if ((_y>Height-50) && (_dy>0)) _dy=0-_dy;
+   \                     ??Draw_2:
+   \   00000068   142094E5           LDR      R2,[R4, #+20]
+   \   0000006C   083094E5           LDR      R3,[R4, #+8]
+   \   00000070   180084E5           STR      R0,[R4, #+24]
+   \   00000074   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000078   323043E2           SUB      R3,R3,#+50
+   \   0000007C   020053E1           CMP      R3,R2
+   \   00000080   010000AA           BGE      ??Draw_3
+   \   00000084   010050E3           CMP      R0,#+1
+   \   00000088   000060A2           RSBGE    R0,R0,#+0
+    105            if ((_y<20) && (_dy<0)) _dy=0-_dy;
+   \                     ??Draw_3:
+   \   0000008C   140052E3           CMP      R2,#+20
+   \   00000090   010000AA           BGE      ??Draw_4
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   00006042           RSBMI    R0,R0,#+0
+    106            _x+=_dx;
+   \                     ??Draw_4:
+   \   0000009C   183094E5           LDR      R3,[R4, #+24]
+   \   000000A0   1C0084E5           STR      R0,[R4, #+28]
+   \   000000A4   011083E0           ADD      R1,R3,R1
+   \   000000A8   101084E5           STR      R1,[R4, #+16]
+    107            _y+=_dy;
+   \   000000AC   020080E0           ADD      R0,R0,R2
+   \   000000B0   140084E5           STR      R0,[R4, #+20]
+    108          }
+   \   000000B4   1080BDE8           POP      {R4,PC}          ;; return
+    109          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    110          void onCloseMyBook(BOOK * book)
+    111          {
+   \                     ??onCloseMyBook:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    112            if (book)
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+    113            {
+    114              Timer_Kill(&ftimer);
+   \   0000000C   ........           LDR      R4,??DataTable7  ;; ftimer
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   2A0100EF           SWI      +298
+    115              DISP_DESC_SetOnRedraw(DispObject_GetDESC(StatusIndication),SIonRedraw);
+   \   00000018   040094E5           LDR      R0,[R4, #+4]
+   \   0000001C   1F0200EF           SWI      +543
+   \   00000020   201094E5           LDR      R1,[R4, #+32]
+   \   00000024   280200EF           SWI      +552
+    116              SUBPROC(elf_exit);
+   \   00000028   04009FE5           LDR      R0,??onCloseMyBook_1  ;; ??elf_exit
+   \   0000002C   080100EF           SWI      +264
+    117            }
+    118          }
+   \   00000030   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??onCloseMyBook_1:
+   \   00000034   ........           DC32     ??elf_exit
+    119          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    120          BOOK * CreateSBDBook()
+    121          {
+   \                     ??CreateSBDBook:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    122            BOOK * SBDBook= new BOOK;
+   \   00000004   1800A0E3           MOV      R0,#+24
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+    123            CreateBook(SBDBook,onCloseMyBook,&base_page,"SBDraw_Test",-1,0);
+   \   0000000C   28309FE5           LDR      R3,??CreateSBDBook_1  ;; `?<Constant "SBDraw_Test">`
+   \   00000010   28209FE5           LDR      R2,??CreateSBDBook_1+0x4  ;; base_page
+   \   00000014   28109FE5           LDR      R1,??CreateSBDBook_1+0x8  ;; ??onCloseMyBook
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   0000E0E1           MVN      R0,R0
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   2B0100EF           SWI      +299
+    124            return(SBDBook);
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   1680BDE8           POP      {R1,R2,R4,PC}    ;; return
+   \                     ??CreateSBDBook_1:
+   \   0000003C   ........           DC32     `?<Constant "SBDraw_Test">`
+   \   00000040   ........           DC32     base_page
+   \   00000044   ........           DC32     ??onCloseMyBook
+    125          }
+    126          
+    127          //
+    128          // Исключительно пример рисования на StandBy.
+    129          // запускаем несколько копий эльфа. после запуска каждой необходимо выйти на StandBy.
+    130          //
+    131          // для рисования заменяем OnRedraw у StatusIndication на свой. старый вызываем в своём методе.
+    132          // при завершении работы посылаем сообщение(см.Send_REDRAW_RELEASE())
+    133          // так же сами обязательно обрабатываем SBY_REDRAW_RELEASE_EVENT
+    134          //
+
+   \                                 In segment CODE, align 4, keep-with-next
+    135          int main (void)
+    136          {
+   \                     main:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    137            Height=Display_GetHeight(0);
+   \   00000004   ........           LDR      R4,??DataTable7  ;; ftimer
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   580200EF           SWI      +600
+   \   00000014   080084E5           STR      R0,[R4, #+8]
+    138            Width=Display_GetWidth(0);;
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   590200EF           SWI      +601
+   \   00000020   0C0084E5           STR      R0,[R4, #+12]
+    139            CreateSBDBook();
+   \   00000024   ........           BL       ??CreateSBDBook
+    140          
+    141            StatusIndication=GUIObject_GetDispObject ( SBY_GetStatusIndication(Find_StandbyBook()) );
+   \   00000028   310100EF           SWI      +305
+   \   0000002C   180200EF           SWI      +536
+   \   00000030   680100EF           SWI      +360
+   \   00000034   040084E5           STR      R0,[R4, #+4]
+    142            SIonRedraw=DispObject_GetOnRedraw(StatusIndication);
+   \   00000038   290200EF           SWI      +553
+   \   0000003C   200084E5           STR      R0,[R4, #+32]
+    143            DISP_DESC_SetOnRedraw(DispObject_GetDESC(StatusIndication),Draw);
+   \   00000040   040094E5           LDR      R0,[R4, #+4]
+   \   00000044   1F0200EF           SWI      +543
+   \   00000048   ........           LDR      R1,??DataTable8  ;; ??Draw
+   \   0000004C   280200EF           SWI      +552
+    144            ftimer=Timer_Set(20,onfTimer,0);
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   0D00A0E1           MOV      R0,SP
+   \   00000058   ........           _BLF     ??LPARAM,??LPARAM??rA
+   \   0000005C   00209DE5           LDR      R2,[SP, #+0]
+   \   00000060   ........           LDR      R1,??DataTable9  ;; ??onfTimer
+   \   00000064   1400A0E3           MOV      R0,#+20
+   \   00000068   290100EF           SWI      +297
+   \   0000006C   B000C4E1           STRH     R0,[R4, #+0]
+    145            return(0);
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   1280BDE8           POP      {R1,R4,PC}       ;; return
+    146          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     ftimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     ftimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     ??Draw
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     ??onfTimer
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for ftimer>`:
+   \   00000000   0000               DC8 0, 0
+   \   00000002   0000               DC8 0, 0
+   \                     `?<Initializer for StatusIndication>`:
+   \   00000004   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Height>`:
+   \   00000008   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Width>`:
+   \   0000000C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for _x>`:
+   \   00000010   64000000           DC32 100
+   \                     `?<Initializer for _y>`:
+   \   00000014   64000000           DC32 100
+   \                     `?<Initializer for _dx>`:
+   \   00000018   02000000           DC32 2
+   \                     `?<Initializer for _dy>`:
+   \   0000001C   03000000           DC32 3
+   \                     `?<Initializer for SIonRedraw>`:
+   \   00000020   00000000           DC8 0, 0, 0, 0
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for base_page>`:
+   \   00000000   ........0000       DC32 `?<Constant "SBDraw_BasePage">`, 0H, SBDraw_PageEvents
+   \              0000........
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SBDraw_BasePage">`:
+   \   00000000   534244726177       DC8 "SBDraw_BasePage"
+   \              5F4261736550
+   \              61676500    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x53\\x74\\x61\\x6e\\x64\\x42\\x79\\x20\\`:
+   \   00000000   530074006100       DC8 53H, 0, 74H, 0, 61H, 0, 6EH, 0
+   \              6E00        
+   \   00000008   640042007900       DC8 64H, 0, 42H, 0, 79H, 0, 20H, 0
+   \              2000        
+   \   00000010   440072006100       DC8 44H, 0, 72H, 0, 61H, 0, 77H, 0
+   \              7700        
+   \   00000018   200074006500       DC8 20H, 0, 74H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   00000020   74002E002E00       DC8 74H, 0, 2EH, 0, 2EH, 0, 2EH, 0
+   \              2E00        
+   \   00000028   0000               DC8 0, 0
+   \   0000002A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SBDraw_Test">`:
+   \   00000000   534244726177       DC8 "SBDraw_Test"
+   \              5F5465737400
+    147          
+    148          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateSBDBook()                   16
+     Draw(DISP_OBJ *, int, int, int)
+                                       16
+     LPARAM::LPARAM(int)                0
+     SB_ELF_Killed(void *, BOOK *)     20
+     Send_REDRAW_RELEASE()              8
+     ShowAuthorInfo(void *, BOOK *)    20
+     TerminateSBDraw(void *, BOOK *)
+                                        8
+     elf_exit()                         4
+     main()                            12
+     onCloseMyBook(BOOK *)              8
+     onfTimer(u16, LPARAM)             12
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     LPARAM::LPARAM(int)               8
+     ftimer                           36
+     Send_REDRAW_RELEASE()            80
+     TerminateSBDraw(void *, BOOK *)
+                                      28
+     ShowAuthorInfo(void *, BOOK *)   84
+     SB_ELF_Killed(void *, BOOK *)   140
+     SBDraw_PageEvents                32
+     base_page                        12
+     elf_exit()                       28
+     onfTimer(u16, LPARAM)            60
+     Draw(DISP_OBJ *, int, int, int)
+                                     184
+     onCloseMyBook(BOOK *)            56
+     CreateSBDBook()                  72
+     main()                          120
+     ??DataTable5                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ?<Initializer for ftimer>        36
+     ?<Initializer for base_page>     12
+     ?<Constant "SBDraw_BasePage">    16
+     ?<Constant L"\x53\x74\x61\x6e\x64\x42\x79\x20\
+                                      44
+     ?<Constant "SBDraw_Test">        12
+      Others                          88
+
+ 
+ 952 bytes in segment CODE
+  72 bytes in segment DATA_C
+  48 bytes in segment DATA_I
+  48 bytes in segment DATA_ID
+  32 bytes in segment DYN_PAGE
+  12 bytes in segment INITTAB
+ 
+ 868 bytes of CODE  memory (+ 96 bytes shared)
+ 152 bytes of CONST memory
+  48 bytes of DATA  memory
+
+Errors: none
+Warnings: none

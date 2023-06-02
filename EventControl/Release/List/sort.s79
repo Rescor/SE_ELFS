@@ -1,0 +1,372 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:53:58 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       sort.cpp                                            /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       sort.cpp -D NDEBUG -D OLDFUNCTIONS -lC              /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\EventControl\Release\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\Obj\ -s9 --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\sort.s79                               /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME sort
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        EXTERN ??ldr32b_a
+
+        PUBLIC ??SortList
+        FUNCTION ??SortList,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??SortList??rT
+        PUBLIC ??ev_cmp
+        FUNCTION ??ev_cmp,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??ev_cmp??rT
+        MULTWEAK ??rA??ldr32b_a
+        PUBLIC ??sort_array
+        FUNCTION ??sort_array,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??sort_array??rT
+        PUBLIC ??time_cmp
+        FUNCTION ??time_cmp,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??time_cmp??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??SortList??rT      SYMBOL "??rT", ??SortList
+
+??ev_cmp??rT        SYMBOL "??rT", ??ev_cmp
+
+??sort_array??rT    SYMBOL "??rT", ??sort_array
+
+??time_cmp??rT      SYMBOL "??rT", ??time_cmp
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??time_cmp??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??time_cmp
+// Z:\home\perk11\www\perk11.info\svn\SE\EventControl\sort.cpp
+//    1 /*
+//    2 *===========================================================================
+//    3 *                 Модуль сортировки списка событий
+//    4 *===========================================================================
+//    5 */
+//    6 #include "..\deleaker\mem2.h"
+//    7 #include "..\include\Lib_Clara.h" 
+//    8 #include "..\include\Dir.h"
+//    9 #include "header\structs.h"
+//   10 
+//   11 /*
+//   12 *===========================================================================
+//   13 *         Функция сравнения двух временных структур.
+//   14 *===========================================================================
+//   15 * 1) Если первая идёт раньше второй, то возвращается 1.
+//   16 * 2) Если вторая идёт раньше второй, то возвращается -1.
+//   17 * 3) Если структуры одинаковы, то возвращается 0.
+//   18 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??time_cmp
+        ARM
+//   19 int time_cmp(TIME t1, TIME t2)
+//   20 {
+??time_cmp:
+        PUSH     {R0,R1}
+        CFI CFA R13+8
+//   21   int n1=(t1.hour*3600) + (t1.min*60) + t1.sec;
+        LDRB     R2,[SP, #+1]
+        LDRB     R0,[SP, #+0]
+        MOV      R3,#+60
+        MOV      R1,#+3600
+        MUL      R2,R3,R2
+//   22   int n2=(t2.hour*3600) + (t2.min*60) + t2.sec;
+        LDRB     R3,[SP, #+5]
+        MLA      R0,R1,R0,R2
+        LDRB     R1,[SP, #+2]
+        MOV      R2,#+3600
+        MOV      R12,#+60
+        ADD      R0,R1,R0
+        LDRB     R1,[SP, #+4]
+        MUL      R3,R12,R3
+        MLA      R1,R2,R1,R3
+        LDRB     R2,[SP, #+6]
+        ADD      R1,R2,R1
+//   23   if (n1<n2)return 1;
+        CMP      R0,R1
+        MOVLT    R0,#+1
+        BLT      ??time_cmp_1
+//   24   if (n1==n2)return 0;
+        MOVEQ    R0,#+0
+//   25   if (n1>n2)return -1;
+        MVNNE    R0,#+0
+??time_cmp_1:
+        POP      {R1,R2}
+        CFI CFA R13+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock1
+//   26   return 0;
+//   27 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ev_cmp??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??ev_cmp
+//   28 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??ev_cmp
+        ARM
+//   29 int ev_cmp(EVENT *ev1, EVENT *ev2)
+//   30 {
+??ev_cmp:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   31   return time_cmp(ev1->time, ev2->time);
+        ADD      R3,R1,#+144
+        MOV      R4,R0
+        _BLF     ??ldr32b_a,??rA??ldr32b_a
+        MOV      R1,R0
+        ADD      R3,R4,#+144
+        _BLF     ??ldr32b_a,??rA??ldr32b_a
+        POP      {R4,LR}          ;; Pop
+        CFI R4 SameValue
+        CFI ?RET R14
+        CFI CFA R13+0
+        B        ??time_cmp       ;; tailcall
+        CFI EndBlock cfiBlock3
+//   32 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??sort_array??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??sort_array
+//   33 
+//   34 /*
+//   35 *===========================================================================
+//   36 *                Функция сортировки листа
+//   37 *===========================================================================
+//   38 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??sort_array
+        ARM
+//   39 void sort_array(void *arr[], int n)
+//   40 {
+??sort_array:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        MOV      R4,R0
+        MOV      R5,R1
+//   41   int i;
+//   42   int j;
+//   43   void * tmp;
+//   44   
+//   45   for(i = 0; i <= n-1; i++)
+        MOV      R6,#+0
+        SUBS     R7,R5,#+1
+        POPMI    {R4-R10,PC}
+//   46   {
+//   47     for(j = 0; j <= n-2-i; j++)
+??sort_array_1:
+        MOV      R8,#+0
+        SUB      R0,R5,#+2
+        SUBS     R9,R0,R6
+        BMI      ??sort_array_2
+//   48     {
+//   49       if (ev_cmp((EVENT*)arr[j],(EVENT*)arr[j+1])==-1)
+??sort_array_3:
+        ADD      R10,R4,R8, LSL #+2
+        LDR      R0,[R10, #+4]
+        ADD      R3,R0,#+144
+        _BLF     ??ldr32b_a,??rA??ldr32b_a
+        MOV      R1,R0
+        LDR      R0,[R4, +R8, LSL #+2]
+        ADD      R3,R0,#+144
+        _BLF     ??ldr32b_a,??rA??ldr32b_a
+        BL       ??time_cmp
+        CMN      R0,#+1
+        BNE      ??sort_array_4
+//   50       {
+//   51         tmp = arr[j];
+        LDR      R0,[R4, +R8, LSL #+2]
+//   52         arr[j] = arr[j+1];
+        LDR      R1,[R10, #+4]
+        STR      R1,[R4, +R8, LSL #+2]
+//   53         arr[j+1] = tmp;
+        STR      R0,[R10, #+4]
+//   54       }
+//   55     }
+??sort_array_4:
+        ADD      R8,R8,#+1
+        CMP      R9,R8
+        BGE      ??sort_array_3
+//   56   }
+??sort_array_2:
+        ADD      R6,R6,#+1
+        CMP      R7,R6
+        BGE      ??sort_array_1
+//   57 };
+        POP      {R4-R10,PC}      ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SortList??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??SortList
+//   58 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??SortList
+        ARM
+//   59 void SortList(LIST *lst)
+//   60 {
+//   61   sort_array(lst->listdata, lst->FirstFree);
+??SortList:
+        LDRH     R1,[R0, #+2]
+        LDR      R0,[R0, #+4]
+        B        ??sort_array     ;; tailcall
+        CFI EndBlock cfiBlock7
+//   62 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??rA??ldr32b_a:
+        LDR      R12,??Subroutine4_0  ;; ??ldr32b_a
+        MOV      PC,R12
+        DATA
+??Subroutine4_0:
+        DC32     ??ldr32b_a
+        CFI EndBlock cfiBlock8
+
+        END
+// 
+// 300 bytes in segment CODE
+// 
+// 272 bytes of CODE memory (+ 28 bytes shared)
+//
+//Errors: none
+//Warnings: none

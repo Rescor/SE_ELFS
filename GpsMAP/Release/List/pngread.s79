@@ -1,0 +1,828 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:41:42 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\pngrea /
+//                       d.c                                                 /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\pngrea /
+//                       d.c -D NDEBUG -D OLDFUNCTIONS -lCN                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Releas /
+//                       e\List\ -la Z:\home\perk11\www\perk11.info\svn\SE\G /
+//                       psMAP\Release\List\ -o Z:\home\perk11\www\perk11.in /
+//                       fo\svn\SE\GpsMAP\Release\Obj\ -s9 --no_unroll       /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Releas /
+//                       e\List\pngread.s79                                  /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME pngread
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??Destr_Png
+        FUNCTION ??Destr_Png,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Destr_Png??rT
+        PUBLIC ??InitPng
+        FUNCTION ??InitPng,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??InitPng??rT
+        PUBLIC ??RemovePngListElement
+        FUNCTION ??RemovePngListElement,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??RemovePngListElement??rT
+        PUBLIC ??end_callback
+        FUNCTION ??end_callback,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??end_callback??rT
+        PUBLIC ??get_png_info
+        FUNCTION ??get_png_info,0203H
+        LOCFRAME CSTACK, 164, STACK
+        MULTWEAK ??get_png_info??rT
+        PUBLIC ??get_uint
+        FUNCTION ??get_uint,0203H
+        MULTWEAK ??get_uint??rT
+        PUBLIC ??info_callback
+        FUNCTION ??info_callback,0603H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??info_callback??rT
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new??rA`
+        MULTWEAK `??operator new[]??rA`
+        PUBLIC ??process_data
+        FUNCTION ??process_data,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??process_data??rT
+        PUBLIC ??row_callback
+        FUNCTION ??row_callback,0603H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??row_callback??rT
+        PUBLIC ??xmalloc
+        FUNCTION ??xmalloc,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??xmalloc??rT
+        PUBLIC ??xmfree
+        FUNCTION ??xmfree,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??xmfree??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+??Destr_Png??rT     SYMBOL "??rT", ??Destr_Png
+
+??InitPng??rT       SYMBOL "??rT", ??InitPng
+
+??RemovePngListElement??rT SYMBOL "??rT", ??RemovePngListElement
+
+??end_callback??rT  SYMBOL "??rT", ??end_callback
+
+??get_png_info??rT  SYMBOL "??rT", ??get_png_info
+
+??get_uint??rT      SYMBOL "??rT", ??get_uint
+
+??info_callback??rT SYMBOL "??rT", ??info_callback
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new??rA` SYMBOL "??rA", `??operator new`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+??process_data??rT  SYMBOL "??rT", ??process_data
+
+??row_callback??rT  SYMBOL "??rT", ??row_callback
+
+??xmalloc??rT       SYMBOL "??rT", ??xmalloc
+
+??xmfree??rT        SYMBOL "??rT", ??xmfree
+
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new`
+        FUNCTION `??operator new`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??xmalloc??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??xmalloc
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??xmalloc
+        ARM
+??xmalloc:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R0,R1
+        SWI      +259
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??xmfree??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??xmfree
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??xmfree
+        ARM
+??xmfree:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R0,R1
+        SWI      +260
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??info_callback??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??info_callback
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??info_callback
+        ARM
+??info_callback:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+8
+        CFI CFA R13+24
+        MOV      R4,R0
+        MOV      R5,R1
+        SWI      +620
+        MOV      R6,R0
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+28
+        PUSH     {R0}
+        CFI CFA R13+32
+        PUSH     {R0}
+        CFI CFA R13+36
+        ADD      R3,R6,#+16
+        ADD      R2,R6,#+12
+        MOV      R1,R5
+        ADD      R0,SP,#+12
+        PUSH     {R0}
+        CFI CFA R13+40
+        ADD      R0,SP,#+20
+        PUSH     {R0}
+        CFI CFA R13+44
+        MOV      R0,R4
+        SWI      +621
+        LDR      R0,[SP, #+24]
+        ADD      SP,SP,#+20
+        CFI CFA R13+24
+        CMP      R0,#+8
+        BGE      ??info_callback_1
+        MOV      R0,R4
+        SWI      +623
+??info_callback_1:
+        MOV      R2,#+16
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +625
+        CMP      R0,#+0
+        BEQ      ??info_callback_2
+        MOV      R0,R4
+        SWI      +626
+??info_callback_2:
+        LDR      R0,[SP, #+4]
+        CMP      R0,#+16
+        BNE      ??info_callback_3
+        MOV      R0,R4
+        SWI      +622
+??info_callback_3:
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+3
+        BNE      ??info_callback_4
+        MOV      R0,R4
+        SWI      +628
+??info_callback_4:
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+4
+        CMPNE    R0,#+0
+        BNE      ??info_callback_5
+        MOV      R0,R4
+        SWI      +624
+??info_callback_5:
+        MOV      R2,#+1
+        MOV      R1,#+255
+        MOV      R0,R4
+        SWI      +627
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +619
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +629
+        ADD      R0,R0,#+3
+        BIC      R0,R0,#0x3
+        STR      R0,[R6, #+20]
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[R6, #+24]
+        LDR      R0,[R6, #+12]
+        LDR      R1,[R6, #+16]
+        MUL      R0,R1,R0
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[R6, #+36]
+        LDR      R0,[R6, #+12]
+        LDR      R1,[R6, #+16]
+        MUL      R2,R1,R0
+        LDR      R0,[R6, #+36]
+        MOV      R1,#+0
+        SWI      +274
+        POP      {R0,R1,R4-R6,PC}  ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??row_callback??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??row_callback
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??row_callback
+        ARM
+??row_callback:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R5,R0
+        MOV      R6,R1
+        MOV      R7,R2
+        SWI      +620
+        MOV      R4,R0
+        LDR      R0,[R4, #+16]
+        CMP      R0,R7
+        POPCC    {R4-R7,PC}
+        LDR      R1,[R4, #+24]
+        MOV      R2,R6
+        MOV      R0,R5
+        SWI      +630
+        LDR      R2,[R4, #+12]
+        LDR      R0,[R4, #+36]
+        MOV      R1,#+0
+        MLA      R0,R7,R2,R0
+        CMP      R2,#+0
+        MOV      R6,#+28
+        BNE      ??row_callback_1
+        POP      {R4-R7,PC}       ;; return
+??row_callback_2:
+        MOV      R2,#+255
+??row_callback_3:
+        STRB     R2,[R1, +R0]
+        ADD      R1,R1,#+1
+??row_callback_1:
+        LDR      R2,[R4, #+12]
+        CMP      R1,R2
+        POPCS    {R4-R7,PC}
+        LDR      R2,[R4, #+24]
+        ADD      R2,R2,R1, LSL #+2
+        LDRB     R2,[R2, #+3]
+        CMP      R2,#+0
+        BEQ      ??row_callback_2
+        LDR      R2,[R4, #+24]
+        ADD      R2,R2,R1, LSL #+2
+        LDRB     R3,[R2, #+0]
+        LDRB     R5,[R2, #+1]
+        LDRB     R2,[R2, #+2]
+        AND      R3,R3,#0xE0
+        AND      R5,R6,R5, LSR #+3
+        ORR      R3,R5,R3
+        ORR      R2,R3,R2, LSR #+6
+        B        ??row_callback_3
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??end_callback??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??end_callback
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??end_callback
+        ARM
+??end_callback:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SWI      +620
+        MOV      R4,R0
+        LDR      R0,[R4, #+24]
+        MOV      R5,#+0
+        _BLF     `??operator delete`,`??operator delete??rA`
+        STR      R5,[R4, #+24]
+        MOV      R0,#+20
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R1,R0
+        LDR      R0,[R4, #+28]
+        STR      R0,[R1, #+0]
+        LDR      R0,[R4, #+32]
+        STR      R0,[R1, #+4]
+        LDR      R0,[R4, #+12]
+        STR      R0,[R1, #+8]
+        LDR      R0,[R4, #+16]
+        STR      R0,[R1, #+12]
+        LDR      R0,[R4, #+36]
+        STR      R0,[R1, #+16]
+        STR      R5,[R4, #+36]
+        LDR      R0,[R4, #+0]
+        SWI      +363
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InitPng??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ??InitPng
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??InitPng
+        ARM
+??InitPng:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R0,#+40
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R7,R0
+        LDR      R0,??InitPng_1   ;; ??xmfree
+        MOV      R3,#+0
+        PUSH     {R0}
+        CFI CFA R13+24
+        LDR      R0,??InitPng_1+0x4  ;; ??xmalloc
+        PUSH     {R0}
+        CFI CFA R13+28
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+32
+        MOV      R2,R0
+        MOV      R1,R0
+        LDR      R0,??InitPng_1+0x8  ;; `?<Constant "1.2.5">`
+        SWI      +613
+        STR      R0,[R7, #+4]
+        SWI      +615
+        STR      R0,[R7, #+8]
+        CMP      R0,#+0
+        ADD      SP,SP,#+12
+        CFI CFA R13+20
+        BNE      ??InitPng_2
+        MOV      R2,#+0
+        MOV      R1,#+0
+        ADD      R0,R7,#+4
+        SWI      +614
+        MOV      R0,R7
+        _BLF     `??operator delete`,`??operator delete??rA`
+        MOV      R0,#+0
+        POP      {R4-R7,PC}
+??InitPng_2:
+        LDR      R3,??InitPng_1+0xC  ;; ??row_callback
+        LDR      R2,??InitPng_1+0x10  ;; ??info_callback
+        MOV      R0,#+0
+        STR      R0,[R7, #+12]
+        STR      R0,[R7, #+16]
+        STR      R0,[R7, #+20]
+        STR      R0,[R7, #+24]
+        STR      R0,[R7, #+36]
+        LDR      R0,??InitPng_1+0x14  ;; ??end_callback
+        STR      R5,[R7, #+28]
+        STR      R6,[R7, #+32]
+        STR      R4,[R7, #+0]
+        PUSH     {R0}
+        CFI CFA R13+24
+        LDR      R0,[R7, #+4]
+        MOV      R1,R7
+        SWI      +617
+        MOV      R0,R7
+        ADD      SP,SP,#+4
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        DATA
+??InitPng_1:
+        DC32     ??xmfree
+        DC32     ??xmalloc
+        DC32     `?<Constant "1.2.5">`
+        DC32     ??row_callback
+        DC32     ??info_callback
+        DC32     ??end_callback
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??RemovePngListElement??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ??RemovePngListElement
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??RemovePngListElement
+        ARM
+??RemovePngListElement:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+        LDR      R0,[R4, #+16]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        MOV      R0,R4
+        POP      {R4,LR}          ;; Pop
+        CFI R4 SameValue
+        CFI ?RET R14
+        CFI CFA R13+0
+        _BF      `??operator delete`,`??operator delete??rA`  ;; tailcall
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Destr_Png??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE ??Destr_Png
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??Destr_Png
+        ARM
+??Destr_Png:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R2,#+0
+        MOV      R4,R0
+        ADD      R1,R4,#+8
+        ADD      R0,R4,#+4
+        SWI      +614
+        LDR      R0,[R4, #+24]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        LDR      R0,[R4, #+36]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        MOV      R0,R4
+        POP      {R4,LR}          ;; Pop
+        CFI R4 SameValue
+        CFI ?RET R14
+        CFI CFA R13+0
+        _BF      `??operator delete`,`??operator delete??rA`  ;; tailcall
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??process_data??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE ??process_data
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ??process_data
+        ARM
+??process_data:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R3,R2
+        MOV      R2,R1
+        LDR      R1,[R0, #+8]
+        LDR      R0,[R0, #+4]
+        SWI      +618
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??get_uint??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE ??get_uint
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ??get_uint
+        ARM
+??get_uint:
+        LDRB     R1,[R0, #+0]
+        LDRB     R2,[R0, #+1]
+        LSL      R2,R2,#+16
+        ORR      R1,R2,R1, LSL #+24
+        LDRB     R2,[R0, #+2]
+        LDRB     R0,[R0, #+3]
+        ORR      R1,R1,R2, LSL #+8
+        ORR      R0,R0,R1
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??get_png_info??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock20
+        REQUIRE ??get_png_info
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function ??get_png_info
+        ARM
+??get_png_info:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        MOV      R5,R3
+        LDR      R3,??get_png_info_1  ;; `?<Constant {'I', 'H', 'D', 'R', '\\000'}>`
+        SUB      SP,SP,#+136
+        CFI CFA R13+160
+        LDM      R3,{R7,R8}
+        MOV      R4,R2
+        MOV      R2,SP
+        STM      R2,{R7,R8}
+        MOV      R2,#+0
+        PUSH     {R2}
+        CFI CFA R13+164
+        MOV      R6,#+0
+        MOV      R3,#+384
+        MOV      R2,#+1
+        SWI      +278
+        MOVS     R7,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+160
+        BMI      ??get_png_info_2
+        MOV      R2,#+8
+        ADD      R1,SP,#+8
+        SWI      +280
+        CMP      R0,#+8
+        BNE      ??get_png_info_3
+        MOV      R2,#+8
+        MOV      R1,#+0
+        ADD      R0,SP,#+8
+        SWI      +631
+        CMP      R0,#+0
+        BNE      ??get_png_info_3
+??get_png_info_4:
+        MOV      R2,#+4
+        ADD      R1,SP,#+8
+        MOV      R0,R7
+        SWI      +280
+        CMP      R0,#+4
+        BNE      ??get_png_info_3
+        ADD      R0,SP,#+8
+        BL       ??get_uint
+        MOV      R8,R0
+        MOV      R2,#+4
+        ADD      R1,SP,#+8
+        MOV      R0,R7
+        SWI      +280
+        CMP      R0,#+4
+        BNE      ??get_png_info_3
+        MOV      R2,#+4
+        MOV      R1,SP
+        ADD      R0,SP,#+8
+        SWI      +637
+        CMP      R0,#+0
+        BNE      ??get_png_info_5
+        MOV      R2,#+13
+        ADD      R1,SP,#+8
+        MOV      R0,R7
+        SWI      +280
+        ADD      R0,SP,#+8
+        BL       ??get_uint
+        MOV      R6,R0
+        ADD      R0,SP,#+12
+        BL       ??get_uint
+        CMP      R4,#+0
+        STRNE    R6,[R4, #+0]
+        CMP      R5,#+0
+        STRNE    R0,[R5, #+0]
+        MOV      R6,#+1
+        B        ??get_png_info_3
+??get_png_info_5:
+        ADD      R8,R8,#+4
+        MOV      R2,#+1
+        MOV      R1,R8
+        MOV      R0,R7
+        SWI      +374
+        CMP      R0,R8
+        BEQ      ??get_png_info_4
+??get_png_info_3:
+        MOV      R0,R7
+        SWI      +279
+??get_png_info_2:
+        MOV      R0,R6
+        ADD      SP,SP,#+136
+        CFI CFA R13+24
+        POP      {R4-R8,PC}       ;; return
+        DATA
+??get_png_info_1:
+        DC32     `?<Constant {'I', 'H', 'D', 'R', '\\000'}>`
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine11_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine11_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock22
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine12_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine12_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new??rA`:
+        LDR      R12,??Subroutine13_0  ;; `??operator new`
+        BX       R12
+        DATA
+??Subroutine13_0:
+        DC32     `??operator new`
+        CFI EndBlock cfiBlock24
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "1.2.5">`:
+        DATA
+        DC8 "1.2.5"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant {'I', 'H', 'D', 'R', '\\000'}>`:
+        DATA
+        DC8 73, 72, 68, 82, 0, 0, 0, 0
+
+        END
+// 
+// 1 360 bytes in segment CODE
+//    16 bytes in segment DATA_C
+// 
+// 1 280 bytes of CODE  memory (+ 80 bytes shared)
+//    16 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

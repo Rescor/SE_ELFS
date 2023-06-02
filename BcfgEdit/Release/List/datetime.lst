@@ -1,0 +1,592 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:42:20 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgEdit\datet #
+#                       ime.cpp                                              #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgEdit\datet #
+#                       ime.cpp -D NDEBUG -lCN Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\BcfgEdit\Release\List\ -la                  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\BcfgEdit\Relea #
+#                       se\List\ -o Z:\home\perk11\www\perk11.info\svn\SE\Bc #
+#                       fgEdit\Release\Obj\ -s9 --no_unroll                  #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgEdit\Relea #
+#                       se\List\datetime.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\BcfgEdit\Relea #
+#                       se\Obj\datetime.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\BcfgEdit\datetime.cpp
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\Dir.h"
+      3          #include "..\include\var_arg.h"
+      4          
+      5          #include "..\include\cfg_items.h"
+      6          #include "main.h"
+      7          #include "datetime.h"
+      8          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      9          void AcceptTIinput( BOOK* bk, GUI* data )
+     10          {
+   \                     ??AcceptTIinput:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0100A0E1           MOV      R0,R1
+     11          	MyBOOK* mbk = (MyBOOK*) bk;
+     12          	unsigned int i = TimeInput_GetTimeInt( data );
+   \   0000000C   BA0200EF           SWI      +698
+     13          
+     14          	mbk->cur_hp.time->time.hour = TI_GET_HOUR( i );
+   \   00000010   541094E5           LDR      R1,[R4, #+84]
+     15          	mbk->cur_hp.time->time.min = TI_GET_MIN( i );
+   \   00000014   2024A0E1           LSR      R2,R0,#+8
+   \   00000018   2C00C1E5           STRB     R0,[R1, #+44]
+   \   0000001C   541094E5           LDR      R1,[R4, #+84]
+     16          	mbk->cur_hp.time->time.sec = TI_GET_SEC( i );
+   \   00000020   2008A0E1           LSR      R0,R0,#+16
+   \   00000024   2D20C1E5           STRB     R2,[R1, #+45]
+   \   00000028   541094E5           LDR      R1,[R4, #+84]
+   \   0000002C   2E00C1E5           STRB     R0,[R1, #+46]
+     17          
+     18          	BookObj_ReturnPage( bk, ACCEPT_EVENT );
+   \   00000030   ........           LDR      R0,??DataTable8  ;; ACCEPT_EVENT
+   \   00000034   001090E5           LDR      R1,[R0, #+0]
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   2E0100EF           SWI      +302
+     19          }
+   \   00000040   1080BDE8           POP      {R4,PC}          ;; return
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          void CloseTIinput( BOOK* bk, GUI*)
+     22          {
+     23          	BookObj_ReturnPage( bk, PREVIOUS_EVENT );
+   \                     ??CloseTIinput:
+   \   00000000   ........           LDR      R1,??DataTable9  ;; PREVIOUS_EVENT
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   2E0100EF           SWI      +302
+     24          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     25          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     26          static int TI_OnEnter( void*, BOOK* bk )
+     27          {
+     28          	MyBOOK* mbk = (MyBOOK*) bk;
+     29          
+     30          	wchar_t ustr[64];
+     31          
+     32          	int time_format = 4;
+     33          	char time_f;
+     34          	int icon_id;
+     35          
+     36          	if ( !REQUEST_TIMEFORMAT_GET( SYNC, &time_f ) )
+   \                     ??TI_OnEnter:
+   \   00000000   ........           LDR      R0,??DataTable10  ;; SYNC
+   \   00000004   F0402DE9           PUSH     {R4-R7,LR}
+     37          		time_format = time_f;
+     38          
+     39          	win12512unicode( ustr, mbk->cur_hp.time->name, MAXELEMS( ustr )-1 );
+     40          
+     41          	mbk->tinput = CreateTimeInputVA( 0,
+     42          									VAR_HEADER_TEXT( TextID_Create( ustr, ENC_UCS2, TEXTID_ANY_LEN ) ),
+     43          									VAR_TIMEINP_TIMEFORMAT( time_format ),
+     44          									VAR_TIMEINP_TIME( &mbk->cur_hp.time->time ),
+     45          									VAR_BOOK( mbk ),
+     46          									0 );
+     47          
+     48          	GUIObject_SoftKeys_SetAction( mbk->tinput, ACTION_ACCEPT, AcceptTIinput );
+     49          	GUIObject_SoftKeys_SetText( mbk->tinput, ACTION_ACCEPT, STR( "OK" ) );
+   \   00000008   ........           LDR      R7,??DataTable11  ;; `?<Constant L"\\x4f\\x4b">`
+   \   0000000C   88D04DE2           SUB      SP,SP,#+136
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   0140A0E1           MOV      R4,R1
+   \   00000018   0D10A0E1           MOV      R1,SP
+   \   0000001C   BD0100EF           SWI      +445
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   540094E5           LDR      R0,[R4, #+84]
+   \   00000028   0450A0E3           MOV      R5,#+4
+   \   0000002C   0050DD05           LDRBEQ   R5,[SP, #+0]
+   \   00000030   3F20A0E3           MOV      R2,#+63
+   \   00000034   041080E2           ADD      R1,R0,#+4
+   \   00000038   08008DE2           ADD      R0,SP,#+8
+   \   0000003C   ........           _BLF     ??win12512unicode,??win12512unicode??rA
+   \   00000040   FF60A0E3           MOV      R6,#+255
+   \   00000044   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000048   0620A0E1           MOV      R2,R6
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   08008DE2           ADD      R0,SP,#+8
+   \   00000054   5D0100EF           SWI      +349
+   \   00000058   EC309FE5           LDR      R3,??TI_OnEnter_1  ;; VAR_ARG_TIMEINP_TIME_FORMAT
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   02002DE9           PUSH     {R1}
+   \   00000064   0020A0E1           MOV      R2,R0
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   0410A0E1           MOV      R1,R4
+   \   00000070   02002DE9           PUSH     {R1}
+   \   00000074   ........           LDR      R1,??DataTable12  ;; VAR_ARG_BOOK
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   541094E5           LDR      R1,[R4, #+84]
+   \   00000080   2C1081E2           ADD      R1,R1,#+44
+   \   00000084   02002DE9           PUSH     {R1}
+   \   00000088   C0109FE5           LDR      R1,??TI_OnEnter_1+0x4  ;; VAR_ARG_TIMEINP_TIME
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   ........           LDR      R1,??DataTable13  ;; VAR_ARG_HTEXT
+   \   00000094   20002DE9           PUSH     {R5}
+   \   00000098   B60200EF           SWI      +694
+   \   0000009C   B0209FE5           LDR      R2,??TI_OnEnter_1+0x8  ;; ??AcceptTIinput
+   \   000000A0   300084E5           STR      R0,[R4, #+48]
+   \   000000A4   ........           LDR      R0,??DataTable14  ;; ACTION_ACCEPT
+   \   000000A8   005090E5           LDR      R5,[R0, #+0]
+   \   000000AC   300094E5           LDR      R0,[R4, #+48]
+   \   000000B0   0518A0E1           MOV      R1,R5, LSL #+16
+   \   000000B4   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000B8   4B0100EF           SWI      +331
+   \   000000BC   0620A0E1           MOV      R2,R6
+   \   000000C0   0010A0E3           MOV      R1,#+0
+   \   000000C4   0700A0E1           MOV      R0,R7
+   \   000000C8   5D0100EF           SWI      +349
+   \   000000CC   0020A0E1           MOV      R2,R0
+   \   000000D0   300094E5           LDR      R0,[R4, #+48]
+   \   000000D4   0518A0E1           MOV      R1,R5, LSL #+16
+   \   000000D8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000DC   4C0100EF           SWI      +332
+     50          	GUIObject_SoftKeys_SetVisible( mbk->tinput, ACTION_ACCEPT, 1 );
+   \   000000E0   300094E5           LDR      R0,[R4, #+48]
+   \   000000E4   0120A0E3           MOV      R2,#+1
+   \   000000E8   0518A0E1           MOV      R1,R5, LSL #+16
+   \   000000EC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000F0   500100EF           SWI      +336
+     51          	GUIObject_SoftKeys_SetAction( mbk->tinput, ACTION_BACK, CloseTIinput );
+   \   000000F4   ........           LDR      R0,??DataTable15  ;; ACTION_BACK
+   \   000000F8   58209FE5           LDR      R2,??TI_OnEnter_1+0xC  ;; ??CloseTIinput
+   \   000000FC   001090E5           LDR      R1,[R0, #+0]
+   \   00000100   300094E5           LDR      R0,[R4, #+48]
+   \   00000104   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000108   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000010C   4B0100EF           SWI      +331
+     52          
+     53          	if ( iconidname2id( IDN_TIME_INPUT_ICON, -1, &icon_id ) )
+   \   00000110   1C208DE2           ADD      R2,SP,#+28
+   \   00000114   0010E0E3           MVN      R1,#+0
+   \   00000118   080087E2           ADD      R0,R7,#+8
+   \   0000011C   860200EF           SWI      +646
+   \   00000120   000050E3           CMP      R0,#+0
+   \   00000124   18D08DE2           ADD      SP,SP,#+24
+   \   00000128   0400000A           BEQ      ??TI_OnEnter_2
+     54          		GUIInput_SetIcon( mbk->tinput, icon_id );
+   \   0000012C   04109DE5           LDR      R1,[SP, #+4]
+   \   00000130   300094E5           LDR      R0,[R4, #+48]
+   \   00000134   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000138   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000013C   CF0100EF           SWI      +463
+     55          
+     56          	return 1;
+   \                     ??TI_OnEnter_2:
+   \   00000140   0100A0E3           MOV      R0,#+1
+   \   00000144   88D08DE2           ADD      SP,SP,#+136
+   \   00000148   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??TI_OnEnter_1:
+   \   0000014C   ........           DC32     VAR_ARG_TIMEINP_TIME_FORMAT
+   \   00000150   ........           DC32     VAR_ARG_TIMEINP_TIME
+   \   00000154   ........           DC32     ??AcceptTIinput
+   \   00000158   ........           DC32     ??CloseTIinput
+     57          }
+     58          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     59          static int TI_OnExit( void*, BOOK* bk )
+     60          {
+   \                     ??TI_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     61          	MyBOOK* mbk = (MyBOOK*) bk;
+     62          	FREE_GUI( mbk->tinput );
+   \   00000008   300094E5           LDR      R0,[R4, #+48]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??TI_OnExit_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   300084E5           STR      R0,[R4, #+48]
+     63          	return 1;
+   \                     ??TI_OnExit_1:
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+     64          }
+     65          // ----------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          void AcceptDIinput( BOOK* bk, GUI* data )
+     67          {
+   \                     ??AcceptDIinput:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0100A0E1           MOV      R0,R1
+     68          	MyBOOK* mbk = (MyBOOK*) bk;
+     69          	unsigned int i = DateInput_GetDateInt( data );
+   \   0000000C   B90200EF           SWI      +697
+     70          
+     71          	mbk->cur_hp.date->date.year = DI_GET_YEAR( i );
+   \   00000010   541094E5           LDR      R1,[R4, #+84]
+     72          	mbk->cur_hp.date->date.mon = TI_GET_MONTH( i );
+   \   00000014   2028A0E1           LSR      R2,R0,#+16
+   \   00000018   BC02C1E1           STRH     R0,[R1, #+44]
+   \   0000001C   541094E5           LDR      R1,[R4, #+84]
+     73          	mbk->cur_hp.date->date.day = TI_GET_DAY( i );
+   \   00000020   200CA0E1           LSR      R0,R0,#+24
+   \   00000024   2E20C1E5           STRB     R2,[R1, #+46]
+   \   00000028   541094E5           LDR      R1,[R4, #+84]
+   \   0000002C   2F00C1E5           STRB     R0,[R1, #+47]
+     74          
+     75          	BookObj_ReturnPage( bk, ACCEPT_EVENT );
+   \   00000030   ........           LDR      R0,??DataTable8  ;; ACCEPT_EVENT
+   \   00000034   001090E5           LDR      R1,[R0, #+0]
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   2E0100EF           SWI      +302
+     76          }
+   \   00000040   1080BDE8           POP      {R4,PC}          ;; return
+     77          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     78          void CloseDIinput( BOOK* bk, GUI* )
+     79          {
+     80          	BookObj_ReturnPage( bk, PREVIOUS_EVENT );
+   \                     ??CloseDIinput:
+   \   00000000   ........           LDR      R1,??DataTable9  ;; PREVIOUS_EVENT
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   2E0100EF           SWI      +302
+     81          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     82          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     83          static int DI_OnEnter( void*, BOOK* bk )
+     84          {
+     85          	MyBOOK* mbk = (MyBOOK*) bk;
+     86          
+     87          	wchar_t ustr[64];
+     88          
+     89          	int date_format = 4;
+     90          	char date_f;
+     91          	int icon_id;
+     92          
+     93          	if ( !REQUEST_DATEFORMAT_GET( SYNC, &date_f ) )
+   \                     ??DI_OnEnter:
+   \   00000000   ........           LDR      R0,??DataTable10  ;; SYNC
+   \   00000004   F0402DE9           PUSH     {R4-R7,LR}
+     94          		date_format = date_f;
+     95          
+     96          	win12512unicode( ustr, mbk->cur_hp.date->name, MAXELEMS( ustr )-1 );
+     97          
+     98          	mbk->dinput = CreateDateInputVA( 0,
+     99          									VAR_HEADER_TEXT( TextID_Create( ustr, ENC_UCS2, TEXTID_ANY_LEN ) ),
+    100          									VAR_DATEINP_DATEFORMAT( date_format ),
+    101          									VAR_DATEINP_DATE( &mbk->cur_hp.date->date ),
+    102          									VAR_BOOK( mbk ),
+    103          									0 );
+    104          
+    105          	GUIObject_SoftKeys_SetAction( mbk->dinput, ACTION_ACCEPT, AcceptDIinput );
+    106          	GUIObject_SoftKeys_SetText( mbk->dinput, ACTION_ACCEPT, STR( "OK" ) );
+   \   00000008   ........           LDR      R7,??DataTable11  ;; `?<Constant L"\\x4f\\x4b">`
+   \   0000000C   88D04DE2           SUB      SP,SP,#+136
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   0140A0E1           MOV      R4,R1
+   \   00000018   0D10A0E1           MOV      R1,SP
+   \   0000001C   BC0100EF           SWI      +444
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   540094E5           LDR      R0,[R4, #+84]
+   \   00000028   0450A0E3           MOV      R5,#+4
+   \   0000002C   0050DD05           LDRBEQ   R5,[SP, #+0]
+   \   00000030   3F20A0E3           MOV      R2,#+63
+   \   00000034   041080E2           ADD      R1,R0,#+4
+   \   00000038   08008DE2           ADD      R0,SP,#+8
+   \   0000003C   ........           _BLF     ??win12512unicode,??win12512unicode??rA
+   \   00000040   FF60A0E3           MOV      R6,#+255
+   \   00000044   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000048   0620A0E1           MOV      R2,R6
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   08008DE2           ADD      R0,SP,#+8
+   \   00000054   5D0100EF           SWI      +349
+   \   00000058   EC309FE5           LDR      R3,??DI_OnEnter_1  ;; VAR_ARG_DATEINP_DATE_FORMAT
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   02002DE9           PUSH     {R1}
+   \   00000064   0020A0E1           MOV      R2,R0
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   0410A0E1           MOV      R1,R4
+   \   00000070   02002DE9           PUSH     {R1}
+   \   00000074   ........           LDR      R1,??DataTable12  ;; VAR_ARG_BOOK
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   541094E5           LDR      R1,[R4, #+84]
+   \   00000080   2C1081E2           ADD      R1,R1,#+44
+   \   00000084   02002DE9           PUSH     {R1}
+   \   00000088   C0109FE5           LDR      R1,??DI_OnEnter_1+0x4  ;; VAR_ARG_DATEINP_DATE
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   ........           LDR      R1,??DataTable13  ;; VAR_ARG_HTEXT
+   \   00000094   20002DE9           PUSH     {R5}
+   \   00000098   B50200EF           SWI      +693
+   \   0000009C   B0209FE5           LDR      R2,??DI_OnEnter_1+0x8  ;; ??AcceptDIinput
+   \   000000A0   340084E5           STR      R0,[R4, #+52]
+   \   000000A4   ........           LDR      R0,??DataTable14  ;; ACTION_ACCEPT
+   \   000000A8   005090E5           LDR      R5,[R0, #+0]
+   \   000000AC   340094E5           LDR      R0,[R4, #+52]
+   \   000000B0   0518A0E1           MOV      R1,R5, LSL #+16
+   \   000000B4   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000B8   4B0100EF           SWI      +331
+   \   000000BC   0620A0E1           MOV      R2,R6
+   \   000000C0   0010A0E3           MOV      R1,#+0
+   \   000000C4   0700A0E1           MOV      R0,R7
+   \   000000C8   5D0100EF           SWI      +349
+   \   000000CC   0020A0E1           MOV      R2,R0
+   \   000000D0   340094E5           LDR      R0,[R4, #+52]
+   \   000000D4   0518A0E1           MOV      R1,R5, LSL #+16
+   \   000000D8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000DC   4C0100EF           SWI      +332
+    107          	GUIObject_SoftKeys_SetVisible( mbk->dinput, ACTION_ACCEPT, 1 );
+   \   000000E0   340094E5           LDR      R0,[R4, #+52]
+   \   000000E4   0120A0E3           MOV      R2,#+1
+   \   000000E8   0518A0E1           MOV      R1,R5, LSL #+16
+   \   000000EC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000F0   500100EF           SWI      +336
+    108          	GUIObject_SoftKeys_SetAction( mbk->dinput, ACTION_BACK, CloseDIinput );
+   \   000000F4   ........           LDR      R0,??DataTable15  ;; ACTION_BACK
+   \   000000F8   58209FE5           LDR      R2,??DI_OnEnter_1+0xC  ;; ??CloseDIinput
+   \   000000FC   001090E5           LDR      R1,[R0, #+0]
+   \   00000100   340094E5           LDR      R0,[R4, #+52]
+   \   00000104   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000108   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000010C   4B0100EF           SWI      +331
+    109          
+    110          	if ( iconidname2id( IDN_DATE_INPUT_ICON, -1, &icon_id ) )
+   \   00000110   1C208DE2           ADD      R2,SP,#+28
+   \   00000114   0010E0E3           MVN      R1,#+0
+   \   00000118   3C0087E2           ADD      R0,R7,#+60
+   \   0000011C   860200EF           SWI      +646
+   \   00000120   000050E3           CMP      R0,#+0
+   \   00000124   18D08DE2           ADD      SP,SP,#+24
+   \   00000128   0400000A           BEQ      ??DI_OnEnter_2
+    111          		GUIInput_SetIcon( mbk->dinput, icon_id );
+   \   0000012C   04109DE5           LDR      R1,[SP, #+4]
+   \   00000130   340094E5           LDR      R0,[R4, #+52]
+   \   00000134   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000138   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000013C   CF0100EF           SWI      +463
+    112          
+    113          	return 1;
+   \                     ??DI_OnEnter_2:
+   \   00000140   0100A0E3           MOV      R0,#+1
+   \   00000144   88D08DE2           ADD      SP,SP,#+136
+   \   00000148   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??DI_OnEnter_1:
+   \   0000014C   ........           DC32     VAR_ARG_DATEINP_DATE_FORMAT
+   \   00000150   ........           DC32     VAR_ARG_DATEINP_DATE
+   \   00000154   ........           DC32     ??AcceptDIinput
+   \   00000158   ........           DC32     ??CloseDIinput
+    114          }
+    115          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    116          static int DI_OnExit( void*, BOOK* bk )
+    117          {
+   \                     ??DI_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    118          	MyBOOK* mbk = (MyBOOK*) bk;
+    119          	FREE_GUI( mbk->dinput );
+   \   00000008   340094E5           LDR      R0,[R4, #+52]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??DI_OnExit_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   340084E5           STR      R0,[R4, #+52]
+    120          	return 1;
+   \                     ??DI_OnExit_1:
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    121          }
+    122          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    123          const PAGE_MSG bk_msglst_timeinput[] @ "DYN_PAGE" =
+   \                     bk_msglst_timeinput:
+   \   00000000   42000000....       DC32 66, ??TI_OnEnter, 67, ??TI_OnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+    124          {
+    125          	PAGE_ENTER_EVENT_TAG, TI_OnEnter,
+    126          	PAGE_EXIT_EVENT_TAG, TI_OnExit,
+    127          	NIL_EVENT_TAG, NULL
+    128          };
+    129          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    130          const PAGE_MSG bk_msglst_dateinput[] @ "DYN_PAGE" =
+   \                     bk_msglst_dateinput:
+   \   00000000   42000000....       DC32 66, ??DI_OnEnter, 67, ??DI_OnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+    131          {
+    132          	PAGE_ENTER_EVENT_TAG, DI_OnEnter,
+    133          	PAGE_EXIT_EVENT_TAG, DI_OnExit,
+    134          	NIL_EVENT_TAG, NULL
+    135          };
+    136          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    137          const PAGE_DESC bk_time_input = { "BcfgEdit_TimeInput_Page", 0, bk_msglst_timeinput };
+   \                     bk_time_input:
+   \   00000000   ........0000       DC32 `?<Constant "BcfgEdit_TimeInput_Page">`, 0H, bk_msglst_timeinput
+   \              0000........
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    138          const PAGE_DESC bk_date_input = { "BcfgEdit_DateInput_Page", 0, bk_msglst_dateinput };
+   \                     bk_date_input:
+   \   00000000   ........0000       DC32 `?<Constant "BcfgEdit_DateInput_Page">`, 0H, bk_msglst_dateinput
+   \              0000........
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     ACCEPT_EVENT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     PREVIOUS_EVENT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     SYNC
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     `?<Constant L"\\x4f\\x4b">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable12:
+   \   00000000   ........           DC32     VAR_ARG_BOOK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     VAR_ARG_HTEXT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     ACTION_ACCEPT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable15:
+   \   00000000   ........           DC32     ACTION_BACK
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "BcfgEdit_TimeInput_Page">`:
+   \   00000000   426366674564       DC8 "BcfgEdit_TimeInput_Page"
+   \              69745F54696D
+   \              65496E707574
+   \              5F5061676500
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "BcfgEdit_DateInput_Page">`:
+   \   00000000   426366674564       DC8 "BcfgEdit_DateInput_Page"
+   \              69745F446174
+   \              65496E707574
+   \              5F5061676500
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4f\\x4b">`:
+   \   00000000   4F004B000000       DC8 4FH, 0, 4BH, 0, 0, 0
+   \   00000006   0000               DC8 0, 0
+   \   00000008   460052005F00       DC8 46H, 0, 52H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000010   4E0050005500       DC8 4EH, 0, 50H, 0, 55H, 0, 54H, 0
+   \              5400        
+   \   00000018   5F0047005500       DC8 5FH, 0, 47H, 0, 55H, 0, 49H, 0
+   \              4900        
+   \   00000020   5F0053004500       DC8 5FH, 0, 53H, 0, 45H, 0, 54H, 0
+   \              5400        
+   \   00000028   5F0054004900       DC8 5FH, 0, 54H, 0, 49H, 0, 4DH, 0
+   \              4D00        
+   \   00000030   45005F004900       DC8 45H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000038   4E000000           DC8 4EH, 0, 0, 0
+   \   0000003C   460052005F00       DC8 46H, 0, 52H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000044   4E0050005500       DC8 4EH, 0, 50H, 0, 55H, 0, 54H, 0
+   \              5400        
+   \   0000004C   5F0047005500       DC8 5FH, 0, 47H, 0, 55H, 0, 49H, 0
+   \              4900        
+   \   00000054   5F0053004500       DC8 5FH, 0, 53H, 0, 45H, 0, 54H, 0
+   \              5400        
+   \   0000005C   5F0044004100       DC8 5FH, 0, 44H, 0, 41H, 0, 54H, 0
+   \              5400        
+   \   00000064   45005F004900       DC8 45H, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   0000006C   4E000000           DC8 4EH, 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                     CSTACK
+     --------                     ------
+     AcceptDIinput(BOOK *, GUI *)     8
+     AcceptTIinput(BOOK *, GUI *)     8
+     CloseDIinput(BOOK *, GUI *)      4
+     CloseTIinput(BOOK *, GUI *)      4
+     DI_OnEnter(void *, BOOK *)     180
+     DI_OnExit(void *, BOOK *)        8
+     TI_OnEnter(void *, BOOK *)     180
+     TI_OnExit(void *, BOOK *)        8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     AcceptTIinput(BOOK *, GUI *)     68
+     CloseTIinput(BOOK *, GUI *)      20
+     TI_OnEnter(void *, BOOK *)      348
+     TI_OnExit(void *, BOOK *)        36
+     AcceptDIinput(BOOK *, GUI *)     68
+     CloseDIinput(BOOK *, GUI *)      20
+     DI_OnEnter(void *, BOOK *)      348
+     DI_OnExit(void *, BOOK *)        36
+     bk_msglst_timeinput              24
+     bk_msglst_dateinput              24
+     bk_time_input                    12
+     bk_date_input                    12
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ??DataTable10                     4
+     ??DataTable11                     4
+     ??DataTable12                     4
+     ??DataTable13                     4
+     ??DataTable14                     4
+     ??DataTable15                     4
+     ?<Constant "BcfgEdit_TimeInput_Page">
+                                      24
+     ?<Constant "BcfgEdit_DateInput_Page">
+                                      24
+     ?<Constant L"\x4f\x4b">         112
+      Others                          44
+
+ 
+ 1 020 bytes in segment CODE
+   184 bytes in segment DATA_C
+    48 bytes in segment DYN_PAGE
+ 
+ 976 bytes of CODE  memory (+ 44 bytes shared)
+ 232 bytes of CONST memory
+
+Errors: none
+Warnings: none

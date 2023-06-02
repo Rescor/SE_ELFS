@@ -1,0 +1,604 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:54:02 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       string.cpp                                          /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       string.cpp -D NDEBUG -D OLDFUNCTIONS -lC            /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\EventControl\Release\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\Obj\ -s9 --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\string.s79                             /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME string
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??getchr
+        FUNCTION ??getchr,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??getchr??rT
+        PUBLIC ??getint
+        FUNCTION ??getint,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??getint??rT
+        PUBLIC ??getparam
+        FUNCTION ??getparam,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??getparam??rT
+        PUBLIC ??getwchr
+        FUNCTION ??getwchr,0203H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??getwchr??rT
+        PUBLIC ??memmem
+        FUNCTION ??memmem,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??memmem??rT
+        MULTWEAK `??operator new[]??rA`
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+??getchr??rT        SYMBOL "??rT", ??getchr
+
+??getint??rT        SYMBOL "??rT", ??getint
+
+??getparam??rT      SYMBOL "??rT", ??getparam
+
+??getwchr??rT       SYMBOL "??rT", ??getwchr
+
+??memmem??rT        SYMBOL "??rT", ??memmem
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getint??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??getint
+// Z:\home\perk11\www\perk11.info\svn\SE\EventControl\string.cpp
+//    1 /*
+//    2 ****************************************************************************
+//    3 *              Модуль, содержащий функции парсинга строк
+//    4 ****************************************************************************
+//    5 */
+//    6 #include "..\deleaker\mem2.h"
+//    7 #include "..\include\Lib_Clara.h" 
+//    8 #include "..\include\Dir.h" 
+//    9 
+//   10 /*
+//   11 *===========================================================================
+//   12 *           Получение знакового числа из строки до ограничителя
+//   13 *===========================================================================
+//   14 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??getint
+        ARM
+//   15 int getint(char *line, int *pos,char end)
+//   16 {
+??getint:
+        PUSH     {R4-R6}
+        CFI R6 Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//   17   bool minus=false;
+//   18   if (line[pos[0]]=='-')
+        LDR      R3,[R1, #+0]
+        MOV      R12,#+0
+        LDRB     R4,[R3, +R0]
+//   19   {
+//   20     minus=true;
+//   21     pos[0]++;
+//   22   }
+//   23   int ret=0;
+        MOV      R6,#+10
+        CMP      R4,#+45
+        ADDEQ    R3,R3,#+1
+        STREQ    R3,[R1, #+0]
+        LDR      R4,[R1, #+0]
+        MOVEQ    R12,#+1
+        LDRB     R4,[R4, +R0]
+        MOV      R3,#+0
+        CMP      R4,R2
+        BEQ      ??getint_1
+//   24   while (line[pos[0]]!=end)
+//   25   {
+//   26     ret=(ret*10)+(line[pos[0]]-0x30);
+??getint_2:
+        LDR      R4,[R1, #+0]
+        LDRB     R5,[R4, +R0]
+//   27     pos[0]++;
+        ADD      R4,R4,#+1
+        STR      R4,[R1, #+0]
+//   28   }
+        LDRB     R4,[R4, +R0]
+        MLA      R3,R6,R3,R5
+        CMP      R4,R2
+        SUB      R3,R3,#+48
+        BNE      ??getint_2
+//   29   pos[0]++;
+??getint_1:
+        LDR      R0,[R1, #+0]
+//   30   if (minus)ret=-ret;
+        CMP      R12,#+0
+        ADD      R0,R0,#+1
+        STR      R0,[R1, #+0]
+//   31   return ret;
+        POP      {R4-R6}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI CFA R13+0
+        RSBNE    R3,R3,#+0
+        MOV      R0,R3
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock1
+//   32 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getchr??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??getchr
+//   33 
+//   34 /*
+//   35 *===========================================================================
+//   36 *            Получение ansi-строки из другой строки до ограничителя
+//   37 *===========================================================================
+//   38 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??getchr
+        ARM
+//   39 char *getchr(char *line, int *pos, char end)
+//   40 {
+??getchr:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+//   41   char *ret;
+//   42   int start,en;
+//   43   start=pos[0];
+        LDR      R5,[R1, #+0]
+        MOV      R4,R0
+        B        ??getchr_1
+//   44   while (line[pos[0]]!=end && line[pos[0]]!=0)
+//   45   {
+//   46     pos[0]++;
+??getchr_2:
+        STR      R0,[R1, #+0]
+//   47   }
+??getchr_1:
+        LDR      R3,[R1, #+0]
+        ADD      R0,R3,#+1
+        ADD      R12,R3,R4
+        LDRB     R6,[R12, #+0]
+        CMP      R6,R2
+        CMPNE    R6,#+0
+        BNE      ??getchr_2
+//   48   en=pos[0];
+//   49   pos[0]++;
+        STR      R0,[R1, #+0]
+//   50   int len=en-start;
+        SUB      R6,R3,R5
+//   51   if (len>0)
+        CMP      R6,#+1
+        BLT      ??getchr_3
+//   52   {  
+//   53     ret = new char[len+1];
+        ADD      R0,R6,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R7,R0
+//   54     memcpy(ret, &line[start], len);
+        MOV      R2,R6
+        ADD      R1,R5,R4
+        SWI      +275
+//   55     ret[len]='\0';
+        MOV      R0,#+0
+        STRB     R0,[R6, +R7]
+//   56     return ret;
+        MOV      R0,R7
+        POP      {R4-R7,PC}
+//   57   }
+//   58   return 0;
+??getchr_3:
+        MOV      R0,#+0
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock3
+//   59 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getwchr??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??getwchr
+//   60 
+//   61 /*
+//   62 *===========================================================================
+//   63 *        Получение юникодной строки из другой строки до ограничителя
+//   64 *===========================================================================
+//   65 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??getwchr
+        ARM
+//   66 wchar_t *getwchr(char *line, int *pos, char end)
+//   67 {
+??getwchr:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+//   68   int start,en;
+//   69   start=pos[0];
+        LDR      R5,[R1, #+0]
+        MOV      R4,R0
+        LDRB     R0,[R5, +R4]
+        CMP      R0,R2
+        BEQ      ??getwchr_1
+//   70   while (line[pos[0]]!=end)
+//   71   {
+//   72     pos[0]++;
+??getwchr_2:
+        LDR      R0,[R1, #+0]
+        ADD      R0,R0,#+1
+        STR      R0,[R1, #+0]
+//   73   }
+        LDRB     R0,[R0, +R4]
+        CMP      R0,R2
+        BNE      ??getwchr_2
+//   74   en=pos[0];
+??getwchr_1:
+        LDR      R0,[R1, #+0]
+//   75   pos[0]++;
+        ADD      R2,R0,#+1
+        STR      R2,[R1, #+0]
+//   76   int len=en-start;
+        SUB      R6,R0,R5
+//   77   if (len>0)
+        CMP      R6,#+1
+        BLT      ??getwchr_3
+//   78   {
+//   79     wchar_t *wret=new wchar_t[len/2+1];
+        ADD      R0,R6,R6, LSR #+31
+        ASR      R7,R0,#+1
+        ADD      R0,R7,#+1
+        LSL      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R8,R0
+//   80     memcpy(wret,&line[start], len);
+        MOV      R2,R6
+        ADD      R1,R5,R4
+        SWI      +275
+//   81     wret[len/2]=L'\0';
+        ADD      R0,R8,R7, LSL #+1
+        MOV      R1,#+0
+        STRH     R1,[R0, #+0]
+//   82     return wret;
+        MOV      R0,R8
+        POP      {R4-R8,PC}
+//   83   }
+//   84   return 0;
+??getwchr_3:
+        MOV      R0,#+0
+        POP      {R4-R8,PC}       ;; return
+        CFI EndBlock cfiBlock5
+//   85 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??memmem??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??memmem
+//   86 
+//   87 /*
+//   88 *===========================================================================
+//   89 *               Находим первое вхождение needle в haystack
+//   90 *===========================================================================
+//   91 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??memmem
+        ARM
+//   92 void *memmem(const unsigned char *haystack, size_t haystacklen, const void *needle, size_t needlelen)
+//   93 {
+??memmem:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R2
+        MOV      R6,R3
+//   94   const unsigned char *cursor;
+//   95   const unsigned char *last_possible_needle_location = (unsigned char *)haystack + haystacklen - needlelen;
+        MOV      R0,R6
+        RSB      R0,R0,#+0
+        ADD      R2,R1,R4
+        ADD      R7,R0,R2
+//   96   if (needlelen > haystacklen) return(NULL);
+        CMP      R1,R6
+        BCS      ??memmem_1
+??memmem_2:
+        MOV      R0,#+0
+        POP      {R4-R7,PC}
+//   97   if (needle == NULL) return(NULL);
+??memmem_1:
+        CMP      R5,#+0
+//   98   if (haystack == NULL) return(NULL);
+        CMPNE    R4,#+0
+//   99   if (needlelen == 0) return(NULL);
+        CMPNE    R6,#+0
+//  100   if (haystacklen == 0) return(NULL);
+        CMPNE    R1,#+0
+        BEQ      ??memmem_2
+//  101   
+//  102   for (cursor = haystack; cursor <= last_possible_needle_location; cursor++) 
+        B        ??memmem_3
+??memmem_4:
+        ADD      R4,R4,#+1
+??memmem_3:
+        CMP      R7,R4
+        BCC      ??memmem_2
+//  103   {
+//  104     if (memcmp(needle, cursor, needlelen) == 0) 
+        MOV      R2,R6
+        MOV      R1,R4
+        MOV      R0,R5
+        SWI      +637
+        CMP      R0,#+0
+        BNE      ??memmem_4
+//  105     {
+//  106       return((void *) cursor);
+        MOV      R0,R4
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock7
+//  107     }
+//  108   }
+//  109   return(NULL);
+//  110 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getparam??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??getparam
+//  111 
+//  112 /*
+//  113 *===========================================================================
+//  114 *          Получение параметра из буфера "смешанного" содержания...
+//  115 *===========================================================================
+//  116 * 1) Отличие от библиотечной в том, что строка тут обрезается до 
+//  117 * специального ограничителя, а в библиотечной - до нуль символа или конца строки
+//  118 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??getparam
+        ARM
+//  119 char *getparam(char *buf, char *mask, char end, int fsize)
+//  120 {
+??getparam:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R5,R0
+        MOV      R6,R1
+        MOV      R4,R2
+        MOV      R7,R3
+//  121   char *str=0;
+//  122   if (str=(char*)memmem((unsigned char const*)buf,fsize,mask,strlen(mask)))
+        MOV      R0,R6
+        SWI      +346
+        MOV      R3,R0
+        MOV      R2,R6
+        MOV      R1,R7
+        MOV      R0,R5
+        BL       ??memmem
+        MOVS     R5,R0
+        BEQ      ??getparam_1
+//  123   {
+//  124     char *ret=0;;
+//  125     int addr=(int)str;
+//  126     str=(char*)(addr+strlen(mask)+2);
+        MOV      R0,R6
+        SWI      +346
+        ADD      R0,R0,R5
+        ADD      R5,R0,#+2
+//  127     int x=0;
+//  128     int len=0;
+        LDRB     R1,[R5, #+0]
+        MOV      R0,#+0
+        CMP      R1,R4
+        BNE      ??getparam_2
+        B        ??getparam_3
+//  129     while (str[x]!=end)
+//  130     {
+//  131       x++;
+??getparam_4:
+        ADD      R0,R0,#+1
+//  132     }
+??getparam_2:
+        LDRB     R1,[R0, +R5]
+        CMP      R1,R4
+        BNE      ??getparam_4
+//  133     len=x+1;
+??getparam_3:
+        ADD      R4,R0,#+1
+//  134     if (len>1)
+        CMP      R4,#+2
+        BLT      ??getparam_1
+//  135     {
+//  136       ret=new char[len+1];
+        ADD      R0,R4,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R6,R0
+//  137       memcpy(ret,str,len);
+        MOV      R2,R4
+        MOV      R1,R5
+        SWI      +275
+//  138       ret[len]='\0';
+        MOV      R0,#+0
+        STRB     R0,[R4, +R6]
+//  139       return ret;
+        MOV      R0,R6
+        POP      {R4-R7,PC}
+//  140     }
+//  141     return 0;
+//  142   }
+//  143   return 0;
+??getparam_1:
+        MOV      R0,#+0
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock9
+//  144 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine5_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine5_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock10
+
+        END
+//  145 
+// 
+// 688 bytes in segment CODE
+// 
+// 656 bytes of CODE memory (+ 32 bytes shared)
+//
+//Errors: none
+//Warnings: none

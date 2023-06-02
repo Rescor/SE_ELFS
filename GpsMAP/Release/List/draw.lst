@@ -1,0 +1,466 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:41:21 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\draw.c  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\draw.c  #
+#                       -D NDEBUG -D OLDFUNCTIONS -lCN                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\Gps #
+#                       MAP\Release\List\ -o Z:\home\perk11\www\perk11.info\ #
+#                       svn\SE\GpsMAP\Release\Obj\ -s9 --no_unroll           #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\draw.lst                                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \Obj\draw.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\draw.c
+      1          #define USEPNG
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "..\\include\Dir.h"
+      4          #include "math.h"
+      5          #include "main.h"
+      6          #include "map_object.h"
+      7          #include "draw.h"
+      8          
+      9          
+     10          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          void SetPixel(unsigned int *buf, int width, int height,int x, int y,int color)
+     12          {
+   \                     ??SetPixel:
+   \   00000000   10002DE9           PUSH     {R4}
+   \   00000004   04C09DE5           LDR      R12,[SP, #+4]
+   \   00000008   08409DE5           LDR      R4,[SP, #+8]
+     13            if (x<width && x>=0 && y<height && y>=0)
+   \   0000000C   010053E1           CMP      R3,R1
+   \   00000010   060000AA           BGE      ??SetPixel_1
+   \   00000014   000053E3           CMP      R3,#+0
+   \   00000018   0400004A           BMI      ??SetPixel_1
+   \   0000001C   02005CE1           CMP      R12,R2
+   \   00000020   020000AA           BGE      ??SetPixel_1
+   \   00000024   00005CE3           CMP      R12,#+0
+     14            {
+     15              buf[y*width+x]=color;   
+   \   00000028   913C2250           MLAPL    R2,R1,R12,R3
+   \   0000002C   02418057           STRPL    R4,[R0, +R2, LSL #+2]
+     16            }
+     17          }
+   \                     ??SetPixel_1:
+   \   00000030   1000BDE8           POP      {R4}
+   \   00000034   1EFF2FE1           BX       LR               ;; return
+     18          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     19          void drawline(unsigned int *buf, int width, int height, int x1, int y1, int x2, int y2,int color)
+     20          {
+   \                     ??drawline:
+   \   00000000   F00F2DE9           PUSH     {R4-R11}
+   \   00000004   20C09DE5           LDR      R12,[SP, #+32]
+   \   00000008   24409DE5           LDR      R4,[SP, #+36]
+   \   0000000C   28809DE5           LDR      R8,[SP, #+40]
+   \   00000010   2C609DE5           LDR      R6,[SP, #+44]
+     21            int a;
+     22            int dx,dy;
+     23            int lengthX,lengthY;
+     24            
+     25            if ((a=x2-x1)>=0)
+   \   00000014   035054E0           SUBS     R5,R4,R3
+     26            {
+     27              dx=1;
+   \   00000018   0170A053           MOVPL    R7,#+1
+     28              lengthX=a;    
+     29            }
+     30            else
+     31            {
+     32              dx=-1;
+   \   0000001C   0070E043           MVNMI    R7,#+0
+     33              lengthX=-a;
+   \   00000020   00506542           RSBMI    R5,R5,#+0
+     34            }
+     35            if ((a=y2-y1)>=0)
+   \   00000024   0C4058E0           SUBS     R4,R8,R12
+     36            {
+     37              dy=1;
+   \   00000028   0180A053           MOVPL    R8,#+1
+     38              lengthY=a;
+     39            }
+     40            else
+     41            {
+     42              dy=-1;
+   \   0000002C   0080E043           MVNMI    R8,#+0
+     43              lengthY=-a;
+   \   00000030   00406442           RSBMI    R4,R4,#+0
+     44            }
+     45            int length=lengthX>lengthY?lengthX:lengthY;
+   \   00000034   050054E1           CMP      R4,R5
+   \   00000038   0590A0B1           MOVLT    R9,R5
+   \   0000003C   0490A0A1           MOVGE    R9,R4
+     46            if (length == 0)
+   \   00000040   000059E3           CMP      R9,#+0
+   \   00000044   0800001A           BNE      ??drawline_1
+     47            {
+     48              SetPixel(buf, width, height, x1, y1, color);
+   \   00000048   010053E1           CMP      R3,R1
+   \   0000004C   060000AA           BGE      ??drawline_1
+   \   00000050   000053E3           CMP      R3,#+0
+   \   00000054   0400004A           BMI      ??drawline_1
+   \   00000058   02005CE1           CMP      R12,R2
+   \   0000005C   020000AA           BGE      ??drawline_1
+   \   00000060   00005CE3           CMP      R12,#+0
+   \   00000064   913C2A50           MLAPL    R10,R1,R12,R3
+   \   00000068   0A618057           STRPL    R6,[R0, +R10, LSL #+2]
+     49            }
+     50            if (lengthY <= lengthX)
+   \                     ??drawline_1:
+   \   0000006C   040055E1           CMP      R5,R4
+   \   00000070   160000BA           BLT      ??drawline_2
+     51            {
+     52              // Начальные значения
+     53              int x = x1;
+     54              int y = y1;
+     55              int d = -lengthX;
+   \   00000074   05A0A0E1           MOV      R10,R5
+   \   00000078   00A06AE2           RSB      R10,R10,#+0
+     56              
+     57              // Основной цикл
+     58              length++;
+   \   0000007C   019089E2           ADD      R9,R9,#+1
+     59              while(length--)
+   \                     ??drawline_3:
+   \   00000080   09B0A0E1           MOV      R11,R9
+   \   00000084   01904BE2           SUB      R9,R11,#+1
+   \   00000088   00005BE3           CMP      R11,#+0
+   \   0000008C   2500000A           BEQ      ??drawline_4
+     60              {
+     61                SetPixel(buf, width, height, x, y, color);
+   \   00000090   010053E1           CMP      R3,R1
+   \   00000094   060000AA           BGE      ??drawline_5
+   \   00000098   000053E3           CMP      R3,#+0
+   \   0000009C   0400004A           BMI      ??drawline_5
+   \   000000A0   02005CE1           CMP      R12,R2
+   \   000000A4   020000AA           BGE      ??drawline_5
+   \   000000A8   00005CE3           CMP      R12,#+0
+   \   000000AC   913C2B50           MLAPL    R11,R1,R12,R3
+   \   000000B0   0B618057           STRPL    R6,[R0, +R11, LSL #+2]
+     62                x += dx;
+   \                     ??drawline_5:
+   \   000000B4   033087E0           ADD      R3,R7,R3
+     63                d += 2 * lengthY;
+   \   000000B8   84A08AE0           ADD      R10,R10,R4, LSL #+1
+     64                if (d > 0) 
+   \   000000BC   01005AE3           CMP      R10,#+1
+   \   000000C0   EEFFFFBA           BLT      ??drawline_3
+     65                {
+     66                  d -= 2 * lengthX;
+   \   000000C4   85A04AE0           SUB      R10,R10,R5, LSL #+1
+     67                  y += dy;
+   \   000000C8   0CC088E0           ADD      R12,R8,R12
+   \   000000CC   EBFFFFEA           B        ??drawline_3
+     68                }
+     69              }
+     70            }
+     71            else
+     72            {
+     73              // Начальные значения
+     74              int x = x1;
+     75              int y = y1;
+     76              int d = - lengthY;
+   \                     ??drawline_2:
+   \   000000D0   04A0A0E1           MOV      R10,R4
+   \   000000D4   00A06AE2           RSB      R10,R10,#+0
+     77              
+     78              // Основной цикл
+     79              length++;
+   \   000000D8   019089E2           ADD      R9,R9,#+1
+   \   000000DC   0D0000EA           B        ??drawline_6
+     80              while(length--)
+     81              {
+     82                SetPixel(buf, width, height, x, y, color);
+   \                     ??drawline_7:
+   \   000000E0   010053E1           CMP      R3,R1
+   \   000000E4   060000AA           BGE      ??drawline_8
+   \   000000E8   000053E3           CMP      R3,#+0
+   \   000000EC   0400004A           BMI      ??drawline_8
+   \   000000F0   02005CE1           CMP      R12,R2
+   \   000000F4   020000AA           BGE      ??drawline_8
+   \   000000F8   00005CE3           CMP      R12,#+0
+   \   000000FC   913C2B50           MLAPL    R11,R1,R12,R3
+   \   00000100   0B618057           STRPL    R6,[R0, +R11, LSL #+2]
+     83                y += dy;
+   \                     ??drawline_8:
+   \   00000104   0CC088E0           ADD      R12,R8,R12
+     84                d += 2 * lengthX;
+   \   00000108   85A08AE0           ADD      R10,R10,R5, LSL #+1
+     85                if (d > 0) 
+   \   0000010C   01005AE3           CMP      R10,#+1
+     86                {
+     87                  d -= 2 * lengthY;
+   \   00000110   84A04AA0           SUBGE    R10,R10,R4, LSL #+1
+     88                  x += dx;
+   \   00000114   033087A0           ADDGE    R3,R7,R3
+     89                }
+     90              }
+   \                     ??drawline_6:
+   \   00000118   09B0A0E1           MOV      R11,R9
+   \   0000011C   01904BE2           SUB      R9,R11,#+1
+   \   00000120   00005BE3           CMP      R11,#+0
+   \   00000124   EDFFFF1A           BNE      ??drawline_7
+     91            }
+     92          }
+   \                     ??drawline_4:
+   \   00000128   F00FBDE8           POP      {R4-R11}
+   \   0000012C   1EFF2FE1           BX       LR               ;; return
+     93          
+     94          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     95          void drawcircle(unsigned int *buf, int width, int height, int xc, int yc, int r, int color)
+     96          {
+   \                     ??drawcircle:
+   \   00000000   F0032DE9           PUSH     {R4-R9}
+   \   00000004   18C09DE5           LDR      R12,[SP, #+24]
+   \   00000008   1C709DE5           LDR      R7,[SP, #+28]
+   \   0000000C   20409DE5           LDR      R4,[SP, #+32]
+     97            int y;
+     98            int d;
+     99            y = r;
+    100            d = 3-2*r;
+   \   00000010   0350A0E3           MOV      R5,#+3
+   \   00000014   875045E0           SUB      R5,R5,R7, LSL #+1
+    101            for (int x=0; y>=x; x++)
+   \   00000018   0060A0E3           MOV      R6,#+0
+   \   0000001C   000057E3           CMP      R7,#+0
+   \   00000020   6200004A           BMI      ??drawcircle_1
+    102            {
+    103              SetPixel(buf,width,height,x+xc,y+yc,color);
+   \                     ??drawcircle_2:
+   \   00000024   07808CE0           ADD      R8,R12,R7
+   \   00000028   069083E0           ADD      R9,R3,R6
+   \   0000002C   010059E1           CMP      R9,R1
+   \   00000030   060000AA           BGE      ??drawcircle_3
+   \   00000034   000059E3           CMP      R9,#+0
+   \   00000038   0400004A           BMI      ??drawcircle_3
+   \   0000003C   020058E1           CMP      R8,R2
+   \   00000040   020000AA           BGE      ??drawcircle_3
+   \   00000044   000058E3           CMP      R8,#+0
+   \   00000048   91982850           MLAPL    R8,R1,R8,R9
+   \   0000004C   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    104              SetPixel(buf,width,height,x+xc,-y+yc,color);
+   \                     ??drawcircle_3:
+   \   00000050   07804CE0           SUB      R8,R12,R7
+   \   00000054   010059E1           CMP      R9,R1
+   \   00000058   060000AA           BGE      ??drawcircle_4
+   \   0000005C   000059E3           CMP      R9,#+0
+   \   00000060   0400004A           BMI      ??drawcircle_4
+   \   00000064   020058E1           CMP      R8,R2
+   \   00000068   020000AA           BGE      ??drawcircle_4
+   \   0000006C   000058E3           CMP      R8,#+0
+   \   00000070   91982850           MLAPL    R8,R1,R8,R9
+   \   00000074   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    105              SetPixel(buf,width,height,-x+xc,y+yc,color);
+   \                     ??drawcircle_4:
+   \   00000078   07808CE0           ADD      R8,R12,R7
+   \   0000007C   069043E0           SUB      R9,R3,R6
+   \   00000080   010059E1           CMP      R9,R1
+   \   00000084   060000AA           BGE      ??drawcircle_5
+   \   00000088   000059E3           CMP      R9,#+0
+   \   0000008C   0400004A           BMI      ??drawcircle_5
+   \   00000090   020058E1           CMP      R8,R2
+   \   00000094   020000AA           BGE      ??drawcircle_5
+   \   00000098   000058E3           CMP      R8,#+0
+   \   0000009C   91982850           MLAPL    R8,R1,R8,R9
+   \   000000A0   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    106              SetPixel(buf,width,height,x+xc,-y+yc,color);
+   \                     ??drawcircle_5:
+   \   000000A4   07804CE0           SUB      R8,R12,R7
+   \   000000A8   069083E0           ADD      R9,R3,R6
+   \   000000AC   010059E1           CMP      R9,R1
+   \   000000B0   060000AA           BGE      ??drawcircle_6
+   \   000000B4   000059E3           CMP      R9,#+0
+   \   000000B8   0400004A           BMI      ??drawcircle_6
+   \   000000BC   020058E1           CMP      R8,R2
+   \   000000C0   020000AA           BGE      ??drawcircle_6
+   \   000000C4   000058E3           CMP      R8,#+0
+   \   000000C8   91982850           MLAPL    R8,R1,R8,R9
+   \   000000CC   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    107              SetPixel(buf,width,height,y+xc,x+yc,color);
+   \                     ??drawcircle_6:
+   \   000000D0   06808CE0           ADD      R8,R12,R6
+   \   000000D4   079083E0           ADD      R9,R3,R7
+   \   000000D8   010059E1           CMP      R9,R1
+   \   000000DC   060000AA           BGE      ??drawcircle_7
+   \   000000E0   000059E3           CMP      R9,#+0
+   \   000000E4   0400004A           BMI      ??drawcircle_7
+   \   000000E8   020058E1           CMP      R8,R2
+   \   000000EC   020000AA           BGE      ??drawcircle_7
+   \   000000F0   000058E3           CMP      R8,#+0
+   \   000000F4   91982850           MLAPL    R8,R1,R8,R9
+   \   000000F8   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    108              SetPixel(buf,width,height,y+xc,-x+yc,color);
+   \                     ??drawcircle_7:
+   \   000000FC   06804CE0           SUB      R8,R12,R6
+   \   00000100   010059E1           CMP      R9,R1
+   \   00000104   060000AA           BGE      ??drawcircle_8
+   \   00000108   000059E3           CMP      R9,#+0
+   \   0000010C   0400004A           BMI      ??drawcircle_8
+   \   00000110   020058E1           CMP      R8,R2
+   \   00000114   020000AA           BGE      ??drawcircle_8
+   \   00000118   000058E3           CMP      R8,#+0
+   \   0000011C   91982850           MLAPL    R8,R1,R8,R9
+   \   00000120   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    109              SetPixel(buf,width,height,-y+xc,x+yc,color);
+   \                     ??drawcircle_8:
+   \   00000124   06808CE0           ADD      R8,R12,R6
+   \   00000128   079043E0           SUB      R9,R3,R7
+   \   0000012C   010059E1           CMP      R9,R1
+   \   00000130   060000AA           BGE      ??drawcircle_9
+   \   00000134   000059E3           CMP      R9,#+0
+   \   00000138   0400004A           BMI      ??drawcircle_9
+   \   0000013C   020058E1           CMP      R8,R2
+   \   00000140   020000AA           BGE      ??drawcircle_9
+   \   00000144   000058E3           CMP      R8,#+0
+   \   00000148   91982850           MLAPL    R8,R1,R8,R9
+   \   0000014C   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    110              SetPixel(buf,width,height,-y+xc,-x+yc,color);
+   \                     ??drawcircle_9:
+   \   00000150   06804CE0           SUB      R8,R12,R6
+   \   00000154   010059E1           CMP      R9,R1
+   \   00000158   060000AA           BGE      ??drawcircle_10
+   \   0000015C   000059E3           CMP      R9,#+0
+   \   00000160   0400004A           BMI      ??drawcircle_10
+   \   00000164   020058E1           CMP      R8,R2
+   \   00000168   020000AA           BGE      ??drawcircle_10
+   \   0000016C   000058E3           CMP      R8,#+0
+   \   00000170   91982850           MLAPL    R8,R1,R8,R9
+   \   00000174   08418057           STRPL    R4,[R0, +R8, LSL #+2]
+    111              if( d<0 )
+   \                     ??drawcircle_10:
+   \   00000178   000055E3           CMP      R5,#+0
+   \   0000017C   0300005A           BPL      ??drawcircle_11
+    112              {
+    113                d = d+4*x+6;
+   \   00000180   0680A0E3           MOV      R8,#+6
+   \   00000184   068188E0           ADD      R8,R8,R6, LSL #+2
+   \   00000188   055088E0           ADD      R5,R8,R5
+   \   0000018C   040000EA           B        ??drawcircle_12
+    114              }
+    115              else
+    116              {
+    117                d = d+4*(x-y)+10;
+   \                     ??drawcircle_11:
+   \   00000190   078046E0           SUB      R8,R6,R7
+   \   00000194   0A90A0E3           MOV      R9,#+10
+   \   00000198   088189E0           ADD      R8,R9,R8, LSL #+2
+   \   0000019C   055088E0           ADD      R5,R8,R5
+    118                y = y-1;
+   \   000001A0   017047E2           SUB      R7,R7,#+1
+    119              }
+    120            }
+   \                     ??drawcircle_12:
+   \   000001A4   016086E2           ADD      R6,R6,#+1
+   \   000001A8   060057E1           CMP      R7,R6
+   \   000001AC   9CFFFFAA           BGE      ??drawcircle_2
+    121          }
+   \                     ??drawcircle_1:
+   \   000001B0   F003BDE8           POP      {R4-R9}
+   \   000001B4   1EFF2FE1           BX       LR               ;; return
+    122          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    123          void drawfilledrect(unsigned int *buf, int width, int height, int x1, int y1, int x2, int y2, int color)
+    124          {
+   \                     ??drawfilledrect:
+   \   00000000   F0012DE9           PUSH     {R4-R8}
+   \   00000004   18409DE5           LDR      R4,[SP, #+24]
+   \   00000008   14C09DE5           LDR      R12,[SP, #+20]
+   \   0000000C   1C509DE5           LDR      R5,[SP, #+28]
+   \   00000010   20609DE5           LDR      R6,[SP, #+32]
+    125            int dx, dy;
+    126            dx=x2>=x1?1:-1;
+   \   00000014   030054E1           CMP      R4,R3
+   \   00000018   0070E0B3           MVNLT    R7,#+0
+   \   0000001C   0170A0A3           MOVGE    R7,#+1
+   \   00000020   0C0000EA           B        ??drawfilledrect_1
+    127            dy=y2>=y1?1:-1;
+    128            
+    129            while(y1!=y2)
+    130            {
+    131              while(x1!=x2)
+    132              {
+    133                SetPixel(buf,width,height,x1,y1,color);
+   \                     ??drawfilledrect_2:
+   \   00000024   010053E1           CMP      R3,R1
+   \   00000028   060000AA           BGE      ??drawfilledrect_3
+   \   0000002C   000053E3           CMP      R3,#+0
+   \   00000030   0400004A           BMI      ??drawfilledrect_3
+   \   00000034   02005CE1           CMP      R12,R2
+   \   00000038   020000AA           BGE      ??drawfilledrect_3
+   \   0000003C   00005CE3           CMP      R12,#+0
+   \   00000040   913C2850           MLAPL    R8,R1,R12,R3
+   \   00000044   08618057           STRPL    R6,[R0, +R8, LSL #+2]
+    134                x1+=dx;
+   \                     ??drawfilledrect_3:
+   \   00000048   033087E0           ADD      R3,R7,R3
+    135              }
+   \                     ??drawfilledrect_4:
+   \   0000004C   040053E1           CMP      R3,R4
+   \   00000050   F3FFFF1A           BNE      ??drawfilledrect_2
+    136              y1+=dx;
+   \   00000054   0CC087E0           ADD      R12,R7,R12
+    137            }
+   \                     ??drawfilledrect_1:
+   \   00000058   05005CE1           CMP      R12,R5
+   \   0000005C   FAFFFF1A           BNE      ??drawfilledrect_4
+    138          }
+   \   00000060   F001BDE8           POP      {R4-R8}
+   \   00000064   1EFF2FE1           BX       LR               ;; return
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     SetPixel(unsigned int *, int, int, int, int, int)
+                                        4
+     drawcircle(unsigned int *, int, int, int, int, int, int)
+                                       24
+     drawfilledrect(unsigned int *, int, int, int, int, int, int, int)
+                                       20
+     drawline(unsigned int *, int, int, int, int, int, int, int)
+                                       32
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     SetPixel(unsigned int *, int, int, int, int, int)
+                                      56
+     drawline(unsigned int *, int, int, int, int, int, int, int)
+                                     304
+     drawcircle(unsigned int *, int, int, int, int, int, int)
+                                     440
+     drawfilledrect(unsigned int *, int, int, int, int, int, int, int)
+                                     104
+      Others                          16
+
+ 
+ 920 bytes in segment CODE
+ 
+ 904 bytes of CODE memory (+ 16 bytes shared)
+
+Errors: none
+Warnings: 1

@@ -1,0 +1,585 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:09:08 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \accelctrl.cpp                                       #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \accelctrl.cpp -D NDEBUG -D RUS -D OLDFUNCTIONS -lC  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\List\ -lA Z:\home\perk11\www\perk11.info #
+#                       \svn\SE\WalkmanDisplay\Release_RU\List\ -o           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\Obj\ -s9 --cpu_mode arm --endian little  #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\List\accelctrl.lst                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay #
+#                       \Release_RU\Obj\accelctrl.r79                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\accelctrl.cpp
+      1          #include "..\deleaker\mem2.h"
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs TIMERPROC MKTIMERPROC(void (*)(u16, CAccelCtrl *))
+   \                     ??MKTIMERPROC:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "header\accelctrl.h"
+      4          
+      5          /*   Accelerometer class for ElfPack
+      6               Author: UltraShot
+      7               Supported phones: W580 R8BE001, W580 R8BA024, W580 R8BE001 Orange, W580 R6CA001 Orange, W710 R1JC002
+      8          */
+      9          
+     10          #pragma optimize = z 9
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          void onAccTimer(u16 timerID, CAccelCtrl *cac)
+     12          {
+   \                     ??onAccTimer:
+   \   00000000   F3402DE9           PUSH     {R0,R1,R4-R7,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     13            if (cac->getstatus()==ACC_ACTIVE)
+   \   00000008   080094E5           LDR      R0,[R4, #+8]
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   1900001A           BNE      ??onAccTimer_1
+     14            {
+     15              LIST *acc_lst=cac->gethooks();
+   \   00000014   005094E5           LDR      R5,[R4, #+0]
+     16              if (acc_lst)
+   \   00000018   000055E3           CMP      R5,#+0
+   \   0000001C   1600000A           BEQ      ??onAccTimer_1
+     17              {
+     18                int x;
+     19                for (x=0;x<acc_lst->FirstFree;x++)
+   \   00000020   0060A0E3           MOV      R6,#+0
+   \   00000024   110000EA           B        ??onAccTimer_2
+     20                {
+     21                  void (*proc)(CAccelCtrl*,int,int)=(void (*)(CAccelCtrl*,int,int))(List_Get(acc_lst,x));
+   \                     ??onAccTimer_3:
+   \   00000028   0610A0E1           MOV      R1,R6
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   AD0100EF           SWI      +429
+     22                  char x,y;
+     23                  cac->GetCoords(&x,&y);
+   \   00000034   0C2094E5           LDR      R2,[R4, #+12]
+   \   00000038   0070A0E1           MOV      R7,R0
+   \   0000003C   01108DE2           ADD      R1,SP,#+1
+   \   00000040   0D00A0E1           MOV      R0,SP
+   \   00000044   32FF2FE1           BLX      R2
+     24                  if (x>100 && y>100)
+   \   00000048   0000DDE5           LDRB     R0,[SP, #+0]
+   \   0000004C   650050E3           CMP      R0,#+101
+   \   00000050   0100DD25           LDRBCS   R0,[SP, #+1]
+   \   00000054   65005023           CMPCS    R0,#+101
+   \   00000058   0300003A           BCC      ??onAccTimer_4
+     25                    proc(cac,x,y);
+   \   0000005C   0010DDE5           LDRB     R1,[SP, #+0]
+   \   00000060   0020A0E1           MOV      R2,R0
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   37FF2FE1           BLX      R7
+     26                }
+   \                     ??onAccTimer_4:
+   \   0000006C   016086E2           ADD      R6,R6,#+1
+   \                     ??onAccTimer_2:
+   \   00000070   B200D5E1           LDRH     R0,[R5, #+2]
+   \   00000074   000056E1           CMP      R6,R0
+   \   00000078   EAFFFFBA           BLT      ??onAccTimer_3
+     27              }
+     28            }
+     29            Timer_ReSet(cac->gettimer(),1000,MKTIMERPROC(onAccTimer),cac);
+   \                     ??onAccTimer_1:
+   \   0000007C   ........           LDR      R2,??DataTable1  ;; ??onAccTimer
+   \   00000080   04408DE5           STR      R4,[SP, #+4]
+   \   00000084   0430A0E1           MOV      R3,R4
+   \   00000088   FA1FA0E3           MOV      R1,#+1000
+   \   0000008C   040084E2           ADD      R0,R4,#+4
+   \   00000090   280100EF           SWI      +296
+     30          };
+   \   00000094   F380BDE8           POP      {R0,R1,R4-R7,PC}  ;; return
+     31          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     32          CAccelCtrl::CAccelCtrl()
+     33          {
+   \                     ??CAccelCtrl:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     34            hooks=List_Create();
+   \   00000008   690100EF           SWI      +361
+   \   0000000C   000084E5           STR      R0,[R4, #+0]
+     35            if (identify_phone())
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   ........           BL       ??identify_phone
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0800000A           BEQ      ??CAccelCtrl_1
+     36            {
+     37              timer=Timer_Set(1000, MKTIMERPROC(onAccTimer), this);
+   \   00000020   ........           LDR      R1,??DataTable1  ;; ??onAccTimer
+   \   00000024   0420A0E1           MOV      R2,R4
+   \   00000028   FA0FA0E3           MOV      R0,#+1000
+   \   0000002C   290100EF           SWI      +297
+   \   00000030   B400C4E1           STRH     R0,[R4, #+4]
+     38              status=ACC_ACTIVE;
+   \   00000034   0100A0E3           MOV      R0,#+1
+   \   00000038   080084E5           STR      R0,[R4, #+8]
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   1080BDE8           POP      {R4,PC}
+     39            }
+     40            else
+     41            {
+     42              status=ACC_NOT_SUPPORTED;
+   \                     ??CAccelCtrl_1:
+   \   00000044   0200A0E3           MOV      R0,#+2
+   \   00000048   080084E5           STR      R0,[R4, #+8]
+     43            }
+     44          };
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   1080BDE8           POP      {R4,PC}          ;; return
+     45          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     46          CAccelCtrl::~CAccelCtrl(void)
+     47          {
+   \                     `?~CAccelCtrl`:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     48            if (timer)
+   \   00000008   B400D4E1           LDRH     R0,[R4, #+4]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      `?~CAccelCtrl_1`
+     49            {
+     50              Timer_Kill(gettimer());
+   \   00000014   040084E2           ADD      R0,R4,#+4
+   \   00000018   2A0100EF           SWI      +298
+     51            }
+     52            if (hooks)
+   \                     `?~CAccelCtrl_1`:
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0800000A           BEQ      `?~CAccelCtrl_2`
+   \   00000028   010000EA           B        `?~CAccelCtrl_3`
+     53            {
+     54              while (hooks->FirstFree)
+     55              {
+     56                List_RemoveAt(hooks,0);
+   \                     `?~CAccelCtrl_4`:
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   790100EF           SWI      +377
+     57              }
+   \                     `?~CAccelCtrl_3`:
+   \   00000034   000094E5           LDR      R0,[R4, #+0]
+   \   00000038   B210D0E1           LDRH     R1,[R0, #+2]
+   \   0000003C   000051E3           CMP      R1,#+0
+   \   00000040   F9FFFF1A           BNE      `?~CAccelCtrl_4`
+     58              List_Destroy(hooks);
+   \   00000044   6A0100EF           SWI      +362
+     59            }
+     60            timer=0;
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \                     `?~CAccelCtrl_2`:
+   \   0000004C   B400C4E1           STRH     R0,[R4, #+4]
+     61            hooks=0;
+   \   00000050   000084E5           STR      R0,[R4, #+0]
+     62            status=ACC_INACTIVE;
+   \   00000054   080084E5           STR      R0,[R4, #+8]
+     63          };
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+     64          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     65          int CAccelCtrl::identify_phone()
+     66          {
+     67            char *hz=(char*)(0x453FEFD4);
+     68            if (hz[0]==0x70 && hz[1]==0xB5)
+   \                     ??identify_phone:
+   \   00000000   C0109FE5           LDR      R1,??identify_phone_1  ;; 0x453fefd4
+   \   00000004   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000008   700051E3           CMP      R1,#+112
+   \   0000000C   0700001A           BNE      ??identify_phone_2
+   \   00000010   B4109FE5           LDR      R1,??identify_phone_1+0x4  ;; 0x453fefd5
+   \   00000014   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000018   B50051E3           CMP      R1,#+181
+   \   0000001C   0300001A           BNE      ??identify_phone_2
+     69            {
+     70              //W580 R8BE001
+     71              GetCoords=(void(*)(char * x,char * y))0x453FEFD5;
+   \   00000020   A4109FE5           LDR      R1,??identify_phone_1+0x4  ;; 0x453fefd5
+   \                     ??identify_phone_3:
+   \   00000024   0C1080E5           STR      R1,[R0, #+12]
+     72            }
+     73            else if (hz[0]==0xA1 && hz[1]==0x6A)
+     74            {
+     75              //W580 R8BE001 Orange
+     76              GetCoords=(void(*)(char * x,char * y))0x4543AD01;
+     77            }
+     78            else if (hz[0]==0x01 && hz[1]==0x28)
+     79            {
+     80              //W580 R8BA024
+     81              GetCoords=(void(*)(char * x,char * y))0x453FD1B1;
+     82            }
+     83            else if (hz[0]==0xAC && hz[1]==0x33)
+     84            {
+     85              //W710 R1JC002
+     86              GetCoords=(void(*)(char * x,char * y))0x453D80A9;
+     87            }
+     88            else if (hz[0]==0x01 && hz[1]==0x26)
+     89            {
+     90              //W580 R6CA001 Orange
+     91              GetCoords=(void(*)(char * x,char * y))0x4542BE31;
+     92            }
+     93            else
+     94            {
+     95              return 0;
+     96            }
+     97            return 1;
+   \   00000028   0100A0E3           MOV      R0,#+1
+   \   0000002C   1EFF2FE1           BX       LR               ;; return
+   \                     ??identify_phone_2:
+   \   00000030   90109FE5           LDR      R1,??identify_phone_1  ;; 0x453fefd4
+   \   00000034   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000038   A10051E3           CMP      R1,#+161
+   \   0000003C   0400001A           BNE      ??identify_phone_4
+   \   00000040   84109FE5           LDR      R1,??identify_phone_1+0x4  ;; 0x453fefd5
+   \   00000044   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000048   6A0051E3           CMP      R1,#+106
+   \   0000004C   7C109F05           LDREQ    R1,??identify_phone_1+0x8  ;; 0x4543ad01
+   \   00000050   F3FFFF0A           BEQ      ??identify_phone_3
+   \                     ??identify_phone_4:
+   \   00000054   6C109FE5           LDR      R1,??identify_phone_1  ;; 0x453fefd4
+   \   00000058   0010D1E5           LDRB     R1,[R1, #+0]
+   \   0000005C   010051E3           CMP      R1,#+1
+   \   00000060   0400001A           BNE      ??identify_phone_5
+   \   00000064   60109FE5           LDR      R1,??identify_phone_1+0x4  ;; 0x453fefd5
+   \   00000068   0010D1E5           LDRB     R1,[R1, #+0]
+   \   0000006C   280051E3           CMP      R1,#+40
+   \   00000070   5C109F05           LDREQ    R1,??identify_phone_1+0xC  ;; 0x453fd1b1
+   \   00000074   EAFFFF0A           BEQ      ??identify_phone_3
+   \                     ??identify_phone_5:
+   \   00000078   48109FE5           LDR      R1,??identify_phone_1  ;; 0x453fefd4
+   \   0000007C   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000080   AC0051E3           CMP      R1,#+172
+   \   00000084   0400001A           BNE      ??identify_phone_6
+   \   00000088   3C109FE5           LDR      R1,??identify_phone_1+0x4  ;; 0x453fefd5
+   \   0000008C   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000090   330051E3           CMP      R1,#+51
+   \   00000094   3C109F05           LDREQ    R1,??identify_phone_1+0x10  ;; 0x453d80a9
+   \   00000098   E1FFFF0A           BEQ      ??identify_phone_3
+   \                     ??identify_phone_6:
+   \   0000009C   24109FE5           LDR      R1,??identify_phone_1  ;; 0x453fefd4
+   \   000000A0   0010D1E5           LDRB     R1,[R1, #+0]
+   \   000000A4   010051E3           CMP      R1,#+1
+   \   000000A8   0400001A           BNE      ??identify_phone_7
+   \   000000AC   18109FE5           LDR      R1,??identify_phone_1+0x4  ;; 0x453fefd5
+   \   000000B0   0010D1E5           LDRB     R1,[R1, #+0]
+   \   000000B4   260051E3           CMP      R1,#+38
+   \   000000B8   1C109F05           LDREQ    R1,??identify_phone_1+0x14  ;; 0x4542be31
+   \   000000BC   D8FFFF0A           BEQ      ??identify_phone_3
+   \                     ??identify_phone_7:
+   \   000000C0   0000A0E3           MOV      R0,#+0
+   \   000000C4   1EFF2FE1           BX       LR
+   \                     ??identify_phone_1:
+   \   000000C8   D4EF3F45           DC32     0x453fefd4
+   \   000000CC   D5EF3F45           DC32     0x453fefd5
+   \   000000D0   01AD4345           DC32     0x4543ad01
+   \   000000D4   B1D13F45           DC32     0x453fd1b1
+   \   000000D8   A9803D45           DC32     0x453d80a9
+   \   000000DC   31BE4245           DC32     0x4542be31
+     98          };
+     99          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    100          int CAccelCtrl::getstatus()
+    101          {
+    102            return status;
+   \                     ??getstatus:
+   \   00000000   080090E5           LDR      R0,[R0, #+8]
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    103          };
+    104          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    105          void CAccelCtrl::AddHook(void (*proc)(void*, int, int), char on)
+    106          {
+   \                     ??AddHook:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    107            if (status!=ACC_ACTIVE)
+   \   00000008   080094E5           LDR      R0,[R4, #+8]
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+   \   00000014   010050E3           CMP      R0,#+1
+   \   00000018   7080BD18           POPNE    {R4-R6,PC}
+    108              return;
+    109            int i=ListElement_Prt2NumElement(hooks,(void*)proc);
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   7B0100EF           SWI      +379
+    110            if (on)
+   \   00000024   FF10A0E3           MOV      R1,#+255
+   \   00000028   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   0000002C   000056E3           CMP      R6,#+0
+   \   00000030   0500000A           BEQ      ??AddHook_1
+    111            {
+    112              if (i==LIST_ERROR)
+   \   00000034   010050E1           CMP      R0,R1
+   \   00000038   7080BD18           POPNE    {R4-R6,PC}
+    113              {
+    114                List_InsertLast(hooks, (void*)proc);
+   \   0000003C   000094E5           LDR      R0,[R4, #+0]
+   \   00000040   0510A0E1           MOV      R1,R5
+   \   00000044   B00100EF           SWI      +432
+   \   00000048   7080BDE8           POP      {R4-R6,PC}
+    115              }
+    116            }
+    117            else
+    118            {
+    119              if (i!=LIST_ERROR)
+   \                     ??AddHook_1:
+   \   0000004C   010050E1           CMP      R0,R1
+   \   00000050   7080BD08           POPEQ    {R4-R6,PC}
+    120              {
+    121                List_RemoveAt(hooks, i);
+   \   00000054   0010A0E1           MOV      R1,R0
+   \   00000058   000094E5           LDR      R0,[R4, #+0]
+   \   0000005C   790100EF           SWI      +377
+   \   00000060   7080BDE8           POP      {R4-R6,PC}       ;; return
+    122              }
+    123            }
+    124          };
+    125          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    126          bool CAccelCtrl::isbetween(char num, int min, int max)
+    127          {
+    128            if (num >= min && num <=max)
+   \                     ??isbetween:
+   \   00000000   020051E1           CMP      R1,R2
+   \   00000004   010053A1           CMPGE    R3,R1
+    129            {
+    130              return true;
+   \   00000008   0100A0A3           MOVGE    R0,#+1
+   \   0000000C   1EFF2FA1           BXGE     LR
+    131            }
+    132            return false;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+    133          };
+    134          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    135          LIST * CAccelCtrl::gethooks()
+    136          {
+    137            return hooks;
+   \                     ??gethooks:
+   \   00000000   000090E5           LDR      R0,[R0, #+0]
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    138          };
+    139          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    140          u16 *CAccelCtrl::gettimer()
+    141          {
+    142            return &timer;
+   \                     ??gettimer:
+   \   00000000   040080E2           ADD      R0,R0,#+4
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    143          };
+    144          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    145          int CAccelCtrl::getvector(int x, int y)
+    146          {
+    147            int res=0;
+   \                     ??getvector:
+   \   00000000   0000A0E3           MOV      R0,#+0
+    148            if (isbetween(x,120,130) && y<115)
+   \   00000004   FF3001E2           AND      R3,R1,#0xFF
+   \   00000008   780053E3           CMP      R3,#+120
+   \   0000000C   0400003A           BCC      ??getvector_1
+   \   00000010   830053E3           CMP      R3,#+131
+   \   00000014   0200002A           BCS      ??getvector_1
+   \   00000018   730052E3           CMP      R2,#+115
+    149              res=res|V_UP;
+   \   0000001C   0100A0B3           MOVLT    R0,#+1
+   \   00000020   1EFF2FB1           BXLT     LR
+    150            else if (x>133 && isbetween(y,120,130))
+   \                     ??getvector_1:
+   \   00000024   860051E3           CMP      R1,#+134
+   \   00000028   050000BA           BLT      ??getvector_2
+   \   0000002C   FF3002E2           AND      R3,R2,#0xFF
+   \   00000030   780053E3           CMP      R3,#+120
+   \   00000034   0200003A           BCC      ??getvector_2
+   \   00000038   830053E3           CMP      R3,#+131
+    151              res=res|V_RIGHT;
+   \   0000003C   0800A033           MOVCC    R0,#+8
+   \   00000040   1EFF2F31           BXCC     LR
+    152            else if (isbetween(x,120,130) && y>133)
+   \                     ??getvector_2:
+   \   00000044   FF3001E2           AND      R3,R1,#0xFF
+   \   00000048   780053E3           CMP      R3,#+120
+   \   0000004C   0400003A           BCC      ??getvector_3
+   \   00000050   830053E3           CMP      R3,#+131
+   \   00000054   0200002A           BCS      ??getvector_3
+   \   00000058   860052E3           CMP      R2,#+134
+    153              res=res|V_DOWN;
+   \   0000005C   0200A0A3           MOVGE    R0,#+2
+   \   00000060   1EFF2FA1           BXGE     LR
+    154            else if (x<115 && isbetween(y,120,130))
+   \                     ??getvector_3:
+   \   00000064   730051E3           CMP      R1,#+115
+   \   00000068   1EFF2FA1           BXGE     LR
+   \   0000006C   FF2002E2           AND      R2,R2,#0xFF
+   \   00000070   780052E3           CMP      R2,#+120
+   \   00000074   1EFF2F31           BXCC     LR
+   \   00000078   830052E3           CMP      R2,#+131
+    155              res=res|V_LEFT;
+   \   0000007C   0400A033           MOVCC    R0,#+4
+    156            return res;
+   \   00000080   1EFF2FE1           BX       LR               ;; return
+    157          };
+    158          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    159          int CAccelCtrl::getorientation(int x, int y)
+    160          {
+    161            if (isbetween(x, 116, 136) && isbetween(y, 116, 136))
+   \                     ??getorientation:
+   \   00000000   FF0001E2           AND      R0,R1,#0xFF
+   \   00000004   740050E3           CMP      R0,#+116
+   \   00000008   0700003A           BCC      ??getorientation_1
+   \   0000000C   890050E3           CMP      R0,#+137
+   \   00000010   0500002A           BCS      ??getorientation_1
+   \   00000014   FF0002E2           AND      R0,R2,#0xFF
+   \   00000018   740050E3           CMP      R0,#+116
+   \   0000001C   0200003A           BCC      ??getorientation_1
+   \   00000020   890050E3           CMP      R0,#+137
+    162              return 0;
+   \   00000024   0000A033           MOVCC    R0,#+0
+   \   00000028   1EFF2F31           BXCC     LR
+    163            if (isbetween(x,112,144))
+   \                     ??getorientation_1:
+   \   0000002C   FF1001E2           AND      R1,R1,#0xFF
+   \   00000030   700051E3           CMP      R1,#+112
+   \   00000034   0700003A           BCC      ??getorientation_2
+   \   00000038   910051E3           CMP      R1,#+145
+   \   0000003C   0500002A           BCS      ??getorientation_2
+    164            {
+    165              if (!isbetween(y, 132, 144))
+   \   00000040   FF2002E2           AND      R2,R2,#0xFF
+   \   00000044   840052E3           CMP      R2,#+132
+   \   00000048   0200003A           BCC      ??getorientation_2
+   \   0000004C   910052E3           CMP      R2,#+145
+    166              {
+    167                return HOR;
+    168              }
+    169              return VERT;
+   \   00000050   0200A033           MOVCC    R0,#+2
+   \   00000054   1EFF2F31           BXCC     LR
+   \                     ??getorientation_2:
+   \   00000058   0100A0E3           MOV      R0,#+1
+   \   0000005C   1EFF2FE1           BX       LR               ;; return
+    170            }
+    171            else
+    172            {
+    173              return HOR;
+    174            }
+    175          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs CAccelCtrl &CAccelCtrl::new CAccelCtrl()
+   \                     `??new CAccelCtrl`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   1000A0E3           MOV      R0,#+16
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0080BD08           POPEQ    {PC}
+   \   00000014   0040BDE8           POP      {LR}             ;; Pop
+   \   00000018   ........           B        ??CAccelCtrl     ;; tailcall
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs void CAccelCtrl::delete ~CAccelCtrl(CAccelCtrl *)
+   \                     `??delete ~CAccelCtrl`:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+   \   0000000C   ........           BL       `?~CAccelCtrl`
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     ??onAccTimer
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CAccelCtrl::AddHook(void (*)(void *, int, int), char)
+                                       16
+     CAccelCtrl::CAccelCtrl()           8
+     CAccelCtrl::delete ~CAccelCtrl(CAccelCtrl *)
+                                        8
+     CAccelCtrl::gethooks()             0
+     CAccelCtrl::getorientation(int, int)
+                                        0
+     CAccelCtrl::getstatus()            0
+     CAccelCtrl::gettimer()             0
+     CAccelCtrl::getvector(int, int)
+                                        0
+     CAccelCtrl::identify_phone()       0
+     CAccelCtrl::isbetween(char, int, int)
+                                        0
+     CAccelCtrl::new CAccelCtrl()       4
+     CAccelCtrl::~CAccelCtrl()          8
+     MKTIMERPROC(void (*)(u16, CAccelCtrl *))
+                                        0
+     onAccTimer(u16, CAccelCtrl *)     28
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     MKTIMERPROC(void (*)(u16, CAccelCtrl *))
+                                       4
+     onAccTimer(u16, CAccelCtrl *)   152
+     CAccelCtrl::CAccelCtrl()         84
+     CAccelCtrl::~CAccelCtrl()        92
+     CAccelCtrl::identify_phone()    224
+     CAccelCtrl::getstatus()           8
+     CAccelCtrl::AddHook(void (*)(void *, int, int), char)
+                                     100
+     CAccelCtrl::isbetween(char, int, int)
+                                      24
+     CAccelCtrl::gethooks()            8
+     CAccelCtrl::gettimer()            8
+     CAccelCtrl::getvector(int, int)
+                                     132
+     CAccelCtrl::getorientation(int, int)
+                                      96
+     CAccelCtrl::new CAccelCtrl()     28
+     CAccelCtrl::delete ~CAccelCtrl(CAccelCtrl *)
+                                      28
+     ??DataTable1                      4
+      Others                          76
+
+ 
+ 1 068 bytes in segment CODE
+ 
+ 988 bytes of CODE memory (+ 80 bytes shared)
+
+Errors: none
+Warnings: none

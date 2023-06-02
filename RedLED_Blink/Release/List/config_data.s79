@@ -1,0 +1,84 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:04:40 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\RedLED_Blink\ /
+//                       config_data.c                                       /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\RedLED_Blink\ /
+//                       config_data.c -D NDEBUG -lC                         /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\RedLED_Blink\ /
+//                       Release\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\RedLED_Blink\Release\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\RedLED_Blink\ /
+//                       Release\Obj\ -s9 --no_unroll --no_inline            /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --fpu None --eec++   /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h --segment code=CONFIG --segment data=CONFIG    /
+//                       -I Z:\home\perk11\IAR2\arm\INC\                     /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\RedLED_Blink\ /
+//                       Release\List\config_data.s79                        /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC OffTime
+        PUBLIC OnTime
+// Z:\home\perk11\www\perk11.info\svn\SE\RedLED_Blink\config_data.c
+//    1 #include "..\\include\cfg_items.h"
+//    2 #include "config_data.h"
+//    3 
+//    4 #pragma diag_suppress=Pe177
+//    5 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "On time, ms"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//    6 __root const CFG_HDR cfghdr1={CFG_UINT,"On time, ms",0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    7 __root const unsigned int OnTime=500;
+OnTime:
+        DATA
+        DC32 500
+//    8 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "Off time, ms"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//    9 __root const CFG_HDR cfghdr2={CFG_UINT,"Off time, ms",0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   10 __root const unsigned int OffTime=500;
+OffTime:
+        DATA
+        DC32 500
+
+        END
+// 
+// 96 bytes in segment CONFIG_C
+// 
+// 96 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

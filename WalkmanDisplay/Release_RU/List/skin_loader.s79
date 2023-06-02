@@ -1,0 +1,712 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:10:42 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\skin_loader.cpp                                   /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\skin_loader.cpp -D NDEBUG -D RUS -lC              /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\Release_RU\List\ -lA Z:\home\perk11\www\perk11.in /
+//                       fo\svn\SE\WalkmanDisplay\Release_RU\List\ -o        /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\Release_RU\Obj\ -s9 --cpu_mode arm --endian       /
+//                       little --cpu ARM926EJ-S --stack_align 4             /
+//                       --interwork -e --enable_multibytes --fpu None       /
+//                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\d /
+//                       l5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\        /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\Release_RU\List\skin_loader.s79                   /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME skin_loader
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+        RSEG SKIN_C:DATA:REORDER:NOROOT(0)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable2 EQU 0
+        PUBLIC ??LoadSkinData
+        FUNCTION ??LoadSkinData,0203H
+        LOCFRAME CSTACK, 72, STACK
+        MULTWEAK ??LoadSkinData??rT
+        PUBLIC ??SaveSkinData
+        FUNCTION ??SaveSkinData,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??SaveSkinData??rT
+        MULTWEAK ??migrate_from_2_0_to_2_1??rA
+        MULTWEAK ??migrate_from_2_0corrupted_to_2_1??rA
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new[]??rA`
+        PUBLIC ??skin_InitConfig
+        FUNCTION ??skin_InitConfig,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??skin_InitConfig??rT
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC successed_skin_name
+        PUBLIC successed_skin_path
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+??LoadSkinData??rT  SYMBOL "??rT", ??LoadSkinData
+
+??SaveSkinData??rT  SYMBOL "??rT", ??SaveSkinData
+??migrate_from_2_0_to_2_1??rA SYMBOL "??rA", ??migrate_from_2_0_to_2_1
+??migrate_from_2_0corrupted_to_2_1??rA SYMBOL "??rA", ??migrate_from_2_0corrupted_to_2_1
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+??skin_InitConfig??rT SYMBOL "??rT", ??skin_InitConfig
+
+        EXTERN ??migrate_from_2_0_to_2_1
+        FUNCTION ??migrate_from_2_0_to_2_1,0202H
+        EXTERN ??migrate_from_2_0corrupted_to_2_1
+        FUNCTION ??migrate_from_2_0corrupted_to_2_1,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+        EXTERN skin_cfg
+
+// Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\skin_loader.cpp
+//    1 #include "..\deleaker\mem2.h"
+//    2 #include "..\include\Lib_Clara.h"
+//    3 #include "..\include\Dir.h"
+//    4 #include "..\include\cfg_items.h"
+//    5 #include "header\skin_loader.h"
+//    6 
+//    7 #include "cfg_2_0.h"
+//    8 #include "cfg_2_0_corrupted.h"
+//    9 #include "cfg_2_1.h"
+//   10 
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//   11 wchar_t successed_skin_path[512];
+successed_skin_path:
+        DS8 1024
+//   12 wchar_t successed_skin_name[512];
+successed_skin_name:
+        DS8 1024
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??LoadSkinData??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??LoadSkinData
+//   13 int SaveSkinData(const wchar_t *path,const wchar_t *fname);
+//   14 
+//   15 #define BCFGLOADER_COMPLETE 0
+//   16 #define BCFGLOADER_CONFIG_OLD_OR_CORRUPTED -1
+//   17 #define BCFGLOADER_NOT_FOUND -2
+//   18 #define BCFGLOADER_MEMORY_NOT_ALLOCATED -3
+//   19 #define BCFGLOADER_PATH_OR_NAME_CORRUPTED -4
+//   20 #define BCFGLOADER_UNKNOWN_ERROR -5
+//   21 #define BCFGLOADER_SUCCESSED(a) a>=0 ? 1 : 0
+//   22 #define BCFGLOADER_FAILED(a) a<0 ? 1 : 0
+//   23 #pragma segment="SKIN_C"
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??LoadSkinData
+        ARM
+//   24 int LoadSkinData(const wchar_t *path,const wchar_t *fname)
+//   25 {
+??LoadSkinData:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+28
+        CFI CFA R13+64
+        MOV      R6,R0
+        MOV      R7,R1
+//   26   if (path==0 || fname==0)
+        CMP      R6,#+0
+        CMPNE    R7,#+0
+//   27     return BCFGLOADER_PATH_OR_NAME_CORRUPTED;
+        MVNEQ    R0,#+3
+        BEQ      ??LoadSkinData_1
+//   28   int f;
+//   29   int result=BCFGLOADER_UNKNOWN_ERROR;
+//   30   void *cfg;
+//   31   FSTAT _fstat;
+//   32   unsigned int rlen;
+//   33   
+//   34   cfg=(char *)__segment_begin("SKIN_C");
+//   35 
+//   36   unsigned int len=(char *)__segment_end("SKIN_C")-(char *)__segment_begin("SKIN_C");
+        LDR      R9,??DataTable3  ;; SFB(SKIN_C)
+        LDR      R0,??DataTable4  ;; SFE(SKIN_C)
+        MVN      R5,#+4
+        SUB      R11,R0,R9
+//   37   if (fstat(path,fname,&_fstat)!=-1)
+        MOV      R2,SP
+        MOV      R0,R6
+        SWI      +284
+        CMN      R0,#+1
+        BEQ      ??LoadSkinData_2
+//   38   {
+//   39     if (_fstat.fsize==len)
+        LDR      R0,[SP, #+8]
+        LDR      R10,??LoadSkinData_3  ;; `?<Constant L"\\x4d\\x69\\x67\\x72\\x61\\x74\\x65\\x64\\`
+        CMP      R0,R11
+        BNE      ??LoadSkinData_4
+//   40     {
+//   41       if ((f=_fopen(path,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+68
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R7
+        MOV      R0,R6
+        SWI      +278
+        MOVS     R4,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+64
+        BMI      ??LoadSkinData_2
+//   42       {
+//   43         rlen=fread(f, cfg, len);
+        MOV      R2,R11
+        MOV      R1,R9
+        SWI      +280
+//   44         fclose(f);
+        MOV      R0,R4
+//   45         result=1;
+//   46       }
+//   47     }
+//   48     else
+//   49     {
+//   50       char *buf=new char[_fstat.fsize];
+//   51       if (buf)
+//   52       {
+//   53         if ((f=_fopen(path,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+//   54         {
+//   55           rlen=fread(f, buf, _fstat.fsize);
+//   56           fclose(f);
+//   57         }
+//   58         int migrate_from_2_0corrupted_to_2_1(CFG_2_0_corrupted *oldcfg, CFG_2_1 *cfg);
+//   59         int migrate_from_2_0_to_2_1(CFG_2_0 *oldcfg, CFG_2_1 *cfg);
+//   60         if (rlen==sizeof(CFG_2_0_corrupted))
+//   61         {
+//   62           migrate_from_2_0corrupted_to_2_1((CFG_2_0_corrupted*)buf, (CFG_2_1*)cfg);
+//   63           SaveSkinData(path,fname);
+//   64           MessageBox(EMPTY_TEXTID,TextID_Create(L"Migrated from 2.0 rus",ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+//   65           return 1;
+//   66         }
+//   67         else if (rlen==sizeof(CFG_2_0))
+//   68         {
+//   69           migrate_from_2_0_to_2_1((CFG_2_0*)buf, (CFG_2_1*)cfg);
+//   70           SaveSkinData(path,fname);
+//   71           MessageBox(EMPTY_TEXTID,TextID_Create(L"Migrated from 2.0 eng",ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+//   72           return 1;
+//   73         }
+//   74         delete(buf);
+//   75       }
+//   76       else
+//   77       {
+//   78         result=BCFGLOADER_MEMORY_NOT_ALLOCATED;
+//   79       }
+//   80     }
+//   81   }
+//   82   if (BCFGLOADER_SUCCESSED(result))
+//   83   {
+//   84     wstrcpy(successed_skin_path,path);
+        LDR      R4,??DataTable5  ;; successed_skin_path
+        SWI      +279
+        MOV      R1,R6
+        MOV      R0,R4
+        SWI      +338
+//   85     wstrcpy(successed_skin_name,fname);
+        MOV      R6,#+1024
+        MOV      R1,R7
+        ADD      R0,R6,R4
+        SWI      +338
+//   86     debug_printf("\nWalkmanDisplay: skindata loaded from %ls/%ls\n", successed_skin_path, successed_skin_name);
+        ADD      R2,R6,R4
+        MOV      R1,R4
+        ADD      R0,R10,#+88
+        SWI      +433
+        MOV      R5,#+1
+        B        ??LoadSkinData_2
+//   87   }
+??LoadSkinData_4:
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOVS     R11,R0
+        BEQ      ??LoadSkinData_5
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+68
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R7
+        MOV      R0,R6
+        SWI      +278
+        MOVS     R4,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+64
+        BMI      ??LoadSkinData_6
+        LDR      R2,[SP, #+8]
+        MOV      R1,R11
+        SWI      +280
+        MOV      R8,R0
+        MOV      R0,R4
+        SWI      +279
+??LoadSkinData_6:
+        MOV      R4,R5, LSR #+16
+        MOV      R0,#+152
+        ORR      R0,R0,#0x5400
+        CMP      R8,R0
+        BNE      ??LoadSkinData_7
+        MOV      R1,R9
+        MOV      R0,R11
+        _BLF     ??migrate_from_2_0corrupted_to_2_1,??migrate_from_2_0corrupted_to_2_1??rA
+        MOV      R1,R7
+        MOV      R0,R6
+        BL       ??SaveSkinData
+        MOV      R2,R4
+        MOV      R1,#+0
+        MOV      R0,R10
+        SWI      +349
+        MOV      R1,R0
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+68
+        PUSH     {R0}
+        CFI CFA R13+72
+        MOV      R3,#+1
+        MOV      R2,R4
+??LoadSkinData_8:
+        MVN      R0,#-1879048192
+        SWI      +599
+        MOV      R0,#+1
+        ADD      SP,SP,#+8
+        CFI CFA R13+64
+        ADD      SP,SP,#+28
+        CFI CFA R13+36
+        POP      {R4-R11,PC}
+        CFI CFA R13+64
+??LoadSkinData_7:
+        ADD      R0,R0,#+3744
+        CMP      R8,R0
+        BNE      ??LoadSkinData_9
+        MOV      R1,R9
+        MOV      R0,R11
+        _BLF     ??migrate_from_2_0_to_2_1,??migrate_from_2_0_to_2_1??rA
+        MOV      R1,R7
+        MOV      R0,R6
+        BL       ??SaveSkinData
+        MOV      R2,R4
+        MOV      R1,#+0
+        ADD      R0,R10,#+44
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+68
+        PUSH     {R1}
+        CFI CFA R13+72
+        MOV      R3,#+1
+        MOV      R2,R4
+        MOV      R1,R0
+        B        ??LoadSkinData_8
+        CFI CFA R13+64
+??LoadSkinData_9:
+        MOV      R0,R11
+        _BLF     `??operator delete`,`??operator delete??rA`
+        B        ??LoadSkinData_2
+??LoadSkinData_5:
+        ADD      R5,R5,#+2
+//   88   return(result);
+??LoadSkinData_2:
+        MOV      R0,R5
+??LoadSkinData_1:
+        ADD      SP,SP,#+28       ;; stack cleaning
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??LoadSkinData_3:
+        DC32     `?<Constant L"\\x4d\\x69\\x67\\x72\\x61\\x74\\x65\\x64\\`
+        CFI EndBlock cfiBlock1
+//   89 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SaveSkinData??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??SaveSkinData
+//   90 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??SaveSkinData
+        ARM
+//   91 int SaveSkinData(const wchar_t *path,const wchar_t *fname)
+//   92 {
+??SaveSkinData:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+//   93   void *cfg=(char *)__segment_begin("SKIN_C");
+//   94 
+//   95   unsigned int len=(char *)__segment_end("SKIN_C")-(char *)__segment_begin("SKIN_C");
+        LDR      R7,??DataTable3  ;; SFB(SKIN_C)
+        MOV      R5,R0
+        LDR      R0,??DataTable4  ;; SFE(SKIN_C)
+        MOV      R4,R1
+        SUB      R8,R0,R7
+//   96   int f;
+//   97   int result=BCFGLOADER_UNKNOWN_ERROR;
+//   98   if ((f=_fopen(path,fname,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+32
+        MVN      R6,#+4
+        MOV      R3,#+384
+        MOV      R2,#+516
+        MOV      R0,R5
+        SWI      +278
+        MOVS     R9,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        BMI      ??SaveSkinData_1
+//   99   {
+//  100     if (fwrite(f,cfg,len)==len) result=BCFGLOADER_COMPLETE;
+        MOV      R2,R8
+        MOV      R1,R7
+        SWI      +281
+        CMP      R0,R8
+        MOVEQ    R6,#+0
+//  101     fclose(f);
+        MOV      R0,R9
+        SWI      +279
+//  102   }
+//  103   if (BCFGLOADER_SUCCESSED(result))
+        CMP      R6,#+0
+        BMI      ??SaveSkinData_1
+//  104   {
+//  105     wstrcpy(successed_skin_path,path);
+        LDR      R7,??DataTable5  ;; successed_skin_path
+        MOV      R1,R5
+        MOV      R0,R7
+        SWI      +338
+//  106     wstrcpy(successed_skin_name,fname);
+        MOV      R5,#+1024
+        MOV      R1,R4
+        ADD      R0,R5,R7
+        SWI      +338
+//  107     debug_printf("\nWalkmanDisplay: skindata saved to %ls/%ls\n", successed_skin_path, successed_skin_name);
+        LDR      R0,??SaveSkinData_2  ;; `?<Constant "\\nWalkmanDisplay: skin...">_1`
+        ADD      R2,R5,R7
+        MOV      R1,R7
+        SWI      +433
+//  108   }
+//  109   return result;
+??SaveSkinData_1:
+        MOV      R0,R6
+        POP      {R4-R9,PC}       ;; return
+        DATA
+??SaveSkinData_2:
+        DC32     `?<Constant "\\nWalkmanDisplay: skin...">_1`
+        CFI EndBlock cfiBlock3
+//  110 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable3:
+        DC32     SFB(SKIN_C)
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable4:
+        DC32     SFE(SKIN_C)
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable5:
+        DC32     successed_skin_path
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??skin_InitConfig??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??skin_InitConfig
+//  111 #include "header\config_data.h"
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??skin_InitConfig
+        ARM
+//  112 void skin_InitConfig(wchar_t *path, int mode)
+//  113 {
+//  114   if (skin_cfg==1 && mode==0)
+??skin_InitConfig:
+        LDR      R2,??skin_InitConfig_1  ;; skin_cfg
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R2,[R2, #+0]
+        LDR      R4,??skin_InitConfig_1+0x4  ;; `?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`
+        CMP      R2,#+1
+        CMPEQ    R1,#+0
+        BEQ      ??skin_InitConfig_2
+//  115   {
+//  116     goto L_SkipSkinData;
+//  117   }
+//  118   if (BCFGLOADER_FAILED( LoadSkinData(path, L"WalkmanDisplay_Skin.bcfg") ))
+        MOV      R1,R4
+        BL       ??LoadSkinData
+        CMP      R0,#+0
+        POPPL    {R4,PC}
+//  119   {
+//  120   L_SkipSkinData:
+//  121     if (BCFGLOADER_FAILED( LoadSkinData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"WalkmanDisplay_Skin.bcfg") ))
+??skin_InitConfig_2:
+        MOV      R0,#+20
+        SWI      +261
+        MOV      R1,R4
+        BL       ??LoadSkinData
+        CMP      R0,#+0
+        POPPL    {R4,PC}
+//  122     {
+//  123       if (BCFGLOADER_FAILED( LoadSkinData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"WalkmanDisplay_Skin.bcfg") ))
+        MOV      R0,#+21
+        SWI      +261
+        MOV      R1,R4
+        BL       ??LoadSkinData
+        CMP      R0,#+0
+        POPPL    {R4,PC}
+//  124       {
+//  125         if (BCFGLOADER_FAILED( SaveSkinData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"WalkmanDisplay_Skin.bcfg") ))
+        MOV      R0,#+20
+        SWI      +261
+        MOV      R1,R4
+        BL       ??SaveSkinData
+        CMP      R0,#+0
+        POPPL    {R4,PC}
+//  126         {
+//  127           SaveSkinData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"WalkmanDisplay_Skin.bcfg");
+        MOV      R0,#+21
+        SWI      +261
+        MOV      R1,R4
+        BL       ??SaveSkinData
+//  128         }
+//  129       }
+//  130     }
+//  131   }
+//  132 };
+        POP      {R4,PC}          ;; return
+        DATA
+??skin_InitConfig_1:
+        DC32     skin_cfg
+        DC32     `?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine3_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine3_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock6
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??migrate_from_2_0corrupted_to_2_1??rA:
+        LDR      R12,??Subroutine4_0  ;; ??migrate_from_2_0corrupted_to_2_1
+        BX       R12
+        DATA
+??Subroutine4_0:
+        DC32     ??migrate_from_2_0corrupted_to_2_1
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??migrate_from_2_0_to_2_1??rA:
+        LDR      R12,??Subroutine5_0  ;; ??migrate_from_2_0_to_2_1
+        BX       R12
+        DATA
+??Subroutine5_0:
+        DC32     ??migrate_from_2_0_to_2_1
+        CFI EndBlock cfiBlock8
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine6_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine6_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock9
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG SKIN_C:DATA:REORDER:NOROOT(0)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x4d\\x69\\x67\\x72\\x61\\x74\\x65\\x64\\`:
+        DATA
+        DC8 4DH, 0, 69H, 0, 67H, 0, 72H, 0
+        DC8 61H, 0, 74H, 0, 65H, 0, 64H, 0
+        DC8 20H, 0, 66H, 0, 72H, 0, 6FH, 0
+        DC8 6DH, 0, 20H, 0, 32H, 0, 2EH, 0
+        DC8 30H, 0, 20H, 0, 72H, 0, 75H, 0
+        DC8 73H, 0, 0, 0
+        DC8 4DH, 0, 69H, 0, 67H, 0, 72H, 0
+        DC8 61H, 0, 74H, 0, 65H, 0, 64H, 0
+        DC8 20H, 0, 66H, 0, 72H, 0, 6FH, 0
+        DC8 6DH, 0, 20H, 0, 32H, 0, 2EH, 0
+        DC8 30H, 0, 20H, 0, 65H, 0, 6EH, 0
+        DC8 67H, 0, 0, 0
+        DC8 "\012WalkmanDisplay: skindata loaded from %ls/%ls\012"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\nWalkmanDisplay: skin...">_1`:
+        DATA
+        DC8 "\012WalkmanDisplay: skindata saved to %ls/%ls\012"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`:
+        DATA
+        DC8 57H, 0, 61H, 0, 6CH, 0, 6BH, 0
+        DC8 6DH, 0, 61H, 0, 6EH, 0, 44H, 0
+        DC8 69H, 0, 73H, 0, 70H, 0, 6CH, 0
+        DC8 61H, 0, 79H, 0, 5FH, 0, 53H, 0
+        DC8 6BH, 0, 69H, 0, 6EH, 0, 2EH, 0
+        DC8 62H, 0, 63H, 0, 66H, 0, 67H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        END
+// 
+//   872 bytes in segment CODE
+//   232 bytes in segment DATA_C
+// 2 048 bytes in segment DATA_Z
+//    12 bytes in segment INITTAB
+// 
+//   812 bytes of CODE  memory (+ 72 bytes shared)
+//   232 bytes of CONST memory
+// 2 048 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

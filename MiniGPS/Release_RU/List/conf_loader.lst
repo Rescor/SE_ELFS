@@ -1,0 +1,333 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:05:36 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\conf_l #
+#                       oader.cpp                                            #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\conf_l #
+#                       oader.cpp -D NDEBUG -D LANG_RU -D OLDFUNCTIONS -lCN  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_RU\List\ -la Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \MiniGPS\Release_RU\List\ -o                         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_RU\Obj\ -s9 --no_unroll --no_code_motion           #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_RU\List\conf_loader.lst                            #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_RU\Obj\conf_loader.r79                             #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\conf_loader.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\cfg_items.h"
+      4          #include "conf_loader.h"
+      5          
+      6          #define LCFGFILENAME L"MiniGPS.bcfg"
+      7          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+      8          const wchar_t *successed_config_path=L"";
+   \                     successed_config_path:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for successed_config_path>`
+      9          const wchar_t *successed_config_name=L"";
+   \                     successed_config_name:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for successed_config_name>`
+     10          
+     11          #pragma segment="CONFIG_C"
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          int SaveConfigData(const wchar_t *path,const wchar_t *fname)
+     13          {
+   \                     ??SaveConfigData:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+     14            int f;
+     15            char *buf;
+     16            int result = -1;
+     17            void *cfg;
+     18          
+     19            cfg=(char *)__segment_begin("CONFIG_C");
+     20          
+     21            unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+   \   00000004   7C709FE5           LDR      R7,??SaveConfigData_1  ;; SFE(CONFIG_C) - SFB(CONFIG_C)
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0060E0E3           MVN      R6,#+0
+     22          
+     23            if ((buf=new char[len]))
+   \   00000014   0700A0E1           MOV      R0,R7
+   \   00000018   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000001C   0080B0E1           MOVS     R8,R0
+   \   00000020   1600000A           BEQ      ??SaveConfigData_2
+     24            {
+     25              if ((f=_fopen(path,fname,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0)) >= 0)
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   603FA0E3           MOV      R3,#+384
+   \   00000030   812FA0E3           MOV      R2,#+516
+   \   00000034   0510A0E1           MOV      R1,R5
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   160100EF           SWI      +278
+   \   00000040   0090B0E1           MOVS     R9,R0
+   \   00000044   04D08DE2           ADD      SP,SP,#+4
+   \   00000048   0600004A           BMI      ??SaveConfigData_3
+     26              {
+     27                if (fwrite(f,cfg,len)==len) result = 0;
+   \   0000004C   ........           LDR      R1,??DataTable2  ;; SFB(CONFIG_C)
+   \   00000050   0720A0E1           MOV      R2,R7
+   \   00000054   190100EF           SWI      +281
+   \   00000058   070050E1           CMP      R0,R7
+   \   0000005C   0060A003           MOVEQ    R6,#+0
+     28                fclose(f);
+   \   00000060   0900A0E1           MOV      R0,R9
+   \   00000064   170100EF           SWI      +279
+     29              }
+     30              delete buf;
+   \                     ??SaveConfigData_3:
+   \   00000068   0800A0E1           MOV      R0,R8
+   \   0000006C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     31            }
+     32            if (result >= 0)
+   \   00000070   000056E3           CMP      R6,#+0
+     33            {
+     34              successed_config_path=path;
+   \   00000074   ........           LDRPL    R0,??DataTable3  ;; successed_config_path
+   \   00000078   00408055           STRPL    R4,[R0, #+0]
+     35              successed_config_name=fname;
+   \   0000007C   04508055           STRPL    R5,[R0, #+4]
+     36            }
+     37            return(result);
+   \                     ??SaveConfigData_2:
+   \   00000080   0600A0E1           MOV      R0,R6
+   \   00000084   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??SaveConfigData_1:
+   \   00000088   ........           DC32     SFE(CONFIG_C) - SFB(CONFIG_C)
+     38          }
+     39          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     40          int LoadConfigData(const wchar_t *path,const wchar_t *fname)
+     41          {
+   \                     ??LoadConfigData:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+     42            int f;
+     43            char *buf;
+     44            int result = -1;
+     45            void *cfg;
+     46            FSTAT _fstat;
+     47            unsigned int rlen;
+     48          
+     49            cfg=(char *)__segment_begin("CONFIG_C");
+     50          
+     51            unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+   \   00000004   D8609FE5           LDR      R6,??LoadConfigData_1  ;; SFE(CONFIG_C) - SFB(CONFIG_C)
+   \   00000008   1CD04DE2           SUB      SP,SP,#+28
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   0080E0E3           MVN      R8,#+0
+     52          
+     53            if ((buf=new char[len]))
+   \   00000018   0600A0E1           MOV      R0,R6
+   \   0000001C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000020   0070B0E1           MOVS     R7,R0
+   \   00000024   2B00000A           BEQ      ??LoadConfigData_2
+     54            {
+     55              if (fstat(path,fname,&_fstat) != -1)
+   \   00000028   0D20A0E1           MOV      R2,SP
+   \   0000002C   0510A0E1           MOV      R1,R5
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   1C0100EF           SWI      +284
+   \   00000038   010070E3           CMN      R0,#+1
+   \   0000003C   1F00000A           BEQ      ??LoadConfigData_3
+     56              {
+     57                if ((f=_fopen(path,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0)) >= 0)
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   603FA0E3           MOV      R3,#+384
+   \   0000004C   0120A0E3           MOV      R2,#+1
+   \   00000050   0510A0E1           MOV      R1,R5
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   160100EF           SWI      +278
+   \   0000005C   0090B0E1           MOVS     R9,R0
+   \   00000060   04D08DE2           ADD      SP,SP,#+4
+   \   00000064   1500004A           BMI      ??LoadConfigData_3
+     58                {
+     59                  rlen=fread(f,buf,len);
+   \   00000068   0620A0E1           MOV      R2,R6
+   \   0000006C   0710A0E1           MOV      R1,R7
+   \   00000070   180100EF           SWI      +280
+   \   00000074   0080A0E1           MOV      R8,R0
+     60                  fclose(f);
+   \   00000078   0900A0E1           MOV      R0,R9
+   \   0000007C   170100EF           SWI      +279
+     61                  if (rlen!=_fstat.fsize || rlen!=len)
+   \   00000080   08009DE5           LDR      R0,[SP, #+8]
+   \   00000084   000058E1           CMP      R8,R0
+   \   00000088   06005801           CMPEQ    R8,R6
+   \   0000008C   0600000A           BEQ      ??LoadConfigData_4
+     62                  {
+     63                      delete buf;
+   \   00000090   0700A0E1           MOV      R0,R7
+   \   00000094   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     64                      return SaveConfigData(path,fname);
+   \   00000098   0510A0E1           MOV      R1,R5
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   ........           BL       ??SaveConfigData
+   \   000000A4   1CD08DE2           ADD      SP,SP,#+28
+   \   000000A8   F083BDE8           POP      {R4-R9,PC}
+     65                  }
+     66                  memcpy(cfg,buf,len);
+   \                     ??LoadConfigData_4:
+   \   000000AC   ........           LDR      R0,??DataTable2  ;; SFB(CONFIG_C)
+   \   000000B0   0620A0E1           MOV      R2,R6
+   \   000000B4   0710A0E1           MOV      R1,R7
+   \   000000B8   130100EF           SWI      +275
+     67                  result=0;
+   \   000000BC   0080A0E3           MOV      R8,#+0
+     68                }
+     69              }
+     70              delete buf;
+   \                     ??LoadConfigData_3:
+   \   000000C0   0700A0E1           MOV      R0,R7
+   \   000000C4   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     71            }
+     72            if (result >= 0)
+   \   000000C8   000058E3           CMP      R8,#+0
+     73            {
+     74              successed_config_path=path;
+   \   000000CC   ........           LDRPL    R0,??DataTable3  ;; successed_config_path
+   \   000000D0   00408055           STRPL    R4,[R0, #+0]
+     75              successed_config_name=fname;
+   \   000000D4   04508055           STRPL    R5,[R0, #+4]
+     76            }
+     77            return(result);
+   \                     ??LoadConfigData_2:
+   \   000000D8   0800A0E1           MOV      R0,R8
+   \   000000DC   1CD08DE2           ADD      SP,SP,#+28
+   \   000000E0   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??LoadConfigData_1:
+   \   000000E4   ........           DC32     SFE(CONFIG_C) - SFB(CONFIG_C)
+     78          }
+     79          
+     80          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     81          void InitConfig(void)
+     82          {
+   \                     ??InitConfig:
+   \   00000000   00402DE9           PUSH     {LR}
+     83            if (LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),LCFGFILENAME) < 0)
+   \   00000004   1500A0E3           MOV      R0,#+21
+   \   00000008   050100EF           SWI      +261
+   \   0000000C   34109FE5           LDR      R1,??InitConfig_1  ;; `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\x2e\\`
+   \   00000010   ........           BL       ??LoadConfigData
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0080BD58           POPPL    {PC}
+     84            {
+     85              if(LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),LCFGFILENAME) < 0)
+   \   0000001C   1400A0E3           MOV      R0,#+20
+   \   00000020   050100EF           SWI      +261
+   \   00000024   1C109FE5           LDR      R1,??InitConfig_1  ;; `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\x2e\\`
+   \   00000028   ........           BL       ??LoadConfigData
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0080BD58           POPPL    {PC}
+     86              {
+     87                SaveConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),LCFGFILENAME);
+   \   00000034   1500A0E3           MOV      R0,#+21
+   \   00000038   050100EF           SWI      +261
+   \   0000003C   04109FE5           LDR      R1,??InitConfig_1  ;; `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\x2e\\`
+   \   00000040   ........           BL       ??SaveConfigData
+     88              }
+     89            }
+     90          }
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+   \                     ??InitConfig_1:
+   \   00000048   ........           DC32     `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\x2e\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     SFB(CONFIG_C)
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     successed_config_path
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for successed_config_path>`:
+   \   00000000   ........           DC32 `?<Constant L"">`
+   \                     `?<Initializer for successed_config_name>`:
+   \   00000004   ........           DC32 `?<Constant L"">`
+
+   \                                 In segment CONFIG_C, align 1
+
+   \                                 In segment DATA_C, align 2, align-sorted
+   \                     `?<Constant L"">`:
+   \   00000000   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\x2e\\`:
+   \   00000000   4D0069006E00       DC8 4DH, 0, 69H, 0, 6EH, 0, 69H, 0
+   \              6900        
+   \   00000008   470050005300       DC8 47H, 0, 50H, 0, 53H, 0, 2EH, 0
+   \              2E00        
+   \   00000010   620063006600       DC8 62H, 0, 63H, 0, 66H, 0, 67H, 0
+   \              6700        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     InitConfig()                       4
+     LoadConfigData(wchar_t const *, wchar_t const *)
+                                       60
+     SaveConfigData(wchar_t const *, wchar_t const *)
+                                       32
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     successed_config_path             8
+     SaveConfigData(wchar_t const *, wchar_t const *)
+                                     140
+     LoadConfigData(wchar_t const *, wchar_t const *)
+                                     232
+     InitConfig()                     76
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ?<Initializer for successed_config_path>
+                                       8
+     ?<Constant L"">                   2
+     ?<Constant L"\x4d\x69\x6e\x69\x47\x50\x53\x2e\
+                                      28
+      Others                          48
+
+ 
+ 492 bytes in segment CODE
+  30 bytes in segment DATA_C
+   8 bytes in segment DATA_I
+   8 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 456 bytes of CODE  memory (+ 48 bytes shared)
+  38 bytes of CONST memory
+   8 bytes of DATA  memory
+
+Errors: none
+Warnings: none

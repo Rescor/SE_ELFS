@@ -1,0 +1,935 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:00:16 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Call_Logger\ma #
+#                       in.c                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Call_Logger\ma #
+#                       in.c -D NDEBUG -D OLDFUNCTIONS -lC                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Call_Logger\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\Call_Logger\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Call_Logger\Re #
+#                       lease\Obj\ -s9 --no_unroll --no_inline --cpu_mode    #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --eec++ --dlib_config    #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\                         #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Call_Logger\Re #
+#                       lease\List\main.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Call_Logger\Re #
+#                       lease\Obj\main.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Call_Logger\main.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\cfg_items.h"
+      4          #include "conf_loader.h"
+      5          #include "config_data.h"
+      6          
+      7          
+      8          typedef struct
+      9          {
+     10            char CallState;
+     11            char CallID;
+     12            int * PNUM;
+     13          }CALLMANAGER_DATA;
+     14            
+     15          
+     16          typedef struct
+     17          {
+     18            char pos1;
+     19            char cale_base;
+     20            short pos3;
+     21          }CALE_SET;
+     22          
+     23          typedef struct
+     24          {
+     25            char dummy[0x2C];
+     26            int unkID;
+     27          }ses_est;
+     28          
+     29          typedef struct
+     30          {
+     31            char dummy[0x34];
+     32            int unkID;
+     33          }ses_term;
+     34          
+     35          typedef struct
+     36          {
+     37            wchar_t * w_PNUM;
+     38            wchar_t * Name;
+     39            int first_callstate;
+     40            int last_callstate;
+     41            DATETIME * startdatetime;
+     42            DATETIME * begindatetime;
+     43            char line;
+     44          }myList_elem;
+     45          
+     46          typedef struct
+     47          {
+     48            int ID;
+     49            DATETIME * SesEst;
+     50          }myList_gprs_elem;
+     51          
+     52          typedef struct
+     53          {
+     54            BOOK * book;
+     55          }MSG;
+     56          
+     57          BOOK * CLBook;
+     58          LIST * myList;
+     59          LIST * myList_gprs;
+     60          DATETIME * cur_date;
+     61          
+     62          int incomleted_connection=0;
+     63          wchar_t * Money=0;
+     64          
+     65          //Название говорящее...
+     66          void win12512unicode(wchar_t *ws, char *s, int len)
+     67          {
+     68            int c;
+     69            while((c=*s++)&&((len--)>0))
+     70            {
+     71              if (c==0xA8) c=0x401;
+     72              if (c==0xAA) c=0x404;
+     73              if (c==0xAF) c=0x407;
+     74              if (c==0xB8) c=0x451;
+     75              if (c==0xBA) c=0x454;
+     76              if (c==0xBF) c=0x457;
+     77              if ((c>=0xC0)&&(c<0x100)) c+=0x350;
+     78              *ws++=c;
+     79            }
+     80            *ws=0;
+     81          }
+     82          
+     83          // берем значения из ини-файла
+     84          void get_bcfg_key(void)
+     85          {
+     86            InitConfig();
+     87            if (Money) delete(Money);
+     88            Money=new wchar_t[strlen((char*)strMoney)+1];
+     89            win12512unicode(Money,(char*)strMoney,strlen((char*)strMoney));
+     90          
+     91          }
+     92          
+     93          
+     94          
+     95          //Функция поиска элемента в листе звонков
+     96          int myList_Find(void *r0,void *r1)
+     97          {
+     98            if (((myList_elem*)r0)->line==((myList_elem*)r1)->line) return(0);
+     99            return(1);
+    100          }
+    101          
+    102          //Функция поиска элемента в листе жпрс
+    103          int myList_gprs_Find(void *r0,void *r1)
+    104          {
+    105            if (((myList_gprs_elem*)r0)->ID==(int)r1) return(0);
+    106            return(1);
+    107          }
+    108          
+    109          //Убийство моего элемента
+    110          void myList_elem_Free(void * r)
+    111          {
+    112            myList_elem * r0=(myList_elem *)r;
+    113            if (r0)
+    114            {
+    115              if (r0->w_PNUM)
+    116              {
+    117                delete(r0->w_PNUM);
+    118              }
+    119              if (r0->Name)
+    120              {
+    121                delete(r0->Name);
+    122              }
+    123              if (r0->startdatetime)
+    124              {
+    125                delete(r0->startdatetime);
+    126              }
+    127              if (r0->begindatetime)
+    128              {
+    129                delete(r0->begindatetime);
+    130              }    
+    131              delete(r0);
+    132            }
+    133          }
+    134          
+    135          
+    136          //Убийство моего элемента жпрс
+    137          void myList_gprs_elem_Free(void * r)
+    138          {
+    139            myList_gprs_elem * r0=(myList_gprs_elem *)r;
+    140            delete(r0->SesEst);
+    141            delete(r0);
+    142          }
+    143          
+    144          //Фильтр для убийства элементов при убийстве листа (всех ненулевых)
+    145          int myList_elem_Filter(void * r0)
+    146          {
+    147            if (r0) return(1);
+    148            return(0);
+    149          }
+    150          
+    151          //Убийство эльфа
+    152          int TerminateElf(void * ,BOOK * book)
+    153          {
+    154            FreeBook(book);
+    155            return(1);
+    156          }
+    157          
+    158          //Показать информацию об авторе
+    159          int ShowAuthorInfo(void *mess ,BOOK * book)
+    160          {
+    161            MSG * msg = (MSG*)mess;
+    162            MessageBox(EMPTY_TEXTID,STR("Call Logger, v2.3.2\n\n(c) IronMaster"), NOIMAGE, 1, 5000,msg->book);
+    163            return(1);
+    164          }
+    165          
+    166          
+    167          void sum_data(wchar_t * buf,wchar_t * substring,int * res_whole,int * res_fract)
+    168          {
+    169            wchar_t * pos=buf;
+    170            wchar_t temp_buf[50];
+    171            wchar_t separator=' ';
+    172            int fract_mode=0;
+    173            int sum_whole=0;
+    174            int sum_fract=0;
+    175            int hex;
+    176            int len;
+    177            if (res_fract)
+    178            {
+    179              fract_mode=1;
+    180              separator='.';
+    181            }
+    182            while (pos=wstrwstr(pos,substring))
+    183            {
+    184              pos=pos+wstrlen(substring);
+    185              len=(wstrchr(pos,separator)-pos);
+    186              wstrncpy(temp_buf,pos,len);
+    187              wtoi(temp_buf,len,&hex);
+    188              sum_whole=sum_whole+hex;
+    189              hex=0;
+    190              if (fract_mode)
+    191              {
+    192                pos=wstrchr(pos,separator)+1;
+    193                wstrncpy(temp_buf,pos,2);
+    194                wtoi(temp_buf,2,&hex);
+    195                sum_fract=sum_fract+hex;
+    196                hex=0;
+    197              }
+    198            }
+    199            if (fract_mode)
+    200            {
+    201              sum_whole=sum_whole+sum_fract/100;
+    202              sum_fract=sum_fract%100;
+    203              *res_fract=sum_fract;
+    204            }
+    205            *res_whole=sum_whole;
+    206          }
+    207          
+    208          
+    209          void sum_traf_cost(DATETIME * cur_date)
+    210          {
+    211            FSTAT _fstat;
+    212            wchar_t fpath[200];
+    213            wchar_t folder[20];
+    214            wstrcpy(fpath,GetDir(DIR_OTHER | MEM_EXTERNAL));
+    215            wstrcat(fpath,L"/Call Logger/");
+    216            snwprintf(folder,20,L"%04d-%02d-%02d",cur_date->date.year,cur_date->date.mon,cur_date->date.day);
+    217            wstrcat(fpath,folder);
+    218            if (fstat(fpath,L"gprs.txt",&_fstat)>=0)
+    219            {
+    220              char * buffer_gprs=new char[_fstat.fsize+2];
+    221              wchar_t * w_buffer_gprs=(wchar_t*)buffer_gprs;
+    222              memset(buffer_gprs,0,_fstat.fsize+2);
+    223              int f=_fopen(fpath,L"gprs.txt",FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+    224              fread(f,buffer_gprs,_fstat.fsize);
+    225              fclose(f);
+    226              wchar_t buffer_str[200];
+    227              if (!wstrwstr((wchar_t*)buffer_gprs,L"Total cost"))
+    228              {
+    229                int rub=0;
+    230                int kop=0;
+    231                sum_data(w_buffer_gprs,L"cost - ",&rub,&kop);
+    232                
+    233                if (TrafDiv)
+    234                {
+    235                  int traf_whole_sent=0;
+    236                  int traf_fract_sent=0;
+    237                  int traf_whole_rec=0;
+    238                  int traf_fract_rec=0;          
+    239                  if (TrafKb)
+    240                  {
+    241                    sum_data(w_buffer_gprs,L"sent - ",&traf_whole_sent,&traf_fract_sent);
+    242                    sum_data(w_buffer_gprs,L"received - ",&traf_whole_rec,&traf_fract_rec);
+    243          
+    244                    snwprintf(buffer_str,400,L"\r\nTotal cost - %d.%02d %ls\r\nTotal sent - %d.%02d Kb\r\nTotal received - %d.%02d Kb\r\n",rub,kop,Money,traf_whole_sent,traf_fract_sent,traf_whole_rec,traf_fract_rec);
+    245                  }
+    246                  else
+    247                  {
+    248                    sum_data(w_buffer_gprs,L"sent - ",&traf_whole_sent,0);
+    249                    sum_data(w_buffer_gprs,L"received - ",&traf_whole_rec,0);
+    250          
+    251                    snwprintf(buffer_str,400,L"\r\nTotal cost - %d.%02d %ls\r\nTotal sent - %d b\r\nTotal received - %d b\r\n",rub,kop,Money,traf_whole_sent,traf_whole_rec);
+    252                  }
+    253                }
+    254                else
+    255                {
+    256                  int traf_whole=0;
+    257                  int traf_fract=0;
+    258                  if (TrafKb)
+    259                  {
+    260                    sum_data(w_buffer_gprs,L"traffic - ",&traf_whole,&traf_fract);
+    261          
+    262                    snwprintf(buffer_str,400,L"\r\nTotal cost - %d.%02d %ls\r\nTotal traffic - %d.%02d Kb\r\n",rub,kop,Money,traf_whole,traf_fract);
+    263                  }
+    264                  else
+    265                  {
+    266                    sum_data(w_buffer_gprs,L"traffic - ",&traf_whole,0);
+    267          
+    268                    snwprintf(buffer_str,400,L"\r\nTotal cost - %d.%02d %ls\r\nTotal traffic - %d b\r\n",rub,kop,Money,traf_whole);
+    269                  }
+    270                }
+    271                f=_fopen(fpath,L"gprs.txt",FSX_O_CREAT|FSX_O_APPEND,FSX_S_IREAD|FSX_S_IWRITE,0);
+    272                fwrite(f,buffer_str,wstrlen(buffer_str)*2);
+    273                fclose(f);
+    274              }
+    275              delete(buffer_gprs);
+    276            }      
+    277          }
+    278          
+    279          
+    280          int onClockChange(void * r0, BOOK *)
+    281          {
+    282            DATETIME datetime;
+    283            REQUEST_DATEANDTIME_GET(SYNC,&datetime);
+    284            if (cur_date->date.day!=datetime.date.day)
+    285            {
+    286              if (!incomleted_connection)
+    287              {
+    288                if (ConnectionManager_Connection_GetState())
+    289                {
+    290                  incomleted_connection=1;
+    291                }
+    292                else
+    293                {
+    294                  sum_traf_cost(cur_date);
+    295                }
+    296              }
+    297              memcpy(cur_date,&datetime,sizeof(DATETIME));
+    298            }
+    299            return(0);
+    300          }
+    301          
+    302          //Ловим создание содинения
+    303          int onSessionEstablished(void * r0, BOOK *)
+    304          {
+    305            if (r0)
+    306            {
+    307              if (ListElement_Find(myList_gprs,(void*)((ses_est*)r0)->unkID,myList_gprs_Find)==LIST_ERROR)
+    308              {
+    309                myList_gprs_elem * elem_gprs=new(myList_gprs_elem);
+    310                elem_gprs->ID=((ses_est*)r0)->unkID;
+    311                elem_gprs->SesEst=new(DATETIME);
+    312                REQUEST_DATEANDTIME_GET(SYNC,elem_gprs->SesEst);
+    313                ListElement_AddtoTop(myList_gprs,elem_gprs);
+    314              }
+    315            }
+    316            return(0);
+    317          }
+    318          
+    319          void b2kb(int traffic,int * Kb_out,int * b1_out,int * b2_out)
+    320          {
+    321            int Kb=traffic/1024;
+    322            int b1=traffic%1024*10/1024;
+    323            int b2=traffic%1024*10%1024*10/1024;
+    324            if (traffic%1024*10%1024*10%1024*10/1024>=5) b2=b2+1;
+    325            if (b2==10)
+    326            {
+    327              b1=b1+1;
+    328              b2=0;
+    329            }
+    330            if (b1==10)
+    331            {
+    332              Kb=Kb+1;
+    333              b1=0;
+    334            }
+    335            *Kb_out=Kb;
+    336            *b1_out=b1;
+    337            *b2_out=b2;
+    338          }
+    339          
+    340          
+    341          void GetTrafCost(int traffic,int cost,int * rub,int * kop1,int * kop2)
+    342          {
+    343            int traf_cost=traffic*cost/1024;
+    344            if (traffic*cost%1024*10/1024>=5) traf_cost=traf_cost+1;
+    345            int cost_rub=traf_cost/100;
+    346            int cost_kop1=traf_cost%100*10/100;
+    347            int cost_kop2=traf_cost%100*10%100*10/100;
+    348            *rub=cost_rub;
+    349            *kop1=cost_kop1;
+    350            *kop2=cost_kop2;
+    351          }
+    352          
+    353          void delayed_save_gprs_info(u16 unk,LPARAM term_ID)
+    354          {
+    355            int f;
+    356            wchar_t fpath_gprs[200];
+    357            wchar_t folder_gprs[20];
+    358            wchar_t buffer_gprs_ptr[400];
+    359            wchar_t * buffer_gprs=buffer_gprs_ptr;
+    360            memset(buffer_gprs,0,800);
+    361            GPRS_SESSION_INFO * buf_ses=new(GPRS_SESSION_INFO);
+    362            GPRS_GetLastSessionInfo(0,buf_ses);
+    363            int pos=ListElement_Find(myList_gprs,(void*)term_ID,myList_gprs_Find);
+    364            if (pos!=LIST_ERROR)
+    365            {
+    366              myList_gprs_elem * elem_gprs=(myList_gprs_elem*)ListElement_Remove(myList_gprs,pos);
+    367              wstrcpy(fpath_gprs,GetDir(DIR_OTHER | MEM_EXTERNAL));
+    368              wstrcat(fpath_gprs,L"/Call Logger/");
+    369              snwprintf(folder_gprs,20,L"%04d-%02d-%02d",elem_gprs->SesEst->date.year,elem_gprs->SesEst->date.mon,elem_gprs->SesEst->date.day);
+    370              wstrcat(fpath_gprs,folder_gprs);
+    371              if (fstat(fpath_gprs,L"gprs.txt",0)<0)
+    372              {
+    373                buffer_gprs[0]=0xFEFF;
+    374                buffer_gprs=buffer_gprs+1;
+    375              }
+    376              int traf=buf_ses->SentBytes+buf_ses->RcvBytes;
+    377              if (traf/1024<=TrafRound) traf=TrafRound;
+    378              else
+    379              {
+    380                if (traf/1024%TrafRound>0) traf=traf/1024/TrafRound*TrafRound+TrafRound;
+    381                else traf=traf/1024;
+    382              }
+    383              int cost_rub;
+    384              int cost_kop1;
+    385              int cost_kop2;
+    386              if (TimeDay==TimeNight) GetTrafCost(traf,TrafCost,&cost_rub,&cost_kop1,&cost_kop2);
+    387              else
+    388              {
+    389                int cur_time_base;
+    390                int night_time_base;
+    391                cur_time_base=elem_gprs->SesEst->time.hour;
+    392                
+    393                //TimeDay берем за базу
+    394                if (TimeDay<TimeNight) night_time_base=TimeNight-TimeDay;
+    395                else night_time_base=TimeNight-TimeDay+24;
+    396                
+    397                if (TimeDay<cur_time_base) cur_time_base=cur_time_base-TimeDay;
+    398                else cur_time_base=cur_time_base-TimeDay+24;
+    399                
+    400                if (cur_time_base<night_time_base) GetTrafCost(traf,TrafCostDay,&cost_rub,&cost_kop1,&cost_kop2);
+    401                else GetTrafCost(traf,TrafCostNight,&cost_rub,&cost_kop1,&cost_kop2);
+    402              }
+    403              if ((Hol1)||(Hol2))
+    404              {
+    405                int cur_day;
+    406                char weekday;
+    407                CALE_SET * baseday=new(CALE_SET);
+    408                DATE_GetWeekDay((DATE*)elem_gprs->SesEst,&weekday);
+    409                Cale_GetSettings(3,baseday);
+    410                if (weekday>=baseday->cale_base)
+    411                {
+    412                  cur_day=weekday-baseday->cale_base+1;
+    413                }
+    414                else
+    415                {
+    416                  cur_day=7+weekday-baseday->cale_base+1;
+    417                }
+    418                delete(baseday);
+    419                if ((Hol1==cur_day)||(Hol2==cur_day)) GetTrafCost(traf,TrafCostHol,&cost_rub,&cost_kop1,&cost_kop2);
+    420              }
+    421              
+    422              if (TrafDiv)
+    423              {
+    424                if (TrafKb)
+    425                {
+    426                  int Kb_s;
+    427                  int b_s1;
+    428                  int b_s2;
+    429                  int Kb_r;
+    430                  int b_r1;
+    431                  int b_r2;
+    432                  b2kb(buf_ses->SentBytes,&Kb_s,&b_s1,&b_s2);
+    433                  b2kb(buf_ses->RcvBytes,&Kb_r,&b_r1,&b_r2);
+    434                  
+    435                  snwprintf(buffer_gprs,390,L"Start time - %02d:%02d:%02d, sent - %d.%d%d Kb, received - %d.%d%d Kb, cost - %d.%d%d %ls\r\n",elem_gprs->SesEst->time.hour,elem_gprs->SesEst->time.min,elem_gprs->SesEst->time.sec,Kb_s,b_s1,b_s2,Kb_r,b_r1,b_r2,cost_rub,cost_kop1,cost_kop2,Money);
+    436                }
+    437                else
+    438                {
+    439                  snwprintf(buffer_gprs,390,L"Start time - %02d:%02d:%02d, sent - %d b, received - %d b, cost - %d.%d%d %ls\r\n",elem_gprs->SesEst->time.hour,elem_gprs->SesEst->time.min,elem_gprs->SesEst->time.sec,buf_ses->SentBytes,buf_ses->RcvBytes,cost_rub,cost_kop1,cost_kop2,Money);
+    440                }
+    441              }
+    442              else
+    443              {
+    444                traf=buf_ses->SentBytes+buf_ses->RcvBytes;
+    445                if (TrafKb)
+    446                {
+    447                  int Kb=0;
+    448                  int b1=0;
+    449                  int b2=0;
+    450                  b2kb(buf_ses->SentBytes+buf_ses->RcvBytes,&Kb,&b1,&b2);
+    451                  
+    452                  snwprintf(buffer_gprs,390,L"Start time - %02d:%02d:%02d, traffic - %d.%d%d Kb, cost - %d.%d%d %ls\r\n",elem_gprs->SesEst->time.hour,elem_gprs->SesEst->time.min,elem_gprs->SesEst->time.sec,Kb,b1,b2,cost_rub,cost_kop1,cost_kop2,Money);
+    453                }
+    454                else
+    455                {
+    456                  snwprintf(buffer_gprs,390,L"Start time - %02d:%02d:%02d, traffic - %d b, cost - %d.%d%d %ls\r\n",elem_gprs->SesEst->time.hour,elem_gprs->SesEst->time.min,elem_gprs->SesEst->time.sec,traf,cost_rub,cost_kop1,cost_kop2,Money);
+    457                }
+    458              }
+    459              if (fstat(fpath_gprs,L"gprs.txt",0)<0)
+    460              {
+    461                buffer_gprs=buffer_gprs-1;
+    462              }
+    463              int str_len=(wstrlen(buffer_gprs))*2;
+    464              FSTAT _fstat;
+    465              if ((fstat(fpath_gprs,L"gprs.txt",&_fstat)<0)||(!sort_order))
+    466              {
+    467                f=_fopen(fpath_gprs,L"gprs.txt",FSX_O_CREAT|FSX_O_APPEND,FSX_S_IREAD|FSX_S_IWRITE,0);
+    468                fwrite(f,buffer_gprs,str_len);
+    469              }
+    470              else
+    471              {
+    472                char * new_buff=new char[_fstat.fsize+str_len];
+    473                f=_fopen(fpath_gprs,L"gprs.txt",FSX_O_RDWR,FSX_S_IREAD|FSX_S_IWRITE,0);
+    474                fread(f,new_buff,2);
+    475                lseek(f,2,0);
+    476                memcpy(new_buff+2,buffer_gprs,str_len);
+    477                fread(f,new_buff+2+str_len,_fstat.fsize-2);
+    478                lseek(f,0,0);
+    479                fwrite(f,new_buff,_fstat.fsize+str_len);
+    480                delete(new_buff);
+    481              }
+    482              fclose(f);
+    483              if (incomleted_connection)
+    484              {
+    485                if (!ConnectionManager_Connection_GetState())
+    486                {
+    487                  sum_traf_cost(elem_gprs->SesEst);
+    488                  incomleted_connection=0;
+    489                }
+    490              }
+    491              myList_gprs_elem_Free(elem_gprs);
+    492            }
+    493            delete(buf_ses);
+    494          }
+    495          
+    496          //Ловим окончание содинения
+    497          int onSessionTerminated(void * r0, BOOK *)
+    498          {
+    499            if (r0)
+    500            {
+    501              Timer_Set(1000,delayed_save_gprs_info,((ses_term*)r0)->unkID);
+    502            }
+    503            return(0);
+    504          }
+    505          
+    506          void get_from_a1(CALLMANAGER_DATA * cms,CALLMANAGER_EVENT_DATA * CallManStruct)
+    507          {
+    508            cms->CallState=CallManStruct->CallState;
+    509            cms->PNUM=CallManStruct->PNUM;
+                            ^
+Error[Pe513]: a value of type "char *" cannot be assigned to an entity of type
+          "int *"
+    510            cms->CallID=CallManStruct->CallID;
+    511          }
+    512          
+    513          void get_from_a2(CALLMANAGER_DATA * cms,CALLMANAGER_EVENT_DATA_A2 * CallManStruct)
+    514          {
+    515            cms->CallState=CallManStruct->CallState;
+    516            cms->PNUM=CallManStruct->PNUM;
+                            ^
+Error[Pe513]: a value of type "char *" cannot be assigned to an entity of type
+          "int *"
+    517            cms->CallID=CallManStruct->CallID;
+    518          }
+    519          
+    520          
+    521          char* strrchr(char* str,char c)
+    522          {
+    523            char* retpos=NULL;
+    524            for(;*str;str++)if(*str==c)retpos=str;
+    525            return retpos;
+    526          }
+    527          
+    528          
+    529          char * get_region(wchar_t * w_PNUM)
+    530          {
+    531          #define BLOCK_SIZE 2000
+    532            wchar_t fpath_ini[200];
+    533            char * region=0;
+    534            FSTAT _fstat;
+    535            wstrcpy(fpath_ini,GetDir(DIR_INI));
+    536            wstrcat(fpath_ini,L"/Call Logger");
+    537            if (fstat(fpath_ini,L"regions.ini",&_fstat)>=0)
+    538            {
+    539              int readen_size=0;
+    540              int size_to_read;
+    541              int ptr=0;
+    542              char * buffer_ini=new char[BLOCK_SIZE+1];
+    543              memset(buffer_ini,0x0,BLOCK_SIZE+1);
+    544              int w_PNUM_len=wstrlen(w_PNUM);
+    545              char * PNUM_str=new char[w_PNUM_len+1];
+    546              
+    547              int f=_fopen(fpath_ini,L"regions.ini",FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0);
+    548              
+    549              while (readen_size<_fstat.fsize)
+    550              {
+    551                if ((_fstat.fsize-readen_size)<BLOCK_SIZE) size_to_read=_fstat.fsize-readen_size;
+    552                else size_to_read=BLOCK_SIZE;
+    553                lseek(f,readen_size,0);
+    554                fread(f,buffer_ini,size_to_read);
+    555                buffer_ini[size_to_read]=0;
+    556                char * end_line=strrchr(buffer_ini,0xA);
+    557                if (end_line[1]==0xD) end_line=end_line+2;
+    558                else end_line=end_line+1;
+    559                end_line[0]=0;
+    560                readen_size=readen_size+(end_line-buffer_ini);
+    561                int count=w_PNUM_len/2;
+    562                wstr2strn(PNUM_str,w_PNUM,count);
+    563                if (strstr(buffer_ini,PNUM_str))
+    564                {
+    565                  ptr=1;
+    566                  while (count<=w_PNUM_len)
+    567                  {
+    568                    count=count+1;
+    569                    wstr2strn(PNUM_str,w_PNUM,count);
+    570                    if (!strstr(buffer_ini,PNUM_str)) break;
+    571                  }
+    572                  count=count-1;
+    573                }
+    574                else
+    575                {
+    576                  while (count>0)
+    577                  {
+    578                    count=count-1;
+    579                    wstr2strn(PNUM_str,w_PNUM,count);
+    580                    if (strstr(buffer_ini,PNUM_str))
+    581                    {
+    582                      ptr=1;
+    583                      break;
+    584                    }
+    585                  }
+    586                }
+    587                if (ptr)
+    588                {
+    589                  wstr2strn(PNUM_str,w_PNUM,count);
+    590                  region=manifest_GetParam(buffer_ini,PNUM_str,0);
+    591                  if (region) break;
+    592                }
+    593              }
+    594              fclose(f);
+    595              delete(buffer_ini);
+    596              delete(PNUM_str);
+    597            }
+    598            return(region);
+    599          }
+    600            
+    601          //Оновное действо.... Все в куче....
+    602          int OnCallManager(void * CallManStruct, BOOK *)
+    603          {
+    604            int platform=GetChipID()&CHIPID_MASK;
+    605            CALLMANAGER_DATA cms;
+    606            if (platform==CHIPID_DB3150||platform==CHIPID_DB3200||platform==CHIPID_DB3210||platform==CHIPID_DB3350)
+    607              get_from_a2(&cms,(CALLMANAGER_EVENT_DATA_A2*)CallManStruct);
+    608            else
+    609              get_from_a1(&cms,(CALLMANAGER_EVENT_DATA*)CallManStruct);
+    610            //Ловим всех кроме idle
+    611            if (cms.CallState)
+    612            {
+    613              //Создаем структурку
+    614              myList_elem* temp_elem=new(myList_elem);
+    615              int length=PNUM_len(cms.PNUM);
+                                         ^
+Error[Pe167]: argument of type "int *" is incompatible with parameter of type
+          "char *"
+    616              //Проверяем наличие элемента в листе
+    617              if (cms.CallID==0xFF)
+    618              {
+    619                if (myList->FirstFree)
+    620                {
+    621                  temp_elem->line=1;
+    622                }
+    623                else
+    624                {
+    625                  temp_elem->line=0;
+    626                }
+    627              }
+    628              else
+    629              {
+    630                temp_elem->line=cms.CallID;
+    631              }
+    632              temp_elem->w_PNUM=new wchar_t[length+1];
+    633              char * sp=new char[length+1];
+    634              memset(sp,0,length+1);
+    635              PNUM2str(sp,cms.PNUM,length,length+1);
+                                 ^
+Error[Pe167]: argument of type "int *" is incompatible with parameter of type
+          "char *"
+    636              str2wstr(temp_elem->w_PNUM,sp);
+    637              delete(sp);
+    638              if (ListElement_Find(myList,temp_elem,myList_Find)==LIST_ERROR)
+    639              {
+    640                temp_elem->startdatetime=new DATETIME;
+    641                REQUEST_DATEANDTIME_GET(SYNC,temp_elem->startdatetime);
+    642                temp_elem->first_callstate=cms.CallState;
+    643                temp_elem->last_callstate=0;
+    644                wchar_t * CallName=CallStatusDesc_GetName(CallID_GetCallStatusDesc(temp_elem->line));
+    645                if (CallName)
+    646                {
+    647                  if (CallName[0])
+    648                  {
+    649                    temp_elem->Name=new wchar_t[wstrlen(CallName+1)];
+    650                    wstrcpy(temp_elem->Name,CallName+2);
+    651                  }
+    652                  else
+    653                  {
+    654                    temp_elem->Name=new wchar_t[14];
+    655                    temp_elem->Name[0]=0;
+    656                  }
+    657                }
+    658                else
+    659                {
+    660                  temp_elem->Name=new wchar_t[20];
+    661                  temp_elem->Name[0]=0;
+    662                  wstrcpy(temp_elem->Name,L"Emergency");
+    663                }
+    664                  
+    665                temp_elem->begindatetime=new DATETIME;
+    666                temp_elem->begindatetime->time.hour=0;
+    667                temp_elem->begindatetime->time.min=0;
+    668                temp_elem->begindatetime->time.sec=0;
+    669                ListElement_AddtoTop(myList,temp_elem);
+    670              }
+    671              else
+    672              {
+    673                if (cms.CallState==6)
+    674                {
+    675                  DATETIME enddatetime;
+    676                  REQUEST_DATEANDTIME_GET(SYNC,&enddatetime);
+    677                  myList_elem * elem=(myList_elem*)ListElement_Remove(myList,ListElement_Find(myList,temp_elem,myList_Find));
+    678                  int f;
+    679                  int sub;
+    680                  int m;
+    681                  int s;
+    682                  wchar_t fpath[200];
+    683                  wchar_t fname[20];
+    684                  wchar_t folder[20];
+    685                  wstrcpy(fpath,GetDir(DIR_OTHER | MEM_EXTERNAL));
+    686                  wstrcat(fpath,L"/Call Logger/");
+    687                  wchar_t buffer_ptr[400];
+    688                  wchar_t * buffer=buffer_ptr;
+    689                  memset(buffer,0,800);
+    690                  if (!elem->Name[0])
+    691                  {
+    692                    snwprintf(elem->Name,8,L"NoName");
+    693                  }
+    694                  if (elem->last_callstate==0)
+    695                  {
+    696                    if (elem->first_callstate==2)
+    697                    {
+    698                      //Исходящий вызов
+    699                      wstrcpy(fname,L"out.txt");
+    700                    }
+    701                    if (elem->first_callstate==4)
+    702                    {
+    703                      //Пропущенный вызов
+    704                      wstrcpy(fname,L"missed.txt");
+    705                    }
+    706                    m=0;
+    707                    s=0;
+    708                  }
+    709                  else
+    710                  {
+    711                    if (elem->first_callstate==2)
+    712                    {
+    713                      //Исходящий вызов
+    714                      wstrcpy(fname,L"out.txt");
+    715                    }
+    716                    if (elem->first_callstate==4)
+    717                    {
+    718                      //Входящий вызов
+    719                      wstrcpy(fname,L"in.txt");
+    720                    }
+    721                    //Если вызов начался в 23, а закончился в 00, меняем 00 на 24
+    722                    if ((elem->begindatetime->time.hour==23)&&(enddatetime.time.hour==0)) enddatetime.time.hour=24;
+    723                    //Получаем время разговора в секундах
+    724                    sub=(enddatetime.time.hour-elem->begindatetime->time.hour)*3600+(enddatetime.time.min-elem->begindatetime->time.min)*60+enddatetime.time.sec-elem->begindatetime->time.sec;
+    725                    //Выделяем минуты и секунды
+    726                    m=sub/60;
+    727                    s=sub%60;
+    728                  }
+    729                  //Получаем название папки
+    730                  snwprintf(folder,20,L"%04d-%02d-%02d",elem->startdatetime->date.year,elem->startdatetime->date.mon,elem->startdatetime->date.day);
+    731                  //Получаем полный путь
+    732                  wstrcat(fpath,folder);
+    733                  //Проверяем существование файла, если нету то добавляем в буфер хидер юникодного файла
+    734                  if (fstat(fpath,fname,0)<0)
+    735                  {
+    736                    buffer[0]=0xFEFF;
+    737                    buffer=buffer+1;
+    738                  }
+    739                  
+    740                  char * region=get_region(elem->w_PNUM);
+    741                  if (region)
+    742                  {
+    743                    int reg_len=strlen(region);
+    744                    wchar_t * s2ws = new wchar_t[reg_len+1];
+    745                    win12512unicode(s2ws,region,reg_len);
+    746                    if ((elem->last_callstate==0)&&(elem->first_callstate==4))
+    747                    {
+    748                      snwprintf(buffer,390,L"%ls, %ls (%ls) - %02d:%02d:%02d\r\n",elem->Name,s2ws,elem->w_PNUM,elem->startdatetime->time.hour,elem->startdatetime->time.min,elem->startdatetime->time.sec);
+    749                    }
+    750                    else
+    751                    {
+    752                      snwprintf(buffer,390,L"%ls, %ls (%ls) - %02d:%02d:%02d, %02d:%02d\r\n",elem->Name,s2ws,elem->w_PNUM,elem->startdatetime->time.hour,elem->startdatetime->time.min,elem->startdatetime->time.sec,m,s);
+    753                    }
+    754                    delete(s2ws);
+    755                    delete(region);
+    756                  }
+    757                  else
+    758                  {
+    759                    if ((elem->last_callstate==0)&&(elem->first_callstate==4))
+    760                    {
+    761                      
+    762                      //Печатаем "отчет о звонке" в буфер без региона
+    763                      snwprintf(buffer,390,L"%ls (%ls) - %02d:%02d:%02d\r\n",elem->Name,elem->w_PNUM,elem->startdatetime->time.hour,elem->startdatetime->time.min,elem->startdatetime->time.sec);
+    764                    }
+    765                    else
+    766                    {
+    767                      snwprintf(buffer,390,L"%ls (%ls) - %02d:%02d:%02d, %02d:%02d\r\n",elem->Name,elem->w_PNUM,elem->startdatetime->time.hour,elem->startdatetime->time.min,elem->startdatetime->time.sec,m,s);
+    768                    }
+    769                  }
+    770                  if (fstat(fpath,fname,0)<0)
+    771                  {
+    772                    buffer=buffer-1;
+    773                  }
+    774                  int str_len=(wstrlen(buffer))*2;
+    775                  FSTAT _fstat;
+    776                  if ((fstat(fpath,fname,&_fstat)<0)||(!sort_order))
+    777                  {
+    778                    f=_fopen(fpath,fname,FSX_O_CREAT|FSX_O_APPEND,FSX_S_IREAD|FSX_S_IWRITE,0);
+    779                    fwrite(f,buffer,str_len);
+    780                  }
+    781                  else
+    782                  {
+    783                    char * new_buff=new char[_fstat.fsize+str_len];
+    784                    f=_fopen(fpath,fname,FSX_O_CREAT|FSX_O_RDWR,FSX_S_IREAD|FSX_S_IWRITE,0);
+    785                    fread(f,new_buff,2);
+    786                    lseek(f,2,0);
+    787                    memcpy(new_buff+2,buffer,str_len);
+    788                    fread(f,new_buff+2+str_len,_fstat.fsize-2);
+    789                    lseek(f,0,0);
+    790                    fwrite(f,new_buff,_fstat.fsize+str_len);
+    791                    delete(new_buff);
+    792                  }
+    793                  fclose(f);
+    794                  myList_elem_Free(elem);
+    795                }
+    796                if (cms.CallState==1)
+    797                {
+    798                  myList_elem * elem=(myList_elem*)ListElement_GetByIndex(myList,ListElement_Find(myList,temp_elem,myList_Find));
+    799                  if (elem->last_callstate!=1)
+    800                  {
+    801                    elem->last_callstate=1;
+    802                    elem->begindatetime=new DATETIME;
+    803                    REQUEST_DATEANDTIME_GET(SYNC,elem->begindatetime);
+    804                  }
+    805                }
+    806                //Убиваем временный элемент если не засунули в лист
+    807                delete(temp_elem->w_PNUM);
+    808                delete(temp_elem);
+    809              }
+    810            }
+    811            return(1);
+    812          }
+    813          
+    814          
+    815          static int ReconfigElf(void *mess ,BOOK *book)
+    816          {
+    817            RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+    818            int result=0;
+    819            if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+    820            {
+    821              get_bcfg_key();
+    822            }
+    823            return(result);
+    824          }
+    825          
+    826          const PAGE_MSG CL_PageEvents[]@ "DYN_PAGE" ={
+    827            ELF_TERMINATE_EVENT , TerminateElf,
+    828            ELF_SHOW_INFO_EVENT  , ShowAuthorInfo,
+    829            ON_CALLMANAGER_EVENT_TAG, OnCallManager,
+    830            UI_CONNECTIONMANAGER_SESSION_ESTABLISHED_EVENT_TAG, onSessionEstablished,
+    831            UI_CONNECTIONMANAGER_SESSION_TERMINATED_EVENT_TAG, onSessionTerminated,
+    832            CLOCK_DATEANDTIME_IND_EVENT_TAG,onClockChange,
+    833            ELF_RECONFIG_EVENT,ReconfigElf,
+    834            NIL_EVENT_TAG,0
+    835          };
+    836          
+    837          PAGE_DESC base_page ={"CL_BasePage",0,CL_PageEvents};
+    838          
+    839          
+    840          void elf_exit(void)
+    841          
+    842          {
+    843            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+    844          }
+    845          
+    846          
+    847          void onCloseCLBook(BOOK * CLBook)
+    848          {
+    849            List_FreeElements(myList,myList_elem_Filter,myList_elem_Free);
+    850            List_Free(myList);
+    851            List_FreeElements(myList_gprs,myList_elem_Filter,myList_gprs_elem_Free);
+    852            List_Free(myList_gprs);
+    853            if (Money) delete(Money);
+    854            delete(cur_date);
+    855            SUBPROC(elf_exit);
+    856          }
+    857          
+    858          BOOK * CreateCLBook()
+    859          {
+    860            CLBook=new(BOOK);
+    861            CreateBook(CLBook,onCloseCLBook,&base_page,"Call Logger",-1,0);
+    862            myList=List_New();
+    863            myList_gprs=List_New();
+    864            cur_date=new(DATETIME);
+    865            REQUEST_DATEANDTIME_GET(SYNC,cur_date);
+    866            get_bcfg_key();
+    867            return(CLBook);
+    868          }
+    869          
+    870          
+    871          int myFind(BOOK* book)
+    872          {
+    873            if(!strcmp(book->xbook->name,"Call Logger")) return(1);
+    874            return(0);
+    875          }
+    876          
+    877          
+    878          int main (void)
+    879          {
+    880            if (FindBook(myFind))
+    881            {
+    882              MessageBox(EMPTY_TEXTID,STR("Already runed"), NOIMAGE, 1, 5000,0);
+    883              SUBPROC(elf_exit);
+    884            }
+    885            else
+    886            {
+    887              CreateCLBook();
+    888              return(0);
+    889            }
+    890          }
+
+Errors: 4
+Warnings: none

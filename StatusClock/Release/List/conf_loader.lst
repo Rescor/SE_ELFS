@@ -1,0 +1,312 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:50:37 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\co #
+#                       nf_loader.cpp                                        #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\co #
+#                       nf_loader.cpp -D NDEBUG -D OLDFUNCTIONS -lC          #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\StatusClock\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\List\conf_loader.lst                           #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\Obj\conf_loader.r79                            #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\conf_loader.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\cfg_items.h"
+      4          #include "conf_loader.h"
+      5          
+      6          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+      7          const wchar_t *successed_config_path=L"";
+   \                     successed_config_path:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for successed_config_path>`
+      8          const wchar_t *successed_config_name=L"";
+   \                     successed_config_name:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for successed_config_name>`
+      9          
+     10          #pragma segment="CONFIG_C"
+     11          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          int SaveConfigData(const wchar_t *path,const wchar_t *fname)
+     13          {
+     14            int result=-1;
+     15            void *cfg=(char *)__segment_begin("CONFIG_C");
+     16            unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+   \                     ??SaveConfigData:
+   \   00000000   ........           LDR      R2,??DataTable3  ;; SFE(CONFIG_C)
+   \   00000004   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000008   ........           LDR      R5,??DataTable2  ;; SFB(CONFIG_C)
+   \   0000000C   0040E0E3           MVN      R4,#+0
+   \   00000010   056042E0           SUB      R6,R2,R5
+     17            int f;
+     18            if ((f=_fopen(path,fname,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   \   00000014   0020A0E3           MOV      R2,#+0
+   \   00000018   04002DE9           PUSH     {R2}
+   \   0000001C   603FA0E3           MOV      R3,#+384
+   \   00000020   812FA0E3           MOV      R2,#+516
+   \   00000024   160100EF           SWI      +278
+   \   00000028   0070B0E1           MOVS     R7,R0
+   \   0000002C   04D08DE2           ADD      SP,SP,#+4
+   \   00000030   0600004A           BMI      ??SaveConfigData_1
+     19            {
+     20              if (fwrite(f,cfg,len)==len) result=0;
+   \   00000034   0620A0E1           MOV      R2,R6
+   \   00000038   0510A0E1           MOV      R1,R5
+   \   0000003C   190100EF           SWI      +281
+   \   00000040   060050E1           CMP      R0,R6
+   \   00000044   0040A003           MOVEQ    R4,#+0
+     21              fclose(f);
+   \   00000048   0700A0E1           MOV      R0,R7
+   \   0000004C   170100EF           SWI      +279
+     22            }
+     23            return result;
+   \                     ??SaveConfigData_1:
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   F080BDE8           POP      {R4-R7,PC}       ;; return
+     24          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+     25          int LoadConfigData(const wchar_t *path,const wchar_t *fname)
+     26          {
+   \                     ??LoadConfigData:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+     27            int f;
+     28            char *buf;
+     29            int result=-1;
+     30            void *cfg;
+     31            FSTAT _fstat;
+     32            unsigned int rlen;
+     33          
+     34            cfg=(char *)__segment_begin("CONFIG_C");
+     35          
+     36            unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+   \   00000004   ........           LDR      R7,??DataTable2  ;; SFB(CONFIG_C)
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   ........           LDR      R0,??DataTable3  ;; SFE(CONFIG_C)
+   \   00000010   1CD04DE2           SUB      SP,SP,#+28
+   \   00000014   0150A0E1           MOV      R5,R1
+   \   00000018   0060E0E3           MVN      R6,#+0
+   \   0000001C   078040E0           SUB      R8,R0,R7
+     37          
+     38            if ((buf=new char[len]))
+   \   00000020   0800A0E1           MOV      R0,R8
+   \   00000024   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000028   0090B0E1           MOVS     R9,R0
+   \   0000002C   2600000A           BEQ      ??LoadConfigData_1
+     39            {
+     40              if (fstat(path,fname,&_fstat)!=-1)
+   \   00000030   0D20A0E1           MOV      R2,SP
+   \   00000034   0510A0E1           MOV      R1,R5
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   1C0100EF           SWI      +284
+   \   00000040   010070E3           CMN      R0,#+1
+   \   00000044   1900000A           BEQ      ??LoadConfigData_2
+     41              {
+     42                if ((f=_fopen(path,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \   0000004C   01002DE9           PUSH     {R0}
+   \   00000050   603FA0E3           MOV      R3,#+384
+   \   00000054   0120A0E3           MOV      R2,#+1
+   \   00000058   0510A0E1           MOV      R1,R5
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   160100EF           SWI      +278
+   \   00000064   00A0B0E1           MOVS     R10,R0
+   \   00000068   04D08DE2           ADD      SP,SP,#+4
+   \   0000006C   1000004A           BMI      ??LoadConfigData_3
+     43                {
+     44                  rlen=fread(f,buf,len);
+   \   00000070   0820A0E1           MOV      R2,R8
+   \   00000074   0910A0E1           MOV      R1,R9
+   \   00000078   180100EF           SWI      +280
+   \   0000007C   0060A0E1           MOV      R6,R0
+     45                  fclose(f);
+   \   00000080   0A00A0E1           MOV      R0,R10
+   \   00000084   170100EF           SWI      +279
+     46                  if (rlen!=_fstat.fsize || rlen!=len)  goto L_SAVENEWCFG;
+   \   00000088   08009DE5           LDR      R0,[SP, #+8]
+   \   0000008C   000056E1           CMP      R6,R0
+   \   00000090   08005601           CMPEQ    R6,R8
+   \   00000094   0500001A           BNE      ??LoadConfigData_2
+     47                  memcpy(cfg,buf,len);
+   \   00000098   0820A0E1           MOV      R2,R8
+   \   0000009C   0910A0E1           MOV      R1,R9
+   \   000000A0   0700A0E1           MOV      R0,R7
+   \   000000A4   130100EF           SWI      +275
+     48                  result=0;
+   \   000000A8   0060A0E3           MOV      R6,#+0
+   \   000000AC   000000EA           B        ??LoadConfigData_3
+     49                }
+     50              }
+     51              else
+     52              {
+     53              L_SAVENEWCFG:
+     54                result=-2;
+   \                     ??LoadConfigData_2:
+   \   000000B0   0160E0E3           MVN      R6,#+1
+     55              }
+     56              delete buf;
+   \                     ??LoadConfigData_3:
+   \   000000B4   0900A0E1           MOV      R0,R9
+   \   000000B8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     57            }
+     58            if (result>=0)
+   \   000000BC   000056E3           CMP      R6,#+0
+     59            {
+     60              successed_config_path=path;
+   \   000000C0   10009F55           LDRPL    R0,??LoadConfigData_4  ;; successed_config_path
+   \   000000C4   00408055           STRPL    R4,[R0, #+0]
+     61              successed_config_name=fname;
+   \   000000C8   04508055           STRPL    R5,[R0, #+4]
+     62            }
+     63            return(result);
+   \                     ??LoadConfigData_1:
+   \   000000CC   0600A0E1           MOV      R0,R6
+   \   000000D0   1CD08DE2           ADD      SP,SP,#+28
+   \   000000D4   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??LoadConfigData_4:
+   \   000000D8   ........           DC32     successed_config_path
+     64          };
+     65          
+     66          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     67          void InitConfig(void)
+     68          {
+   \                     ??InitConfig:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     69            if (LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"StatusClock.bcfg")<0)
+   \   00000004   58409FE5           LDR      R4,??InitConfig_1  ;; `?<Constant L"\\x53\\x74\\x61\\x74\\x75\\x73\\x43\\x6c\\`
+   \   00000008   1400A0E3           MOV      R0,#+20
+   \   0000000C   050100EF           SWI      +261
+   \   00000010   0410A0E1           MOV      R1,R4
+   \   00000014   ........           BL       ??LoadConfigData
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1080BD58           POPPL    {R4,PC}
+     70            {
+     71              if (LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"StatusClock.bcfg")<0)
+   \   00000020   1500A0E3           MOV      R0,#+21
+   \   00000024   050100EF           SWI      +261
+   \   00000028   0410A0E1           MOV      R1,R4
+   \   0000002C   ........           BL       ??LoadConfigData
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   1080BD58           POPPL    {R4,PC}
+     72              {
+     73                if (SaveConfigData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"StatusClock.bcfg")<0)
+   \   00000038   1400A0E3           MOV      R0,#+20
+   \   0000003C   050100EF           SWI      +261
+   \   00000040   0410A0E1           MOV      R1,R4
+   \   00000044   ........           BL       ??SaveConfigData
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   1080BD58           POPPL    {R4,PC}
+     74                {
+     75                  SaveConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"StatusClock.bcfg");
+   \   00000050   1500A0E3           MOV      R0,#+21
+   \   00000054   050100EF           SWI      +261
+   \   00000058   0410A0E1           MOV      R1,R4
+   \   0000005C   ........           BL       ??SaveConfigData
+     76                }
+     77              }
+     78            }
+     79          };
+   \   00000060   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??InitConfig_1:
+   \   00000064   ........           DC32     `?<Constant L"\\x53\\x74\\x61\\x74\\x75\\x73\\x43\\x6c\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     SFB(CONFIG_C)
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     SFE(CONFIG_C)
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for successed_config_path>`:
+   \   00000000   ........           DC32 `?<Constant L"">`
+   \                     `?<Initializer for successed_config_name>`:
+   \   00000004   ........           DC32 `?<Constant L"">`
+
+   \                                 In segment CONFIG_C, align 1
+
+   \                                 In segment DATA_C, align 2, align-sorted
+   \                     `?<Constant L"">`:
+   \   00000000   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x53\\x74\\x61\\x74\\x75\\x73\\x43\\x6c\\`:
+   \   00000000   530074006100       DC8 53H, 0, 74H, 0, 61H, 0, 74H, 0
+   \              7400        
+   \   00000008   750073004300       DC8 75H, 0, 73H, 0, 43H, 0, 6CH, 0
+   \              6C00        
+   \   00000010   6F0063006B00       DC8 6FH, 0, 63H, 0, 6BH, 0, 2EH, 0
+   \              2E00        
+   \   00000018   620063006600       DC8 62H, 0, 63H, 0, 66H, 0, 67H, 0
+   \              6700        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     InitConfig()                       8
+     LoadConfigData(wchar_t const *, wchar_t const *)
+                                       64
+     SaveConfigData(wchar_t const *, wchar_t const *)
+                                       24
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     successed_config_path             8
+     SaveConfigData(wchar_t const *, wchar_t const *)
+                                      88
+     LoadConfigData(wchar_t const *, wchar_t const *)
+                                     220
+     InitConfig()                    104
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ?<Initializer for successed_config_path>
+                                       8
+     ?<Constant L"">                   2
+     ?<Constant L"\x53\x74\x61\x74\x75\x73\x43\x6c\
+                                      36
+      Others                          48
+
+ 
+ 456 bytes in segment CODE
+  38 bytes in segment DATA_C
+   8 bytes in segment DATA_I
+   8 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 420 bytes of CODE  memory (+ 48 bytes shared)
+  46 bytes of CONST memory
+   8 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,1552 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:04:54 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\calc_me #
+#                       nu.cpp                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\calc_me #
+#                       nu.cpp -D NO_AP_ASSERT -D NDEBUG -D OLDFUNCTIONS     #
+#                       -lCN Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Re #
+#                       lease\List\ -la Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\SCalka\Release\List\ -o                            #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Release #
+#                       \Obj\ -s9 --no_unroll --no_code_motion --cpu_mode    #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --eec++ --dlib_config    #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Release #
+#                       \List\calc_menu.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Release #
+#                       \Obj\calc_menu.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SCalka\calc_menu.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          #include "main.h"
+      5          #include "calc_object.h"
+      6          
+      7          #include "calc_menu.h"
+      8          
+      9          void CreateCalcSettings(MyBOOK *mbk);
+     10          
+     11          CALC_SETTINGS calc_set;
+     12          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%1.10lg">`:
+   \   00000000   25312E31306C       DC8 "%1.10lg"
+   \              6700        
+   \   00000008   530043006100       DC8 53H, 0, 43H, 0, 61H, 0, 6CH, 0
+   \              6C00        
+   \   00000010   6B0061002E00       DC8 6BH, 0, 61H, 0, 2EH, 0, 63H, 0
+   \              6300        
+   \   00000018   660067000000       DC8 66H, 0, 67H, 0, 0, 0
+   \   0000001E   0000               DC8 0, 0
+     13          const wchar_t setting_file[]=L"SCalka.cfg";
+     14          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     15          void ReadCalcSettings(void)
+     16          {
+   \                     ??ReadCalcSettings:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     17            int f=-1;
+     18            if (!w_chdir(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL)))
+   \   00000004   1400A0E3           MOV      R0,#+20
+   \   00000008   050100EF           SWI      +261
+   \   0000000C   F70200EF           SWI      +759
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0700001A           BNE      ??ReadCalcSettings_1
+     19              f=w_fopen(setting_file, WA_Read, 0x1FF, 0);
+   \   00000018   ........           LDR      R0,??DataTable5  ;; `?<Constant "%1.10lg">` + 8
+   \   0000001C   0030A0E3           MOV      R3,#+0
+   \   00000020   FF20A0E3           MOV      R2,#+255
+   \   00000024   402F82E3           ORR      R2,R2,#0x100
+   \   00000028   0110A0E3           MOV      R1,#+1
+   \   0000002C   F80200EF           SWI      +760
+   \   00000030   0040B0E1           MOVS     R4,R0
+     20            if (f<0)
+   \   00000034   0B00005A           BPL      ??ReadCalcSettings_2
+     21            {
+     22              if (!w_chdir(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL)))
+   \                     ??ReadCalcSettings_1:
+   \   00000038   1500A0E3           MOV      R0,#+21
+   \   0000003C   050100EF           SWI      +261
+   \   00000040   F70200EF           SWI      +759
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   1900001A           BNE      ??ReadCalcSettings_3
+     23                f=w_fopen(setting_file, WA_Read, 0x1FF, 0);
+   \   0000004C   ........           LDR      R0,??DataTable5  ;; `?<Constant "%1.10lg">` + 8
+   \   00000050   0030A0E3           MOV      R3,#+0
+   \   00000054   FF20A0E3           MOV      R2,#+255
+   \   00000058   402F82E3           ORR      R2,R2,#0x100
+   \   0000005C   0110A0E3           MOV      R1,#+1
+   \   00000060   F80200EF           SWI      +760
+   \   00000064   0040A0E1           MOV      R4,R0
+     24            }
+     25            if (f>=0)
+   \                     ??ReadCalcSettings_2:
+   \   00000068   000054E3           CMP      R4,#+0
+   \   0000006C   1000004A           BMI      ??ReadCalcSettings_3
+     26            {
+     27              if (w_lseek(f, 0, WSEEK_END)==sizeof(CALC_SETTINGS))
+   \   00000070   0120A0E3           MOV      R2,#+1
+   \   00000074   0010A0E3           MOV      R1,#+0
+   \   00000078   0400A0E1           MOV      R0,R4
+   \   0000007C   FC0200EF           SWI      +764
+   \   00000080   280050E3           CMP      R0,#+40
+   \   00000084   0700001A           BNE      ??ReadCalcSettings_4
+     28              {
+     29                w_lseek(f, 0, WSEEK_SET);
+   \   00000088   0220A0E3           MOV      R2,#+2
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   FC0200EF           SWI      +764
+     30                w_fread(f, &calc_set, sizeof(CALC_SETTINGS));      
+   \   00000098   ........           LDR      R1,??DataTable28  ;; calc_set
+   \   0000009C   2820A0E3           MOV      R2,#+40
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   FB0200EF           SWI      +763
+     31              }
+     32              w_fclose(f);    
+   \                     ??ReadCalcSettings_4:
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   FD0200EF           SWI      +765
+   \   000000B0   1080BDE8           POP      {R4,PC}
+     33            }
+     34            else
+     35            {
+     36              strcpy(calc_set.fmt, "%1.10lg");
+   \                     ??ReadCalcSettings_3:
+   \   000000B4   ........           LDR      R4,??DataTable28  ;; calc_set
+   \   000000B8   20109FE5           LDR      R1,??ReadCalcSettings_5  ;; `?<Constant "%1.10lg">`
+   \   000000BC   100084E2           ADD      R0,R4,#+16
+   \   000000C0   A00100EF           SWI      +416
+     37              calc_set.drg=DEGREES;
+   \   000000C4   0000A0E3           MOV      R0,#+0
+   \   000000C8   2000C4E5           STRB     R0,[R4, #+32]
+     38              calc_set.x=calc_set.y=0;
+   \   000000CC   0010A0E3           MOV      R1,#+0
+   \   000000D0   080084E5           STR      R0,[R4, #+8]
+   \   000000D4   0C1084E5           STR      R1,[R4, #+12]
+   \   000000D8   030084E8           STM      R4,{R0,R1}
+     39            }
+     40          }
+   \   000000DC   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??ReadCalcSettings_5:
+   \   000000E0   ........           DC32     `?<Constant "%1.10lg">`
+     41          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     42          void WriteCalcSettings(void)
+     43          {
+   \                     ??WriteCalcSettings:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     44            int f=-1;
+     45            if (!w_chdir(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL)))
+   \   00000004   1400A0E3           MOV      R0,#+20
+   \   00000008   050100EF           SWI      +261
+   \   0000000C   F70200EF           SWI      +759
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0700001A           BNE      ??WriteCalcSettings_1
+     46              f=w_fopen(setting_file, WA_Write|WA_Create|WA_Truncate, 0x1FF, 0);
+   \   00000018   ........           LDR      R0,??DataTable5  ;; `?<Constant "%1.10lg">` + 8
+   \   0000001C   0030A0E3           MOV      R3,#+0
+   \   00000020   FF20A0E3           MOV      R2,#+255
+   \   00000024   402F82E3           ORR      R2,R2,#0x100
+   \   00000028   4A10A0E3           MOV      R1,#+74
+   \   0000002C   F80200EF           SWI      +760
+   \   00000030   0040B0E1           MOVS     R4,R0
+     47            if (f<0)
+   \   00000034   0B00005A           BPL      ??WriteCalcSettings_2
+     48            {
+     49              if (!w_chdir(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL)))
+   \                     ??WriteCalcSettings_1:
+   \   00000038   1500A0E3           MOV      R0,#+21
+   \   0000003C   050100EF           SWI      +261
+   \   00000040   F70200EF           SWI      +759
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   1080BD18           POPNE    {R4,PC}
+     50                f=w_fopen(setting_file, WA_Write|WA_Create|WA_Truncate, 0x1FF, 0);
+   \   0000004C   ........           LDR      R0,??DataTable5  ;; `?<Constant "%1.10lg">` + 8
+   \   00000050   0030A0E3           MOV      R3,#+0
+   \   00000054   FF20A0E3           MOV      R2,#+255
+   \   00000058   402F82E3           ORR      R2,R2,#0x100
+   \   0000005C   4A10A0E3           MOV      R1,#+74
+   \   00000060   F80200EF           SWI      +760
+   \   00000064   0040A0E1           MOV      R4,R0
+     51            }
+     52            if (f>=0)
+   \                     ??WriteCalcSettings_2:
+   \   00000068   000054E3           CMP      R4,#+0
+   \   0000006C   1080BD48           POPMI    {R4,PC}
+     53            {
+     54              w_fwrite(f, &calc_set, sizeof(CALC_SETTINGS));
+   \   00000070   ........           LDR      R1,??DataTable28  ;; calc_set
+   \   00000074   2820A0E3           MOV      R2,#+40
+   \   00000078   0400A0E1           MOV      R0,R4
+   \   0000007C   FA0200EF           SWI      +762
+     55              w_fclose(f);    
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   FD0200EF           SWI      +765
+     56            }    
+     57          }
+   \   00000088   1080BDE8           POP      {R4,PC}          ;; return
+     58          
+     59          //==============================================================================
+
+   \                                 In segment CODE, align 4, keep-with-next
+     60          void IV_OnBack( BOOK* bk, GUI* )
+     61          {
+   \                     ??IV_OnBack:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     62            MyBOOK *mbk=(MyBOOK *)bk;
+     63            FREE_GUI(mbk->calc_insvar);
+   \   00000008   2C0094E5           LDR      R0,[R4, #+44]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   2C0084E5           STR      R0,[R4, #+44]
+     64          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+     65          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          void IV_onEnterPressed( BOOK* bk, GUI* )
+     67          {
+   \                     ??IV_onEnterPressed:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     68            MyBOOK *mbk=(MyBOOK *)bk;
+     69            int item=ListMenu_GetSelectedItem(mbk->calc_insvar);
+   \   00000008   2C0094E5           LDR      R0,[R4, #+44]
+   \   0000000C   3E0100EF           SWI      +318
+     70            if (item<(VAR_Z-VAR_A+1))
+   \   00000010   1A0050E3           CMP      R0,#+26
+   \   00000014   010000AA           BGE      ??IV_onEnterPressed_1
+     71              insert_operation(VAR_A+item);
+   \   00000018   300080E2           ADD      R0,R0,#+48
+   \   0000001C   ........           _BLF     ??insert_operation,??insert_operation??rA
+     72            FREE_GUI(mbk->calc_insvar);
+   \                     ??IV_onEnterPressed_1:
+   \   00000020   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0100000A           BEQ      ??IV_onEnterPressed_2
+   \   0000002C   CE0100EF           SWI      +462
+   \   00000030   2C0084E5           STR      R0,[R4, #+44]
+     73            FREE_GUI(mbk->calc_menu);
+   \                     ??IV_onEnterPressed_2:
+   \   00000034   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   1080BD08           POPEQ    {R4,PC}
+   \   00000040   CE0100EF           SWI      +462
+   \   00000044   1C0084E5           STR      R0,[R4, #+28]
+     74          }
+   \   00000048   1080BDE8           POP      {R4,PC}          ;; return
+     75          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     76          int IV_On_Msg(GUI_MESSAGE * msg)
+     77          {
+   \                     ??IV_On_Msg:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     78            int d;
+     79            TEXTID str=LGP_NULL;
+     80            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   0700001A           BNE      ??IV_On_Msg_1
+     81            {
+     82            case 1:
+     83              d=GUIonMessage_GetCreatedItemIndex(msg);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   370100EF           SWI      +311
+     84              if (d<(VAR_Z-VAR_A+1))
+   \   0000001C   1A0050E3           CMP      R0,#+26
+   \   00000020   030000AA           BGE      ??IV_On_Msg_1
+     85              {
+     86                str=0x78000000|('a'+d);
+     87                GUIonMessage_SetMenuItemText(msg,str);
+   \   00000024   610080E2           ADD      R0,R0,#+97
+   \   00000028   781480E3           ORR      R1,R0,#0x78000000
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   380100EF           SWI      +312
+     88              }
+     89            }
+     90            return(1);
+   \                     ??IV_On_Msg_1:
+   \   00000034   0100A0E3           MOV      R0,#+1
+   \   00000038   1080BDE8           POP      {R4,PC}          ;; return
+     91          }
+     92          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     93          void InsertVar_CreateMenu(MyBOOK *mbk)
+     94          {
+   \                     ??InsertVar_CreateMenu:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     95            GUI_LIST *lo;
+     96            TEXTID sid;
+     97            mbk->calc_insvar=lo=CreateListMenu(&mbk->book,0);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   C00100EF           SWI      +448
+   \   00000010   0050A0E1           MOV      R5,R0
+     98            sid=TextID_Create(L"Settings",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000014   ........           LDR      R0,??DataTable29  ;; `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73"`
+   \   00000018   2C5084E5           STR      R5,[R4, #+44]
+   \   0000001C   FF20A0E3           MOV      R2,#+255
+   \   00000020   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   5D0100EF           SWI      +349
+     99            GUIObject_SetTitleText(lo,sid);
+   \   0000002C   0010A0E1           MOV      R1,R0
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   330100EF           SWI      +307
+    100            ListMenu_SetItemCount(lo,VAR_Z-VAR_A+1);
+   \   00000038   1A10A0E3           MOV      R1,#+26
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   C10100EF           SWI      +449
+    101            ListMenu_SetCursorToItem(lo,0);
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   350100EF           SWI      +309
+    102            //ListMenu_SetItemStyle(lo,3);
+    103            ListMenu_SetOnMessage(lo,IV_On_Msg);
+   \   00000050   48109FE5           LDR      R1,??InsertVar_CreateMenu_1  ;; ??IV_On_Msg
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   740100EF           SWI      +372
+    104            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,IV_onEnterPressed); 
+   \   0000005C   ........           LDR      R0,??DataTable30  ;; ACTION_SELECT1
+   \   00000060   3C209FE5           LDR      R2,??InsertVar_CreateMenu_1+0x4  ;; ??IV_onEnterPressed
+   \   00000064   001090E5           LDR      R1,[R0, #+0]
+   \   00000068   0500A0E1           MOV      R0,R5
+   \   0000006C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000070   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000074   4B0100EF           SWI      +331
+    105            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,IV_OnBack);
+   \   00000078   ........           LDR      R0,??DataTable31  ;; ACTION_BACK
+   \   0000007C   24209FE5           LDR      R2,??InsertVar_CreateMenu_1+0x8  ;; ??IV_OnBack
+   \   00000080   001090E5           LDR      R1,[R0, #+0]
+   \   00000084   0500A0E1           MOV      R0,R5
+   \   00000088   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000008C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000090   4B0100EF           SWI      +331
+    106            GUIObject_Show(lo);
+   \   00000094   0500A0E1           MOV      R0,R5
+   \   00000098   340100EF           SWI      +308
+    107          }
+   \   0000009C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??InsertVar_CreateMenu_1:
+   \   000000A0   ........           DC32     ??IV_On_Msg
+   \   000000A4   ........           DC32     ??IV_onEnterPressed
+   \   000000A8   ........           DC32     ??IV_OnBack
+    108          //==============================================================================
+    109          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    110          void AngleSelect_OnCloseCBoxGui( BOOK* bk, GUI* )
+    111          {
+   \                     ??AngleSelect_OnCloseCBoxGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    112            MyBOOK * myBook=(MyBOOK *)bk;
+    113            FREE_GUI(myBook->angle_sel_list);
+   \   00000008   240094E5           LDR      R0,[R4, #+36]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   240084E5           STR      R0,[R4, #+36]
+    114          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    115          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    116          void AngleSelect_OnSelectCBoxGui( BOOK* bk, GUI* )
+    117          {
+   \                     ??AngleSelect_OnSelectCBoxGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    118            MyBOOK * mbk=(MyBOOK *)bk;
+    119            int item=OneOfMany_GetSelected(mbk->angle_sel_list);
+    120            calc_set.drg=item;
+   \   00000008   240094E5           LDR      R0,[R4, #+36]
+   \   0000000C   490100EF           SWI      +329
+   \   00000010   ........           LDR      R1,??DataTable12  ;; calc_set + 32
+   \   00000014   0000C1E5           STRB     R0,[R1, #+0]
+    121            FREE_GUI(mbk->angle_sel_list); 
+   \   00000018   240094E5           LDR      R0,[R4, #+36]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0100000A           BEQ      ??AngleSelect_OnSelectCBoxGui_1
+   \   00000024   CE0100EF           SWI      +462
+   \   00000028   240084E5           STR      R0,[R4, #+36]
+    122            FREE_GUI(mbk->calc_settings);
+   \                     ??AngleSelect_OnSelectCBoxGui_1:
+   \   0000002C   200094E5           LDR      R0,[R4, #+32]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0100000A           BEQ      ??AngleSelect_OnSelectCBoxGui_2
+   \   00000038   CE0100EF           SWI      +462
+   \   0000003C   200084E5           STR      R0,[R4, #+32]
+    123            CreateCalcSettings(mbk);
+   \                     ??AngleSelect_OnSelectCBoxGui_2:
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000048   ........           B        ??CreateCalcSettings  ;; tailcall
+    124          }
+    125          
+    126          const wchar_t *angle_names[]={
+    127            L"Degrees",
+    128            L"Radians",
+    129            L"Grads"
+    130          };
+    131          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    132          void AngleSelect_CreateCBoxGui(MyBOOK *mbk)
+    133          {
+   \                     ??AngleSelect_CreateCBoxGui:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0CD04DE2           SUB      SP,SP,#+12
+   \   00000008   0050A0E1           MOV      R5,R0
+    134          
+    135            TEXTID strid[3];
+    136            GUI_ONEOFMANY *om;
+    137            mbk->angle_sel_list=om=CreateOneOfMany(&mbk->book);
+   \   0000000C   450100EF           SWI      +325
+   \   00000010   0040A0E1           MOV      R4,R0
+    138            GUIObject_SetTitleText(om,TextID_Create(L"Angle setup",ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000014   B0009FE5           LDR      R0,??AngleSelect_CreateCBoxGui_1  ;; `?<Constant L"\\x41\\x6e\\x67\\x6c\\x65\\x20\\x73\\x65\\`
+   \   00000018   244085E5           STR      R4,[R5, #+36]
+   \   0000001C   FF20A0E3           MOV      R2,#+255
+   \   00000020   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   5D0100EF           SWI      +349
+   \   0000002C   0010A0E1           MOV      R1,R0
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   330100EF           SWI      +307
+    139            for (int i=0; i<3; i++) strid[i]=TextID_Create(angle_names[i],ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000038   0050A0E3           MOV      R5,#+0
+   \                     ??AngleSelect_CreateCBoxGui_2:
+   \   0000003C   ........           LDR      R0,??DataTable28  ;; calc_set
+   \   00000040   FF20A0E3           MOV      R2,#+255
+   \   00000044   050180E0           ADD      R0,R0,R5, LSL #+2
+   \   00000048   280090E5           LDR      R0,[R0, #+40]
+   \   0000004C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   5D0100EF           SWI      +349
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   050181E7           STR      R0,[R1, +R5, LSL #+2]
+   \   00000060   015085E2           ADD      R5,R5,#+1
+   \   00000064   030055E3           CMP      R5,#+3
+   \   00000068   F3FFFFBA           BLT      ??AngleSelect_CreateCBoxGui_2
+    140            OneOfMany_SetTexts(om,strid,3);
+   \   0000006C   0320A0E3           MOV      R2,#+3
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   480100EF           SWI      +328
+    141            OneOfMany_SetChecked(om,calc_set.drg);
+   \   00000078   ........           LDR      R0,??DataTable12  ;; calc_set + 32
+   \   0000007C   0010D0E5           LDRB     R1,[R0, #+0]
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   470100EF           SWI      +327
+    142            GUIObject_SoftKeys_SetAction(om,ACTION_BACK,AngleSelect_OnCloseCBoxGui);
+   \   00000088   ........           LDR      R0,??DataTable31  ;; ACTION_BACK
+   \   0000008C   3C209FE5           LDR      R2,??AngleSelect_CreateCBoxGui_1+0x4  ;; ??AngleSelect_OnCloseCBoxGui
+   \   00000090   001090E5           LDR      R1,[R0, #+0]
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000009C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000A0   4B0100EF           SWI      +331
+    143            GUIObject_SoftKeys_SetAction(om,ACTION_SELECT1,AngleSelect_OnSelectCBoxGui);
+   \   000000A4   ........           LDR      R0,??DataTable30  ;; ACTION_SELECT1
+   \   000000A8   24209FE5           LDR      R2,??AngleSelect_CreateCBoxGui_1+0x8  ;; ??AngleSelect_OnSelectCBoxGui
+   \   000000AC   001090E5           LDR      R1,[R0, #+0]
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000B8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000BC   4B0100EF           SWI      +331
+    144            GUIObject_Show(om);
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   340100EF           SWI      +308
+    145          }
+   \   000000C8   3780BDE8           POP      {R0-R2,R4,R5,PC}  ;; return
+   \                     ??AngleSelect_CreateCBoxGui_1:
+   \   000000CC   ........           DC32     `?<Constant L"\\x41\\x6e\\x67\\x6c\\x65\\x20\\x73\\x65\\`
+   \   000000D0   ........           DC32     ??AngleSelect_OnCloseCBoxGui
+   \   000000D4   ........           DC32     ??AngleSelect_OnSelectCBoxGui
+    146          //------------------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    147          void OnBackEditFmtGui(BOOK * bk, u16 *string, int len)
+    148          {
+   \                     ??OnBackEditFmtGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    149            MyBOOK * myBook=(MyBOOK *)bk;
+    150            FREE_GUI(myBook->edit_fmtstr);
+   \   00000008   300094E5           LDR      R0,[R4, #+48]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   300084E5           STR      R0,[R4, #+48]
+    151          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    152          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    153          void OnOkEditFmtGui(BOOK * bk, wchar_t *string, int len)
+    154          {
+   \                     ??OnOkEditFmtGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    155            MyBOOK * mbk=(MyBOOK *)bk;
+    156            unicode2win1251(calc_set.fmt,string,sizeof(calc_set.fmt)-1);
+   \   00000004   0F20A0E3           MOV      R2,#+15
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   ........           LDR      R0,??DataTable23  ;; calc_set + 16
+   \   00000010   ........           _BLF     ??unicode2win1251,??unicode2win1251??rA
+    157            FREE_GUI(mbk->edit_fmtstr);
+   \   00000014   300094E5           LDR      R0,[R4, #+48]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0100000A           BEQ      ??OnOkEditFmtGui_1
+   \   00000020   CE0100EF           SWI      +462
+   \   00000024   300084E5           STR      R0,[R4, #+48]
+    158            FREE_GUI(mbk->calc_settings);
+   \                     ??OnOkEditFmtGui_1:
+   \   00000028   200094E5           LDR      R0,[R4, #+32]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0100000A           BEQ      ??OnOkEditFmtGui_2
+   \   00000034   CE0100EF           SWI      +462
+   \   00000038   200084E5           STR      R0,[R4, #+32]
+    159            CreateCalcSettings(mbk);
+   \                     ??OnOkEditFmtGui_2:
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000044   ........           B        ??CreateCalcSettings  ;; tailcall
+    160          }
+    161          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    162          void CreateEditFmtStr(MyBOOK *myBook)
+    163          {
+    164            wchar_t ustr[sizeof(calc_set.fmt)];
+    165            TEXTID text, header_name;
+    166            win12512unicode(ustr,calc_set.fmt,sizeof(calc_set.fmt)-1);
+   \                     ??CreateEditFmtStr:
+   \   00000000   ........           LDR      R1,??DataTable23  ;; calc_set + 16
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   20D04DE2           SUB      SP,SP,#+32
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0F20A0E3           MOV      R2,#+15
+   \   00000014   0D00A0E1           MOV      R0,SP
+   \   00000018   ........           _BLF     ??win12512unicode,??win12512unicode??rA
+    167            text=TextID_Create(ustr,ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000001C   FF50A0E3           MOV      R5,#+255
+   \   00000020   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000024   0520A0E1           MOV      R2,R5
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   0D00A0E1           MOV      R0,SP
+   \   00000030   5D0100EF           SWI      +349
+   \   00000034   0060A0E1           MOV      R6,R0
+    168            header_name=TextID_Create("Edit format str",ENC_LAT1,TEXTID_ANY_LEN);
+   \   00000038   98009FE5           LDR      R0,??CreateEditFmtStr_1  ;; `?<Constant "Edit format str">`
+   \   0000003C   0520A0E1           MOV      R2,R5
+   \   00000040   0610A0E3           MOV      R1,#+6
+   \   00000044   5D0100EF           SWI      +349
+    169            myBook->edit_fmtstr = CreateStringInputVA(0,
+    170                                                         VAR_HEADER_TEXT(header_name),
+    171                                                         VAR_STRINP_MIN_LEN(1),
+    172                                                         VAR_STRINP_MAX_LEN(sizeof(calc_set.fmt)-1),
+    173                                                         VAR_STRINP_MODE(1),
+    174                                                         VAR_BOOK(myBook),
+    175                                                         VAR_STRINP_TEXT(text),
+    176                                                         VAR_PREV_ACTION_PROC(OnBackEditFmtGui),
+    177                                                         VAR_OK_PROC(OnOkEditFmtGui),
+    178                                                         0);
+   \   00000048   8C309FE5           LDR      R3,??CreateEditFmtStr_1+0x4  ;; VAR_ARG_STRINP_MIN_LEN
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   02002DE9           PUSH     {R1}
+   \   00000054   84109FE5           LDR      R1,??CreateEditFmtStr_1+0x8  ;; ??OnOkEditFmtGui
+   \   00000058   0020A0E1           MOV      R2,R0
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   7C109FE5           LDR      R1,??CreateEditFmtStr_1+0xC  ;; VAR_ARG_CALL_BACK_OK
+   \   00000064   0000A0E3           MOV      R0,#+0
+   \   00000068   02002DE9           PUSH     {R1}
+   \   0000006C   74109FE5           LDR      R1,??CreateEditFmtStr_1+0x10  ;; ??OnBackEditFmtGui
+   \   00000070   02002DE9           PUSH     {R1}
+   \   00000074   70109FE5           LDR      R1,??CreateEditFmtStr_1+0x14  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   6C109FE5           LDR      R1,??CreateEditFmtStr_1+0x18  ;; VAR_ARG_STRINP_TEXT
+   \   00000080   40002DE9           PUSH     {R6}
+   \   00000084   02002DE9           PUSH     {R1}
+   \   00000088   0410A0E1           MOV      R1,R4
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   5C109FE5           LDR      R1,??CreateEditFmtStr_1+0x1C  ;; VAR_ARG_BOOK
+   \   00000094   02002DE9           PUSH     {R1}
+   \   00000098   0110A0E3           MOV      R1,#+1
+   \   0000009C   02002DE9           PUSH     {R1}
+   \   000000A0   50109FE5           LDR      R1,??CreateEditFmtStr_1+0x20  ;; VAR_ARG_STRINP_MODE
+   \   000000A4   02002DE9           PUSH     {R1}
+   \   000000A8   0F10A0E3           MOV      R1,#+15
+   \   000000AC   02002DE9           PUSH     {R1}
+   \   000000B0   44109FE5           LDR      R1,??CreateEditFmtStr_1+0x24  ;; VAR_ARG_STRINP_MAX_LEN
+   \   000000B4   02002DE9           PUSH     {R1}
+   \   000000B8   0110A0E3           MOV      R1,#+1
+   \   000000BC   02002DE9           PUSH     {R1}
+   \   000000C0   38109FE5           LDR      R1,??CreateEditFmtStr_1+0x28  ;; VAR_ARG_HTEXT
+   \   000000C4   440100EF           SWI      +324
+   \   000000C8   38D08DE2           ADD      SP,SP,#+56
+   \   000000CC   300084E5           STR      R0,[R4, #+48]
+    179          }
+   \   000000D0   20D08DE2           ADD      SP,SP,#+32
+   \   000000D4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??CreateEditFmtStr_1:
+   \   000000D8   ........           DC32     `?<Constant "Edit format str">`
+   \   000000DC   ........           DC32     VAR_ARG_STRINP_MIN_LEN
+   \   000000E0   ........           DC32     ??OnOkEditFmtGui
+   \   000000E4   ........           DC32     VAR_ARG_CALL_BACK_OK
+   \   000000E8   ........           DC32     ??OnBackEditFmtGui
+   \   000000EC   ........           DC32     VAR_ARG_CALL_BACK_PREV_ACT
+   \   000000F0   ........           DC32     VAR_ARG_STRINP_TEXT
+   \   000000F4   ........           DC32     VAR_ARG_BOOK
+   \   000000F8   ........           DC32     VAR_ARG_STRINP_MODE
+   \   000000FC   ........           DC32     VAR_ARG_STRINP_MAX_LEN
+   \   00000100   ........           DC32     VAR_ARG_HTEXT
+    180          //------------------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    181          void AutocalcSelect_OnCloseCBoxGui( BOOK* bk, GUI* )
+    182          {
+   \                     ??AutocalcSelect_OnCloseCBoxGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    183            MyBOOK * myBook=(MyBOOK *)bk;
+    184            FREE_GUI(myBook->autocalc_sel_list);
+   \   00000008   280094E5           LDR      R0,[R4, #+40]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   280084E5           STR      R0,[R4, #+40]
+    185          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    186          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    187          void AutocalcSelect_OnSelectCBoxGui( BOOK* bk, GUI* )
+    188          {
+   \                     ??AutocalcSelect_OnSelectCBoxGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    189            MyBOOK * mbk=(MyBOOK *)bk;
+    190            int item=OneOfMany_GetSelected(mbk->autocalc_sel_list);
+    191            calc_set.auto_recalc=item;
+   \   00000008   280094E5           LDR      R0,[R4, #+40]
+   \   0000000C   490100EF           SWI      +329
+   \   00000010   ........           LDR      R1,??DataTable19  ;; calc_set + 33
+   \   00000014   0000C1E5           STRB     R0,[R1, #+0]
+    192            FREE_GUI(mbk->autocalc_sel_list); 
+   \   00000018   280094E5           LDR      R0,[R4, #+40]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0100000A           BEQ      ??AutocalcSelect_OnSelectCBoxGui_1
+   \   00000024   CE0100EF           SWI      +462
+   \   00000028   280084E5           STR      R0,[R4, #+40]
+    193            FREE_GUI(mbk->calc_settings);
+   \                     ??AutocalcSelect_OnSelectCBoxGui_1:
+   \   0000002C   200094E5           LDR      R0,[R4, #+32]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0100000A           BEQ      ??AutocalcSelect_OnSelectCBoxGui_2
+   \   00000038   CE0100EF           SWI      +462
+   \   0000003C   200084E5           STR      R0,[R4, #+32]
+    194            CreateCalcSettings(mbk);
+   \                     ??AutocalcSelect_OnSelectCBoxGui_2:
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000048   ........           B        ??CreateCalcSettings  ;; tailcall
+    195          }
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     calc_set:
+   \   00000000                      DS8 40
+   \   00000028                      REQUIRE `?<Initializer for calc_set>`
+   \                     angle_names:
+   \   00000028                      DS8 12
+   \   00000034                      REQUIRE `?<Initializer for angle_names>`
+    196          
+    197          const wchar_t *dis_ena[]={
+   \                     dis_ena:
+   \   00000034                      DS8 8
+   \   0000003C                      REQUIRE `?<Initializer for dis_ena>`
+    198            L"Disable",
+    199            L"Enable"
+    200          };
+    201          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    202          void AutocalcSelect_CreateCBoxGui(MyBOOK *mbk)
+    203          {
+   \                     ??AutocalcSelect_CreateCBoxGui:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   0050A0E1           MOV      R5,R0
+    204          
+    205            TEXTID strid[2];
+    206            GUI_ONEOFMANY *om;
+    207            mbk->autocalc_sel_list=om=CreateOneOfMany(&mbk->book);
+   \   0000000C   450100EF           SWI      +325
+   \   00000010   0040A0E1           MOV      R4,R0
+    208            GUIObject_SetTitleText(om,TextID_Create(L"Realtime calc",ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000014   B0009FE5           LDR      R0,??AutocalcSelect_CreateCBoxGui_1  ;; `?<Constant L"\\x52\\x65\\x61\\x6c\\x74\\x69\\x6d\\x65\\`
+   \   00000018   284085E5           STR      R4,[R5, #+40]
+   \   0000001C   FF20A0E3           MOV      R2,#+255
+   \   00000020   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   5D0100EF           SWI      +349
+   \   0000002C   0010A0E1           MOV      R1,R0
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   330100EF           SWI      +307
+    209            for (int i=0; i<2; i++) strid[i]=TextID_Create(dis_ena[i],ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000038   0050A0E3           MOV      R5,#+0
+   \                     ??AutocalcSelect_CreateCBoxGui_2:
+   \   0000003C   ........           LDR      R0,??DataTable28  ;; calc_set
+   \   00000040   FF20A0E3           MOV      R2,#+255
+   \   00000044   050180E0           ADD      R0,R0,R5, LSL #+2
+   \   00000048   340090E5           LDR      R0,[R0, #+52]
+   \   0000004C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   5D0100EF           SWI      +349
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   050181E7           STR      R0,[R1, +R5, LSL #+2]
+   \   00000060   015085E2           ADD      R5,R5,#+1
+   \   00000064   020055E3           CMP      R5,#+2
+   \   00000068   F3FFFFBA           BLT      ??AutocalcSelect_CreateCBoxGui_2
+    210            OneOfMany_SetTexts(om,strid,2);
+   \   0000006C   0220A0E3           MOV      R2,#+2
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   480100EF           SWI      +328
+    211            OneOfMany_SetChecked(om,calc_set.auto_recalc);
+   \   00000078   ........           LDR      R0,??DataTable19  ;; calc_set + 33
+   \   0000007C   0010D0E5           LDRB     R1,[R0, #+0]
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   470100EF           SWI      +327
+    212            GUIObject_SoftKeys_SetAction(om,ACTION_BACK,AutocalcSelect_OnCloseCBoxGui);
+   \   00000088   ........           LDR      R0,??DataTable31  ;; ACTION_BACK
+   \   0000008C   3C209FE5           LDR      R2,??AutocalcSelect_CreateCBoxGui_1+0x4  ;; ??AutocalcSelect_OnCloseCBoxGui
+   \   00000090   001090E5           LDR      R1,[R0, #+0]
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000009C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000A0   4B0100EF           SWI      +331
+    213            GUIObject_SoftKeys_SetAction(om,ACTION_SELECT1,AutocalcSelect_OnSelectCBoxGui);
+   \   000000A4   ........           LDR      R0,??DataTable30  ;; ACTION_SELECT1
+   \   000000A8   24209FE5           LDR      R2,??AutocalcSelect_CreateCBoxGui_1+0x8  ;; ??AutocalcSelect_OnSelectCBoxGui
+   \   000000AC   001090E5           LDR      R1,[R0, #+0]
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000B8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000BC   4B0100EF           SWI      +331
+    214            GUIObject_Show(om);
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   340100EF           SWI      +308
+    215          }
+   \   000000C8   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+   \                     ??AutocalcSelect_CreateCBoxGui_1:
+   \   000000CC   ........           DC32     `?<Constant L"\\x52\\x65\\x61\\x6c\\x74\\x69\\x6d\\x65\\`
+   \   000000D0   ........           DC32     ??AutocalcSelect_OnCloseCBoxGui
+   \   000000D4   ........           DC32     ??AutocalcSelect_OnSelectCBoxGui
+    216          
+    217          //------------------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    218          void CS_OnBack( BOOK* bk, GUI* )
+    219          {
+   \                     ??CS_OnBack:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    220            MyBOOK *mbk=(MyBOOK *)bk;
+    221            FREE_GUI(mbk->calc_settings);
+   \   00000008   200094E5           LDR      R0,[R4, #+32]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   200084E5           STR      R0,[R4, #+32]
+    222          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    223          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    224          void CS_onEnterPressed( BOOK* bk, GUI* )
+    225          {
+   \                     ??CS_onEnterPressed:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    226            MyBOOK *mbk=(MyBOOK *)bk;
+    227            int item=ListMenu_GetSelectedItem(mbk->calc_settings);
+    228            switch(item)
+   \   00000008   200094E5           LDR      R0,[R4, #+32]
+   \   0000000C   3E0100EF           SWI      +318
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0400000A           BEQ      ??CS_onEnterPressed_1
+   \   00000018   010050E2           SUBS     R0,R0,#+1
+   \   0000001C   0500000A           BEQ      ??CS_onEnterPressed_2
+   \   00000020   010050E2           SUBS     R0,R0,#+1
+   \   00000024   0600000A           BEQ      ??CS_onEnterPressed_3
+   \   00000028   080000EA           B        ??CS_onEnterPressed_4
+    229            {
+    230            case 0:
+    231              AngleSelect_CreateCBoxGui(mbk);
+   \                     ??CS_onEnterPressed_1:
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           BL       ??AngleSelect_CreateCBoxGui
+   \   00000034   1080BDE8           POP      {R4,PC}
+    232              break;
+    233            case 1:
+    234              CreateEditFmtStr(mbk);
+   \                     ??CS_onEnterPressed_2:
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   ........           BL       ??CreateEditFmtStr
+   \   00000040   1080BDE8           POP      {R4,PC}
+    235              break;
+    236            case 2:
+    237              AutocalcSelect_CreateCBoxGui(mbk);
+   \                     ??CS_onEnterPressed_3:
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   ........           BL       ??AutocalcSelect_CreateCBoxGui
+   \   0000004C   1080BDE8           POP      {R4,PC}
+    238              break;
+    239            default:
+    240              FREE_GUI(mbk->calc_settings);
+   \                     ??CS_onEnterPressed_4:
+   \   00000050   200094E5           LDR      R0,[R4, #+32]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   1080BD08           POPEQ    {R4,PC}
+   \   0000005C   CE0100EF           SWI      +462
+   \   00000060   200084E5           STR      R0,[R4, #+32]
+    241              break;
+    242            }
+    243          }
+   \   00000064   1080BDE8           POP      {R4,PC}          ;; return
+    244          
+    245          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    246          int CS_On_Msg(GUI_MESSAGE * msg)
+    247          {
+    248            const wchar_t *names[]={
+    249              L"Angle",
+    250              L"Fmt str",
+    251              L"Real-Time Calculation"
+    252            };
+   \                     ??CS_On_Msg:
+   \   00000000   E8109FE5           LDR      R1,??CS_On_Msg_1  ;; `?<Constant {&L"\\x41\\x6e\\x67\\x6c\\x65", &L"\\x46\\`
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   0CD04DE2           SUB      SP,SP,#+12
+   \   0000000C   2C0091E8           LDM      R1,{R2,R3,R5}
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0D00A0E1           MOV      R0,SP
+   \   00000018   2C0080E8           STM      R0,{R2,R3,R5}
+    253            int d;
+    254            TEXTID str=LGP_NULL;
+    255            switch( GUIonMessage_GetMsg(msg) )
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   740300EF           SWI      +884
+   \   00000024   010050E3           CMP      R0,#+1
+   \   00000028   2E00001A           BNE      ??CS_On_Msg_2
+    256            {
+    257            case 1:
+    258              d=GUIonMessage_GetCreatedItemIndex(msg);
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   370100EF           SWI      +311
+   \   00000034   0050A0E1           MOV      R5,R0
+    259              if (d<3)
+   \   00000038   030055E3           CMP      R5,#+3
+   \   0000003C   290000AA           BGE      ??CS_On_Msg_2
+    260              {
+    261                TEXTID tx=LGP_NULL;
+    262                str=TextID_Create(names[d],ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000040   0D00A0E1           MOV      R0,SP
+   \   00000044   050190E7           LDR      R0,[R0, +R5, LSL #+2]
+   \   00000048   9064E0E3           MVN      R6,#-1879048192
+   \   0000004C   FF20A0E3           MOV      R2,#+255
+   \   00000050   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   5D0100EF           SWI      +349
+    263                GUIonMessage_SetMenuItemText(msg,str);
+   \   0000005C   0010A0E1           MOV      R1,R0
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   380100EF           SWI      +312
+    264                switch(d)
+   \   00000068   000055E3           CMP      R5,#+0
+   \   0000006C   0400000A           BEQ      ??CS_On_Msg_3
+   \   00000070   015055E2           SUBS     R5,R5,#+1
+   \   00000074   0A00000A           BEQ      ??CS_On_Msg_4
+   \   00000078   015055E2           SUBS     R5,R5,#+1
+   \   0000007C   0D00000A           BEQ      ??CS_On_Msg_5
+   \   00000080   150000EA           B        ??CS_On_Msg_6
+    265                {
+    266                case 0:
+    267                  tx=TextID_Create(angle_names[calc_set.drg],ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??CS_On_Msg_3:
+   \   00000084   ........           LDR      R0,??DataTable28  ;; calc_set
+   \   00000088   FF20A0E3           MOV      R2,#+255
+   \   0000008C   2030D0E5           LDRB     R3,[R0, #+32]
+   \   00000090   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \   00000098   030180E0           ADD      R0,R0,R3, LSL #+2
+   \   0000009C   280090E5           LDR      R0,[R0, #+40]
+   \   000000A0   0B0000EA           B        ??CS_On_Msg_7
+    268                  break;
+    269                case 1:
+    270                  tx=TextID_Create(calc_set.fmt,ENC_LAT1,TEXTID_ANY_LEN);
+   \                     ??CS_On_Msg_4:
+   \   000000A4   ........           LDR      R0,??DataTable23  ;; calc_set + 16
+   \   000000A8   FF20A0E3           MOV      R2,#+255
+   \   000000AC   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000000B0   0610A0E3           MOV      R1,#+6
+   \   000000B4   060000EA           B        ??CS_On_Msg_7
+    271                  break;
+    272                case 2:
+    273                  tx=TextID_Create(dis_ena[calc_set.auto_recalc],ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??CS_On_Msg_5:
+   \   000000B8   ........           LDR      R0,??DataTable28  ;; calc_set
+   \   000000BC   FF20A0E3           MOV      R2,#+255
+   \   000000C0   2130D0E5           LDRB     R3,[R0, #+33]
+   \   000000C4   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000000C8   0010A0E3           MOV      R1,#+0
+   \   000000CC   030180E0           ADD      R0,R0,R3, LSL #+2
+   \   000000D0   340090E5           LDR      R0,[R0, #+52]
+   \                     ??CS_On_Msg_7:
+   \   000000D4   5D0100EF           SWI      +349
+   \   000000D8   0060A0E1           MOV      R6,R0
+    274                  break;
+    275                }
+    276                GUIonMessage_SetMenuItemSecondLineText(msg,tx);
+   \                     ??CS_On_Msg_6:
+   \   000000DC   0610A0E1           MOV      R1,R6
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   390100EF           SWI      +313
+    277              }
+    278            }
+    279            return(1);
+   \                     ??CS_On_Msg_2:
+   \   000000E8   0100A0E3           MOV      R0,#+1
+   \   000000EC   7E80BDE8           POP      {R1-R6,PC}       ;; return
+   \                     ??CS_On_Msg_1:
+   \   000000F0   ........           DC32     `?<Constant {&L"\\x41\\x6e\\x67\\x6c\\x65", &L"\\x46\\`
+    280          }
+    281          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    282          void CreateCalcSettings(MyBOOK *mbk)
+    283          {
+   \                     ??CreateCalcSettings:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    284            GUI_LIST *lo;
+    285            TEXTID sid;
+    286            mbk->calc_settings=lo=CreateListMenu(&mbk->book,0);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   C00100EF           SWI      +448
+   \   00000010   0050A0E1           MOV      R5,R0
+    287            sid=TextID_Create(L"Settings",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000014   ........           LDR      R0,??DataTable29  ;; `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73"`
+   \   00000018   205084E5           STR      R5,[R4, #+32]
+   \   0000001C   FF20A0E3           MOV      R2,#+255
+   \   00000020   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   5D0100EF           SWI      +349
+    288            GUIObject_SetTitleText(lo,sid);
+   \   0000002C   0010A0E1           MOV      R1,R0
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   330100EF           SWI      +307
+    289            ListMenu_SetItemCount(lo,3);
+   \   00000038   0310A0E3           MOV      R1,#+3
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   C10100EF           SWI      +449
+    290            ListMenu_SetCursorToItem(lo,0);
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   350100EF           SWI      +309
+    291            ListMenu_SetItemStyle(lo,3);
+   \   00000050   0310A0E3           MOV      R1,#+3
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   3F0100EF           SWI      +319
+    292            ListMenu_SetOnMessage(lo,CS_On_Msg);
+   \   0000005C   48109FE5           LDR      R1,??CreateCalcSettings_1  ;; ??CS_On_Msg
+   \   00000060   0500A0E1           MOV      R0,R5
+   \   00000064   740100EF           SWI      +372
+    293            GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,CS_onEnterPressed); 
+   \   00000068   ........           LDR      R0,??DataTable30  ;; ACTION_SELECT1
+   \   0000006C   3C209FE5           LDR      R2,??CreateCalcSettings_1+0x4  ;; ??CS_onEnterPressed
+   \   00000070   001090E5           LDR      R1,[R0, #+0]
+   \   00000074   0500A0E1           MOV      R0,R5
+   \   00000078   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000007C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000080   4B0100EF           SWI      +331
+    294            GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,CS_OnBack);
+   \   00000084   ........           LDR      R0,??DataTable31  ;; ACTION_BACK
+   \   00000088   24209FE5           LDR      R2,??CreateCalcSettings_1+0x8  ;; ??CS_OnBack
+   \   0000008C   001090E5           LDR      R1,[R0, #+0]
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000098   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000009C   4B0100EF           SWI      +331
+    295            GUIObject_Show(lo);
+   \   000000A0   0500A0E1           MOV      R0,R5
+   \   000000A4   340100EF           SWI      +308
+    296          }
+   \   000000A8   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??CreateCalcSettings_1:
+   \   000000AC   ........           DC32     ??CS_On_Msg
+   \   000000B0   ........           DC32     ??CS_onEnterPressed
+   \   000000B4   ........           DC32     ??CS_OnBack
+    297          
+    298          //==============================================================================
+    299          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    300          void CM_OnBack( BOOK* bk, GUI* )
+    301          {
+   \                     ??CM_OnBack:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    302            MyBOOK *mbk=(MyBOOK *)bk;
+    303            FREE_GUI(mbk->calc_menu);
+   \   00000008   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   1C0084E5           STR      R0,[R4, #+28]
+    304          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    305          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    306          void CM_onEnterPressed( BOOK* bk, GUI* )
+    307          {
+   \                     ??CM_onEnterPressed:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    308            MyBOOK *mbk=(MyBOOK *)bk;
+    309            int item=ListMenu_GetSelectedItem(mbk->calc_menu);
+    310            switch(item)
+   \   00000008   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000000C   3E0100EF           SWI      +318
+   \   00000010   060050E3           CMP      R0,#+6
+   \   00000014   1700008A           BHI      ??CM_onEnterPressed_2
+   \   00000018   011F8FE2           ADR      R1,??CM_onEnterPressed_1
+   \   0000001C   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000020   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??CM_onEnterPressed_1:
+   \   00000024   19011919           DC8      +25,+1,+25,+25
+   \   00000028   04061100           DC8      +4,+6,+17,+0
+    311            {
+    312            case 0:
+    313              
+    314              break;
+    315            case 1:
+    316              InsertVar_CreateMenu(mbk);
+   \                     ??CM_onEnterPressed_3:
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           BL       ??InsertVar_CreateMenu
+   \   00000034   1080BDE8           POP      {R4,PC}
+    317              break;
+    318            case 2:
+    319              
+    320              break;
+    321            case 3:
+    322              
+    323              break;
+    324            case 4:
+    325              calc_set.x=d_answer;
+   \                     ??CM_onEnterPressed_4:
+   \   00000038   ........           LDR      R0,??DataTable28  ;; calc_set
+   \   0000003C   000000EA           B        ??CM_onEnterPressed_5
+    326              FREE_GUI(mbk->calc_menu);
+    327              break;
+    328            case 5:
+    329              calc_set.y=d_answer;
+   \                     ??CM_onEnterPressed_6:
+   \   00000040   48009FE5           LDR      R0,??CM_onEnterPressed_7  ;; calc_set + 8
+   \                     ??CM_onEnterPressed_5:
+   \   00000044   48109FE5           LDR      R1,??CM_onEnterPressed_7+0x4  ;; d_answer
+   \   00000048   0C0091E8           LDM      R1,{R2,R3}
+   \   0000004C   0C0080E8           STM      R0,{R2,R3}
+    330              FREE_GUI(mbk->calc_menu); 
+   \   00000050   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   1080BD08           POPEQ    {R4,PC}
+   \   0000005C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000060   CE0100EF           SWI      +462
+   \   00000064   1C0084E5           STR      R0,[R4, #+28]
+   \   00000068   1080BDE8           POP      {R4,PC}
+    331              break;
+    332            case 6:
+    333              CreateCalcSettings(mbk);
+   \                     ??CM_onEnterPressed_8:
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   ........           BL       ??CreateCalcSettings
+   \   00000074   1080BDE8           POP      {R4,PC}
+    334              break;
+    335            default:
+    336              FREE_GUI(mbk->calc_menu);
+   \                     ??CM_onEnterPressed_2:
+   \   00000078   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   1080BD08           POPEQ    {R4,PC}
+   \   00000084   CE0100EF           SWI      +462
+   \   00000088   1C0084E5           STR      R0,[R4, #+28]
+    337              break;
+    338            }
+    339          }
+   \                     ??CM_onEnterPressed_9:
+   \   0000008C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??CM_onEnterPressed_7:
+   \   00000090   ........           DC32     calc_set + 8
+   \   00000094   ........           DC32     d_answer
+    340          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    341          void CreateCalcMenu(void)
+    342          {
+    343            GUI_LIST *lo;
+    344            TEXTID sid;
+    345            TEXTID texts[7];
+    346            BOOK *bk=FindBook(isScalkaBook);
+   \                     ??CreateCalcMenu:
+   \   00000000   48019FE5           LDR      R0,??CreateCalcMenu_1  ;; ??isScalkaBook
+   \   00000004   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000008   1CD04DE2           SUB      SP,SP,#+28
+   \   0000000C   300100EF           SWI      +304
+   \   00000010   0050B0E1           MOVS     R5,R0
+    347            if (bk)
+   \   00000014   4B00000A           BEQ      ??CreateCalcMenu_2
+    348            {
+    349              MyBOOK *mbk=(MyBOOK *)bk;
+    350              mbk->calc_menu=lo=CreateListMenu(&mbk->book,0);
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   C00100EF           SWI      +448
+   \   00000020   0040A0E1           MOV      R4,R0
+   \   00000024   1C4085E5           STR      R4,[R5, #+28]
+    351              sid=TextID_Create(L"Menu",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000028   ........           LDR      R5,??DataTable29  ;; `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73"`
+   \   0000002C   FF60A0E3           MOV      R6,#+255
+   \   00000030   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000034   0620A0E1           MOV      R2,R6
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   140085E2           ADD      R0,R5,#+20
+   \   00000040   5D0100EF           SWI      +349
+   \   00000044   0070A0E1           MOV      R7,R0
+    352              texts[0]=TextID_Create(L"Set formula",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000048   0620A0E1           MOV      R2,R6
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   200085E2           ADD      R0,R5,#+32
+   \   00000054   5D0100EF           SWI      +349
+   \   00000058   00008DE5           STR      R0,[SP, #+0]
+    353              texts[1]=TextID_Create(L"Insert var",ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000005C   0620A0E1           MOV      R2,R6
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   380085E2           ADD      R0,R5,#+56
+   \   00000068   5D0100EF           SWI      +349
+   \   0000006C   04008DE5           STR      R0,[SP, #+4]
+    354              texts[2]=TextID_Create(L"Add formula",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000070   0620A0E1           MOV      R2,R6
+   \   00000074   0010A0E3           MOV      R1,#+0
+   \   00000078   500085E2           ADD      R0,R5,#+80
+   \   0000007C   5D0100EF           SWI      +349
+   \   00000080   08008DE5           STR      R0,[SP, #+8]
+    355              texts[3]=TextID_Create(L"View vars",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000084   0620A0E1           MOV      R2,R6
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   680085E2           ADD      R0,R5,#+104
+   \   00000090   5D0100EF           SWI      +349
+   \   00000094   0C008DE5           STR      R0,[SP, #+12]
+    356              texts[4]=TextID_Create(L"Ans To X",ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000098   0620A0E1           MOV      R2,R6
+   \   0000009C   0010A0E3           MOV      R1,#+0
+   \   000000A0   7C0085E2           ADD      R0,R5,#+124
+   \   000000A4   5D0100EF           SWI      +349
+   \   000000A8   10008DE5           STR      R0,[SP, #+16]
+    357              texts[5]=TextID_Create(L"Ans To Y",ENC_UCS2,TEXTID_ANY_LEN);
+   \   000000AC   0620A0E1           MOV      R2,R6
+   \   000000B0   0010A0E3           MOV      R1,#+0
+   \   000000B4   900085E2           ADD      R0,R5,#+144
+   \   000000B8   5D0100EF           SWI      +349
+   \   000000BC   14008DE5           STR      R0,[SP, #+20]
+    358              texts[6]=TextID_Create(L"Settings",ENC_UCS2,TEXTID_ANY_LEN);
+   \   000000C0   0620A0E1           MOV      R2,R6
+   \   000000C4   0010A0E3           MOV      R1,#+0
+   \   000000C8   0500A0E1           MOV      R0,R5
+   \   000000CC   5D0100EF           SWI      +349
+   \   000000D0   18008DE5           STR      R0,[SP, #+24]
+    359              OneOfMany_SetTexts((GUI_ONEOFMANY *)lo,texts,7);
+   \   000000D4   0720A0E3           MOV      R2,#+7
+   \   000000D8   0D10A0E1           MOV      R1,SP
+   \   000000DC   0400A0E1           MOV      R0,R4
+   \   000000E0   480100EF           SWI      +328
+    360              GUIObject_SetTitleText(lo,sid);
+   \   000000E4   0710A0E1           MOV      R1,R7
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   330100EF           SWI      +307
+    361              ListMenu_SetItemCount(lo,7);
+   \   000000F0   0710A0E3           MOV      R1,#+7
+   \   000000F4   0400A0E1           MOV      R0,R4
+   \   000000F8   C10100EF           SWI      +449
+    362              ListMenu_SetCursorToItem(lo,0);
+   \   000000FC   0010A0E3           MOV      R1,#+0
+   \   00000100   0400A0E1           MOV      R0,R4
+   \   00000104   350100EF           SWI      +309
+    363              GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,CM_onEnterPressed); 
+   \   00000108   ........           LDR      R0,??DataTable30  ;; ACTION_SELECT1
+   \   0000010C   40209FE5           LDR      R2,??CreateCalcMenu_1+0x4  ;; ??CM_onEnterPressed
+   \   00000110   001090E5           LDR      R1,[R0, #+0]
+   \   00000114   0400A0E1           MOV      R0,R4
+   \   00000118   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000011C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000120   4B0100EF           SWI      +331
+    364              GUIObject_SoftKeys_SetAction(lo,ACTION_BACK,CM_OnBack);
+   \   00000124   ........           LDR      R0,??DataTable31  ;; ACTION_BACK
+   \   00000128   28209FE5           LDR      R2,??CreateCalcMenu_1+0x8  ;; ??CM_OnBack
+   \   0000012C   001090E5           LDR      R1,[R0, #+0]
+   \   00000130   0400A0E1           MOV      R0,R4
+   \   00000134   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000138   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000013C   4B0100EF           SWI      +331
+    365              GUIObject_Show(lo);
+   \   00000140   0400A0E1           MOV      R0,R4
+   \   00000144   340100EF           SWI      +308
+    366            }
+    367          }
+   \                     ??CreateCalcMenu_2:
+   \   00000148   1CD08DE2           ADD      SP,SP,#+28       ;; stack cleaning
+   \   0000014C   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??CreateCalcMenu_1:
+   \   00000150   ........           DC32     ??isScalkaBook
+   \   00000154   ........           DC32     ??CM_onEnterPressed
+   \   00000158   ........           DC32     ??CM_OnBack
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     `?<Constant "%1.10lg">` + 8
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable12:
+   \   00000000   ........           DC32     calc_set + 32
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable19:
+   \   00000000   ........           DC32     calc_set + 33
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable23:
+   \   00000000   ........           DC32     calc_set + 16
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable28:
+   \   00000000   ........           DC32     calc_set
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable29:
+   \   00000000   ........           DC32     `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73"`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable30:
+   \   00000000   ........           DC32     ACTION_SELECT1
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable31:
+   \   00000000   ........           DC32     ACTION_BACK
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for calc_set>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000010   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000020   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for angle_names>`:
+   \   00000028   ........           DC32 `?<Constant L"\\x44\\x65\\x67\\x72\\x65\\x65\\x73">`
+   \   0000002C   ........           DC32 `?<Constant L"\\x52\\x61\\x64\\x69\\x61\\x6e\\x73">`
+   \   00000030   ........           DC32 `?<Constant L"\\x47\\x72\\x61\\x64\\x73">`
+   \                     `?<Initializer for dis_ena>`:
+   \   00000034   ........           DC32 `?<Constant L"\\x44\\x69\\x73\\x61\\x62\\x6c\\x65">`
+   \   00000038   ........           DC32 `?<Constant L"\\x45\\x6e\\x61\\x62\\x6c\\x65">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x44\\x65\\x67\\x72\\x65\\x65\\x73">`:
+   \   00000000   440065006700       DC8 44H, 0, 65H, 0, 67H, 0, 72H, 0
+   \              7200        
+   \   00000008   650065007300       DC8 65H, 0, 65H, 0, 73H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x61\\x64\\x69\\x61\\x6e\\x73">`:
+   \   00000000   520061006400       DC8 52H, 0, 61H, 0, 64H, 0, 69H, 0
+   \              6900        
+   \   00000008   61006E007300       DC8 61H, 0, 6EH, 0, 73H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x47\\x72\\x61\\x64\\x73">`:
+   \   00000000   470072006100       DC8 47H, 0, 72H, 0, 61H, 0, 64H, 0
+   \              6400        
+   \   00000008   73000000           DC8 73H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x44\\x69\\x73\\x61\\x62\\x6c\\x65">`:
+   \   00000000   440069007300       DC8 44H, 0, 69H, 0, 73H, 0, 61H, 0
+   \              6100        
+   \   00000008   62006C006500       DC8 62H, 0, 6CH, 0, 65H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x45\\x6e\\x61\\x62\\x6c\\x65">`:
+   \   00000000   45006E006100       DC8 45H, 0, 6EH, 0, 61H, 0, 62H, 0
+   \              6200        
+   \   00000008   6C0065000000       DC8 6CH, 0, 65H, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x53\\x65\\x74\\x74\\x69\\x6e\\x67\\x73"`:
+   \   00000000   530065007400       DC8 53H, 0, 65H, 0, 74H, 0, 74H, 0
+   \              7400        
+   \   00000008   69006E006700       DC8 69H, 0, 6EH, 0, 67H, 0, 73H, 0
+   \              7300        
+   \   00000010   0000               DC8 0, 0
+   \   00000012   0000               DC8 0, 0
+   \   00000014   4D0065006E00       DC8 4DH, 0, 65H, 0, 6EH, 0, 75H, 0
+   \              7500        
+   \   0000001C   0000               DC8 0, 0
+   \   0000001E   0000               DC8 0, 0
+   \   00000020   530065007400       DC8 53H, 0, 65H, 0, 74H, 0, 20H, 0
+   \              2000        
+   \   00000028   66006F007200       DC8 66H, 0, 6FH, 0, 72H, 0, 6DH, 0
+   \              6D00        
+   \   00000030   75006C006100       DC8 75H, 0, 6CH, 0, 61H, 0, 0, 0
+   \              0000        
+   \   00000038   49006E007300       DC8 49H, 0, 6EH, 0, 73H, 0, 65H, 0
+   \              6500        
+   \   00000040   720074002000       DC8 72H, 0, 74H, 0, 20H, 0, 76H, 0
+   \              7600        
+   \   00000048   610072000000       DC8 61H, 0, 72H, 0, 0, 0
+   \   0000004E   0000               DC8 0, 0
+   \   00000050   410064006400       DC8 41H, 0, 64H, 0, 64H, 0, 20H, 0
+   \              2000        
+   \   00000058   66006F007200       DC8 66H, 0, 6FH, 0, 72H, 0, 6DH, 0
+   \              6D00        
+   \   00000060   75006C006100       DC8 75H, 0, 6CH, 0, 61H, 0, 0, 0
+   \              0000        
+   \   00000068   560069006500       DC8 56H, 0, 69H, 0, 65H, 0, 77H, 0
+   \              7700        
+   \   00000070   200076006100       DC8 20H, 0, 76H, 0, 61H, 0, 72H, 0
+   \              7200        
+   \   00000078   73000000           DC8 73H, 0, 0, 0
+   \   0000007C   41006E007300       DC8 41H, 0, 6EH, 0, 73H, 0, 20H, 0
+   \              2000        
+   \   00000084   54006F002000       DC8 54H, 0, 6FH, 0, 20H, 0, 58H, 0
+   \              5800        
+   \   0000008C   0000               DC8 0, 0
+   \   0000008E   0000               DC8 0, 0
+   \   00000090   41006E007300       DC8 41H, 0, 6EH, 0, 73H, 0, 20H, 0
+   \              2000        
+   \   00000098   54006F002000       DC8 54H, 0, 6FH, 0, 20H, 0, 59H, 0
+   \              5900        
+   \   000000A0   0000               DC8 0, 0
+   \   000000A2   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x6e\\x67\\x6c\\x65\\x20\\x73\\x65\\`:
+   \   00000000   41006E006700       DC8 41H, 0, 6EH, 0, 67H, 0, 6CH, 0
+   \              6C00        
+   \   00000008   650020007300       DC8 65H, 0, 20H, 0, 73H, 0, 65H, 0
+   \              6500        
+   \   00000010   740075007000       DC8 74H, 0, 75H, 0, 70H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Edit format str">`:
+   \   00000000   456469742066       DC8 "Edit format str"
+   \              6F726D617420
+   \              73747200    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x65\\x61\\x6c\\x74\\x69\\x6d\\x65\\`:
+   \   00000000   520065006100       DC8 52H, 0, 65H, 0, 61H, 0, 6CH, 0
+   \              6C00        
+   \   00000008   740069006D00       DC8 74H, 0, 69H, 0, 6DH, 0, 65H, 0
+   \              6500        
+   \   00000010   200063006100       DC8 20H, 0, 63H, 0, 61H, 0, 6CH, 0
+   \              6C00        
+   \   00000018   63000000           DC8 63H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x6e\\x67\\x6c\\x65">`:
+   \   00000000   41006E006700       DC8 41H, 0, 6EH, 0, 67H, 0, 6CH, 0
+   \              6C00        
+   \   00000008   65000000           DC8 65H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x46\\x6d\\x74\\x20\\x73\\x74\\x72">`:
+   \   00000000   46006D007400       DC8 46H, 0, 6DH, 0, 74H, 0, 20H, 0
+   \              2000        
+   \   00000008   730074007200       DC8 73H, 0, 74H, 0, 72H, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x65\\x61\\x6c\\x2d\\x54\\x69\\x6d\\`:
+   \   00000000   520065006100       DC8 52H, 0, 65H, 0, 61H, 0, 6CH, 0
+   \              6C00        
+   \   00000008   2D0054006900       DC8 2DH, 0, 54H, 0, 69H, 0, 6DH, 0
+   \              6D00        
+   \   00000010   650020004300       DC8 65H, 0, 20H, 0, 43H, 0, 61H, 0
+   \              6100        
+   \   00000018   6C0063007500       DC8 6CH, 0, 63H, 0, 75H, 0, 6CH, 0
+   \              6C00        
+   \   00000020   610074006900       DC8 61H, 0, 74H, 0, 69H, 0, 6FH, 0
+   \              6F00        
+   \   00000028   6E000000           DC8 6EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {&L"\\x41\\x6e\\x67\\x6c\\x65", &L"\\x46\\`:
+   \   00000000   ........           DC32 `?<Constant L"\\x41\\x6e\\x67\\x6c\\x65">`
+   \   00000004   ........           DC32 `?<Constant L"\\x46\\x6d\\x74\\x20\\x73\\x74\\x72">`
+   \   00000008   ........           DC32 `?<Constant L"\\x52\\x65\\x61\\x6c\\x2d\\x54\\x69\\x6d\\`
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     AngleSelect_CreateCBoxGui(MyBOOK *)
+                                       24
+     AngleSelect_OnCloseCBoxGui(BOOK *, GUI *)
+                                        8
+     AngleSelect_OnSelectCBoxGui(BOOK *, GUI *)
+                                        8
+     AutocalcSelect_CreateCBoxGui(MyBOOK *)
+                                       20
+     AutocalcSelect_OnCloseCBoxGui(BOOK *, GUI *)
+                                        8
+     AutocalcSelect_OnSelectCBoxGui(BOOK *, GUI *)
+                                        8
+     CM_OnBack(BOOK *, GUI *)           8
+     CM_onEnterPressed(BOOK *, GUI *)
+                                        8
+     CS_OnBack(BOOK *, GUI *)           8
+     CS_On_Msg(GUI_MESSAGE *)          28
+     CS_onEnterPressed(BOOK *, GUI *)
+                                        8
+     CreateCalcMenu()                  48
+     CreateCalcSettings(MyBOOK *)      12
+     CreateEditFmtStr(MyBOOK *)       104
+     IV_OnBack(BOOK *, GUI *)           8
+     IV_On_Msg(GUI_MESSAGE *)           8
+     IV_onEnterPressed(BOOK *, GUI *)
+                                        8
+     InsertVar_CreateMenu(MyBOOK *)    12
+     OnBackEditFmtGui(BOOK *, u16 *, int)
+                                        8
+     OnOkEditFmtGui(BOOK *, wchar_t *, int)
+                                        8
+     ReadCalcSettings()                 8
+     WriteCalcSettings()                8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     ?<Constant "%1.10lg">            32
+     ReadCalcSettings()              228
+     WriteCalcSettings()             140
+     IV_OnBack(BOOK *, GUI *)         32
+     IV_onEnterPressed(BOOK *, GUI *)
+                                      76
+     IV_On_Msg(GUI_MESSAGE *)         60
+     InsertVar_CreateMenu(MyBOOK *)  172
+     AngleSelect_OnCloseCBoxGui(BOOK *, GUI *)
+                                      32
+     AngleSelect_OnSelectCBoxGui(BOOK *, GUI *)
+                                      76
+     AngleSelect_CreateCBoxGui(MyBOOK *)
+                                     216
+     OnBackEditFmtGui(BOOK *, u16 *, int)
+                                      32
+     OnOkEditFmtGui(BOOK *, wchar_t *, int)
+                                      72
+     CreateEditFmtStr(MyBOOK *)      260
+     AutocalcSelect_OnCloseCBoxGui(BOOK *, GUI *)
+                                      32
+     AutocalcSelect_OnSelectCBoxGui(BOOK *, GUI *)
+                                      76
+     calc_set                         60
+     AutocalcSelect_CreateCBoxGui(MyBOOK *)
+                                     216
+     CS_OnBack(BOOK *, GUI *)         32
+     CS_onEnterPressed(BOOK *, GUI *)
+                                     104
+     CS_On_Msg(GUI_MESSAGE *)        244
+     CreateCalcSettings(MyBOOK *)    184
+     CM_OnBack(BOOK *, GUI *)         32
+     CM_onEnterPressed(BOOK *, GUI *)
+                                     152
+     CreateCalcMenu()                348
+     ??DataTable5                      4
+     ??DataTable12                     4
+     ??DataTable19                     4
+     ??DataTable23                     4
+     ??DataTable28                     4
+     ??DataTable29                     4
+     ??DataTable30                     4
+     ??DataTable31                     4
+     ?<Initializer for calc_set>      60
+     ?<Constant L"\x44\x65\x67\x72\x65\x65\x73">
+                                      16
+     ?<Constant L"\x52\x61\x64\x69\x61\x6e\x73">
+                                      16
+     ?<Constant L"\x47\x72\x61\x64\x73">
+                                      12
+     ?<Constant L"\x44\x69\x73\x61\x62\x6c\x65">
+                                      16
+     ?<Constant L"\x45\x6e\x61\x62\x6c\x65">
+                                      16
+     ?<Constant L"\x53\x65\x74\x74\x69\x6e\x67\x73"
+                                     164
+     ?<Constant L"\x41\x6e\x67\x6c\x65\x20\x73\x65\
+                                      24
+     ?<Constant "Edit format str">    16
+     ?<Constant L"\x52\x65\x61\x6c\x74\x69\x6d\x65\
+                                      28
+     ?<Constant L"\x41\x6e\x67\x6c\x65">
+                                      12
+     ?<Constant L"\x46\x6d\x74\x20\x73\x74\x72">
+                                      16
+     ?<Constant L"\x52\x65\x61\x6c\x2d\x54\x69\x6d\
+                                      44
+     ?<Constant {&L"\x41\x6e\x67\x6c\x65", &L"\x46\
+                                      12
+      Others                         136
+
+ 
+ 2 972 bytes in segment CODE
+   424 bytes in segment DATA_C
+    60 bytes in segment DATA_I
+    60 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 2 848 bytes of CODE  memory (+ 136 bytes shared)
+   484 bytes of CONST memory
+    60 bytes of DATA  memory
+
+Errors: none
+Warnings: none

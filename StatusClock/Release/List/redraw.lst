@@ -1,0 +1,379 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:50:49 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\re #
+#                       draw.cpp                                             #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\re #
+#                       draw.cpp -D NDEBUG -D OLDFUNCTIONS -lC               #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\StatusClock\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\List\redraw.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\Re #
+#                       lease\Obj\redraw.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\redraw.cpp
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\Dir.h"
+      3          #include "config_data.h"
+      4          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      5          DISP_OBJ_ONREDRAW_METHOD DREDRAW;
+   \                     DREDRAW:
+   \   00000000                      DS8 4
+      6          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      7          void DrawHighlightID(int font,int text,int ct, int XPos, int YPos, int borderColor, int shadowColor, int NormalColor)
+      8          {
+   \                     ??DrawHighlightID:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   24609DE5           LDR      R6,[SP, #+36]
+   \   00000008   28709DE5           LDR      R7,[SP, #+40]
+   \   0000000C   2CA09DE5           LDR      R10,[SP, #+44]
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   0250A0E1           MOV      R5,R2
+   \   00000018   0390A0E1           MOV      R9,R3
+      9            if (text && text!=EMPTY_TEXTID)
+   \   0000001C   000054E3           CMP      R4,#+0
+   \   00000020   9014E013           MVNNE    R1,#-1879048192
+   \   00000024   01005411           CMPNE    R4,R1
+   \   00000028   F08FBD08           POPEQ    {R4-R11,PC}
+     10            {
+     11              SetFont(font);
+   \   0000002C   F10100EF           SWI      +497
+     12              int MaxXPos,MaxYPos;
+     13              if (ct==0)
+   \   00000030   000055E3           CMP      R5,#+0
+     14              {
+     15                MaxXPos=XPos+500;
+   \   00000034   7D8F8902           ADDEQ    R8,R9,#+500
+   \   00000038   0B00000A           BEQ      ??DrawHighlightID_1
+     16              }
+     17              else if (ct==1)
+   \   0000003C   010055E3           CMP      R5,#+1
+   \   00000040   0400001A           BNE      ??DrawHighlightID_2
+     18              {
+     19                MaxXPos=XPos;
+   \   00000044   0980A0E1           MOV      R8,R9
+     20                XPos=XPos-500;
+   \   00000048   F300E0E3           MVN      R0,#+243
+   \   0000004C   400FC0E3           BIC      R0,R0,#0x100
+   \   00000050   099080E0           ADD      R9,R0,R9
+   \   00000054   040000EA           B        ??DrawHighlightID_1
+     21              }
+     22              else
+     23              {
+     24                MaxXPos=Display_GetWidth(0)+500;
+   \                     ??DrawHighlightID_2:
+   \   00000058   0000A0E3           MOV      R0,#+0
+   \   0000005C   590200EF           SWI      +601
+   \   00000060   7D8F80E2           ADD      R8,R0,#+500
+     25                XPos=-500;
+   \   00000064   F390E0E3           MVN      R9,#+243
+   \   00000068   409FC9E3           BIC      R9,R9,#0x100
+     26              }
+     27              MaxYPos=500;
+     28              //мод функции для работы с тенью текста...
+     29              DrawString(text,ct,XPos+cfg_shad,YPos+cfg_shad,MaxXPos+cfg_shad,MaxYPos+cfg_shad,60,0x05,shadowColor,shadowColor);
+   \                     ??DrawHighlightID_1:
+   \   0000006C   94019FE5           LDR      R0,??DrawHighlightID_3  ;; cfg_shad
+   \   00000070   0A10A0E1           MOV      R1,R10
+   \   00000074   000090E5           LDR      R0,[R0, #+0]
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   00042DE9           PUSH     {R10}
+   \   00000080   063080E0           ADD      R3,R0,R6
+   \   00000084   0510A0E3           MOV      R1,#+5
+   \   00000088   02002DE9           PUSH     {R1}
+   \   0000008C   092080E0           ADD      R2,R0,R9
+   \   00000090   3C10A0E3           MOV      R1,#+60
+   \   00000094   02002DE9           PUSH     {R1}
+   \   00000098   7D1F80E2           ADD      R1,R0,#+500
+   \   0000009C   02002DE9           PUSH     {R1}
+   \   000000A0   081080E0           ADD      R1,R0,R8
+   \   000000A4   02002DE9           PUSH     {R1}
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   0510A0E1           MOV      R1,R5
+   \   000000B0   ED0100EF           SWI      +493
+     30              
+     31              //Рисуем текст n-ное количество раз с разными координатами:
+     32              DrawString(text,ct,XPos-cfg_bordsize,YPos-cfg_bordsize,MaxXPos-cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+   \   000000B4   50019FE5           LDR      R0,??DrawHighlightID_3+0x4  ;; cfg_bordsize
+   \   000000B8   0510A0E1           MOV      R1,R5
+   \   000000BC   00A090E5           LDR      R10,[R0, #+0]
+   \   000000C0   0700A0E1           MOV      R0,R7
+   \   000000C4   01002DE9           PUSH     {R0}
+   \   000000C8   01002DE9           PUSH     {R0}
+   \   000000CC   0AB048E0           SUB      R11,R8,R10
+   \   000000D0   0A3046E0           SUB      R3,R6,R10
+   \   000000D4   0A2049E0           SUB      R2,R9,R10
+   \   000000D8   0500A0E3           MOV      R0,#+5
+   \   000000DC   01002DE9           PUSH     {R0}
+   \   000000E0   3C00A0E3           MOV      R0,#+60
+   \   000000E4   01002DE9           PUSH     {R0}
+   \   000000E8   7D0FA0E3           MOV      R0,#+500
+   \   000000EC   01002DE9           PUSH     {R0}
+   \   000000F0   0B00A0E1           MOV      R0,R11
+   \   000000F4   01002DE9           PUSH     {R0}
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   ED0100EF           SWI      +493
+   \   00000100   30D08DE2           ADD      SP,SP,#+48
+   \   00000104   0700A0E1           MOV      R0,R7
+   \   00000108   01002DE9           PUSH     {R0}
+   \   0000010C   01002DE9           PUSH     {R0}
+   \   00000110   06308AE0           ADD      R3,R10,R6
+   \   00000114   0A2049E0           SUB      R2,R9,R10
+   \   00000118   0510A0E1           MOV      R1,R5
+   \   0000011C   0500A0E3           MOV      R0,#+5
+   \   00000120   01002DE9           PUSH     {R0}
+   \   00000124   3C00A0E3           MOV      R0,#+60
+   \   00000128   01002DE9           PUSH     {R0}
+   \   0000012C   7D0FA0E3           MOV      R0,#+500
+   \   00000130   01002DE9           PUSH     {R0}
+   \   00000134   00082DE9           PUSH     {R11}
+   \   00000138   0400A0E1           MOV      R0,R4
+     33              DrawString(text,ct,XPos-cfg_bordsize,YPos+cfg_bordsize,MaxXPos-cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+   \   0000013C   ED0100EF           SWI      +493
+   \   00000140   0700A0E1           MOV      R0,R7
+   \   00000144   01002DE9           PUSH     {R0}
+   \   00000148   01002DE9           PUSH     {R0}
+   \   0000014C   08B08AE0           ADD      R11,R10,R8
+   \   00000150   0A3046E0           SUB      R3,R6,R10
+   \   00000154   09208AE0           ADD      R2,R10,R9
+   \   00000158   0500A0E3           MOV      R0,#+5
+   \   0000015C   01002DE9           PUSH     {R0}
+   \   00000160   0510A0E1           MOV      R1,R5
+   \   00000164   3C00A0E3           MOV      R0,#+60
+   \   00000168   01002DE9           PUSH     {R0}
+   \   0000016C   7D0FA0E3           MOV      R0,#+500
+   \   00000170   01002DE9           PUSH     {R0}
+   \   00000174   0B00A0E1           MOV      R0,R11
+   \   00000178   01002DE9           PUSH     {R0}
+   \   0000017C   0400A0E1           MOV      R0,R4
+     34              DrawString(text,ct,XPos+cfg_bordsize,YPos-cfg_bordsize,MaxXPos+cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+   \   00000180   ED0100EF           SWI      +493
+   \   00000184   30D08DE2           ADD      SP,SP,#+48
+     35              DrawString(text,ct,XPos+cfg_bordsize,YPos+cfg_bordsize,MaxXPos+cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+   \   00000188   0700A0E1           MOV      R0,R7
+   \   0000018C   01002DE9           PUSH     {R0}
+   \   00000190   80002DE9           PUSH     {R7}
+   \   00000194   06308AE0           ADD      R3,R10,R6
+   \   00000198   0500A0E3           MOV      R0,#+5
+   \   0000019C   01002DE9           PUSH     {R0}
+   \   000001A0   09208AE0           ADD      R2,R10,R9
+   \   000001A4   0510A0E1           MOV      R1,R5
+   \   000001A8   3C00A0E3           MOV      R0,#+60
+   \   000001AC   01002DE9           PUSH     {R0}
+   \   000001B0   7D0FA0E3           MOV      R0,#+500
+   \   000001B4   01002DE9           PUSH     {R0}
+   \   000001B8   00082DE9           PUSH     {R11}
+   \   000001BC   0400A0E1           MOV      R0,R4
+   \   000001C0   ED0100EF           SWI      +493
+     36              
+     37              //Рисуем с основными координатами:
+     38              DrawString(text,ct,XPos,YPos,MaxXPos,MaxYPos,60,0x05,NormalColor,NormalColor);
+   \   000001C4   48009DE5           LDR      R0,[SP, #+72]
+   \   000001C8   0630A0E1           MOV      R3,R6
+   \   000001CC   01002DE9           PUSH     {R0}
+   \   000001D0   01002DE9           PUSH     {R0}
+   \   000001D4   0920A0E1           MOV      R2,R9
+   \   000001D8   0510A0E1           MOV      R1,R5
+   \   000001DC   0500A0E3           MOV      R0,#+5
+   \   000001E0   01002DE9           PUSH     {R0}
+   \   000001E4   3C00A0E3           MOV      R0,#+60
+   \   000001E8   01002DE9           PUSH     {R0}
+   \   000001EC   7D0FA0E3           MOV      R0,#+500
+   \   000001F0   01002DE9           PUSH     {R0}
+   \   000001F4   00012DE9           PUSH     {R8}
+   \   000001F8   0400A0E1           MOV      R0,R4
+   \   000001FC   ED0100EF           SWI      +493
+   \   00000200   30D08DE2           ADD      SP,SP,#+48
+     39            }
+     40          };
+   \   00000204   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??DrawHighlightID_3:
+   \   00000208   ........           DC32     cfg_shad
+   \   0000020C   ........           DC32     cfg_bordsize
+     41          
+     42          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     43          void DispDraw(DISP_OBJ* DO,int a,int b,int c)
+     44          { 
+   \                     ??DispDraw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     45            DREDRAW(DO,a,b,c);
+   \   00000004   ........           LDR      R4,??DataTable1  ;; DREDRAW
+   \   00000008   6CD04DE2           SUB      SP,SP,#+108
+   \   0000000C   004094E5           LDR      R4,[R4, #+0]
+   \   00000010   34FF2FE1           BLX      R4
+     46            DrawRect(cfg_rect.x1,cfg_rect.y1,cfg_rect.x2,cfg_rect.y2,cfg_bg,cfg_bg);
+   \   00000014   C8009FE5           LDR      R0,??DispDraw_1  ;; cfg_bg
+   \   00000018   C8409FE5           LDR      R4,??DispDraw_1+0x4  ;; cfg_rect
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   0010A0E1           MOV      R1,R0
+   \   00000024   02002DE9           PUSH     {R1}
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   B630D4E1           LDRH     R3,[R4, #+6]
+   \   00000030   B220D4E1           LDRH     R2,[R4, #+2]
+   \   00000034   B410D4E1           LDRH     R1,[R4, #+4]
+   \   00000038   B000D4E1           LDRH     R0,[R4, #+0]
+   \   0000003C   EC0100EF           SWI      +492
+     47            DATETIME dt;
+     48            REQUEST_DATEANDTIME_GET(SYNC,&dt);
+   \   00000040   A4009FE5           LDR      R0,??DispDraw_1+0x8  ;; SYNC
+   \   00000044   08108DE2           ADD      R1,SP,#+8
+   \   00000048   000090E5           LDR      R0,[R0, #+0]
+   \   0000004C   6E0100EF           SWI      +366
+     49            wchar_t str[50];
+     50            snwprintf(str,49,L"%02d:%02d",dt.time.hour,dt.time.min);
+   \   00000050   0D00DDE5           LDRB     R0,[SP, #+13]
+   \   00000054   94209FE5           LDR      R2,??DispDraw_1+0xC  ;; `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+   \   00000058   3110A0E3           MOV      R1,#+49
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   1030DDE5           LDRB     R3,[SP, #+16]
+   \   00000064   14008DE2           ADD      R0,SP,#+20
+   \   00000068   150100EF           SWI      +277
+     51            int time=TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000006C   FF20A0E3           MOV      R2,#+255
+   \   00000070   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000074   0010A0E3           MOV      R1,#+0
+   \   00000078   14008DE2           ADD      R0,SP,#+20
+   \   0000007C   5D0100EF           SWI      +349
+   \   00000080   0040A0E1           MOV      R4,R0
+     52            DrawHighlightID(cfg_font, time, cfg_ct, cfg_x, cfg_y, cfg_border, cfg_shadow, cfg_color);
+   \   00000084   68009FE5           LDR      R0,??DispDraw_1+0x10  ;; cfg_color
+   \   00000088   0410A0E1           MOV      R1,R4
+   \   0000008C   000090E5           LDR      R0,[R0, #+0]
+   \   00000090   01002DE9           PUSH     {R0}
+   \   00000094   5C009FE5           LDR      R0,??DispDraw_1+0x14  ;; cfg_shadow
+   \   00000098   000090E5           LDR      R0,[R0, #+0]
+   \   0000009C   01002DE9           PUSH     {R0}
+   \   000000A0   54009FE5           LDR      R0,??DispDraw_1+0x18  ;; cfg_border
+   \   000000A4   000090E5           LDR      R0,[R0, #+0]
+   \   000000A8   01002DE9           PUSH     {R0}
+   \   000000AC   4C009FE5           LDR      R0,??DispDraw_1+0x1C  ;; cfg_y
+   \   000000B0   000090E5           LDR      R0,[R0, #+0]
+   \   000000B4   01002DE9           PUSH     {R0}
+   \   000000B8   44009FE5           LDR      R0,??DispDraw_1+0x20  ;; cfg_x
+   \   000000BC   003090E5           LDR      R3,[R0, #+0]
+   \   000000C0   40009FE5           LDR      R0,??DispDraw_1+0x24  ;; cfg_ct
+   \   000000C4   002090E5           LDR      R2,[R0, #+0]
+   \   000000C8   3C009FE5           LDR      R0,??DispDraw_1+0x28  ;; cfg_font
+   \   000000CC   000090E5           LDR      R0,[R0, #+0]
+   \   000000D0   ........           BL       ??DrawHighlightID
+     53            TextID_Destroy(time);
+   \   000000D4   0400A0E1           MOV      R0,R4
+   \   000000D8   610100EF           SWI      +353
+     54          };
+   \   000000DC   88D08DE2           ADD      SP,SP,#+136
+   \   000000E0   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??DispDraw_1:
+   \   000000E4   ........           DC32     cfg_bg
+   \   000000E8   ........           DC32     cfg_rect
+   \   000000EC   ........           DC32     SYNC
+   \   000000F0   ........           DC32     `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+   \   000000F4   ........           DC32     cfg_color
+   \   000000F8   ........           DC32     cfg_shadow
+   \   000000FC   ........           DC32     cfg_border
+   \   00000100   ........           DC32     cfg_y
+   \   00000104   ........           DC32     cfg_x
+   \   00000108   ........           DC32     cfg_ct
+   \   0000010C   ........           DC32     cfg_font
+     55          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          void redraw_init()
+     57          {
+   \                     ??redraw_init:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     58            DISP_OBJ *si=*StatusRow_p();
+   \   00000004   F28100EF           SWI      +33266
+   \   00000008   004090E5           LDR      R4,[R0, #+0]
+     59            if (si)
+   \   0000000C   000054E3           CMP      R4,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+     60            {
+     61              DREDRAW=DispObject_GetOnRedraw(si);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   290200EF           SWI      +553
+   \   0000001C   ........           LDR      R1,??DataTable1  ;; DREDRAW
+   \   00000020   000081E5           STR      R0,[R1, #+0]
+     62              DISP_DESC_SetOnRedraw(DispObject_GetDESC(si), DispDraw);
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   1F0200EF           SWI      +543
+   \   0000002C   04109FE5           LDR      R1,??redraw_init_1  ;; ??DispDraw
+   \   00000030   280200EF           SWI      +552
+     63              //---------------------------------------------------------
+     64            }
+     65          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??redraw_init_1:
+   \   00000038   ........           DC32     ??DispDraw
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     DREDRAW
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`:
+   \   00000000   250030003200       DC8 25H, 0, 30H, 0, 32H, 0, 64H, 0
+   \              6400        
+   \   00000008   3A0025003000       DC8 3AH, 0, 25H, 0, 30H, 0, 32H, 0
+   \              3200        
+   \   00000010   64000000           DC8 64H, 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     DispDraw(DISP_OBJ *, int, int, int)
+                                      144
+     DrawHighlightID(int, int, int, int, int, int, int, int)
+                                       84
+     redraw_init()                      8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     DREDRAW                           4
+     DrawHighlightID(int, int, int, int, int, int, int, int)
+                                     528
+     DispDraw(DISP_OBJ *, int, int, int)
+                                     272
+     redraw_init()                    60
+     ??DataTable1                      4
+     ?<Constant L"\x25\x30\x32\x64\x3a\x25\x30\x32\
+                                      20
+      Others                          24
+
+ 
+ 876 bytes in segment CODE
+  20 bytes in segment DATA_C
+   4 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 864 bytes of CODE  memory (+ 24 bytes shared)
+  20 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

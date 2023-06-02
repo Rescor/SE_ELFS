@@ -1,0 +1,637 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:45:23 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\LzmaDeco #
+#                       de.c                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\LzmaDeco #
+#                       de.c -D NDEBUG -D OLDFUNCTIONS -lcN                  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7zli #
+#                       b\Release\List\ -o Z:\home\perk11\www\perk11.info\sv #
+#                       n\SE\7zlib\Release\Obj\ -s9 --no_unroll              #
+#                       --no_code_motion --cpu_mode thumb --endian little    #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --library_module -I                       #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\LzmaDecode.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       Obj\LzmaDecode.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\7zlib\LzmaDecode.c
+      1          /*
+      2            LzmaDecode.c
+      3            LZMA Decoder (optimized for Speed version)
+      4            
+      5            LZMA SDK 4.40 Copyright (c) 1999-2006 Igor Pavlov (2006-05-01)
+      6            http://www.7-zip.org/
+      7          
+      8            LZMA SDK is licensed under two licenses:
+      9            1) GNU Lesser General Public License (GNU LGPL)
+     10            2) Common Public License (CPL)
+     11            It means that you can select one of these two licenses and 
+     12            follow rules of that license.
+     13          
+     14            SPECIAL EXCEPTION:
+     15            Igor Pavlov, as the author of this Code, expressly permits you to 
+     16            statically or dynamically link your Code (or bind by name) to the 
+     17            interfaces of this file without subjecting your linked Code to the 
+     18            terms of the CPL or GNU LGPL. Any modifications or additions 
+     19            to this file, however, are subject to the LGPL or CPL terms.
+     20          */
+     21          
+     22          #include "LzmaDecode.h"
+     23          
+     24          #define kNumTopBits 24
+     25          #define kTopValue ((UInt32)1 << kNumTopBits)
+     26          
+     27          #define kNumBitModelTotalBits 11
+     28          #define kBitModelTotal (1 << kNumBitModelTotalBits)
+     29          #define kNumMoveBits 5
+     30          
+     31          #define RC_READ_BYTE (*Buffer++)
+     32          
+     33          #define RC_INIT2 Code = 0; Range = 0xFFFFFFFF; \
+     34            { int i; for(i = 0; i < 5; i++) { RC_TEST; Code = (Code << 8) | RC_READ_BYTE; }}
+     35          
+     36          #ifdef _LZMA_IN_CB
+     37          
+     38          #define RC_TEST { if (Buffer == BufferLim) \
+     39            { SizeT size; int result = InCallback->Read(InCallback, &Buffer, &size); if (result != LZMA_RESULT_OK) return result; \
+     40            BufferLim = Buffer + size; if (size == 0) return LZMA_RESULT_DATA_ERROR; }}
+     41          
+     42          #define RC_INIT Buffer = BufferLim = 0; RC_INIT2
+     43          
+     44          #else
+     45          
+     46          #define RC_TEST { if (Buffer == BufferLim) return LZMA_RESULT_DATA_ERROR; }
+     47          
+     48          #define RC_INIT(buffer, bufferSize) Buffer = buffer; BufferLim = buffer + bufferSize; RC_INIT2
+     49           
+     50          #endif
+     51          
+     52          #define RC_NORMALIZE if (Range < kTopValue) { RC_TEST; Range <<= 8; Code = (Code << 8) | RC_READ_BYTE; }
+     53          
+     54          #define IfBit0(p) RC_NORMALIZE; bound = (Range >> kNumBitModelTotalBits) * *(p); if (Code < bound)
+     55          #define UpdateBit0(p) Range = bound; *(p) += (kBitModelTotal - *(p)) >> kNumMoveBits;
+     56          #define UpdateBit1(p) Range -= bound; Code -= bound; *(p) -= (*(p)) >> kNumMoveBits;
+     57          
+     58          #define RC_GET_BIT2(p, mi, A0, A1) IfBit0(p) \
+     59            { UpdateBit0(p); mi <<= 1; A0; } else \
+     60            { UpdateBit1(p); mi = (mi + mi) + 1; A1; } 
+     61            
+     62          #define RC_GET_BIT(p, mi) RC_GET_BIT2(p, mi, ; , ;)               
+     63          
+     64          #define RangeDecoderBitTreeDecode(probs, numLevels, res) \
+     65            { int i = numLevels; res = 1; \
+     66            do { CProb *p = probs + res; RC_GET_BIT(p, res) } while(--i != 0); \
+     67            res -= (1 << numLevels); }
+     68          
+     69          
+     70          #define kNumPosBitsMax 4
+     71          #define kNumPosStatesMax (1 << kNumPosBitsMax)
+     72          
+     73          #define kLenNumLowBits 3
+     74          #define kLenNumLowSymbols (1 << kLenNumLowBits)
+     75          #define kLenNumMidBits 3
+     76          #define kLenNumMidSymbols (1 << kLenNumMidBits)
+     77          #define kLenNumHighBits 8
+     78          #define kLenNumHighSymbols (1 << kLenNumHighBits)
+     79          
+     80          #define LenChoice 0
+     81          #define LenChoice2 (LenChoice + 1)
+     82          #define LenLow (LenChoice2 + 1)
+     83          #define LenMid (LenLow + (kNumPosStatesMax << kLenNumLowBits))
+     84          #define LenHigh (LenMid + (kNumPosStatesMax << kLenNumMidBits))
+     85          #define kNumLenProbs (LenHigh + kLenNumHighSymbols) 
+     86          
+     87          
+     88          #define kNumStates 12
+     89          #define kNumLitStates 7
+     90          
+     91          #define kStartPosModelIndex 4
+     92          #define kEndPosModelIndex 14
+     93          #define kNumFullDistances (1 << (kEndPosModelIndex >> 1))
+     94          
+     95          #define kNumPosSlotBits 6
+     96          #define kNumLenToPosStates 4
+     97          
+     98          #define kNumAlignBits 4
+     99          #define kAlignTableSize (1 << kNumAlignBits)
+    100          
+    101          #define kMatchMinLen 2
+    102          
+    103          #define IsMatch 0
+    104          #define IsRep (IsMatch + (kNumStates << kNumPosBitsMax))
+    105          #define IsRepG0 (IsRep + kNumStates)
+    106          #define IsRepG1 (IsRepG0 + kNumStates)
+    107          #define IsRepG2 (IsRepG1 + kNumStates)
+    108          #define IsRep0Long (IsRepG2 + kNumStates)
+    109          #define PosSlot (IsRep0Long + (kNumStates << kNumPosBitsMax))
+    110          #define SpecPos (PosSlot + (kNumLenToPosStates << kNumPosSlotBits))
+    111          #define Align (SpecPos + kNumFullDistances - kEndPosModelIndex)
+    112          #define LenCoder (Align + kAlignTableSize)
+    113          #define RepLenCoder (LenCoder + kNumLenProbs)
+    114          #define Literal (RepLenCoder + kNumLenProbs)
+    115          
+    116          #if Literal != LZMA_BASE_SIZE
+    117          StopCompilingDueBUG
+    118          #endif
+    119          
+    120          int LzmaDecodeProperties(CLzmaProperties *propsRes, const unsigned char *propsData, int size)
+    121          {
+    122            unsigned char prop0;
+    123            if (size < LZMA_PROPERTIES_SIZE)
+    124              return LZMA_RESULT_DATA_ERROR;
+    125            prop0 = propsData[0];
+    126            if (prop0 >= (9 * 5 * 5))
+    127              return LZMA_RESULT_DATA_ERROR;
+    128            {
+    129              for (propsRes->pb = 0; prop0 >= (9 * 5); propsRes->pb++, prop0 -= (9 * 5));
+    130              for (propsRes->lp = 0; prop0 >= 9; propsRes->lp++, prop0 -= 9);
+    131              propsRes->lc = prop0;
+    132              /*
+    133              unsigned char remainder = (unsigned char)(prop0 / 9);
+    134              propsRes->lc = prop0 % 9;
+    135              propsRes->pb = remainder / 5;
+    136              propsRes->lp = remainder % 5;
+    137              */
+    138            }
+    139          
+    140            #ifdef _LZMA_OUT_READ
+    141            {
+    142              int i;
+    143              propsRes->DictionarySize = 0;
+    144              for (i = 0; i < 4; i++)
+    145                propsRes->DictionarySize += (UInt32)(propsData[1 + i]) << (i * 8);
+    146              if (propsRes->DictionarySize == 0)
+    147                propsRes->DictionarySize = 1;
+    148            }
+    149            #endif
+    150            return LZMA_RESULT_OK;
+    151          }
+    152          
+    153          #define kLzmaStreamWasFinishedId (-1)
+    154          
+    155          int LzmaDecode(CLzmaDecoderState *vs,
+    156              #ifdef _LZMA_IN_CB
+    157              ILzmaInCallback *InCallback,
+    158              #else
+    159              const unsigned char *inStream, SizeT inSize, SizeT *inSizeProcessed,
+    160              #endif
+    161              unsigned char *outStream, SizeT outSize, SizeT *outSizeProcessed)
+    162          {
+    163            CProb *p = vs->Probs;
+    164            SizeT nowPos = 0;
+    165            Byte previousByte = 0;
+    166            UInt32 posStateMask = (1 << (vs->Properties.pb)) - 1;
+    167            UInt32 literalPosMask = (1 << (vs->Properties.lp)) - 1;
+    168            int lc = vs->Properties.lc;
+    169          
+    170            #ifdef _LZMA_OUT_READ
+    171            
+    172            UInt32 Range = vs->Range;
+    173            UInt32 Code = vs->Code;
+    174            #ifdef _LZMA_IN_CB
+    175            const Byte *Buffer = vs->Buffer;
+    176            const Byte *BufferLim = vs->BufferLim;
+    177            #else
+    178            const Byte *Buffer = inStream;
+    179            const Byte *BufferLim = inStream + inSize;
+    180            #endif
+    181            int state = vs->State;
+    182            UInt32 rep0 = vs->Reps[0], rep1 = vs->Reps[1], rep2 = vs->Reps[2], rep3 = vs->Reps[3];
+    183            int len = vs->RemainLen;
+    184            UInt32 globalPos = vs->GlobalPos;
+    185            UInt32 distanceLimit = vs->DistanceLimit;
+    186          
+    187            Byte *dictionary = vs->Dictionary;
+    188            UInt32 dictionarySize = vs->Properties.DictionarySize;
+    189            UInt32 dictionaryPos = vs->DictionaryPos;
+    190          
+    191            Byte tempDictionary[4];
+    192          
+    193            #ifndef _LZMA_IN_CB
+    194            *inSizeProcessed = 0;
+    195            #endif
+    196            *outSizeProcessed = 0;
+    197            if (len == kLzmaStreamWasFinishedId)
+    198              return LZMA_RESULT_OK;
+    199          
+    200            if (dictionarySize == 0)
+    201            {
+    202              dictionary = tempDictionary;
+    203              dictionarySize = 1;
+    204              tempDictionary[0] = vs->TempDictionary[0];
+    205            }
+    206          
+    207            if (len == kLzmaNeedInitId)
+    208            {
+    209              {
+    210                UInt32 numProbs = Literal + ((UInt32)LZMA_LIT_SIZE << (lc + vs->Properties.lp));
+    211                UInt32 i;
+    212                for (i = 0; i < numProbs; i++)
+    213                  p[i] = kBitModelTotal >> 1; 
+    214                rep0 = rep1 = rep2 = rep3 = 1;
+    215                state = 0;
+    216                globalPos = 0;
+    217                distanceLimit = 0;
+    218                dictionaryPos = 0;
+    219                dictionary[dictionarySize - 1] = 0;
+    220                #ifdef _LZMA_IN_CB
+    221                RC_INIT;
+    222                #else
+    223                RC_INIT(inStream, inSize);
+    224                #endif
+    225              }
+    226              len = 0;
+    227            }
+    228            while(len != 0 && nowPos < outSize)
+    229            {
+    230              UInt32 pos = dictionaryPos - rep0;
+    231              if (pos >= dictionarySize)
+    232                pos += dictionarySize;
+    233              outStream[nowPos++] = dictionary[dictionaryPos] = dictionary[pos];
+    234              if (++dictionaryPos == dictionarySize)
+    235                dictionaryPos = 0;
+    236              len--;
+    237            }
+    238            if (dictionaryPos == 0)
+    239              previousByte = dictionary[dictionarySize - 1];
+    240            else
+    241              previousByte = dictionary[dictionaryPos - 1];
+    242          
+    243            #else /* if !_LZMA_OUT_READ */
+    244          
+    245            int state = 0;
+    246            UInt32 rep0 = 1, rep1 = 1, rep2 = 1, rep3 = 1;
+    247            int len = 0;
+    248            const Byte *Buffer;
+    249            const Byte *BufferLim;
+    250            UInt32 Range;
+    251            UInt32 Code;
+    252          
+    253            #ifndef _LZMA_IN_CB
+    254            *inSizeProcessed = 0;
+    255            #endif
+    256            *outSizeProcessed = 0;
+    257          
+    258            {
+    259              UInt32 i;
+    260              UInt32 numProbs = Literal + ((UInt32)LZMA_LIT_SIZE << (lc + vs->Properties.lp));
+    261              for (i = 0; i < numProbs; i++)
+    262                p[i] = kBitModelTotal >> 1;
+    263            }
+    264            
+    265            #ifdef _LZMA_IN_CB
+    266            RC_INIT;
+    267            #else
+    268            RC_INIT(inStream, inSize);
+    269            #endif
+    270          
+    271            #endif /* _LZMA_OUT_READ */
+    272          
+    273            while(nowPos < outSize)
+    274            {
+    275              CProb *prob;
+    276              UInt32 bound;
+    277              int posState = (int)(
+    278                  (nowPos 
+    279                  #ifdef _LZMA_OUT_READ
+    280                  + globalPos
+    281                  #endif
+    282                  )
+    283                  & posStateMask);
+    284          
+    285              prob = p + IsMatch + (state << kNumPosBitsMax) + posState;
+    286              IfBit0(prob)
+    287              {
+    288                int symbol = 1;
+    289                UpdateBit0(prob)
+    290                prob = p + Literal + (LZMA_LIT_SIZE * 
+    291                  (((
+    292                  (nowPos 
+    293                  #ifdef _LZMA_OUT_READ
+    294                  + globalPos
+    295                  #endif
+    296                  )
+    297                  & literalPosMask) << lc) + (previousByte >> (8 - lc))));
+    298          
+    299                if (state >= kNumLitStates)
+    300                {
+    301                  int matchByte;
+    302                  #ifdef _LZMA_OUT_READ
+    303                  UInt32 pos = dictionaryPos - rep0;
+    304                  if (pos >= dictionarySize)
+    305                    pos += dictionarySize;
+    306                  matchByte = dictionary[pos];
+    307                  #else
+    308                  matchByte = outStream[nowPos - rep0];
+    309                  #endif
+    310                  do
+    311                  {
+    312                    int bit;
+    313                    CProb *probLit;
+    314                    matchByte <<= 1;
+    315                    bit = (matchByte & 0x100);
+    316                    probLit = prob + 0x100 + bit + symbol;
+    317                    RC_GET_BIT2(probLit, symbol, if (bit != 0) break, if (bit == 0) break)
+    318                  }
+    319                  while (symbol < 0x100);
+    320                }
+    321                while (symbol < 0x100)
+    322                {
+    323                  CProb *probLit = prob + symbol;
+    324                  RC_GET_BIT(probLit, symbol)
+    325                }
+    326                previousByte = (Byte)symbol;
+    327          
+    328                outStream[nowPos++] = previousByte;
+    329                #ifdef _LZMA_OUT_READ
+    330                if (distanceLimit < dictionarySize)
+    331                  distanceLimit++;
+    332          
+    333                dictionary[dictionaryPos] = previousByte;
+    334                if (++dictionaryPos == dictionarySize)
+    335                  dictionaryPos = 0;
+    336                #endif
+    337                if (state < 4) state = 0;
+    338                else if (state < 10) state -= 3;
+    339                else state -= 6;
+    340              }
+    341              else             
+    342              {
+    343                UpdateBit1(prob);
+    344                prob = p + IsRep + state;
+    345                IfBit0(prob)
+    346                {
+    347                  UpdateBit0(prob);
+    348                  rep3 = rep2;
+    349                  rep2 = rep1;
+    350                  rep1 = rep0;
+    351                  state = state < kNumLitStates ? 0 : 3;
+    352                  prob = p + LenCoder;
+    353                }
+    354                else
+    355                {
+    356                  UpdateBit1(prob);
+    357                  prob = p + IsRepG0 + state;
+    358                  IfBit0(prob)
+    359                  {
+    360                    UpdateBit0(prob);
+    361                    prob = p + IsRep0Long + (state << kNumPosBitsMax) + posState;
+    362                    IfBit0(prob)
+    363                    {
+    364                      #ifdef _LZMA_OUT_READ
+    365                      UInt32 pos;
+    366                      #endif
+    367                      UpdateBit0(prob);
+    368                      
+    369                      #ifdef _LZMA_OUT_READ
+    370                      if (distanceLimit == 0)
+    371                      #else
+    372                      if (nowPos == 0)
+    373                      #endif
+    374                        return LZMA_RESULT_DATA_ERROR;
+    375                      
+    376                      state = state < kNumLitStates ? 9 : 11;
+    377                      #ifdef _LZMA_OUT_READ
+    378                      pos = dictionaryPos - rep0;
+    379                      if (pos >= dictionarySize)
+    380                        pos += dictionarySize;
+    381                      previousByte = dictionary[pos];
+    382                      dictionary[dictionaryPos] = previousByte;
+    383                      if (++dictionaryPos == dictionarySize)
+    384                        dictionaryPos = 0;
+    385                      #else
+    386                      previousByte = outStream[nowPos - rep0];
+    387                      #endif
+    388                      outStream[nowPos++] = previousByte;
+    389                      #ifdef _LZMA_OUT_READ
+    390                      if (distanceLimit < dictionarySize)
+    391                        distanceLimit++;
+    392                      #endif
+    393          
+    394                      continue;
+    395                    }
+    396                    else
+    397                    {
+    398                      UpdateBit1(prob);
+    399                    }
+    400                  }
+    401                  else
+    402                  {
+    403                    UInt32 distance;
+    404                    UpdateBit1(prob);
+    405                    prob = p + IsRepG1 + state;
+    406                    IfBit0(prob)
+    407                    {
+    408                      UpdateBit0(prob);
+    409                      distance = rep1;
+    410                    }
+    411                    else 
+    412                    {
+    413                      UpdateBit1(prob);
+    414                      prob = p + IsRepG2 + state;
+    415                      IfBit0(prob)
+    416                      {
+    417                        UpdateBit0(prob);
+    418                        distance = rep2;
+    419                      }
+    420                      else
+    421                      {
+    422                        UpdateBit1(prob);
+    423                        distance = rep3;
+    424                        rep3 = rep2;
+    425                      }
+    426                      rep2 = rep1;
+    427                    }
+    428                    rep1 = rep0;
+    429                    rep0 = distance;
+    430                  }
+    431                  state = state < kNumLitStates ? 8 : 11;
+    432                  prob = p + RepLenCoder;
+    433                }
+    434                {
+    435                  int numBits, offset;
+    436                  CProb *probLen = prob + LenChoice;
+    437                  IfBit0(probLen)
+    438                  {
+    439                    UpdateBit0(probLen);
+    440                    probLen = prob + LenLow + (posState << kLenNumLowBits);
+    441                    offset = 0;
+    442                    numBits = kLenNumLowBits;
+    443                  }
+    444                  else
+    445                  {
+    446                    UpdateBit1(probLen);
+    447                    probLen = prob + LenChoice2;
+    448                    IfBit0(probLen)
+    449                    {
+    450                      UpdateBit0(probLen);
+    451                      probLen = prob + LenMid + (posState << kLenNumMidBits);
+    452                      offset = kLenNumLowSymbols;
+    453                      numBits = kLenNumMidBits;
+    454                    }
+    455                    else
+    456                    {
+    457                      UpdateBit1(probLen);
+    458                      probLen = prob + LenHigh;
+    459                      offset = kLenNumLowSymbols + kLenNumMidSymbols;
+    460                      numBits = kLenNumHighBits;
+    461                    }
+    462                  }
+    463                  RangeDecoderBitTreeDecode(probLen, numBits, len);
+    464                  len += offset;
+    465                }
+    466          
+    467                if (state < 4)
+    468                {
+    469                  int posSlot;
+    470                  state += kNumLitStates;
+    471                  prob = p + PosSlot +
+    472                      ((len < kNumLenToPosStates ? len : kNumLenToPosStates - 1) << 
+    473                      kNumPosSlotBits);
+    474                  RangeDecoderBitTreeDecode(prob, kNumPosSlotBits, posSlot);
+    475                  if (posSlot >= kStartPosModelIndex)
+    476                  {
+    477                    int numDirectBits = ((posSlot >> 1) - 1);
+    478                    rep0 = (2 | ((UInt32)posSlot & 1));
+    479                    if (posSlot < kEndPosModelIndex)
+    480                    {
+    481                      rep0 <<= numDirectBits;
+    482                      prob = p + SpecPos + rep0 - posSlot - 1;
+    483                    }
+    484                    else
+    485                    {
+    486                      numDirectBits -= kNumAlignBits;
+    487                      do
+    488                      {
+    489                        RC_NORMALIZE
+    490                        Range >>= 1;
+    491                        rep0 <<= 1;
+    492                        if (Code >= Range)
+    493                        {
+    494                          Code -= Range;
+    495                          rep0 |= 1;
+    496                        }
+    497                      }
+    498                      while (--numDirectBits != 0);
+    499                      prob = p + Align;
+    500                      rep0 <<= kNumAlignBits;
+    501                      numDirectBits = kNumAlignBits;
+    502                    }
+    503                    {
+    504                      int i = 1;
+    505                      int mi = 1;
+    506                      do
+    507                      {
+    508                        CProb *prob3 = prob + mi;
+    509                        RC_GET_BIT2(prob3, mi, ; , rep0 |= i);
+    510                        i <<= 1;
+    511                      }
+    512                      while(--numDirectBits != 0);
+    513                    }
+    514                  }
+    515                  else
+    516                    rep0 = posSlot;
+    517                  if (++rep0 == (UInt32)(0))
+    518                  {
+    519                    /* it's for stream version */
+    520                    len = kLzmaStreamWasFinishedId;
+    521                    break;
+    522                  }
+    523                }
+    524          
+    525                len += kMatchMinLen;
+    526                #ifdef _LZMA_OUT_READ
+    527                if (rep0 > distanceLimit) 
+    528                #else
+    529                if (rep0 > nowPos)
+    530                #endif
+    531                  return LZMA_RESULT_DATA_ERROR;
+    532          
+    533                #ifdef _LZMA_OUT_READ
+    534                if (dictionarySize - distanceLimit > (UInt32)len)
+    535                  distanceLimit += len;
+    536                else
+    537                  distanceLimit = dictionarySize;
+    538                #endif
+    539          
+    540                do
+    541                {
+    542                  #ifdef _LZMA_OUT_READ
+    543                  UInt32 pos = dictionaryPos - rep0;
+    544                  if (pos >= dictionarySize)
+    545                    pos += dictionarySize;
+    546                  previousByte = dictionary[pos];
+    547                  dictionary[dictionaryPos] = previousByte;
+    548                  if (++dictionaryPos == dictionarySize)
+    549                    dictionaryPos = 0;
+    550                  #else
+    551                  previousByte = outStream[nowPos - rep0];
+    552                  #endif
+    553                  len--;
+    554                  outStream[nowPos++] = previousByte;
+    555                }
+    556                while(len != 0 && nowPos < outSize);
+    557              }
+    558            }
+    559            RC_NORMALIZE;
+    560          
+    561            #ifdef _LZMA_OUT_READ
+    562            vs->Range = Range;
+    563            vs->Code = Code;
+    564            vs->DictionaryPos = dictionaryPos;
+    565            vs->GlobalPos = globalPos + (UInt32)nowPos;
+    566            vs->DistanceLimit = distanceLimit;
+    567            vs->Reps[0] = rep0;
+    568            vs->Reps[1] = rep1;
+    569            vs->Reps[2] = rep2;
+    570            vs->Reps[3] = rep3;
+    571            vs->State = state;
+    572            vs->RemainLen = len;
+    573            vs->TempDictionary[0] = tempDictionary[0];
+    574            #endif
+    575          
+    576            #ifdef _LZMA_IN_CB
+    577            vs->Buffer = Buffer;
+    578            vs->BufferLim = BufferLim;
+    579            #else
+    580            *inSizeProcessed = (SizeT)(Buffer - inStream);
+    581            #endif
+    582            *outSizeProcessed = nowPos;
+    583            return LZMA_RESULT_OK;
+    584          }
+
+   Maximum stack usage in bytes:
+
+     Function             CSTACK
+     --------             ------
+     LzmaDecode              88
+     LzmaDecodeProperties     4
+
+
+   Segment part sizes:
+
+     Function/Label       Bytes
+     --------------       -----
+     LzmaDecodeProperties   68
+     LzmaDecode           1840
+      Others                16
+
+ 
+ 1 924 bytes in segment CODE
+ 
+ 1 908 bytes of CODE memory (+ 16 bytes shared)
+
+Errors: none
+Warnings: none

@@ -1,0 +1,641 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:41:42 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\pngread #
+#                       .c                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\pngread #
+#                       .c -D NDEBUG -D OLDFUNCTIONS -lCN                    #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\Gps #
+#                       MAP\Release\List\ -o Z:\home\perk11\www\perk11.info\ #
+#                       svn\SE\GpsMAP\Release\Obj\ -s9 --no_unroll           #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\pngread.lst                                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \Obj\pngread.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\pngread.c
+      1          #define USEPNG
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "..\\include\Dir.h"
+      4          #include "map_object.h"
+      5          #include "pngread.h"
+      6          
+      7          
+      8          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      9          void* xmalloc(int x,int n)
+     10          {
+   \                     ??xmalloc:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+     11            return malloc(n);
+   \   00000008   030100EF           SWI      +259
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+     12          }
+     13          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     14          void xmfree(int x,void* ptr)
+     15          {
+   \                     ??xmfree:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+     16            mfree(ptr);
+   \   00000008   040100EF           SWI      +260
+     17          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+     18          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     19          void info_callback(png_structp png_ptr, png_infop info)
+     20          {
+   \                     ??info_callback:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+     21            int bit_depth, color_type, row_bytes;
+     22            PNG_CONVERT *usr_png=(PNG_CONVERT *)png_get_progressive_ptr(png_ptr);
+   \   00000010   6C0200EF           SWI      +620
+   \   00000014   0060A0E1           MOV      R6,R0
+     23            
+     24            
+     25            png_get_IHDR(png_ptr, info, &(usr_png->width), &(usr_png->height), &bit_depth, &color_type, 0, 0, 0);
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   103086E2           ADD      R3,R6,#+16
+   \   0000002C   0C2086E2           ADD      R2,R6,#+12
+   \   00000030   0510A0E1           MOV      R1,R5
+   \   00000034   0C008DE2           ADD      R0,SP,#+12
+   \   00000038   01002DE9           PUSH     {R0}
+   \   0000003C   14008DE2           ADD      R0,SP,#+20
+   \   00000040   01002DE9           PUSH     {R0}
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   6D0200EF           SWI      +621
+     26            if (bit_depth < 8) png_set_gray_1_2_4_to_8(png_ptr);
+   \   0000004C   18009DE5           LDR      R0,[SP, #+24]
+   \   00000050   14D08DE2           ADD      SP,SP,#+20
+   \   00000054   080050E3           CMP      R0,#+8
+   \   00000058   010000AA           BGE      ??info_callback_1
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   6F0200EF           SWI      +623
+     27            if (png_get_valid(png_ptr, info, PNG_INFO_tRNS))
+   \                     ??info_callback_1:
+   \   00000064   1020A0E3           MOV      R2,#+16
+   \   00000068   0510A0E1           MOV      R1,R5
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   710200EF           SWI      +625
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0100000A           BEQ      ??info_callback_2
+     28              png_set_tRNS_to_alpha(png_ptr);
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   720200EF           SWI      +626
+     29            if (bit_depth == 16) png_set_strip_16(png_ptr);
+   \                     ??info_callback_2:
+   \   00000084   04009DE5           LDR      R0,[SP, #+4]
+   \   00000088   100050E3           CMP      R0,#+16
+   \   0000008C   0100001A           BNE      ??info_callback_3
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   6E0200EF           SWI      +622
+     30            //if (bit_depth < 8) png_set_packing(png_ptr);
+     31            if (color_type == PNG_COLOR_TYPE_PALETTE)
+   \                     ??info_callback_3:
+   \   00000098   00009DE5           LDR      R0,[SP, #+0]
+   \   0000009C   030050E3           CMP      R0,#+3
+   \   000000A0   0100001A           BNE      ??info_callback_4
+     32              png_set_palette_to_rgb(png_ptr);
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   740200EF           SWI      +628
+     33            if (color_type == PNG_COLOR_TYPE_GRAY_ALPHA || color_type == PNG_COLOR_TYPE_GRAY)
+   \                     ??info_callback_4:
+   \   000000AC   00009DE5           LDR      R0,[SP, #+0]
+   \   000000B0   040050E3           CMP      R0,#+4
+   \   000000B4   00005013           CMPNE    R0,#+0
+   \   000000B8   0100001A           BNE      ??info_callback_5
+     34              png_set_gray_to_rgb(png_ptr);
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   700200EF           SWI      +624
+     35            png_set_filler(png_ptr,0xFF,PNG_FILLER_AFTER);
+   \                     ??info_callback_5:
+   \   000000C4   0120A0E3           MOV      R2,#+1
+   \   000000C8   FF10A0E3           MOV      R1,#+255
+   \   000000CC   0400A0E1           MOV      R0,R4
+   \   000000D0   730200EF           SWI      +627
+     36            png_read_update_info(png_ptr, info);
+   \   000000D4   0510A0E1           MOV      R1,R5
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   6B0200EF           SWI      +619
+     37            row_bytes=png_get_rowbytes(png_ptr, info);
+   \   000000E0   0510A0E1           MOV      R1,R5
+   \   000000E4   0400A0E1           MOV      R0,R4
+   \   000000E8   750200EF           SWI      +629
+     38            usr_png->bytes_in_row=(row_bytes+3)&~3;
+   \   000000EC   030080E2           ADD      R0,R0,#+3
+   \   000000F0   0300C0E3           BIC      R0,R0,#0x3
+   \   000000F4   140086E5           STR      R0,[R6, #+20]
+     39            usr_png->row_pointer=new png_byte[usr_png->bytes_in_row];
+   \   000000F8   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000FC   180086E5           STR      R0,[R6, #+24]
+     40            usr_png->image=new char[usr_png->width*usr_png->height];
+   \   00000100   0C0096E5           LDR      R0,[R6, #+12]
+   \   00000104   101096E5           LDR      R1,[R6, #+16]
+   \   00000108   910000E0           MUL      R0,R1,R0
+   \   0000010C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000110   240086E5           STR      R0,[R6, #+36]
+     41            memset((void *)usr_png->image,0,usr_png->width*usr_png->height*sizeof(char));
+   \   00000114   0C0096E5           LDR      R0,[R6, #+12]
+   \   00000118   101096E5           LDR      R1,[R6, #+16]
+   \   0000011C   910002E0           MUL      R2,R1,R0
+   \   00000120   240096E5           LDR      R0,[R6, #+36]
+   \   00000124   0010A0E3           MOV      R1,#+0
+   \   00000128   120100EF           SWI      +274
+     42          }
+   \   0000012C   7380BDE8           POP      {R0,R1,R4-R6,PC}  ;; return
+     43          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          void row_callback(png_structp png_ptr, png_bytep new_row,
+     45                            png_uint_32 row_num, int pass)
+     46          {
+   \                     ??row_callback:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+   \   0000000C   0270A0E1           MOV      R7,R2
+     47            PNG_CONVERT *usr_png=(PNG_CONVERT *)png_get_progressive_ptr(png_ptr);
+   \   00000010   6C0200EF           SWI      +620
+   \   00000014   0040A0E1           MOV      R4,R0
+     48            if (row_num>usr_png->height) return;
+   \   00000018   100094E5           LDR      R0,[R4, #+16]
+   \   0000001C   070050E1           CMP      R0,R7
+   \   00000020   F080BD38           POPCC    {R4-R7,PC}
+     49            png_progressive_combine_row(png_ptr,usr_png->row_pointer,new_row);
+   \   00000024   181094E5           LDR      R1,[R4, #+24]
+   \   00000028   0620A0E1           MOV      R2,R6
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   760200EF           SWI      +630
+     50            char *image=usr_png->image+usr_png->width*row_num;
+   \   00000034   0C2094E5           LDR      R2,[R4, #+12]
+   \   00000038   240094E5           LDR      R0,[R4, #+36]
+     51            for (int i=0; i<usr_png->width; i++)
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   970220E0           MLA      R0,R7,R2,R0
+   \   00000044   000052E3           CMP      R2,#+0
+   \   00000048   1C60A0E3           MOV      R6,#+28
+   \   0000004C   0300001A           BNE      ??row_callback_1
+   \   00000050   F080BDE8           POP      {R4-R7,PC}       ;; return
+     52            {
+     53              if (usr_png->row_pointer[i*4+3])
+     54              {
+     55                unsigned int color1=usr_png->row_pointer[i*4+0] &0xE0;
+     56                color1|=((usr_png->row_pointer[i*4+1]>>3)&0x1C);
+     57                color1|=((usr_png->row_pointer[i*4+2]>>6)&3);
+     58                image[i]=color1;
+     59              }
+     60              else
+     61              {
+     62                image[i]=0xFF;
+   \                     ??row_callback_2:
+   \   00000054   FF20A0E3           MOV      R2,#+255
+   \                     ??row_callback_3:
+   \   00000058   0020C1E7           STRB     R2,[R1, +R0]
+     63              }
+   \   0000005C   011081E2           ADD      R1,R1,#+1
+   \                     ??row_callback_1:
+   \   00000060   0C2094E5           LDR      R2,[R4, #+12]
+   \   00000064   020051E1           CMP      R1,R2
+   \   00000068   F080BD28           POPCS    {R4-R7,PC}
+   \   0000006C   182094E5           LDR      R2,[R4, #+24]
+   \   00000070   012182E0           ADD      R2,R2,R1, LSL #+2
+   \   00000074   0320D2E5           LDRB     R2,[R2, #+3]
+   \   00000078   000052E3           CMP      R2,#+0
+   \   0000007C   F4FFFF0A           BEQ      ??row_callback_2
+   \   00000080   182094E5           LDR      R2,[R4, #+24]
+   \   00000084   012182E0           ADD      R2,R2,R1, LSL #+2
+   \   00000088   0030D2E5           LDRB     R3,[R2, #+0]
+   \   0000008C   0150D2E5           LDRB     R5,[R2, #+1]
+   \   00000090   0220D2E5           LDRB     R2,[R2, #+2]
+   \   00000094   E03003E2           AND      R3,R3,#0xE0
+   \   00000098   A55106E0           AND      R5,R6,R5, LSR #+3
+   \   0000009C   033085E1           ORR      R3,R5,R3
+   \   000000A0   222383E1           ORR      R2,R3,R2, LSR #+6
+   \   000000A4   EBFFFFEA           B        ??row_callback_3
+     64            }
+     65          }
+     66          
+     67          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     68          void end_callback(png_structp png_ptr, png_infop info)
+     69          {
+   \                     ??end_callback:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     70            PNG_LIST *png_list;
+     71            PNG_CONVERT *usr_png=(PNG_CONVERT *)png_get_progressive_ptr(png_ptr);
+   \   00000004   6C0200EF           SWI      +620
+   \   00000008   0040A0E1           MOV      R4,R0
+     72            delete usr_png->row_pointer;
+   \   0000000C   180094E5           LDR      R0,[R4, #+24]
+     73            usr_png->row_pointer=NULL;
+   \   00000010   0050A0E3           MOV      R5,#+0
+   \   00000014   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000018   185084E5           STR      R5,[R4, #+24]
+     74            png_list=new PNG_LIST;
+   \   0000001C   1400A0E3           MOV      R0,#+20
+   \   00000020   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000024   0010A0E1           MOV      R1,R0
+     75            png_list->index_x=usr_png->index_x;
+   \   00000028   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000002C   000081E5           STR      R0,[R1, #+0]
+     76            png_list->index_y=usr_png->index_y;
+   \   00000030   200094E5           LDR      R0,[R4, #+32]
+   \   00000034   040081E5           STR      R0,[R1, #+4]
+     77            png_list->width=usr_png->width;
+   \   00000038   0C0094E5           LDR      R0,[R4, #+12]
+   \   0000003C   080081E5           STR      R0,[R1, #+8]
+     78            png_list->height=usr_png->height;
+   \   00000040   100094E5           LDR      R0,[R4, #+16]
+   \   00000044   0C0081E5           STR      R0,[R1, #+12]
+     79            png_list->image=usr_png->image;
+   \   00000048   240094E5           LDR      R0,[R4, #+36]
+   \   0000004C   100081E5           STR      R0,[R1, #+16]
+     80            usr_png->image=NULL;
+   \   00000050   245084E5           STR      R5,[R4, #+36]
+     81            List_InsertFirst(usr_png->png_files,png_list);
+   \   00000054   000094E5           LDR      R0,[R4, #+0]
+   \   00000058   6B0100EF           SWI      +363
+     82          }
+   \   0000005C   3080BDE8           POP      {R4,R5,PC}       ;; return
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          PNG_CONVERT *InitPng(LIST *pnglist, int index_x, int index_y)
+     85          { 
+   \                     ??InitPng:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+     86            PNG_CONVERT *usr_png=new PNG_CONVERT;
+   \   00000010   2800A0E3           MOV      R0,#+40
+   \   00000014   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000018   0070A0E1           MOV      R7,R0
+     87            usr_png->png_ptr = png_create_read_struct_2("1.2.5",0,0,0,0,(png_malloc_ptr)xmalloc,(png_free_ptr)xmfree);
+   \   0000001C   A8009FE5           LDR      R0,??InitPng_1   ;; ??xmfree
+   \   00000020   0030A0E3           MOV      R3,#+0
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   A0009FE5           LDR      R0,??InitPng_1+0x4  ;; ??xmalloc
+   \   0000002C   01002DE9           PUSH     {R0}
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   0020A0E1           MOV      R2,R0
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   8C009FE5           LDR      R0,??InitPng_1+0x8  ;; `?<Constant "1.2.5">`
+   \   00000044   650200EF           SWI      +613
+   \   00000048   040087E5           STR      R0,[R7, #+4]
+     88            usr_png->info_ptr = png_create_info_struct(usr_png->png_ptr);
+   \   0000004C   670200EF           SWI      +615
+   \   00000050   080087E5           STR      R0,[R7, #+8]
+     89            if (!usr_png->info_ptr)
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   0CD08DE2           ADD      SP,SP,#+12
+   \   0000005C   0700001A           BNE      ??InitPng_2
+     90            {
+     91              png_destroy_read_struct(&(usr_png->png_ptr), (png_infopp)NULL,(png_infopp)NULL);
+   \   00000060   0020A0E3           MOV      R2,#+0
+   \   00000064   0010A0E3           MOV      R1,#+0
+   \   00000068   040087E2           ADD      R0,R7,#+4
+   \   0000006C   660200EF           SWI      +614
+     92              delete usr_png;
+   \   00000070   0700A0E1           MOV      R0,R7
+   \   00000074   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     93              return 0;
+   \   00000078   0000A0E3           MOV      R0,#+0
+   \   0000007C   F080BDE8           POP      {R4-R7,PC}
+     94            }
+     95            usr_png->width=0;
+     96            usr_png->height=0;
+     97            usr_png->bytes_in_row=0;
+     98            usr_png->row_pointer=NULL;
+     99            usr_png->image=NULL;
+    100            usr_png->index_x=index_x;
+    101            usr_png->index_y=index_y;
+    102            usr_png->png_files=pnglist;
+    103            
+    104            png_set_progressive_read_fn(usr_png->png_ptr, (void *)usr_png,
+    105                                        info_callback, row_callback, end_callback);
+   \                     ??InitPng_2:
+   \   00000080   50309FE5           LDR      R3,??InitPng_1+0xC  ;; ??row_callback
+   \   00000084   50209FE5           LDR      R2,??InitPng_1+0x10  ;; ??info_callback
+   \   00000088   0000A0E3           MOV      R0,#+0
+   \   0000008C   0C0087E5           STR      R0,[R7, #+12]
+   \   00000090   100087E5           STR      R0,[R7, #+16]
+   \   00000094   140087E5           STR      R0,[R7, #+20]
+   \   00000098   180087E5           STR      R0,[R7, #+24]
+   \   0000009C   240087E5           STR      R0,[R7, #+36]
+   \   000000A0   38009FE5           LDR      R0,??InitPng_1+0x14  ;; ??end_callback
+   \   000000A4   1C5087E5           STR      R5,[R7, #+28]
+   \   000000A8   206087E5           STR      R6,[R7, #+32]
+   \   000000AC   004087E5           STR      R4,[R7, #+0]
+   \   000000B0   01002DE9           PUSH     {R0}
+   \   000000B4   040097E5           LDR      R0,[R7, #+4]
+   \   000000B8   0710A0E1           MOV      R1,R7
+   \   000000BC   690200EF           SWI      +617
+    106            return usr_png;
+   \   000000C0   0700A0E1           MOV      R0,R7
+   \   000000C4   04D08DE2           ADD      SP,SP,#+4
+   \   000000C8   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??InitPng_1:
+   \   000000CC   ........           DC32     ??xmfree
+   \   000000D0   ........           DC32     ??xmalloc
+   \   000000D4   ........           DC32     `?<Constant "1.2.5">`
+   \   000000D8   ........           DC32     ??row_callback
+   \   000000DC   ........           DC32     ??info_callback
+   \   000000E0   ........           DC32     ??end_callback
+    107          }
+    108          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    109          void RemovePngListElement(PNG_LIST *png_list)
+    110          {
+   \                     ??RemovePngListElement:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    111            delete png_list->image;
+   \   00000008   100094E5           LDR      R0,[R4, #+16]
+   \   0000000C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    112            delete png_list;
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000018   ........           _BF      `??operator delete`,`??operator delete??rA`  ;; tailcall
+    113          }
+    114          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    115          void Destr_Png(PNG_CONVERT *usr_png)
+    116          {
+   \                     ??Destr_Png:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    117            png_destroy_read_struct(&(usr_png->png_ptr), &(usr_png->info_ptr),(png_infopp)NULL);
+   \   00000004   0020A0E3           MOV      R2,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   081084E2           ADD      R1,R4,#+8
+   \   00000010   040084E2           ADD      R0,R4,#+4
+   \   00000014   660200EF           SWI      +614
+    118            delete usr_png->row_pointer;
+   \   00000018   180094E5           LDR      R0,[R4, #+24]
+   \   0000001C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    119            delete usr_png->image;
+   \   00000020   240094E5           LDR      R0,[R4, #+36]
+   \   00000024   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    120            delete usr_png;
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000030   ........           _BF      `??operator delete`,`??operator delete??rA`  ;; tailcall
+    121          }
+    122          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    123          void process_data(PNG_CONVERT *usr_png, char *buffer, unsigned int length)
+    124          {
+   \                     ??process_data:
+   \   00000000   00402DE9           PUSH     {LR}
+    125            png_process_data(usr_png->png_ptr, usr_png->info_ptr, (png_bytep)buffer, length);
+   \   00000004   0230A0E1           MOV      R3,R2
+   \   00000008   0120A0E1           MOV      R2,R1
+   \   0000000C   081090E5           LDR      R1,[R0, #+8]
+   \   00000010   040090E5           LDR      R0,[R0, #+4]
+   \   00000014   6A0200EF           SWI      +618
+    126          }
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+    127          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    128          unsigned int get_uint(const unsigned char *p)
+    129          {
+    130            return (((unsigned int)(*p)<<24)|((unsigned int)(*(p+1))<<16)|((unsigned int)(*(p+2))<<8)|(unsigned int)(*(p+3)));
+   \                     ??get_uint:
+   \   00000000   0010D0E5           LDRB     R1,[R0, #+0]
+   \   00000004   0120D0E5           LDRB     R2,[R0, #+1]
+   \   00000008   0228A0E1           LSL      R2,R2,#+16
+   \   0000000C   011C82E1           ORR      R1,R2,R1, LSL #+24
+   \   00000010   0220D0E5           LDRB     R2,[R0, #+2]
+   \   00000014   0300D0E5           LDRB     R0,[R0, #+3]
+   \   00000018   021481E1           ORR      R1,R1,R2, LSL #+8
+   \   0000001C   010080E1           ORR      R0,R0,R1
+   \   00000020   1EFF2FE1           BX       LR               ;; return
+    131          }
+    132          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    133          int get_png_info(const wchar_t *path, const wchar_t *name, int *width, int *height)
+    134          {
+   \                     ??get_png_info:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0350A0E1           MOV      R5,R3
+    135            int result=0;
+    136            int f; 
+    137            unsigned char tmp[128];
+    138            const char IHDR[]={ 73,  72,  68,  82, '\0'};
+   \   00000008   20319FE5           LDR      R3,??get_png_info_1  ;; `?<Constant {'I', 'H', 'D', 'R', '\\000'}>`
+   \   0000000C   88D04DE2           SUB      SP,SP,#+136
+   \   00000010   800193E8           LDM      R3,{R7,R8}
+   \   00000014   0240A0E1           MOV      R4,R2
+   \   00000018   0D20A0E1           MOV      R2,SP
+   \   0000001C   800182E8           STM      R2,{R7,R8}
+    139            unsigned int length;
+    140            if ((f=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,NULL))>=0)
+   \   00000020   0020A0E3           MOV      R2,#+0
+   \   00000024   04002DE9           PUSH     {R2}
+   \   00000028   0060A0E3           MOV      R6,#+0
+   \   0000002C   603FA0E3           MOV      R3,#+384
+   \   00000030   0120A0E3           MOV      R2,#+1
+   \   00000034   160100EF           SWI      +278
+   \   00000038   0070B0E1           MOVS     R7,R0
+   \   0000003C   04D08DE2           ADD      SP,SP,#+4
+   \   00000040   3700004A           BMI      ??get_png_info_2
+    141            {
+    142              if (fread(f,tmp,8)==8)
+   \   00000044   0820A0E3           MOV      R2,#+8
+   \   00000048   08108DE2           ADD      R1,SP,#+8
+   \   0000004C   180100EF           SWI      +280
+   \   00000050   080050E3           CMP      R0,#+8
+   \   00000054   3000001A           BNE      ??get_png_info_3
+    143              {
+    144                if (!png_sig_cmp((png_bytep)tmp,0,8))
+   \   00000058   0820A0E3           MOV      R2,#+8
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   08008DE2           ADD      R0,SP,#+8
+   \   00000064   770200EF           SWI      +631
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   2A00001A           BNE      ??get_png_info_3
+    145                {
+    146                  for(;;)
+    147                  {
+    148                    if (fread(f,tmp,4)!=4) break;
+   \                     ??get_png_info_4:
+   \   00000070   0420A0E3           MOV      R2,#+4
+   \   00000074   08108DE2           ADD      R1,SP,#+8
+   \   00000078   0700A0E1           MOV      R0,R7
+   \   0000007C   180100EF           SWI      +280
+   \   00000080   040050E3           CMP      R0,#+4
+   \   00000084   2400001A           BNE      ??get_png_info_3
+    149                    length=get_uint(tmp);
+   \   00000088   08008DE2           ADD      R0,SP,#+8
+   \   0000008C   ........           BL       ??get_uint
+   \   00000090   0080A0E1           MOV      R8,R0
+    150                    if (fread(f,tmp,4)!=4) break;
+   \   00000094   0420A0E3           MOV      R2,#+4
+   \   00000098   08108DE2           ADD      R1,SP,#+8
+   \   0000009C   0700A0E1           MOV      R0,R7
+   \   000000A0   180100EF           SWI      +280
+   \   000000A4   040050E3           CMP      R0,#+4
+   \   000000A8   1B00001A           BNE      ??get_png_info_3
+    151                    if (!memcmp(tmp,IHDR,4))
+   \   000000AC   0420A0E3           MOV      R2,#+4
+   \   000000B0   0D10A0E1           MOV      R1,SP
+   \   000000B4   08008DE2           ADD      R0,SP,#+8
+   \   000000B8   7D0200EF           SWI      +637
+   \   000000BC   000050E3           CMP      R0,#+0
+   \   000000C0   0E00001A           BNE      ??get_png_info_5
+    152                    {
+    153                      unsigned int _width, _height;
+    154                      fread(f,tmp,13);
+   \   000000C4   0D20A0E3           MOV      R2,#+13
+   \   000000C8   08108DE2           ADD      R1,SP,#+8
+   \   000000CC   0700A0E1           MOV      R0,R7
+   \   000000D0   180100EF           SWI      +280
+    155                      _width=get_uint(tmp);
+   \   000000D4   08008DE2           ADD      R0,SP,#+8
+   \   000000D8   ........           BL       ??get_uint
+   \   000000DC   0060A0E1           MOV      R6,R0
+    156                      _height=get_uint(tmp+4);
+   \   000000E0   0C008DE2           ADD      R0,SP,#+12
+   \   000000E4   ........           BL       ??get_uint
+    157                      if (width) *width=_width;
+   \   000000E8   000054E3           CMP      R4,#+0
+   \   000000EC   00608415           STRNE    R6,[R4, #+0]
+    158                      if (height) *height=_height;
+   \   000000F0   000055E3           CMP      R5,#+0
+   \   000000F4   00008515           STRNE    R0,[R5, #+0]
+    159                      result=1;
+   \   000000F8   0160A0E3           MOV      R6,#+1
+    160                      break;
+   \   000000FC   060000EA           B        ??get_png_info_3
+    161                    }
+    162                    else
+    163                    {
+    164                      if (lseek(f,length+4,1)!=(length+4)) break;
+   \                     ??get_png_info_5:
+   \   00000100   048088E2           ADD      R8,R8,#+4
+   \   00000104   0120A0E3           MOV      R2,#+1
+   \   00000108   0810A0E1           MOV      R1,R8
+   \   0000010C   0700A0E1           MOV      R0,R7
+   \   00000110   760100EF           SWI      +374
+   \   00000114   080050E1           CMP      R0,R8
+   \   00000118   D4FFFF0A           BEQ      ??get_png_info_4
+    165                    }
+    166                  }
+    167                }
+    168              }
+    169              fclose(f);
+   \                     ??get_png_info_3:
+   \   0000011C   0700A0E1           MOV      R0,R7
+   \   00000120   170100EF           SWI      +279
+    170            }
+    171            return (result);
+   \                     ??get_png_info_2:
+   \   00000124   0600A0E1           MOV      R0,R6
+   \   00000128   88D08DE2           ADD      SP,SP,#+136
+   \   0000012C   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??get_png_info_1:
+   \   00000130   ........           DC32     `?<Constant {'I', 'H', 'D', 'R', '\\000'}>`
+    172          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "1.2.5">`:
+   \   00000000   312E322E3500       DC8 "1.2.5"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {'I', 'H', 'D', 'R', '\\000'}>`:
+   \   00000000   494844520000       DC8 73, 72, 68, 82, 0, 0, 0, 0
+   \              0000        
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Destr_Png(PNG_CONVERT *)           8
+     InitPng(LIST *, int, int)         32
+     RemovePngListElement(PNG_LIST *)
+                                        8
+     end_callback(png_structp, png_infop)
+                                       12
+     get_png_info(wchar_t const *, wchar_t const *, int *, int *)
+                                      164
+     get_uint(unsigned char const *)
+                                        0
+     info_callback(png_structp, png_infop)
+                                       44
+     process_data(PNG_CONVERT *, char *, unsigned int)
+                                        4
+     row_callback(png_structp, png_bytep, png_uint_32, int)
+                                       20
+     xmalloc(int, int)                  4
+     xmfree(int, void *)                4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     xmalloc(int, int)                16
+     xmfree(int, void *)              16
+     info_callback(png_structp, png_infop)
+                                     304
+     row_callback(png_structp, png_bytep, png_uint_32, int)
+                                     168
+     end_callback(png_structp, png_infop)
+                                      96
+     InitPng(LIST *, int, int)       228
+     RemovePngListElement(PNG_LIST *)
+                                      28
+     Destr_Png(PNG_CONVERT *)         52
+     process_data(PNG_CONVERT *, char *, unsigned int)
+                                      28
+     get_uint(unsigned char const *)
+                                      36
+     get_png_info(wchar_t const *, wchar_t const *, int *, int *)
+                                     308
+     ?<Constant "1.2.5">               8
+     ?<Constant {'I', 'H', 'D', 'R', '\000'}>
+                                       8
+      Others                          80
+
+ 
+ 1 360 bytes in segment CODE
+    16 bytes in segment DATA_C
+ 
+ 1 280 bytes of CODE  memory (+ 80 bytes shared)
+    16 bytes of CONST memory
+
+Errors: none
+Warnings: none

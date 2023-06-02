@@ -1,0 +1,479 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:43:35 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Management    /
+//                       headset\config_data.c                               /
+//    Command line    =  "Z:\home\perk11\www\perk11.info\svn\SE\Management   /
+//                       headset\config_data.c" -D NDEBUG -lC                /
+//                       "Z:\home\perk11\www\perk11.info\svn\SE\Management   /
+//                       headset\Release\List\" -lA                          /
+//                       "Z:\home\perk11\www\perk11.info\svn\SE\Management   /
+//                       headset\Release\List\" -o                           /
+//                       "Z:\home\perk11\www\perk11.info\svn\SE\Management   /
+//                       headset\Release\Obj\" -s9 --no_unroll --no_inline   /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --fpu None --eec++   /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h --segment code=CONFIG --segment data=CONFIG    /
+//                       -I Z:\home\perk11\IAR2\arm\INC\                     /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Management    /
+//                       headset\Release\List\config_data.s79                /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC KeyControl
+        PUBLIC detectTime
+        PUBLIC playerNext
+        PUBLIC playerOff
+        PUBLIC playerOn
+        PUBLIC playerPrev
+        PUBLIC radioNext
+        PUBLIC radioOff
+        PUBLIC radioOn
+        PUBLIC radioPrev
+        PUBLIC turn_off
+        PUBLIC turn_on
+        PUBLIC turn_on_pr
+// Z:\home\perk11\www\perk11.info\svn\SE\Management headset\config_data.c
+//    1 #include "..\\include\Lib_Clara.h"
+//    2 #include "..\\include\cfg_items.h"
+//    3 #include "config_data.h"
+//    4 
+//    5 #pragma diag_suppress=Pe177
+//    6 #ifndef ENG
+//    7   #define TURN_ON_MSG "Включать"
+//    8   #define CTRL_BUTTOM_MSG "Кнопка управления"
+//    9   #define HEADSET_MSG "Гарнитура"
+//   10   #define START_WHEN_CONNECTED_MSG "Включать при подключении"
+//   11   #define STOP_WHEN_DISCONNECTED_MSG "Выключать при отключении"
+//   12   #define START_MSG "Включение кнопкой"
+//   13   #define SHORT_PRESS_MSG "Короткое нажатие"
+//   14   #define LONG_PRESS_MSG "Длинное нажатие"
+//   15   #define DOUBLE_PRESS_MSG "Двойное нажатие"
+//   16   #define RADIO_MSG "Радио"
+//   17   #define TURN_OFF_MSG "Выключение"
+//   18   #define NEXT_STATION_MSG "Следующая станция"
+//   19   #define PREV_STATION_MSG "Предыдущая станция"
+//   20   #define PLAYER_MSG "Плеер"
+//   21   #define NEXT_TRACK_MSG "Следующий трек"
+//   22   #define PREV_TRACK_MSG "Предыдущий трек"
+//   23   #define DOUBLE_PRESS_TIME_MSG "Время на двойное нажатие (мсек)"
+//   24 #else
+//   25   #define TURN_ON_MSG "Turn on"
+//   26   #define CTRL_BUTTOM_MSG "Сontrol button"
+//   27   #define HEADSET_MSG "Headsfree"
+//   28   #define START_WHEN_CONNECTED_MSG "Turn on when connected"
+//   29   #define STOP_WHEN_DISCONNECTED_MSG "Turn off when disconnected"
+//   30   #define START_MSG "Activate"
+//   31   #define SHORT_PRESS_MSG "Short press"
+//   32   #define LONG_PRESS_MSG "Long press"
+//   33   #define DOUBLE_PRESS_MSG "Double press"
+//   34   #define RADIO_MSG "Radio"
+//   35   #define TURN_OFF_MSG "Turn off"
+//   36   #define NEXT_STATION_MSG "Next station"
+//   37   #define PREV_STATION_MSG "Previous station"
+//   38   #define PLAYER_MSG "Walkman"
+//   39   #define NEXT_TRACK_MSG "Next track"
+//   40   #define PREV_TRACK_MSG "Previous track"
+//   41   #define DOUBLE_PRESS_TIME_MSG "Double-press (ms)"
+//   42 #endif
+//   43 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 17
+        DC8 "\312\355\356\357\352\340 \363\357\360\340\342\353\345\355\350\377"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   44 __root const CFG_HDR cfghdr_button={CFG_KEYCODE,CTRL_BUTTOM_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   45 __root const int KeyControl=0;
+KeyControl:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 3
+//   46 __root const int KeyControlPressMode=3;
+//   47 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\303\340\360\355\350\362\363\360\340"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   48 __root const CFG_HDR cfghdr_turn_0={CFG_LEVEL,HEADSET_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302\352\353\376\367\340\362\374 \357\360\350 \357\356\344\352\353\376\367\345\355\350\350"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   49 __root const CFG_HDR cfghdr_turn_1={CFG_LEVEL,START_WHEN_CONNECTED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\352\353\376\367\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   50 __root const CFG_HDR cfghdr_turnon_={CFG_CHECKBOX,TURN_ON_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   51   __root const int turn_on=0;  
+turn_on:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\302\352\353\376\367\340\362\374 \357\360\350 \357\356\344\352\353\376\367\345\355\350\350"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   52   __root const CFG_HDR cfghdr_turnon={CFG_CBOX,START_WHEN_CONNECTED_MSG,0,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   53   __root const int turn_on_pr=0;
+turn_on_pr:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\317\353\345\345\360"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\320\340\344\350\356"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   54   __root const CFG_CBOX_ITEM cfgcbox_turn_on[2]={PLAYER_MSG,RADIO_MSG};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   55   __root const CFG_HDR cfghdr_turn_1x={CFG_LEVEL,"",0,0};  
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\373\352\353\376\367\340\362\374 \357\360\350 \356\362\352\353\376\367\345\355\350\350"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   56   __root const CFG_HDR cfghdr_turnoff={CFG_CHECKBOX,STOP_WHEN_DISCONNECTED_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   57   __root const int turn_off=0;
+turn_off:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   58 __root const CFG_HDR cfghdr_turn_x={CFG_LEVEL,"",0,0};
+//   59 
+//   60 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302\352\353\376\367\345\355\350\345 \352\355\356\357\352\356\351"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 2
+//   61 __root const CFG_HDR cfghdr_on={CFG_LEVEL,START_MSG,1,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\317\353\345\345\360"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   62   __root const CFG_HDR cfghdr_playerOn={CFG_CBOX,PLAYER_MSG,0,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   63   __root const int playerOn=0;
+playerOn:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   64   __root const CFG_CBOX_ITEM cfgcbox_playerOn[2]={SHORT_PRESS_MSG,LONG_PRESS_MSG};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\320\340\344\350\356"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//   65   __root const CFG_HDR cfghdr_radioOn={CFG_CBOX,RADIO_MSG,0,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   66   __root const int radioOn=1;
+radioOn:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   67   __root const CFG_CBOX_ITEM cfgcbox_radioOn[2]={SHORT_PRESS_MSG,LONG_PRESS_MSG};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   68 __root const CFG_HDR cfghdr_on_x={CFG_LEVEL,"",0,0};
+//   69 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\320\340\344\350\356"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   70 __root const CFG_HDR cfghdr_radio_0={CFG_LEVEL,RADIO_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\302\373\352\353\376\367\345\355\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//   71   __root const CFG_HDR cfghdr_radio_on={CFG_CBOX,TURN_OFF_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   72   __root const int radioOff=2;
+radioOff:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\342\356\351\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   73   __root const CFG_CBOX_ITEM cfgcbox_radio_on[3]={SHORT_PRESS_MSG,LONG_PRESS_MSG,DOUBLE_PRESS_MSG};
+//   74 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\321\353\345\344\363\376\371\340\377 \361\362\340\355\366\350\377"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//   75   __root const CFG_HDR cfghdr_radio_next={CFG_CBOX,NEXT_STATION_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   76   __root const int radioNext=0;
+radioNext:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\342\356\351\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   77   __root const CFG_CBOX_ITEM cfgcbox_radio_next[3]={SHORT_PRESS_MSG,LONG_PRESS_MSG,DOUBLE_PRESS_MSG};
+//   78 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\317\360\345\344\373\344\363\371\340\377 \361\362\340\355\366\350\377"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//   79   __root const CFG_HDR cfghdr_radio_prev={CFG_CBOX,PREV_STATION_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   80   __root const int radioPrev=1;
+radioPrev:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\342\356\351\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   81   __root const CFG_CBOX_ITEM cfgcbox_radio_prev[3]={SHORT_PRESS_MSG,LONG_PRESS_MSG,DOUBLE_PRESS_MSG};
+//   82 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   83   __root const CFG_HDR cfghdr_radio_x={CFG_LEVEL,"",0,0};
+//   84 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\317\353\345\345\360"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   85 __root const CFG_HDR cfghdr_player_0={CFG_LEVEL,PLAYER_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\302\373\352\353\376\367\345\355\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//   86   __root const CFG_HDR cfghdr_player_on={CFG_CBOX,TURN_OFF_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   87   __root const int playerOff=2;
+playerOff:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\342\356\351\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   88   __root const CFG_CBOX_ITEM cfgcbox_player_on[3]={SHORT_PRESS_MSG,LONG_PRESS_MSG,DOUBLE_PRESS_MSG};
+//   89 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\321\353\345\344\363\376\371\350\351 \362\360\345\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//   90   __root const CFG_HDR cfghdr_player_next={CFG_CBOX,NEXT_TRACK_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   91   __root const int playerNext=0;
+playerNext:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\342\356\351\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   92   __root const CFG_CBOX_ITEM cfgcbox_player_next[3]={SHORT_PRESS_MSG,LONG_PRESS_MSG,DOUBLE_PRESS_MSG};
+//   93 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\317\360\345\344\373\344\363\371\350\351 \362\360\345\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//   94   __root const CFG_HDR cfghdr_player_prev={CFG_CBOX,PREV_TRACK_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   95   __root const int playerPrev=1;
+playerPrev:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\312\356\360\356\362\352\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\353\350\355\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\342\356\351\355\356\345 \355\340\346\340\362\350\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   96   __root const CFG_CBOX_ITEM cfgcbox_player_prev[3]={SHORT_PRESS_MSG,LONG_PRESS_MSG,DOUBLE_PRESS_MSG};
+//   97 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   98 __root const CFG_HDR cfghdr_player_x={CFG_LEVEL,"",0,0};
+//   99 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\302\360\345\354\377 \355\340 \344\342\356\351\355\356\345 \355\340\346\340\362\350\345 (\354\361\345\352)"
+        DC32 10, 10000
+//  100 __root const CFG_HDR cfghdr7={CFG_UINT,DOUBLE_PRESS_TIME_MSG,10,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  101 __root const unsigned int detectTime=1000;
+detectTime:
+        DATA
+        DC32 1000
+
+        END
+//  102 
+// 
+// 1 836 bytes in segment CONFIG_C
+// 
+// 1 836 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

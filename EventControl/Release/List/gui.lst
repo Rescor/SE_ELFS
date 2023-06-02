@@ -1,0 +1,1066 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:12 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\g #
+#                       ui.cpp                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\g #
+#                       ui.cpp -D NDEBUG -D OLDFUNCTIONS -lC                 #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\gui.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\gui.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\gui.cpp
+      1          /*
+      2          *===========================================================================
+      3          *                       Модуль интерфейса проверки событий
+      4          *===========================================================================
+      5          */
+      6          #include "..\deleaker\mem2.h"
+      7          #include "..\include\Lib_Clara.h"
+      8          #include "..\include\Dir.h"
+      9          #include "header\structs.h"
+     10          #include "header\lng.h"
+     11          
+     12          extern LIST *events;
+     13          
+     14          #pragma swi_number=0x109
+     15          __swi __arm  void MMIPROC (void(*PROC)(EVENT *), EVENT *);
+     16          void SUBPROC_(void(*PROC)(EVENT *),EVENT *p1, void * p2);
+     17          
+     18          void action_processor(EVENT *ev);
+     19          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     20          GUI_LIST *g=0;
+   \                     g:
+   \   00000000                      DS8 4
+     21          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     22          wchar_t *items[] = {
+   \                     items:
+   \   00000000                      DS8 168
+   \   000000A8                      REQUIRE `?<Initializer for items>`
+     23            L"Сообщение",
+     24            L"Запуск эльфа",
+     25            L"Ярлык",
+     26            L"Java",
+     27            L"Выключение телефона",
+     28            L"Яркость", 
+     29            L"Фонарик: уст. яркость",
+     30            L"Профиль",
+     31            L"Рестарт",
+     32            L"Музыка: воспр.", 
+     33            L"Музыка: воспр. с громкостью",
+     34            L"Обои: установить",
+     35            L"Вибра",
+     36            L"ГЭ: уст. заметку",
+     37            L"ГЭ: уст. оператора",
+     38            L"Закрыть книгу",
+     39            L"Вкл. музыку/радио",
+     40            L"Поменять расписание",
+     41            L"Обновить",
+     42            L"Звук: выкл",
+     43            L"Звук: вкл", 
+     44            L"ИК: вкл",
+     45            L"ИК: выкл", 
+     46            L"ИК: мигнуть",
+     47            L"Фонарик: мигнуть",
+     48            L"(W580): отключить диоды",
+     49            L"(W580): включить диоды", 
+     50            L"Оранж.диод: мигнуть", 
+     51            L"Оранж.диод: вкл. ",
+     52            L"Оранж.диод: выкл",
+     53            L"Важное событие", 
+     54            L"Звонок: уст.громкость",
+     55            L"Звонок: вибрация",
+     56            L"Звонок: уст.файл", 
+     57            L"Звонок: способ приёма",
+     58            L"Звонок: вкл.нарастание",
+     59            L"Звонок: уст. приём вызовов",
+     60            L"Голосовой вызов",
+     61            L"Сменить тему",
+     62            0,0,0
+     63          };
+     64          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     65          int onLBMessage(GUI_MESSAGE * msg)
+     66          {
+   \                     ??onLBMessage:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     67            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   0F00001A           BNE      ??onLBMessage_1
+     68            {
+     69            case 1:
+     70              int item=GUIonMessage_GetCreatedItemIndex(msg);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   370100EF           SWI      +311
+     71              EVENT* evt=(EVENT *)List_Get(events,item);
+   \   0000001C   0010A0E1           MOV      R1,R0
+   \   00000020   ........           LDR      R0,??DataTable8  ;; events
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   AD0100EF           SWI      +429
+     72              GUIonMessage_SetMenuItemText(msg,TextID_Create(items[evt->type],ENC_UCS2,TEXTID_ANY_LEN));
+   \   0000002C   500090E5           LDR      R0,[R0, #+80]
+   \   00000030   24309FE5           LDR      R3,??onLBMessage_2  ;; items
+   \   00000034   FF20A0E3           MOV      R2,#+255
+   \   00000038   000193E7           LDR      R0,[R3, +R0, LSL #+2]
+   \   0000003C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   5D0100EF           SWI      +349
+   \   00000048   0010A0E1           MOV      R1,R0
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   380100EF           SWI      +312
+     73              break;
+     74            }
+     75            return(1);
+   \                     ??onLBMessage_1:
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??onLBMessage_2:
+   \   0000005C   ........           DC32     items
+     76          };
+     77          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     78          void OnSelect1Gui(BOOK *bk, GUI* )
+     79          {
+     80            int item=ListMenu_GetSelectedItem(g);
+   \                     ??OnSelect1Gui:
+   \   00000000   ........           LDR      R0,??DataTable7  ;; g
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   3E0100EF           SWI      +318
+     81            EVENT *ev=(EVENT*)List_Get(events,item);
+   \   00000010   0010A0E1           MOV      R1,R0
+   \   00000014   ........           LDR      R0,??DataTable8  ;; events
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   AD0100EF           SWI      +429
+     82            MMIPROC(action_processor,ev);
+   \   00000020   0010A0E1           MOV      R1,R0
+   \   00000024   04009FE5           LDR      R0,??OnSelect1Gui_1  ;; ??action_processor
+   \   00000028   090100EF           SWI      +265
+     83          };
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+   \                     ??OnSelect1Gui_1:
+   \   00000030   ........           DC32     ??action_processor
+     84          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     85          void OnSelect2Gui(BOOK *bk, GUI* )
+     86          {
+     87            int item=ListMenu_GetSelectedItem(g);
+   \                     ??OnSelect2Gui:
+   \   00000000   ........           LDR      R0,??DataTable7  ;; g
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   80DE4DE2           SUB      SP,SP,#+2048
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+     88            wchar_t text[1024];
+     89            EVENT *ev=(EVENT*)List_Get(events,item);
+     90            snwprintf(text, 1023, L"%d-%d-%d-%d-%d-%d-%d\n\n%d-%d-%d-%d-%d-%d-%d\n\n%d-%d-%d-%d-%d-%d-%d\n%d:%d:%d", ev->days[0], ev->days[1], ev->days[2], ev->days[3], ev->days[4], ev->days[5], ev->days[6], ev->remdays[0], ev->remdays[1], ev->remdays[2], ev->remdays[3], ev->remdays[4], ev->remdays[5], ev->remdays[6], ev->remdays2[0], ev->remdays2[1], ev->remdays2[2], ev->remdays2[3], ev->remdays2[4], ev->remdays2[5], ev->remdays2[6], ev->tm_start, ev->ask_before, ev->ask_after);
+     91            MessageBox(EMPTY_TEXTID,TextID_Create(text,ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE,1,0,0);
+   \   00000010   FF40A0E3           MOV      R4,#+255
+   \   00000014   3E0100EF           SWI      +318
+   \   00000018   0010A0E1           MOV      R1,R0
+   \   0000001C   ........           LDR      R0,??DataTable8  ;; events
+   \   00000020   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   AD0100EF           SWI      +429
+   \   0000002C   101090E5           LDR      R1,[R0, #+16]
+   \   00000030   04219FE5           LDR      R2,??OnSelect2Gui_1  ;; `?<Constant L"\\x25\\x64\\x2d\\x25\\x64\\x2d\\x25\\x64\\`
+   \   00000034   02002DE9           PUSH     {R1}
+   \   00000038   0C1090E5           LDR      R1,[R0, #+12]
+   \   0000003C   02002DE9           PUSH     {R1}
+   \   00000040   041090E5           LDR      R1,[R0, #+4]
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   481090E5           LDR      R1,[R0, #+72]
+   \   0000004C   02002DE9           PUSH     {R1}
+   \   00000050   441090E5           LDR      R1,[R0, #+68]
+   \   00000054   02002DE9           PUSH     {R1}
+   \   00000058   401090E5           LDR      R1,[R0, #+64]
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   3C1090E5           LDR      R1,[R0, #+60]
+   \   00000064   02002DE9           PUSH     {R1}
+   \   00000068   381090E5           LDR      R1,[R0, #+56]
+   \   0000006C   02002DE9           PUSH     {R1}
+   \   00000070   341090E5           LDR      R1,[R0, #+52]
+   \   00000074   02002DE9           PUSH     {R1}
+   \   00000078   301090E5           LDR      R1,[R0, #+48]
+   \   0000007C   02002DE9           PUSH     {R1}
+   \   00000080   2C1090E5           LDR      R1,[R0, #+44]
+   \   00000084   02002DE9           PUSH     {R1}
+   \   00000088   281090E5           LDR      R1,[R0, #+40]
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   241090E5           LDR      R1,[R0, #+36]
+   \   00000094   02002DE9           PUSH     {R1}
+   \   00000098   201090E5           LDR      R1,[R0, #+32]
+   \   0000009C   02002DE9           PUSH     {R1}
+   \   000000A0   1C1090E5           LDR      R1,[R0, #+28]
+   \   000000A4   02002DE9           PUSH     {R1}
+   \   000000A8   181090E5           LDR      R1,[R0, #+24]
+   \   000000AC   02002DE9           PUSH     {R1}
+   \   000000B0   141090E5           LDR      R1,[R0, #+20]
+   \   000000B4   02002DE9           PUSH     {R1}
+   \   000000B8   881090E5           LDR      R1,[R0, #+136]
+   \   000000BC   02002DE9           PUSH     {R1}
+   \   000000C0   841090E5           LDR      R1,[R0, #+132]
+   \   000000C4   02002DE9           PUSH     {R1}
+   \   000000C8   801090E5           LDR      R1,[R0, #+128]
+   \   000000CC   02002DE9           PUSH     {R1}
+   \   000000D0   7C1090E5           LDR      R1,[R0, #+124]
+   \   000000D4   02002DE9           PUSH     {R1}
+   \   000000D8   781090E5           LDR      R1,[R0, #+120]
+   \   000000DC   02002DE9           PUSH     {R1}
+   \   000000E0   741090E5           LDR      R1,[R0, #+116]
+   \   000000E4   02002DE9           PUSH     {R1}
+   \   000000E8   703090E5           LDR      R3,[R0, #+112]
+   \   000000EC   5C008DE2           ADD      R0,SP,#+92
+   \   000000F0   FF10A0E3           MOV      R1,#+255
+   \   000000F4   C01F81E3           ORR      R1,R1,#0x300
+   \   000000F8   150100EF           SWI      +277
+   \   000000FC   5CD08DE2           ADD      SP,SP,#+92
+   \   00000100   0420A0E1           MOV      R2,R4
+   \   00000104   0010A0E3           MOV      R1,#+0
+   \   00000108   0D00A0E1           MOV      R0,SP
+   \   0000010C   5D0100EF           SWI      +349
+   \   00000110   0010A0E1           MOV      R1,R0
+   \   00000114   0000A0E3           MOV      R0,#+0
+   \   00000118   01002DE9           PUSH     {R0}
+   \   0000011C   01002DE9           PUSH     {R0}
+   \   00000120   0130A0E3           MOV      R3,#+1
+   \   00000124   0420A0E1           MOV      R2,R4
+   \   00000128   9004E0E3           MVN      R0,#-1879048192
+   \   0000012C   570200EF           SWI      +599
+     92          };
+   \   00000130   08D08DE2           ADD      SP,SP,#+8
+   \   00000134   80DE8DE2           ADD      SP,SP,#+2048
+   \   00000138   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??OnSelect2Gui_1:
+   \   0000013C   ........           DC32     `?<Constant L"\\x25\\x64\\x2d\\x25\\x64\\x2d\\x25\\x64\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+     93          void OnBackGui(BOOK * bk, GUI* )
+     94          {
+   \                     ??OnBackGui:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     95            GUIObject_Destroy(g);
+   \   00000004   ........           LDR      R5,??DataTable7  ;; g
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   000095E5           LDR      R0,[R5, #+0]
+   \   00000010   CE0100EF           SWI      +462
+     96            g=0;
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   000085E5           STR      R0,[R5, #+0]
+     97            MyBOOK *mbk=(MyBOOK*)bk;
+     98            mbk->g_test=0;
+   \   0000001C   300084E5           STR      R0,[R4, #+48]
+     99            BookObj_Hide(bk, 0);
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   710100EF           SWI      +369
+    100          };
+   \   0000002C   3080BDE8           POP      {R4,R5,PC}       ;; return
+    101          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    102          GUI_LIST * CreateGuiList(BOOK * book)
+    103          {
+   \                     ??CreateGuiList:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    104            GUI_LIST * lo=0;
+    105            if (lo=CreateListMenu(book,0))
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   C00100EF           SWI      +448
+   \   0000000C   0040B0E1           MOVS     R4,R0
+   \   00000010   3100000A           BEQ      ??CreateGuiList_1
+    106            {
+    107              ListMenu_SetItemCount(lo,events->FirstFree);
+   \   00000014   ........           LDR      R0,??DataTable8  ;; events
+    108              ListMenu_SetCursorToItem(lo,0);
+    109              ListMenu_SetOnMessage(lo,onLBMessage);
+    110              ListMenu_SetItemStyle(lo,3);
+    111              GUIObject_SetTitleText(lo,TextID_Create(lng[LNG_EVENTS_TEST],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000018   C4509FE5           LDR      R5,??CreateGuiList_2  ;; lng
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   FF60A0E3           MOV      R6,#+255
+   \   00000024   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000030   C10100EF           SWI      +449
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   350100EF           SWI      +309
+   \   00000040   A0109FE5           LDR      R1,??CreateGuiList_2+0x4  ;; ??onLBMessage
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   740100EF           SWI      +372
+   \   0000004C   0310A0E3           MOV      R1,#+3
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   3F0100EF           SWI      +319
+   \   00000058   040095E5           LDR      R0,[R5, #+4]
+   \   0000005C   0620A0E1           MOV      R2,R6
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   5D0100EF           SWI      +349
+   \   00000068   0010A0E1           MOV      R1,R0
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   330100EF           SWI      +307
+    112              GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, OnBackGui);
+   \   00000074   70009FE5           LDR      R0,??CreateGuiList_2+0x8  ;; ACTION_BACK
+   \   00000078   70209FE5           LDR      R2,??CreateGuiList_2+0xC  ;; ??OnBackGui
+   \   0000007C   001090E5           LDR      R1,[R0, #+0]
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000088   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000008C   4B0100EF           SWI      +331
+    113              GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,OnSelect1Gui);
+   \   00000090   5C009FE5           LDR      R0,??CreateGuiList_2+0x10  ;; ACTION_SELECT1
+   \   00000094   5C209FE5           LDR      R2,??CreateGuiList_2+0x14  ;; ??OnSelect1Gui
+   \   00000098   001090E5           LDR      R1,[R0, #+0]
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000A4   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000A8   4B0100EF           SWI      +331
+    114              GUIObject_SoftKeys_SetAction(lo,0,OnSelect2Gui);
+   \   000000AC   48209FE5           LDR      R2,??CreateGuiList_2+0x18  ;; ??OnSelect2Gui
+   \   000000B0   0010A0E3           MOV      R1,#+0
+   \   000000B4   0400A0E1           MOV      R0,R4
+   \   000000B8   4B0100EF           SWI      +331
+    115              GUIObject_SoftKeys_SetText(lo,0,TextID_Create(lng[LNG_INFO],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000BC   080095E5           LDR      R0,[R5, #+8]
+   \   000000C0   0620A0E1           MOV      R2,R6
+   \   000000C4   0010A0E3           MOV      R1,#+0
+   \   000000C8   5D0100EF           SWI      +349
+   \   000000CC   0020A0E1           MOV      R2,R0
+   \   000000D0   0010A0E3           MOV      R1,#+0
+   \   000000D4   0400A0E1           MOV      R0,R4
+   \   000000D8   4C0100EF           SWI      +332
+    116            }
+    117            return(lo);
+   \                     ??CreateGuiList_1:
+   \   000000DC   0400A0E1           MOV      R0,R4
+   \   000000E0   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??CreateGuiList_2:
+   \   000000E4   ........           DC32     lng
+   \   000000E8   ........           DC32     ??onLBMessage
+   \   000000EC   ........           DC32     ACTION_BACK
+   \   000000F0   ........           DC32     ??OnBackGui
+   \   000000F4   ........           DC32     ACTION_SELECT1
+   \   000000F8   ........           DC32     ??OnSelect1Gui
+   \   000000FC   ........           DC32     ??OnSelect2Gui
+    118          };
+    119          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    120          GUI_LIST *create_ed(BOOK *book)
+    121          {
+   \                     ??create_ed:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    122            if (events)
+   \   00000004   ........           LDR      R5,??DataTable7  ;; g
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   ........           LDR      R0,??DataTable8  ;; events
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0B00000A           BEQ      ??create_ed_1
+    123            {
+    124              MyBOOK *mbk=(MyBOOK*)book;
+    125              g=CreateGuiList(book);
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   ........           BL       ??CreateGuiList
+   \   00000024   000085E5           STR      R0,[R5, #+0]
+    126              mbk->g_test=g;
+   \   00000028   300084E5           STR      R0,[R4, #+48]
+    127              GUIObject_Show(g);
+   \   0000002C   000095E5           LDR      R0,[R5, #+0]
+   \   00000030   340100EF           SWI      +308
+    128              BookObj_Show(book, 0);
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   720100EF           SWI      +370
+    129              BookObj_SetFocus(book, 0);
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   320100EF           SWI      +306
+    130            }
+    131            return(g);
+   \                     ??create_ed_1:
+   \   0000004C   000095E5           LDR      R0,[R5, #+0]
+   \   00000050   3080BDE8           POP      {R4,R5,PC}       ;; return
+    132          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     g
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     events
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for items>`:
+   \   00000000   ........           DC32 `?<Constant L"\\x421\\x43e\\x43e\\x431\\x449\\x435\\x4`
+   \   00000004   ........           DC32 `?<Constant L"\\x417\\x430\\x43f\\x443\\x441\\x43a\\x2`
+   \   00000008   ........           DC32 `?<Constant L"\\x42f\\x440\\x43b\\x44b\\x43a">`
+   \   0000000C   ........           DC32 `?<Constant L"\\x4a\\x61\\x76\\x61">`
+   \   00000010   ........           DC32 `?<Constant L"\\x412\\x44b\\x43a\\x43b\\x44e\\x447\\x4`
+   \   00000014   ........           DC32 `?<Constant L"\\x42f\\x440\\x43a\\x43e\\x441\\x442\\x4`
+   \   00000018   ........           DC32 `?<Constant L"\\x424\\x43e\\x43d\\x430\\x440\\x438\\x4`
+   \   0000001C   ........           DC32 `?<Constant L"\\x41f\\x440\\x43e\\x444\\x438\\x43b\\x4`
+   \   00000020   ........           DC32 `?<Constant L"\\x420\\x435\\x441\\x442\\x430\\x440\\x4`
+   \   00000024   ........           DC32 `?<Constant L"\\x41c\\x443\\x437\\x44b\\x43a\\x430\\x3`
+   \   00000028   ........           DC32 `?<Constant L"\\x41c\\x443\\x437\\x44b\\x43a\\x430\\x3_1`
+   \   0000002C   ........           DC32 `?<Constant L"\\x41e\\x431\\x43e\\x438\\x3a\\x20\\x443`
+   \   00000030   ........           DC32 `?<Constant L"\\x412\\x438\\x431\\x440\\x430">`
+   \   00000034   ........           DC32 `?<Constant L"\\x413\\x42d\\x3a\\x20\\x443\\x441\\x442`
+   \   00000038   ........           DC32 `?<Constant L"\\x413\\x42d\\x3a\\x20\\x443\\x441\\x442_1`
+   \   0000003C   ........           DC32 `?<Constant L"\\x417\\x430\\x43a\\x440\\x44b\\x442\\x4`
+   \   00000040   ........           DC32 `?<Constant L"\\x412\\x43a\\x43b\\x2e\\x20\\x43c\\x443`
+   \   00000044   ........           DC32 `?<Constant L"\\x41f\\x43e\\x43c\\x435\\x43d\\x44f\\x4`
+   \   00000048   ........           DC32 `?<Constant L"\\x41e\\x431\\x43d\\x43e\\x432\\x438\\x4`
+   \   0000004C   ........           DC32 `?<Constant L"\\x417\\x432\\x443\\x43a\\x3a\\x20\\x432`
+   \   00000050   ........           DC32 `?<Constant L"\\x417\\x432\\x443\\x43a\\x3a\\x20\\x432_1`
+   \   00000054   ........           DC32 `?<Constant L"\\x418\\x41a\\x3a\\x20\\x432\\x43a\\x43b`
+   \   00000058   ........           DC32 `?<Constant L"\\x418\\x41a\\x3a\\x20\\x432\\x44b\\x43a`
+   \   0000005C   ........           DC32 `?<Constant L"\\x418\\x41a\\x3a\\x20\\x43c\\x438\\x433`
+   \   00000060   ........           DC32 `?<Constant L"\\x424\\x43e\\x43d\\x430\\x440\\x438\\x4_1`
+   \   00000064   ........           DC32 `?<Constant L"\\x28\\x57\\x35\\x38\\x30\\x29\\x3a\\x20\\`
+   \   00000068   ........           DC32 `?<Constant L"\\x28\\x57\\x35\\x38\\x30\\x29\\x3a\\x20\\_1`
+   \   0000006C   ........           DC32 `?<Constant L"\\x41e\\x440\\x430\\x43d\\x436\\x2e\\x43`
+   \   00000070   ........           DC32 `?<Constant L"\\x41e\\x440\\x430\\x43d\\x436\\x2e\\x43_1`
+   \   00000074   ........           DC32 `?<Constant L"\\x41e\\x440\\x430\\x43d\\x436\\x2e\\x43_2`
+   \   00000078   ........           DC32 `?<Constant L"\\x412\\x430\\x436\\x43d\\x43e\\x435\\x2`
+   \   0000007C   ........           DC32 `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3`
+   \   00000080   ........           DC32 `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_1`
+   \   00000084   ........           DC32 `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_2`
+   \   00000088   ........           DC32 `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_3`
+   \   0000008C   ........           DC32 `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_4`
+   \   00000090   ........           DC32 `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_5`
+   \   00000094   ........           DC32 `?<Constant L"\\x413\\x43e\\x43b\\x43e\\x441\\x43e\\x4`
+   \   00000098   ........0000       DC32 `?<Constant L"\\x421\\x43c\\x435\\x43d\\x438\\x442\\x4`, 0H, 0H
+   \              000000000000
+   \   000000A4   00000000           DC32 0H
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4a\\x61\\x76\\x61">`:
+   \   00000000   4A0061007600       DC8 4AH, 0, 61H, 0, 76H, 0, 61H, 0
+   \              6100        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x421\\x43c\\x435\\x43d\\x438\\x442\\x4`:
+   \   00000000   21043C043504       DC8 21H, 4, 3CH, 4, 35H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   380442044C04       DC8 38H, 4, 42H, 4, 4CH, 4, 20H, 0
+   \              2000        
+   \   00000010   420435043C04       DC8 42H, 4, 35H, 4, 3CH, 4, 43H, 4
+   \              4304        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x421\\x43e\\x43e\\x431\\x449\\x435\\x4`:
+   \   00000000   21043E043E04       DC8 21H, 4, 3EH, 4, 3EH, 4, 31H, 4
+   \              3104        
+   \   00000008   490435043D04       DC8 49H, 4, 35H, 4, 3DH, 4, 38H, 4
+   \              3804        
+   \   00000010   35040000           DC8 35H, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x430\\x43f\\x443\\x441\\x43a\\x2`:
+   \   00000000   170430043F04       DC8 17H, 4, 30H, 4, 3FH, 4, 43H, 4
+   \              4304        
+   \   00000008   41043A042000       DC8 41H, 4, 3AH, 4, 20H, 0, 4DH, 4
+   \              4D04        
+   \   00000010   3B044C044404       DC8 3BH, 4, 4CH, 4, 44H, 4, 30H, 4
+   \              3004        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x42f\\x440\\x43b\\x44b\\x43a">`:
+   \   00000000   2F0440043B04       DC8 2FH, 4, 40H, 4, 3BH, 4, 4BH, 4
+   \              4B04        
+   \   00000008   3A040000           DC8 3AH, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x420\\x435\\x441\\x442\\x430\\x440\\x4`:
+   \   00000000   200435044104       DC8 20H, 4, 35H, 4, 41H, 4, 42H, 4
+   \              4204        
+   \   00000008   300440044204       DC8 30H, 4, 40H, 4, 42H, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x44b\\x43a\\x43b\\x44e\\x447\\x4`:
+   \   00000000   12044B043A04       DC8 12H, 4, 4BH, 4, 3AH, 4, 3BH, 4
+   \              3B04        
+   \   00000008   4E0447043504       DC8 4EH, 4, 47H, 4, 35H, 4, 3DH, 4
+   \              3D04        
+   \   00000010   380435042000       DC8 38H, 4, 35H, 4, 20H, 0, 42H, 4
+   \              4204        
+   \   00000018   35043B043504       DC8 35H, 4, 3BH, 4, 35H, 4, 44H, 4
+   \              4404        
+   \   00000020   3E043D043004       DC8 3EH, 4, 3DH, 4, 30H, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x42f\\x440\\x43a\\x43e\\x441\\x442\\x4`:
+   \   00000000   2F0440043A04       DC8 2FH, 4, 40H, 4, 3AH, 4, 3EH, 4
+   \              3E04        
+   \   00000008   410442044C04       DC8 41H, 4, 42H, 4, 4CH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x424\\x43e\\x43d\\x430\\x440\\x438\\x4`:
+   \   00000000   24043E043D04       DC8 24H, 4, 3EH, 4, 3DH, 4, 30H, 4
+   \              3004        
+   \   00000008   400438043A04       DC8 40H, 4, 38H, 4, 3AH, 4, 3AH, 0
+   \              3A00        
+   \   00000010   200043044104       DC8 20H, 0, 43H, 4, 41H, 4, 42H, 4
+   \              4204        
+   \   00000018   2E0020004F04       DC8 2EH, 0, 20H, 0, 4FH, 4, 40H, 4
+   \              4004        
+   \   00000020   3A043E044104       DC8 3AH, 4, 3EH, 4, 41H, 4, 42H, 4
+   \              4204        
+   \   00000028   4C040000           DC8 4CH, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41f\\x440\\x43e\\x444\\x438\\x43b\\x4`:
+   \   00000000   1F0440043E04       DC8 1FH, 4, 40H, 4, 3EH, 4, 44H, 4
+   \              4404        
+   \   00000008   38043B044C04       DC8 38H, 4, 3BH, 4, 4CH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x64\\x2d\\x25\\x64\\x2d\\x25\\x64\\`:
+   \   00000000   250064002D00       DC8 25H, 0, 64H, 0, 2DH, 0, 25H, 0
+   \              2500        
+   \   00000008   64002D002500       DC8 64H, 0, 2DH, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000010   2D0025006400       DC8 2DH, 0, 25H, 0, 64H, 0, 2DH, 0
+   \              2D00        
+   \   00000018   250064002D00       DC8 25H, 0, 64H, 0, 2DH, 0, 25H, 0
+   \              2500        
+   \   00000020   64002D002500       DC8 64H, 0, 2DH, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000028   0A000A002500       DC8 0AH, 0, 0AH, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000030   2D0025006400       DC8 2DH, 0, 25H, 0, 64H, 0, 2DH, 0
+   \              2D00        
+   \   00000038   250064002D00       DC8 25H, 0, 64H, 0, 2DH, 0, 25H, 0
+   \              2500        
+   \   00000040   64002D002500       DC8 64H, 0, 2DH, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000048   2D0025006400       DC8 2DH, 0, 25H, 0, 64H, 0, 2DH, 0
+   \              2D00        
+   \   00000050   250064000A00       DC8 25H, 0, 64H, 0, 0AH, 0, 0AH, 0
+   \              0A00        
+   \   00000058   250064002D00       DC8 25H, 0, 64H, 0, 2DH, 0, 25H, 0
+   \              2500        
+   \   00000060   64002D002500       DC8 64H, 0, 2DH, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000068   2D0025006400       DC8 2DH, 0, 25H, 0, 64H, 0, 2DH, 0
+   \              2D00        
+   \   00000070   250064002D00       DC8 25H, 0, 64H, 0, 2DH, 0, 25H, 0
+   \              2500        
+   \   00000078   64002D002500       DC8 64H, 0, 2DH, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000080   0A0025006400       DC8 0AH, 0, 25H, 0, 64H, 0, 3AH, 0
+   \              3A00        
+   \   00000088   250064003A00       DC8 25H, 0, 64H, 0, 3AH, 0, 25H, 0
+   \              2500        
+   \   00000090   64000000           DC8 64H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41c\\x443\\x437\\x44b\\x43a\\x430\\x3`:
+   \   00000000   1C0443043704       DC8 1CH, 4, 43H, 4, 37H, 4, 4BH, 4
+   \              4B04        
+   \   00000008   3A0430043A00       DC8 3AH, 4, 30H, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   32043E044104       DC8 32H, 4, 3EH, 4, 41H, 4, 3FH, 4
+   \              3F04        
+   \   00000018   40042E000000       DC8 40H, 4, 2EH, 0, 0, 0
+   \   0000001E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41c\\x443\\x437\\x44b\\x43a\\x430\\x3_1`:
+   \   00000000   1C0443043704       DC8 1CH, 4, 43H, 4, 37H, 4, 4BH, 4
+   \              4B04        
+   \   00000008   3A0430043A00       DC8 3AH, 4, 30H, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   32043E044104       DC8 32H, 4, 3EH, 4, 41H, 4, 3FH, 4
+   \              3F04        
+   \   00000018   40042E002000       DC8 40H, 4, 2EH, 0, 20H, 0, 41H, 4
+   \              4104        
+   \   00000020   200033044004       DC8 20H, 0, 33H, 4, 40H, 4, 3EH, 4
+   \              3E04        
+   \   00000028   3C043A043E04       DC8 3CH, 4, 3AH, 4, 3EH, 4, 41H, 4
+   \              4104        
+   \   00000030   42044C044E04       DC8 42H, 4, 4CH, 4, 4EH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x431\\x43e\\x438\\x3a\\x20\\x443`:
+   \   00000000   1E0431043E04       DC8 1EH, 4, 31H, 4, 3EH, 4, 38H, 4
+   \              3804        
+   \   00000008   3A0020004304       DC8 3AH, 0, 20H, 0, 43H, 4, 41H, 4
+   \              4104        
+   \   00000010   420430043D04       DC8 42H, 4, 30H, 4, 3DH, 4, 3EH, 4
+   \              3E04        
+   \   00000018   320438044204       DC8 32H, 4, 38H, 4, 42H, 4, 4CH, 4
+   \              4C04        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x438\\x431\\x440\\x430">`:
+   \   00000000   120438043104       DC8 12H, 4, 38H, 4, 31H, 4, 40H, 4
+   \              4004        
+   \   00000008   30040000           DC8 30H, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x413\\x42d\\x3a\\x20\\x443\\x441\\x442`:
+   \   00000000   13042D043A00       DC8 13H, 4, 2DH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000008   430441044204       DC8 43H, 4, 41H, 4, 42H, 4, 2EH, 0
+   \              2E00        
+   \   00000010   200037043004       DC8 20H, 0, 37H, 4, 30H, 4, 3CH, 4
+   \              3C04        
+   \   00000018   350442043A04       DC8 35H, 4, 42H, 4, 3AH, 4, 43H, 4
+   \              4304        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x413\\x42d\\x3a\\x20\\x443\\x441\\x442_1`:
+   \   00000000   13042D043A00       DC8 13H, 4, 2DH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000008   430441044204       DC8 43H, 4, 41H, 4, 42H, 4, 2EH, 0
+   \              2E00        
+   \   00000010   20003E043F04       DC8 20H, 0, 3EH, 4, 3FH, 4, 35H, 4
+   \              3504        
+   \   00000018   400430044204       DC8 40H, 4, 30H, 4, 42H, 4, 3EH, 4
+   \              3E04        
+   \   00000020   400430040000       DC8 40H, 4, 30H, 4, 0, 0
+   \   00000026   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x430\\x43a\\x440\\x44b\\x442\\x4`:
+   \   00000000   170430043A04       DC8 17H, 4, 30H, 4, 3AH, 4, 40H, 4
+   \              4004        
+   \   00000008   4B0442044C04       DC8 4BH, 4, 42H, 4, 4CH, 4, 20H, 0
+   \              2000        
+   \   00000010   3A043D043804       DC8 3AH, 4, 3DH, 4, 38H, 4, 33H, 4
+   \              3304        
+   \   00000018   43040000           DC8 43H, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x43a\\x43b\\x2e\\x20\\x43c\\x443`:
+   \   00000000   12043A043B04       DC8 12H, 4, 3AH, 4, 3BH, 4, 2EH, 0
+   \              2E00        
+   \   00000008   20003C044304       DC8 20H, 0, 3CH, 4, 43H, 4, 37H, 4
+   \              3704        
+   \   00000010   4B043A044304       DC8 4BH, 4, 3AH, 4, 43H, 4, 2FH, 0
+   \              2F00        
+   \   00000018   400430043404       DC8 40H, 4, 30H, 4, 34H, 4, 38H, 4
+   \              3804        
+   \   00000020   3E040000           DC8 3EH, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41f\\x43e\\x43c\\x435\\x43d\\x44f\\x4`:
+   \   00000000   1F043E043C04       DC8 1FH, 4, 3EH, 4, 3CH, 4, 35H, 4
+   \              3504        
+   \   00000008   3D044F044204       DC8 3DH, 4, 4FH, 4, 42H, 4, 4CH, 4
+   \              4C04        
+   \   00000010   200040043004       DC8 20H, 0, 40H, 4, 30H, 4, 41H, 4
+   \              4104        
+   \   00000018   3F0438044104       DC8 3FH, 4, 38H, 4, 41H, 4, 30H, 4
+   \              3004        
+   \   00000020   3D0438043504       DC8 3DH, 4, 38H, 4, 35H, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x431\\x43d\\x43e\\x432\\x438\\x4`:
+   \   00000000   1E0431043D04       DC8 1EH, 4, 31H, 4, 3DH, 4, 3EH, 4
+   \              3E04        
+   \   00000008   320438044204       DC8 32H, 4, 38H, 4, 42H, 4, 4CH, 4
+   \              4C04        
+   \   00000010   0000               DC8 0, 0
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x443\\x43a\\x3a\\x20\\x432`:
+   \   00000000   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000008   3A0020003204       DC8 3AH, 0, 20H, 0, 32H, 4, 4BH, 4
+   \              4B04        
+   \   00000010   3A043B040000       DC8 3AH, 4, 3BH, 4, 0, 0
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x443\\x43a\\x3a\\x20\\x432_1`:
+   \   00000000   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000008   3A0020003204       DC8 3AH, 0, 20H, 0, 32H, 4, 3AH, 4
+   \              3A04        
+   \   00000010   3B040000           DC8 3BH, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x418\\x41a\\x3a\\x20\\x432\\x43a\\x43b`:
+   \   00000000   18041A043A00       DC8 18H, 4, 1AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000008   32043A043B04       DC8 32H, 4, 3AH, 4, 3BH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x418\\x41a\\x3a\\x20\\x432\\x44b\\x43a`:
+   \   00000000   18041A043A00       DC8 18H, 4, 1AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000008   32044B043A04       DC8 32H, 4, 4BH, 4, 3AH, 4, 3BH, 4
+   \              3B04        
+   \   00000010   0000               DC8 0, 0
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x418\\x41a\\x3a\\x20\\x43c\\x438\\x433`:
+   \   00000000   18041A043A00       DC8 18H, 4, 1AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000008   3C0438043304       DC8 3CH, 4, 38H, 4, 33H, 4, 3DH, 4
+   \              3D04        
+   \   00000010   430442044C04       DC8 43H, 4, 42H, 4, 4CH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x424\\x43e\\x43d\\x430\\x440\\x438\\x4_1`:
+   \   00000000   24043E043D04       DC8 24H, 4, 3EH, 4, 3DH, 4, 30H, 4
+   \              3004        
+   \   00000008   400438043A04       DC8 40H, 4, 38H, 4, 3AH, 4, 3AH, 0
+   \              3A00        
+   \   00000010   20003C043804       DC8 20H, 0, 3CH, 4, 38H, 4, 33H, 4
+   \              3304        
+   \   00000018   3D0443044204       DC8 3DH, 4, 43H, 4, 42H, 4, 4CH, 4
+   \              4C04        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x28\\x57\\x35\\x38\\x30\\x29\\x3a\\x20\\`:
+   \   00000000   280057003500       DC8 28H, 0, 57H, 0, 35H, 0, 38H, 0
+   \              3800        
+   \   00000008   300029003A00       DC8 30H, 0, 29H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   3E0442043A04       DC8 3EH, 4, 42H, 4, 3AH, 4, 3BH, 4
+   \              3B04        
+   \   00000018   4E0447043804       DC8 4EH, 4, 47H, 4, 38H, 4, 42H, 4
+   \              4204        
+   \   00000020   4C0420003404       DC8 4CH, 4, 20H, 0, 34H, 4, 38H, 4
+   \              3804        
+   \   00000028   3E0434044B04       DC8 3EH, 4, 34H, 4, 4BH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x28\\x57\\x35\\x38\\x30\\x29\\x3a\\x20\\_1`:
+   \   00000000   280057003500       DC8 28H, 0, 57H, 0, 35H, 0, 38H, 0
+   \              3800        
+   \   00000008   300029003A00       DC8 30H, 0, 29H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   32043A043B04       DC8 32H, 4, 3AH, 4, 3BH, 4, 4EH, 4
+   \              4E04        
+   \   00000018   470438044204       DC8 47H, 4, 38H, 4, 42H, 4, 4CH, 4
+   \              4C04        
+   \   00000020   200034043804       DC8 20H, 0, 34H, 4, 38H, 4, 3EH, 4
+   \              3E04        
+   \   00000028   34044B040000       DC8 34H, 4, 4BH, 4, 0, 0
+   \   0000002E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x440\\x430\\x43d\\x436\\x2e\\x43`:
+   \   00000000   1E0440043004       DC8 1EH, 4, 40H, 4, 30H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   36042E003404       DC8 36H, 4, 2EH, 0, 34H, 4, 38H, 4
+   \              3804        
+   \   00000010   3E0434043A00       DC8 3EH, 4, 34H, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000018   3C0438043304       DC8 3CH, 4, 38H, 4, 33H, 4, 3DH, 4
+   \              3D04        
+   \   00000020   430442044C04       DC8 43H, 4, 42H, 4, 4CH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x440\\x430\\x43d\\x436\\x2e\\x43_1`:
+   \   00000000   1E0440043004       DC8 1EH, 4, 40H, 4, 30H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   36042E003404       DC8 36H, 4, 2EH, 0, 34H, 4, 38H, 4
+   \              3804        
+   \   00000010   3E0434043A00       DC8 3EH, 4, 34H, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000018   32043A043B04       DC8 32H, 4, 3AH, 4, 3BH, 4, 2EH, 0
+   \              2E00        
+   \   00000020   20000000           DC8 20H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x440\\x430\\x43d\\x436\\x2e\\x43_2`:
+   \   00000000   1E0440043004       DC8 1EH, 4, 40H, 4, 30H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   36042E003404       DC8 36H, 4, 2EH, 0, 34H, 4, 38H, 4
+   \              3804        
+   \   00000010   3E0434043A00       DC8 3EH, 4, 34H, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000018   32044B043A04       DC8 32H, 4, 4BH, 4, 3AH, 4, 3BH, 4
+   \              3B04        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x430\\x436\\x43d\\x43e\\x435\\x2`:
+   \   00000000   120430043604       DC8 12H, 4, 30H, 4, 36H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E0435042000       DC8 3EH, 4, 35H, 4, 20H, 0, 41H, 4
+   \              4104        
+   \   00000010   3E0431044B04       DC8 3EH, 4, 31H, 4, 4BH, 4, 42H, 4
+   \              4204        
+   \   00000018   380435040000       DC8 38H, 4, 35H, 4, 0, 0
+   \   0000001E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3`:
+   \   00000000   170432043E04       DC8 17H, 4, 32H, 4, 3EH, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E043A043A00       DC8 3EH, 4, 3AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   430441044204       DC8 43H, 4, 41H, 4, 42H, 4, 2EH, 0
+   \              2E00        
+   \   00000018   330440043E04       DC8 33H, 4, 40H, 4, 3EH, 4, 3CH, 4
+   \              3C04        
+   \   00000020   3A043E044104       DC8 3AH, 4, 3EH, 4, 41H, 4, 42H, 4
+   \              4204        
+   \   00000028   4C040000           DC8 4CH, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_1`:
+   \   00000000   170432043E04       DC8 17H, 4, 32H, 4, 3EH, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E043A043A00       DC8 3EH, 4, 3AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   320438043104       DC8 32H, 4, 38H, 4, 31H, 4, 40H, 4
+   \              4004        
+   \   00000018   300446043804       DC8 30H, 4, 46H, 4, 38H, 4, 4FH, 4
+   \              4F04        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_2`:
+   \   00000000   170432043E04       DC8 17H, 4, 32H, 4, 3EH, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E043A043A00       DC8 3EH, 4, 3AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   430441044204       DC8 43H, 4, 41H, 4, 42H, 4, 2EH, 0
+   \              2E00        
+   \   00000018   440430043904       DC8 44H, 4, 30H, 4, 39H, 4, 3BH, 4
+   \              3B04        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_3`:
+   \   00000000   170432043E04       DC8 17H, 4, 32H, 4, 3EH, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E043A043A00       DC8 3EH, 4, 3AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   41043F043E04       DC8 41H, 4, 3FH, 4, 3EH, 4, 41H, 4
+   \              4104        
+   \   00000018   3E0431042000       DC8 3EH, 4, 31H, 4, 20H, 0, 3FH, 4
+   \              3F04        
+   \   00000020   400438045104       DC8 40H, 4, 38H, 4, 51H, 4, 3CH, 4
+   \              3C04        
+   \   00000028   30040000           DC8 30H, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_4`:
+   \   00000000   170432043E04       DC8 17H, 4, 32H, 4, 3EH, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E043A043A00       DC8 3EH, 4, 3AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   32043A043B04       DC8 32H, 4, 3AH, 4, 3BH, 4, 2EH, 0
+   \              2E00        
+   \   00000018   3D0430044004       DC8 3DH, 4, 30H, 4, 40H, 4, 30H, 4
+   \              3004        
+   \   00000020   410442043004       DC8 41H, 4, 42H, 4, 30H, 4, 3DH, 4
+   \              3D04        
+   \   00000028   380435040000       DC8 38H, 4, 35H, 4, 0, 0
+   \   0000002E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x43e\\x43d\\x43e\\x43a\\x3_5`:
+   \   00000000   170432043E04       DC8 17H, 4, 32H, 4, 3EH, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E043A043A00       DC8 3EH, 4, 3AH, 4, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000010   430441044204       DC8 43H, 4, 41H, 4, 42H, 4, 2EH, 0
+   \              2E00        
+   \   00000018   20003F044004       DC8 20H, 0, 3FH, 4, 40H, 4, 38H, 4
+   \              3804        
+   \   00000020   51043C042000       DC8 51H, 4, 3CH, 4, 20H, 0, 32H, 4
+   \              3204        
+   \   00000028   4B0437043E04       DC8 4BH, 4, 37H, 4, 3EH, 4, 32H, 4
+   \              3204        
+   \   00000030   3E0432040000       DC8 3EH, 4, 32H, 4, 0, 0
+   \   00000036   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x413\\x43e\\x43b\\x43e\\x441\\x43e\\x4`:
+   \   00000000   13043E043B04       DC8 13H, 4, 3EH, 4, 3BH, 4, 3EH, 4
+   \              3E04        
+   \   00000008   41043E043204       DC8 41H, 4, 3EH, 4, 32H, 4, 3EH, 4
+   \              3E04        
+   \   00000010   390420003204       DC8 39H, 4, 20H, 0, 32H, 4, 4BH, 4
+   \              4B04        
+   \   00000018   37043E043204       DC8 37H, 4, 3EH, 4, 32H, 4, 0, 0
+   \              0000        
+
+   Maximum stack usage in bytes:
+
+     Function                    CSTACK
+     --------                    ------
+     CreateGuiList(BOOK *)          16
+     OnBackGui(BOOK *, GUI *)       12
+     OnSelect1Gui(BOOK *, GUI *)     4
+     OnSelect2Gui(BOOK *, GUI *)  2148
+     create_ed(BOOK *)              12
+     onLBMessage(GUI_MESSAGE *)      8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     g                                 4
+     items                           168
+     onLBMessage(GUI_MESSAGE *)       96
+     OnSelect1Gui(BOOK *, GUI *)      52
+     OnSelect2Gui(BOOK *, GUI *)     320
+     OnBackGui(BOOK *, GUI *)         48
+     CreateGuiList(BOOK *)           256
+     create_ed(BOOK *)                84
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ?<Initializer for items>        168
+     ?<Constant L"\x4a\x61\x76\x61">
+                                      12
+     ?<Constant L"\x421\x43c\x435\x43d\x438\x442\x4
+                                      28
+     ?<Constant L"\x421\x43e\x43e\x431\x449\x435\x4
+                                      20
+     ?<Constant L"\x417\x430\x43f\x443\x441\x43a\x2
+                                      28
+     ?<Constant L"\x42f\x440\x43b\x44b\x43a">
+                                      12
+     ?<Constant L"\x420\x435\x441\x442\x430\x440\x4
+                                      16
+     ?<Constant L"\x412\x44b\x43a\x43b\x44e\x447\x4
+                                      40
+     ?<Constant L"\x42f\x440\x43a\x43e\x441\x442\x4
+                                      16
+     ?<Constant L"\x424\x43e\x43d\x430\x440\x438\x4
+                                      44
+     ?<Constant L"\x41f\x440\x43e\x444\x438\x43b\x4
+                                      16
+     ?<Constant L"\x25\x64\x2d\x25\x64\x2d\x25\x64\
+                                     148
+     ?<Constant L"\x41c\x443\x437\x44b\x43a\x430\x3
+                                      32
+     ?<Constant L"\x41c\x443\x437\x44b\x43a\x430\x3_1
+                                      56
+     ?<Constant L"\x41e\x431\x43e\x438\x3a\x20\x443
+                                      36
+     ?<Constant L"\x412\x438\x431\x440\x430">
+                                      12
+     ?<Constant L"\x413\x42d\x3a\x20\x443\x441\x442
+                                      36
+     ?<Constant L"\x413\x42d\x3a\x20\x443\x441\x442_1
+                                      40
+     ?<Constant L"\x417\x430\x43a\x440\x44b\x442\x4
+                                      28
+     ?<Constant L"\x412\x43a\x43b\x2e\x20\x43c\x443
+                                      36
+     ?<Constant L"\x41f\x43e\x43c\x435\x43d\x44f\x4
+                                      40
+     ?<Constant L"\x41e\x431\x43d\x43e\x432\x438\x4
+                                      20
+     ?<Constant L"\x417\x432\x443\x43a\x3a\x20\x432
+                                      24
+     ?<Constant L"\x417\x432\x443\x43a\x3a\x20\x432_1
+                                      20
+     ?<Constant L"\x418\x41a\x3a\x20\x432\x43a\x43b
+                                      16
+     ?<Constant L"\x418\x41a\x3a\x20\x432\x44b\x43a
+                                      20
+     ?<Constant L"\x418\x41a\x3a\x20\x43c\x438\x433
+                                      24
+     ?<Constant L"\x424\x43e\x43d\x430\x440\x438\x4_1
+                                      36
+     ?<Constant L"\x28\x57\x35\x38\x30\x29\x3a\x20\
+                                      48
+     ?<Constant L"\x28\x57\x35\x38\x30\x29\x3a\x20\_1
+                                      48
+     ?<Constant L"\x41e\x440\x430\x43d\x436\x2e\x43
+                                      40
+     ?<Constant L"\x41e\x440\x430\x43d\x436\x2e\x43_1
+                                      36
+     ?<Constant L"\x41e\x440\x430\x43d\x436\x2e\x43_2
+                                      36
+     ?<Constant L"\x412\x430\x436\x43d\x43e\x435\x2
+                                      32
+     ?<Constant L"\x417\x432\x43e\x43d\x43e\x43a\x3
+                                      44
+     ?<Constant L"\x417\x432\x43e\x43d\x43e\x43a\x3_1
+                                      36
+     ?<Constant L"\x417\x432\x43e\x43d\x43e\x43a\x3_2
+                                      36
+     ?<Constant L"\x417\x432\x43e\x43d\x43e\x43a\x3_3
+                                      44
+     ?<Constant L"\x417\x432\x43e\x43d\x43e\x43a\x3_4
+                                      48
+     ?<Constant L"\x417\x432\x43e\x43d\x43e\x43a\x3_5
+                                      56
+     ?<Constant L"\x413\x43e\x43b\x43e\x441\x43e\x4
+                                      32
+      Others                          48
+
+ 
+   888 bytes in segment CODE
+ 1 392 bytes in segment DATA_C
+   168 bytes in segment DATA_I
+   168 bytes in segment DATA_ID
+     4 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+   864 bytes of CODE  memory (+ 48 bytes shared)
+ 1 560 bytes of CONST memory
+   172 bytes of DATA  memory
+
+Errors: none
+Warnings: none

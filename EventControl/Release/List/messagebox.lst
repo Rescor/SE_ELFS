@@ -1,0 +1,333 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\m #
+#                       essagebox.cpp                                        #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\m #
+#                       essagebox.cpp -D NDEBUG -D OLDFUNCTIONS -lC          #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\messagebox.lst                           #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\messagebox.r79                            #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\messagebox.cpp
+      1          /*
+      2          *===========================================================================
+      3          *                       Модуль MessageBox'а
+      4          *===========================================================================
+      5          */
+      6          #include "..\deleaker\mem2.h"
+      7          #include "..\include\Lib_Clara.h" 
+      8          #include "..\include\Dir.h"
+      9          #include "header\structs.h"
+     10          #include "header\lng.h"
+     11          extern MyBOOK *ECBook;
+     12          #define MBK(a) MyBOOK *mbk=(MyBOOK*)a;
+     13          /*
+     14          *===========================================================================
+     15          *                  Обработка автоматического закрытия мессагбокса..
+     16          *===========================================================================
+     17          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     18          void mbox_OnClose(BOOK *bk)
+     19          {
+   \                     ??mbox_OnClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     20            MBK(bk);
+     21            GUIObject_Destroy(mbk->g_mbox);
+   \   00000008   340094E5           LDR      R0,[R4, #+52]
+   \   0000000C   CE0100EF           SWI      +462
+     22            mbk->g_mbox=0;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   340084E5           STR      R0,[R4, #+52]
+     23            if (bk==&ECBook->bk)
+   \   00000018   ........           LDR      R0,??DataTable2  ;; ECBook
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   000054E1           CMP      R4,R0
+   \   00000024   1080BD18           POPNE    {R4,PC}
+     24              BookObj_Hide(bk, 0);
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   710100EF           SWI      +369
+     25          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+     26          
+     27          /*
+     28          *===========================================================================
+     29          *                          Обработка нажатия ОК
+     30          *===========================================================================
+     31          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     32          void mbox_onOK(BOOK *bk, GUI* )
+     33          {
+   \                     ??mbox_onOK:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     34            MBK(bk);
+     35            GUIObject_Destroy(mbk->g_mbox);
+   \   00000008   340094E5           LDR      R0,[R4, #+52]
+   \   0000000C   CE0100EF           SWI      +462
+     36            mbk->g_mbox=0;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   340084E5           STR      R0,[R4, #+52]
+     37            if (bk==&ECBook->bk)
+   \   00000018   ........           LDR      R0,??DataTable2  ;; ECBook
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   000054E1           CMP      R4,R0
+   \   00000024   1080BD18           POPNE    {R4,PC}
+     38              BookObj_Hide(bk, 0);
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   710100EF           SWI      +369
+     39          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+     40          
+     41          /*
+     42          *===========================================================================
+     43          *                     Создаём мессагбокс...
+     44          *===========================================================================
+     45          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     46          void mbox_Create(BOOK * bk, wchar_t *text, int minutes, bool vibra)
+     47          {
+   \                     ??mbox_Create:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0190A0E1           MOV      R9,R1
+   \   00000010   0280A0E1           MOV      R8,R2
+     48            if (vibra)
+   \   00000014   000053E3           CMP      R3,#+0
+   \   00000018   0900000A           BEQ      ??mbox_Create_1
+     49            {
+     50              PAudioControl pAC = AudioControl_Init();
+   \   0000001C   DF0100EF           SWI      +479
+     51              if( !pAC )pAC = *GetAudioControlPtr();
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0100001A           BNE      ??mbox_Create_2
+   \   00000028   D18100EF           SWI      +33233
+   \   0000002C   000090E5           LDR      R0,[R0, #+0]
+     52              AudioControl_Vibrate(pAC, 500, 50, 3000);
+   \                     ??mbox_Create_2:
+   \   00000030   B830A0E3           MOV      R3,#+184
+   \   00000034   B03E83E3           ORR      R3,R3,#0xB00
+   \   00000038   3220A0E3           MOV      R2,#+50
+   \   0000003C   7D1FA0E3           MOV      R1,#+500
+   \   00000040   D20100EF           SWI      +466
+     53            }
+     54            if (!bk)bk=&ECBook->bk;
+   \                     ??mbox_Create_1:
+   \   00000044   000054E3           CMP      R4,#+0
+   \   00000048   ........           LDREQ    R0,??DataTable2  ;; ECBook
+     55            MBK(bk);
+     56            bool created=false;
+   \   0000004C   0050A0E3           MOV      R5,#+0
+   \   00000050   00409005           LDREQ    R4,[R0, #+0]
+     57            if (!mbk->g_mbox)
+   \   00000054   340094E5           LDR      R0,[R4, #+52]
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   0400001A           BNE      ??mbox_Create_3
+     58            {
+     59              mbk->g_mbox=TextFeedbackWindow(bk, 0);
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   C50200EF           SWI      +709
+   \   0000006C   340084E5           STR      R0,[R4, #+52]
+     60              created=true;
+   \   00000070   0150A0E3           MOV      R5,#+1
+     61            }
+     62            GUI_FEEDBACK *gMBox=mbk->g_mbox;
+   \                     ??mbox_Create_3:
+   \   00000074   346094E5           LDR      R6,[R4, #+52]
+     63            Feedback_SetTextExtended(gMBox,TextID_Create(text, ENC_UCS2, TEXTID_ANY_LEN),0);
+   \   00000078   FF70A0E3           MOV      R7,#+255
+   \   0000007C   FF7C87E3           ORR      R7,R7,#0xFF00
+   \   00000080   0720A0E1           MOV      R2,R7
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   0900A0E1           MOV      R0,R9
+   \   0000008C   5D0100EF           SWI      +349
+   \   00000090   0010A0E1           MOV      R1,R0
+   \   00000094   0020A0E3           MOV      R2,#+0
+   \   00000098   0600A0E1           MOV      R0,R6
+   \   0000009C   C90200EF           SWI      +713
+     64            if (minutes)
+   \   000000A0   000058E3           CMP      R8,#+0
+   \   000000A4   1600000A           BEQ      ??mbox_Create_4
+     65            {
+     66              int strids[2];
+     67              int min=minutes;
+     68              if (min<0)min=-min;
+   \   000000A8   1C919FE5           LDR      R9,??mbox_Create_5  ;; lng
+   \   000000AC   0400005A           BPL      ??mbox_Create_6
+     69              if (minutes<0)
+     70              {
+     71                strids[0]=TextID_CreateIntegerID(min);
+   \   000000B0   000068E2           RSB      R0,R8,#+0
+   \   000000B4   5C0100EF           SWI      +348
+   \   000000B8   00008DE5           STR      R0,[SP, #+0]
+     72                strids[1]=TextID_Create(lng[LNG_MIN_REMAIN], ENC_UCS2, TEXTID_ANY_LEN);
+   \   000000BC   100099E5           LDR      R0,[R9, #+16]
+   \   000000C0   030000EA           B        ??mbox_Create_7
+     73              }
+     74              else
+     75              {
+     76                strids[0]=TextID_CreateIntegerID(min);
+   \                     ??mbox_Create_6:
+   \   000000C4   0800A0E1           MOV      R0,R8
+   \   000000C8   5C0100EF           SWI      +348
+   \   000000CC   00008DE5           STR      R0,[SP, #+0]
+     77                strids[1]=TextID_Create(lng[LNG_MIN_AGO], ENC_UCS2, TEXTID_ANY_LEN);
+   \   000000D0   140099E5           LDR      R0,[R9, #+20]
+   \                     ??mbox_Create_7:
+   \   000000D4   0720A0E1           MOV      R2,R7
+   \   000000D8   0010A0E3           MOV      R1,#+0
+   \   000000DC   5D0100EF           SWI      +349
+   \   000000E0   04008DE5           STR      R0,[SP, #+4]
+     78              }
+     79              Feedback_SetTextExtended(gMBox,TextID_Create(strids,ENC_TEXTID,2),1);
+   \   000000E4   0220A0E3           MOV      R2,#+2
+   \   000000E8   0510A0E3           MOV      R1,#+5
+   \   000000EC   0D00A0E1           MOV      R0,SP
+   \   000000F0   5D0100EF           SWI      +349
+   \   000000F4   0120A0E3           MOV      R2,#+1
+   \   000000F8   0010A0E1           MOV      R1,R0
+   \   000000FC   0600A0E1           MOV      R0,R6
+   \   00000100   C90200EF           SWI      +713
+     80            }
+     81            Feedback_SetOnClose(gMBox, mbox_OnClose);
+   \                     ??mbox_Create_4:
+   \   00000104   C4109FE5           LDR      R1,??mbox_Create_5+0x4  ;; ??mbox_OnClose
+     82            GUIObject_SoftKeys_SetAction(gMBox,ACTION_OK,mbox_onOK);
+   \   00000108   C4909FE5           LDR      R9,??mbox_Create_5+0x8  ;; ??mbox_onOK
+   \   0000010C   0600A0E1           MOV      R0,R6
+   \   00000110   C70200EF           SWI      +711
+   \   00000114   BC009FE5           LDR      R0,??mbox_Create_5+0xC  ;; ACTION_OK
+   \   00000118   0920A0E1           MOV      R2,R9
+   \   0000011C   008090E5           LDR      R8,[R0, #+0]
+   \   00000120   0600A0E1           MOV      R0,R6
+   \   00000124   0818A0E1           MOV      R1,R8, LSL #+16
+   \   00000128   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000012C   4B0100EF           SWI      +331
+     83            GUIObject_SoftKeys_SetText(gMBox,ACTION_OK,TextID_Create(L"OK",ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000130   A4009FE5           LDR      R0,??mbox_Create_5+0x10  ;; `?<Constant L"\\x4f\\x4b">`
+   \   00000134   0720A0E1           MOV      R2,R7
+   \   00000138   0010A0E3           MOV      R1,#+0
+   \   0000013C   5D0100EF           SWI      +349
+   \   00000140   0020A0E1           MOV      R2,R0
+   \   00000144   0818A0E1           MOV      R1,R8, LSL #+16
+   \   00000148   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000014C   0600A0E1           MOV      R0,R6
+   \   00000150   4C0100EF           SWI      +332
+     84            GUIObject_SoftKeys_SetAction(gMBox,ACTION_BACK,mbox_onOK);
+   \   00000154   84009FE5           LDR      R0,??mbox_Create_5+0x14  ;; ACTION_BACK
+   \   00000158   0920A0E1           MOV      R2,R9
+   \   0000015C   001090E5           LDR      R1,[R0, #+0]
+   \   00000160   0600A0E1           MOV      R0,R6
+   \   00000164   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000168   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000016C   4B0100EF           SWI      +331
+     85            GUIObject_SetStyle(gMBox, 4);
+   \   00000170   0410A0E3           MOV      R1,#+4
+   \   00000174   0600A0E1           MOV      R0,R6
+   \   00000178   360100EF           SWI      +310
+     86            GUIObject_SetTitleType(gMBox, 1);
+   \   0000017C   0110A0E3           MOV      R1,#+1
+   \   00000180   0600A0E1           MOV      R0,R6
+   \   00000184   810200EF           SWI      +641
+     87            GUIObject_SoftKeys_Hide(gMBox);
+   \   00000188   0600A0E1           MOV      R0,R6
+   \   0000018C   A10200EF           SWI      +673
+     88            Feedback_SetTimeout(gMBox, 5000);
+   \   00000190   8810A0E3           MOV      R1,#+136
+   \   00000194   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000198   0600A0E1           MOV      R0,R6
+   \   0000019C   C80200EF           SWI      +712
+     89            if (created==true)
+   \   000001A0   000055E3           CMP      R5,#+0
+   \   000001A4   F383BD08           POPEQ    {R0,R1,R4-R9,PC}
+     90            {
+     91              GUIObject_Show(gMBox);
+   \   000001A8   0600A0E1           MOV      R0,R6
+   \   000001AC   340100EF           SWI      +308
+     92              BookObj_Show(bk, 0);
+   \   000001B0   0010A0E3           MOV      R1,#+0
+   \   000001B4   0400A0E1           MOV      R0,R4
+   \   000001B8   720100EF           SWI      +370
+     93              BookObj_SetFocus(bk, 0);
+   \   000001BC   0010A0E3           MOV      R1,#+0
+   \   000001C0   0400A0E1           MOV      R0,R4
+   \   000001C4   320100EF           SWI      +306
+     94            }
+     95          };
+   \   000001C8   F383BDE8           POP      {R0,R1,R4-R9,PC}  ;; return
+   \                     ??mbox_Create_5:
+   \   000001CC   ........           DC32     lng
+   \   000001D0   ........           DC32     ??mbox_OnClose
+   \   000001D4   ........           DC32     ??mbox_onOK
+   \   000001D8   ........           DC32     ACTION_OK
+   \   000001DC   ........           DC32     `?<Constant L"\\x4f\\x4b">`
+   \   000001E0   ........           DC32     ACTION_BACK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     ECBook
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4f\\x4b">`:
+   \   00000000   4F004B000000       DC8 4FH, 0, 4BH, 0, 0, 0
+   \   00000006   0000               DC8 0, 0
+     96          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     mbox_Create(BOOK *, wchar_t *, int, bool)
+                                       36
+     mbox_OnClose(BOOK *)               8
+     mbox_onOK(BOOK *, GUI *)           8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     mbox_OnClose(BOOK *)             56
+     mbox_onOK(BOOK *, GUI *)         56
+     mbox_Create(BOOK *, wchar_t *, int, bool)
+                                     484
+     ??DataTable2                      4
+     ?<Constant L"\x4f\x4b">           8
+      Others                          12
+
+ 
+ 612 bytes in segment CODE
+   8 bytes in segment DATA_C
+ 
+ 600 bytes of CODE  memory (+ 12 bytes shared)
+   8 bytes of CONST memory
+
+Errors: none
+Warnings: none

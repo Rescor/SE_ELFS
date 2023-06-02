@@ -1,0 +1,1128 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:45:49 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\7zslib.cp #
+#                       p                                                    #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\7zslib.cp #
+#                       p -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN          #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\7zslib.lst                                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\7zslib.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\7zslib.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\7zslib.h"
+      3          #include "inc\mui.h"
+      4          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+      5          const wchar_t _7z_ext[] = L"7z";
+   \                     _7z_ext:
+   \   00000000   37007A000000       DC8 37H, 0, 7AH, 0, 0, 0
+   \   00000006   0000               DC8 0, 0
+      6          
+      7          
+      8          void Close7Z(ARCHINFO* arc);
+      9          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     10          int IsIt7ZipFile(wchar_t* fname)
+     11          {
+     12            if (CONFIG_7Z_DETECT_BY) // by content
+   \                     ??IsIt7ZipFile:
+   \   00000000   88109FE5           LDR      R1,??IsIt7ZipFile_1  ;; CONFIG_7Z_DETECT_BY
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   001091E5           LDR      R1,[R1, #+0]
+   \   00000010   000051E3           CMP      R1,#+0
+   \   00000014   1500000A           BEQ      ??IsIt7ZipFile_2
+     13            {
+     14              unsigned char buf[k7zSignatureSize];
+     15              int f =w_fopen(fname, WA_Read, 0x1FF, NULL);
+   \   00000018   0030A0E3           MOV      R3,#+0
+   \   0000001C   FF20A0E3           MOV      R2,#+255
+   \   00000020   402F82E3           ORR      R2,R2,#0x100
+   \   00000024   0110A0E3           MOV      R1,#+1
+   \   00000028   F80200EF           SWI      +760
+   \   0000002C   0040B0E1           MOVS     R4,R0
+     16              if (f>=0)
+   \   00000030   0600004A           BMI      ??IsIt7ZipFile_3
+     17              {
+     18                if (w_fread(f, &buf, k7zSignatureSize) == k7zSignatureSize)
+   \   00000034   0620A0E3           MOV      R2,#+6
+   \   00000038   0D10A0E1           MOV      R1,SP
+   \   0000003C   FB0200EF           SWI      +763
+   \   00000040   060050E3           CMP      R0,#+6
+   \   00000044   0100001A           BNE      ??IsIt7ZipFile_3
+     19                w_fclose(f);
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   FD0200EF           SWI      +765
+     20              }
+     21              return (memcmp(buf,k7zSignature,k7zSignatureSize)==0);
+   \                     ??IsIt7ZipFile_3:
+   \   00000050   3C109FE5           LDR      R1,??IsIt7ZipFile_1+0x4  ;; k7zSignature
+   \   00000054   0620A0E3           MOV      R2,#+6
+   \   00000058   0D00A0E1           MOV      R0,SP
+   \   0000005C   7D0200EF           SWI      +637
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   0700001A           BNE      ??IsIt7ZipFile_4
+   \   00000068   0100A0E3           MOV      R0,#+1
+   \   0000006C   1680BDE8           POP      {R1,R2,R4,PC}
+     22            }
+     23            else // by extension
+     24            {
+     25              return (wstrcmpi(GetFileExt(fname), _7z_ext) == 0);
+   \                     ??IsIt7ZipFile_2:
+   \   00000070   ........           _BLF     ??GetFileExt,??GetFileExt??rA
+   \   00000074   1C109FE5           LDR      R1,??IsIt7ZipFile_1+0x8  ;; _7z_ext
+   \   00000078   9F0200EF           SWI      +671
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   0100A003           MOVEQ    R0,#+1
+   \   00000084   1680BD08           POPEQ    {R1,R2,R4,PC}
+   \                     ??IsIt7ZipFile_4:
+   \   00000088   0000A0E3           MOV      R0,#+0
+   \   0000008C   1680BDE8           POP      {R1,R2,R4,PC}    ;; return
+   \                     ??IsIt7ZipFile_1:
+   \   00000090   ........           DC32     CONFIG_7Z_DETECT_BY
+   \   00000094   ........           DC32     k7zSignature
+   \   00000098   ........           DC32     _7z_ext
+     26            }
+     27          }
+     28          
+     29          #ifdef _LZMA_IN_CB
+     30          
+     31          #define kBufferSize (1 << 12)
+     32          Byte g_Buffer[kBufferSize];
+     33          
+     34          SZ_RESULT SzFileReadImp(void *object, void **buffer, size_t maxRequiredSize, size_t *processedSize)
+     35          {
+     36            CFileInStream *s = (CFileInStream *)object;
+     37            size_t processedSizeLoc;
+     38            if (maxRequiredSize > kBufferSize)
+     39              maxRequiredSize = kBufferSize;
+     40            processedSizeLoc = w_fread(s->File, g_Buffer, maxRequiredSize);
+     41            *buffer = g_Buffer;
+     42            if (processedSize != 0)
+     43              *processedSize = processedSizeLoc;
+     44            return SZ_OK;
+     45          }
+     46          
+     47          #else
+     48          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     49          SZ_RESULT SzFileReadImp(void *object, void *buffer, size_t size, size_t *processedSize)
+     50          {
+   \                     ??SzFileReadImp:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     51            CFileInStream *s = (CFileInStream *)object;
+     52            size_t processedSizeLoc = w_fread(s->File, buffer, size);
+   \   00000004   080090E5           LDR      R0,[R0, #+8]
+   \   00000008   0340A0E1           MOV      R4,R3
+   \   0000000C   FB0200EF           SWI      +763
+     53            if (processedSize != 0)
+   \   00000010   000054E3           CMP      R4,#+0
+     54              *processedSize = processedSizeLoc;
+   \   00000014   00008415           STRNE    R0,[R4, #+0]
+     55            return SZ_OK;
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+     56          }
+     57          
+     58          #endif
+     59          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     60          SZ_RESULT SzFileSeekImp(void *object, CFileSize pos)
+     61          {
+   \                     ??SzFileSeekImp:
+   \   00000000   00402DE9           PUSH     {LR}
+     62            CFileInStream *s = (CFileInStream *)object;
+     63            w_lseek(s->File, (long)pos, WSEEK_SET);
+   \   00000004   080090E5           LDR      R0,[R0, #+8]
+   \   00000008   0220A0E3           MOV      R2,#+2
+   \   0000000C   FC0200EF           SWI      +764
+     64            return SZ_OK;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+     65          }
+     66          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     67          int Open7ZFile(ARCHINFO* arc, wchar_t* zipFileName)
+     68          {
+   \                     ??Open7ZFile:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0170A0E1           MOV      R7,R1
+     69            int zerr = UNZ_ERRNO;
+     70          
+     71            {
+     72              _7zinfo *zinfo=&arc->info._7z;
+   \   0000000C   415E84E2           ADD      R5,R4,#+1040
+     73              zinfo->archiveStream.File = w_fopen(zipFileName, WA_Read, 0x1FF,0);
+   \   00000010   0030A0E3           MOV      R3,#+0
+   \   00000014   FF20A0E3           MOV      R2,#+255
+   \   00000018   402F82E3           ORR      R2,R2,#0x100
+   \   0000001C   0110A0E3           MOV      R1,#+1
+   \   00000020   0700A0E1           MOV      R0,R7
+   \   00000024   F80200EF           SWI      +760
+   \   00000028   080085E5           STR      R0,[R5, #+8]
+     74              arc->total_names=0;
+   \   0000002C   810F84E2           ADD      R0,R4,#+516
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   041280E5           STR      R1,[R0, #+516]
+     75              if (zinfo->archiveStream.File < 0)
+   \   00000038   080095E5           LDR      R0,[R5, #+8]
+   \   0000003C   000050E3           CMP      R0,#+0
+     76              {
+     77                return 1;
+   \   00000040   0100A043           MOVMI    R0,#+1
+   \   00000044   F087BD48           POPMI    {R4-R10,PC}
+     78              }
+     79              zinfo->archiveStream.InStream.Read = SzFileReadImp;
+   \   00000048   C4019FE5           LDR      R0,??Open7ZFile_1  ;; ??SzFileReadImp
+   \   0000004C   000085E5           STR      R0,[R5, #+0]
+     80              zinfo->archiveStream.InStream.Seek = SzFileSeekImp;
+   \   00000050   C0019FE5           LDR      R0,??Open7ZFile_1+0x4  ;; ??SzFileSeekImp
+   \   00000054   040085E5           STR      R0,[R5, #+4]
+     81              
+     82              zinfo->allocImp.Alloc = SzAlloc;
+   \   00000058   ........           LDR      R0,??DataTable7  ;; SzAlloc
+   \   0000005C   0C0085E5           STR      R0,[R5, #+12]
+     83              zinfo->allocImp.Free = SzFree;
+   \   00000060   ........           LDR      R0,??DataTable8  ;; SzFree
+   \   00000064   100085E5           STR      R0,[R5, #+16]
+     84              
+     85              zinfo->allocTempImp.Alloc = SzAllocTemp;
+   \   00000068   ........           LDR      R0,??DataTable9  ;; SzAllocTemp
+   \   0000006C   140085E5           STR      R0,[R5, #+20]
+     86              zinfo->allocTempImp.Free = SzFreeTemp;
+   \   00000070   ........           LDR      R0,??DataTable10  ;; SzFreeTemp
+   \   00000074   180085E5           STR      R0,[R5, #+24]
+     87              WriteLog("InitCrcTable");  
+     88              InitCrcTable();
+   \   00000078   ........           _BLF     InitCrcTable,??InitCrcTable??rA
+     89              WriteLog("SzArDbExInit(&zinfo->db)");
+     90              SzArDbExInit(&zinfo->db);
+   \   0000007C   1C0085E2           ADD      R0,R5,#+28
+   \   00000080   ........           _BLF     SzArDbExInit,??SzArDbExInit??rA
+     91              WriteLog("SzArchiveOpen");
+     92              zerr = SzArchiveOpen(&zinfo->archiveStream.InStream, &zinfo->db, &zinfo->allocImp, &zinfo->allocTempImp);
+   \   00000084   143085E2           ADD      R3,R5,#+20
+   \   00000088   0C2085E2           ADD      R2,R5,#+12
+   \   0000008C   1C1085E2           ADD      R1,R5,#+28
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   ........           _BLF     SzArchiveOpen,??SzArchiveOpen??rA
+   \   00000098   0060B0E1           MOVS     R6,R0
+     93              WriteLog(zerr);
+     94              if (zerr == SZ_OK)
+   \   0000009C   5800001A           BNE      ??Open7ZFile_2
+     95              {
+     96                arc->type=_7Z_ARCH;
+   \   000000A0   0200A0E3           MOV      R0,#+2
+   \   000000A4   000084E5           STR      R0,[R4, #+0]
+     97                arc->szCurDir[0] = '\0';
+   \   000000A8   810F84E2           ADD      R0,R4,#+516
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   B010C0E1           STRH     R1,[R0, #+0]
+     98                wstrcpy(arc->szZipPath, zipFileName);
+   \   000000B4   0710A0E1           MOV      R1,R7
+   \   000000B8   040084E2           ADD      R0,R4,#+4
+   \   000000BC   520100EF           SWI      +338
+     99                
+    100                if (zinfo->db.Database.NumFiles >0)
+   \   000000C0   340095E5           LDR      R0,[R5, #+52]
+   \   000000C4   000050E3           CMP      R0,#+0
+   \   000000C8   4F00000A           BEQ      ??Open7ZFile_3
+    101                {
+    102                  arc->total_names=zinfo->db.Database.NumFiles;
+   \   000000CC   341095E5           LDR      R1,[R5, #+52]
+   \   000000D0   810F84E2           ADD      R0,R4,#+516
+   \   000000D4   041280E5           STR      R1,[R0, #+516]
+    103                  int useProgressBar = !progr_start;
+   \   000000D8   3C019FE5           LDR      R0,??Open7ZFile_1+0x8  ;; progr_start
+   \   000000DC   000090E5           LDR      R0,[R0, #+0]
+   \   000000E0   000050E3           CMP      R0,#+0
+   \   000000E4   0C00001A           BNE      ??Open7ZFile_4
+    104                  if (useProgressBar)
+    105                  {
+    106                    // запускаем прогресс бар, если уже не запущен другой
+    107                    Busy = 1;
+   \   000000E8   30019FE5           LDR      R0,??Open7ZFile_1+0xC  ;; Busy
+   \   000000EC   0110A0E3           MOV      R1,#+1
+   \   000000F0   001080E5           STR      R1,[R0, #+0]
+    108                    initprogr(ind_msg_zreading);
+   \   000000F4   5A00A0E3           MOV      R0,#+90
+   \   000000F8   ........           _BLF     ??initprogr,??initprogr??rA
+    109                    progr_max = arc->total_names;
+   \   000000FC   20019FE5           LDR      R0,??Open7ZFile_1+0x10  ;; progr_max
+   \   00000100   811F84E2           ADD      R1,R4,#+516
+   \   00000104   041291E5           LDR      R1,[R1, #+516]
+   \   00000108   0170A0E3           MOV      R7,#+1
+   \   0000010C   001080E5           STR      R1,[R0, #+0]
+    110                    incprogr(0);
+   \   00000110   0000A0E3           MOV      R0,#+0
+   \   00000114   ........           _BLF     ??incprogr,??incprogr??rA
+   \   00000118   000000EA           B        ??Open7ZFile_5
+    111                  }
+   \                     ??Open7ZFile_4:
+   \   0000011C   0070A0E3           MOV      R7,#+0
+    112                  arc->pszNames = new wchar_t *[arc->total_names];
+   \                     ??Open7ZFile_5:
+   \   00000120   811FA0E3           MOV      R1,#+516
+   \   00000124   04A081E0           ADD      R10,R1,R4
+   \   00000128   04029AE5           LDR      R0,[R10, #+516]
+   \   0000012C   0001A0E1           LSL      R0,R0,#+2
+   \   00000130   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000134   00028AE5           STR      R0,[R10, #+512]
+    113                  if (arc->pszNames)
+   \   00000138   000050E3           CMP      R0,#+0
+   \   0000013C   0400000A           BEQ      ??Open7ZFile_6
+    114                  {
+    115                    memset(arc->pszNames, 0, arc->total_names*sizeof(wchar_t *));
+   \   00000140   04029AE5           LDR      R0,[R10, #+516]
+   \   00000144   0010A0E3           MOV      R1,#+0
+   \   00000148   0021A0E1           LSL      R2,R0,#+2
+   \   0000014C   00029AE5           LDR      R0,[R10, #+512]
+   \   00000150   120100EF           SWI      +274
+    116                  }
+    117                  for (int i = 0; i < arc->total_names; i++)
+   \                     ??Open7ZFile_6:
+   \   00000154   810F84E2           ADD      R0,R4,#+516
+   \   00000158   040290E5           LDR      R0,[R0, #+516]
+   \   0000015C   0080A0E3           MOV      R8,#+0
+   \   00000160   010050E3           CMP      R0,#+1
+   \   00000164   1A0000AA           BGE      ??Open7ZFile_7
+   \   00000168   1D0000EA           B        ??Open7ZFile_8
+    118                  {
+    119                    CFileItem *f = zinfo->db.Database.Files + i;
+   \                     ??Open7ZFile_9:
+   \   0000016C   380095E5           LDR      R0,[R5, #+56]
+   \   00000170   089280E0           ADD      R9,R0,R8, LSL #+4
+    120                    arc->pszNames[i] = new wchar_t[strlen(f->Name)+1];
+   \   00000174   080099E5           LDR      R0,[R9, #+8]
+   \   00000178   5A0100EF           SWI      +346
+   \   0000017C   010080E2           ADD      R0,R0,#+1
+   \   00000180   8000A0E1           LSL      R0,R0,#+1
+   \   00000184   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000188   00129AE5           LDR      R1,[R10, #+512]
+   \   0000018C   080181E7           STR      R0,[R1, +R8, LSL #+2]
+    121                    int len=utf8_to_utf16(f->Name,strlen(f->Name),arc->pszNames[i]);
+   \   00000190   080099E5           LDR      R0,[R9, #+8]
+   \   00000194   5A0100EF           SWI      +346
+   \   00000198   0010A0E1           MOV      R1,R0
+   \   0000019C   00029AE5           LDR      R0,[R10, #+512]
+   \   000001A0   082190E7           LDR      R2,[R0, +R8, LSL #+2]
+   \   000001A4   080099E5           LDR      R0,[R9, #+8]
+   \   000001A8   ........           _BLF     ??utf8_to_utf16,??utf8_to_utf16??rA
+    122                    arc->pszNames[i][len]=0;
+   \   000001AC   00129AE5           LDR      R1,[R10, #+512]
+    123                    WriteLog(arc->pszNames[i]);
+    124                    if (useProgressBar) incprogr(1);
+   \   000001B0   000057E3           CMP      R7,#+0
+   \   000001B4   081191E7           LDR      R1,[R1, +R8, LSL #+2]
+   \   000001B8   800081E0           ADD      R0,R1,R0, LSL #+1
+   \   000001BC   0010A0E3           MOV      R1,#+0
+   \   000001C0   B010C0E1           STRH     R1,[R0, #+0]
+   \   000001C4   0100000A           BEQ      ??Open7ZFile_10
+   \   000001C8   0100A0E3           MOV      R0,#+1
+   \   000001CC   ........           _BLF     ??incprogr,??incprogr??rA
+    125                  }
+   \                     ??Open7ZFile_10:
+   \   000001D0   018088E2           ADD      R8,R8,#+1
+   \                     ??Open7ZFile_7:
+   \   000001D4   810F84E2           ADD      R0,R4,#+516
+   \   000001D8   040290E5           LDR      R0,[R0, #+516]
+   \   000001DC   000058E1           CMP      R8,R0
+   \   000001E0   E1FFFFBA           BLT      ??Open7ZFile_9
+    126                  
+    127                  if (useProgressBar)
+   \                     ??Open7ZFile_8:
+   \   000001E4   000057E3           CMP      R7,#+0
+   \   000001E8   0700000A           BEQ      ??Open7ZFile_3
+    128                  {
+    129                    endprogr(); // останавливаем прогресс бар
+   \   000001EC   ........           _BLF     ??endprogr,??endprogr??rA
+    130                    Busy = 0;
+   \   000001F0   28009FE5           LDR      R0,??Open7ZFile_1+0xC  ;; Busy
+   \   000001F4   0010A0E3           MOV      R1,#+0
+   \   000001F8   001080E5           STR      R1,[R0, #+0]
+   \   000001FC   0600A0E1           MOV      R0,R6
+   \   00000200   F087BDE8           POP      {R4-R10,PC}
+    131                  }
+    132                }
+    133              }
+    134            }
+    135            if (zerr != SZ_OK)
+    136              Close7Z(arc);
+   \                     ??Open7ZFile_2:
+   \   00000204   0400A0E1           MOV      R0,R4
+   \   00000208   ........           BL       ??Close7Z
+    137            return zerr;
+   \                     ??Open7ZFile_3:
+   \   0000020C   0600A0E1           MOV      R0,R6
+   \   00000210   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??Open7ZFile_1:
+   \   00000214   ........           DC32     ??SzFileReadImp
+   \   00000218   ........           DC32     ??SzFileSeekImp
+   \   0000021C   ........           DC32     progr_start
+   \   00000220   ........           DC32     Busy
+   \   00000224   ........           DC32     progr_max
+    138          }
+    139          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    140          void Close7Z(ARCHINFO* arc)
+    141          {
+   \                     ??Close7Z:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    142            if (arc->type==_7Z_ARCH)
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   020050E3           CMP      R0,#+2
+   \   00000010   3080BD18           POPNE    {R4,R5,PC}
+    143            {
+    144              _7zinfo *zinfo=&arc->info._7z;
+   \   00000014   415E84E2           ADD      R5,R4,#+1040
+    145              SzArDbExFree(&zinfo->db, zinfo->allocImp.Free);
+   \   00000018   101095E5           LDR      R1,[R5, #+16]
+   \   0000001C   1C0085E2           ADD      R0,R5,#+28
+   \   00000020   ........           _BLF     SzArDbExFree,??SzArDbExFree??rA
+    146              w_fclose(zinfo->archiveStream.File);
+   \   00000024   080095E5           LDR      R0,[R5, #+8]
+   \   00000028   FD0200EF           SWI      +765
+    147              FreeArchInfo(arc);
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           _BLF     ??FreeArchInfo,??FreeArchInfo??rA
+    148            }
+    149          }
+   \   00000034   3080BDE8           POP      {R4,R5,PC}       ;; return
+    150          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    151          void CloseTab7Z(int tab)
+    152          {
+    153            Close7Z(tabs[tab]->zipInfo);
+   \                     ??CloseTab7Z:
+   \   00000000   ........           LDR      R1,??DataTable6  ;; tabs
+   \   00000004   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000008   140890E5           LDR      R0,[R0, #+2068]
+   \   0000000C   ........           B        ??Close7Z        ;; tailcall
+    154          }
+    155          
+    156          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    157          int OpenTab7Z(int tab, wchar_t* zipFileName)
+    158          {
+   \                     ??OpenTab7Z:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    159            int zerr = UNZ_ERRNO;
+   \   0000000C   0060E0E3           MVN      R6,#+0
+    160            
+    161            if (!IsArchiveOpened(tab)) // не обрабатываем вложенные архивы
+   \   00000010   ........           _BLF     ??IsArchiveOpened,??IsArchiveOpened??rA
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0500001A           BNE      ??OpenTab7Z_1
+    162            {
+    163              zerr = Open7ZFile(tabs[tab]->zipInfo, zipFileName);
+   \   0000001C   ........           LDR      R0,??DataTable6  ;; tabs
+   \   00000020   0510A0E1           MOV      R1,R5
+   \   00000024   040190E7           LDR      R0,[R0, +R4, LSL #+2]
+   \   00000028   140890E5           LDR      R0,[R0, #+2068]
+   \   0000002C   ........           BL       ??Open7ZFile
+   \   00000030   0060A0E1           MOV      R6,R0
+    164            }
+    165            return zerr;
+   \                     ??OpenTab7Z_1:
+   \   00000034   0600A0E1           MOV      R0,R6
+   \   00000038   7080BDE8           POP      {R4-R6,PC}       ;; return
+    166          }
+    167          
+    168          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    169          int Fill7ZFiles(int tab, wchar_t* subdname)
+    170          {
+   \                     ??Fill7ZFiles:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   80DF4DE2           SUB      SP,SP,#+512
+   \   00000008   0050A0E1           MOV      R5,R0
+    171            int num = 0;
+    172            wchar_t buf[0x100];
+    173            wchar_t* pszDirName = subdname[0] == '/' ? subdname + 1 : subdname; // ѕропустим в начале обратный слеш
+   \   0000000C   B000D1E1           LDRH     R0,[R1, #+0]
+   \   00000010   0090A0E3           MOV      R9,#+0
+   \   00000014   2F0050E3           CMP      R0,#+47
+   \   00000018   02408102           ADDEQ    R4,R1,#+2
+   \   0000001C   0140A011           MOVNE    R4,R1
+    174            int dirLen = wstrlen(pszDirName);
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   570100EF           SWI      +343
+   \   00000028   0060A0E1           MOV      R6,R0
+    175            ARCHINFO* arc = tabs[tab]->zipInfo;
+   \   0000002C   ........           LDR      R0,??DataTable6  ;; tabs
+   \   00000030   050190E7           LDR      R0,[R0, +R5, LSL #+2]
+   \   00000034   147890E5           LDR      R7,[R0, #+2068]
+    176            
+    177            if (arc->type==_7Z_ARCH)
+   \   00000038   000097E5           LDR      R0,[R7, #+0]
+   \   0000003C   020050E3           CMP      R0,#+2
+   \   00000040   0400001A           BNE      ??Fill7ZFiles_1
+    178            {
+    179              _7zinfo *zinfo=&arc->info._7z;
+   \   00000044   418E87E2           ADD      R8,R7,#+1040
+    180              for (int i=0; i < zinfo->db.Database.NumFiles; i++)
+   \   00000048   340098E5           LDR      R0,[R8, #+52]
+   \   0000004C   00A0A0E3           MOV      R10,#+0
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   0F00001A           BNE      ??Fill7ZFiles_2
+    181              {
+    182                int ignore = 1;
+    183                wstrncpy(buf, arc->pszNames[i],0x100-1);
+    184                wchar_t* pFileNameStart = &buf[0];
+    185                if (dirLen == 0)
+    186                {
+    187                  // ≈сли ищем корневые элементы
+    188                  // “о добавл€ем все файлы у которых нет слешей '\'
+    189                  wchar_t* slashPos = wstrwstr(buf, L"/");
+    190                  ignore = (slashPos != NULL);
+    191                  if (ignore)
+    192                  {
+    193                    // » добавл€ем все директории - у них один слеш, и тот последний
+    194                    ignore = (*(slashPos + 1) != 0);
+    195                    if (!ignore)
+    196                    {
+    197                      // «атрем этот слеш, чтобы не выводилс€
+    198                      *slashPos = 0;
+    199                    }
+    200                  }
+    201                }
+    202                else
+    203                {
+    204                  // —равниваем начало, если равно и потом слеш - то это элементы нашей директории
+    205                  pFileNameStart = pFileNameStart + dirLen;
+    206                  ignore = (wstrcmpni(buf, pszDirName, dirLen) != 0 || *pFileNameStart != '/');
+    207                  if (!ignore)
+    208                  {
+    209                    pFileNameStart = pFileNameStart + 1; // пропустим слеш после имени директории
+    210                    // игнорим саму текущую, директорию
+    211                    ignore = (*pFileNameStart == 0);
+    212                    if (!ignore)
+    213                    {
+    214                      // проверка на поддиректорию
+    215                      wchar_t* pFileNameEnd = wstrwstr(pFileNameStart, L"/");
+    216                      if (pFileNameEnd != NULL)
+    217                      {
+    218                        // проверка на то что это не сама поддиректори€ а ее элементы, оные проигнорим
+    219                        ignore = (*(pFileNameEnd+1) != 0);
+    220                        if (!ignore)
+    221                        {
+    222                          *pFileNameEnd = 0; // грохнем слеш в конце
+    223                        }
+    224                      }
+    225                    }
+    226                  }
+    227                }
+    228                if (!ignore)
+    229                {
+    230                  CFileItem *f = zinfo->db.Database.Files + i;
+    231                  AddFile(tab, i, pFileNameStart, f->Size, f->IsDirectory?FA_DIRECTORY:0, 0,
+    232                          0, f->IsDirectory? TYPE_7Z_DIR : TYPE_7Z_FILE);
+    233                  num++;
+    234                }
+    235              }
+    236            }
+    237            return num;
+   \                     ??Fill7ZFiles_1:
+   \   00000058   0900A0E1           MOV      R0,R9
+   \   0000005C   80DF8DE2           ADD      SP,SP,#+512
+   \   00000060   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??Fill7ZFiles_3:
+   \   00000064   01002DE9           PUSH     {R0}
+   \   00000068   019089E2           ADD      R9,R9,#+1
+   \   0000006C   0000A0E3           MOV      R0,#+0
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   003092E5           LDR      R3,[R2, #+0]
+   \   00000080   0B20A0E1           MOV      R2,R11
+   \   00000084   0500A0E1           MOV      R0,R5
+   \   00000088   0A10A0E1           MOV      R1,R10
+   \   0000008C   ........           _BLF     ??AddFile,??AddFile??rA
+   \   00000090   10D08DE2           ADD      SP,SP,#+16
+   \                     ??Fill7ZFiles_4:
+   \   00000094   01A08AE2           ADD      R10,R10,#+1
+   \                     ??Fill7ZFiles_2:
+   \   00000098   340098E5           LDR      R0,[R8, #+52]
+   \   0000009C   00005AE1           CMP      R10,R0
+   \   000000A0   ECFFFF2A           BCS      ??Fill7ZFiles_1
+   \   000000A4   040497E5           LDR      R0,[R7, #+1028]
+   \   000000A8   FF20A0E3           MOV      R2,#+255
+   \   000000AC   0A1190E7           LDR      R1,[R0, +R10, LSL #+2]
+   \   000000B0   0D00A0E1           MOV      R0,SP
+   \   000000B4   530100EF           SWI      +339
+   \   000000B8   0DB0A0E1           MOV      R11,SP
+   \   000000BC   000056E3           CMP      R6,#+0
+   \   000000C0   1F1F8F02           ADREQ    R1,??Fill7ZFiles_5  ;; 0x2F, 0x00, 0x00, 0x00
+   \   000000C4   0D00A001           MOVEQ    R0,SP
+   \   000000C8   0D00000A           BEQ      ??Fill7ZFiles_6
+   \   000000CC   0D00A0E1           MOV      R0,SP
+   \   000000D0   86B080E0           ADD      R11,R0,R6, LSL #+1
+   \   000000D4   0620A0E1           MOV      R2,R6
+   \   000000D8   0410A0E1           MOV      R1,R4
+   \   000000DC   9A0200EF           SWI      +666
+   \   000000E0   000050E3           CMP      R0,#+0
+   \   000000E4   ........           LDRHEQ   R0,[R11], #+2
+   \   000000E8   2F005003           CMPEQ    R0,#+47
+   \   000000EC   E8FFFF1A           BNE      ??Fill7ZFiles_4
+   \   000000F0   B000DBE1           LDRH     R0,[R11, #+0]
+   \   000000F4   000050E3           CMP      R0,#+0
+   \   000000F8   E5FFFF0A           BEQ      ??Fill7ZFiles_4
+   \   000000FC   101F8FE2           ADR      R1,??Fill7ZFiles_5  ;; 0x2F, 0x00, 0x00, 0x00
+   \   00000100   0B00A0E1           MOV      R0,R11
+   \                     ??Fill7ZFiles_6:
+   \   00000104   9E0200EF           SWI      +670
+   \   00000108   000050E3           CMP      R0,#+0
+   \   0000010C   0300000A           BEQ      ??Fill7ZFiles_7
+   \   00000110   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000114   000051E3           CMP      R1,#+0
+   \   00000118   DDFFFF1A           BNE      ??Fill7ZFiles_4
+   \   0000011C   B010C0E1           STRH     R1,[R0, #+0]
+   \                     ??Fill7ZFiles_7:
+   \   00000120   380098E5           LDR      R0,[R8, #+56]
+   \   00000124   0A2280E0           ADD      R2,R0,R10, LSL #+4
+   \   00000128   0E00D2E5           LDRB     R0,[R2, #+14]
+   \   0000012C   000050E3           CMP      R0,#+0
+   \   00000130   0400A003           MOVEQ    R0,#+4
+   \   00000134   0010A003           MOVEQ    R1,#+0
+   \   00000138   0500A013           MOVNE    R0,#+5
+   \   0000013C   401CA013           MOVNE    R1,#+16384
+   \   00000140   C7FFFFEA           B        ??Fill7ZFiles_3
+   \                     ??Fill7ZFiles_5:
+   \   00000144   2F000000           DC8      0x2F, 0x00, 0x00, 0x00
+    238          }
+    239          
+    240          
+    241          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    242          int ExtractFileByID7Z(ARCHINFO* pzi, int id, wchar_t* extractDir, int usePaths, int ip)
+    243          {
+   \                     ??ExtractFileByID7Z:
+   \   00000000   F84F2DE9           PUSH     {R3-R11,LR}
+   \   00000004   24D04DE2           SUB      SP,SP,#+36
+   \   00000008   0060A0E1           MOV      R6,R0
+    244            int res=SZ_OK;
+    245            int fout=-1;
+    246            wchar_t *filePathInZip = pzi->pszNames[id];
+   \   0000000C   040496E5           LDR      R0,[R6, #+1028]
+   \   00000010   0170A0E1           MOV      R7,R1
+   \   00000014   07B190E7           LDR      R11,[R0, +R7, LSL #+2]
+   \   00000018   02A0A0E1           MOV      R10,R2
+    247            wchar_t *extractFilePath=new wchar_t[MAX_PATH];
+   \   0000001C   800FA0E3           MOV      R0,#+512
+   \   00000020   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+    248            wchar_t *temp=NULL;
+    249            CFileItem *file = pzi->info._7z.db.Database.Files + id;
+   \   00000024   481496E5           LDR      R1,[R6, #+1096]
+   \   00000028   0090A0E3           MOV      R9,#+0
+   \   0000002C   0040A0E1           MOV      R4,R0
+   \   00000030   0050A0E3           MOV      R5,#+0
+   \   00000034   071281E0           ADD      R1,R1,R7, LSL #+4
+   \   00000038   00108DE5           STR      R1,[SP, #+0]
+    250            if (filePathInZip == NULL)
+   \   0000003C   00005BE3           CMP      R11,#+0
+   \   00000040   0B00001A           BNE      ??ExtractFileByID7Z_1
+    251            {
+    252              // —читываем им€ сами если нужно
+    253              temp=new wchar_t[MAX_PATH];
+   \   00000044   800FA0E3           MOV      R0,#+512
+   \   00000048   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000004C   0050A0E1           MOV      R5,R0
+    254              int len=utf8_to_utf16(file->Name,MAX_PATH-1,temp);
+    255              temp[len]=0;
+   \   00000050   00009DE5           LDR      R0,[SP, #+0]
+   \   00000054   0520A0E1           MOV      R2,R5
+   \   00000058   080090E5           LDR      R0,[R0, #+8]
+   \   0000005C   FF10A0E3           MOV      R1,#+255
+   \   00000060   ........           _BLF     ??utf8_to_utf16,??utf8_to_utf16??rA
+   \   00000064   800085E0           ADD      R0,R5,R0, LSL #+1
+   \   00000068   0010A0E3           MOV      R1,#+0
+   \   0000006C   B010C0E1           STRH     R1,[R0, #+0]
+    256              filePathInZip=temp;
+   \   00000070   05B0A0E1           MOV      R11,R5
+    257            }
+    258            wchar_t* fileNameInZip=GetFileName(filePathInZip);
+   \                     ??ExtractFileByID7Z_1:
+   \   00000074   0B00A0E1           MOV      R0,R11
+   \   00000078   ........           _BLF     ??GetFileName,??GetFileName??rA
+   \   0000007C   0080A0E1           MOV      R8,R0
+    259            if (file->IsDirectory)
+   \   00000080   00009DE5           LDR      R0,[SP, #+0]
+   \   00000084   0E00D0E5           LDRB     R0,[R0, #+14]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   24009DE5           LDR      R0,[SP, #+36]
+   \   00000090   0B00000A           BEQ      ??ExtractFileByID7Z_2
+    260            {
+    261              if (usePaths)
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   6100000A           BEQ      ??ExtractFileByID7Z_3
+    262              {
+    263                // ƒиректори€... создаем
+    264                snwprintf(extractFilePath,MAX_PATH-1, _ls_ls, extractDir, filePathInZip);
+   \   0000009C   A4219FE5           LDR      R2,??ExtractFileByID7Z_4  ;; _ls_ls
+   \   000000A0   00082DE9           PUSH     {R11}
+   \   000000A4   0A30A0E1           MOV      R3,R10
+   \   000000A8   FF10A0E3           MOV      R1,#+255
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   150100EF           SWI      +277
+    265                mktree(extractFilePath);
+   \   000000B4   0400A0E1           MOV      R0,R4
+   \   000000B8   ........           _BLF     ??mktree,??mktree??rA
+   \   000000BC   04D08DE2           ADD      SP,SP,#+4
+   \   000000C0   570000EA           B        ??ExtractFileByID7Z_3
+    266              }
+    267            }
+    268            else
+    269            {
+    270              // File
+    271              if (usePaths)
+   \                     ??ExtractFileByID7Z_2:
+   \   000000C4   000050E3           CMP      R0,#+0
+   \   000000C8   0100000A           BEQ      ??ExtractFileByID7Z_5
+    272                snwprintf(extractFilePath,MAX_PATH-1, _ls_ls, extractDir, filePathInZip);
+   \   000000CC   00082DE9           PUSH     {R11}
+   \   000000D0   000000EA           B        ??ExtractFileByID7Z_6
+    273              else
+    274                snwprintf(extractFilePath,MAX_PATH-1, _ls_ls, extractDir, fileNameInZip);
+   \                     ??ExtractFileByID7Z_5:
+   \   000000D4   00012DE9           PUSH     {R8}
+   \                     ??ExtractFileByID7Z_6:
+   \   000000D8   68219FE5           LDR      R2,??ExtractFileByID7Z_4  ;; _ls_ls
+   \   000000DC   0A30A0E1           MOV      R3,R10
+   \   000000E0   FF10A0E3           MOV      R1,#+255
+   \   000000E4   0400A0E1           MOV      R0,R4
+   \   000000E8   150100EF           SWI      +277
+   \   000000EC   04D08DE2           ADD      SP,SP,#+4
+    275            
+    276              if (res == SZ_OK)
+    277              {
+    278                fileNameInZip=GetFileName(extractFilePath);
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   ........           _BLF     ??GetFileName,??GetFileName??rA
+   \   000000F8   0080A0E1           MOV      R8,R0
+    279                fout = w_fopen(extractFilePath, WA_Write+WA_Create+WA_Truncate, 0x1FF, 0);
+   \   000000FC   0030A0E3           MOV      R3,#+0
+   \   00000100   FF20A0E3           MOV      R2,#+255
+   \   00000104   402F82E3           ORR      R2,R2,#0x100
+   \   00000108   4A10A0E3           MOV      R1,#+74
+   \   0000010C   0400A0E1           MOV      R0,R4
+   \   00000110   F80200EF           SWI      +760
+   \   00000114   00A0B0E1           MOVS     R10,R0
+    280                 	// some zipfile don't contain directory alone before file 
+    281                if (fout < 0 && usePaths && fileNameInZip != extractFilePath)
+   \   00000118   1000005A           BPL      ??ExtractFileByID7Z_7
+   \   0000011C   24009DE5           LDR      R0,[SP, #+36]
+   \   00000120   000050E3           CMP      R0,#+0
+   \   00000124   04005811           CMPNE    R8,R4
+   \   00000128   0E00000A           BEQ      ??ExtractFileByID7Z_8
+    282                {
+    283                  wchar_t c = *(fileNameInZip - 1);
+   \   0000012C   B29058E1           LDRH     R9,[R8, #-2]
+    284                  *(fileNameInZip - 1) = '\0';
+   \   00000130   0000A0E3           MOV      R0,#+0
+   \   00000134   B20048E1           STRH     R0,[R8, #-2]
+    285                  mktree(extractFilePath);
+   \   00000138   0400A0E1           MOV      R0,R4
+   \   0000013C   ........           _BLF     ??mktree,??mktree??rA
+    286                  *(fileNameInZip - 1) = c;
+   \   00000140   B29048E1           STRH     R9,[R8, #-2]
+    287                  fout = w_fopen(extractFilePath, WA_Write+WA_Create+WA_Truncate, 0x1FF, 0);
+   \   00000144   0030A0E3           MOV      R3,#+0
+   \   00000148   FF20A0E3           MOV      R2,#+255
+   \   0000014C   402F82E3           ORR      R2,R2,#0x100
+   \   00000150   4A10A0E3           MOV      R1,#+74
+   \   00000154   0400A0E1           MOV      R0,R4
+   \   00000158   F80200EF           SWI      +760
+   \   0000015C   00A0A0E1           MOV      R10,R0
+    288                }
+    289                if (fout<0)
+   \                     ??ExtractFileByID7Z_7:
+   \   00000160   00005AE3           CMP      R10,#+0
+   \   00000164   0100005A           BPL      ??ExtractFileByID7Z_9
+    290                  res = 3;
+   \                     ??ExtractFileByID7Z_8:
+   \   00000168   0390A0E3           MOV      R9,#+3
+   \   0000016C   2C0000EA           B        ??ExtractFileByID7Z_3
+    291              }
+    292              if (res == UNZ_OK)
+    293              {
+    294                UInt32 blockIndex = 0xFFFFFFFF; // it can have any value before first call (if outBuffer = 0) 
+   \                     ??ExtractFileByID7Z_9:
+   \   00000170   0010E0E3           MVN      R1,#+0
+   \   00000174   1C108DE5           STR      R1,[SP, #+28]
+    295                Byte *outBuffer = 0; // it must be 0 before first call for each new archive. 
+    296                size_t outBufferSize = 0;  // it can have any value before first call (if outBuffer = 0) 
+    297                size_t offset;
+    298                size_t outSizeProcessed;
+    299                ISzAlloc allocImp;
+    300                ISzAlloc allocTempImp;
+    301                allocImp.Alloc = SzAlloc;
+   \   00000178   ........           LDR      R1,??DataTable7  ;; SzAlloc
+   \   0000017C   0000A0E3           MOV      R0,#+0
+   \   00000180   04008DE5           STR      R0,[SP, #+4]
+   \   00000184   20008DE5           STR      R0,[SP, #+32]
+   \   00000188   0C108DE5           STR      R1,[SP, #+12]
+    302                allocImp.Free = SzFree;
+   \   0000018C   ........           LDR      R1,??DataTable8  ;; SzFree
+    303              
+    304                allocTempImp.Alloc = SzAllocTemp;
+    305                allocTempImp.Free = SzFreeTemp;
+    306                res = SzExtract(&pzi->info._7z.archiveStream.InStream, &pzi->info._7z.db, id, 
+    307                                &blockIndex, &outBuffer, &outBufferSize, 
+    308                                &offset, &outSizeProcessed,
+    309                                &allocImp, &allocTempImp);
+   \   00000190   14008DE2           ADD      R0,SP,#+20
+   \   00000194   10108DE5           STR      R1,[SP, #+16]
+   \   00000198   ........           LDR      R1,??DataTable9  ;; SzAllocTemp
+   \   0000019C   0720A0E1           MOV      R2,R7
+   \   000001A0   14108DE5           STR      R1,[SP, #+20]
+   \   000001A4   ........           LDR      R1,??DataTable10  ;; SzFreeTemp
+   \   000001A8   18108DE5           STR      R1,[SP, #+24]
+   \   000001AC   01002DE9           PUSH     {R0}
+   \   000001B0   10008DE2           ADD      R0,SP,#+16
+   \   000001B4   01002DE9           PUSH     {R0}
+   \   000001B8   10008DE2           ADD      R0,SP,#+16
+   \   000001BC   01002DE9           PUSH     {R0}
+   \   000001C0   0C008DE2           ADD      R0,SP,#+12
+   \   000001C4   01002DE9           PUSH     {R0}
+   \   000001C8   30008DE2           ADD      R0,SP,#+48
+   \   000001CC   01002DE9           PUSH     {R0}
+   \   000001D0   18008DE2           ADD      R0,SP,#+24
+   \   000001D4   01002DE9           PUSH     {R0}
+   \   000001D8   34308DE2           ADD      R3,SP,#+52
+   \   000001DC   2C00A0E3           MOV      R0,#+44
+   \   000001E0   400E80E3           ORR      R0,R0,#0x400
+   \   000001E4   061080E0           ADD      R1,R0,R6
+   \   000001E8   410E86E2           ADD      R0,R6,#+1040
+   \   000001EC   ........           _BLF     SzExtract,??SzExtract??rA
+    310                w_fwrite(fout,outBuffer+offset,outSizeProcessed);
+   \   000001F0   1C109DE5           LDR      R1,[SP, #+28]
+   \   000001F4   20209DE5           LDR      R2,[SP, #+32]
+   \   000001F8   0090A0E1           MOV      R9,R0
+   \   000001FC   18009DE5           LDR      R0,[SP, #+24]
+   \   00000200   011080E0           ADD      R1,R0,R1
+   \   00000204   0A00A0E1           MOV      R0,R10
+   \   00000208   FA0200EF           SWI      +762
+    311                w_fclose(fout);
+   \   0000020C   0A00A0E1           MOV      R0,R10
+   \   00000210   FD0200EF           SWI      +765
+    312                allocImp.Free(outBuffer);    
+   \   00000214   1C009DE5           LDR      R0,[SP, #+28]
+   \   00000218   28109DE5           LDR      R1,[SP, #+40]
+   \   0000021C   31FF2FE1           BLX      R1
+   \   00000220   18D08DE2           ADD      SP,SP,#+24
+    313              }
+    314            }
+    315            if (temp) delete temp;
+   \                     ??ExtractFileByID7Z_3:
+   \   00000224   000055E3           CMP      R5,#+0
+   \   00000228   0100000A           BEQ      ??ExtractFileByID7Z_10
+   \   0000022C   0500A0E1           MOV      R0,R5
+   \   00000230   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    316            delete extractFilePath;
+   \                     ??ExtractFileByID7Z_10:
+   \   00000234   0400A0E1           MOV      R0,R4
+   \   00000238   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    317            return res;
+   \   0000023C   0900A0E1           MOV      R0,R9
+   \   00000240   28D08DE2           ADD      SP,SP,#+40
+   \   00000244   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??ExtractFileByID7Z_4:
+   \   00000248   ........           DC32     _ls_ls
+    318          }
+    319          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    320          int ExtractFile7Z(ARCHINFO* pzi, wchar_t* fname, wchar_t* extractDir, int usePaths)
+    321          {
+   \                     ??ExtractFile7Z:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   81DF4DE2           SUB      SP,SP,#+516
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0250A0E1           MOV      R5,R2
+   \   00000010   0360A0E1           MOV      R6,R3
+    322            // ѕозиционируемс€ на нужном файле
+    323            int found = 0;
+    324            wchar_t buf[MAX_PATH + 1];
+    325            wstrcpy(buf + 1, fname);
+   \   00000014   02008DE2           ADD      R0,SP,#+2
+   \   00000018   520100EF           SWI      +338
+    326            buf[0] = '/'; // ¬ начало запишем слеш на тот случай если fname без слеша
+   \   0000001C   2F10A0E3           MOV      R1,#+47
+   \   00000020   B010CDE1           STRH     R1,[SP, #+0]
+    327            
+    328            wchar_t* nameWithoutSlash = ( (buf[1] == '/') ? (buf + 2) : (buf + 1) );
+   \   00000024   B200DDE1           LDRH     R0,[SP, #+2]
+    329            wchar_t* nameWithSlash = ( (buf[1] == '/') ? (buf + 1) : (buf) );
+    330            
+    331            for (int i = 0; i < pzi->total_names; i++)
+   \   00000028   0090A0E3           MOV      R9,#+0
+   \   0000002C   2F0050E3           CMP      R0,#+47
+   \   00000030   04708D02           ADDEQ    R7,SP,#+4
+   \   00000034   02808D02           ADDEQ    R8,SP,#+2
+   \   00000038   02708D12           ADDNE    R7,SP,#+2
+   \   0000003C   0D80A011           MOVNE    R8,SP
+   \   00000040   000000EA           B        ??ExtractFile7Z_1
+   \                     ??ExtractFile7Z_2:
+   \   00000044   019089E2           ADD      R9,R9,#+1
+   \                     ??ExtractFile7Z_1:
+   \   00000048   080494E5           LDR      R0,[R4, #+1032]
+   \   0000004C   000059E1           CMP      R9,R0
+   \   00000050   140000AA           BGE      ??ExtractFile7Z_3
+    332            {
+    333              found = (wstrcmpi(nameWithoutSlash, pzi->pszNames[i]) == 0);
+   \   00000054   040494E5           LDR      R0,[R4, #+1028]
+   \   00000058   091190E7           LDR      R1,[R0, +R9, LSL #+2]
+   \   0000005C   0700A0E1           MOV      R0,R7
+   \   00000060   9F0200EF           SWI      +671
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   0500000A           BEQ      ??ExtractFile7Z_4
+    334              if (!found)
+    335              {
+    336                // ѕробуем поискать со слешем
+    337                found = (wstrcmpi(nameWithSlash, pzi->pszNames[i]) == 0);
+   \   0000006C   040494E5           LDR      R0,[R4, #+1028]
+   \   00000070   091190E7           LDR      R1,[R0, +R9, LSL #+2]
+   \   00000074   0800A0E1           MOV      R0,R8
+   \   00000078   9F0200EF           SWI      +671
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   EFFFFF1A           BNE      ??ExtractFile7Z_2
+   \                     ??ExtractFile7Z_4:
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   0630A0E1           MOV      R3,R6
+   \   0000008C   0520A0E1           MOV      R2,R5
+   \   00000090   0910A0E1           MOV      R1,R9
+   \   00000094   0400A0E1           MOV      R0,R4
+   \   00000098   ........           BL       ??ExtractFileByID7Z
+   \   0000009C   04D08DE2           ADD      SP,SP,#+4
+   \   000000A0   81DF8DE2           ADD      SP,SP,#+516
+   \   000000A4   F083BDE8           POP      {R4-R9,PC}
+    338              }
+    339              if (found)
+    340              {
+    341                // »звлекаем его, если нашли
+    342                return ExtractFileByID7Z(pzi, i, extractDir, usePaths, 0);
+    343              }
+    344            }
+    345            return 1;   
+   \                     ??ExtractFile7Z_3:
+   \   000000A8   0100A0E3           MOV      R0,#+1
+   \   000000AC   81DF8DE2           ADD      SP,SP,#+516
+   \   000000B0   F083BDE8           POP      {R4-R9,PC}       ;; return
+    346          }
+    347          
+    348          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    349          int ExtractDir7Z(ARCHINFO* pzi, wchar_t* dname, wchar_t* extractDir, int usePaths)
+    350          {
+   \                     ??ExtractDir7Z:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0170A0E1           MOV      R7,R1
+   \   0000000C   0250A0E1           MOV      R5,R2
+    351            int found = 0;
+    352            wchar_t *buf=new wchar_t[MAX_PATH + 1];
+   \   00000010   0200A0E3           MOV      R0,#+2
+   \   00000014   800F80E3           ORR      R0,R0,#0x200
+   \   00000018   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000001C   0060A0E1           MOV      R6,R0
+    353            wstrcpy(buf + 1, dname);
+   \   00000020   0710A0E1           MOV      R1,R7
+   \   00000024   020086E2           ADD      R0,R6,#+2
+   \   00000028   520100EF           SWI      +338
+    354            buf[0] = '/'; // ¬ начало запишем слеш на тот случай если fname без слеша
+   \   0000002C   2F00A0E3           MOV      R0,#+47
+   \   00000030   B000C6E1           STRH     R0,[R6, #+0]
+    355            wchar_t* nameWithoutSlash = ( (buf[1] == '/') ? (buf + 2) : (buf + 1) );
+   \   00000034   B200D6E1           LDRH     R0,[R6, #+2]
+    356            wchar_t* nameWithSlash = nameWithoutSlash-1;
+    357            
+    358            int zerr = UNZ_OK;
+    359            int dlen = wstrlen(nameWithoutSlash);
+    360            
+    361            // ѕеребираем все файлы
+    362            for (int i = 0; i < pzi->total_names; i++)
+   \   00000038   00A0A0E3           MOV      R10,#+0
+   \   0000003C   2F0050E3           CMP      R0,#+47
+   \   00000040   04708602           ADDEQ    R7,R6,#+4
+   \   00000044   02708612           ADDNE    R7,R6,#+2
+   \   00000048   0700A0E1           MOV      R0,R7
+   \   0000004C   570100EF           SWI      +343
+   \   00000050   0090A0E1           MOV      R9,R0
+   \   00000054   080494E5           LDR      R0,[R4, #+1032]
+   \   00000058   028047E2           SUB      R8,R7,#+2
+   \   0000005C   010050E3           CMP      R0,#+1
+   \   00000060   160000AA           BGE      ??ExtractDir7Z_1
+   \   00000064   180000EA           B        ??ExtractDir7Z_2
+    363            {
+    364              // ѕровер€ем начинаетс€ ли им€ файла в зипе с этой директории, если да - извлекаем
+    365              found = (wstrcmpni(nameWithoutSlash, pzi->pszNames[i], dlen) == 0);
+   \                     ??ExtractDir7Z_3:
+   \   00000068   040494E5           LDR      R0,[R4, #+1028]
+   \   0000006C   0920A0E1           MOV      R2,R9
+   \   00000070   0A1190E7           LDR      R1,[R0, +R10, LSL #+2]
+   \   00000074   0700A0E1           MOV      R0,R7
+   \   00000078   9A0200EF           SWI      +666
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   0600000A           BEQ      ??ExtractDir7Z_4
+    366              if (!found)
+    367              {
+    368                // ѕробуем поискать со слешем
+    369                found = (wstrcmpni(nameWithSlash, pzi->pszNames[i], dlen + 1) == 0);
+   \   00000084   040494E5           LDR      R0,[R4, #+1028]
+   \   00000088   012089E2           ADD      R2,R9,#+1
+   \   0000008C   0A1190E7           LDR      R1,[R0, +R10, LSL #+2]
+   \   00000090   0800A0E1           MOV      R0,R8
+   \   00000094   9A0200EF           SWI      +666
+   \   00000098   000050E3           CMP      R0,#+0
+   \   0000009C   0600001A           BNE      ??ExtractDir7Z_5
+   \                     ??ExtractDir7Z_4:
+   \   000000A0   01002DE9           PUSH     {R0}
+   \   000000A4   0130A0E3           MOV      R3,#+1
+   \   000000A8   0520A0E1           MOV      R2,R5
+   \   000000AC   0A10A0E1           MOV      R1,R10
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   ........           BL       ??ExtractFileByID7Z
+   \   000000B8   04D08DE2           ADD      SP,SP,#+4
+    370              }
+    371              if (found)
+    372                ExtractFileByID7Z(pzi, i, extractDir, 1, 0);
+    373            }
+   \                     ??ExtractDir7Z_5:
+   \   000000BC   01A08AE2           ADD      R10,R10,#+1
+   \                     ??ExtractDir7Z_1:
+   \   000000C0   080494E5           LDR      R0,[R4, #+1032]
+   \   000000C4   00005AE1           CMP      R10,R0
+   \   000000C8   E6FFFFBA           BLT      ??ExtractDir7Z_3
+    374            delete buf;
+   \                     ??ExtractDir7Z_2:
+   \   000000CC   0600A0E1           MOV      R0,R6
+   \   000000D0   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    375            return zerr;
+   \   000000D4   0000A0E3           MOV      R0,#+0
+   \   000000D8   F087BDE8           POP      {R4-R10,PC}      ;; return
+    376          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     tabs
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     SzAlloc
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     SzFree
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     SzAllocTemp
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     SzFreeTemp
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   2F000000           DC8 2FH, 0, 0, 0
+    377          
+    378          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Close7Z(ARCHINFO *)               12
+     CloseTab7Z(int)                    4
+     ExtractDir7Z(ARCHINFO *, wchar_t *, wchar_t *, int)
+                                       36
+     ExtractFile7Z(ARCHINFO *, wchar_t *, wchar_t *, int)
+                                      548
+     ExtractFileByID7Z(ARCHINFO *, int, wchar_t *, int, int)
+                                      100
+     Fill7ZFiles(int, wchar_t *)      564
+     IsIt7ZipFile(wchar_t *)           16
+     Open7ZFile(ARCHINFO *, wchar_t *)
+                                       32
+     OpenTab7Z(int, wchar_t *)         16
+     SzFileReadImp(void *, void *, size_t, size_t *)
+                                        8
+     SzFileSeekImp(void *, unsigned int)
+                                        4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     _7z_ext                           8
+     IsIt7ZipFile(wchar_t *)         156
+     SzFileReadImp(void *, void *, size_t, size_t *)
+                                      32
+     SzFileSeekImp(void *, unsigned int)
+                                      24
+     Open7ZFile(ARCHINFO *, wchar_t *)
+                                     552
+     Close7Z(ARCHINFO *)              56
+     CloseTab7Z(int)                  16
+     OpenTab7Z(int, wchar_t *)        60
+     Fill7ZFiles(int, wchar_t *)     328
+     ExtractFileByID7Z(ARCHINFO *, int, wchar_t *, int, int)
+                                     588
+     ExtractFile7Z(ARCHINFO *, wchar_t *, wchar_t *, int)
+                                     180
+     ExtractDir7Z(ARCHINFO *, wchar_t *, wchar_t *, int)
+                                     220
+     ??DataTable6                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ??DataTable10                     4
+     ?<Constant L"\x2f">               4
+      Others                         248
+
+ 
+ 2 480 bytes in segment CODE
+    12 bytes in segment DATA_C
+ 
+ 2 232 bytes of CODE  memory (+ 248 bytes shared)
+    12 bytes of CONST memory
+
+Errors: none
+Warnings: none

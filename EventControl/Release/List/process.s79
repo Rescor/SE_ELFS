@@ -1,0 +1,344 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:53:40 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       process.cpp                                         /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       process.cpp -D NDEBUG -D OLDFUNCTIONS -lC           /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\ -lA Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\EventControl\Release\List\ -o                  /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\Obj\ -s9 --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\ /
+//                       Release\List\process.s79                            /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME process
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+        PUBLIC ??SUBPROC_
+        FUNCTION ??SUBPROC_,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??SUBPROC_??rT
+        MULTWEAK ??SUBPROC_??rT_1
+        PUBLIC ??SUBPROC__1
+        FUNCTION ??SUBPROC__1,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC ??worker_entrypoint
+        FUNCTION ??worker_entrypoint,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??worker_entrypoint??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??SUBPROC_??rT      SYMBOL "??rT", ??SUBPROC_
+
+??SUBPROC_??rT_1    SYMBOL "??rT", ??SUBPROC__1
+
+??worker_entrypoint??rT SYMBOL "??rT", ??worker_entrypoint
+
+        EXTERN proc_
+
+// Z:\home\perk11\www\perk11.info\svn\SE\EventControl\process.cpp
+//    1 #include "..\deleaker\mem2.h"
+//    2 #include "..\include\Lib_Clara.h" 
+//    3 #include "..\include\Dir.h" 
+//    4 #include "header\structs.h"
+//    5 #include "header\lng.h"
+//    6 #include "header\process.h"
+//    7 
+//    8 extern PROCESS proc_;
+//    9 
+//   10 #define WORKER_SIG 0x7FF0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//   11 const SIGSELECT sg[]={1,WORKER_SIG};
+sg:
+        DATA
+        DC32 1, 32752
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??worker_entrypoint??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??worker_entrypoint
+//   12 
+//   13 struct WORKER_SIGNAL
+//   14 {
+//   15   SIGSELECT signo;
+//   16   void(*PROC)(int,void*);
+//   17   int   param1;
+//   18   void * param2;
+//   19 };
+//   20 
+//   21 union SIGNAL
+//   22 {
+//   23   SIGSELECT signo;
+//   24   struct WORKER_SIGNAL hsig;
+//   25 };
+//   26 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??worker_entrypoint
+        ARM
+//   27 OS_PROCESS(worker_entrypoint)
+//   28 {
+??worker_entrypoint:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R4,??worker_entrypoint_1  ;; sg
+        SUB      SP,SP,#+4
+        CFI CFA R13+12
+//   29   union SIGNAL *sig;
+//   30   for(;;)
+//   31   {
+//   32     sig=receive(sg);
+??worker_entrypoint_2:
+        MOV      R0,R4
+        SWI      +381
+        STR      R0,[SP, #+0]
+//   33     switch(sig->signo)
+        LDR      R0,[R0, #+0]
+        MOV      R1,#+240
+        ORR      R1,R1,#0x7F00
+        CMP      R0,R1
+        BNE      ??worker_entrypoint_3
+//   34     {
+//   35     case WORKER_SIG:
+//   36       {
+//   37 	if (sig->hsig.PROC) sig->hsig.PROC(sig->hsig.param1,sig->hsig.param2);
+        LDR      R0,[SP, #+0]
+        LDR      R2,[R0, #+4]
+        CMP      R2,#+0
+        BEQ      ??worker_entrypoint_3
+        LDR      R1,[R0, #+12]
+        LDR      R0,[R0, #+8]
+        BLX      R2
+//   38       }
+//   39       break;
+//   40     }
+//   41     free_buf(&sig);
+??worker_entrypoint_3:
+        MOV      R0,SP
+        SWI      +384
+        B        ??worker_entrypoint_2
+        DATA
+??worker_entrypoint_1:
+        DC32     sg
+        CFI EndBlock cfiBlock1
+//   42   }
+//   43 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SUBPROC_??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??SUBPROC_
+//   44 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??SUBPROC_
+        ARM
+//   45 void SUBPROC_(void(*PROC)(int,void*),int p1 , void * p2)
+//   46 {
+??SUBPROC_:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOV      R5,R0
+        MOV      R6,R1
+        MOV      R4,R2
+//   47   union SIGNAL *sig;
+//   48 
+//   49   sig = alloc(sizeof(union SIGNAL),WORKER_SIG);
+        MOV      R1,#+240
+        ORR      R1,R1,#0x7F00
+        MOV      R0,#+16
+        SWI      +380
+        STR      R0,[SP, #+0]
+//   50   sig->hsig.PROC=PROC;
+        STR      R5,[R0, #+4]
+//   51   sig->hsig.param1=p1;
+        LDR      R0,[SP, #+0]
+        STR      R6,[R0, #+8]
+//   52   sig->hsig.param2=p2;
+        LDR      R0,[SP, #+0]
+        STR      R4,[R0, #+12]
+//   53   send(&sig,proc_);
+        LDR      R0,??DataTable1  ;; proc_
+        LDR      R1,[R0, #+0]
+        MOV      R0,SP
+        SWI      +382
+//   54 };
+        POP      {R0,R4-R6,PC}    ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SUBPROC_??rT_1:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??SUBPROC__1
+//   55 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??SUBPROC__1
+        ARM
+//   56 void SUBPROC_(void(*PROC)(EVENT *),EVENT *p1, void * p2)
+//   57 {
+??SUBPROC__1:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOV      R5,R0
+        MOV      R6,R1
+        MOV      R4,R2
+//   58   union SIGNAL *sig;
+//   59 
+//   60   sig = alloc(sizeof(union SIGNAL),WORKER_SIG);
+        MOV      R1,#+240
+        ORR      R1,R1,#0x7F00
+        MOV      R0,#+16
+        SWI      +380
+        STR      R0,[SP, #+0]
+//   61   sig->hsig.PROC=(void (*)(int,void*))PROC;
+        STR      R5,[R0, #+4]
+//   62   sig->hsig.param1=(int)p1;
+        LDR      R0,[SP, #+0]
+        STR      R6,[R0, #+8]
+//   63   sig->hsig.param2=p2;
+        LDR      R0,[SP, #+0]
+        STR      R4,[R0, #+12]
+//   64   send(&sig,proc_);
+        LDR      R0,??DataTable1  ;; proc_
+        LDR      R1,[R0, #+0]
+        MOV      R0,SP
+        SWI      +382
+//   65 };
+        POP      {R0,R4-R6,PC}    ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable1:
+        DC32     proc_
+
+        END
+// 
+// 264 bytes in segment CODE
+//   8 bytes in segment DATA_C
+// 
+// 252 bytes of CODE  memory (+ 12 bytes shared)
+//   8 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

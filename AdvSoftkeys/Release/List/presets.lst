@@ -1,0 +1,737 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:49:19 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\pr #
+#                       esets.cpp                                            #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\pr #
+#                       esets.cpp -D NDEBUG -D OLDFUNCTIONS -lC              #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\AdvSoftkeys\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\presets.lst                               #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\presets.r79                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\presets.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h"
+      3          #include "header\structs.h"
+      4          #include "header\presets.h"
+      5          wchar_t get_action(LIST *lst, int strid);
+      6          bool get_enable(LIST *lst, int strid);
+      7          #define T_DEFAULT 1
+      8          #define T_YESNO 2
+      9          #define T_MESSAGEBOX 3
+     10          #define T_DDMENU 4
+     11          //------------------------------------------------------------------
+     12          //пресет для выпадающего меню:
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          bool lookslike_DDMenu(LIST *lst, int cnt, int left, int right)
+     14          {
+   \                     ??lookslike_DDMenu:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+     15            if (cnt==1)
+   \   00000008   74009FE5           LDR      R0,??lookslike_DDMenu_1  ;; ACTION_INFO
+   \   0000000C   0360A0E1           MOV      R6,R3
+   \   00000010   004090E5           LDR      R4,[R0, #+0]
+   \   00000014   010051E3           CMP      R1,#+1
+   \   00000018   0900001A           BNE      ??lookslike_DDMenu_2
+     16            {
+     17              wchar_t act=get_action(lst, left);
+   \   0000001C   0210A0E1           MOV      R1,R2
+   \   00000020   0500A0E1           MOV      R0,R5
+   \   00000024   ........           _BLF     ??get_action,??get_action??rA
+     18              if (act==ACTION_SELECT || act==ACTION_INFO)
+   \   00000028   58109FE5           LDR      R1,??lookslike_DDMenu_1+0x4  ;; ACTION_SELECT
+   \   0000002C   001091E5           LDR      R1,[R1, #+0]
+   \   00000030   010050E1           CMP      R0,R1
+   \   00000034   04005011           CMPNE    R0,R4
+   \   00000038   0F00001A           BNE      ??lookslike_DDMenu_3
+     19              {
+     20                return true;
+   \                     ??lookslike_DDMenu_4:
+   \   0000003C   0100A0E3           MOV      R0,#+1
+   \   00000040   F080BDE8           POP      {R4-R7,PC}
+     21              }
+     22            }
+     23            else if (cnt==2)
+   \                     ??lookslike_DDMenu_2:
+   \   00000044   020051E3           CMP      R1,#+2
+   \   00000048   0B00001A           BNE      ??lookslike_DDMenu_3
+     24            {
+     25              wchar_t act=get_action(lst, left);
+   \   0000004C   0210A0E1           MOV      R1,R2
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   ........           _BLF     ??get_action,??get_action??rA
+   \   00000058   0070A0E1           MOV      R7,R0
+     26              wchar_t act2=get_action(lst, right);
+   \   0000005C   0610A0E1           MOV      R1,R6
+   \   00000060   0500A0E1           MOV      R0,R5
+   \   00000064   ........           _BLF     ??get_action,??get_action??rA
+     27              if (act==ACTION_SELECT1 && act2==ACTION_INFO)
+   \   00000068   1C109FE5           LDR      R1,??lookslike_DDMenu_1+0x8  ;; ACTION_SELECT1
+   \   0000006C   001091E5           LDR      R1,[R1, #+0]
+   \   00000070   010057E1           CMP      R7,R1
+   \   00000074   04005001           CMPEQ    R0,R4
+   \   00000078   EFFFFF0A           BEQ      ??lookslike_DDMenu_4
+     28              {
+     29                return true;
+     30              }
+     31            }
+     32            return false;
+   \                     ??lookslike_DDMenu_3:
+   \   0000007C   0000A0E3           MOV      R0,#+0
+   \   00000080   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??lookslike_DDMenu_1:
+   \   00000084   ........           DC32     ACTION_INFO
+   \   00000088   ........           DC32     ACTION_SELECT
+   \   0000008C   ........           DC32     ACTION_SELECT1
+     33          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+     34          void preset_DDMenu(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int cnt, MyBOOK *our, int left, int right)
+     35          {
+   \                     ??preset_DDMenu:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   18109DE5           LDR      R1,[SP, #+24]
+   \   00000008   1C609DE5           LDR      R6,[SP, #+28]
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0350A0E1           MOV      R5,R3
+     36            lbl->strids[1]=left;
+   \   00000014   041084E5           STR      R1,[R4, #+4]
+     37            lbl->enable[1]=get_enable(lst, left);
+   \   00000018   0500A0E1           MOV      R0,R5
+   \   0000001C   ........           _BLF     ??get_enable,??get_enable??rA
+   \   00000020   0D00C4E5           STRB     R0,[R4, #+13]
+     38            //lbl->enable[1]=true;
+     39            lbl->strids[0]=right;
+   \   00000024   006084E5           STR      R6,[R4, #+0]
+     40            lbl->enable[0]=get_enable(lst, right);
+   \   00000028   0610A0E1           MOV      R1,R6
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   ........           _BLF     ??get_enable,??get_enable??rA
+   \   00000034   0C00C4E5           STRB     R0,[R4, #+12]
+     41          };
+   \   00000038   7080BDE8           POP      {R4-R6,PC}       ;; return
+     42          //------------------------------------------------------------------
+     43          //пресет для Да/Нет окна:
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          bool lookslike_YesNo(LIST *lst, int cnt, int left, int right)
+     45          {
+   \                     ??lookslike_YesNo:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     46            if (cnt==2)
+   \   00000004   020051E3           CMP      R1,#+2
+   \   00000008   0060A0E1           MOV      R6,R0
+   \   0000000C   ........           LDR      R0,??DataTable13  ;; ACTION_NO
+   \   00000010   0370A0E1           MOV      R7,R3
+   \   00000014   004090E5           LDR      R4,[R0, #+0]
+   \   00000018   1A00001A           BNE      ??lookslike_YesNo_1
+     47            {
+     48              wchar_t act = get_action(lst, left);
+   \   0000001C   0210A0E1           MOV      R1,R2
+   \   00000020   0600A0E1           MOV      R0,R6
+   \   00000024   ........           _BLF     ??get_action,??get_action??rA
+   \   00000028   0050A0E1           MOV      R5,R0
+     49              wchar_t act2 = get_action(lst,right);
+   \   0000002C   0710A0E1           MOV      R1,R7
+   \   00000030   0600A0E1           MOV      R0,R6
+   \   00000034   ........           _BLF     ??get_action,??get_action??rA
+     50              if (((act==ACTION_YES || act==ACTION_ACCEPT) && (act2==ACTION_NO || act2==ACTION_CANCEL))||((act2==ACTION_YES || act2==ACTION_ACCEPT) && (act==ACTION_NO || act==ACTION_CANCEL)))
+   \   00000038   ........           LDR      R1,??DataTable7  ;; ACTION_ACCEPT
+   \   0000003C   ........           LDR      R2,??DataTable6  ;; ACTION_YES
+   \   00000040   001091E5           LDR      R1,[R1, #+0]
+   \   00000044   002092E5           LDR      R2,[R2, #+0]
+   \   00000048   ........           LDR      R3,??DataTable12  ;; ACTION_CANCEL
+   \   0000004C   020055E1           CMP      R5,R2
+   \   00000050   003093E5           LDR      R3,[R3, #+0]
+   \   00000054   01005511           CMPNE    R5,R1
+   \   00000058   0200001A           BNE      ??lookslike_YesNo_2
+   \   0000005C   040050E1           CMP      R0,R4
+   \   00000060   03005011           CMPNE    R0,R3
+   \   00000064   0500000A           BEQ      ??lookslike_YesNo_3
+   \                     ??lookslike_YesNo_2:
+   \   00000068   020050E1           CMP      R0,R2
+   \   0000006C   01005011           CMPNE    R0,R1
+   \   00000070   0E00001A           BNE      ??lookslike_YesNo_4
+   \   00000074   040055E1           CMP      R5,R4
+   \   00000078   03005511           CMPNE    R5,R3
+   \   0000007C   0B00001A           BNE      ??lookslike_YesNo_4
+     51              {
+     52                return true;
+   \                     ??lookslike_YesNo_3:
+   \   00000080   0100A0E3           MOV      R0,#+1
+   \   00000084   F080BDE8           POP      {R4-R7,PC}
+     53              }
+     54            }
+     55            else if (cnt==1)
+   \                     ??lookslike_YesNo_1:
+   \   00000088   010051E3           CMP      R1,#+1
+   \   0000008C   0700001A           BNE      ??lookslike_YesNo_4
+     56            {
+     57              wchar_t act = get_action(lst, left);
+   \   00000090   0210A0E1           MOV      R1,R2
+   \   00000094   0600A0E1           MOV      R0,R6
+   \   00000098   ........           _BLF     ??get_action,??get_action??rA
+     58              if (act==ACTION_CANCEL || act==ACTION_NO)
+   \   0000009C   ........           LDR      R1,??DataTable12  ;; ACTION_CANCEL
+   \   000000A0   001091E5           LDR      R1,[R1, #+0]
+   \   000000A4   010050E1           CMP      R0,R1
+   \   000000A8   04005011           CMPNE    R0,R4
+   \   000000AC   F3FFFF0A           BEQ      ??lookslike_YesNo_3
+     59              {
+     60                return true;
+     61              }
+     62            }
+     63            return false;
+   \                     ??lookslike_YesNo_4:
+   \   000000B0   0000A0E3           MOV      R0,#+0
+   \   000000B4   F080BDE8           POP      {R4-R7,PC}       ;; return
+     64          };
+     65          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          void preset_YesNo(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int cnt, MyBOOK *our, int left, int right)
+     67          {
+   \                     ??preset_YesNo:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   20609DE5           LDR      R6,[SP, #+32]
+   \   00000008   24709DE5           LDR      R7,[SP, #+36]
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0100A0E1           MOV      R0,R1
+     68            if (strcmp(bk->xbook->name,"ScreensaverBook")!=0)
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   ........           LDR      R1,??DataTable8  ;; `?<Constant "ScreensaverBook">`
+   \   0000001C   040090E5           LDR      R0,[R0, #+4]
+   \   00000020   0350A0E1           MOV      R5,R3
+   \   00000024   590100EF           SWI      +345
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   2D00000A           BEQ      ??preset_YesNo_1
+     69            {
+     70              wchar_t act = get_action(lst, left);
+   \   00000030   0610A0E1           MOV      R1,R6
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           _BLF     ??get_action,??get_action??rA
+   \   0000003C   0080A0E1           MOV      R8,R0
+     71              wchar_t act2 = get_action(lst,right);
+   \   00000040   0710A0E1           MOV      R1,R7
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   ........           _BLF     ??get_action,??get_action??rA
+     72              int ct=0;
+   \   0000004C   0010A0E3           MOV      R1,#+0
+     73              if (left!=EMPTY_TEXTID)ct++;
+   \   00000050   9024E0E3           MVN      R2,#-1879048192
+   \   00000054   020056E1           CMP      R6,R2
+   \   00000058   0110A013           MOVNE    R1,#+1
+     74              if (right!=EMPTY_TEXTID)ct++;
+   \   0000005C   020057E1           CMP      R7,R2
+   \   00000060   1B00000A           BEQ      ??preset_YesNo_2
+   \   00000064   011081E2           ADD      R1,R1,#+1
+     75              if (ct==2)
+   \   00000068   020051E3           CMP      R1,#+2
+   \   0000006C   1800001A           BNE      ??preset_YesNo_2
+     76              {
+     77                if (act==ACTION_YES || act==ACTION_ACCEPT)
+   \   00000070   ........           LDR      R1,??DataTable6  ;; ACTION_YES
+   \   00000074   001091E5           LDR      R1,[R1, #+0]
+   \   00000078   010058E1           CMP      R8,R1
+   \   0000007C   0300000A           BEQ      ??preset_YesNo_3
+   \   00000080   ........           LDR      R2,??DataTable7  ;; ACTION_ACCEPT
+   \   00000084   002092E5           LDR      R2,[R2, #+0]
+   \   00000088   020058E1           CMP      R8,R2
+   \   0000008C   0700001A           BNE      ??preset_YesNo_4
+     78                {
+     79                  lbl->strids[1]=left;
+   \                     ??preset_YesNo_3:
+   \   00000090   046084E5           STR      R6,[R4, #+4]
+     80                  lbl->enable[1]=get_enable(lst, left);
+   \   00000094   0610A0E1           MOV      R1,R6
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   ........           _BLF     ??get_enable,??get_enable??rA
+   \   000000A0   0D00C4E5           STRB     R0,[R4, #+13]
+     81                  lbl->strids[2]=right;
+   \   000000A4   087084E5           STR      R7,[R4, #+8]
+     82                  lbl->enable[2]=get_enable(lst, right);
+   \   000000A8   0710A0E1           MOV      R1,R7
+   \   000000AC   140000EA           B        ??preset_YesNo_5
+     83                }
+     84                else if (act2==ACTION_YES || act2==ACTION_ACCEPT)
+   \                     ??preset_YesNo_4:
+   \   000000B0   010050E1           CMP      R0,R1
+   \   000000B4   02005011           CMPNE    R0,R2
+   \   000000B8   F081BD18           POPNE    {R4-R8,PC}
+     85                {
+     86                  lbl->strids[1]=right;
+   \   000000BC   047084E5           STR      R7,[R4, #+4]
+     87                  lbl->enable[1]=get_enable(lst, right);
+   \   000000C0   0710A0E1           MOV      R1,R7
+   \   000000C4   0500A0E1           MOV      R0,R5
+   \   000000C8   ........           _BLF     ??get_enable,??get_enable??rA
+   \   000000CC   0D00C4E5           STRB     R0,[R4, #+13]
+     88                  lbl->strids[2]=left;
+   \   000000D0   010000EA           B        ??preset_YesNo_6
+     89                  lbl->enable[2]=get_enable(lst, left);
+     90                }
+     91              }
+     92              else if (ct==1)
+   \                     ??preset_YesNo_2:
+   \   000000D4   010051E3           CMP      R1,#+1
+   \   000000D8   F081BD18           POPNE    {R4-R8,PC}
+     93              {
+     94                lbl->strids[2]=left;
+   \                     ??preset_YesNo_6:
+   \   000000DC   086084E5           STR      R6,[R4, #+8]
+     95                lbl->enable[2]=get_enable(lst, left);
+   \   000000E0   0610A0E1           MOV      R1,R6
+   \                     ??preset_YesNo_7:
+   \   000000E4   060000EA           B        ??preset_YesNo_5
+     96              }
+     97            }
+     98            else
+     99            {
+    100              lbl->strids[0]=left;
+   \                     ??preset_YesNo_1:
+   \   000000E8   006084E5           STR      R6,[R4, #+0]
+    101              lbl->enable[0]=get_enable(lst,left);
+   \   000000EC   0610A0E1           MOV      R1,R6
+   \   000000F0   0500A0E1           MOV      R0,R5
+   \   000000F4   ........           _BLF     ??get_enable,??get_enable??rA
+   \   000000F8   0C00C4E5           STRB     R0,[R4, #+12]
+    102              lbl->strids[2]=right;
+   \   000000FC   087084E5           STR      R7,[R4, #+8]
+    103              lbl->enable[2]=get_enable(lst,right);
+   \   00000100   0710A0E1           MOV      R1,R7
+   \                     ??preset_YesNo_5:
+   \   00000104   0500A0E1           MOV      R0,R5
+   \   00000108   ........           _BLF     ??get_enable,??get_enable??rA
+   \   0000010C   0E00C4E5           STRB     R0,[R4, #+14]
+    104            }
+    105          };
+   \   00000110   F081BDE8           POP      {R4-R8,PC}       ;; return
+    106          //------------------------------------------------------------------
+    107          //пресет для МессагБокса:
+
+   \                                 In segment CODE, align 4, keep-with-next
+    108          bool lookslike_OK(LIST *lst, int cnt, int left, int right)
+    109          {
+   \                     ??lookslike_OK:
+   \   00000000   00402DE9           PUSH     {LR}
+    110            if (cnt==1 && right==EMPTY_TEXTID)
+   \   00000004   010051E3           CMP      R1,#+1
+   \   00000008   9014E003           MVNEQ    R1,#-1879048192
+   \   0000000C   01005301           CMPEQ    R3,R1
+   \   00000010   0600001A           BNE      ??lookslike_OK_1
+    111            {
+    112              wchar_t act=get_action(lst, left);
+   \   00000014   0210A0E1           MOV      R1,R2
+   \   00000018   ........           _BLF     ??get_action,??get_action??rA
+    113              if (act==ACTION_OK)
+   \   0000001C   14109FE5           LDR      R1,??lookslike_OK_2  ;; ACTION_OK
+   \   00000020   001091E5           LDR      R1,[R1, #+0]
+   \   00000024   010050E1           CMP      R0,R1
+    114              {
+    115                return true;
+   \   00000028   0100A003           MOVEQ    R0,#+1
+   \   0000002C   0080BD08           POPEQ    {PC}
+    116              }
+    117            }
+    118            return false;
+   \                     ??lookslike_OK_1:
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   0080BDE8           POP      {PC}             ;; return
+   \                     ??lookslike_OK_2:
+   \   00000038   ........           DC32     ACTION_OK
+    119          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+    120          void preset_OK(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int cnt, MyBOOK *our, int left, int right)
+    121          {
+   \                     ??preset_OK:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   18609DE5           LDR      R6,[SP, #+24]
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0100A0E1           MOV      R0,R1
+    122            if (strcmp(bk->xbook->name,"ScreensaverBook")!=0)
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   ........           LDR      R1,??DataTable8  ;; `?<Constant "ScreensaverBook">`
+   \   00000018   040090E5           LDR      R0,[R0, #+4]
+   \   0000001C   0350A0E1           MOV      R5,R3
+   \   00000020   590100EF           SWI      +345
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0900000A           BEQ      ??preset_OK_1
+    123            {
+    124              lbl->strids[1]=left;
+   \   0000002C   046084E5           STR      R6,[R4, #+4]
+    125              lbl->enable[1]=get_enable(lst,left);
+   \   00000030   0610A0E1           MOV      R1,R6
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           _BLF     ??get_enable,??get_enable??rA
+   \   0000003C   0D00C4E5           STRB     R0,[R4, #+13]
+    126              lbl->enable[2]=false;
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   0E00C4E5           STRB     R0,[R4, #+14]
+    127              lbl->strids[2]=EMPTY_TEXTID;
+   \   00000048   9004E0E3           MVN      R0,#-1879048192
+   \   0000004C   080084E5           STR      R0,[R4, #+8]
+   \   00000050   7080BDE8           POP      {R4-R6,PC}
+    128            }
+    129            else
+    130            {
+    131              lbl->strids[0]=left;
+   \                     ??preset_OK_1:
+   \   00000054   006084E5           STR      R6,[R4, #+0]
+    132              lbl->enable[0]=get_enable(lst,left);
+   \   00000058   0610A0E1           MOV      R1,R6
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   ........           _BLF     ??get_enable,??get_enable??rA
+   \   00000064   0C00C4E5           STRB     R0,[R4, #+12]
+    133            }
+    134          };
+   \   00000068   7080BDE8           POP      {R4-R6,PC}       ;; return
+    135          //------------------------------------------------------------------
+    136          //Стандартный пресет:
+
+   \                                 In segment CODE, align 4, keep-with-next
+    137          void preset_default(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int cnt, MyBOOK *our, int left, int right)
+    138          {
+   \                     ??preset_default:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   2C609DE5           LDR      R6,[SP, #+44]
+   \   00000008   30709DE5           LDR      R7,[SP, #+48]
+   \   0000000C   0040A0E1           MOV      R4,R0
+    139            if (lastitem)lastitem->type=T_DEFAULT;
+   \   00000010   ........           LDR      R0,??DataTable14  ;; lastitem
+   \   00000014   0350A0E1           MOV      R5,R3
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+    140            if (cnt==1 && right!=EMPTY_TEXTID)cnt++;
+    141            wchar_t act1=get_action(lst, left);
+    142            wchar_t act2=get_action(lst, right);
+    143            lbl->strids[1]=left;
+    144            lbl->enable[1]=get_enable(lst, left);
+    145            lbl->strids[0]=right;
+    146            lbl->enable[0]=get_enable(lst,right);
+    147            if (right==EMPTY_TEXTID)
+   \   0000001C   9094E0E3           MVN      R9,#-1879048192
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0110A013           MOVNE    R1,#+1
+   \   00000028   18108015           STRNE    R1,[R0, #+24]
+   \   0000002C   0610A0E1           MOV      R1,R6
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   ........           _BLF     ??get_action,??get_action??rA
+   \   00000038   00A0A0E1           MOV      R10,R0
+   \   0000003C   0710A0E1           MOV      R1,R7
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   ........           _BLF     ??get_action,??get_action??rA
+   \   00000048   00B0A0E1           MOV      R11,R0
+   \   0000004C   046084E5           STR      R6,[R4, #+4]
+   \   00000050   0610A0E1           MOV      R1,R6
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   ........           _BLF     ??get_enable,??get_enable??rA
+   \   0000005C   0D00C4E5           STRB     R0,[R4, #+13]
+   \   00000060   007084E5           STR      R7,[R4, #+0]
+   \   00000064   0710A0E1           MOV      R1,R7
+   \   00000068   0500A0E1           MOV      R0,R5
+   \   0000006C   ........           _BLF     ??get_enable,??get_enable??rA
+   \   00000070   0C00C4E5           STRB     R0,[R4, #+12]
+   \   00000074   DC009FE5           LDR      R0,??preset_default_1  ;; ACTION_BACK
+   \   00000078   090057E1           CMP      R7,R9
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   1200001A           BNE      ??preset_default_2
+    148            {
+    149              if (act1==ACTION_BACK || act1==ACTION_CANCEL || act1==ACTION_NO)
+   \   00000084   00005AE1           CMP      R10,R0
+   \   00000088   0700000A           BEQ      ??preset_default_3
+   \   0000008C   ........           LDR      R0,??DataTable12  ;; ACTION_CANCEL
+   \   00000090   000090E5           LDR      R0,[R0, #+0]
+   \   00000094   00005AE1           CMP      R10,R0
+   \   00000098   0300000A           BEQ      ??preset_default_3
+   \   0000009C   ........           LDR      R0,??DataTable13  ;; ACTION_NO
+   \   000000A0   000090E5           LDR      R0,[R0, #+0]
+   \   000000A4   00005AE1           CMP      R10,R0
+   \   000000A8   1A00001A           BNE      ??preset_default_4
+    150              {
+    151                lbl->strids[2]=left;
+   \                     ??preset_default_3:
+   \   000000AC   086084E5           STR      R6,[R4, #+8]
+    152                lbl->enable[2]=get_enable(lst, left);
+   \   000000B0   0610A0E1           MOV      R1,R6
+   \   000000B4   0500A0E1           MOV      R0,R5
+   \   000000B8   ........           _BLF     ??get_enable,??get_enable??rA
+   \   000000BC   0E00C4E5           STRB     R0,[R4, #+14]
+    153                lbl->strids[1]=EMPTY_TEXTID;
+   \   000000C0   049084E5           STR      R9,[R4, #+4]
+    154                lbl->enable[1]=false;
+   \   000000C4   0000A0E3           MOV      R0,#+0
+   \   000000C8   0D00C4E5           STRB     R0,[R4, #+13]
+   \   000000CC   110000EA           B        ??preset_default_4
+    155              }
+    156            }
+    157            else
+    158            {
+    159              if (act2==ACTION_BACK || act2==ACTION_CANCEL || act2==ACTION_NO)
+   \                     ??preset_default_2:
+   \   000000D0   00005BE1           CMP      R11,R0
+   \   000000D4   0700000A           BEQ      ??preset_default_5
+   \   000000D8   ........           LDR      R0,??DataTable12  ;; ACTION_CANCEL
+   \   000000DC   000090E5           LDR      R0,[R0, #+0]
+   \   000000E0   00005BE1           CMP      R11,R0
+   \   000000E4   0300000A           BEQ      ??preset_default_5
+   \   000000E8   ........           LDR      R0,??DataTable13  ;; ACTION_NO
+   \   000000EC   000090E5           LDR      R0,[R0, #+0]
+   \   000000F0   00005BE1           CMP      R11,R0
+   \   000000F4   0700001A           BNE      ??preset_default_4
+    160              {
+    161                lbl->strids[2]=right;
+   \                     ??preset_default_5:
+   \   000000F8   087084E5           STR      R7,[R4, #+8]
+    162                lbl->enable[2]=get_enable(lst, right);
+   \   000000FC   0710A0E1           MOV      R1,R7
+   \   00000100   0500A0E1           MOV      R0,R5
+   \   00000104   ........           _BLF     ??get_enable,??get_enable??rA
+   \   00000108   0E00C4E5           STRB     R0,[R4, #+14]
+    163                lbl->strids[0]=EMPTY_TEXTID;
+   \   0000010C   009084E5           STR      R9,[R4, #+0]
+    164                lbl->enable[0]=false;
+   \   00000110   0000A0E3           MOV      R0,#+0
+   \   00000114   0C00C4E5           STRB     R0,[R4, #+12]
+    165              }
+    166            }
+    167            if (get_action(lst, right)==ACTION_DONE)
+   \                     ??preset_default_4:
+   \   00000118   0710A0E1           MOV      R1,R7
+   \   0000011C   0500A0E1           MOV      R0,R5
+   \   00000120   ........           _BLF     ??get_action,??get_action??rA
+   \   00000124   30109FE5           LDR      R1,??preset_default_1+0x4  ;; ACTION_DONE
+   \   00000128   001091E5           LDR      R1,[R1, #+0]
+   \   0000012C   010050E1           CMP      R0,R1
+   \   00000130   F08FBD18           POPNE    {R4-R11,PC}
+    168            {
+    169              lbl->strids[1]=right;
+   \   00000134   047084E5           STR      R7,[R4, #+4]
+    170              lbl->strids[0]=left;
+   \   00000138   006084E5           STR      R6,[R4, #+0]
+    171              int temp=lbl->enable[1];
+   \   0000013C   0D00D4E5           LDRB     R0,[R4, #+13]
+    172              lbl->enable[1]=lbl->enable[0];
+   \   00000140   0C10D4E5           LDRB     R1,[R4, #+12]
+    173              lbl->enable[0]=temp;
+   \   00000144   000050E3           CMP      R0,#+0
+   \   00000148   0D10C4E5           STRB     R1,[R4, #+13]
+   \   0000014C   0100A013           MOVNE    R0,#+1
+   \   00000150   0C00C4E5           STRB     R0,[R4, #+12]
+    174            }
+    175          };
+   \   00000154   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??preset_default_1:
+   \   00000158   ........           DC32     ACTION_BACK
+   \   0000015C   ........           DC32     ACTION_DONE
+    176          //------------------------------------------------------------------
+    177          //Пресет для главного экрана:
+
+   \                                 In segment CODE, align 4, keep-with-next
+    178          void preset_standby(LABELS *lbl, BOOK *bk, DISP_OBJ *DO, LIST *lst, int cnt, MyBOOK *our, int left, int right)
+    179          {
+   \                     ??preset_standby:
+   \   00000000   F44F2DE9           PUSH     {R2,R4-R11,LR}
+   \   00000004   28709DE5           LDR      R7,[SP, #+40]
+   \   00000008   2C809DE5           LDR      R8,[SP, #+44]
+   \   0000000C   30909DE5           LDR      R9,[SP, #+48]
+   \   00000010   34A09DE5           LDR      R10,[SP, #+52]
+   \   00000014   0040A0E1           MOV      R4,R0
+    180            if (lastitem)lastitem->type=0;
+   \   00000018   ........           LDR      R0,??DataTable14  ;; lastitem
+   \   0000001C   0150A0E1           MOV      R5,R1
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   0360A0E1           MOV      R6,R3
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0010A013           MOVNE    R1,#+0
+   \   00000030   18108015           STRNE    R1,[R0, #+24]
+    181            int vis=MainInput_getVisible(SBY_GetMainInput(bk));
+    182            if (vis==0)
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   170200EF           SWI      +535
+   \   0000003C   01B0A0E3           MOV      R11,#+1
+   \   00000040   F60100EF           SWI      +502
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   0D00001A           BNE      ??preset_standby_1
+    183            {
+    184              if (cnt>0)
+   \   0000004C   010057E3           CMP      R7,#+1
+   \   00000050   F18FBDB8           POPLT    {R0,R4-R11,PC}
+    185              {
+    186                lbl->enable[1]=true;
+   \   00000054   0DB0C4E5           STRB     R11,[R4, #+13]
+    187                lbl->strids[0]=left;
+   \   00000058   009084E5           STR      R9,[R4, #+0]
+    188                lbl->enable[0]=get_enable(lst, left);
+   \   0000005C   0910A0E1           MOV      R1,R9
+   \   00000060   0600A0E1           MOV      R0,R6
+   \   00000064   ........           _BLF     ??get_enable,??get_enable??rA
+   \   00000068   0C00C4E5           STRB     R0,[R4, #+12]
+    189                lbl->strids[2]=right;
+   \   0000006C   08A084E5           STR      R10,[R4, #+8]
+    190                lbl->enable[2]=get_enable(lst, right);
+   \   00000070   0A10A0E1           MOV      R1,R10
+   \   00000074   0600A0E1           MOV      R0,R6
+   \   00000078   ........           _BLF     ??get_enable,??get_enable??rA
+   \   0000007C   0E00C4E5           STRB     R0,[R4, #+14]
+   \   00000080   F18FBDE8           POP      {R0,R4-R11,PC}
+    191              }
+    192            }
+    193            else
+    194            {
+    195              lbl->strids[2]=our->backstrid;
+   \                     ??preset_standby_1:
+   \   00000084   280098E5           LDR      R0,[R8, #+40]
+    196              lbl->enable[2]=true;
+    197              preset_default(lbl,bk,DO,lst, cnt, our, left, right);
+   \   00000088   0630A0E1           MOV      R3,R6
+   \   0000008C   080084E5           STR      R0,[R4, #+8]
+   \   00000090   0EB0C4E5           STRB     R11,[R4, #+14]
+   \   00000094   00042DE9           PUSH     {R10}
+   \   00000098   00022DE9           PUSH     {R9}
+   \   0000009C   00012DE9           PUSH     {R8}
+   \   000000A0   80002DE9           PUSH     {R7}
+   \   000000A4   10209DE5           LDR      R2,[SP, #+16]
+   \   000000A8   0510A0E1           MOV      R1,R5
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   ........           BL       ??preset_default
+   \   000000B4   10D08DE2           ADD      SP,SP,#+16
+    198            }
+    199          };
+   \   000000B8   F18FBDE8           POP      {R0,R4-R11,PC}   ;; return
+    200          //------------------------------------------------------------------
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    201          int presets[]={  (int)lookslike_YesNo,  (int)preset_YesNo,
+   \                     presets:
+   \   00000000                      DS8 32
+   \   00000020                      REQUIRE `?<Initializer for presets>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     ACTION_YES
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     ACTION_ACCEPT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     `?<Constant "ScreensaverBook">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable12:
+   \   00000000   ........           DC32     ACTION_CANCEL
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     ACTION_NO
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     lastitem
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for presets>`:
+   \   00000000   ............       DC32 ??lookslike_YesNo, ??preset_YesNo, ??lookslike_OK, ??preset_OK
+   \              ............
+   \              ........    
+   \   00000010   ............       DC32 ??lookslike_DDMenu, ??preset_DDMenu, 0, 0
+   \              ....00000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ScreensaverBook">`:
+   \   00000000   53637265656E       DC8 "ScreensaverBook"
+   \              736176657242
+   \              6F6F6B00    
+    202                           (int)lookslike_OK,     (int)preset_OK,
+    203                           (int)lookslike_DDMenu, (int)preset_DDMenu,
+    204                           0,                0};
+    205          //------------------------------------------------------------------
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     lookslike_DDMenu(LIST *, int, int, int)
+                                       20
+     lookslike_OK(LIST *, int, int, int)
+                                        4
+     lookslike_YesNo(LIST *, int, int, int)
+                                       20
+     preset_DDMenu(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                       16
+     preset_OK(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                       16
+     preset_YesNo(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                       24
+     preset_default(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                       36
+     preset_standby(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                       56
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     lookslike_DDMenu(LIST *, int, int, int)
+                                     144
+     preset_DDMenu(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                      60
+     lookslike_YesNo(LIST *, int, int, int)
+                                     184
+     preset_YesNo(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                     276
+     lookslike_OK(LIST *, int, int, int)
+                                      60
+     preset_OK(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                     108
+     preset_default(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                     352
+     preset_standby(LABELS *, BOOK *, DISP_OBJ *, LIST *, int, MyBOOK *, int, int)
+                                     188
+     presets                          32
+     ??DataTable6                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable12                     4
+     ??DataTable13                     4
+     ??DataTable14                     4
+     ?<Initializer for presets>       32
+     ?<Constant "ScreensaverBook">    16
+      Others                          68
+
+ 
+ 1 452 bytes in segment CODE
+    16 bytes in segment DATA_C
+    32 bytes in segment DATA_I
+    32 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 1 396 bytes of CODE  memory (+ 68 bytes shared)
+    48 bytes of CONST memory
+    32 bytes of DATA  memory
+
+Errors: none
+Warnings: none

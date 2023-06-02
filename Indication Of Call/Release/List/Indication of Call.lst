@@ -1,0 +1,2603 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:04:02 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Indication Of  #
+#                       Call\Indication of Call.c                            #
+#    Command line    =  "Z:\home\perk11\www\perk11.info\svn\SE\Indication    #
+#                       Of Call\Indication of Call.c" -D NDEBUG -lC          #
+#                       "Z:\home\perk11\www\perk11.info\svn\SE\Indication    #
+#                       Of Call\Release\List\" -lA                           #
+#                       "Z:\home\perk11\www\perk11.info\svn\SE\Indication    #
+#                       Of Call\Release\List\" -o                            #
+#                       "Z:\home\perk11\www\perk11.info\svn\SE\Indication    #
+#                       Of Call\Release\Obj\" -s9 --cpu_mode arm --endian    #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Indication Of  #
+#                       Call\Release\List\Indication of Call.lst             #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Indication Of  #
+#                       Call\Release\Obj\Indication of Call.r79              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Indication Of Call\Indication of Call.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\cfg_items.h"
+      4          #include "config_data.h"
+      5          #include "conf_loader.h"
+      6          
+      7          #define ELFNAME "Indication of Call v.2.3"
+      8          #define LELFNAME L"Indication of Call"
+      9          #define LELFVERSION L"\nv2.3\n\n(c)Ploik & BigHercules\n\nRespect: Slawwan"
+     10          
+     11          void (*LEDControl_W580)(int,int id,int RED,int GREEN,int BLUE, int br, int delay)=(void (*)(int,int id,int RED,int GREEN,int BLUE,int br,int delay))(0x4529BFA9);
+     12          
+     13          #define COLOR_GET_A(x) ((unsigned int)x>>24)
+     14          #define COLOR_GET_R(x) (((unsigned int)x>>16)&0xFF)
+     15          #define COLOR_GET_G(x) (((unsigned int)x>>8)&0xFF)
+     16          #define COLOR_GET_B(x) ((unsigned int)x&0xFF)
+     17          
+     18          static char myappname[]=ELFNAME;
+     19          
+     20          int lamp = 0;
+     21          int screen=0;
+     22          u16 timerFlash = 0;
+     23          u16 timerREDLED = 0;
+     24          u16 timerLED = 0;
+     25          u16 timerScreen = 0;
+     26          u16 vibraminutetimer = 0;
+     27          u16 vibraNminutetimer = 0;
+     28          u16 offtimer = 0;
+     29          u16 offtimerREDLED = 0;
+     30          u16 offtimerLED = 0;
+     31          u16 offtimerScreen = 0;
+     32          
+     33          u16 rejectTimer = 0;
+     34          u16 muteTimer = 0;
+     35          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     36          int skipevents;
+   \                     skipevents:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     37          int checkevents;
+   \                     checkevents:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     timerFlash:
+   \   00000000                      DS8 2
+   \   00000002                      REQUIRE `?<Initializer for timerFlash>`
+   \                     timerREDLED:
+   \   00000002                      DS8 2
+   \   00000004                      REQUIRE `?<Initializer for timerREDLED>`
+   \                     timerLED:
+   \   00000004                      DS8 2
+   \   00000006                      REQUIRE `?<Initializer for timerLED>`
+   \                     timerScreen:
+   \   00000006                      DS8 2
+   \   00000008                      REQUIRE `?<Initializer for timerScreen>`
+   \                     vibraminutetimer:
+   \   00000008                      DS8 2
+   \   0000000A                      REQUIRE `?<Initializer for vibraminutetimer>`
+   \                     vibraNminutetimer:
+   \   0000000A                      DS8 2
+   \   0000000C                      REQUIRE `?<Initializer for vibraNminutetimer>`
+   \                     offtimer:
+   \   0000000C                      DS8 2
+   \   0000000E                      REQUIRE `?<Initializer for offtimer>`
+   \                     offtimerREDLED:
+   \   0000000E                      DS8 2
+   \   00000010                      REQUIRE `?<Initializer for offtimerREDLED>`
+   \                     offtimerLED:
+   \   00000010                      DS8 2
+   \   00000012                      REQUIRE `?<Initializer for offtimerLED>`
+   \                     offtimerScreen:
+   \   00000012                      DS8 2
+   \   00000014                      REQUIRE `?<Initializer for offtimerScreen>`
+   \                     rejectTimer:
+   \   00000014                      DS8 2
+   \   00000016                      REQUIRE `?<Initializer for rejectTimer>`
+   \                     muteTimer:
+   \   00000016                      DS8 2
+   \   00000018                      REQUIRE `?<Initializer for muteTimer>`
+   \                     LEDControl_W580:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for LEDControl_W580>`
+   \                     lamp:
+   \   0000001C                      DS8 4
+   \   00000020                      REQUIRE `?<Initializer for lamp>`
+   \                     screen:
+   \   00000020                      DS8 4
+   \   00000024                      REQUIRE `?<Initializer for screen>`
+     38          int REDLED=0;
+   \                     REDLED:
+   \   00000024                      DS8 4
+   \   00000028                      REQUIRE `?<Initializer for REDLED>`
+     39          int LED=0;
+   \                     LED:
+   \   00000028                      DS8 4
+   \   0000002C                      REQUIRE `?<Initializer for LED>`
+     40          int LED580=1;
+   \                     LED580:
+   \   0000002C                      DS8 4
+   \   00000030                      REQUIRE `?<Initializer for LED580>`
+     41          int LEDnum=2;
+   \                     LEDnum:
+   \   00000030                      DS8 4
+   \   00000034                      REQUIRE `?<Initializer for LEDnum>`
+     42          int incom=0;
+   \                     incom:
+   \   00000034                      DS8 4
+   \   00000038                      REQUIRE `?<Initializer for incom>`
+     43          int connect=0;
+   \                     connect:
+   \   00000038                      DS8 4
+   \   0000003C                      REQUIRE `?<Initializer for connect>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     myappname:
+   \   00000000                      DS8 28
+   \   0000001C                      REQUIRE `?<Initializer for myappname>`
+     44          
+     45          void offTimerFlash(u16 timerID, LPARAM lparam);
+     46          void offTimerLED(u16 timerID, LPARAM lparam);
+     47          void offTimerREDLED(u16 timerID, LPARAM lparam);
+     48          void offTimerScreen(u16 timerID, LPARAM lparam);
+     49          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          int isMTCallBook(BOOK *bk)
+     51          {
+     52            if (strcmp(bk->xbook->name,"MTCallBook")==0) { return 1; }
+   \                     ??isMTCallBook:
+   \   00000000   20109FE5           LDR      R1,??isMTCallBook_1  ;; `?<Constant "MTCallBook">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   590100EF           SWI      +345
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100A003           MOVEQ    R0,#+1
+   \   0000001C   0080BD08           POPEQ    {PC}
+     53            else { return 0; }
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+   \                     ??isMTCallBook_1:
+   \   00000028   ........           DC32     `?<Constant "MTCallBook">`
+     54          };
+     55          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          void onRejectTimer(u16 timerID, LPARAM lparam)
+     57          {
+     58            BOOK *bk = FindBook(isMTCallBook);
+   \                     ??onRejectTimer:
+   \   00000000   ........           LDR      R0,??DataTable1  ;; ??isMTCallBook
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   300100EF           SWI      +304
+     59            if(bk)
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0080BD08           POPEQ    {PC}
+     60            {
+     61              IncommingCall_Reject(bk);
+   \   00000014   250300EF           SWI      +805
+     62            }
+     63          }
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+     64          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     65          void onMuteTimer(u16 timerID, LPARAM lparam)
+     66          {
+     67            BOOK *bk = FindBook(isMTCallBook);
+   \                     ??onMuteTimer:
+   \   00000000   ........           LDR      R0,??DataTable1  ;; ??isMTCallBook
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   300100EF           SWI      +304
+     68            if(bk)
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0080BD08           POPEQ    {PC}
+     69            {
+     70              IncommingCall_Mute(bk);
+   \   00000014   260300EF           SWI      +806
+     71            }
+     72          }
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+     73          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     74          int DisableUP(void *msg, BOOK * book, PAGE_DESC * page_desc, LPARAM ClientData, u16 event)
+     75          {
+   \                     ??DisableUP:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     76            if((incom==1) && (cfg_flash_silent==0))
+   \   00000004   ........           LDR      R5,??DataTable30  ;; timerFlash
+   \   00000008   340095E5           LDR      R0,[R5, #+52]
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   0500001A           BNE      ??DisableUP_1
+   \   00000014   ........           LDR      R0,??DataTable8  ;; cfg_flash_silent
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0400001A           BNE      ??DisableUP_2
+     77            {
+     78               offTimerFlash(0,0);
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   ........           BL       ??offTimerFlash
+     79            }
+     80            if((incom==1) && (cfg_led_silent==0))
+   \                     ??DisableUP_1:
+   \   0000002C   340095E5           LDR      R0,[R5, #+52]
+   \   00000030   010050E3           CMP      R0,#+1
+   \   00000034   0500001A           BNE      ??DisableUP_3
+   \                     ??DisableUP_2:
+   \   00000038   ........           LDR      R0,??DataTable9  ;; cfg_led_silent
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0400001A           BNE      ??DisableUP_4
+     81            {
+     82               offTimerLED(0,0);
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   ........           BL       ??offTimerLED
+     83            }
+     84            if((incom==1) && (cfg_redled_silent==0))
+   \                     ??DisableUP_3:
+   \   00000050   340095E5           LDR      R0,[R5, #+52]
+   \   00000054   010050E3           CMP      R0,#+1
+   \   00000058   0500001A           BNE      ??DisableUP_5
+   \                     ??DisableUP_4:
+   \   0000005C   ........           LDR      R0,??DataTable10  ;; cfg_redled_silent
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   0400001A           BNE      ??DisableUP_6
+     85            {
+     86               offTimerREDLED(0,0);
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   ........           BL       ??offTimerREDLED
+     87            }
+     88            if((incom==1) && (cfg_screen_silent==0))
+   \                     ??DisableUP_5:
+   \   00000074   340095E5           LDR      R0,[R5, #+52]
+   \   00000078   010050E3           CMP      R0,#+1
+   \   0000007C   0500001A           BNE      ??DisableUP_7
+   \                     ??DisableUP_6:
+   \   00000080   ........           LDR      R0,??DataTable11  ;; cfg_screen_silent
+   \   00000084   000090E5           LDR      R0,[R0, #+0]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0100001A           BNE      ??DisableUP_7
+     89            {
+     90               offTimerScreen(0,0);
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   ........           BL       ??offTimerScreen
+     91            }
+     92            return(0);
+   \                     ??DisableUP_7:
+   \   00000098   0000A0E3           MOV      R0,#+0
+   \   0000009C   3080BDE8           POP      {R4,R5,PC}       ;; return
+     93          }
+     94          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     95          int DisableDOWN(void *msg, BOOK * book, PAGE_DESC * page_desc, LPARAM ClientData, u16 event)
+     96          {
+   \                     ??DisableDOWN:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     97            if((incom==1) && (cfg_flash_silent==0))
+   \   00000004   ........           LDR      R5,??DataTable30  ;; timerFlash
+   \   00000008   340095E5           LDR      R0,[R5, #+52]
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   0500001A           BNE      ??DisableDOWN_1
+   \   00000014   ........           LDR      R0,??DataTable8  ;; cfg_flash_silent
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0400001A           BNE      ??DisableDOWN_2
+     98            {
+     99               offTimerFlash(0,0);
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   ........           BL       ??offTimerFlash
+    100            }
+    101            if((incom==1) && (cfg_led_silent==0))
+   \                     ??DisableDOWN_1:
+   \   0000002C   340095E5           LDR      R0,[R5, #+52]
+   \   00000030   010050E3           CMP      R0,#+1
+   \   00000034   0500001A           BNE      ??DisableDOWN_3
+   \                     ??DisableDOWN_2:
+   \   00000038   ........           LDR      R0,??DataTable9  ;; cfg_led_silent
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0400001A           BNE      ??DisableDOWN_4
+    102            {
+    103               offTimerLED(0,0);
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   ........           BL       ??offTimerLED
+    104            }
+    105            if((incom==1) && (cfg_redled_silent==0))
+   \                     ??DisableDOWN_3:
+   \   00000050   340095E5           LDR      R0,[R5, #+52]
+   \   00000054   010050E3           CMP      R0,#+1
+   \   00000058   0500001A           BNE      ??DisableDOWN_5
+   \                     ??DisableDOWN_4:
+   \   0000005C   ........           LDR      R0,??DataTable10  ;; cfg_redled_silent
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   0400001A           BNE      ??DisableDOWN_6
+    106            {
+    107               offTimerREDLED(0,0);
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   ........           BL       ??offTimerREDLED
+    108            }
+    109            if((incom==1) && (cfg_screen_silent==0))
+   \                     ??DisableDOWN_5:
+   \   00000074   340095E5           LDR      R0,[R5, #+52]
+   \   00000078   010050E3           CMP      R0,#+1
+   \   0000007C   0500001A           BNE      ??DisableDOWN_7
+   \                     ??DisableDOWN_6:
+   \   00000080   ........           LDR      R0,??DataTable11  ;; cfg_screen_silent
+   \   00000084   000090E5           LDR      R0,[R0, #+0]
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0100001A           BNE      ??DisableDOWN_7
+    110            {
+    111               offTimerScreen(0,0);
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   ........           BL       ??offTimerScreen
+    112            }
+    113            return(0);
+   \                     ??DisableDOWN_7:
+   \   00000098   0000A0E3           MOV      R0,#+0
+   \   0000009C   3080BDE8           POP      {R4,R5,PC}       ;; return
+    114          }
+    115          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    116          void offTimerFlash(u16 timerID, LPARAM lparam)
+    117          {
+   \                     ??offTimerFlash:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    118            if(timerFlash)
+   \   00000004   ........           LDR      R4,??DataTable39  ;; timerFlash
+   \   00000008   B000D4E1           LDRH     R0,[R4, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    119            {
+    120              Timer_Kill(&timerFlash);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   2A0100EF           SWI      +298
+    121              timerFlash = 0;
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   B000C4E1           STRH     R0,[R4, #+0]
+    122              SetLampLevel(0);
+   \   00000024   780100EF           SWI      +376
+    123            }
+    124          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+    125          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    126          void offTimerREDLED(u16 timerID, LPARAM lparam)
+    127          {
+   \                     ??offTimerREDLED:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    128             if(timerREDLED)
+   \   00000004   ........           LDR      R5,??DataTable30  ;; timerFlash
+   \   00000008   0040A0E3           MOV      R4,#+0
+   \   0000000C   B200D5E1           LDRH     R0,[R5, #+2]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0400000A           BEQ      ??offTimerREDLED_1
+    129             {
+    130               Timer_Kill(&timerREDLED);
+   \   00000018   020085E2           ADD      R0,R5,#+2
+   \   0000001C   2A0100EF           SWI      +298
+    131               timerREDLED = 0;
+   \   00000020   B240C5E1           STRH     R4,[R5, #+2]
+    132               RedLED_Off(0);
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   080300EF           SWI      +776
+    133             }
+    134             REDLED = 0;
+   \                     ??offTimerREDLED_1:
+   \   0000002C   244085E5           STR      R4,[R5, #+36]
+    135          }
+   \   00000030   3080BDE8           POP      {R4,R5,PC}       ;; return
+    136          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    137          void offTimerLED(u16 timerID, LPARAM lparam)
+    138          {
+   \                     ??offTimerLED:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    139             if(timerLED)
+   \   00000004   ........           LDR      R5,??DataTable30  ;; timerFlash
+   \   00000008   0040A0E3           MOV      R4,#+0
+   \   0000000C   B400D5E1           LDRH     R0,[R5, #+4]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0200000A           BEQ      ??offTimerLED_1
+    140             {
+    141               Timer_Kill(&timerLED);
+   \   00000018   040085E2           ADD      R0,R5,#+4
+   \   0000001C   2A0100EF           SWI      +298
+    142               timerLED = 0;
+   \   00000020   B440C5E1           STRH     R4,[R5, #+4]
+    143             }
+    144             if(cfg_phone_type == 1)
+   \                     ??offTimerLED_1:
+   \   00000024   ........           LDR      R0,??DataTable28  ;; cfg_phone_type
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   010050E3           CMP      R0,#+1
+   \   00000030   1600001A           BNE      ??offTimerLED_2
+    145             {
+    146               LEDControl_W580(1,0,0,0,0,0,1);
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   01002DE9           PUSH     {R0}
+   \   00000040   01002DE9           PUSH     {R0}
+   \   00000044   186095E5           LDR      R6,[R5, #+24]
+   \   00000048   0030A0E1           MOV      R3,R0
+   \   0000004C   0020A0E1           MOV      R2,R0
+   \   00000050   0010A0E1           MOV      R1,R0
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   36FF2FE1           BLX      R6
+    147               LEDControl_W580(1,1,0,0,0,0,1);
+   \   0000005C   0100A0E3           MOV      R0,#+1
+   \   00000060   01002DE9           PUSH     {R0}
+   \   00000064   0110A0E3           MOV      R1,#+1
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   01002DE9           PUSH     {R0}
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   186095E5           LDR      R6,[R5, #+24]
+   \   00000078   0030A0E1           MOV      R3,R0
+   \   0000007C   0020A0E1           MOV      R2,R0
+   \   00000080   0100A0E1           MOV      R0,R1
+   \   00000084   36FF2FE1           BLX      R6
+   \   00000088   18D08DE2           ADD      SP,SP,#+24
+   \   0000008C   0A0000EA           B        ??offTimerLED_3
+    148             }
+    149             else if(cfg_phone_type == 2)
+   \                     ??offTimerLED_2:
+   \   00000090   020050E3           CMP      R0,#+2
+   \   00000094   0800001A           BNE      ??offTimerLED_3
+    150             {
+    151               for(int i=0;i<3;i++)
+   \   00000098   0060A0E3           MOV      R6,#+0
+    152               OrangeLED_Control(1,i,0,50);
+   \                     ??offTimerLED_4:
+   \   0000009C   3230A0E3           MOV      R3,#+50
+   \   000000A0   0020A0E3           MOV      R2,#+0
+   \   000000A4   0610A0E1           MOV      R1,R6
+   \   000000A8   0100A0E3           MOV      R0,#+1
+   \   000000AC   DC0200EF           SWI      +732
+   \   000000B0   016086E2           ADD      R6,R6,#+1
+   \   000000B4   030056E3           CMP      R6,#+3
+   \   000000B8   F7FFFFBA           BLT      ??offTimerLED_4
+    153             }
+    154             LED580 = 1;
+   \                     ??offTimerLED_3:
+   \   000000BC   0100A0E3           MOV      R0,#+1
+   \   000000C0   2C0085E5           STR      R0,[R5, #+44]
+    155             LEDnum=0;
+   \   000000C4   304085E5           STR      R4,[R5, #+48]
+    156             LED = 0;
+   \   000000C8   284085E5           STR      R4,[R5, #+40]
+    157          }
+   \   000000CC   7080BDE8           POP      {R4-R6,PC}       ;; return
+    158          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    159          void offTimerScreen(u16 timerID, LPARAM lparam)
+    160          {
+   \                     ??offTimerScreen:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    161            if(timerScreen)
+   \   00000004   ........           LDR      R4,??DataTable30  ;; timerFlash
+   \   00000008   B600D4E1           LDRH     R0,[R4, #+6]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    162            {
+    163              Timer_Kill(&timerScreen);
+   \   00000014   060084E2           ADD      R0,R4,#+6
+   \   00000018   2A0100EF           SWI      +298
+    164              timerScreen = 0;
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   B600C4E1           STRH     R0,[R4, #+6]
+    165              IndicationDevice_Backlight_FadeToLevel(0,cfg_screen_level);
+   \   00000024   ........           LDR      R0,??DataTable29  ;; cfg_screen_level
+   \   00000028   001090E5           LDR      R1,[R0, #+0]
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   6F0100EF           SWI      +367
+    166            }
+    167          }
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+    168          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    169          void onVibraMinuteTimer(u16 timerID, LPARAM lparam)
+    170          {
+   \                     ??onVibraMinuteTimer:
+   \   00000000   00402DE9           PUSH     {LR}
+    171             PAudioControl pAC = AudioControl_Init();
+   \   00000004   DF0100EF           SWI      +479
+    172             if( !pAC ) pAC = *GetAudioControlPtr();
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   0100001A           BNE      ??onVibraMinuteTimer_1
+   \   00000010   D18100EF           SWI      +33233
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+    173             AudioControl_Vibrate(pAC, 400, 50, cfg_vibra_at_minute_end_time);
+   \                     ??onVibraMinuteTimer_1:
+   \   00000018   28109FE5           LDR      R1,??onVibraMinuteTimer_2  ;; cfg_vibra_at_minute_end_time
+   \   0000001C   3220A0E3           MOV      R2,#+50
+   \   00000020   003091E5           LDR      R3,[R1, #+0]
+   \   00000024   641FA0E3           MOV      R1,#+400
+   \   00000028   D20100EF           SWI      +466
+    174             Timer_ReSet(&vibraminutetimer,60000,onVibraMinuteTimer,0);
+   \   0000002C   ........           LDR      R2,??DataTable18  ;; ??onVibraMinuteTimer
+   \   00000030   14009FE5           LDR      R0,??onVibraMinuteTimer_2+0x4  ;; timerFlash + 8
+   \   00000034   0030A0E3           MOV      R3,#+0
+   \   00000038   6010A0E3           MOV      R1,#+96
+   \   0000003C   EA1C81E3           ORR      R1,R1,#0xEA00
+   \   00000040   280100EF           SWI      +296
+    175          }
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+   \                     ??onVibraMinuteTimer_2:
+   \   00000048   ........           DC32     cfg_vibra_at_minute_end_time
+   \   0000004C   ........           DC32     timerFlash + 8
+    176          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    177          void onVibraNMinuteTimer(u16 timerID, LPARAM lparam)
+    178          {
+   \                     ??onVibraNMinuteTimer:
+   \   00000000   00402DE9           PUSH     {LR}
+    179             PAudioControl pAC = AudioControl_Init();
+   \   00000004   DF0100EF           SWI      +479
+    180             if( !pAC ) pAC = *GetAudioControlPtr();
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   0100001A           BNE      ??onVibraNMinuteTimer_1
+   \   00000010   D18100EF           SWI      +33233
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+    181             AudioControl_Vibrate(pAC, 400, 50, cfg_vibra_at_n_minute_end_time);
+   \                     ??onVibraNMinuteTimer_1:
+   \   00000018   10109FE5           LDR      R1,??onVibraNMinuteTimer_2  ;; cfg_vibra_at_n_minute_end_time
+   \   0000001C   3220A0E3           MOV      R2,#+50
+   \   00000020   003091E5           LDR      R3,[R1, #+0]
+   \   00000024   641FA0E3           MOV      R1,#+400
+   \   00000028   D20100EF           SWI      +466
+    182          }
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+   \                     ??onVibraNMinuteTimer_2:
+   \   00000030   ........           DC32     cfg_vibra_at_n_minute_end_time
+    183          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    184          void onTimerFlash(u16 timerID, LPARAM lparam)
+    185          {
+   \                     ??onTimerFlash:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    186              switch(GetChipID()&CHIPID_MASK)
+   \   00000004   ........           LDR      R4,??DataTable39  ;; timerFlash
+   \   00000008   4E0200EF           SWI      +590
+   \   0000000C   FE0C00E2           AND      R0,R0,#0xFE00
+   \   00000010   700C50E2           SUBS     R0,R0,#+28672
+   \   00000014   400D5012           SUBSNE   R0,R0,#+4096
+   \   00000018   0200000A           BEQ      ??onTimerFlash_1
+   \   0000001C   600D50E2           SUBS     R0,R0,#+6144
+   \   00000020   0300000A           BEQ      ??onTimerFlash_2
+   \   00000024   060000EA           B        ??onTimerFlash_3
+    187              {
+    188                  case CHIPID_DB2000:
+    189                  case CHIPID_DB2010:
+    190                  {
+    191                      SetLampLevel(lamp^=0x50);
+   \                     ??onTimerFlash_1:
+   \   00000028   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000002C   500020E2           EOR      R0,R0,#0x50
+   \   00000030   010000EA           B        ??onTimerFlash_4
+    192                  }
+    193                  break;
+    194                  case CHIPID_DB2020:
+    195                  {
+    196                      SetLampLevel(lamp^=1);
+   \                     ??onTimerFlash_2:
+   \   00000034   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000038   010020E2           EOR      R0,R0,#0x1
+   \                     ??onTimerFlash_4:
+   \   0000003C   1C0084E5           STR      R0,[R4, #+28]
+   \   00000040   780100EF           SWI      +376
+    197                  }
+    198                  break;
+    199              }
+    200              Timer_ReSet(&timerFlash,cfg_flash_blink_speed,onTimerFlash,0);
+   \                     ??onTimerFlash_3:
+   \   00000044   ........           LDR      R0,??DataTable61  ;; cfg_flash_blink_speed
+   \   00000048   ........           LDR      R2,??DataTable53  ;; ??onTimerFlash
+   \   0000004C   001090E5           LDR      R1,[R0, #+0]
+   \   00000050   0030A0E3           MOV      R3,#+0
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   280100EF           SWI      +296
+    201          }
+   \   0000005C   1080BDE8           POP      {R4,PC}          ;; return
+    202          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    203          void onTimerREDLED(u16 timerID, LPARAM lparam)
+    204          {
+   \                     ??onTimerREDLED:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    205            if(REDLED == 0)
+   \   00000004   ........           LDR      R4,??DataTable69  ;; ??onTimerREDLED
+   \   00000008   ........           LDR      R6,??DataTable30  ;; timerFlash
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   240096E5           LDR      R0,[R6, #+36]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0500001A           BNE      ??onTimerREDLED_1
+    206            {
+    207              REDLED = 1;
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   240086E5           STR      R0,[R6, #+36]
+    208              RedLED_On(0);
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   070300EF           SWI      +775
+    209              Timer_ReSet(&timerREDLED,cfg_redled_ontime,onTimerREDLED,0);
+   \   0000002C   ........           LDR      R0,??DataTable59  ;; cfg_redled_ontime
+   \   00000030   030000EA           B        ??onTimerREDLED_2
+    210            }
+    211            else
+    212            {
+    213              REDLED = 0;
+   \                     ??onTimerREDLED_1:
+   \   00000034   245086E5           STR      R5,[R6, #+36]
+    214              RedLED_Off(0);
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   080300EF           SWI      +776
+    215              Timer_ReSet(&timerREDLED,cfg_redled_offtime,onTimerREDLED,0);
+   \   00000040   14009FE5           LDR      R0,??onTimerREDLED_3  ;; cfg_redled_offtime
+   \                     ??onTimerREDLED_2:
+   \   00000044   0530A0E1           MOV      R3,R5
+   \   00000048   0420A0E1           MOV      R2,R4
+   \   0000004C   001090E5           LDR      R1,[R0, #+0]
+   \   00000050   020086E2           ADD      R0,R6,#+2
+   \   00000054   280100EF           SWI      +296
+    216            }
+    217          }
+   \   00000058   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??onTimerREDLED_3:
+   \   0000005C   ........           DC32     cfg_redled_offtime
+    218          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    219          void onTimerLED(u16 timerID, LPARAM lparam)
+    220          {
+    221            if(cfg_phone_type == 1)
+   \                     ??onTimerLED:
+   \   00000000   ........           LDR      R0,??DataTable51  ;; cfg_led_blink_speed
+   \   00000004   ........           LDR      R2,??DataTable70  ;; ??onTimerLED
+   \   00000008   F0402DE9           PUSH     {R4-R7,LR}
+   \   0000000C   ........           LDR      R4,??DataTable30  ;; timerFlash
+   \   00000010   04D04DE2           SUB      SP,SP,#+4
+   \   00000014   005090E5           LDR      R5,[R0, #+0]
+   \   00000018   ........           LDR      R0,??DataTable28  ;; cfg_phone_type
+   \   0000001C   0030A0E3           MOV      R3,#+0
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   010050E3           CMP      R0,#+1
+   \   00000028   2F00001A           BNE      ??onTimerLED_1
+    222            {
+    223              Timer_ReSet(&timerLED,cfg_led_blink_speed,onTimerLED,0);
+   \   0000002C   0510A0E1           MOV      R1,R5
+   \   00000030   040084E2           ADD      R0,R4,#+4
+   \   00000034   280100EF           SWI      +296
+    224              if (cfg_led580_blink_mode == 2)
+   \   00000038   24019FE5           LDR      R0,??onTimerLED_2  ;; cfg_led580_color
+   \   0000003C   FF10A0E3           MOV      R1,#+255
+   \   00000040   000090E5           LDR      R0,[R0, #+0]
+   \   00000044   205801E0           AND      R5,R1,R0, LSR #+16
+   \   00000048   206401E0           AND      R6,R1,R0, LSR #+8
+   \   0000004C   FF7000E2           AND      R7,R0,#0xFF
+   \   00000050   10019FE5           LDR      R0,??onTimerLED_2+0x4  ;; cfg_led580_blink_mode
+   \   00000054   001090E5           LDR      R1,[R0, #+0]
+   \   00000058   2C0094E5           LDR      R0,[R4, #+44]
+   \   0000005C   020051E3           CMP      R1,#+2
+   \   00000060   010020E2           EOR      R0,R0,#0x1
+   \   00000064   2C0084E5           STR      R0,[R4, #+44]
+   \   00000068   01002DE9           PUSH     {R0}
+   \   0000006C   0000A0E3           MOV      R0,#+0
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   1400001A           BNE      ??onTimerLED_3
+    225              {
+    226                LEDControl_W580(1, 0, COLOR_GET_R(cfg_led580_color),COLOR_GET_G(cfg_led580_color),COLOR_GET_B(cfg_led580_color),0,LED580 ^= 1);
+   \   00000078   0700A0E1           MOV      R0,R7
+   \   0000007C   01002DE9           PUSH     {R0}
+   \   00000080   18C094E5           LDR      R12,[R4, #+24]
+   \   00000084   0630A0E1           MOV      R3,R6
+   \   00000088   0520A0E1           MOV      R2,R5
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   0100A0E3           MOV      R0,#+1
+   \   00000094   3CFF2FE1           BLX      R12
+    227                LEDControl_W580(1, 1, COLOR_GET_R(cfg_led580_color),COLOR_GET_G(cfg_led580_color),COLOR_GET_B(cfg_led580_color),0,LED580);
+   \   00000098   2C0094E5           LDR      R0,[R4, #+44]
+   \   0000009C   0630A0E1           MOV      R3,R6
+   \   000000A0   01002DE9           PUSH     {R0}
+   \   000000A4   0520A0E1           MOV      R2,R5
+   \   000000A8   0110A0E3           MOV      R1,#+1
+   \   000000AC   0000A0E3           MOV      R0,#+0
+   \   000000B0   01002DE9           PUSH     {R0}
+   \   000000B4   80002DE9           PUSH     {R7}
+   \   000000B8   184094E5           LDR      R4,[R4, #+24]
+   \   000000BC   0100A0E3           MOV      R0,#+1
+   \   000000C0   34FF2FE1           BLX      R4
+   \   000000C4   18D08DE2           ADD      SP,SP,#+24
+   \   000000C8   F180BDE8           POP      {R0,R4-R7,PC}
+    228              }
+    229              else
+    230              {
+    231                LEDControl_W580(1, cfg_led580_blink_mode, COLOR_GET_R(cfg_led580_color),COLOR_GET_G(cfg_led580_color),COLOR_GET_B(cfg_led580_color),0,LED580 ^= 1);
+   \                     ??onTimerLED_3:
+   \   000000CC   80002DE9           PUSH     {R7}
+   \   000000D0   184094E5           LDR      R4,[R4, #+24]
+   \   000000D4   0630A0E1           MOV      R3,R6
+   \   000000D8   0520A0E1           MOV      R2,R5
+   \   000000DC   0100A0E3           MOV      R0,#+1
+   \   000000E0   34FF2FE1           BLX      R4
+   \   000000E4   0CD08DE2           ADD      SP,SP,#+12
+   \   000000E8   F180BDE8           POP      {R0,R4-R7,PC}
+    232              }
+    233            }
+    234            else if(cfg_phone_type == 2)
+   \                     ??onTimerLED_1:
+   \   000000EC   020050E3           CMP      R0,#+2
+   \   000000F0   F180BD18           POPNE    {R0,R4-R7,PC}
+    235            {
+    236              Timer_ReSet(&timerLED,100,onTimerLED,0);
+   \   000000F4   6410A0E3           MOV      R1,#+100
+   \   000000F8   040084E2           ADD      R0,R4,#+4
+   \   000000FC   280100EF           SWI      +296
+    237              if (cfg_led_blink_mode)
+   \   00000100   64009FE5           LDR      R0,??onTimerLED_2+0x8  ;; cfg_led_blink_mode
+   \   00000104   000090E5           LDR      R0,[R0, #+0]
+   \   00000108   000050E3           CMP      R0,#+0
+   \   0000010C   0C00000A           BEQ      ??onTimerLED_4
+    238              {
+    239                OrangeLED_Control(1,LEDnum,0,cfg_led_blink_speed);
+   \   00000110   301094E5           LDR      R1,[R4, #+48]
+   \   00000114   0530A0E1           MOV      R3,R5
+   \   00000118   0020A0E3           MOV      R2,#+0
+   \   0000011C   0100A0E3           MOV      R0,#+1
+   \   00000120   DC0200EF           SWI      +732
+    240                if (LEDnum == 2) LEDnum=0;
+   \   00000124   300094E5           LDR      R0,[R4, #+48]
+    241                else LEDnum++;
+    242                OrangeLED_Control(1,LEDnum,100,cfg_led_blink_speed);
+   \   00000128   0530A0E1           MOV      R3,R5
+   \   0000012C   020050E3           CMP      R0,#+2
+   \   00000130   0010A003           MOVEQ    R1,#+0
+   \   00000134   01108012           ADDNE    R1,R0,#+1
+   \   00000138   301084E5           STR      R1,[R4, #+48]
+   \   0000013C   6420A0E3           MOV      R2,#+100
+   \   00000140   040000EA           B        ??onTimerLED_5
+    243              }
+    244              else
+    245                OrangeLED_Control(1,0,LED^=0x64,cfg_led_blink_speed);
+   \                     ??onTimerLED_4:
+   \   00000144   280094E5           LDR      R0,[R4, #+40]
+   \   00000148   0530A0E1           MOV      R3,R5
+   \   0000014C   642020E2           EOR      R2,R0,#0x64
+   \   00000150   282084E5           STR      R2,[R4, #+40]
+   \   00000154   0010A0E3           MOV      R1,#+0
+   \                     ??onTimerLED_5:
+   \   00000158   0100A0E3           MOV      R0,#+1
+   \   0000015C   DC0200EF           SWI      +732
+    246            }
+    247          }
+   \   00000160   F180BDE8           POP      {R0,R4-R7,PC}    ;; return
+   \                     ??onTimerLED_2:
+   \   00000164   ........           DC32     cfg_led580_color
+   \   00000168   ........           DC32     cfg_led580_blink_mode
+   \   0000016C   ........           DC32     cfg_led_blink_mode
+    248          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    249          void onTimerScreen(u16 timerID, LPARAM lparam)
+    250          {
+    251              IndicationDevice_Backlight_FadeToLevel(0,screen ^= cfg_screen_level);
+   \                     ??onTimerScreen:
+   \   00000000   ........           LDR      R1,??DataTable29  ;; cfg_screen_level
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   ........           LDR      R4,??DataTable30  ;; timerFlash
+   \   00000010   200094E5           LDR      R0,[R4, #+32]
+   \   00000014   001021E0           EOR      R1,R1,R0
+   \   00000018   201084E5           STR      R1,[R4, #+32]
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   6F0100EF           SWI      +367
+    252              Timer_ReSet(&timerScreen,cfg_screen_blink_speed,onTimerScreen,0);
+   \   00000024   ........           LDR      R0,??DataTable60  ;; cfg_screen_blink_speed
+   \   00000028   ........           LDR      R2,??DataTable52  ;; ??onTimerScreen
+   \   0000002C   001090E5           LDR      R1,[R0, #+0]
+   \   00000030   0030A0E3           MOV      R3,#+0
+   \   00000034   060084E2           ADD      R0,R4,#+6
+   \   00000038   280100EF           SWI      +296
+    253          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+    254          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    255          void elf_exit(void)
+    256          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+    257              kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+    258          }
+    259          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    260          void bookOnDestroy(BOOK * book)
+    261          {
+   \                     ??bookOnDestroy:
+   \   00000000   20402DE9           PUSH     {R5,LR}
+    262              if(timerFlash)
+   \   00000004   ........           LDR      R5,??DataTable39  ;; timerFlash
+   \   00000008   B000D5E1           LDRH     R0,[R5, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0400000A           BEQ      ??bookOnDestroy_1
+    263              {
+    264                  Timer_Kill(&timerFlash);
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   2A0100EF           SWI      +298
+    265                  offTimerFlash(0,0);
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   ........           BL       ??offTimerFlash
+    266              }
+    267              if(offtimer) Timer_Kill(&offtimer);
+   \                     ??bookOnDestroy_1:
+   \   00000028   BC00D5E1           LDRH     R0,[R5, #+12]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0100000A           BEQ      ??bookOnDestroy_2
+   \   00000034   0C0085E2           ADD      R0,R5,#+12
+   \   00000038   2A0100EF           SWI      +298
+    268              if(offtimerREDLED)
+   \                     ??bookOnDestroy_2:
+   \   0000003C   BE00D5E1           LDRH     R0,[R5, #+14]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0400000A           BEQ      ??bookOnDestroy_3
+    269              {
+    270                  Timer_Kill(&offtimerREDLED);
+   \   00000048   0E0085E2           ADD      R0,R5,#+14
+   \   0000004C   2A0100EF           SWI      +298
+    271                  offTimerREDLED(0,0);
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   ........           BL       ??offTimerREDLED
+    272              }
+    273              if(offtimerLED)
+   \                     ??bookOnDestroy_3:
+   \   0000005C   B001D5E1           LDRH     R0,[R5, #+16]
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   0400000A           BEQ      ??bookOnDestroy_4
+    274              {
+    275                  Timer_Kill(&offtimerLED);
+   \   00000068   100085E2           ADD      R0,R5,#+16
+   \   0000006C   2A0100EF           SWI      +298
+    276                  offTimerLED(0,0);
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   ........           BL       ??offTimerLED
+    277              }
+    278              {
+    279                  PAudioControl pAC = AudioControl_Init();
+   \                     ??bookOnDestroy_4:
+   \   0000007C   DF0100EF           SWI      +479
+    280                  if( !pAC ) pAC = *GetAudioControlPtr();
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   0100001A           BNE      ??bookOnDestroy_5
+   \   00000088   D18100EF           SWI      +33233
+   \   0000008C   000090E5           LDR      R0,[R0, #+0]
+    281                  AudioControl_Vibrate(pAC, 0, 0, 0);
+   \                     ??bookOnDestroy_5:
+   \   00000090   0030A0E3           MOV      R3,#+0
+   \   00000094   0020A0E3           MOV      R2,#+0
+   \   00000098   0210A0E1           MOV      R1,R2
+   \   0000009C   D20100EF           SWI      +466
+    282              }
+    283              if(timerScreen) offTimerScreen(0,0);
+   \   000000A0   B600D5E1           LDRH     R0,[R5, #+6]
+   \   000000A4   000050E3           CMP      R0,#+0
+   \   000000A8   0200000A           BEQ      ??bookOnDestroy_6
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   0000A0E3           MOV      R0,#+0
+   \   000000B4   ........           BL       ??offTimerScreen
+    284              if(offtimerScreen) Timer_Kill(&offtimerScreen);
+   \                     ??bookOnDestroy_6:
+   \   000000B8   B201D5E1           LDRH     R0,[R5, #+18]
+   \   000000BC   000050E3           CMP      R0,#+0
+   \   000000C0   0100000A           BEQ      ??bookOnDestroy_7
+   \   000000C4   120085E2           ADD      R0,R5,#+18
+   \   000000C8   2A0100EF           SWI      +298
+    285              if(vibraminutetimer) Timer_Kill(&vibraminutetimer);
+   \                     ??bookOnDestroy_7:
+   \   000000CC   B800D5E1           LDRH     R0,[R5, #+8]
+   \   000000D0   000050E3           CMP      R0,#+0
+   \   000000D4   0100000A           BEQ      ??bookOnDestroy_8
+   \   000000D8   080085E2           ADD      R0,R5,#+8
+   \   000000DC   2A0100EF           SWI      +298
+    286              if(vibraNminutetimer) Timer_Kill(&vibraNminutetimer);
+   \                     ??bookOnDestroy_8:
+   \   000000E0   BA00D5E1           LDRH     R0,[R5, #+10]
+   \   000000E4   000050E3           CMP      R0,#+0
+   \   000000E8   0100000A           BEQ      ??bookOnDestroy_9
+   \   000000EC   0A0085E2           ADD      R0,R5,#+10
+   \   000000F0   2A0100EF           SWI      +298
+    287          
+    288              if(rejectTimer) Timer_Kill(&rejectTimer);
+   \                     ??bookOnDestroy_9:
+   \   000000F4   B401D5E1           LDRH     R0,[R5, #+20]
+   \   000000F8   000050E3           CMP      R0,#+0
+   \   000000FC   0100000A           BEQ      ??bookOnDestroy_10
+   \   00000100   140085E2           ADD      R0,R5,#+20
+   \   00000104   2A0100EF           SWI      +298
+    289              if(muteTimer) Timer_Kill(&muteTimer);
+   \                     ??bookOnDestroy_10:
+   \   00000108   B601D5E1           LDRH     R0,[R5, #+22]
+   \   0000010C   000050E3           CMP      R0,#+0
+   \   00000110   0100000A           BEQ      ??bookOnDestroy_11
+   \   00000114   160085E2           ADD      R0,R5,#+22
+   \   00000118   2A0100EF           SWI      +298
+    290          
+    291              ModifyUIPageHook(VOLUMEUPKEY_SHORT_PRESS_EVENT,DisableUP,0,PAGE_HOOK_REMOVE);
+   \                     ??bookOnDestroy_11:
+   \   0000011C   ........           LDR      R0,??DataTable73  ;; VOLUMEUPKEY_SHORT_PRESS_EVENT
+   \   00000120   ........           LDR      R1,??DataTable74  ;; ??DisableUP
+   \   00000124   000090E5           LDR      R0,[R0, #+0]
+   \   00000128   0030A0E3           MOV      R3,#+0
+   \   0000012C   0020A0E3           MOV      R2,#+0
+   \   00000130   100100EF           SWI      +272
+    292              ModifyUIPageHook(VOLUMEDOWNKEY_SHORT_PRESS_EVENT,DisableDOWN,0,PAGE_HOOK_REMOVE);
+   \   00000134   ........           LDR      R0,??DataTable75  ;; VOLUMEDOWNKEY_SHORT_PRESS_EVENT
+   \   00000138   ........           LDR      R1,??DataTable76  ;; ??DisableDOWN
+   \   0000013C   000090E5           LDR      R0,[R0, #+0]
+   \   00000140   0030A0E3           MOV      R3,#+0
+   \   00000144   0320A0E1           MOV      R2,R3
+   \   00000148   100100EF           SWI      +272
+    293              StatusIndication_ShowNotes(EMPTY_TEXTID);
+   \   0000014C   9004E0E3           MVN      R0,#-1879048192
+   \   00000150   430100EF           SWI      +323
+    294              SUBPROC(elf_exit);
+   \   00000154   ........           LDR      R0,??DataTable72  ;; ??elf_exit
+   \   00000158   080100EF           SWI      +264
+    295          }
+   \   0000015C   2080BDE8           POP      {R5,PC}
+    296          
+    297          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    298          int onExit(void* r0,BOOK* b)
+    299          {
+   \                     ??onExit:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+    300              FreeBook(b);
+   \   00000008   2F0100EF           SWI      +303
+    301              return 1;
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    302          }
+    303          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    304          int onAbout(void* mess, BOOK* b)
+    305          {
+   \                     ??onAbout:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    306              MessageBox(EMPTY_TEXTID,TextID_Create( LELFNAME LELFVERSION,ENC_UCS2,TEXTID_ANY_LEN),NOIMAGE, 1 ,5000, *(BOOK**)mess);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   3C009FE5           LDR      R0,??onAbout_1   ;; `?<Constant L"\\x49\\x6e\\x64\\x69\\x63\\x61\\x74\\x69\\`
+   \   00000010   FF50A0E3           MOV      R5,#+255
+   \   00000014   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000018   0520A0E1           MOV      R2,R5
+   \   0000001C   5D0100EF           SWI      +349
+   \   00000020   001094E5           LDR      R1,[R4, #+0]
+   \   00000024   0130A0E3           MOV      R3,#+1
+   \   00000028   02002DE9           PUSH     {R1}
+   \   0000002C   0520A0E1           MOV      R2,R5
+   \   00000030   8810A0E3           MOV      R1,#+136
+   \   00000034   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   9004E0E3           MVN      R0,#-1879048192
+   \   00000044   570200EF           SWI      +599
+    307              return 1;
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   3680BDE8           POP      {R1,R2,R4,R5,PC}  ;; return
+   \                     ??onAbout_1:
+   \   00000050   ........           DC32     `?<Constant L"\\x49\\x6e\\x64\\x69\\x63\\x61\\x74\\x69\\`
+    308          }
+    309          
+    310          enum
+    311          {
+    312              CALLMANAGER_IDLE            =0,
+    313              CALLMANAGER_CALL_CONNECTED  =1, /*Поднятие трубки*/
+    314              CALLMANAGER_CALL_SETUP      =2, /*Нажатие вызвать*/
+    315              CALLMANAGER_CALL_ALERT      =4, /*Входящий вызов*/
+    316              CALLMANAGER_CALL_WAITING    =5,
+    317              CALLMANAGER_CALL_TERMINATED =6  /*Завершение соединения*/
+    318          };
+    319               /*Начало гудков*/
+
+   \                                 In segment CODE, align 4, keep-with-next
+    320          int Connect(void* r0,BOOK* b)
+    321          {
+    322              if(cfg_vibraring==1)
+   \                     ??Connect:
+   \   00000000   5C019FE5           LDR      R0,??Connect_1   ;; cfg_vibraring
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   0900001A           BNE      ??Connect_2
+    323              {
+    324                  PAudioControl pAC = AudioControl_Init();
+   \   00000014   DF0100EF           SWI      +479
+    325                  if( !pAC ) pAC = *GetAudioControlPtr();
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0100001A           BNE      ??Connect_3
+   \   00000020   D18100EF           SWI      +33233
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+    326                  AudioControl_Vibrate(pAC, 400, 50, cfg_vibraring_time);
+   \                     ??Connect_3:
+   \   00000028   38119FE5           LDR      R1,??Connect_1+0x4  ;; cfg_vibraring_time
+   \   0000002C   3220A0E3           MOV      R2,#+50
+   \   00000030   003091E5           LDR      R3,[R1, #+0]
+   \   00000034   641FA0E3           MOV      R1,#+400
+   \   00000038   D20100EF           SWI      +466
+    327              }
+    328              if(cfg_flashring==1)
+   \                     ??Connect_2:
+   \   0000003C   28019FE5           LDR      R0,??Connect_1+0x8  ;; cfg_flashring
+   \   00000040   ........           LDR      R4,??DataTable39  ;; timerFlash
+   \   00000044   000090E5           LDR      R0,[R0, #+0]
+   \   00000048   010050E3           CMP      R0,#+1
+   \   0000004C   0C00001A           BNE      ??Connect_4
+    329              {
+    330                  timerFlash=Timer_Set(70,onTimerFlash,0);
+   \   00000050   ........           LDR      R1,??DataTable53  ;; ??onTimerFlash
+   \   00000054   0020A0E3           MOV      R2,#+0
+   \   00000058   4600A0E3           MOV      R0,#+70
+   \   0000005C   290100EF           SWI      +297
+    331                  offtimer=Timer_Set(cfg_flashring_time*1000,offTimerFlash,0);
+   \   00000060   ........           LDR      R1,??DataTable58  ;; ??offTimerFlash
+   \   00000064   B000C4E1           STRH     R0,[R4, #+0]
+   \   00000068   00019FE5           LDR      R0,??Connect_1+0xC  ;; cfg_flashring_time
+   \   0000006C   FA3FA0E3           MOV      R3,#+1000
+   \   00000070   000090E5           LDR      R0,[R0, #+0]
+   \   00000074   0020A0E3           MOV      R2,#+0
+   \   00000078   930000E0           MUL      R0,R3,R0
+   \   0000007C   290100EF           SWI      +297
+   \   00000080   BC00C4E1           STRH     R0,[R4, #+12]
+    332              }
+    333              if(cfg_redledring==1)
+   \                     ??Connect_4:
+   \   00000084   E8009FE5           LDR      R0,??Connect_1+0x10  ;; cfg_redledring
+   \   00000088   000090E5           LDR      R0,[R0, #+0]
+   \   0000008C   010050E3           CMP      R0,#+1
+   \   00000090   0D00001A           BNE      ??Connect_5
+    334              {
+    335                  timerREDLED=Timer_Set(cfg_redled_ontime,onTimerREDLED,0);
+   \   00000094   ........           LDR      R0,??DataTable59  ;; cfg_redled_ontime
+   \   00000098   ........           LDR      R1,??DataTable69  ;; ??onTimerREDLED
+   \   0000009C   000090E5           LDR      R0,[R0, #+0]
+   \   000000A0   0020A0E3           MOV      R2,#+0
+   \   000000A4   290100EF           SWI      +297
+    336                  offtimerREDLED=Timer_Set(cfg_redledring_time*1000,offTimerREDLED,0);
+   \   000000A8   ........           LDR      R1,??DataTable57  ;; ??offTimerREDLED
+   \   000000AC   B200C4E1           STRH     R0,[R4, #+2]
+   \   000000B0   C0009FE5           LDR      R0,??Connect_1+0x14  ;; cfg_redledring_time
+   \   000000B4   FA3FA0E3           MOV      R3,#+1000
+   \   000000B8   000090E5           LDR      R0,[R0, #+0]
+   \   000000BC   0020A0E3           MOV      R2,#+0
+   \   000000C0   930000E0           MUL      R0,R3,R0
+   \   000000C4   290100EF           SWI      +297
+   \   000000C8   BE00C4E1           STRH     R0,[R4, #+14]
+    337              }
+    338              if(cfg_ledring==1)
+   \                     ??Connect_5:
+   \   000000CC   A8009FE5           LDR      R0,??Connect_1+0x18  ;; cfg_ledring
+   \   000000D0   000090E5           LDR      R0,[R0, #+0]
+   \   000000D4   010050E3           CMP      R0,#+1
+   \   000000D8   0D00001A           BNE      ??Connect_6
+    339              {
+    340                  timerLED=Timer_Set(cfg_led_blink_speed,onTimerLED,0);
+   \   000000DC   ........           LDR      R0,??DataTable51  ;; cfg_led_blink_speed
+   \   000000E0   ........           LDR      R1,??DataTable70  ;; ??onTimerLED
+   \   000000E4   000090E5           LDR      R0,[R0, #+0]
+   \   000000E8   0020A0E3           MOV      R2,#+0
+   \   000000EC   290100EF           SWI      +297
+    341                  offtimerLED=Timer_Set(cfg_ledring_time*1000,offTimerLED,0);
+   \   000000F0   ........           LDR      R1,??DataTable56  ;; ??offTimerLED
+   \   000000F4   B400C4E1           STRH     R0,[R4, #+4]
+   \   000000F8   80009FE5           LDR      R0,??Connect_1+0x1C  ;; cfg_ledring_time
+   \   000000FC   FA3FA0E3           MOV      R3,#+1000
+   \   00000100   000090E5           LDR      R0,[R0, #+0]
+   \   00000104   0020A0E3           MOV      R2,#+0
+   \   00000108   930000E0           MUL      R0,R3,R0
+   \   0000010C   290100EF           SWI      +297
+   \   00000110   B001C4E1           STRH     R0,[R4, #+16]
+    342              }
+    343              if(cfg_screenring==1)
+   \                     ??Connect_6:
+   \   00000114   68009FE5           LDR      R0,??Connect_1+0x20  ;; cfg_screenring
+   \   00000118   000090E5           LDR      R0,[R0, #+0]
+   \   0000011C   010050E3           CMP      R0,#+1
+   \   00000120   0D00001A           BNE      ??Connect_7
+    344              {
+    345                  timerScreen=Timer_Set(cfg_screen_blink_speed,onTimerScreen,0);
+   \   00000124   ........           LDR      R0,??DataTable60  ;; cfg_screen_blink_speed
+   \   00000128   ........           LDR      R1,??DataTable52  ;; ??onTimerScreen
+   \   0000012C   000090E5           LDR      R0,[R0, #+0]
+   \   00000130   0020A0E3           MOV      R2,#+0
+   \   00000134   290100EF           SWI      +297
+    346                  offtimerScreen=Timer_Set(cfg_screenring_time*1000,offTimerScreen,0);
+   \   00000138   ........           LDR      R1,??DataTable55  ;; ??offTimerScreen
+   \   0000013C   B600C4E1           STRH     R0,[R4, #+6]
+   \   00000140   40009FE5           LDR      R0,??Connect_1+0x24  ;; cfg_screenring_time
+   \   00000144   FA3FA0E3           MOV      R3,#+1000
+   \   00000148   000090E5           LDR      R0,[R0, #+0]
+   \   0000014C   0020A0E3           MOV      R2,#+0
+   \   00000150   930000E0           MUL      R0,R3,R0
+   \   00000154   290100EF           SWI      +297
+   \   00000158   B201C4E1           STRH     R0,[R4, #+18]
+    347              }
+    348              return(0);
+   \                     ??Connect_7:
+   \   0000015C   0000A0E3           MOV      R0,#+0
+   \   00000160   1080BDE8           POP      {R4,PC}
+   \                     ??Connect_1:
+   \   00000164   ........           DC32     cfg_vibraring
+   \   00000168   ........           DC32     cfg_vibraring_time
+   \   0000016C   ........           DC32     cfg_flashring
+   \   00000170   ........           DC32     cfg_flashring_time
+   \   00000174   ........           DC32     cfg_redledring
+   \   00000178   ........           DC32     cfg_redledring_time
+   \   0000017C   ........           DC32     cfg_ledring
+   \   00000180   ........           DC32     cfg_ledring_time
+   \   00000184   ........           DC32     cfg_screenring
+   \   00000188   ........           DC32     cfg_screenring_time
+    349          }
+    350          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    351          int OnCallManagerEvent(void* r0,BOOK* b)
+    352          {
+    353              switch(((CALLMANAGER_EVENT_DATA*)r0)->CallState)
+   \                     ??OnCallManagerEvent:
+   \   00000000   ........           LDR      R2,??DataTable51  ;; cfg_led_blink_speed
+   \   00000004   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000008   ........           LDR      R5,??DataTable52  ;; ??onTimerScreen
+   \   0000000C   ........           LDR      R6,??DataTable53  ;; ??onTimerFlash
+   \   00000010   ........           LDR      R7,??DataTable54  ;; timerFlash
+   \   00000014   ........           LDR      R8,??DataTable55  ;; ??offTimerScreen
+   \   00000018   ........           LDR      R9,??DataTable56  ;; ??offTimerLED
+   \   0000001C   ........           LDR      R10,??DataTable57  ;; ??offTimerREDLED
+   \   00000020   ........           LDR      R11,??DataTable58  ;; ??offTimerFlash
+   \   00000024   20D04DE2           SUB      SP,SP,#+32
+   \   00000028   002092E5           LDR      R2,[R2, #+0]
+   \   0000002C   0040A0E3           MOV      R4,#+0
+   \   00000030   0C208DE5           STR      R2,[SP, #+12]
+   \   00000034   ........           LDR      R2,??DataTable59  ;; cfg_redled_ontime
+   \   00000038   002092E5           LDR      R2,[R2, #+0]
+   \   0000003C   08208DE5           STR      R2,[SP, #+8]
+   \   00000040   ........           LDR      R2,??DataTable60  ;; cfg_screen_blink_speed
+   \   00000044   002092E5           LDR      R2,[R2, #+0]
+   \   00000048   04208DE5           STR      R2,[SP, #+4]
+   \   0000004C   ........           LDR      R2,??DataTable61  ;; cfg_flash_blink_speed
+   \   00000050   002092E5           LDR      R2,[R2, #+0]
+   \   00000054   00208DE5           STR      R2,[SP, #+0]
+   \   00000058   E8279FE5           LDR      R2,??OnCallManagerEvent_1  ;; cfg_screen
+   \   0000005C   002092E5           LDR      R2,[R2, #+0]
+   \   00000060   1C208DE5           STR      R2,[SP, #+28]
+   \   00000064   E0279FE5           LDR      R2,??OnCallManagerEvent_1+0x4  ;; cfg_led
+   \   00000068   002092E5           LDR      R2,[R2, #+0]
+   \   0000006C   18208DE5           STR      R2,[SP, #+24]
+   \   00000070   D8279FE5           LDR      R2,??OnCallManagerEvent_1+0x8  ;; cfg_redled
+   \   00000074   002092E5           LDR      R2,[R2, #+0]
+   \   00000078   14208DE5           STR      R2,[SP, #+20]
+   \   0000007C   D0279FE5           LDR      R2,??OnCallManagerEvent_1+0xC  ;; cfg_flash
+   \   00000080   002092E5           LDR      R2,[R2, #+0]
+   \   00000084   10208DE5           STR      R2,[SP, #+16]
+   \   00000088   0200D0E5           LDRB     R0,[R0, #+2]
+   \   0000008C   010050E2           SUBS     R0,R0,#+1
+   \   00000090   7C00000A           BEQ      ??OnCallManagerEvent_2
+   \   00000094   010050E2           SUBS     R0,R0,#+1
+   \   00000098   0701000A           BEQ      ??OnCallManagerEvent_3
+   \   0000009C   020050E2           SUBS     R0,R0,#+2
+   \   000000A0   0200000A           BEQ      ??OnCallManagerEvent_4
+   \   000000A4   020050E2           SUBS     R0,R0,#+2
+   \   000000A8   5601000A           BEQ      ??OnCallManagerEvent_5
+   \   000000AC   720000EA           B        ??OnCallManagerEvent_6
+    354              {
+    355                /*Входящий вызов*/
+    356                  case CALLMANAGER_CALL_ALERT:
+    357                  {
+    358                      if(GetVibrator(0,0) && (cfg_vibra==0))
+   \                     ??OnCallManagerEvent_4:
+   \   000000B0   0010A0E3           MOV      R1,#+0
+   \   000000B4   0100A0E1           MOV      R0,R1
+   \   000000B8   4C0200EF           SWI      +588
+   \   000000BC   000050E3           CMP      R0,#+0
+   \   000000C0   0C00000A           BEQ      ??OnCallManagerEvent_7
+   \   000000C4   8C079FE5           LDR      R0,??OnCallManagerEvent_1+0x10  ;; cfg_vibra
+   \   000000C8   000090E5           LDR      R0,[R0, #+0]
+   \   000000CC   000050E3           CMP      R0,#+0
+   \   000000D0   0800001A           BNE      ??OnCallManagerEvent_7
+    359                      {
+    360                          PAudioControl pAC = AudioControl_Init();
+   \   000000D4   DF0100EF           SWI      +479
+    361                          if( !pAC ) pAC = *GetAudioControlPtr();
+   \   000000D8   000050E3           CMP      R0,#+0
+   \   000000DC   0100001A           BNE      ??OnCallManagerEvent_8
+   \   000000E0   D18100EF           SWI      +33233
+   \   000000E4   000090E5           LDR      R0,[R0, #+0]
+    362                          AudioControl_Vibrate(pAC, 0, 0, 0);
+   \                     ??OnCallManagerEvent_8:
+   \   000000E8   0030A0E3           MOV      R3,#+0
+   \   000000EC   0320A0E1           MOV      R2,R3
+   \   000000F0   0210A0E1           MOV      R1,R2
+   \   000000F4   D20100EF           SWI      +466
+    363                      }
+    364                      if(cfg_flash==1)
+   \                     ??OnCallManagerEvent_7:
+   \   000000F8   10009DE5           LDR      R0,[SP, #+16]
+   \   000000FC   010050E3           CMP      R0,#+1
+   \   00000100   1000001A           BNE      ??OnCallManagerEvent_9
+    365                      {
+    366                          timerFlash=Timer_Set(cfg_flash_blink_speed,onTimerFlash,0);
+   \   00000104   00009DE5           LDR      R0,[SP, #+0]
+   \   00000108   0020A0E3           MOV      R2,#+0
+   \   0000010C   0610A0E1           MOV      R1,R6
+   \   00000110   290100EF           SWI      +297
+   \   00000114   B000C7E1           STRH     R0,[R7, #+0]
+    367                          if(cfg_flash_time > 0) offtimer=Timer_Set(cfg_flash_time*1000,offTimerFlash,0);
+   \   00000118   3C079FE5           LDR      R0,??OnCallManagerEvent_1+0x14  ;; cfg_flash_time
+   \   0000011C   000090E5           LDR      R0,[R0, #+0]
+   \   00000120   010050E3           CMP      R0,#+1
+   \   00000124   050000BA           BLT      ??OnCallManagerEvent_10
+   \   00000128   FA3FA0E3           MOV      R3,#+1000
+   \   0000012C   930000E0           MUL      R0,R3,R0
+   \   00000130   0020A0E3           MOV      R2,#+0
+   \   00000134   0B10A0E1           MOV      R1,R11
+   \   00000138   290100EF           SWI      +297
+   \   0000013C   BC00C7E1           STRH     R0,[R7, #+12]
+    368                          incom=1;
+   \                     ??OnCallManagerEvent_10:
+   \   00000140   0100A0E3           MOV      R0,#+1
+   \   00000144   340087E5           STR      R0,[R7, #+52]
+    369                      }
+    370                      if(cfg_redled==1)
+   \                     ??OnCallManagerEvent_9:
+   \   00000148   14009DE5           LDR      R0,[SP, #+20]
+   \   0000014C   010050E3           CMP      R0,#+1
+   \   00000150   0E00001A           BNE      ??OnCallManagerEvent_11
+    371                      {
+    372                          timerREDLED=Timer_Set(cfg_redled_ontime,onTimerREDLED,0);
+   \   00000154   08009DE5           LDR      R0,[SP, #+8]
+   \   00000158   ........           LDR      R1,??DataTable69  ;; ??onTimerREDLED
+   \   0000015C   0020A0E3           MOV      R2,#+0
+   \   00000160   290100EF           SWI      +297
+   \   00000164   B200C7E1           STRH     R0,[R7, #+2]
+    373                          if(cfg_redled_time > 0) offtimerREDLED=Timer_Set(cfg_redled_time*1000,offTimerREDLED,0);
+   \   00000168   F0069FE5           LDR      R0,??OnCallManagerEvent_1+0x18  ;; cfg_redled_time
+   \   0000016C   000090E5           LDR      R0,[R0, #+0]
+   \   00000170   010050E3           CMP      R0,#+1
+   \   00000174   050000BA           BLT      ??OnCallManagerEvent_11
+   \   00000178   FA3FA0E3           MOV      R3,#+1000
+   \   0000017C   930000E0           MUL      R0,R3,R0
+   \   00000180   0020A0E3           MOV      R2,#+0
+   \   00000184   0A10A0E1           MOV      R1,R10
+   \   00000188   290100EF           SWI      +297
+   \   0000018C   BE00C7E1           STRH     R0,[R7, #+14]
+    374                      }
+    375                      if(cfg_led==1)
+   \                     ??OnCallManagerEvent_11:
+   \   00000190   18009DE5           LDR      R0,[SP, #+24]
+   \   00000194   010050E3           CMP      R0,#+1
+   \   00000198   0E00001A           BNE      ??OnCallManagerEvent_12
+    376                      {
+    377                          timerLED=Timer_Set(cfg_led_blink_speed,onTimerLED,0);
+   \   0000019C   0C009DE5           LDR      R0,[SP, #+12]
+   \   000001A0   ........           LDR      R1,??DataTable70  ;; ??onTimerLED
+   \   000001A4   0020A0E3           MOV      R2,#+0
+   \   000001A8   290100EF           SWI      +297
+   \   000001AC   B400C7E1           STRH     R0,[R7, #+4]
+    378                          if(cfg_led_time > 0) offtimerLED=Timer_Set(cfg_led_time*1000,offTimerLED,0);
+   \   000001B0   AC069FE5           LDR      R0,??OnCallManagerEvent_1+0x1C  ;; cfg_led_time
+   \   000001B4   000090E5           LDR      R0,[R0, #+0]
+   \   000001B8   010050E3           CMP      R0,#+1
+   \   000001BC   050000BA           BLT      ??OnCallManagerEvent_12
+   \   000001C0   FA3FA0E3           MOV      R3,#+1000
+   \   000001C4   930000E0           MUL      R0,R3,R0
+   \   000001C8   0020A0E3           MOV      R2,#+0
+   \   000001CC   0910A0E1           MOV      R1,R9
+   \   000001D0   290100EF           SWI      +297
+   \   000001D4   B001C7E1           STRH     R0,[R7, #+16]
+    379                      }
+    380                      if(cfg_screen==1)
+   \                     ??OnCallManagerEvent_12:
+   \   000001D8   1C009DE5           LDR      R0,[SP, #+28]
+   \   000001DC   010050E3           CMP      R0,#+1
+   \   000001E0   0E00001A           BNE      ??OnCallManagerEvent_13
+    381                      {
+    382                          timerScreen=Timer_Set(cfg_screen_blink_speed,onTimerScreen,0);
+   \   000001E4   04009DE5           LDR      R0,[SP, #+4]
+   \   000001E8   0020A0E3           MOV      R2,#+0
+   \   000001EC   0510A0E1           MOV      R1,R5
+   \   000001F0   290100EF           SWI      +297
+   \   000001F4   B600C7E1           STRH     R0,[R7, #+6]
+    383                          if(cfg_screen_time > 0) offtimerScreen=Timer_Set(cfg_screen_time*1000,offTimerScreen,0);
+   \   000001F8   68069FE5           LDR      R0,??OnCallManagerEvent_1+0x20  ;; cfg_screen_time
+   \   000001FC   000090E5           LDR      R0,[R0, #+0]
+   \   00000200   010050E3           CMP      R0,#+1
+   \   00000204   050000BA           BLT      ??OnCallManagerEvent_13
+   \   00000208   FA3FA0E3           MOV      R3,#+1000
+   \   0000020C   930000E0           MUL      R0,R3,R0
+   \   00000210   0020A0E3           MOV      R2,#+0
+   \   00000214   0810A0E1           MOV      R1,R8
+   \   00000218   290100EF           SWI      +297
+   \   0000021C   B201C7E1           STRH     R0,[R7, #+18]
+    384                      }
+    385                      if(cfg_reject_time)
+   \                     ??OnCallManagerEvent_13:
+   \   00000220   44069FE5           LDR      R0,??OnCallManagerEvent_1+0x24  ;; cfg_reject_time
+   \   00000224   000090E5           LDR      R0,[R0, #+0]
+   \   00000228   000050E3           CMP      R0,#+0
+   \   0000022C   0500000A           BEQ      ??OnCallManagerEvent_14
+    386                      {
+    387                          rejectTimer=Timer_Set(cfg_reject_time*1000,onRejectTimer,0);
+   \   00000230   38169FE5           LDR      R1,??OnCallManagerEvent_1+0x28  ;; ??onRejectTimer
+   \   00000234   FA3FA0E3           MOV      R3,#+1000
+   \   00000238   930000E0           MUL      R0,R3,R0
+   \   0000023C   0020A0E3           MOV      R2,#+0
+   \   00000240   290100EF           SWI      +297
+   \   00000244   B401C7E1           STRH     R0,[R7, #+20]
+    388                      }
+    389                      if(cfg_mute_time && (!GetSilent()))
+   \                     ??OnCallManagerEvent_14:
+   \   00000248   24069FE5           LDR      R0,??OnCallManagerEvent_1+0x2C  ;; cfg_mute_time
+   \   0000024C   005090E5           LDR      R5,[R0, #+0]
+   \   00000250   000055E3           CMP      R5,#+0
+   \   00000254   7801000A           BEQ      ??OnCallManagerEvent_15
+   \   00000258   4B0200EF           SWI      +587
+   \   0000025C   000050E3           CMP      R0,#+0
+   \   00000260   7501001A           BNE      ??OnCallManagerEvent_15
+    390                      {
+    391                          muteTimer=Timer_Set(cfg_mute_time*1000,onMuteTimer,0);
+   \   00000264   0C169FE5           LDR      R1,??OnCallManagerEvent_1+0x30  ;; ??onMuteTimer
+   \   00000268   FA3FA0E3           MOV      R3,#+1000
+   \   0000026C   930500E0           MUL      R0,R3,R5
+   \   00000270   0020A0E3           MOV      R2,#+0
+   \   00000274   290100EF           SWI      +297
+   \   00000278   B601C7E1           STRH     R0,[R7, #+22]
+   \                     ??OnCallManagerEvent_6:
+   \   0000027C   0100A0E3           MOV      R0,#+1
+   \   00000280   20D08DE2           ADD      SP,SP,#+32
+   \   00000284   F08FBDE8           POP      {R4-R11,PC}
+    392                      }
+    393                      break;
+    394                  }
+    395                 /*Поднятие трубки*/
+    396                  case CALLMANAGER_CALL_CONNECTED:
+    397                  {
+    398                      if(timerFlash) offTimerFlash(0,0);
+   \                     ??OnCallManagerEvent_2:
+   \   00000288   B000D7E1           LDRH     R0,[R7, #+0]
+   \   0000028C   000050E3           CMP      R0,#+0
+   \   00000290   0200000A           BEQ      ??OnCallManagerEvent_16
+   \   00000294   0010A0E3           MOV      R1,#+0
+   \   00000298   0100A0E1           MOV      R0,R1
+   \   0000029C   ........           BL       ??offTimerFlash
+    399                      if(timerLED) offTimerLED(0,0);
+   \                     ??OnCallManagerEvent_16:
+   \   000002A0   B400D7E1           LDRH     R0,[R7, #+4]
+   \   000002A4   000050E3           CMP      R0,#+0
+   \   000002A8   0200000A           BEQ      ??OnCallManagerEvent_17
+   \   000002AC   0010A0E3           MOV      R1,#+0
+   \   000002B0   0100A0E1           MOV      R0,R1
+   \   000002B4   ........           BL       ??offTimerLED
+    400                      if(timerScreen) offTimerScreen(0,0);
+   \                     ??OnCallManagerEvent_17:
+   \   000002B8   B600D7E1           LDRH     R0,[R7, #+6]
+   \   000002BC   000050E3           CMP      R0,#+0
+   \   000002C0   0200000A           BEQ      ??OnCallManagerEvent_18
+   \   000002C4   0010A0E3           MOV      R1,#+0
+   \   000002C8   0100A0E1           MOV      R0,R1
+   \   000002CC   ........           BL       ??offTimerScreen
+    401          
+    402                      if((cfg_vibracon==1) && (incom==0))
+   \                     ??OnCallManagerEvent_18:
+   \   000002D0   A4059FE5           LDR      R0,??OnCallManagerEvent_1+0x34  ;; cfg_vibracon
+   \   000002D4   000090E5           LDR      R0,[R0, #+0]
+   \   000002D8   010050E3           CMP      R0,#+1
+   \   000002DC   34009705           LDREQ    R0,[R7, #+52]
+   \   000002E0   00005003           CMPEQ    R0,#+0
+   \   000002E4   0900001A           BNE      ??OnCallManagerEvent_19
+    403                      {
+    404                          PAudioControl pAC = AudioControl_Init();
+   \   000002E8   DF0100EF           SWI      +479
+    405                          if( !pAC ) pAC = *GetAudioControlPtr();
+   \   000002EC   000050E3           CMP      R0,#+0
+   \   000002F0   0100001A           BNE      ??OnCallManagerEvent_20
+   \   000002F4   D18100EF           SWI      +33233
+   \   000002F8   000090E5           LDR      R0,[R0, #+0]
+    406                          AudioControl_Vibrate(pAC, 400, 50, cfg_vibracon_time);
+   \                     ??OnCallManagerEvent_20:
+   \   000002FC   7C159FE5           LDR      R1,??OnCallManagerEvent_1+0x38  ;; cfg_vibracon_time
+   \   00000300   3220A0E3           MOV      R2,#+50
+   \   00000304   003091E5           LDR      R3,[R1, #+0]
+   \   00000308   641FA0E3           MOV      R1,#+400
+   \   0000030C   D20100EF           SWI      +466
+    407                      }
+    408                      if((cfg_flashcon==1) && (incom==0))
+   \                     ??OnCallManagerEvent_19:
+   \   00000310   6C059FE5           LDR      R0,??OnCallManagerEvent_1+0x3C  ;; cfg_flashcon
+   \   00000314   000090E5           LDR      R0,[R0, #+0]
+   \   00000318   010050E3           CMP      R0,#+1
+   \   0000031C   34009705           LDREQ    R0,[R7, #+52]
+   \   00000320   00005003           CMPEQ    R0,#+0
+   \   00000324   0C00001A           BNE      ??OnCallManagerEvent_21
+    409                      {
+    410                          timerFlash=Timer_Set(cfg_flash_blink_speed,onTimerFlash,0);
+   \   00000328   00009DE5           LDR      R0,[SP, #+0]
+   \   0000032C   0020A0E3           MOV      R2,#+0
+   \   00000330   0610A0E1           MOV      R1,R6
+   \   00000334   290100EF           SWI      +297
+   \   00000338   B000C7E1           STRH     R0,[R7, #+0]
+    411                          offtimer=Timer_Set(cfg_flashcon_time*1000,offTimerFlash,0);
+   \   0000033C   44059FE5           LDR      R0,??OnCallManagerEvent_1+0x40  ;; cfg_flashcon_time
+   \   00000340   FA3FA0E3           MOV      R3,#+1000
+   \   00000344   000090E5           LDR      R0,[R0, #+0]
+   \   00000348   0420A0E1           MOV      R2,R4
+   \   0000034C   930000E0           MUL      R0,R3,R0
+   \   00000350   0B10A0E1           MOV      R1,R11
+   \   00000354   290100EF           SWI      +297
+   \   00000358   BC00C7E1           STRH     R0,[R7, #+12]
+    412                      }
+    413                      if((cfg_redledcon==1) && (incom==0))
+   \                     ??OnCallManagerEvent_21:
+   \   0000035C   28059FE5           LDR      R0,??OnCallManagerEvent_1+0x44  ;; cfg_redledcon
+   \   00000360   000090E5           LDR      R0,[R0, #+0]
+   \   00000364   010050E3           CMP      R0,#+1
+   \   00000368   34009705           LDREQ    R0,[R7, #+52]
+   \   0000036C   00005003           CMPEQ    R0,#+0
+   \   00000370   0C00001A           BNE      ??OnCallManagerEvent_22
+    414                      {
+    415                          timerREDLED=Timer_Set(cfg_redled_ontime,onTimerREDLED,0);
+   \   00000374   08009DE5           LDR      R0,[SP, #+8]
+   \   00000378   ........           LDR      R1,??DataTable69  ;; ??onTimerREDLED
+   \   0000037C   0020A0E3           MOV      R2,#+0
+   \   00000380   290100EF           SWI      +297
+   \   00000384   B200C7E1           STRH     R0,[R7, #+2]
+    416                          offtimerREDLED=Timer_Set(cfg_redledcon_time*1000,offTimerREDLED,0);
+   \   00000388   00059FE5           LDR      R0,??OnCallManagerEvent_1+0x48  ;; cfg_redledcon_time
+   \   0000038C   FA3FA0E3           MOV      R3,#+1000
+   \   00000390   000090E5           LDR      R0,[R0, #+0]
+   \   00000394   0420A0E1           MOV      R2,R4
+   \   00000398   930000E0           MUL      R0,R3,R0
+   \   0000039C   0A10A0E1           MOV      R1,R10
+   \   000003A0   290100EF           SWI      +297
+   \   000003A4   BE00C7E1           STRH     R0,[R7, #+14]
+    417                      }
+    418                      if((cfg_ledcon==1) && (incom==0))
+   \                     ??OnCallManagerEvent_22:
+   \   000003A8   E4049FE5           LDR      R0,??OnCallManagerEvent_1+0x4C  ;; cfg_ledcon
+   \   000003AC   000090E5           LDR      R0,[R0, #+0]
+   \   000003B0   010050E3           CMP      R0,#+1
+   \   000003B4   34009705           LDREQ    R0,[R7, #+52]
+   \   000003B8   00005003           CMPEQ    R0,#+0
+   \   000003BC   0C00001A           BNE      ??OnCallManagerEvent_23
+    419                      {
+    420                          timerLED=Timer_Set(cfg_led_blink_speed,onTimerLED,0);
+   \   000003C0   0C009DE5           LDR      R0,[SP, #+12]
+   \   000003C4   ........           LDR      R1,??DataTable70  ;; ??onTimerLED
+   \   000003C8   0020A0E3           MOV      R2,#+0
+   \   000003CC   290100EF           SWI      +297
+   \   000003D0   B400C7E1           STRH     R0,[R7, #+4]
+    421                          offtimerLED=Timer_Set(cfg_ledcon_time*1000,offTimerLED,0);
+   \   000003D4   BC049FE5           LDR      R0,??OnCallManagerEvent_1+0x50  ;; cfg_ledcon_time
+   \   000003D8   FA3FA0E3           MOV      R3,#+1000
+   \   000003DC   000090E5           LDR      R0,[R0, #+0]
+   \   000003E0   0420A0E1           MOV      R2,R4
+   \   000003E4   930000E0           MUL      R0,R3,R0
+   \   000003E8   0910A0E1           MOV      R1,R9
+   \   000003EC   290100EF           SWI      +297
+   \   000003F0   B001C7E1           STRH     R0,[R7, #+16]
+    422                      }
+    423                      if((cfg_screencon==1) && (incom==0))
+   \                     ??OnCallManagerEvent_23:
+   \   000003F4   A0049FE5           LDR      R0,??OnCallManagerEvent_1+0x54  ;; cfg_screencon
+   \   000003F8   000090E5           LDR      R0,[R0, #+0]
+   \   000003FC   010050E3           CMP      R0,#+1
+   \   00000400   34009705           LDREQ    R0,[R7, #+52]
+   \   00000404   00005003           CMPEQ    R0,#+0
+   \   00000408   0C00001A           BNE      ??OnCallManagerEvent_24
+    424                      {
+    425                          timerScreen=Timer_Set(cfg_screen_blink_speed,onTimerScreen,0);
+   \   0000040C   04009DE5           LDR      R0,[SP, #+4]
+   \   00000410   0020A0E3           MOV      R2,#+0
+   \   00000414   0510A0E1           MOV      R1,R5
+   \   00000418   290100EF           SWI      +297
+   \   0000041C   B600C7E1           STRH     R0,[R7, #+6]
+    426                          offtimerScreen=Timer_Set(cfg_screencon_time*1000,offTimerScreen,0);
+   \   00000420   78049FE5           LDR      R0,??OnCallManagerEvent_1+0x58  ;; cfg_screencon_time
+   \   00000424   FA3FA0E3           MOV      R3,#+1000
+   \   00000428   000090E5           LDR      R0,[R0, #+0]
+   \   0000042C   0420A0E1           MOV      R2,R4
+   \   00000430   930000E0           MUL      R0,R3,R0
+   \   00000434   0810A0E1           MOV      R1,R8
+   \   00000438   290100EF           SWI      +297
+   \   0000043C   B201C7E1           STRH     R0,[R7, #+18]
+    427                      }
+    428                      if(cfg_vibra_at_minute_end==1)
+   \                     ??OnCallManagerEvent_24:
+   \   00000440   5C049FE5           LDR      R0,??OnCallManagerEvent_1+0x5C  ;; cfg_vibra_at_minute_end
+   \   00000444   000090E5           LDR      R0,[R0, #+0]
+   \   00000448   010050E3           CMP      R0,#+1
+   \   0000044C   0800001A           BNE      ??OnCallManagerEvent_25
+    429                      {
+    430                             vibraminutetimer = Timer_Set((60 - cfg_vibra_at_minute_end_lead) * 1000 ,onVibraMinuteTimer,0);
+   \   00000450   50049FE5           LDR      R0,??OnCallManagerEvent_1+0x60  ;; cfg_vibra_at_minute_end_lead
+   \   00000454   ........           LDR      R1,??DataTable66  ;; ??onVibraMinuteTimer
+   \   00000458   000090E5           LDR      R0,[R0, #+0]
+   \   0000045C   FA3FA0E3           MOV      R3,#+1000
+   \   00000460   3C0060E2           RSB      R0,R0,#+60
+   \   00000464   930000E0           MUL      R0,R3,R0
+   \   00000468   0020A0E3           MOV      R2,#+0
+   \   0000046C   290100EF           SWI      +297
+   \   00000470   B800C7E1           STRH     R0,[R7, #+8]
+    431                      }
+    432                      if(cfg_vibra_at_n_minute_end > 0)
+   \                     ??OnCallManagerEvent_25:
+   \   00000474   30049FE5           LDR      R0,??OnCallManagerEvent_1+0x64  ;; cfg_vibra_at_n_minute_end
+   \   00000478   000090E5           LDR      R0,[R0, #+0]
+   \   0000047C   010050E3           CMP      R0,#+1
+   \   00000480   0A0000BA           BLT      ??OnCallManagerEvent_26
+    433                      {
+    434                             vibraNminutetimer = Timer_Set((cfg_vibra_at_n_minute_end * 60 - cfg_vibra_at_n_minute_end_lead) * 1000 ,onVibraNMinuteTimer,0);
+   \   00000484   24149FE5           LDR      R1,??OnCallManagerEvent_1+0x68  ;; ??onVibraNMinuteTimer
+   \   00000488   3C30A0E3           MOV      R3,#+60
+   \   0000048C   930000E0           MUL      R0,R3,R0
+   \   00000490   1C349FE5           LDR      R3,??OnCallManagerEvent_1+0x6C  ;; cfg_vibra_at_n_minute_end_lead
+   \   00000494   0020A0E3           MOV      R2,#+0
+   \   00000498   003093E5           LDR      R3,[R3, #+0]
+   \   0000049C   030040E0           SUB      R0,R0,R3
+   \   000004A0   FA3FA0E3           MOV      R3,#+1000
+   \   000004A4   930000E0           MUL      R0,R3,R0
+   \   000004A8   290100EF           SWI      +297
+   \   000004AC   BA00C7E1           STRH     R0,[R7, #+10]
+    435                      }
+    436                      connect = 1;
+   \                     ??OnCallManagerEvent_26:
+   \   000004B0   0100A0E3           MOV      R0,#+1
+   \   000004B4   380087E5           STR      R0,[R7, #+56]
+    437                      break;
+   \   000004B8   6FFFFFEA           B        ??OnCallManagerEvent_6
+    438                  }
+    439                   /*Нажатие вызвать*/
+    440                  case CALLMANAGER_CALL_SETUP:
+    441                  {
+    442                      if(cfg_vibraon==1)
+   \                     ??OnCallManagerEvent_3:
+   \   000004BC   F4039FE5           LDR      R0,??OnCallManagerEvent_1+0x70  ;; cfg_vibraon
+   \   000004C0   000090E5           LDR      R0,[R0, #+0]
+   \   000004C4   010050E3           CMP      R0,#+1
+   \   000004C8   0900001A           BNE      ??OnCallManagerEvent_27
+    443                      {
+    444                          PAudioControl pAC = AudioControl_Init();
+   \   000004CC   DF0100EF           SWI      +479
+    445                          if( !pAC ) pAC = *GetAudioControlPtr();
+   \   000004D0   000050E3           CMP      R0,#+0
+   \   000004D4   0100001A           BNE      ??OnCallManagerEvent_28
+   \   000004D8   D18100EF           SWI      +33233
+   \   000004DC   000090E5           LDR      R0,[R0, #+0]
+    446                          AudioControl_Vibrate(pAC, 400, 50, cfg_vibraon_time);
+   \                     ??OnCallManagerEvent_28:
+   \   000004E0   D4139FE5           LDR      R1,??OnCallManagerEvent_1+0x74  ;; cfg_vibraon_time
+   \   000004E4   3220A0E3           MOV      R2,#+50
+   \   000004E8   003091E5           LDR      R3,[R1, #+0]
+   \   000004EC   641FA0E3           MOV      R1,#+400
+   \   000004F0   D20100EF           SWI      +466
+    447                      }
+    448                      if(cfg_flashon==1)
+   \                     ??OnCallManagerEvent_27:
+   \   000004F4   C4039FE5           LDR      R0,??OnCallManagerEvent_1+0x78  ;; cfg_flashon
+   \   000004F8   000090E5           LDR      R0,[R0, #+0]
+   \   000004FC   010050E3           CMP      R0,#+1
+   \   00000500   0C00001A           BNE      ??OnCallManagerEvent_29
+    449                      {
+    450                          timerFlash=Timer_Set(cfg_flash_blink_speed,onTimerFlash,0);
+   \   00000504   00009DE5           LDR      R0,[SP, #+0]
+   \   00000508   0020A0E3           MOV      R2,#+0
+   \   0000050C   0610A0E1           MOV      R1,R6
+   \   00000510   290100EF           SWI      +297
+   \   00000514   B000C7E1           STRH     R0,[R7, #+0]
+    451                          offtimer=Timer_Set(cfg_flashon_time*1000,offTimerFlash,0);
+   \   00000518   A4039FE5           LDR      R0,??OnCallManagerEvent_1+0x7C  ;; cfg_flashon_time
+   \   0000051C   FA3FA0E3           MOV      R3,#+1000
+   \   00000520   000090E5           LDR      R0,[R0, #+0]
+   \   00000524   0420A0E1           MOV      R2,R4
+   \   00000528   930000E0           MUL      R0,R3,R0
+   \   0000052C   0B10A0E1           MOV      R1,R11
+   \   00000530   290100EF           SWI      +297
+   \   00000534   BC00C7E1           STRH     R0,[R7, #+12]
+    452                      }
+    453                      if(cfg_redledon==1)
+   \                     ??OnCallManagerEvent_29:
+   \   00000538   88039FE5           LDR      R0,??OnCallManagerEvent_1+0x80  ;; cfg_redledon
+   \   0000053C   000090E5           LDR      R0,[R0, #+0]
+   \   00000540   010050E3           CMP      R0,#+1
+   \   00000544   0C00001A           BNE      ??OnCallManagerEvent_30
+    454                      {
+    455                          timerREDLED=Timer_Set(cfg_redled_ontime,onTimerREDLED,0);
+   \   00000548   08009DE5           LDR      R0,[SP, #+8]
+   \   0000054C   ........           LDR      R1,??DataTable69  ;; ??onTimerREDLED
+   \   00000550   0020A0E3           MOV      R2,#+0
+   \   00000554   290100EF           SWI      +297
+   \   00000558   B200C7E1           STRH     R0,[R7, #+2]
+    456                          offtimerREDLED=Timer_Set(cfg_redledon_time*1000,offTimerREDLED,0);
+   \   0000055C   68039FE5           LDR      R0,??OnCallManagerEvent_1+0x84  ;; cfg_redledon_time
+   \   00000560   FA3FA0E3           MOV      R3,#+1000
+   \   00000564   000090E5           LDR      R0,[R0, #+0]
+   \   00000568   0420A0E1           MOV      R2,R4
+   \   0000056C   930000E0           MUL      R0,R3,R0
+   \   00000570   0A10A0E1           MOV      R1,R10
+   \   00000574   290100EF           SWI      +297
+   \   00000578   BE00C7E1           STRH     R0,[R7, #+14]
+    457                      }
+    458                      if(cfg_ledon==1)
+   \                     ??OnCallManagerEvent_30:
+   \   0000057C   4C039FE5           LDR      R0,??OnCallManagerEvent_1+0x88  ;; cfg_ledon
+   \   00000580   000090E5           LDR      R0,[R0, #+0]
+   \   00000584   010050E3           CMP      R0,#+1
+   \   00000588   0C00001A           BNE      ??OnCallManagerEvent_31
+    459                      {
+    460                          timerLED=Timer_Set(cfg_led_blink_speed,onTimerLED,0);
+   \   0000058C   0C009DE5           LDR      R0,[SP, #+12]
+   \   00000590   ........           LDR      R1,??DataTable70  ;; ??onTimerLED
+   \   00000594   0020A0E3           MOV      R2,#+0
+   \   00000598   290100EF           SWI      +297
+   \   0000059C   B400C7E1           STRH     R0,[R7, #+4]
+    461                          offtimerLED=Timer_Set(cfg_ledon_time*1000,offTimerLED,0);
+   \   000005A0   2C039FE5           LDR      R0,??OnCallManagerEvent_1+0x8C  ;; cfg_ledon_time
+   \   000005A4   FA3FA0E3           MOV      R3,#+1000
+   \   000005A8   000090E5           LDR      R0,[R0, #+0]
+   \   000005AC   0420A0E1           MOV      R2,R4
+   \   000005B0   930000E0           MUL      R0,R3,R0
+   \   000005B4   0910A0E1           MOV      R1,R9
+   \   000005B8   290100EF           SWI      +297
+   \   000005BC   B001C7E1           STRH     R0,[R7, #+16]
+    462                      }
+    463                      if(cfg_screenon==1)
+   \                     ??OnCallManagerEvent_31:
+   \   000005C0   10039FE5           LDR      R0,??OnCallManagerEvent_1+0x90  ;; cfg_screenon
+   \   000005C4   000090E5           LDR      R0,[R0, #+0]
+   \   000005C8   010050E3           CMP      R0,#+1
+   \   000005CC   9A00001A           BNE      ??OnCallManagerEvent_15
+    464                      {
+    465                          timerScreen=Timer_Set(cfg_screen_blink_speed,onTimerScreen,0);
+   \   000005D0   04009DE5           LDR      R0,[SP, #+4]
+   \   000005D4   0020A0E3           MOV      R2,#+0
+   \   000005D8   0510A0E1           MOV      R1,R5
+   \   000005DC   290100EF           SWI      +297
+   \   000005E0   B600C7E1           STRH     R0,[R7, #+6]
+    466                          offtimerScreen=Timer_Set(cfg_screenon_time*1000,offTimerScreen,0);
+   \   000005E4   F0029FE5           LDR      R0,??OnCallManagerEvent_1+0x94  ;; cfg_screenon_time
+   \   000005E8   FA3FA0E3           MOV      R3,#+1000
+   \   000005EC   000090E5           LDR      R0,[R0, #+0]
+   \   000005F0   0420A0E1           MOV      R2,R4
+   \   000005F4   930000E0           MUL      R0,R3,R0
+   \   000005F8   0810A0E1           MOV      R1,R8
+   \   000005FC   290100EF           SWI      +297
+   \   00000600   B201C7E1           STRH     R0,[R7, #+18]
+   \   00000604   1CFFFFEA           B        ??OnCallManagerEvent_6
+    467                      }
+    468                      break;
+    469                  }
+    470                   /*Завершение соединения*/
+    471                  case CALLMANAGER_CALL_TERMINATED:
+    472                  {
+    473                      if(cfg_flash  == 1) offTimerFlash(0,0);
+   \                     ??OnCallManagerEvent_5:
+   \   00000608   010052E3           CMP      R2,#+1
+   \   0000060C   0200001A           BNE      ??OnCallManagerEvent_32
+   \   00000610   0010A0E3           MOV      R1,#+0
+   \   00000614   0100A0E1           MOV      R0,R1
+   \   00000618   ........           BL       ??offTimerFlash
+    474                      if(cfg_redled == 1) offTimerREDLED(0,0);
+   \                     ??OnCallManagerEvent_32:
+   \   0000061C   14009DE5           LDR      R0,[SP, #+20]
+   \   00000620   010050E3           CMP      R0,#+1
+   \   00000624   0200001A           BNE      ??OnCallManagerEvent_33
+   \   00000628   0010A0E3           MOV      R1,#+0
+   \   0000062C   0100A0E1           MOV      R0,R1
+   \   00000630   ........           BL       ??offTimerREDLED
+    475                      if(cfg_led    == 1) offTimerLED(0,0);
+   \                     ??OnCallManagerEvent_33:
+   \   00000634   18009DE5           LDR      R0,[SP, #+24]
+   \   00000638   010050E3           CMP      R0,#+1
+   \   0000063C   0200001A           BNE      ??OnCallManagerEvent_34
+   \   00000640   0010A0E3           MOV      R1,#+0
+   \   00000644   0100A0E1           MOV      R0,R1
+   \   00000648   ........           BL       ??offTimerLED
+    476                      if(cfg_screen == 1) offTimerScreen(0,0);
+   \                     ??OnCallManagerEvent_34:
+   \   0000064C   1C009DE5           LDR      R0,[SP, #+28]
+   \   00000650   010050E3           CMP      R0,#+1
+   \   00000654   0200001A           BNE      ??OnCallManagerEvent_35
+   \   00000658   0010A0E3           MOV      R1,#+0
+   \   0000065C   0100A0E1           MOV      R0,R1
+   \   00000660   ........           BL       ??offTimerScreen
+    477          
+    478                      if((cfg_vibraend == 1) && (connect == 1))
+   \                     ??OnCallManagerEvent_35:
+   \   00000664   74029FE5           LDR      R0,??OnCallManagerEvent_1+0x98  ;; cfg_vibraend
+   \   00000668   000090E5           LDR      R0,[R0, #+0]
+   \   0000066C   010050E3           CMP      R0,#+1
+   \   00000670   38009705           LDREQ    R0,[R7, #+56]
+   \   00000674   01005003           CMPEQ    R0,#+1
+   \   00000678   0900001A           BNE      ??OnCallManagerEvent_36
+    479                      {
+    480                          PAudioControl pAC = AudioControl_Init();
+   \   0000067C   DF0100EF           SWI      +479
+    481                          if( !pAC ) pAC = *GetAudioControlPtr();
+   \   00000680   000050E3           CMP      R0,#+0
+   \   00000684   0100001A           BNE      ??OnCallManagerEvent_37
+   \   00000688   D18100EF           SWI      +33233
+   \   0000068C   000090E5           LDR      R0,[R0, #+0]
+    482                          AudioControl_Vibrate(pAC, 400, 50, cfg_vibraend_time);
+   \                     ??OnCallManagerEvent_37:
+   \   00000690   4C129FE5           LDR      R1,??OnCallManagerEvent_1+0x9C  ;; cfg_vibraend_time
+   \   00000694   3220A0E3           MOV      R2,#+50
+   \   00000698   003091E5           LDR      R3,[R1, #+0]
+   \   0000069C   641FA0E3           MOV      R1,#+400
+   \   000006A0   D20100EF           SWI      +466
+    483                      }
+    484                      if((cfg_flashend == 1) && (connect == 1))
+   \                     ??OnCallManagerEvent_36:
+   \   000006A4   3C029FE5           LDR      R0,??OnCallManagerEvent_1+0xA0  ;; cfg_flashend
+   \   000006A8   000090E5           LDR      R0,[R0, #+0]
+   \   000006AC   010050E3           CMP      R0,#+1
+   \   000006B0   38009705           LDREQ    R0,[R7, #+56]
+   \   000006B4   01005003           CMPEQ    R0,#+1
+   \   000006B8   0C00001A           BNE      ??OnCallManagerEvent_38
+    485                      {
+    486                          timerFlash=Timer_Set(cfg_flash_blink_speed,onTimerFlash,0);
+   \   000006BC   00009DE5           LDR      R0,[SP, #+0]
+   \   000006C0   0020A0E3           MOV      R2,#+0
+   \   000006C4   0610A0E1           MOV      R1,R6
+   \   000006C8   290100EF           SWI      +297
+   \   000006CC   B000C7E1           STRH     R0,[R7, #+0]
+    487                          offtimer=Timer_Set(cfg_flashend_time*1000,offTimerFlash,0);
+   \   000006D0   14029FE5           LDR      R0,??OnCallManagerEvent_1+0xA4  ;; cfg_flashend_time
+   \   000006D4   FA3FA0E3           MOV      R3,#+1000
+   \   000006D8   000090E5           LDR      R0,[R0, #+0]
+   \   000006DC   0420A0E1           MOV      R2,R4
+   \   000006E0   930000E0           MUL      R0,R3,R0
+   \   000006E4   0B10A0E1           MOV      R1,R11
+   \   000006E8   290100EF           SWI      +297
+   \   000006EC   BC00C7E1           STRH     R0,[R7, #+12]
+    488                      }
+    489                      if((cfg_screenend==1) && (connect == 1))
+   \                     ??OnCallManagerEvent_38:
+   \   000006F0   F8019FE5           LDR      R0,??OnCallManagerEvent_1+0xA8  ;; cfg_screenend
+   \   000006F4   000090E5           LDR      R0,[R0, #+0]
+   \   000006F8   010050E3           CMP      R0,#+1
+   \   000006FC   38009705           LDREQ    R0,[R7, #+56]
+   \   00000700   01005003           CMPEQ    R0,#+1
+   \   00000704   0C00001A           BNE      ??OnCallManagerEvent_39
+    490                      {
+    491                          timerScreen=Timer_Set(cfg_screen_blink_speed,onTimerScreen,0);
+   \   00000708   04009DE5           LDR      R0,[SP, #+4]
+   \   0000070C   0020A0E3           MOV      R2,#+0
+   \   00000710   0510A0E1           MOV      R1,R5
+   \   00000714   290100EF           SWI      +297
+   \   00000718   B600C7E1           STRH     R0,[R7, #+6]
+    492                          offtimerScreen=Timer_Set(cfg_screenend_time*1000,offTimerScreen,0);
+   \   0000071C   D0019FE5           LDR      R0,??OnCallManagerEvent_1+0xAC  ;; cfg_screenend_time
+   \   00000720   FA3FA0E3           MOV      R3,#+1000
+   \   00000724   000090E5           LDR      R0,[R0, #+0]
+   \   00000728   0420A0E1           MOV      R2,R4
+   \   0000072C   930000E0           MUL      R0,R3,R0
+   \   00000730   0810A0E1           MOV      R1,R8
+   \   00000734   290100EF           SWI      +297
+   \   00000738   B201C7E1           STRH     R0,[R7, #+18]
+    493                      }
+    494                      if((cfg_redledend==1) && (connect == 1))
+   \                     ??OnCallManagerEvent_39:
+   \   0000073C   B4019FE5           LDR      R0,??OnCallManagerEvent_1+0xB0  ;; cfg_redledend
+   \   00000740   000090E5           LDR      R0,[R0, #+0]
+   \   00000744   010050E3           CMP      R0,#+1
+   \   00000748   38009705           LDREQ    R0,[R7, #+56]
+   \   0000074C   01005003           CMPEQ    R0,#+1
+   \   00000750   0C00001A           BNE      ??OnCallManagerEvent_40
+    495                      {
+    496                          timerREDLED=Timer_Set(cfg_redled_ontime,onTimerREDLED,0);
+   \   00000754   08009DE5           LDR      R0,[SP, #+8]
+   \   00000758   ........           LDR      R1,??DataTable69  ;; ??onTimerREDLED
+   \   0000075C   0020A0E3           MOV      R2,#+0
+   \   00000760   290100EF           SWI      +297
+   \   00000764   B200C7E1           STRH     R0,[R7, #+2]
+    497                          offtimerREDLED=Timer_Set(cfg_redledend_time*1000,offTimerREDLED,0);
+   \   00000768   8C019FE5           LDR      R0,??OnCallManagerEvent_1+0xB4  ;; cfg_redledend_time
+   \   0000076C   FA3FA0E3           MOV      R3,#+1000
+   \   00000770   000090E5           LDR      R0,[R0, #+0]
+   \   00000774   0420A0E1           MOV      R2,R4
+   \   00000778   930000E0           MUL      R0,R3,R0
+   \   0000077C   0A10A0E1           MOV      R1,R10
+   \   00000780   290100EF           SWI      +297
+   \   00000784   BE00C7E1           STRH     R0,[R7, #+14]
+    498                      }
+    499                      if((cfg_ledend==1) && (connect == 1))
+   \                     ??OnCallManagerEvent_40:
+   \   00000788   70019FE5           LDR      R0,??OnCallManagerEvent_1+0xB8  ;; cfg_ledend
+   \   0000078C   000090E5           LDR      R0,[R0, #+0]
+   \   00000790   010050E3           CMP      R0,#+1
+   \   00000794   38009705           LDREQ    R0,[R7, #+56]
+   \   00000798   01005003           CMPEQ    R0,#+1
+   \   0000079C   0C00001A           BNE      ??OnCallManagerEvent_41
+    500                      {
+    501                          timerLED=Timer_Set(cfg_led_blink_speed,onTimerLED,0);
+   \   000007A0   0C009DE5           LDR      R0,[SP, #+12]
+   \   000007A4   ........           LDR      R1,??DataTable70  ;; ??onTimerLED
+   \   000007A8   0020A0E3           MOV      R2,#+0
+   \   000007AC   290100EF           SWI      +297
+   \   000007B0   B400C7E1           STRH     R0,[R7, #+4]
+    502                          offtimerLED=Timer_Set(cfg_ledend_time*1000,offTimerLED,0);
+   \   000007B4   48019FE5           LDR      R0,??OnCallManagerEvent_1+0xBC  ;; cfg_ledend_time
+   \   000007B8   FA3FA0E3           MOV      R3,#+1000
+   \   000007BC   000090E5           LDR      R0,[R0, #+0]
+   \   000007C0   0420A0E1           MOV      R2,R4
+   \   000007C4   930000E0           MUL      R0,R3,R0
+   \   000007C8   0910A0E1           MOV      R1,R9
+   \   000007CC   290100EF           SWI      +297
+   \   000007D0   B001C7E1           STRH     R0,[R7, #+16]
+    503                      }
+    504          
+    505                      if(vibraminutetimer)
+   \                     ??OnCallManagerEvent_41:
+   \   000007D4   B800D7E1           LDRH     R0,[R7, #+8]
+   \   000007D8   000050E3           CMP      R0,#+0
+   \   000007DC   0200000A           BEQ      ??OnCallManagerEvent_42
+    506                      {
+    507                          Timer_Kill(&vibraminutetimer);
+   \   000007E0   080087E2           ADD      R0,R7,#+8
+   \   000007E4   2A0100EF           SWI      +298
+    508                          vibraminutetimer = 0;
+   \   000007E8   B840C7E1           STRH     R4,[R7, #+8]
+    509                      }
+    510                      if(vibraNminutetimer)
+   \                     ??OnCallManagerEvent_42:
+   \   000007EC   BA00D7E1           LDRH     R0,[R7, #+10]
+   \   000007F0   000050E3           CMP      R0,#+0
+   \   000007F4   0200000A           BEQ      ??OnCallManagerEvent_43
+    511                      {
+    512                          Timer_Kill(&vibraNminutetimer);
+   \   000007F8   0A0087E2           ADD      R0,R7,#+10
+   \   000007FC   2A0100EF           SWI      +298
+    513                          vibraNminutetimer = 0;
+   \   00000800   BA40C7E1           STRH     R4,[R7, #+10]
+    514                      }
+    515                      if(rejectTimer)
+   \                     ??OnCallManagerEvent_43:
+   \   00000804   B401D7E1           LDRH     R0,[R7, #+20]
+   \   00000808   000050E3           CMP      R0,#+0
+   \   0000080C   0200000A           BEQ      ??OnCallManagerEvent_44
+    516                      {
+    517                        Timer_Kill(&rejectTimer);
+   \   00000810   140087E2           ADD      R0,R7,#+20
+   \   00000814   2A0100EF           SWI      +298
+    518                        rejectTimer = 0;
+   \   00000818   B441C7E1           STRH     R4,[R7, #+20]
+    519                      }
+    520                      if(muteTimer)
+   \                     ??OnCallManagerEvent_44:
+   \   0000081C   B601D7E1           LDRH     R0,[R7, #+22]
+   \   00000820   000050E3           CMP      R0,#+0
+   \   00000824   0200000A           BEQ      ??OnCallManagerEvent_45
+    521                      {
+    522                        Timer_Kill(&muteTimer);
+   \   00000828   160087E2           ADD      R0,R7,#+22
+   \   0000082C   2A0100EF           SWI      +298
+    523                        muteTimer = 0;
+   \   00000830   B641C7E1           STRH     R4,[R7, #+22]
+    524                      }
+    525                      incom   = 0;
+   \                     ??OnCallManagerEvent_45:
+   \   00000834   344087E5           STR      R4,[R7, #+52]
+    526                      connect = 0;
+   \   00000838   384087E5           STR      R4,[R7, #+56]
+    527                      break;
+    528                  }
+    529              }
+    530              return 1;
+   \                     ??OnCallManagerEvent_15:
+   \   0000083C   0100A0E3           MOV      R0,#+1
+   \   00000840   20D08DE2           ADD      SP,SP,#+32
+   \   00000844   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??OnCallManagerEvent_1:
+   \   00000848   ........           DC32     cfg_screen
+   \   0000084C   ........           DC32     cfg_led
+   \   00000850   ........           DC32     cfg_redled
+   \   00000854   ........           DC32     cfg_flash
+   \   00000858   ........           DC32     cfg_vibra
+   \   0000085C   ........           DC32     cfg_flash_time
+   \   00000860   ........           DC32     cfg_redled_time
+   \   00000864   ........           DC32     cfg_led_time
+   \   00000868   ........           DC32     cfg_screen_time
+   \   0000086C   ........           DC32     cfg_reject_time
+   \   00000870   ........           DC32     ??onRejectTimer
+   \   00000874   ........           DC32     cfg_mute_time
+   \   00000878   ........           DC32     ??onMuteTimer
+   \   0000087C   ........           DC32     cfg_vibracon
+   \   00000880   ........           DC32     cfg_vibracon_time
+   \   00000884   ........           DC32     cfg_flashcon
+   \   00000888   ........           DC32     cfg_flashcon_time
+   \   0000088C   ........           DC32     cfg_redledcon
+   \   00000890   ........           DC32     cfg_redledcon_time
+   \   00000894   ........           DC32     cfg_ledcon
+   \   00000898   ........           DC32     cfg_ledcon_time
+   \   0000089C   ........           DC32     cfg_screencon
+   \   000008A0   ........           DC32     cfg_screencon_time
+   \   000008A4   ........           DC32     cfg_vibra_at_minute_end
+   \   000008A8   ........           DC32     cfg_vibra_at_minute_end_lead
+   \   000008AC   ........           DC32     cfg_vibra_at_n_minute_end
+   \   000008B0   ........           DC32     ??onVibraNMinuteTimer
+   \   000008B4   ........           DC32     cfg_vibra_at_n_minute_end_lead
+   \   000008B8   ........           DC32     cfg_vibraon
+   \   000008BC   ........           DC32     cfg_vibraon_time
+   \   000008C0   ........           DC32     cfg_flashon
+   \   000008C4   ........           DC32     cfg_flashon_time
+   \   000008C8   ........           DC32     cfg_redledon
+   \   000008CC   ........           DC32     cfg_redledon_time
+   \   000008D0   ........           DC32     cfg_ledon
+   \   000008D4   ........           DC32     cfg_ledon_time
+   \   000008D8   ........           DC32     cfg_screenon
+   \   000008DC   ........           DC32     cfg_screenon_time
+   \   000008E0   ........           DC32     cfg_vibraend
+   \   000008E4   ........           DC32     cfg_vibraend_time
+   \   000008E8   ........           DC32     cfg_flashend
+   \   000008EC   ........           DC32     cfg_flashend_time
+   \   000008F0   ........           DC32     cfg_screenend
+   \   000008F4   ........           DC32     cfg_screenend_time
+   \   000008F8   ........           DC32     cfg_redledend
+   \   000008FC   ........           DC32     cfg_redledend_time
+   \   00000900   ........           DC32     cfg_ledend
+   \   00000904   ........           DC32     cfg_ledend_time
+    531          }
+    532          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    533          static int onReconfigElf(void *mess ,BOOK *book)
+    534          {
+   \                     ??onReconfigElf:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    535            RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+    536            int result=0;
+    537            if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+   \   00000008   3C009FE5           LDR      R0,??onReconfigElf_1  ;; successed_config_path
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   001090E5           LDR      R1,[R0, #+0]
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   9F0200EF           SWI      +671
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0700001A           BNE      ??onReconfigElf_2
+   \   00000024   24009FE5           LDR      R0,??onReconfigElf_1+0x4  ;; successed_config_name
+   \   00000028   001090E5           LDR      R1,[R0, #+0]
+   \   0000002C   800084E2           ADD      R0,R4,#+128
+   \   00000030   9F0200EF           SWI      +671
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0100001A           BNE      ??onReconfigElf_2
+    538            {
+    539              InitConfig();
+   \   0000003C   ........           _BLF     ??InitConfig,??InitConfig??rA
+    540              result=1;
+   \   00000040   0150A0E3           MOV      R5,#+1
+    541            }
+    542            return(result);
+   \                     ??onReconfigElf_2:
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??onReconfigElf_1:
+   \   0000004C   ........           DC32     successed_config_path
+   \   00000050   ........           DC32     successed_config_name
+    543          }
+    544          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    545          const PAGE_MSG evtlist[] @ "DYN_PAGE"=
+   \                     evtlist:
+   \   00000000   E5030000....       DC32 997, ??onExit, 998, ??onAbout, 996, ??onReconfigElf, 442
+   \              ....E6030000
+   \              ........E403
+   \              0000........
+   \              BA010000    
+   \   0000001C   ........CB01       DC32 ??OnCallManagerEvent, 459, ??Connect, 64, 0H
+   \              0000........
+   \              400000000000
+   \              0000        
+    546          {
+    547            ELF_TERMINATE_EVENT,      onExit,
+    548            ELF_SHOW_INFO_EVENT,      onAbout,
+    549            ELF_RECONFIG_EVENT,       onReconfigElf,
+    550            ON_CALLMANAGER_EVENT_TAG, OnCallManagerEvent,
+    551            ONGOINGCALL_CALL_CONNECTED_EVENT_TAG  ,Connect,
+    552            NIL_EVENT_TAG,            NULL
+    553          };
+    554          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x49\\x6e\\x64\\x69\\x63\\x61\\x74\\x69\\_1`:
+   \   00000000   49006E006400       DC8 49H, 0, 6EH, 0, 64H, 0, 69H, 0
+   \              6900        
+   \   00000008   630061007400       DC8 63H, 0, 61H, 0, 74H, 0, 69H, 0
+   \              6900        
+   \   00000010   6F006E002000       DC8 6FH, 0, 6EH, 0, 20H, 0, 6FH, 0
+   \              6F00        
+   \   00000018   660020004300       DC8 66H, 0, 20H, 0, 43H, 0, 61H, 0
+   \              6100        
+   \   00000020   6C006C000A00       DC8 6CH, 0, 6CH, 0, 0AH, 0, 43H, 4
+   \              4304        
+   \   00000028   360435042000       DC8 36H, 4, 35H, 4, 20H, 0, 37H, 4
+   \              3704        
+   \   00000030   30043F044304       DC8 30H, 4, 3FH, 4, 43H, 4, 49H, 4
+   \              4904        
+   \   00000038   35043D040000       DC8 35H, 4, 3DH, 4, 0, 0
+   \   0000003E   0000               DC8 0, 0
+   \   00000040   ........0000       DC32 `?<Constant "Indication_Base_page">`, 0H, evtlist
+   \              0000........
+    555          const PAGE_DESC defaultpage = {"Indication_Base_page",0,evtlist};
+    556          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    557          int isChallengeBook(BOOK * book)
+    558          {
+    559                  if(!strcmp(book->xbook->name,myappname)) return true;
+   \                     ??isChallengeBook:
+   \   00000000   ........           LDR      R1,??DataTable77  ;; myappname
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   590100EF           SWI      +345
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100A003           MOVEQ    R0,#+1
+   \   0000001C   0080BD08           POPEQ    {PC}
+    560                  return false;
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+    561          }
+    562          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    563          int main(wchar_t* filename)
+    564          {
+   \                     main:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    565                  if(FindBook(isChallengeBook))
+   \   00000004   ........           LDR      R4,??DataTable72  ;; ??elf_exit
+   \   00000008   20519FE5           LDR      R5,??main_0      ;; `?<Constant L"\\x49\\x6e\\x64\\x69\\x63\\x61\\x74\\x69\\_1`
+   \   0000000C   0060A0E1           MOV      R6,R0
+   \   00000010   1C019FE5           LDR      R0,??main_0+0x4  ;; ??isChallengeBook
+   \   00000014   300100EF           SWI      +304
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1300000A           BEQ      ??main_1
+    566                  {
+    567                      #ifndef ENG
+    568                          MessageBox(EMPTY_TEXTID, STR("Indication of Call\nуже запущен"), NOIMAGE, 1 ,5000, 0);
+   \   00000020   FF60A0E3           MOV      R6,#+255
+   \   00000024   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000028   0620A0E1           MOV      R2,R6
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   5D0100EF           SWI      +349
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   02002DE9           PUSH     {R1}
+   \   00000040   0130A0E3           MOV      R3,#+1
+   \   00000044   0620A0E1           MOV      R2,R6
+   \   00000048   8810A0E3           MOV      R1,#+136
+   \   0000004C   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000050   02002DE9           PUSH     {R1}
+   \   00000054   0010A0E1           MOV      R1,R0
+   \   00000058   9004E0E3           MVN      R0,#-1879048192
+   \   0000005C   570200EF           SWI      +599
+    569                      #else
+    570                          MessageBox(EMPTY_TEXTID, STR("Indication of Call\nalready runned"), NOIMAGE, 1 ,5000, 0);
+    571                      #endif
+    572                      SUBPROC(elf_exit);
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   080100EF           SWI      +264
+   \   00000068   08D08DE2           ADD      SP,SP,#+8
+   \   0000006C   220000EA           B        ??main_2
+    573                  }
+    574                  else
+    575                  {
+    576                      InitConfig();
+   \                     ??main_1:
+   \   00000070   ........           _BLF     ??InitConfig,??InitConfig??rA
+    577          
+    578                      ModifyUIPageHook(VOLUMEUPKEY_SHORT_PRESS_EVENT,DisableUP,0,PAGE_HOOK_ADD_BEFORE);
+   \   00000074   ........           LDR      R0,??DataTable73  ;; VOLUMEUPKEY_SHORT_PRESS_EVENT
+   \   00000078   ........           LDR      R1,??DataTable74  ;; ??DisableUP
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   0130A0E3           MOV      R3,#+1
+   \   00000084   0020A0E3           MOV      R2,#+0
+   \   00000088   100100EF           SWI      +272
+    579                      ModifyUIPageHook(VOLUMEDOWNKEY_SHORT_PRESS_EVENT,DisableDOWN,0,PAGE_HOOK_ADD_BEFORE);		
+   \   0000008C   ........           LDR      R0,??DataTable75  ;; VOLUMEDOWNKEY_SHORT_PRESS_EVENT
+   \   00000090   ........           LDR      R1,??DataTable76  ;; ??DisableDOWN
+   \   00000094   000090E5           LDR      R0,[R0, #+0]
+   \   00000098   0130A0E3           MOV      R3,#+1
+   \   0000009C   0020A0E3           MOV      R2,#+0
+   \   000000A0   100100EF           SWI      +272
+    580                      BOOK *myBook = (BOOK*)malloc(sizeof(BOOK));
+   \   000000A4   1800A0E3           MOV      R0,#+24
+   \   000000A8   030100EF           SWI      +259
+   \   000000AC   0070A0E1           MOV      R7,R0
+    581                      memset(myBook,0,sizeof(BOOK));
+   \   000000B0   1820A0E3           MOV      R2,#+24
+   \   000000B4   0010A0E3           MOV      R1,#+0
+   \   000000B8   120100EF           SWI      +274
+    582                      if(!CreateBook(myBook,bookOnDestroy,&defaultpage,myappname,-1,0))
+   \   000000BC   ........           LDR      R3,??DataTable77  ;; myappname
+   \   000000C0   70109FE5           LDR      R1,??main_0+0x8  ;; ??bookOnDestroy
+   \   000000C4   0000A0E3           MOV      R0,#+0
+   \   000000C8   01002DE9           PUSH     {R0}
+   \   000000CC   402085E2           ADD      R2,R5,#+64
+   \   000000D0   0000E0E1           MVN      R0,R0
+   \   000000D4   01002DE9           PUSH     {R0}
+   \   000000D8   0700A0E1           MOV      R0,R7
+   \   000000DC   2B0100EF           SWI      +299
+   \   000000E0   000050E3           CMP      R0,#+0
+   \   000000E4   08D08DE2           ADD      SP,SP,#+8
+   \   000000E8   0500001A           BNE      ??main_3
+    583                      {
+    584                        delete myBook;
+   \   000000EC   0700A0E1           MOV      R0,R7
+   \   000000F0   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    585                        SUBPROC(elf_exit);
+   \   000000F4   0400A0E1           MOV      R0,R4
+   \   000000F8   080100EF           SWI      +264
+    586                        return 0;
+   \                     ??main_2:
+   \   000000FC   0000A0E3           MOV      R0,#+0
+   \   00000100   F080BDE8           POP      {R4-R7,PC}
+    587                      }
+    588          
+    589                      if(!wstrwstr(filename,GetDir(DIR_ELFS_DAEMONS)))
+   \                     ??main_3:
+   \   00000104   1200A0E3           MOV      R0,#+18
+   \   00000108   050100EF           SWI      +261
+   \   0000010C   0010A0E1           MOV      R1,R0
+   \   00000110   0600A0E1           MOV      R0,R6
+   \   00000114   9E0200EF           SWI      +670
+   \   00000118   000050E3           CMP      R0,#+0
+   \   0000011C   0100001A           BNE      ??main_4
+    590                        StatusIndication_ShowNotes(EMPTY_TEXTID);
+   \   00000120   9004E0E3           MVN      R0,#-1879048192
+   \   00000124   430100EF           SWI      +323
+    591                  }
+    592                  return 0;
+   \                     ??main_4:
+   \   00000128   0000A0E3           MOV      R0,#+0
+   \   0000012C   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??main_0:
+   \   00000130   ........           DC32     `?<Constant L"\\x49\\x6e\\x64\\x69\\x63\\x61\\x74\\x69\\_1`
+   \   00000134   ........           DC32     ??isChallengeBook
+   \   00000138   ........           DC32     ??bookOnDestroy
+    593          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     ??isMTCallBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     cfg_flash_silent
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     cfg_led_silent
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     cfg_redled_silent
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     cfg_screen_silent
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable18:
+   \   00000000   ........           DC32     ??onVibraMinuteTimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable28:
+   \   00000000   ........           DC32     cfg_phone_type
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable29:
+   \   00000000   ........           DC32     cfg_screen_level
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable30:
+   \   00000000   ........           DC32     timerFlash
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable39:
+   \   00000000   ........           DC32     timerFlash
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable51:
+   \   00000000   ........           DC32     cfg_led_blink_speed
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable52:
+   \   00000000   ........           DC32     ??onTimerScreen
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable53:
+   \   00000000   ........           DC32     ??onTimerFlash
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable54:
+   \   00000000   ........           DC32     timerFlash
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable55:
+   \   00000000   ........           DC32     ??offTimerScreen
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable56:
+   \   00000000   ........           DC32     ??offTimerLED
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable57:
+   \   00000000   ........           DC32     ??offTimerREDLED
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable58:
+   \   00000000   ........           DC32     ??offTimerFlash
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable59:
+   \   00000000   ........           DC32     cfg_redled_ontime
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable60:
+   \   00000000   ........           DC32     cfg_screen_blink_speed
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable61:
+   \   00000000   ........           DC32     cfg_flash_blink_speed
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable66:
+   \   00000000   ........           DC32     ??onVibraMinuteTimer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable69:
+   \   00000000   ........           DC32     ??onTimerREDLED
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable70:
+   \   00000000   ........           DC32     ??onTimerLED
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable72:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable73:
+   \   00000000   ........           DC32     VOLUMEUPKEY_SHORT_PRESS_EVENT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable74:
+   \   00000000   ........           DC32     ??DisableUP
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable75:
+   \   00000000   ........           DC32     VOLUMEDOWNKEY_SHORT_PRESS_EVENT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable76:
+   \   00000000   ........           DC32     ??DisableDOWN
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable77:
+   \   00000000   ........           DC32     myappname
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for timerFlash>`:
+   \   00000000   0000               DC16 0
+   \                     `?<Initializer for timerREDLED>`:
+   \   00000002   0000               DC16 0
+   \                     `?<Initializer for timerLED>`:
+   \   00000004   0000               DC16 0
+   \                     `?<Initializer for timerScreen>`:
+   \   00000006   0000               DC16 0
+   \                     `?<Initializer for vibraminutetimer>`:
+   \   00000008   0000               DC16 0
+   \                     `?<Initializer for vibraNminutetimer>`:
+   \   0000000A   0000               DC16 0
+   \                     `?<Initializer for offtimer>`:
+   \   0000000C   0000               DC16 0
+   \                     `?<Initializer for offtimerREDLED>`:
+   \   0000000E   0000               DC16 0
+   \                     `?<Initializer for offtimerLED>`:
+   \   00000010   0000               DC16 0
+   \                     `?<Initializer for offtimerScreen>`:
+   \   00000012   0000               DC16 0
+   \                     `?<Initializer for rejectTimer>`:
+   \   00000014   0000               DC16 0
+   \                     `?<Initializer for muteTimer>`:
+   \   00000016   0000               DC16 0
+   \                     `?<Initializer for LEDControl_W580>`:
+   \   00000018   A9BF2945           DC32 4529BFA9H
+   \                     `?<Initializer for lamp>`:
+   \   0000001C   00000000           DC32 0
+   \                     `?<Initializer for screen>`:
+   \   00000020   00000000           DC32 0
+   \                     `?<Initializer for REDLED>`:
+   \   00000024   00000000           DC32 0
+   \                     `?<Initializer for LED>`:
+   \   00000028   00000000           DC32 0
+   \                     `?<Initializer for LED580>`:
+   \   0000002C   01000000           DC32 1
+   \                     `?<Initializer for LEDnum>`:
+   \   00000030   02000000           DC32 2
+   \                     `?<Initializer for incom>`:
+   \   00000034   00000000           DC32 0
+   \                     `?<Initializer for connect>`:
+   \   00000038   00000000           DC32 0
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for myappname>`:
+   \   00000000   496E64696361       DC8 "Indication of Call v.2.3"
+   \              74696F6E206F
+   \              662043616C6C
+   \              20762E322E33
+   \              00          
+   \   00000019   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Indication_Base_page">`:
+   \   00000000   496E64696361       DC8 "Indication_Base_page"
+   \              74696F6E5F42
+   \              6173655F7061
+   \              676500      
+   \   00000015   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MTCallBook">`:
+   \   00000000   4D5443616C6C       DC8 "MTCallBook"
+   \              426F6F6B00  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x49\\x6e\\x64\\x69\\x63\\x61\\x74\\x69\\`:
+   \   00000000   49006E006400       DC8 49H, 0, 6EH, 0, 64H, 0, 69H, 0
+   \              6900        
+   \   00000008   630061007400       DC8 63H, 0, 61H, 0, 74H, 0, 69H, 0
+   \              6900        
+   \   00000010   6F006E002000       DC8 6FH, 0, 6EH, 0, 20H, 0, 6FH, 0
+   \              6F00        
+   \   00000018   660020004300       DC8 66H, 0, 20H, 0, 43H, 0, 61H, 0
+   \              6100        
+   \   00000020   6C006C000A00       DC8 6CH, 0, 6CH, 0, 0AH, 0, 76H, 0
+   \              7600        
+   \   00000028   32002E003300       DC8 32H, 0, 2EH, 0, 33H, 0, 0AH, 0
+   \              0A00        
+   \   00000030   0A0028006300       DC8 0AH, 0, 28H, 0, 63H, 0, 29H, 0
+   \              2900        
+   \   00000038   50006C006F00       DC8 50H, 0, 6CH, 0, 6FH, 0, 69H, 0
+   \              6900        
+   \   00000040   6B0020002600       DC8 6BH, 0, 20H, 0, 26H, 0, 20H, 0
+   \              2000        
+   \   00000048   420069006700       DC8 42H, 0, 69H, 0, 67H, 0, 48H, 0
+   \              4800        
+   \   00000050   650072006300       DC8 65H, 0, 72H, 0, 63H, 0, 75H, 0
+   \              7500        
+   \   00000058   6C0065007300       DC8 6CH, 0, 65H, 0, 73H, 0, 0AH, 0
+   \              0A00        
+   \   00000060   0A0052006500       DC8 0AH, 0, 52H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   00000068   700065006300       DC8 70H, 0, 65H, 0, 63H, 0, 74H, 0
+   \              7400        
+   \   00000070   3A0020005300       DC8 3AH, 0, 20H, 0, 53H, 0, 6CH, 0
+   \              6C00        
+   \   00000078   610077007700       DC8 61H, 0, 77H, 0, 77H, 0, 61H, 0
+   \              6100        
+   \   00000080   6E000000           DC8 6EH, 0, 0, 0
+    594          
+    595          /*
+    596            Revision history.
+    597              2.3
+    598                + Добавлены таймеры для сброса и/или отключения звука входящего вызова. 
+    599                  При значении 0 - выключение таймера.
+    600              2.2
+    601                + Добавлено мигание красным светодиодом
+    602              2.1
+    603                + Использование функции AudioControl_Init
+    604                + Устранена утечка памяти.
+    605              2.0.8
+    606                + Устранена утечка памяти.
+    607              2.0.7
+    608                + Использование функции AudioControl_Vibrate вместо Vibra
+    609              2.0.5
+    610                + мелкие улучшения/исправления/оптимизация
+    611              2.0.4
+    612                + Изменения в структуре конфигурационного файла.
+    613                + исправлен баг в алгоритме индикации.
+    614                + алгоритм индикации светодиодами аналогичен алгоритму индикации фонарем
+    615                + алгоритм индикации экраном аналогичен алгоритму индикации фонарем
+    616              2.0.3
+    617                + Изменения в структуре конфигурационного файла.
+    618                + исправлен баг в алгоритме мигания светодиодами на W580
+    619              2.0.2
+    620                + Изменения в структуре конфигурационного файла.
+    621                + мигание светодиодами на W580
+    622              2.0.1
+    623                + Изменения в структуре конфигурационного файла.
+    624                + мигание дисплея
+    625                + мигание светодиодами
+    626                + длителность вибры задается в мсек
+    627              2.0 beta 3
+    628                + Поправлен параметр выбора в конце какой минуту вибрить
+    629              2.0 beta2
+    630                + английская версия конфигурационного файла. (Вибирается конфигурацией проекта Release_en)
+    631                  Важно! Нужно удалиь старый конфигурационный файл.
+    632                + исправлены ошибка, при переходе на bcgf (DisableUP и DisableDOWN)
+    633              2.0 beta
+    634                + новая версия конфигурационного файла (bcfg)
+    635          */
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Connect(void *, BOOK *)           12
+     DisableDOWN(void *, BOOK *, PAGE_DESC *, LPARAM, u16)
+                                       12
+     DisableUP(void *, BOOK *, PAGE_DESC *, LPARAM, u16)
+                                       12
+     OnCallManagerEvent(void *, BOOK *)
+                                       68
+     bookOnDestroy(BOOK *)             12
+     elf_exit()                         4
+     isChallengeBook(BOOK *)            4
+     isMTCallBook(BOOK *)               4
+     main(wchar_t *)                   28
+     offTimerFlash(u16, LPARAM)         8
+     offTimerLED(u16, LPARAM)          40
+     offTimerREDLED(u16, LPARAM)       12
+     offTimerScreen(u16, LPARAM)        8
+     onAbout(void *, BOOK *)           20
+     onExit(void *, BOOK *)             4
+     onMuteTimer(u16, LPARAM)           4
+     onReconfigElf(void *, BOOK *)     12
+     onRejectTimer(u16, LPARAM)         4
+     onTimerFlash(u16, LPARAM)          8
+     onTimerLED(u16, LPARAM)           48
+     onTimerREDLED(u16, LPARAM)        16
+     onTimerScreen(u16, LPARAM)         8
+     onVibraMinuteTimer(u16, LPARAM)
+                                        4
+     onVibraNMinuteTimer(u16, LPARAM)
+                                        4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     skipevents                        4
+     checkevents                       4
+     timerFlash                       60
+     myappname                        28
+     isMTCallBook(BOOK *)             44
+     onRejectTimer(u16, LPARAM)       28
+     onMuteTimer(u16, LPARAM)         28
+     DisableUP(void *, BOOK *, PAGE_DESC *, LPARAM, u16)
+                                     160
+     DisableDOWN(void *, BOOK *, PAGE_DESC *, LPARAM, u16)
+                                     160
+     offTimerFlash(u16, LPARAM)       44
+     offTimerREDLED(u16, LPARAM)      52
+     offTimerLED(u16, LPARAM)        208
+     offTimerScreen(u16, LPARAM)      56
+     onVibraMinuteTimer(u16, LPARAM)
+                                      80
+     onVibraNMinuteTimer(u16, LPARAM)
+                                      52
+     onTimerFlash(u16, LPARAM)        96
+     onTimerREDLED(u16, LPARAM)       96
+     onTimerLED(u16, LPARAM)         368
+     onTimerScreen(u16, LPARAM)       64
+     elf_exit()                       28
+     bookOnDestroy(BOOK *)           352
+     onExit(void *, BOOK *)           20
+     onAbout(void *, BOOK *)          84
+     Connect(void *, BOOK *)         396
+     OnCallManagerEvent(void *, BOOK *)
+                                    2312
+     onReconfigElf(void *, BOOK *)    84
+     evtlist                          48
+     ?<Constant L"\x49\x6e\x64\x69\x63\x61\x74\x69\_1
+                                      76
+     isChallengeBook(BOOK *)          40
+     main(wchar_t *)                 316
+     ??DataTable1                      4
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ??DataTable10                     4
+     ??DataTable11                     4
+     ??DataTable18                     4
+     ??DataTable28                     4
+     ??DataTable29                     4
+     ??DataTable30                     4
+     ??DataTable39                     4
+     ??DataTable51                     4
+     ??DataTable52                     4
+     ??DataTable53                     4
+     ??DataTable54                     4
+     ??DataTable55                     4
+     ??DataTable56                     4
+     ??DataTable57                     4
+     ??DataTable58                     4
+     ??DataTable59                     4
+     ??DataTable60                     4
+     ??DataTable61                     4
+     ??DataTable66                     4
+     ??DataTable69                     4
+     ??DataTable70                     4
+     ??DataTable72                     4
+     ??DataTable73                     4
+     ??DataTable74                     4
+     ??DataTable75                     4
+     ??DataTable76                     4
+     ??DataTable77                     4
+     ?<Initializer for timerFlash>    60
+     ?<Initializer for myappname>     28
+     ?<Constant "Indication_Base_page">
+                                      24
+     ?<Constant "MTCallBook">         12
+     ?<Constant L"\x49\x6e\x64\x69\x63\x61\x74\x69\
+                                     132
+      Others                         156
+
+ 
+ 5 420 bytes in segment CODE
+   244 bytes in segment DATA_C
+    88 bytes in segment DATA_I
+    88 bytes in segment DATA_ID
+     8 bytes in segment DATA_Z
+    48 bytes in segment DYN_PAGE
+    24 bytes in segment INITTAB
+ 
+ 5 288 bytes of CODE  memory (+ 156 bytes shared)
+   380 bytes of CONST memory
+    96 bytes of DATA  memory
+
+Errors: none
+Warnings: none

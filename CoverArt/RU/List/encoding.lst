@@ -1,0 +1,227 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:02:19 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\encod #
+#                       ing.c                                                #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\encod #
+#                       ing.c -D NDEBUG -D OLDFUNCTIONS -lC                  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\ -lA Z:\home\perk11\www\perk11.info\svn\SE\CoverA #
+#                       rt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian        #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\CoverArt\LNG-RU.h -I Z:\home\perk11\IAR2\arm\INC\ #
+#                        --inline_threshold=2                                #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Li #
+#                       st\encoding.lst                                      #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\Ob #
+#                       j\encoding.r79                                       #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\encoding.c
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\dir.h"
+      3          #include "Externals.h"
+      4          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      5          char *fbuf=0;
+   \                     fbuf:
+   \   00000000                      DS8 4
+      6          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      7          void char2unicode(wchar_t *ws, char const *s, int len) 
+      8          {
+      9            if (fbuf)
+   \                     ??char2unicode:
+   \   00000000   ........           LDR      R3,??DataTable2  ;; fbuf
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   003093E5           LDR      R3,[R3, #+0]
+   \   0000000C   000053E3           CMP      R3,#+0
+   \   00000010   1100000A           BEQ      ??char2unicode_1
+     10            {
+     11              int c;
+     12              char * buf=fbuf;
+   \   00000014   060000EA           B        ??char2unicode_2
+     13              while((c = *s++) && ((len--) > 0))   
+     14              {
+     15                if (c == 0x7E) c = 0x0A;
+   \                     ??char2unicode_3:
+   \   00000018   7E005CE3           CMP      R12,#+126
+   \   0000001C   0AC0A003           MOVEQ    R12,#+10
+     16                if (fbuf) c = (buf[2 * c] << 8)  | buf[2 * c + 1];
+     17                *ws++ = c;
+   \   00000020   8CC083E0           ADD      R12,R3,R12, LSL #+1
+   \   00000024   0040DCE5           LDRB     R4,[R12, #+0]
+   \   00000028   01C0DCE5           LDRB     R12,[R12, #+1]
+   \   0000002C   04448CE1           ORR      R4,R12,R4, LSL #+8
+   \   00000030   ........           STRH     R4,[R0], #+2
+     18            
+     19              }
+   \                     ??char2unicode_2:
+   \   00000034   ........           LDRB     R12,[R1], #+1
+   \   00000038   00005CE3           CMP      R12,#+0
+   \   0000003C   0300000A           BEQ      ??char2unicode_4
+   \   00000040   0240A0E1           MOV      R4,R2
+   \   00000044   012044E2           SUB      R2,R4,#+1
+   \   00000048   010054E3           CMP      R4,#+1
+   \   0000004C   F1FFFFAA           BGE      ??char2unicode_3
+     20              *ws=0;
+   \                     ??char2unicode_4:
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   B010C0E1           STRH     R1,[R0, #+0]
+   \   00000058   1080BDE8           POP      {R4,PC}
+     21            }
+     22            else
+     23            {
+     24              str2wstr(ws, s);
+   \                     ??char2unicode_1:
+   \   0000005C   580100EF           SWI      +344
+     25            }
+     26          };
+   \   00000060   1080BDE8           POP      {R4,PC}          ;; return
+     27          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          void Lang_Initialize()
+     29          {
+   \                     ??Lang_Initialize:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     30            // Открываем лэнг и читаем в FBUF
+     31            fbuf=0;
+   \   00000004   ........           LDR      R4,??DataTable2  ;; fbuf
+     32            int file;
+     33            FSTAT fst;
+     34            if(fstat(checkfile(L"encoding.bin"), L"encoding.bin", &fst) == 0)
+   \   00000008   84509FE5           LDR      R5,??Lang_Initialize_1  ;; `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`
+   \   0000000C   1CD04DE2           SUB      SP,SP,#+28
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   000084E5           STR      R0,[R4, #+0]
+   \   00000018   0500A0E1           MOV      R0,R5
+   \   0000001C   ........           _BLF     ??checkfile,??checkfile??rA
+   \   00000020   0D20A0E1           MOV      R2,SP
+   \   00000024   0510A0E1           MOV      R1,R5
+   \   00000028   1C0100EF           SWI      +284
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   1500001A           BNE      ??Lang_Initialize_2
+     35            {
+     36              if( ((file = _fopen(checkfile(L"encoding.bin"), L"encoding.bin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0) && fst.fsize == 512 )
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           _BLF     ??checkfile,??checkfile??rA
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   02002DE9           PUSH     {R1}
+   \   00000044   603FA0E3           MOV      R3,#+384
+   \   00000048   0120A0E3           MOV      R2,#+1
+   \   0000004C   0510A0E1           MOV      R1,R5
+   \   00000050   160100EF           SWI      +278
+   \   00000054   0050B0E1           MOVS     R5,R0
+   \   00000058   04D08DE2           ADD      SP,SP,#+4
+   \   0000005C   0800004A           BMI      ??Lang_Initialize_3
+   \   00000060   08009DE5           LDR      R0,[SP, #+8]
+   \   00000064   800F50E3           CMP      R0,#+512
+   \   00000068   0500001A           BNE      ??Lang_Initialize_3
+     37              {
+     38                fbuf = new char[512];
+   \   0000006C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000070   000084E5           STR      R0,[R4, #+0]
+     39                fread(file, fbuf, 512);
+   \   00000074   802FA0E3           MOV      R2,#+512
+   \   00000078   0010A0E1           MOV      R1,R0
+   \   0000007C   0500A0E1           MOV      R0,R5
+   \   00000080   180100EF           SWI      +280
+     40              }
+     41              fclose(file);
+   \                     ??Lang_Initialize_3:
+   \   00000084   0500A0E1           MOV      R0,R5
+   \   00000088   170100EF           SWI      +279
+     42            }
+     43          };
+   \                     ??Lang_Initialize_2:
+   \   0000008C   1CD08DE2           ADD      SP,SP,#+28       ;; stack cleaning
+   \   00000090   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Lang_Initialize_1:
+   \   00000094   ........           DC32     `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`
+     44          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     45          void Lang_Remove()
+     46          {
+   \                     ??Lang_Remove:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     47            if (fbuf)
+   \   00000004   ........           LDR      R4,??DataTable2  ;; fbuf
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+     48            {
+     49              delete(fbuf);
+   \   00000014   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     50              fbuf=0;
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   000084E5           STR      R0,[R4, #+0]
+     51            }
+     52          };
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     fbuf
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`:
+   \   00000000   65006E006300       DC8 65H, 0, 6EH, 0, 63H, 0, 6FH, 0
+   \              6F00        
+   \   00000008   640069006E00       DC8 64H, 0, 69H, 0, 6EH, 0, 67H, 0
+   \              6700        
+   \   00000010   2E0062006900       DC8 2EH, 0, 62H, 0, 69H, 0, 6EH, 0
+   \              6E00        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Lang_Initialize()                 44
+     Lang_Remove()                      8
+     char2unicode(wchar_t *, char const *, int)
+                                        8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     fbuf                              4
+     char2unicode(wchar_t *, char const *, int)
+                                     100
+     Lang_Initialize()               152
+     Lang_Remove()                    36
+     ??DataTable2                      4
+     ?<Constant L"\x65\x6e\x63\x6f\x64\x69\x6e\x67\
+                                      28
+      Others                          60
+
+ 
+ 340 bytes in segment CODE
+  28 bytes in segment DATA_C
+   4 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 292 bytes of CODE  memory (+ 60 bytes shared)
+  28 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

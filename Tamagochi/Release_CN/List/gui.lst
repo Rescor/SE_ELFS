@@ -1,0 +1,349 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:08:45 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\gui. #
+#                       c                                                    #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\gui. #
+#                       c -D NDEBUG -D LANG_CN -D OLDFUNCTIONS -lC           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\Tamagochi\Release_CN\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\Obj\ -s9 --no_unroll --no_inline --cpu_mode   #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --enable_multibytes --fpu None      #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\List\gui.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\Rele #
+#                       ase_CN\Obj\gui.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Tamagochi\gui.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\cfg_items.h"
+      4          #include "conf_loader.h"
+      5          #include "Tamagochi.h"
+      6          #include "language.h"
+      7          #include "misc_util.h"
+      8          
+      9          #define MENU_ITEMS_COUNT 10
+     10          
+     11          int ActiveTAB = 0;
+     12          int ActivePOS = 0;
+     13          
+     14          void EditConfig(int indx, BOOK * book, int snd)
+     15          {
+     16            FSTAT _fstat;
+     17            wchar_t path[256];
+     18            wchar_t name[64];
+     19          
+     20            extractdir(path, name, BCFGEDIT_PATH);
+     21          
+     22            if(fstat(path,name,&_fstat)==0)
+     23            {
+     24            }
+     25            else if(fstat(GetDir(DIR_ELFS|MEM_INTERNAL),name,&_fstat)==0)
+     26            {
+     27              wstrcpy(path,GetDir(DIR_ELFS|MEM_INTERNAL));
+     28            }
+     29            else if(fstat(GetDir(DIR_ELFS|MEM_EXTERNAL),name,&_fstat)==0)
+     30            {
+     31              wstrcpy(path,GetDir(DIR_ELFS|MEM_EXTERNAL));
+     32            }
+     33            else
+     34            {
+     35              MessageBox(EMPTY_TEXTID, TextID_Create(LG_GFGBCFGEDITNOTFOUND,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+     36            }
+     37            wstrcat(path,L"/");
+     38            wstrcat(path,name);
+     39            elfload(path,(void*)successed_config_path,(void*)successed_config_name,0);
+     40          }
+     41          
+     42          int  CountAbout=0;
+     43          
+     44          int isAnyDeath()
+     45          {
+     46            for(int i=0; i<Pets[0].Status.Count; i++)
+     47              if(Pets[i].Status.StatusDeath == 1) return 1;
+     48          
+     49            return 0;
+     50          }
+     51          
+     52          static void AboutDlg(int indx, BOOK * book, int snd)
+     53          {
+     54          #if (!defined(LANG_RU) && !defined(LANG_EN))
+     55            MessageBox(EMPTY_TEXTID,TextID_Create( LELFNAME _T("\n") LELFVERSION _T("\n") LAUTHORINFO _T("\n") LTRANSLATED TRANSLATED_BY,0,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+                                                                                                                                                ^
+Error[Pe167]: argument of type "int" is incompatible with parameter of type
+          "TEXT_ENCODING"
+     56          #else
+     57            MessageBox(EMPTY_TEXTID,TextID_Create( LELFNAME _T("\n") LELFVERSION _T("\n") LAUTHORINFO,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000*msgShowTime, 0);
+     58          #endif
+     59          }
+     60          
+     61          void RoomCommand(int indx, BOOK * book, int snd)
+     62          {
+     63            wchar_t eat_path[256];
+     64            getdir(eat_path, ROOM_PATH);
+     65            const wchar_t * folder_list[2];
+     66            folder_list[0]=eat_path;
+     67            folder_list[1]= 0;
+     68            int folders_cnt = 1;
+     69          
+     70            void * DB_Desc=DataBrowserDesc_Create();
+     71            DataBrowserDesc_SetHeaderText(DB_Desc,TextID_Create(LG_ROOM,ENC_UCS2,TEXTID_ANY_LEN));
+     72            DataBrowserDesc_SetFolders(DB_Desc,folder_list);
+     73            DataBrowserDesc_SetFoldersNumber(DB_Desc,folders_cnt);
+     74            DataBrowserDesc_SetSelectAction(DB_Desc,0);
+     75            DataBrowserDesc_Menu_AddFSFunctions(DB_Desc, 0);
+     76            DataBrowserDesc_Menu_AddNewFolder(DB_Desc, 1);
+     77            DataBrowserDesc_Menu_AddMarkFiles(DB_Desc, 1);
+     78            DataBrowser_Create(DB_Desc);
+     79            DataBrowserDesc_Destroy(DB_Desc);
+     80          
+     81          }
+     82          
+     83          enum MENU_CMD {
+     84            PLAY_CMD,
+     85            VACCINATE_CMD,
+     86            DISCIPLINE_CMD,
+     87            SLEEP_CMD,
+     88            BATHE_CMD,
+     89            ROOM_CMD,
+     90            STATUS_CMD,
+     91            NAME_CMD,
+     92            SETTINGS_CMD,
+     93            ABOUT_CMD
+     94          };
+     95          
+     96          static int const menuiconsnum[MENU_ITEMS_COUNT]=
+     97          {
+     98            PLAY_ICN,
+     99            VACCINATE_ICN,
+    100            DISCIPLINE_ICN,
+    101            SLEEP_ICN,
+    102            SM_BATHE_ICN,
+    103            ROOM_ICN,
+    104            STATUS_ICN,
+    105            NAME_ICN,
+    106            SETTINGS_ICN,
+    107            ABOUT_ICN
+    108          };
+    109          
+    110          static const wchar_t * const menutexts[MENU_ITEMS_COUNT]=
+    111          {
+    112            LG_GAMEPLAY,
+    113            LG_VACCINATE,
+    114            LG_DISCIPLINE,
+    115            LG_SLEEP,
+    116            LG_BATHE,
+    117            LG_ROOM,
+    118            LG_STATUS,
+    119            LG_NAME,
+    120            LG_EDCFG,
+    121            LG_ABOUT
+    122          };
+    123          
+    124          static void (*menuprocs[MENU_ITEMS_COUNT])(int, BOOK *, int) =
+    125          {
+    126            GamePlay,
+    127            Vaccinate,
+    128            Discipline,
+    129            SleepCommand,
+    130            BatheCommand,
+    131            RoomCommand,
+    132            InfoStatus,
+    133            ChangeName,
+    134            EditConfig,
+    135            AboutDlg,
+    136          };
+    137          
+    138          int menu_list_callback(GUI_MESSAGE * msg)
+    139          {
+    140            int str_id;
+    141            int icon_id;
+    142            switch( GUIonMessage_GetMsg(msg) )
+    143            {
+    144            case 1:
+    145              int curitem=GUIonMessage_GetCreatedItemIndex(msg);
+    146          //    MyBOOK * bk = (MyBOOK *)msg->book;
+    147              MyBOOK * bk = (MyBOOK *) FindBook(isTamagochiBook);
+    148              int indx = TabMenuBar_GetFocusedTab(bk->gui);
+    149              icon_id = img_menu[menuiconsnum[curitem]];
+    150              if (curitem!= SLEEP_CMD){
+    151                str_id  = TextID_Create(menutexts[curitem],ENC_UCS2,TEXTID_ANY_LEN);
+    152              }
+    153              else
+    154              {
+    155                if (Pets[indx].Sleep==0){
+    156                  str_id  = TextID_Create(LG_SLEEP,ENC_UCS2,TEXTID_ANY_LEN);
+    157                }
+    158                else
+    159                {
+    160                  str_id  = TextID_Create(LG_NOTSLEEP,ENC_UCS2,TEXTID_ANY_LEN);
+    161                }
+    162              }
+    163              int strID_array[3];
+    164              strID_array[0]=icon_id+0x78000000;
+    165              strID_array[1]=0x78000020;
+    166              strID_array[2]=str_id;
+    167              GUIonMessage_SetMenuItemText(msg,TextID_Create(strID_array,ENC_TEXTID,3));
+    168            }
+    169            return(1);
+    170          }
+    171          
+    172          void DestroyMenuList( BOOK* book, GUI* )
+    173          {
+    174            BookObj_ReturnPage(book,ACCEPT_EVENT);
+    175          }
+    176          
+    177          void CancelMenuList( BOOK* book, GUI* )
+    178          {
+    179            BookObj_ReturnPage(book,NIL_EVENT);
+    180            BookObj_ReturnPage(book,NIL_EVENT);
+    181          }
+    182          
+    183          void Menu_onEnter( BOOK* book, GUI* )
+    184          {
+    185            MyBOOK * bk = (MyBOOK *)book;
+    186            int indx = TabMenuBar_GetFocusedTab(bk->gui);
+    187            int item_num = ActivePOS = ListMenu_GetSelectedItem(bk->menu_list[indx]);
+    188            menuprocs[item_num](indx, book,(!GetSilent() || sndOnSilent) && sndEnable);
+    189            //BookObj_ReturnPage(book,ACCEPT_EVENT);
+    190          }
+    191          
+    192          void Menu_OnKey(DISP_OBJ* p, int i1, int i2, int i3, int i4)
+    193          {
+    194            MyBOOK * bk = (MyBOOK *) FindBook(isTamagochiBook);
+    195            int indx = TabMenuBar_GetFocusedTab(bk->gui);
+    196            bk->Menu_oldOnKey[indx](p,i1,i2,i3,i4);
+    197            if(i4==KBD_SHORT_RELEASE)
+    198            {
+    199              int num = i1 - KEY_DIGITAL_0;
+    200              if(num == 2)
+    201              {
+    202                int item = ListMenu_GetSelectedItem(bk->menu_list[indx]) - 1;
+    203                if(item < 0) item = MENU_ITEMS_COUNT - 1;
+    204                ListMenu_SetCursorToItem(bk->menu_list[indx],item);
+    205              }
+    206              else if((num == 8) || (num == 0))
+    207              {
+    208                int item = ListMenu_GetSelectedItem(bk->menu_list[indx]) + 1;
+    209                if(item >= MENU_ITEMS_COUNT) item = 0;
+    210                ListMenu_SetCursorToItem(bk->menu_list[indx],item);
+    211              }
+    212              else if(num == 5)
+    213              {
+    214                Menu_onEnter((BOOK*)bk,0);
+    215              }
+    216            }
+    217          };
+    218          
+    219          void onTabSwitch(BOOK * bk,int active_tab)
+    220          {
+    221            ActiveTAB=active_tab;
+    222          }
+    223          
+    224          int CreateMenuList(void *data, BOOK * book)
+    225          {
+    226            int menu_pos = ActivePOS;
+    227            int tab_pos = ActiveTAB;
+    228            if(tab_pos >= Pets[0].Status.Count) tab_pos = 0;
+    229            if(menu_pos >= MENU_ITEMS_COUNT) menu_pos = 0;
+    230            MyBOOK * bk = (MyBOOK *)book;
+    231            if(bk->gui) GUIObject_Destroy( bk->gui);
+    232            FREE_GUI(bk->stat_list);
+    233          
+    234            bk->gui = CreateTabMenuBar(book);
+    235            TabMenuBar_SetTabCount(bk->gui,Pets[0].Status.Count);
+    236            for(int indx=0; indx < Pets[0].Status.Count; indx++)
+    237            {
+    238              if (bk->menu_list[indx]) GUIObject_Destroy( bk->menu_list[indx]);
+    239              bk->menu_list[indx]=CreateListMenu(book,0);
+    240              GUIObject_SetTitleText(bk->menu_list[indx],TextID_Create(Pets[indx].Status.name,ENC_UCS2,TEXTID_ANY_LEN));
+    241          
+    242              ListMenu_SetItemCount(bk->menu_list[indx],MENU_ITEMS_COUNT);
+    243              OneOfMany_SetOnMessage((GUI_ONEOFMANY*)bk->menu_list[indx],menu_list_callback);
+    244              ListMenu_SetCursorToItem(bk->menu_list[indx],menu_pos);
+    245          
+    246              GUIObject_SoftKeys_SetAction(bk->menu_list[indx],ACTION_BACK,DestroyMenuList);
+    247              GUIObject_SoftKeys_SetAction(bk->menu_list[indx],ACTION_LONG_BACK,CancelMenuList);
+    248              GUIObject_SoftKeys_SetAction(bk->menu_list[indx],ACTION_SELECT1,Menu_onEnter);
+    249          
+    250              bk->Menu_oldOnKey[indx] = DispObject_GetOnKey( GUIObject_GetDispObject(bk->menu_list[indx]) );
+    251              DISP_DESC_SetOnKey( DispObject_GetDESC ( GUIObject_GetDispObject(bk->menu_list[indx]) ), Menu_OnKey );
+    252          
+    253              TabMenuBar_SetTabGui(bk->gui,indx,bk->menu_list[indx]);
+    254          
+    255              TabMenuBar_SetTabIcon(bk->gui,indx,img_menu[SM_BOREDOM_ICN],0);
+    256              TabMenuBar_SetTabIcon(bk->gui,indx,img_menu[SM_SMILE_ICN],1);
+    257            }
+    258            TabMenuBar_SetFocusedTab(bk->gui,tab_pos);
+    259            TabMenuBar_SetOnTabSwitch(bk->gui,onTabSwitch);
+    260            BookObj_SetFocus(book,0);
+    261            GUIObject_Show(bk->gui);
+    262            return(0);
+    263          }
+    264          
+    265          int ExitMenuList(void *data, BOOK * book)
+    266          {
+    267            MyBOOK * bk = (MyBOOK *)book;
+    268          
+    269            if (bk->stat_list)
+    270            {
+    271              GUIObject_Destroy( bk->stat_list);
+    272              bk->stat_list=0;
+    273            }
+    274          
+    275            for(int i=0; i < MAX_PET_COUNT_GLB; i++)
+    276            {
+    277              if (bk->menu_list[i])
+    278              {
+    279                GUIObject_Destroy( bk->menu_list[i]);
+    280                bk->menu_list[i]=0;
+    281              }
+    282            }
+    283          
+    284            if (bk->gui)
+    285            {
+    286              ActiveTAB = TabMenuBar_GetFocusedTab(bk->gui);
+    287              GUIObject_Destroy( bk->gui);
+    288              bk->gui=0;
+    289            }
+    290          
+    291            BookObj_Hide(book,0);
+    292          
+    293            return(0);
+    294          }
+    295          
+    296          const PAGE_MSG CreateMenu_PageEvents[]@ "DYN_PAGE" ={
+    297            PAGE_ENTER_EVENT_TAG,CreateMenuList,
+    298            ACCEPT_EVENT_TAG,CreateMenuList,
+    299            PAGE_EXIT_EVENT_TAG,ExitMenuList,
+    300            NIL_EVENT_TAG,0
+    301          };
+    302          
+    303          PAGE_DESC CreateMenu_page ={"Tamagochi_CreateMenu_Main_Page",0,CreateMenu_PageEvents};
+    304          
+    305          void ShowMenu(BOOK * book)
+    306          {
+    307            BookObj_CallPage(book,&CreateMenu_page);
+    308          }
+    309          
+    310          void CloseMenu(BOOK * book)
+    311          {
+    312            ExitMenuList(0,book);
+    313          }
+
+Errors: 1
+Warnings: none

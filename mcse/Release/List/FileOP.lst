@@ -1,0 +1,898 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:46:09 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\FileOP.cp #
+#                       p                                                    #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\FileOP.cp #
+#                       p -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN          #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\FileOP.lst                                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\FileOP.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\FileOP.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\mui.h"
+      3          #include "inc\zslib.h"
+      4          #include "inc\file_op.h"
+      5          
+      6          
+      7          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          int isdir(const wchar_t *name){
+   \                     ??isdir:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   28D04DE2           SUB      SP,SP,#+40
+      9            W_FSTAT fs;
+     10            w_fstat(name,&fs);
+   \   00000008   0D10A0E1           MOV      R1,SP
+   \   0000000C   F90200EF           SWI      +761
+     11            return(fs.attr&FA_DIRECTORY);
+   \   00000010   00009DE5           LDR      R0,[SP, #+0]
+   \   00000014   28D08DE2           ADD      SP,SP,#+40
+   \   00000018   400C00E2           AND      R0,R0,#0x4000
+   \   0000001C   0080BDE8           POP      {PC}             ;; return
+     12          }
+     13          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     14          int isDir(int tab, const wchar_t* dname)
+     15          {
+   \                     ??isDir:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   28D04DE2           SUB      SP,SP,#+40
+   \   00000008   0140A0E1           MOV      R4,R1
+     16            if (IsArchiveOpened(tab))
+   \   0000000C   ........           _BLF     ??IsArchiveOpened,??IsArchiveOpened??rA
+   \   00000010   000050E3           CMP      R0,#+0
+     17              return 1; // зипы рассматриваем как директорию
+   \   00000014   0100A013           MOVNE    R0,#+1
+   \   00000018   0400001A           BNE      ??isDir_1
+     18            else
+     19              return isdir(dname);
+   \   0000001C   0D10A0E1           MOV      R1,SP
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   F90200EF           SWI      +761
+   \   00000028   00009DE5           LDR      R0,[SP, #+0]
+   \   0000002C   400C00E2           AND      R0,R0,#0x4000
+   \                     ??isDir_1:
+   \   00000030   28D08DE2           ADD      SP,SP,#+40       ;; stack cleaning
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+     20          }
+     21          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     22          void MsgBoxErrorMmi(int err)
+     23          {
+     24            wchar_t *e=(wchar_t *)err;
+     25            MsgBoxError(e);
+   \                     ??MsgBoxErrorMmi:
+   \   00000000   ........           _BF      ??MsgBoxError,??MsgBoxError??rA  ;; tailcall
+     26          }
+     27          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          int cd(int tab, const wchar_t *dname, int drv)
+     29          {
+   \                     ??cd:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   8ADF4DE2           SUB      SP,SP,#+552
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+     30            if (IsArchiveOpened(tab))
+   \   00000014   ........           _BLF     ??IsArchiveOpened,??IsArchiveOpened??rA
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1400000A           BEQ      ??cd_1
+     31            {
+     32              drv = _CurDrv;
+   \   00000020   ........           LDR      R0,??DataTable32  ;; curtab
+   \   00000024   ........           LDR      R1,??DataTable33  ;; tabs
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000030   F460D0E1           LDRSH    R6,[R0, #+4]
+     33            }
+     34            else
+     35            {
+     36              if (!isDir(tab, dname))
+     37              {
+     38                wchar_t buf[MAX_PATH];
+     39                snwprintf(buf, MAXELEMS(buf)-1, L"%ls\\", dname);
+     40                if (!isdir(buf))
+     41                {
+     42                  MsgBoxError(ind_err_badname_t, (wchar_t *)dname);
+     43                  return 0;
+     44                }
+     45              }
+     46              if (drv==-1)
+     47              {
+     48                for (int i=0; i<MAX_DRV; i++)
+     49                {
+     50                  if (!wstrcmpni(Drives[i].path,dname,wstrlen(Drives[i].path)))
+     51                  {
+     52                    drv=i;
+     53                    break;
+     54                  }
+     55                }
+     56              }
+     57              if (drv==-1)
+     58              {
+     59                MsgBoxError(ind_err_baddrv_t,  (wchar_t *)dname);
+     60                return 0;
+     61              }
+     62            }
+     63            _cd_tab(tab, drv, dname);
+   \                     ??cd_2:
+   \   00000034   0520A0E1           MOV      R2,R5
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   0610A0E1           MOV      R1,R6
+   \   00000040   ........           _BLF     ??_cd_tab,??_cd_tab??rA
+     64            int res = SetTabDrv(tab, drv);
+   \   00000044   0610A0E1           MOV      R1,R6
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   ........           _BLF     ??SetTabDrv,??SetTabDrv??rA
+   \   00000050   0050B0E1           MOVS     R5,R0
+     65            if (!res) SetTabIndex(tab, 0, 0);
+   \   00000054   0300001A           BNE      ??cd_3
+   \   00000058   0020A0E3           MOV      R2,#+0
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   ........           _BLF     ??SetTabIndex,??SetTabIndex??rA
+     66            return res;
+   \                     ??cd_3:
+   \   00000068   0500A0E1           MOV      R0,R5
+   \   0000006C   8ADF8DE2           ADD      SP,SP,#+552
+   \   00000070   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??cd_1:
+   \   00000074   0510A0E1           MOV      R1,R5
+   \   00000078   0400A0E1           MOV      R0,R4
+   \   0000007C   ........           BL       ??isDir
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   1000001A           BNE      ??cd_4
+   \   00000088   98209FE5           LDR      R2,??cd_5        ;; `?<Constant L"\\x25\\x6c\\x73\\x5c">`
+   \   0000008C   0530A0E1           MOV      R3,R5
+   \   00000090   FF10A0E3           MOV      R1,#+255
+   \   00000094   0D00A0E1           MOV      R0,SP
+   \   00000098   150100EF           SWI      +277
+   \   0000009C   801F8DE2           ADD      R1,SP,#+512
+   \   000000A0   0D00A0E1           MOV      R0,SP
+   \   000000A4   F90200EF           SWI      +761
+   \   000000A8   00029DE5           LDR      R0,[SP, #+512]
+   \   000000AC   400C10E3           TST      R0,#0x4000
+   \   000000B0   0500001A           BNE      ??cd_4
+   \   000000B4   0510A0E1           MOV      R1,R5
+   \   000000B8   5000A0E3           MOV      R0,#+80
+   \                     ??cd_6:
+   \   000000BC   ........           _BLF     ??MsgBoxError_1,??MsgBoxError??rA_1
+   \   000000C0   0000A0E3           MOV      R0,#+0
+   \   000000C4   8ADF8DE2           ADD      SP,SP,#+552
+   \   000000C8   F080BDE8           POP      {R4-R7,PC}
+   \                     ??cd_4:
+   \   000000CC   010076E3           CMN      R6,#+1
+   \   000000D0   0F00001A           BNE      ??cd_7
+   \   000000D4   0060A0E3           MOV      R6,#+0
+   \   000000D8   020000EA           B        ??cd_8
+   \                     ??cd_9:
+   \   000000DC   016086E2           ADD      R6,R6,#+1
+   \   000000E0   030056E3           CMP      R6,#+3
+   \   000000E4   0C0000AA           BGE      ??cd_10
+   \                     ??cd_8:
+   \   000000E8   3C109FE5           LDR      R1,??cd_5+0x4    ;; Drives
+   \   000000EC   1800A0E3           MOV      R0,#+24
+   \   000000F0   901627E0           MLA      R7,R0,R6,R1
+   \   000000F4   000097E5           LDR      R0,[R7, #+0]
+   \   000000F8   570100EF           SWI      +343
+   \   000000FC   0020A0E1           MOV      R2,R0
+   \   00000100   000097E5           LDR      R0,[R7, #+0]
+   \   00000104   0510A0E1           MOV      R1,R5
+   \   00000108   9A0200EF           SWI      +666
+   \   0000010C   000050E3           CMP      R0,#+0
+   \   00000110   F1FFFF1A           BNE      ??cd_9
+   \                     ??cd_7:
+   \   00000114   010076E3           CMN      R6,#+1
+   \   00000118   C5FFFF1A           BNE      ??cd_2
+   \                     ??cd_10:
+   \   0000011C   0510A0E1           MOV      R1,R5
+   \   00000120   5100A0E3           MOV      R0,#+81
+   \   00000124   E4FFFFEA           B        ??cd_6
+   \                     ??cd_5:
+   \   00000128   ........           DC32     `?<Constant L"\\x25\\x6c\\x73\\x5c">`
+   \   0000012C   ........           DC32     Drives
+     67          }
+     68          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     69          int cdsys(wchar_t *dname)
+     70          {
+   \                     ??cdsys:
+   \   00000000   00402DE9           PUSH     {LR}
+     71            if (cd(systab, dname, -1))
+   \   00000004   0020E0E3           MVN      R2,#+0
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   0200A0E3           MOV      R0,#+2
+   \   00000010   ........           BL       ??cd
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0080BD08           POPEQ    {PC}
+     72            {
+     73              back_tab = curtab;
+   \   0000001C   ........           LDR      R0,??DataTable32  ;; curtab
+   \   00000020   14109FE5           LDR      R1,??cdsys_1     ;; back_tab
+   \   00000024   002090E5           LDR      R2,[R0, #+0]
+   \   00000028   002081E5           STR      R2,[R1, #+0]
+     74              curtab = systab;
+   \   0000002C   0210A0E3           MOV      R1,#+2
+   \   00000030   001080E5           STR      R1,[R0, #+0]
+     75              return 1;
+   \   00000034   0100A0E3           MOV      R0,#+1
+     76            }
+     77            return 0;
+   \   00000038   0080BDE8           POP      {PC}             ;; return
+   \                     ??cdsys_1:
+   \   0000003C   ........           DC32     back_tab
+     78          }
+     79          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     80          void _NewDir(wchar_t *wsname)
+     81          {
+   \                     ??_NewDir:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     82            wstrncpy(szLastNewDir, wsname, MAXELEMS(szLastNewDir));	// Сохраняем введенное имя
+   \   00000004   402FA0E3           MOV      R2,#+256
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   4C009FE5           LDR      R0,??_NewDir_1   ;; szLastNewDir
+   \   00000010   0410A0E1           MOV      R1,R4
+   \   00000014   530100EF           SWI      +339
+     83            CurFullPath(wsname);
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   ........           _BLF     ??CurFullPath,??CurFullPath??rA
+     84            
+     85            if (w_mkdir(pathbuf, 0x1FF))
+   \   00000020   ........           LDR      R0,??DataTable29  ;; pathbuf
+   \   00000024   FF10A0E3           MOV      R1,#+255
+   \   00000028   401F81E3           ORR      R1,R1,#0x100
+   \   0000002C   FE0200EF           SWI      +766
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   0300000A           BEQ      ??_NewDir_2
+     86              MsgBoxError(muitxt(ind_err_makedir));
+   \   00000038   4D00A0E3           MOV      R0,#+77
+   \   0000003C   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000040   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000044   ........           _BF      ??MsgBoxError,??MsgBoxError??rA  ;; tailcall
+     87            else
+     88            {
+     89              DoRefresh();
+   \                     ??_NewDir_2:
+   \   00000048   ........           _BLF     ??DoRefresh,??DoRefresh??rA
+     90              //Ищим папку которую создали
+     91              int ind = GetCurTabFileIndex(wsname);
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   ........           _BLF     ??GetCurTabFileIndex,??GetCurTabFileIndex??rA
+     92              SetCurTabIndex(ind, 0);
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   0000005C   ........           _BF      ??SetCurTabIndex,??SetCurTabIndex??rA  ;; tailcall
+   \                     ??_NewDir_1:
+   \   00000060   ........           DC32     szLastNewDir
+     93            }
+     94          }
+     95          
+     96          
+     97          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     98          int M_Delit(FILEINF *file, int param)
+     99          {
+   \                     ??M_Delit:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    100            if (file && pathbuf && wstrlen(file->ws_name))
+   \   00000008   000054E3           CMP      R4,#+0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0C00000A           BEQ      ??M_Delit_1
+   \   00000014   200094E5           LDR      R0,[R4, #+32]
+   \   00000018   570100EF           SWI      +343
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   3080BD08           POPEQ    {R4,R5,PC}
+    101            {
+    102              CurFullPath(file->ws_name);
+   \   00000024   200094E5           LDR      R0,[R4, #+32]
+   \   00000028   ........           _BLF     ??CurFullPath,??CurFullPath??rA
+    103              /*if (file->attr & FA_READONLY)
+    104              {
+    105                if (!CONFIG_CONFIRM_DELETERO || MsgBoxYesNoWithParam(ind_pmt_rodel, file->sname) == IDYES)
+    106                {
+    107                  SetFileAttrib(pathbuf, 0, &err);
+    108                  
+    109                  if (!fsrm(pathbuf, 1))
+    110                    *(int*)param = 0;;
+    111                }
+    112              }
+    113              else*/
+    114              {
+    115                if (!fsrm(pathbuf, 1))
+   \   0000002C   ........           LDR      R0,??DataTable29  ;; pathbuf
+   \   00000030   0110A0E3           MOV      R1,#+1
+   \   00000034   ........           _BLF     ??fsrm,??fsrm??rA
+   \   00000038   000050E3           CMP      R0,#+0
+    116                  *(int*)param = 0;
+   \   0000003C   00008505           STREQ    R0,[R5, #+0]
+    117              }
+    118              return 1;
+   \   00000040   0100A0E3           MOV      R0,#+1
+   \   00000044   3080BDE8           POP      {R4,R5,PC}
+    119            }
+    120            return 0;
+   \                     ??M_Delit_1:
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \   0000004C   3080BDE8           POP      {R4,R5,PC}       ;; return
+    121          }
+    122          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    123          int M_FileCnt(FILEINF *file, int param)
+    124          {
+   \                     ??M_FileCnt:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    125            if (file)
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   3080BD08           POPEQ    {R4,R5,PC}
+    126            {
+    127              CurFullPath(file->ws_name);
+   \   00000010   200090E5           LDR      R0,[R0, #+32]
+   \   00000014   ........           _BLF     ??CurFullPath,??CurFullPath??rA
+    128              *(int *)param += GetFilesCnt(pathbuf);
+   \   00000018   005094E5           LDR      R5,[R4, #+0]
+   \   0000001C   ........           LDR      R0,??DataTable29  ;; pathbuf
+   \   00000020   ........           _BLF     ??GetFilesCnt,??GetFilesCnt??rA
+   \   00000024   050080E0           ADD      R0,R0,R5
+   \   00000028   000084E5           STR      R0,[R4, #+0]
+    129              return 1;
+   \   0000002C   0100A0E3           MOV      R0,#+1
+    130            }
+    131            return 0;
+   \   00000030   3080BDE8           POP      {R4,R5,PC}       ;; return
+    132          }
+    133          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    134          void S_Delit(void)
+    135          {
+    136            if (_CurIndex < 0) return;
+   \                     ??S_Delit:
+   \   00000000   ........           LDR      R0,??DataTable32  ;; curtab
+   \   00000004   ........           LDR      R1,??DataTable33  ;; tabs
+   \   00000008   10402DE9           PUSH     {R4,LR}
+   \   0000000C   04D04DE2           SUB      SP,SP,#+4
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000018   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   0000001C   810080E0           ADD      R0,R0,R1, LSL #+1
+   \   00000020   F600D0E1           LDRSH    R0,[R0, #+6]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   1180BD48           POPMI    {R0,R4,PC}
+    137            Busy = 1;
+   \   0000002C   ........           LDR      R0,??DataTable35  ;; Busy
+   \   00000030   0110A0E3           MOV      R1,#+1
+   \   00000034   001080E5           STR      R1,[R0, #+0]
+    138            int res = 1;  
+   \   00000038   00108DE5           STR      R1,[SP, #+0]
+    139            
+    140            initprogr(ind_deling);
+   \   0000003C   0B00A0E3           MOV      R0,#+11
+   \   00000040   ........           _BLF     ??initprogr,??initprogr??rA
+    141            EnumSel(M_FileCnt, (int)&progr_max);
+   \   00000044   ........           LDR      R1,??DataTable24  ;; progr_max
+   \   00000048   8C009FE5           LDR      R0,??S_Delit_1   ;; ??M_FileCnt
+   \   0000004C   ........           _BLF     ??EnumSel,??EnumSel??rA
+    142            incprogr(0);
+   \   00000050   0000A0E3           MOV      R0,#+0
+   \   00000054   ........           _BLF     ??incprogr,??incprogr??rA
+    143            // Store current file index
+    144            int ind = _CurIndex;
+   \   00000058   ........           LDR      R0,??DataTable32  ;; curtab
+   \   0000005C   ........           LDR      R1,??DataTable33  ;; tabs
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000068   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   0000006C   810080E0           ADD      R0,R0,R1, LSL #+1
+   \   00000070   F640D0E1           LDRSH    R4,[R0, #+6]
+    145            EnumSel(M_Delit, (int)&res);
+   \   00000074   64009FE5           LDR      R0,??S_Delit_1+0x4  ;; ??M_Delit
+   \   00000078   0D10A0E1           MOV      R1,SP
+   \   0000007C   ........           _BLF     ??EnumSel,??EnumSel??rA
+    146            if (!res)
+   \   00000080   00009DE5           LDR      R0,[SP, #+0]
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   0300001A           BNE      ??S_Delit_2
+    147            {
+    148              MsgBoxError(muitxt(ind_err_delete));
+   \   0000008C   4F00A0E3           MOV      R0,#+79
+   \   00000090   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000094   ........           _BLF     ??MsgBoxError,??MsgBoxError??rA
+   \   00000098   090000EA           B        ??S_Delit_3
+    149            }
+    150            else if (ind < _CurTab->ccFiles) // Только если есть куда идти вниз
+   \                     ??S_Delit_2:
+   \   0000009C   ........           LDR      R0,??DataTable32  ;; curtab
+   \   000000A0   ........           LDR      R1,??DataTable33  ;; tabs
+   \   000000A4   000090E5           LDR      R0,[R0, #+0]
+   \   000000A8   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   000000AC   F000D0E1           LDRSH    R0,[R0, #+0]
+   \   000000B0   000054E1           CMP      R4,R0
+   \   000000B4   020000AA           BGE      ??S_Delit_3
+    151            {
+    152              // List is not refreshed yet, so move index to the next file if there are no errors
+    153              SetCurTabIndex(ind + 1, 0);
+   \   000000B8   0010A0E3           MOV      R1,#+0
+   \   000000BC   010084E2           ADD      R0,R4,#+1
+   \   000000C0   ........           _BLF     ??SetCurTabIndex,??SetCurTabIndex??rA
+    154            }
+    155            DoRefresh();
+   \                     ??S_Delit_3:
+   \   000000C4   ........           _BLF     ??DoRefresh,??DoRefresh??rA
+    156            
+    157            endprogr();
+   \   000000C8   ........           _BLF     ??endprogr,??endprogr??rA
+    158            Busy = 0;
+   \   000000CC   ........           LDR      R0,??DataTable35  ;; Busy
+   \   000000D0   0010A0E3           MOV      R1,#+0
+   \   000000D4   001080E5           STR      R1,[R0, #+0]
+    159          }
+   \   000000D8   1180BDE8           POP      {R0,R4,PC}       ;; return
+   \                     ??S_Delit_1:
+   \   000000DC   ........           DC32     ??M_FileCnt
+   \   000000E0   ........           DC32     ??M_Delit
+    160          
+    161          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    162          int M_MoveCopy(FILEINF *file, int param)
+    163          {
+   \                     ??M_MoveCopy:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    164            if (file && wstrlen(file->ws_name))
+   \   0000000C   000054E3           CMP      R4,#+0
+   \   00000010   2200000A           BEQ      ??M_MoveCopy_1
+   \   00000014   200094E5           LDR      R0,[R4, #+32]
+   \   00000018   570100EF           SWI      +343
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   7080BD08           POPEQ    {R4-R6,PC}
+   \   00000024   ........           LDR      R0,??DataTable32  ;; curtab
+   \   00000028   ........           LDR      R1,??DataTable33  ;; tabs
+   \   0000002C   000090E5           LDR      R0,[R0, #+0]
+   \   00000030   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000034   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   00000038   810480E0           ADD      R0,R0,R1, LSL #+9
+   \   0000003C   120080E2           ADD      R0,R0,#+18
+    165            {
+    166              int pname = wstrlen(_CurPath) + 1;
+   \   00000040   570100EF           SWI      +343
+   \   00000044   016080E2           ADD      R6,R0,#+1
+    167              CurFullPath(file->ws_name);
+   \   00000048   200094E5           LDR      R0,[R4, #+32]
+   \   0000004C   ........           _BLF     ??CurFullPath,??CurFullPath??rA
+    168              fn_add(&buffer, param, file->ftype, pname, pathbuf, IsInArchive() ? _CurTab->zipInfo->szZipPath : NULL);
+   \   00000050   ........           _BLF     ??IsInArchive,??IsInArchive??rA
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   0500000A           BEQ      ??M_MoveCopy_2
+   \   0000005C   ........           LDR      R0,??DataTable32  ;; curtab
+   \   00000060   ........           LDR      R1,??DataTable33  ;; tabs
+   \   00000064   000090E5           LDR      R0,[R0, #+0]
+   \   00000068   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   0000006C   140890E5           LDR      R0,[R0, #+2068]
+   \   00000070   040080E2           ADD      R0,R0,#+4
+   \                     ??M_MoveCopy_2:
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   ........           LDR      R0,??DataTable29  ;; pathbuf
+   \   0000007C   0630A0E1           MOV      R3,R6
+   \   00000080   01002DE9           PUSH     {R0}
+   \   00000084   042094E5           LDR      R2,[R4, #+4]
+   \   00000088   ........           LDR      R0,??DataTable34  ;; buffer
+   \   0000008C   0510A0E1           MOV      R1,R5
+   \   00000090   ........           _BLF     ??fn_add,??fn_add??rA
+    169              return 1;
+   \   00000094   0100A0E3           MOV      R0,#+1
+   \   00000098   08D08DE2           ADD      SP,SP,#+8
+   \   0000009C   7080BDE8           POP      {R4-R6,PC}
+    170            }
+    171            return 0;
+   \                     ??M_MoveCopy_1:
+   \   000000A0   0000A0E3           MOV      R0,#+0
+   \   000000A4   7080BDE8           POP      {R4-R6,PC}       ;; return
+    172          }
+    173          
+    174          //Buffer
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    175          FN_LIST buffer;
+   \                     buffer:
+   \   00000000                      DS8 12
+    176          
+    177          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    178          void S_Paste(void)
+    179          {
+    180            if (buffer.count)
+   \                     ??S_Paste:
+   \   00000000   ........           LDR      R0,??DataTable34  ;; buffer
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   A000000A           BEQ      ??S_Paste_1
+    181            {
+    182              int res=1;
+    183              Busy = 1;
+   \   00000014   ........           LDR      R0,??DataTable35  ;; Busy
+   \   00000018   0110A0E3           MOV      R1,#+1
+   \   0000001C   001080E5           STR      R1,[R0, #+0]
+    184              if (buffer.type == FNT_MOVE) progr_act = ind_moveing;
+   \   00000020   88029FE5           LDR      R0,??S_Paste_2   ;; buffer + 4
+   \   00000024   0140A0E3           MOV      R4,#+1
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   020050E3           CMP      R0,#+2
+   \   00000030   7C029F05           LDREQ    R0,??S_Paste_2+0x4  ;; progr_act
+   \   00000034   0A10A003           MOVEQ    R1,#+10
+   \   00000038   0500000A           BEQ      ??S_Paste_3
+    185              else if (buffer.type == FNT_COPY) progr_act = ind_copying;
+   \   0000003C   6C029FE5           LDR      R0,??S_Paste_2   ;; buffer + 4
+   \   00000040   000090E5           LDR      R0,[R0, #+0]
+   \   00000044   010050E3           CMP      R0,#+1
+   \   00000048   0200001A           BNE      ??S_Paste_4
+   \   0000004C   60029FE5           LDR      R0,??S_Paste_2+0x4  ;; progr_act
+   \   00000050   0910A0E3           MOV      R1,#+9
+   \                     ??S_Paste_3:
+   \   00000054   001080E5           STR      R1,[R0, #+0]
+    186              initprogr(progr_act);
+   \                     ??S_Paste_4:
+   \   00000058   54029FE5           LDR      R0,??S_Paste_2+0x4  ;; progr_act
+   \   0000005C   000090E5           LDR      R0,[R0, #+0]
+   \   00000060   ........           _BLF     ??initprogr,??initprogr??rA
+    187              
+    188              FN_ITM* itm = buffer.items;
+   \   00000064   4C029FE5           LDR      R0,??S_Paste_2+0x8  ;; buffer + 8
+   \   00000068   006090E5           LDR      R6,[R0, #+0]
+    189              FN_ITM* last_itm = itm;
+   \   0000006C   0650B0E1           MOVS     R5,R6
+   \   00000070   1100000A           BEQ      ??S_Paste_5
+    190              while(itm)
+    191              {
+    192                // progr_max+=itm->full[0]!=_CurPath[0] || buffer.type!=FNT_MOVE?GetFilesCnt(itm->full):1;
+    193                if (itm->ftype == TYPE_COMMON_DIR || itm->ftype == TYPE_COMMON_FILE)
+   \                     ??S_Paste_6:
+   \   00000074   000096E5           LDR      R0,[R6, #+0]
+   \   00000078   010050E3           CMP      R0,#+1
+   \   0000007C   00005013           CMPNE    R0,#+0
+   \   00000080   0500001A           BNE      ??S_Paste_7
+    194                  progr_max += GetFilesCnt(itm->full);
+   \   00000084   080096E5           LDR      R0,[R6, #+8]
+   \   00000088   ........           _BLF     ??GetFilesCnt,??GetFilesCnt??rA
+   \   0000008C   ........           LDR      R1,??DataTable24  ;; progr_max
+   \   00000090   002091E5           LDR      R2,[R1, #+0]
+   \   00000094   020080E0           ADD      R0,R0,R2
+   \   00000098   020000EA           B        ??S_Paste_8
+    195                else
+    196                  progr_max++; // Для зипа пока заглушка
+   \                     ??S_Paste_7:
+   \   0000009C   ........           LDR      R1,??DataTable24  ;; progr_max
+   \   000000A0   000091E5           LDR      R0,[R1, #+0]
+   \   000000A4   010080E2           ADD      R0,R0,#+1
+   \                     ??S_Paste_8:
+   \   000000A8   000081E5           STR      R0,[R1, #+0]
+    197                last_itm = itm;
+   \   000000AC   0650A0E1           MOV      R5,R6
+    198                itm = (FN_ITM *) itm->next;
+   \   000000B0   0C6096E5           LDR      R6,[R6, #+12]
+    199              }
+   \   000000B4   000056E3           CMP      R6,#+0
+   \   000000B8   EDFFFF1A           BNE      ??S_Paste_6
+    200              incprogr(0);
+   \                     ??S_Paste_5:
+   \   000000BC   0000A0E3           MOV      R0,#+0
+   \   000000C0   ........           _BLF     ??incprogr,??incprogr??rA
+    201              itm = buffer.items;
+   \   000000C4   EC019FE5           LDR      R0,??S_Paste_2+0x8  ;; buffer + 8
+   \   000000C8   006090E5           LDR      R6,[R0, #+0]
+    202              
+    203              ArchiveBufferExtractBegin();
+   \   000000CC   ........           _BLF     ??ArchiveBufferExtractBegin,??ArchiveBufferExtractBegin??rA
+   \   000000D0   010000EA           B        ??S_Paste_9
+    204              while(itm && !progr_stop)
+    205              {
+    206                if (itm->ftype == TYPE_COMMON_DIR || itm->ftype == TYPE_COMMON_FILE)
+    207                {
+    208                  wchar_t *sname = itm->full + itm->pname;
+    209                  snwprintf(pathbuf, MAXELEMS(pathbuf)-1, _ls_ls, _CurPath, sname);
+    210                  if (buffer.type == FNT_MOVE)
+    211                  {
+    212                    progr_act = ind_moveing;
+    213                    res &= fsmv(itm->full, pathbuf);
+   \                     ??S_Paste_10:
+   \   000000D4   044000E0           AND      R4,R0,R4
+    214                  }
+    215                  else if (buffer.type == FNT_COPY)
+    216                  {
+    217                    progr_act = ind_copying;
+    218                    res &= fscp(itm->full, pathbuf, 1);
+    219                  }
+    220                }
+    221                else if (itm->ftype == TYPE_ZIP_FILE || itm->ftype == TYPE_ZIP_DIR)
+    222                {
+    223                  // Пока обрабатываем только копирование
+    224                  if (buffer.type == FNT_COPY)
+    225                    res &= (ArchiveBufferExtract(ZIP_ARCH, itm, _CurPath) == UNZ_OK);
+    226                }
+    227                else if (itm->ftype == TYPE_7Z_FILE || itm->ftype == TYPE_7Z_DIR)
+    228                {
+    229                  // Пока обрабатываем только копирование
+    230                  if (buffer.type == FNT_COPY)
+    231                    res &= (ArchiveBufferExtract(_7Z_ARCH, itm, _CurPath) == UNZ_OK);
+    232                }
+    233                itm=(FN_ITM *)itm->next;
+   \                     ??S_Paste_11:
+   \   000000D8   0C6096E5           LDR      R6,[R6, #+12]
+   \                     ??S_Paste_9:
+   \   000000DC   000056E3           CMP      R6,#+0
+   \   000000E0   5700000A           BEQ      ??S_Paste_12
+   \   000000E4   D0019FE5           LDR      R0,??S_Paste_2+0xC  ;; progr_stop
+   \   000000E8   000090E5           LDR      R0,[R0, #+0]
+   \   000000EC   000050E3           CMP      R0,#+0
+   \   000000F0   5300001A           BNE      ??S_Paste_12
+   \   000000F4   000096E5           LDR      R0,[R6, #+0]
+   \   000000F8   010050E3           CMP      R0,#+1
+   \   000000FC   00005013           CMPNE    R0,#+0
+   \   00000100   2700001A           BNE      ??S_Paste_13
+   \   00000104   ........           LDR      R0,??DataTable32  ;; curtab
+   \   00000108   ........           LDR      R1,??DataTable33  ;; tabs
+   \   0000010C   000090E5           LDR      R0,[R0, #+0]
+   \   00000110   082096E5           LDR      R2,[R6, #+8]
+   \   00000114   000181E0           ADD      R0,R1,R0, LSL #+2
+   \   00000118   041096E5           LDR      R1,[R6, #+4]
+   \   0000011C   000090E5           LDR      R0,[R0, #+0]
+   \   00000120   811082E0           ADD      R1,R2,R1, LSL #+1
+   \   00000124   94219FE5           LDR      R2,??S_Paste_2+0x10  ;; _ls_ls
+   \   00000128   02002DE9           PUSH     {R1}
+   \   0000012C   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   00000130   810480E0           ADD      R0,R0,R1, LSL #+9
+   \   00000134   123080E2           ADD      R3,R0,#+18
+   \   00000138   ........           LDR      R0,??DataTable29  ;; pathbuf
+   \   0000013C   FF10A0E3           MOV      R1,#+255
+   \   00000140   150100EF           SWI      +277
+   \   00000144   64019FE5           LDR      R0,??S_Paste_2   ;; buffer + 4
+   \   00000148   000090E5           LDR      R0,[R0, #+0]
+   \   0000014C   04D08DE2           ADD      SP,SP,#+4
+   \   00000150   020050E3           CMP      R0,#+2
+   \   00000154   0600001A           BNE      ??S_Paste_14
+   \   00000158   54019FE5           LDR      R0,??S_Paste_2+0x4  ;; progr_act
+   \   0000015C   0A10A0E3           MOV      R1,#+10
+   \   00000160   001080E5           STR      R1,[R0, #+0]
+   \   00000164   ........           LDR      R1,??DataTable29  ;; pathbuf
+   \   00000168   080096E5           LDR      R0,[R6, #+8]
+   \   0000016C   ........           _BLF     ??fsmv,??fsmv??rA
+   \   00000170   D7FFFFEA           B        ??S_Paste_10
+   \                     ??S_Paste_14:
+   \   00000174   34019FE5           LDR      R0,??S_Paste_2   ;; buffer + 4
+   \   00000178   000090E5           LDR      R0,[R0, #+0]
+   \   0000017C   010050E3           CMP      R0,#+1
+   \   00000180   D4FFFF1A           BNE      ??S_Paste_11
+   \   00000184   28019FE5           LDR      R0,??S_Paste_2+0x4  ;; progr_act
+   \   00000188   0910A0E3           MOV      R1,#+9
+   \   0000018C   001080E5           STR      R1,[R0, #+0]
+   \   00000190   ........           LDR      R1,??DataTable29  ;; pathbuf
+   \   00000194   080096E5           LDR      R0,[R6, #+8]
+   \   00000198   0120A0E3           MOV      R2,#+1
+   \   0000019C   ........           _BLF     ??fscp,??fscp??rA
+   \   000001A0   CBFFFFEA           B        ??S_Paste_10
+   \                     ??S_Paste_13:
+   \   000001A4   020050E3           CMP      R0,#+2
+   \   000001A8   03005013           CMPNE    R0,#+3
+   \   000001AC   1200001A           BNE      ??S_Paste_15
+   \   000001B0   F8009FE5           LDR      R0,??S_Paste_2   ;; buffer + 4
+   \   000001B4   000090E5           LDR      R0,[R0, #+0]
+   \   000001B8   010050E3           CMP      R0,#+1
+   \   000001BC   C5FFFF1A           BNE      ??S_Paste_11
+   \   000001C0   ........           LDR      R0,??DataTable32  ;; curtab
+   \   000001C4   ........           LDR      R1,??DataTable33  ;; tabs
+   \   000001C8   000090E5           LDR      R0,[R0, #+0]
+   \   000001CC   000181E0           ADD      R0,R1,R0, LSL #+2
+   \   000001D0   000090E5           LDR      R0,[R0, #+0]
+   \   000001D4   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   000001D8   810480E0           ADD      R0,R0,R1, LSL #+9
+   \   000001DC   122080E2           ADD      R2,R0,#+18
+   \   000001E0   0610A0E1           MOV      R1,R6
+   \   000001E4   0100A0E3           MOV      R0,#+1
+   \                     ??S_Paste_16:
+   \   000001E8   ........           _BLF     ??ArchiveBufferExtract,??ArchiveBufferExtract??rA
+   \   000001EC   000050E3           CMP      R0,#+0
+   \   000001F0   0000A013           MOVNE    R0,#+0
+   \   000001F4   0100A003           MOVEQ    R0,#+1
+   \   000001F8   B5FFFFEA           B        ??S_Paste_10
+   \                     ??S_Paste_15:
+   \   000001FC   040050E3           CMP      R0,#+4
+   \   00000200   05005013           CMPNE    R0,#+5
+   \   00000204   B3FFFF1A           BNE      ??S_Paste_11
+   \   00000208   A0009FE5           LDR      R0,??S_Paste_2   ;; buffer + 4
+   \   0000020C   000090E5           LDR      R0,[R0, #+0]
+   \   00000210   010050E3           CMP      R0,#+1
+   \   00000214   AFFFFF1A           BNE      ??S_Paste_11
+   \   00000218   ........           LDR      R0,??DataTable32  ;; curtab
+   \   0000021C   ........           LDR      R1,??DataTable33  ;; tabs
+   \   00000220   000090E5           LDR      R0,[R0, #+0]
+   \   00000224   000181E0           ADD      R0,R1,R0, LSL #+2
+   \   00000228   000090E5           LDR      R0,[R0, #+0]
+   \   0000022C   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   00000230   810480E0           ADD      R0,R0,R1, LSL #+9
+   \   00000234   122080E2           ADD      R2,R0,#+18
+   \   00000238   0610A0E1           MOV      R1,R6
+   \   0000023C   0200A0E3           MOV      R0,#+2
+   \   00000240   E8FFFFEA           B        ??S_Paste_16
+    234              }
+    235              ArchiveBufferExtractEnd();
+   \                     ??S_Paste_12:
+   \   00000244   ........           _BLF     ??ArchiveBufferExtractEnd,??ArchiveBufferExtractEnd??rA
+    236              
+    237              if (!res)
+   \   00000248   000054E3           CMP      R4,#+0
+   \   0000024C   0400001A           BNE      ??S_Paste_17
+    238                MMIPROC(MsgBoxErrorMmi,  (int)muitxt(ind_err_resnok));
+   \   00000250   5200A0E3           MOV      R0,#+82
+   \   00000254   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000258   0010A0E1           MOV      R1,R0
+   \   0000025C   60009FE5           LDR      R0,??S_Paste_2+0x14  ;; ??MsgBoxErrorMmi
+   \   00000260   090100EF           SWI      +265
+    239          
+    240              UpdateAll();
+   \                     ??S_Paste_17:
+   \   00000264   ........           _BLF     ??UpdateAll,??UpdateAll??rA
+    241              
+    242              
+    243              //Ищем первый файл
+    244              int ind = GetCurTabFileIndex(GetFileName(last_itm->full));
+   \   00000268   080095E5           LDR      R0,[R5, #+8]
+   \   0000026C   ........           _BLF     ??GetFileName,??GetFileName??rA
+   \   00000270   ........           _BLF     ??GetCurTabFileIndex,??GetCurTabFileIndex??rA
+    245              SetCurTabIndex(ind, 0);
+   \   00000274   0010A0E3           MOV      R1,#+0
+   \   00000278   ........           _BLF     ??SetCurTabIndex,??SetCurTabIndex??rA
+    246              fn_free(&buffer);
+   \   0000027C   ........           LDR      R0,??DataTable34  ;; buffer
+   \   00000280   ........           _BLF     ??fn_free,??fn_free??rA
+    247              
+    248              endprogr();
+   \   00000284   ........           _BLF     ??endprogr,??endprogr??rA
+    249              Busy = 0;
+   \   00000288   ........           LDR      R0,??DataTable35  ;; Busy
+   \   0000028C   0010A0E3           MOV      R1,#+0
+   \   00000290   001080E5           STR      R1,[R0, #+0]
+   \   00000294   7080BDE8           POP      {R4-R6,PC}
+    250            }
+    251            else
+    252              MMIPROC(MsgBoxErrorMmi, (int)muitxt(ind_err_nofiles));
+   \                     ??S_Paste_1:
+   \   00000298   5300A0E3           MOV      R0,#+83
+   \   0000029C   ........           _BLF     ??muitxt,??muitxt??rA
+   \   000002A0   0010A0E1           MOV      R1,R0
+   \   000002A4   18009FE5           LDR      R0,??S_Paste_2+0x14  ;; ??MsgBoxErrorMmi
+   \   000002A8   090100EF           SWI      +265
+    253          }
+   \   000002AC   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??S_Paste_2:
+   \   000002B0   ........           DC32     buffer + 4
+   \   000002B4   ........           DC32     progr_act
+   \   000002B8   ........           DC32     buffer + 8
+   \   000002BC   ........           DC32     progr_stop
+   \   000002C0   ........           DC32     _ls_ls
+   \   000002C4   ........           DC32     ??MsgBoxErrorMmi
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable24:
+   \   00000000   ........           DC32     progr_max
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable29:
+   \   00000000   ........           DC32     pathbuf
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable32:
+   \   00000000   ........           DC32     curtab
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable33:
+   \   00000000   ........           DC32     tabs
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable34:
+   \   00000000   ........           DC32     buffer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable35:
+   \   00000000   ........           DC32     Busy
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x6c\\x73\\x5c">`:
+   \   00000000   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 5CH, 0
+   \              5C00        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+    254          
+    255          
+
+   Maximum stack usage in bytes:
+
+     Function                      CSTACK
+     --------                      ------
+     M_Delit(FILEINF *, int)          12
+     M_FileCnt(FILEINF *, int)        12
+     M_MoveCopy(FILEINF *, int)       24
+     MsgBoxErrorMmi(int)               4
+     S_Delit()                        12
+     S_Paste()                        20
+     _NewDir(wchar_t *)                8
+     cd(int, wchar_t const *, int)   572
+     cdsys(wchar_t *)                  4
+     isDir(int, wchar_t const *)      48
+     isdir(wchar_t const *)           44
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     isdir(wchar_t const *)           32
+     isDir(int, wchar_t const *)      56
+     MsgBoxErrorMmi(int)               4
+     cd(int, wchar_t const *, int)   304
+     cdsys(wchar_t *)                 64
+     _NewDir(wchar_t *)              100
+     M_Delit(FILEINF *, int)          80
+     M_FileCnt(FILEINF *, int)        52
+     S_Delit()                       228
+     M_MoveCopy(FILEINF *, int)      168
+     buffer                           12
+     S_Paste()                       712
+     ??DataTable24                     4
+     ??DataTable29                     4
+     ??DataTable32                     4
+     ??DataTable33                     4
+     ??DataTable34                     4
+     ??DataTable35                     4
+     ?<Constant L"\x25\x6c\x73\x5c">
+                                      12
+      Others                         380
+
+ 
+ 2 192 bytes in segment CODE
+    12 bytes in segment DATA_C
+    12 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 1 824 bytes of CODE  memory (+ 380 bytes shared)
+    12 bytes of CONST memory
+    12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,825 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:25 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\m #
+#                       ain.cpp                                              #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\m #
+#                       ain.cpp -D NDEBUG -D OLDFUNCTIONS -lC                #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\main.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\main.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\main.cpp
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "header\lng.h"
+      6          #include "header\process.h"
+      7          
+      8          extern int fsize;
+      9          extern wchar_t *extFolder;
+     10          extern wchar_t *intFolder;
+     11          extern MyBOOK *ECBook;
+     12          extern LIST *events;
+     13          
+     14          void action_processor(EVENT *ev);
+     15          void event_checkdate(EVENT *ev);
+     16          
+     17          int lng_load(wchar_t *path, wchar_t *name);
+     18          void destroy_innative_lng();
+     19          
+     20          void InitializeFolders();
+     21          int InitializeEvents(MyBOOK *myBook);
+     22          
+     23          MyBOOK * EC_Create();
+     24          void ECBook_OnClose(BOOK * book);
+     25          void elf_exit(void);
+     26          
+     27          GUI_LIST *create_ed(BOOK *book);
+     28          void mbox_Create(BOOK * bk, wchar_t *text, int min, bool vibra);
+     29          void CreateReminder(BOOK * bk, wchar_t *text, wchar_t *utext, wchar_t *time, bool vibra, bool);
+     30          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     31          PROCESS proc_=0;
+     32          
+     33          wchar_t oldcell[10]=L"old";
+     34          wchar_t ccell[10];
+     35          
+     36          DATETIME dt;
+     37          wchar_t year;
+   \                     year:
+   \   00000000                      DS8 2
+   \   00000002                      REQUIRE `?<Initializer for year>`
+     38          char month, day, DayOfTheWeek, h, m, s, isWeekend;
+     39          
+     40          u16 EventTimer;
+   \                     EventTimer:
+   \   00000002                      DS8 2
+   \   00000004                      REQUIRE `?<Initializer for EventTimer>`
+   \                     dt:
+   \   00000004                      DS8 8
+   \   0000000C                      REQUIRE `?<Initializer for dt>`
+   \                     proc_:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for proc_>`
+   \                     month:
+   \   00000010                      DS8 1
+   \   00000011                      REQUIRE `?<Initializer for month>`
+   \                     day:
+   \   00000011                      DS8 1
+   \   00000012                      REQUIRE `?<Initializer for day>`
+   \                     DayOfTheWeek:
+   \   00000012                      DS8 1
+   \   00000013                      REQUIRE `?<Initializer for DayOfTheWeek>`
+   \                     h:
+   \   00000013                      DS8 1
+   \   00000014                      REQUIRE `?<Initializer for h>`
+   \                     m:
+   \   00000014                      DS8 1
+   \   00000015                      REQUIRE `?<Initializer for m>`
+   \                     s:
+   \   00000015                      DS8 1
+   \   00000016                      REQUIRE `?<Initializer for s>`
+   \                     isWeekend:
+   \   00000016                      DS8 1
+   \   00000017                      REQUIRE `?<Initializer for isWeekend>`
+   \   00000017                      DS8 1
+   \                     oldcell:
+   \   00000018                      DS8 20
+   \   0000002C                      REQUIRE `?<Initializer for oldcell>`
+   \                     ccell:
+   \   0000002C                      DS8 20
+   \   00000040                      REQUIRE `?<Initializer for ccell>`
+     41          
+     42          void SUBPROC_(void(*PROC)(int,void*),int p1 , void * p2);
+     43          #pragma swi_number=0x109
+     44          __swi __arm  void MMIPROC (void(*PROC)(EVENT *), EVENT *);
+     45          
+     46          /*
+     47          *===========================================================================
+     48          *                 Функция обновления текущего времени
+     49          *===========================================================================
+     50          * 1) Получение времени и запись в глобальные переменные
+     51          * 2) Определение дня недели и запись в глобальные переменные
+     52          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     53          void DateAndTime_Update(int fullinit)
+     54          {
+   \                     ??DateAndTime_Update:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     55            REQUEST_DATEANDTIME_GET(0,&dt);
+   \   00000004   0C419FE5           LDR      R4,??DateAndTime_Update_1  ;; year
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   041084E2           ADD      R1,R4,#+4
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   6E0100EF           SWI      +366
+     56            h=dt.time.hour;
+   \   00000018   0800D4E5           LDRB     R0,[R4, #+8]
+     57            m=dt.time.min;
+     58            s=dt.time.sec;
+     59            if (fullinit)
+   \   0000001C   000055E3           CMP      R5,#+0
+   \   00000020   1300C4E5           STRB     R0,[R4, #+19]
+   \   00000024   0900D4E5           LDRB     R0,[R4, #+9]
+   \   00000028   1400C4E5           STRB     R0,[R4, #+20]
+   \   0000002C   0A00D4E5           LDRB     R0,[R4, #+10]
+   \   00000030   1500C4E5           STRB     R0,[R4, #+21]
+   \   00000034   3080BD08           POPEQ    {R4,R5,PC}
+     60            {
+     61              year=dt.date.year;
+     62              month=dt.date.mon;
+   \   00000038   0600D4E5           LDRB     R0,[R4, #+6]
+   \   0000003C   B420D4E1           LDRH     R2,[R4, #+4]
+     63              day=dt.date.day;
+   \   00000040   0730D4E5           LDRB     R3,[R4, #+7]
+     64              int a;
+     65              int b;
+     66              int c;
+     67              a=(14-month)/12;
+   \   00000044   D0509FE5           LDR      R5,??DateAndTime_Update_1+0x4  ;; 0x2aaaaaab
+   \   00000048   0E1060E2           RSB      R1,R0,#+14
+   \   0000004C   95C1CEE0           SMULL    R12,LR,R5,R1
+   \   00000050   B020C4E1           STRH     R2,[R4, #+0]
+   \   00000054   1130C4E5           STRB     R3,[R4, #+17]
+   \   00000058   CEE0A0E1           ASR      LR,LR,#+1
+   \   0000005C   A11F8EE0           ADD      R1,LR,R1, LSR #+31
+     68              b=year-a;
+   \   00000060   012042E0           SUB      R2,R2,R1
+     69              c=month+12*a-2;
+     70              DayOfTheWeek=(day+b+(b/4)-(b/100)+(b/400)+(31*c/12))%7;
+   \   00000064   033082E0           ADD      R3,R2,R3
+   \   00000068   C250A0E1           ASR      R5,R2,#+1
+   \   0000006C   255F82E0           ADD      R5,R2,R5, LSR #+30
+   \   00000070   453183E0           ADD      R3,R3,R5, ASR #+2
+   \   00000074   A4509FE5           LDR      R5,??DateAndTime_Update_1+0x8  ;; 0x51eb851f
+   \   00000078   1000C4E5           STRB     R0,[R4, #+16]
+   \   0000007C   95C2CEE0           SMULL    R12,LR,R5,R2
+   \   00000080   CEE2A0E1           ASR      LR,LR,#+5
+   \   00000084   A25F8EE0           ADD      R5,LR,R2, LSR #+31
+   \   00000088   053043E0           SUB      R3,R3,R5
+   \   0000008C   8C509FE5           LDR      R5,??DateAndTime_Update_1+0x8  ;; 0x51eb851f
+   \   00000090   95C2CEE0           SMULL    R12,LR,R5,R2
+   \   00000094   CEE3A0E1           ASR      LR,LR,#+7
+   \   00000098   A22F8EE0           ADD      R2,LR,R2, LSR #+31
+   \   0000009C   032082E0           ADD      R2,R2,R3
+   \   000000A0   0C30A0E3           MOV      R3,#+12
+   \   000000A4   930120E0           MLA      R0,R3,R1,R0
+   \   000000A8   6C109FE5           LDR      R1,??DateAndTime_Update_1+0x4  ;; 0x2aaaaaab
+   \   000000AC   020040E2           SUB      R0,R0,#+2
+   \   000000B0   800260E0           RSB      R0,R0,R0, LSL #+5
+   \   000000B4   9130C5E0           SMULL    R3,R5,R1,R0
+   \   000000B8   64109FE5           LDR      R1,??DateAndTime_Update_1+0xC  ;; 0xffffffff92492493
+   \   000000BC   C550A0E1           ASR      R5,R5,#+1
+   \   000000C0   A00F85E0           ADD      R0,R5,R0, LSR #+31
+   \   000000C4   020080E0           ADD      R0,R0,R2
+   \   000000C8   9021C3E0           SMULL    R2,R3,R0,R1
+   \   000000CC   0720A0E3           MOV      R2,#+7
+   \   000000D0   003083E0           ADD      R3,R3,R0
+   \   000000D4   4331A0E1           ASR      R3,R3,#+2
+   \   000000D8   A03F83E0           ADD      R3,R3,R0, LSR #+31
+   \   000000DC   920303E0           MUL      R3,R2,R3
+   \   000000E0   030040E0           SUB      R0,R0,R3
+     71              if (DayOfTheWeek>0)
+   \   000000E4   FF0010E2           ANDS     R0,R0,#0xFF
+     72                DayOfTheWeek--;
+   \   000000E8   01004012           SUBNE    R0,R0,#+1
+     73              else if (DayOfTheWeek==0)
+     74                DayOfTheWeek=6;
+   \   000000EC   0600A003           MOVEQ    R0,#+6
+   \   000000F0   1200C4E5           STRB     R0,[R4, #+18]
+     75              if (DayOfTheWeek==5||DayOfTheWeek==6)
+   \   000000F4   FF0000E2           AND      R0,R0,#0xFF
+   \   000000F8   050050E3           CMP      R0,#+5
+   \   000000FC   06005013           CMPNE    R0,#+6
+     76                isWeekend=true;
+   \   00000100   0100A003           MOVEQ    R0,#+1
+   \   00000104   1600C405           STRBEQ   R0,[R4, #+22]
+   \   00000108   3080BD08           POPEQ    {R4,R5,PC}
+     77              else 
+     78                isWeekend=false;
+   \   0000010C   0000A0E3           MOV      R0,#+0
+   \   00000110   1600C4E5           STRB     R0,[R4, #+22]
+     79            }
+     80          };
+   \   00000114   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??DateAndTime_Update_1:
+   \   00000118   ........           DC32     year
+   \   0000011C   ABAAAA2A           DC32     0x2aaaaaab
+   \   00000120   1F85EB51           DC32     0x51eb851f
+   \   00000124   93244992           DC32     0xffffffff92492493
+     81          
+     82          /*
+     83          *===========================================================================
+     84          *               Функция определения текущих событий (по таймеру)
+     85          *===========================================================================
+     86          * 1) Определение GPS-координат и подборка соответствующих событий
+     87          * 2) Вызов выполнения событий по времени
+     88          */ 
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          void sub_launcher(int need_to_watch, void *)
+     90          {
+   \                     ??sub_launcher:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+     91            if (!events) return;
+   \   00000004   ........           LDR      R5,??DataTable2  ;; events
+   \   00000008   14D04DE2           SUB      SP,SP,#+20
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   000095E5           LDR      R0,[R5, #+0]
+   \   00000014   000050E3           CMP      R0,#+0
+     92            if (events->FirstFree)
+   \   00000018   B200D011           LDRHNE   R0,[R0, #+2]
+   \   0000001C   00005013           CMPNE    R0,#+0
+   \   00000020   2B00000A           BEQ      ??sub_launcher_1
+     93            {
+     94              int x=0;
+     95              for (x=0;x<events->FirstFree;x++)
+   \   00000024   ........           LDR      R8,??DataTable5  ;; year
+   \   00000028   0060A0E3           MOV      R6,#+0
+   \   0000002C   090000EA           B        ??sub_launcher_2
+     96              {
+     97                if (EVENT *ev=(EVENT*)List_Get(events,x))
+     98                {
+     99                  if (ev->dtype==2 && need_to_watch && ev->days[DayOfTheWeek])
+    100                  {
+    101                    wchar_t str[10];
+    102                    str2wstr(str,ev->gps);
+    103                    if (wstrcmp(ccell,str)==0)
+    104                      MMIPROC(action_processor, ev);
+    105                    need_to_watch=false;
+    106                  }
+    107                  else
+    108                  {
+    109                    if (ev->done==false || ev->after_done==false || ev->before_done==false)
+   \                     ??sub_launcher_3:
+   \   00000030   0000D7E5           LDRB     R0,[R7, #+0]
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   4C00D715           LDRBNE   R0,[R7, #+76]
+   \   0000003C   00005013           CMPNE    R0,#+0
+   \   00000040   4D00D715           LDRBNE   R0,[R7, #+77]
+   \   00000044   00005013           CMPNE    R0,#+0
+   \   00000048   0100001A           BNE      ??sub_launcher_4
+    110                      event_checkdate(ev);
+   \   0000004C   0700A0E1           MOV      R0,R7
+   \   00000050   ........           _BLF     ??event_checkdate,??event_checkdate??rA
+    111                  }
+   \                     ??sub_launcher_4:
+   \   00000054   016086E2           ADD      R6,R6,#+1
+   \                     ??sub_launcher_2:
+   \   00000058   000095E5           LDR      R0,[R5, #+0]
+   \   0000005C   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000060   010056E1           CMP      R6,R1
+   \   00000064   1A0000AA           BGE      ??sub_launcher_1
+   \   00000068   0610A0E1           MOV      R1,R6
+   \   0000006C   AD0100EF           SWI      +429
+   \   00000070   0070B0E1           MOVS     R7,R0
+   \   00000074   F6FFFF0A           BEQ      ??sub_launcher_4
+   \   00000078   640097E5           LDR      R0,[R7, #+100]
+   \   0000007C   020050E3           CMP      R0,#+2
+   \   00000080   EAFFFF1A           BNE      ??sub_launcher_3
+   \   00000084   000054E3           CMP      R4,#+0
+   \   00000088   E8FFFF0A           BEQ      ??sub_launcher_3
+   \   0000008C   1200D8E5           LDRB     R0,[R8, #+18]
+   \   00000090   000187E0           ADD      R0,R7,R0, LSL #+2
+   \   00000094   700090E5           LDR      R0,[R0, #+112]
+   \   00000098   000050E3           CMP      R0,#+0
+   \   0000009C   E3FFFF0A           BEQ      ??sub_launcher_3
+   \   000000A0   A01097E5           LDR      R1,[R7, #+160]
+   \   000000A4   0D00A0E1           MOV      R0,SP
+   \   000000A8   580100EF           SWI      +344
+   \   000000AC   0D10A0E1           MOV      R1,SP
+   \   000000B0   2C0088E2           ADD      R0,R8,#+44
+   \   000000B4   560100EF           SWI      +342
+   \   000000B8   000050E3           CMP      R0,#+0
+   \   000000BC   0200001A           BNE      ??sub_launcher_5
+   \   000000C0   14009FE5           LDR      R0,??sub_launcher_6  ;; ??action_processor
+   \   000000C4   0710A0E1           MOV      R1,R7
+   \   000000C8   090100EF           SWI      +265
+   \                     ??sub_launcher_5:
+   \   000000CC   0040A0E3           MOV      R4,#+0
+   \   000000D0   DFFFFFEA           B        ??sub_launcher_4
+    112                }
+    113              }
+    114            }
+   \                     ??sub_launcher_1:
+   \   000000D4   14D08DE2           ADD      SP,SP,#+20       ;; stack cleaning
+   \   000000D8   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??sub_launcher_6:
+   \   000000DC   ........           DC32     ??action_processor
+    115          };
+    116          
+    117          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    118          void onEventTimer(u16 timerID, LPARAM lparam)
+    119          {
+    120            if (!events)goto loc_ret;
+   \                     ??onEventTimer:
+   \   00000000   ........           LDR      R0,??DataTable2  ;; events
+   \   00000004   60402DE9           PUSH     {R5,R6,LR}
+   \   00000008   ........           LDR      R5,??DataTable5  ;; year
+   \   0000000C   28D04DE2           SUB      SP,SP,#+40
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   2400000A           BEQ      ??onEventTimer_1
+    121            if (m==0 && s==0)
+   \   0000001C   1400D5E5           LDRB     R0,[R5, #+20]
+    122              DateAndTime_Update(1);
+    123            else 
+    124              DateAndTime_Update(0);
+    125            
+    126            bool need_to_watch=false;
+   \   00000020   0060A0E3           MOV      R6,#+0
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   1500D505           LDRBEQ   R0,[R5, #+21]
+   \   0000002C   00005003           CMPEQ    R0,#+0
+   \   00000030   0100A003           MOVEQ    R0,#+1
+   \   00000034   0000A013           MOVNE    R0,#+0
+   \   00000038   ........           BL       ??DateAndTime_Update
+    127            PLMN_LAC_DESC plmn_lac;
+    128            RAT_CI_DESC rat_ci;
+    129            char CSReg;
+    130            if (get_CellData(&plmn_lac,&rat_ci,&CSReg))
+   \   0000003C   0D20A0E1           MOV      R2,SP
+   \   00000040   10108DE2           ADD      R1,SP,#+16
+   \   00000044   04008DE2           ADD      R0,SP,#+4
+   \   00000048   240300EF           SWI      +804
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   1200000A           BEQ      ??onEventTimer_2
+    131            {
+    132              snwprintf(ccell,9,L"%04X-%04X", plmn_lac.LAC[0]<<8|plmn_lac.LAC[1], rat_ci.CI);
+   \   00000054   14009DE5           LDR      R0,[SP, #+20]
+   \   00000058   6C209FE5           LDR      R2,??onEventTimer_3  ;; `?<Constant L"\\x25\\x30\\x34\\x58\\x2d\\x25\\x30\\x34\\`
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   1110DDE5           LDRB     R1,[SP, #+17]
+   \   00000064   1000DDE5           LDRB     R0,[SP, #+16]
+   \   00000068   003481E1           ORR      R3,R1,R0, LSL #+8
+   \   0000006C   0910A0E3           MOV      R1,#+9
+   \   00000070   2C0085E2           ADD      R0,R5,#+44
+   \   00000074   150100EF           SWI      +277
+    133              if (wstrcmp(oldcell,ccell))
+   \   00000078   2C1085E2           ADD      R1,R5,#+44
+   \   0000007C   180085E2           ADD      R0,R5,#+24
+   \   00000080   560100EF           SWI      +342
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   04D08DE2           ADD      SP,SP,#+4
+   \   0000008C   0300000A           BEQ      ??onEventTimer_2
+    134              {
+    135                need_to_watch=true;
+    136                wstrcpy(oldcell,ccell);
+   \   00000090   2C1085E2           ADD      R1,R5,#+44
+   \   00000094   180085E2           ADD      R0,R5,#+24
+   \   00000098   520100EF           SWI      +338
+   \   0000009C   0160A0E3           MOV      R6,#+1
+    137              }
+    138            }
+    139            SUBPROC_(sub_launcher,need_to_watch,0);
+   \                     ??onEventTimer_2:
+   \   000000A0   28009FE5           LDR      R0,??onEventTimer_3+0x4  ;; ??sub_launcher
+   \   000000A4   0020A0E3           MOV      R2,#+0
+   \   000000A8   0610A0E1           MOV      R1,R6
+   \   000000AC   ........           _BLF     ??SUBPROC_,??SUBPROC_??rA
+    140          loc_ret:
+    141            Timer_ReSet(&EventTimer, 1000, onEventTimer, 0);
+   \                     ??onEventTimer_1:
+   \   000000B0   ........           LDR      R2,??DataTable6  ;; ??onEventTimer
+   \   000000B4   0030A0E3           MOV      R3,#+0
+   \   000000B8   FA1FA0E3           MOV      R1,#+1000
+   \   000000BC   020085E2           ADD      R0,R5,#+2
+   \   000000C0   280100EF           SWI      +296
+    142          };
+   \   000000C4   28D08DE2           ADD      SP,SP,#+40
+   \   000000C8   6080BDE8           POP      {R5,R6,PC}
+   \                     ??onEventTimer_3:
+   \   000000CC   ........           DC32     `?<Constant L"\\x25\\x30\\x34\\x58\\x2d\\x25\\x30\\x34\\`
+   \   000000D0   ........           DC32     ??sub_launcher
+    143          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    144          int isEVBookByName(BOOK *bk)
+    145          {
+    146            if (strcmp(bk->xbook->name,"EventControl")==0)return 1;
+   \                     ??isEVBookByName:
+   \   00000000   20109FE5           LDR      R1,??isEVBookByName_1  ;; `?<Constant "EventControl">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   590100EF           SWI      +345
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100A003           MOVEQ    R0,#+1
+   \   0000001C   0080BD08           POPEQ    {PC}
+    147            return 0;
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+   \                     ??isEVBookByName_1:
+   \   00000028   ........           DC32     `?<Constant "EventControl">`
+    148          };
+    149          
+    150          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    151          inline void getfilesize(wchar_t *elfpath)
+    152          {
+   \                     ??getfilesize:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   1CD04DE2           SUB      SP,SP,#+28
+   \   00000008   80DE4DE2           SUB      SP,SP,#+2048
+   \   0000000C   0040A0E1           MOV      R4,R0
+    153            wchar_t path[512];
+    154            wchar_t name[512];
+    155            wstrcpy(path,elfpath);
+   \   00000010   0410A0E1           MOV      R1,R4
+   \   00000014   0D00A0E1           MOV      R0,SP
+   \   00000018   520100EF           SWI      +338
+    156            *(wstrrchr(path,L'/'))=0;
+   \   0000001C   2F10A0E3           MOV      R1,#+47
+   \   00000020   0D00A0E1           MOV      R0,SP
+   \   00000024   AE0100EF           SWI      +430
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   B010C0E1           STRH     R1,[R0, #+0]
+    157            wstrcpy(name,wstrrchr(elfpath,L'/'));
+   \   00000030   2F10A0E3           MOV      R1,#+47
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   AE0100EF           SWI      +430
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   400E8DE2           ADD      R0,SP,#+1024
+   \   00000044   520100EF           SWI      +338
+    158            wchar_t *name2=name;
+    159            name2++;
+    160            FSTAT fst;
+    161            if (fstat(path,name2,&fst)==0)
+   \   00000048   802E8DE2           ADD      R2,SP,#+2048
+   \   0000004C   02108DE2           ADD      R1,SP,#+2
+   \   00000050   401E81E2           ADD      R1,R1,#+1024
+   \   00000054   0D00A0E1           MOV      R0,SP
+   \   00000058   1C0100EF           SWI      +284
+   \   0000005C   000050E3           CMP      R0,#+0
+    162            {
+    163              fsize=fst.fsize;
+   \   00000060   10009F05           LDREQ    R0,??getfilesize_1  ;; fsize
+   \   00000064   08189D05           LDREQ    R1,[SP, #+2056]
+   \   00000068   00108005           STREQ    R1,[R0, #+0]
+    164            }
+    165          };
+   \   0000006C   1CD08DE2           ADD      SP,SP,#+28
+   \   00000070   80DE8DE2           ADD      SP,SP,#+2048
+   \   00000074   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??getfilesize_1:
+   \   00000078   ........           DC32     fsize
+    166          
+    167          /*
+    168          *===========================================================================
+    169          *            Функция запуска эльфа.
+    170          *===========================================================================
+    171          * 1) Создание книги
+    172          * 2) Чтение файла событий
+    173          * 3) Первичное полное обновление времени
+    174          * 4) Создание процесса и таймера
+    175          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    176          int main(wchar_t *elfpath)
+    177          {
+   \                     main:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    178            trace_init();
+    179            getfilesize(elfpath);
+    180            InitializeFolders();
+    181            wchar_t str[50];
+    182            char *st=lang_get_name(get_system_langID());
+    183            str2wstr(str,st);
+    184            wstrcat(str,L".cfg");
+   \   00000004   E8419FE5           LDR      R4,??main_0+0x4  ;; `?<Constant L"\\x2e\\x63\\x66\\x67">`
+    185            if (lng_load(extFolder, str))
+   \   00000008   E8619FE5           LDR      R6,??main_0+0x8  ;; extFolder
+   \   0000000C   E8519FE5           LDR      R5,??main_0+0xC  ;; intFolder
+   \   00000010   64D04DE2           SUB      SP,SP,#+100
+   \   00000014   ........           _BLF     ??getfilesize,??getfilesize??rA
+   \   00000018   ........           _BLF     ??InitializeFolders,??InitializeFolders??rA
+   \   0000001C   F50200EF           SWI      +757
+   \   00000020   F60200EF           SWI      +758
+   \   00000024   0070A0E1           MOV      R7,R0
+   \   00000028   0710A0E1           MOV      R1,R7
+   \   0000002C   0D00A0E1           MOV      R0,SP
+   \   00000030   580100EF           SWI      +344
+   \   00000034   0410A0E1           MOV      R1,R4
+   \   00000038   0D00A0E1           MOV      R0,SP
+   \   0000003C   540100EF           SWI      +340
+   \   00000040   000096E5           LDR      R0,[R6, #+0]
+   \   00000044   0D10A0E1           MOV      R1,SP
+   \   00000048   ........           _BLF     ??lng_load,??lng_load??rA
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   1100000A           BEQ      ??main_1
+    186            {
+    187              if (lng_load(intFolder, str))
+   \   00000054   000095E5           LDR      R0,[R5, #+0]
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   ........           _BLF     ??lng_load,??lng_load??rA
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   0C00000A           BEQ      ??main_1
+    188              {
+    189                if (strcmp(st,"ru"))
+   \   00000068   601F8FE2           ADR      R1,??main_0      ;; "ru"
+   \   0000006C   0700A0E1           MOV      R0,R7
+   \   00000070   590100EF           SWI      +345
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0700000A           BEQ      ??main_1
+    190                {
+    191                  if (lng_load(extFolder, L"en.cfg"))
+   \   0000007C   000096E5           LDR      R0,[R6, #+0]
+   \   00000080   0C1084E2           ADD      R1,R4,#+12
+   \   00000084   ........           _BLF     ??lng_load,??lng_load??rA
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0200000A           BEQ      ??main_1
+    192                  {
+    193                    lng_load(intFolder, L"en.cfg");
+   \   00000090   000095E5           LDR      R0,[R5, #+0]
+   \   00000094   0C1084E2           ADD      R1,R4,#+12
+   \   00000098   ........           _BLF     ??lng_load,??lng_load??rA
+    194                  }
+    195                }
+    196              }
+    197            }
+    198            if (FindBook(isEVBookByName))
+   \                     ??main_1:
+   \   0000009C   5C019FE5           LDR      R0,??main_0+0x10  ;; ??isEVBookByName
+   \   000000A0   5C819FE5           LDR      R8,??main_0+0x14  ;; lng
+   \   000000A4   5C719FE5           LDR      R7,??main_0+0x18  ;; ??elf_exit
+   \   000000A8   300100EF           SWI      +304
+   \   000000AC   000050E3           CMP      R0,#+0
+   \   000000B0   1700000A           BEQ      ??main_2
+    199            {
+    200              MessageBox(EMPTY_TEXTID, TextID_Create(lng[LNG_ALREADY_RUNNED],ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 0, 0);
+   \   000000B4   000098E5           LDR      R0,[R8, #+0]
+   \   000000B8   FF40A0E3           MOV      R4,#+255
+   \   000000BC   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   000000C0   0420A0E1           MOV      R2,R4
+   \   000000C4   0010A0E3           MOV      R1,#+0
+   \   000000C8   5D0100EF           SWI      +349
+   \   000000CC   0010A0E1           MOV      R1,R0
+   \   000000D0   0000A0E3           MOV      R0,#+0
+   \   000000D4   01002DE9           PUSH     {R0}
+   \   000000D8   01002DE9           PUSH     {R0}
+   \   000000DC   0130A0E3           MOV      R3,#+1
+   \   000000E0   0420A0E1           MOV      R2,R4
+   \   000000E4   9004E0E3           MVN      R0,#-1879048192
+   \   000000E8   570200EF           SWI      +599
+    201              delete(extFolder);
+   \   000000EC   000096E5           LDR      R0,[R6, #+0]
+   \   000000F0   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    202              delete(intFolder);
+   \   000000F4   000095E5           LDR      R0,[R5, #+0]
+   \   000000F8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    203              destroy_innative_lng();
+   \   000000FC   ........           _BLF     ??destroy_innative_lng,??destroy_innative_lng??rA
+    204              SUBPROC(elf_exit);
+   \   00000100   0700A0E1           MOV      R0,R7
+   \   00000104   080100EF           SWI      +264
+    205              return 0;
+   \   00000108   0000A0E3           MOV      R0,#+0
+   \   0000010C   08D08DE2           ADD      SP,SP,#+8
+   \   00000110   2A0000EA           B        ??main_3
+    206            }
+    207            MyBOOK *bk=EC_Create();
+   \                     ??main_2:
+   \   00000114   ........           _BLF     ??EC_Create,??EC_Create??rA
+   \   00000118   0090B0E1           MOVS     R9,R0
+    208            if (bk)
+   \   0000011C   2900000A           BEQ      ??main_4
+    209            {
+    210              bk->indpath=0;
+   \   00000120   0050A0E3           MOV      R5,#+0
+   \   00000124   3C5089E5           STR      R5,[R9, #+60]
+    211              bk->indname=0;
+   \   00000128   405089E5           STR      R5,[R9, #+64]
+    212              int getfw();
+    213              getfw();
+   \   0000012C   ........           _BLF     ??getfw,??getfw??rA
+    214              if (InitializeEvents(bk)==0)
+   \   00000130   0900A0E1           MOV      R0,R9
+   \   00000134   ........           _BLF     ??InitializeEvents,??InitializeEvents??rA
+   \   00000138   000050E3           CMP      R0,#+0
+   \   0000013C   0400001A           BNE      ??main_5
+    215                mbox_Create(&bk->bk, lng[LNG_NOFILE], 0, false);
+   \   00000140   0C1098E5           LDR      R1,[R8, #+12]
+   \   00000144   0030A0E3           MOV      R3,#+0
+   \   00000148   0320A0E1           MOV      R2,R3
+   \   0000014C   0900A0E1           MOV      R0,R9
+   \   00000150   ........           _BLF     ??mbox_Create,??mbox_Create??rA
+    216              DateAndTime_Update(1);
+    217              proc_ = create_process(OS_PRI_PROC, "EvtCtrl_wrk", worker_entrypoint, 32768, 10, (OSTIME) 0, (PROCESS) 0, NULL, (OSVECTOR) 0, (OSUSER) 0);
+   \                     ??main_5:
+   \   00000154   ........           LDR      R6,??DataTable5  ;; year
+   \   00000158   0100A0E3           MOV      R0,#+1
+   \   0000015C   ........           BL       ??DateAndTime_Update
+   \   00000160   A4209FE5           LDR      R2,??main_0+0x1C  ;; ??worker_entrypoint
+   \   00000164   0000A0E3           MOV      R0,#+0
+   \   00000168   01002DE9           PUSH     {R0}
+   \   0000016C   01002DE9           PUSH     {R0}
+   \   00000170   01002DE9           PUSH     {R0}
+   \   00000174   01002DE9           PUSH     {R0}
+   \   00000178   01002DE9           PUSH     {R0}
+   \   0000017C   803CA0E3           MOV      R3,#+32768
+   \   00000180   1C1084E2           ADD      R1,R4,#+28
+   \   00000184   0A00A0E3           MOV      R0,#+10
+   \   00000188   01002DE9           PUSH     {R0}
+   \   0000018C   0500A0E1           MOV      R0,R5
+   \   00000190   810100EF           SWI      +385
+   \   00000194   0C0086E5           STR      R0,[R6, #+12]
+    218              start(proc_);
+   \   00000198   820100EF           SWI      +386
+    219              EventTimer = Timer_Set(1000, onEventTimer, 0);
+   \   0000019C   ........           LDR      R1,??DataTable6  ;; ??onEventTimer
+   \   000001A0   0520A0E1           MOV      R2,R5
+   \   000001A4   FA0FA0E3           MOV      R0,#+1000
+   \   000001A8   290100EF           SWI      +297
+   \   000001AC   B200C6E1           STRH     R0,[R6, #+2]
+    220              onEventTimer(EventTimer, 0);
+   \   000001B0   0510A0E1           MOV      R1,R5
+   \   000001B4   ........           BL       ??onEventTimer
+    221            }
+    222            else
+    223            {
+    224              delete(extFolder);
+    225              delete(intFolder);
+    226              destroy_innative_lng();
+    227              SUBPROC(elf_exit);
+    228              return 0;
+    229            }
+    230            return 0;
+   \   000001B8   0500A0E1           MOV      R0,R5
+   \   000001BC   18D08DE2           ADD      SP,SP,#+24
+   \                     ??main_3:
+   \   000001C0   64D08DE2           ADD      SP,SP,#+100
+   \   000001C4   F083BDE8           POP      {R4-R9,PC}
+   \                     ??main_4:
+   \   000001C8   000096E5           LDR      R0,[R6, #+0]
+   \   000001CC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   000001D0   000095E5           LDR      R0,[R5, #+0]
+   \   000001D4   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   000001D8   ........           _BLF     ??destroy_innative_lng,??destroy_innative_lng??rA
+   \   000001DC   0700A0E1           MOV      R0,R7
+   \   000001E0   080100EF           SWI      +264
+   \   000001E4   0000A0E3           MOV      R0,#+0
+   \   000001E8   64D08DE2           ADD      SP,SP,#+100
+   \   000001EC   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??main_0:
+   \   000001F0   72750000           DC8      "ru",+0
+   \   000001F4   ........           DC32     `?<Constant L"\\x2e\\x63\\x66\\x67">`
+   \   000001F8   ........           DC32     extFolder
+   \   000001FC   ........           DC32     intFolder
+   \   00000200   ........           DC32     ??isEVBookByName
+   \   00000204   ........           DC32     lng
+   \   00000208   ........           DC32     ??elf_exit
+   \   0000020C   ........           DC32     ??worker_entrypoint
+    231          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     events
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     year
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     ??onEventTimer
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for year>`:
+   \   00000000   0000               DC8 0, 0
+   \                     `?<Initializer for EventTimer>`:
+   \   00000002   0000               DC8 0, 0
+   \                     `?<Initializer for dt>`:
+   \   00000004   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for proc_>`:
+   \   0000000C   00000000           DC32 0
+   \                     `?<Initializer for month>`:
+   \   00000010   00                 DC8 0
+   \                     `?<Initializer for day>`:
+   \   00000011   00                 DC8 0
+   \                     `?<Initializer for DayOfTheWeek>`:
+   \   00000012   00                 DC8 0
+   \                     `?<Initializer for h>`:
+   \   00000013   00                 DC8 0
+   \                     `?<Initializer for m>`:
+   \   00000014   00                 DC8 0
+   \                     `?<Initializer for s>`:
+   \   00000015   00                 DC8 0
+   \                     `?<Initializer for isWeekend>`:
+   \   00000016   00                 DC8 0
+   \   00000017   00                 DC8 0
+   \                     `?<Initializer for oldcell>`:
+   \   00000018   6F006C006400       DC8 6FH, 0, 6CH, 0, 64H, 0, 0, 0
+   \              0000        
+   \   00000020   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \                     `?<Initializer for ccell>`:
+   \   0000002C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x30\\x34\\x58\\x2d\\x25\\x30\\x34\\`:
+   \   00000000   250030003400       DC8 25H, 0, 30H, 0, 34H, 0, 58H, 0
+   \              5800        
+   \   00000008   2D0025003000       DC8 2DH, 0, 25H, 0, 30H, 0, 34H, 0
+   \              3400        
+   \   00000010   58000000           DC8 58H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EventControl">`:
+   \   00000000   4576656E7443       DC8 "EventControl"
+   \              6F6E74726F6C
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x2e\\x63\\x66\\x67">`:
+   \   00000000   2E0063006600       DC8 2EH, 0, 63H, 0, 66H, 0, 67H, 0
+   \              6700        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+   \   0000000C   65006E002E00       DC8 65H, 0, 6EH, 0, 2EH, 0, 63H, 0
+   \              6300        
+   \   00000014   660067000000       DC8 66H, 0, 67H, 0, 0, 0
+   \   0000001A   0000               DC8 0, 0
+   \   0000001C   457674437472       DC8 "EvtCtrl_wrk"
+   \              6C5F77726B00
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   727500             DC8 "ru"
+
+   Maximum stack usage in bytes:
+
+     Function                  CSTACK
+     --------                  ------
+     DateAndTime_Update(int)      12
+     getfilesize(wchar_t *)     2084
+     isEVBookByName(BOOK *)        4
+     main(wchar_t *)             152
+     onEventTimer(u16, LPARAM)    60
+     sub_launcher(int, void *)    44
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     year                             64
+     DateAndTime_Update(int)         296
+     sub_launcher(int, void *)       224
+     onEventTimer(u16, LPARAM)       212
+     isEVBookByName(BOOK *)           44
+     getfilesize(wchar_t *)          124
+     main(wchar_t *)                 528
+     ??DataTable2                      4
+     ??DataTable5                      4
+     ??DataTable6                      4
+     ?<Initializer for year>          64
+     ?<Constant L"\x25\x30\x34\x58\x2d\x25\x30\x34\
+                                      20
+     ?<Constant "EventControl">       16
+     ?<Constant L"\x2e\x63\x66\x67">
+                                      40
+     ?<Constant "ru">                  3
+      Others                         164
+
+ 
+ 1 592 bytes in segment CODE
+    79 bytes in segment DATA_C
+    64 bytes in segment DATA_I
+    64 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 1 316 bytes of CODE  memory (+ 288 bytes shared)
+   143 bytes of CONST memory
+    64 bytes of DATA  memory
+
+Errors: none
+Warnings: none

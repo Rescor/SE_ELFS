@@ -1,0 +1,178 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:46:53 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\exts.cpp /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\exts.cpp /
+//                        -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN          /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcs /
+//                       e\Release\List\ -o Z:\home\perk11\www\perk11.info\s /
+//                       vn\SE\mcse\Release\Obj\ -s9 --no_unroll             /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h --preinclude Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\mcse\..\deleaker\mem2.h -I                     /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\exts.s79                                       /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME exts
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??GetIcon
+        FUNCTION ??GetIcon,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??GetIcon??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??GetIcon??rT       SYMBOL "??rT", ??GetIcon
+
+        EXTERN DB_CMD_DESTROY_SUBROUTINE
+        EXTERN DB_CMD_SETSMALLICON
+        EXTERN STD_ICONS
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??GetIcon??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??GetIcon
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??GetIcon
+        ARM
+??GetIcon:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        TST      R1,#0x4000
+        MOV      R4,R0
+        LDRNE    R0,??GetIcon_1   ;; STD_ICONS
+        SUB      SP,SP,#+4
+        CFI CFA R13+16
+        LDRHNE   R0,[R0, #+0]
+        POPNE    {R1,R4,R5,PC}
+        SWI      +691
+        MOV      R5,R0
+        MOV      R1,R4
+        SWI      +720
+        MOV      R1,R5
+        MVN      R0,#+0
+        SWI      +718
+        MOV      R4,R0
+        LDR      R0,??GetIcon_1+0x4  ;; DB_CMD_SETSMALLICON
+        MOV      R2,SP
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +719
+        LDR      R0,??GetIcon_1+0x8  ;; DB_CMD_DESTROY_SUBROUTINE
+        MOV      R2,#+0
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +719
+        MOV      R0,R5
+        SWI      +692
+        LDRH     R0,[SP, #+0]
+        POP      {R1,R4,R5,PC}    ;; return
+        DATA
+??GetIcon_1:
+        DC32     STD_ICONS
+        DC32     DB_CMD_SETSMALLICON
+        DC32     DB_CMD_DESTROY_SUBROUTINE
+        CFI EndBlock cfiBlock1
+
+        END
+// 
+// 132 bytes in segment CODE
+// 
+// 128 bytes of CODE memory (+ 4 bytes shared)
+//
+//Errors: none
+//Warnings: none

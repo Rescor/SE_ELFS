@@ -1,0 +1,841 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:58:42 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\MyFUNC #
+#                       .c                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\MyFUNC #
+#                       .c -D NDEBUG -D OLDFUNCTIONS -lC                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Go #
+#                       no4ki\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\Gono4ki\Release\Obj\ -s9 --no_unroll        #
+#                       --no_inline --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e            #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\MyFUNC.lst                                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\Obj\MyFUNC.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\MyFUNC.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          #include "..\\include\cfg_items.h"
+      5          #include "StructBook.h"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   static char const __data NameMyElf[8]
+   \                     NameMyElf:
+   \   00000000   476F6E6F346B       DC8 "Gono4ki"
+   \              6900        
+      6          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      7          void vibra()
+      8          {
+   \                     ??vibra:
+   \   00000000   00402DE9           PUSH     {LR}
+      9            PAudioControl pAC = AudioControl_Init();
+   \   00000004   DF0100EF           SWI      +479
+     10            if( !pAC ) pAC = *GetAudioControlPtr();
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   0100001A           BNE      ??vibra_1
+   \   00000010   D18100EF           SWI      +33233
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+     11            AudioControl_Vibrate(pAC, 200, 50, 200);
+   \                     ??vibra_1:
+   \   00000018   C830A0E3           MOV      R3,#+200
+   \   0000001C   3220A0E3           MOV      R2,#+50
+   \   00000020   C810A0E3           MOV      R1,#+200
+   \   00000024   D20100EF           SWI      +466
+     12          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+     13          
+     14          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     15          wchar_t*NamesOfPunkts(int x)
+     16          {
+     17            switch(x)
+   \                     ??NamesOfPunkts:
+   \   00000000   54109FE5           LDR      R1,??NamesOfPunkts_2+0x4  ;; `?<Constant L"\\x417\\x432\\x443\\x43a\\x20\\x441\\x44`
+   \   00000004   050050E3           CMP      R0,#+5
+   \   00000008   1000008A           BHI      ??NamesOfPunkts_3
+   \   0000000C   012F8FE2           ADR      R2,??NamesOfPunkts_1
+   \   00000010   0020D2E7           LDRB     R2,[R2, R0]
+   \   00000014   02F18FE0           ADD      PC,PC,R2, LSL #+2
+   \                     ??NamesOfPunkts_1:
+   \   00000018   01030507           DC8      +1,+3,+5,+7
+   \   0000001C   090B0000           DC8      +9,+11,+0,+0
+     18            {
+     19            case 0:
+     20              return L"Звук старта";
+   \                     ??NamesOfPunkts_4:
+   \   00000020   0100A0E1           MOV      R0,R1
+   \   00000024   1EFF2FE1           BX       LR
+     21            case 1:
+     22              return L"Звук очка";
+   \                     ??NamesOfPunkts_5:
+   \   00000028   180081E2           ADD      R0,R1,#+24
+   \   0000002C   1EFF2FE1           BX       LR
+     23            case 2:
+     24              return L"Звук конца игры";
+   \                     ??NamesOfPunkts_6:
+   \   00000030   2C0081E2           ADD      R0,R1,#+44
+   \   00000034   1EFF2FE1           BX       LR
+     25            case 3:
+     26              return L"Звук рекорда";
+   \                     ??NamesOfPunkts_7:
+   \   00000038   4C0081E2           ADD      R0,R1,#+76
+   \   0000003C   1EFF2FE1           BX       LR
+     27            case 4:
+     28              return L"Звук паузы";
+   \                     ??NamesOfPunkts_8:
+   \   00000040   680081E2           ADD      R0,R1,#+104
+   \   00000044   1EFF2FE1           BX       LR
+     29            case 5:
+     30              return L"Звук перемещения";
+   \                     ??NamesOfPunkts_9:
+   \   00000048   800081E2           ADD      R0,R1,#+128
+   \   0000004C   1EFF2FE1           BX       LR
+     31            }
+     32            return L" ";
+   \                     ??NamesOfPunkts_3:
+   \   00000050   00008FE2           ADR      R0,??NamesOfPunkts_2  ;; 0x20, 0x00, 0x00, 0x00
+   \   00000054   1EFF2FE1           BX       LR               ;; return
+   \                     ??NamesOfPunkts_2:
+   \   00000058   20000000           DC8      0x20, 0x00, 0x00, 0x00
+   \   0000005C   ........           DC32     `?<Constant L"\\x417\\x432\\x443\\x43a\\x20\\x441\\x44`
+     33          }
+     34              
+     35          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     36          int GetStrokaIMG(wchar_t*stroka, int x)
+     37          {
+   \                     ??GetStrokaIMG:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+     38            int met[2];
+     39            if(x) iconidname2id(L"CHECKMARK_IN_BOX_ICN",-1, &met[0]);
+   \   00000008   000051E3           CMP      R1,#+0
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   44009FE5           LDR      R0,??GetStrokaIMG_1  ;; `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x4d\\x41\\x52\\`
+   \   00000014   0D20A0E1           MOV      R2,SP
+   \   00000018   0010E0E3           MVN      R1,#+0
+     40            else iconidname2id(L"CHECKBOX_ICN", -1, &met[0]);
+   \   0000001C   2C008002           ADDEQ    R0,R0,#+44
+   \   00000020   860200EF           SWI      +646
+     41            met[0]=(0x78000000+met[0]);
+   \   00000024   00109DE5           LDR      R1,[SP, #+0]
+     42            met[1]=TextID_Create(stroka, ENC_UCS2, TEXTID_ANY_LEN);
+   \   00000028   FF20A0E3           MOV      R2,#+255
+   \   0000002C   781481E2           ADD      R1,R1,#+2013265920
+   \   00000030   00108DE5           STR      R1,[SP, #+0]
+   \   00000034   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   5D0100EF           SWI      +349
+   \   00000044   04008DE5           STR      R0,[SP, #+4]
+     43            return (TextID_Create(met, ENC_TEXTID, 2));
+   \   00000048   0220A0E3           MOV      R2,#+2
+   \   0000004C   0510A0E3           MOV      R1,#+5
+   \   00000050   0D00A0E1           MOV      R0,SP
+   \   00000054   5D0100EF           SWI      +349
+   \   00000058   1680BDE8           POP      {R1,R2,R4,PC}    ;; return
+   \                     ??GetStrokaIMG_1:
+   \   0000005C   ........           DC32     `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x4d\\x41\\x52\\`
+     44          }
+     45          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     46          BOOK*isBookX(char const*isbook, int x)
+     47          {
+   \                     ??isBookX:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+     48            int j, i, k;
+     49            BOOK*bk;
+     50            j=root_list_get_session_count();
+   \   0000000C   F30100EF           SWI      +499
+   \   00000010   0050A0E1           MOV      R5,R0
+     51            if(x)
+   \   00000014   000056E3           CMP      R6,#+0
+   \   00000018   1300000A           BEQ      ??isBookX_1
+     52            {
+     53              bk=(BOOK*)List_Get(root_list_get_session(j-1)->listbook,root_list_get_session(j-1)->listbook->FirstFree-1);
+   \   0000001C   015045E2           SUB      R5,R5,#+1
+   \   00000020   0500A0E1           MOV      R0,R5
+   \   00000024   F40100EF           SWI      +500
+   \   00000028   0060A0E1           MOV      R6,R0
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   F40100EF           SWI      +500
+   \   00000034   001096E5           LDR      R1,[R6, #+0]
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   B210D1E1           LDRH     R1,[R1, #+2]
+   \   00000040   011041E2           SUB      R1,R1,#+1
+   \   00000044   AD0100EF           SWI      +429
+   \   00000048   0060A0E1           MOV      R6,R0
+     54              if(!strcmp(bk->xbook->name,isbook)) return bk;
+   \   0000004C   000096E5           LDR      R0,[R6, #+0]
+   \   00000050   0410A0E1           MOV      R1,R4
+   \   00000054   040090E5           LDR      R0,[R0, #+4]
+   \   00000058   590100EF           SWI      +345
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   1A00001A           BNE      ??isBookX_2
+   \                     ??isBookX_3:
+   \   00000064   0600A0E1           MOV      R0,R6
+   \   00000068   F081BDE8           POP      {R4-R8,PC}
+     55            }
+     56            else
+     57            {
+     58              for(i=0; i<j; i++)
+   \                     ??isBookX_1:
+   \   0000006C   0070A0E3           MOV      R7,#+0
+   \   00000070   130000EA           B        ??isBookX_4
+     59              {
+     60                for(k=0;k<root_list_get_session(i)->listbook->FirstFree;k++)
+     61                {
+     62                  bk=(BOOK*)List_Get(root_list_get_session(i)->listbook,k);
+   \                     ??isBookX_5:
+   \   00000074   0700A0E1           MOV      R0,R7
+   \   00000078   F40100EF           SWI      +500
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   0810A0E1           MOV      R1,R8
+   \   00000084   AD0100EF           SWI      +429
+   \   00000088   0060A0E1           MOV      R6,R0
+     63                  if(!strcmp(bk->xbook->name,isbook)) return bk;
+   \   0000008C   000096E5           LDR      R0,[R6, #+0]
+   \   00000090   0410A0E1           MOV      R1,R4
+   \   00000094   040090E5           LDR      R0,[R0, #+4]
+   \   00000098   590100EF           SWI      +345
+   \   0000009C   000050E3           CMP      R0,#+0
+   \   000000A0   EFFFFF0A           BEQ      ??isBookX_3
+     64                }
+   \   000000A4   018088E2           ADD      R8,R8,#+1
+   \                     ??isBookX_6:
+   \   000000A8   0700A0E1           MOV      R0,R7
+   \   000000AC   F40100EF           SWI      +500
+   \   000000B0   000090E5           LDR      R0,[R0, #+0]
+   \   000000B4   B200D0E1           LDRH     R0,[R0, #+2]
+   \   000000B8   000058E1           CMP      R8,R0
+   \   000000BC   ECFFFFBA           BLT      ??isBookX_5
+   \   000000C0   017087E2           ADD      R7,R7,#+1
+   \                     ??isBookX_4:
+   \   000000C4   050057E1           CMP      R7,R5
+   \   000000C8   0080A0B3           MOVLT    R8,#+0
+   \   000000CC   F5FFFFBA           BLT      ??isBookX_6
+     65              }
+     66            }
+     67            return(0);
+   \                     ??isBookX_2:
+   \   000000D0   0000A0E3           MOV      R0,#+0
+   \   000000D4   F081BDE8           POP      {R4-R8,PC}       ;; return
+     68          }
+     69          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     70          MyBook*MyBK()
+     71          {
+     72            return ((MyBook*)isBookX(NameMyElf,0));
+   \                     ??MyBK:
+   \   00000000   04009FE5           LDR      R0,??MyBK_1      ;; NameMyElf
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   ........           B        ??isBookX        ;; tailcall
+   \                     ??MyBK_1:
+   \   0000000C   ........           DC32     NameMyElf
+     73          }
+     74          
+     75          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     76          wchar_t * StatusSettings1(int s)
+     77          {
+     78            if(s==0) return L"Вкл.";
+   \                     ??StatusSettings1:
+   \   00000000   10109FE5           LDR      R1,??StatusSettings1_1  ;; `?<Constant L"\\x412\\x43a\\x43b\\x2e">`
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   0100A001           MOVEQ    R0,R1
+   \   0000000C   1EFF2F01           BXEQ     LR
+     79            return L"Откл.";
+   \   00000010   0C0081E2           ADD      R0,R1,#+12
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+   \                     ??StatusSettings1_1:
+   \   00000018   ........           DC32     `?<Constant L"\\x412\\x43a\\x43b\\x2e">`
+     80          }
+     81          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     82          wchar_t * StatusSettings(int s)
+     83          {
+     84            if(s==1) return L"Включенно";
+   \                     ??StatusSettings:
+   \   00000000   10109FE5           LDR      R1,??StatusSettings_1  ;; `?<Constant L"\\x412\\x43a\\x43b\\x44e\\x447\\x435\\x4`
+   \   00000004   010050E3           CMP      R0,#+1
+   \   00000008   0100A001           MOVEQ    R0,R1
+   \   0000000C   1EFF2F01           BXEQ     LR
+     85            return L"Отключенно";
+   \   00000010   140081E2           ADD      R0,R1,#+20
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+   \                     ??StatusSettings_1:
+   \   00000018   ........           DC32     `?<Constant L"\\x412\\x43a\\x43b\\x44e\\x447\\x435\\x4`
+     86          }
+     87          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     88          int Record(TABL*tab, int new_result, int N)
+     89          {
+     90            int i=0;
+   \                     ??Record:
+   \   00000000   00C0A0E3           MOV      R12,#+0
+   \   00000004   000000EA           B        ??Record_1
+     91            while(i<N)
+     92            {
+     93              if(new_result>(tab->rezultat[i]))
+     94              {
+     95                return i+1;
+     96              }
+     97              i++;
+   \                     ??Record_2:
+   \   00000008   03C0A0E1           MOV      R12,R3
+   \                     ??Record_1:
+   \   0000000C   02005CE1           CMP      R12,R2
+   \   00000010   060000AA           BGE      ??Record_3
+   \   00000014   01308CE2           ADD      R3,R12,#+1
+   \   00000018   0CC180E0           ADD      R12,R0,R12, LSL #+2
+   \   0000001C   A0C09CE5           LDR      R12,[R12, #+160]
+   \   00000020   01005CE1           CMP      R12,R1
+   \   00000024   F7FFFFAA           BGE      ??Record_2
+   \   00000028   0300A0E1           MOV      R0,R3
+   \   0000002C   1EFF2FE1           BX       LR
+     98            }
+     99            return 0;
+   \                     ??Record_3:
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   1EFF2FE1           BX       LR               ;; return
+    100          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+    101          int Perestava(TABL*tab, wchar_t new_name[8], int new_result, int N)
+    102          {
+   \                     ??Perestava:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+    103            int i=0;
+   \   00000010   0070A0E3           MOV      R7,#+0
+   \   00000014   000000EA           B        ??Perestava_1
+    104            int j;
+    105            while(i<N)
+    106            {
+    107              if(new_result>(tab->rezultat[i]))
+    108              {
+    109                for(j=N-2; j>=i; j+=-1)
+    110                {
+    111                  wstrcpy(tab->name[j+1], tab->name[j]);
+    112                  tab->rezultat[j+1]=tab->rezultat[j];
+    113                }
+    114                tab->rezultat[i]=new_result;
+    115                wstrcpy(tab->name[i], new_name);
+    116                return i+1;
+    117              }
+    118              i++;
+   \                     ??Perestava_2:
+   \   00000018   0970A0E1           MOV      R7,R9
+   \                     ??Perestava_1:
+   \   0000001C   030057E1           CMP      R7,R3
+   \   00000020   190000AA           BGE      ??Perestava_3
+   \   00000024   078184E0           ADD      R8,R4,R7, LSL #+2
+   \   00000028   A00098E5           LDR      R0,[R8, #+160]
+   \   0000002C   019087E2           ADD      R9,R7,#+1
+   \   00000030   060050E1           CMP      R0,R6
+   \   00000034   F7FFFFAA           BGE      ??Perestava_2
+   \   00000038   02A043E2           SUB      R10,R3,#+2
+   \   0000003C   07005AE1           CMP      R10,R7
+   \   00000040   0B0000BA           BLT      ??Perestava_4
+   \                     ??Perestava_5:
+   \   00000044   0A1284E0           ADD      R1,R4,R10, LSL #+4
+   \   00000048   100084E2           ADD      R0,R4,#+16
+   \   0000004C   0A0280E0           ADD      R0,R0,R10, LSL #+4
+   \   00000050   520100EF           SWI      +338
+   \   00000054   A01084E2           ADD      R1,R4,#+160
+   \   00000058   0A1191E7           LDR      R1,[R1, +R10, LSL #+2]
+   \   0000005C   A00084E2           ADD      R0,R4,#+160
+   \   00000060   0A0180E0           ADD      R0,R0,R10, LSL #+2
+   \   00000064   041080E5           STR      R1,[R0, #+4]
+   \   00000068   01A04AE2           SUB      R10,R10,#+1
+   \   0000006C   07005AE1           CMP      R10,R7
+   \   00000070   F3FFFFAA           BGE      ??Perestava_5
+   \                     ??Perestava_4:
+   \   00000074   A06088E5           STR      R6,[R8, #+160]
+   \   00000078   0510A0E1           MOV      R1,R5
+   \   0000007C   070284E0           ADD      R0,R4,R7, LSL #+4
+   \   00000080   520100EF           SWI      +338
+   \   00000084   0900A0E1           MOV      R0,R9
+   \   00000088   F087BDE8           POP      {R4-R10,PC}
+    119            }
+    120            return 0;
+   \                     ??Perestava_3:
+   \   0000008C   0000A0E3           MOV      R0,#+0
+   \   00000090   F087BDE8           POP      {R4-R10,PC}      ;; return
+    121          }
+    122          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    123          wchar_t * GetConfigPath()
+    124          {
+   \                     ??GetConfigPath:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    125            wchar_t*cpath=new wchar_t[wstrlen(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL))+wstrlen(L"/Games/Gono4ki")+1];
+   \   00000004   50509FE5           LDR      R5,??GetConfigPath_1  ;; `?<Constant L"\\x2f\\x47\\x61\\x6d\\x65\\x73\\x2f\\x47\\`
+   \   00000008   1500A0E3           MOV      R0,#+21
+   \   0000000C   050100EF           SWI      +261
+   \   00000010   570100EF           SWI      +343
+   \   00000014   0040A0E1           MOV      R4,R0
+   \   00000018   0500A0E1           MOV      R0,R5
+   \   0000001C   570100EF           SWI      +343
+   \   00000020   040080E0           ADD      R0,R0,R4
+   \   00000024   010080E2           ADD      R0,R0,#+1
+   \   00000028   8000A0E1           LSL      R0,R0,#+1
+   \   0000002C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000030   0040A0E1           MOV      R4,R0
+    126            wstrcpy(cpath,GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL));
+   \   00000034   1500A0E3           MOV      R0,#+21
+   \   00000038   050100EF           SWI      +261
+   \   0000003C   0010A0E1           MOV      R1,R0
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   520100EF           SWI      +338
+    127            wstrcat(cpath,L"/Games/Gono4ki");
+   \   00000048   0510A0E1           MOV      R1,R5
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   540100EF           SWI      +340
+    128            return(cpath);
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??GetConfigPath_1:
+   \   0000005C   ........           DC32     `?<Constant L"\\x2f\\x47\\x61\\x6d\\x65\\x73\\x2f\\x47\\`
+    129          };
+    130          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    131          int GetDis()
+    132          {
+   \                     ??GetDis:
+   \   00000000   00402DE9           PUSH     {LR}
+    133            switch(Display_GetHeight(0))
+   \   00000004   0000A0E3           MOV      R0,#+0
+   \   00000008   580200EF           SWI      +600
+   \   0000000C   DC0050E2           SUBS     R0,R0,#+220
+   \   00000010   0300000A           BEQ      ??GetDis_1
+   \   00000014   640050E2           SUBS     R0,R0,#+100
+   \   00000018   0300000A           BEQ      ??GetDis_2
+   \   0000001C   0200A0E3           MOV      R0,#+2
+   \   00000020   0080BDE8           POP      {PC}
+    134            {
+    135            case 220:
+    136              return 0;
+   \                     ??GetDis_1:
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   0080BDE8           POP      {PC}
+    137            case 320:
+    138              return 1;
+   \                     ??GetDis_2:
+   \   0000002C   0100A0E3           MOV      R0,#+1
+   \   00000030   0080BDE8           POP      {PC}
+    139            }
+    140            return 2;
+    141          }
+    142          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    143          int GetFSize(int f)
+    144          {
+   \                     ??GetFSize:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    145            if(GetDis()==0 && f==FONT_E_30R) return 30;
+   \   00000008   ........           BL       ??GetDis
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0400001A           BNE      ??GetFSize_1
+   \   00000014   B4009FE5           LDR      R0,??GetFSize_2  ;; FONT_E_30R
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   000054E1           CMP      R4,R0
+   \   00000020   1E00A003           MOVEQ    R0,#+30
+   \   00000024   1080BD08           POPEQ    {R4,PC}
+    146            if(GetDis()==0 && f==FONT_E_12R) return 12;
+   \                     ??GetFSize_1:
+   \   00000028   ........           BL       ??GetDis
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0400001A           BNE      ??GetFSize_3
+   \   00000034   98009FE5           LDR      R0,??GetFSize_2+0x4  ;; FONT_E_12R
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   000054E1           CMP      R4,R0
+   \   00000040   0C00A003           MOVEQ    R0,#+12
+   \   00000044   1080BD08           POPEQ    {R4,PC}
+    147            if(GetDis()==1 && f==FONT_E_40R) return 40;
+   \                     ??GetFSize_3:
+   \   00000048   ........           BL       ??GetDis
+   \   0000004C   010050E3           CMP      R0,#+1
+   \   00000050   0400001A           BNE      ??GetFSize_4
+   \   00000054   7C009FE5           LDR      R0,??GetFSize_2+0x8  ;; FONT_E_40R
+   \   00000058   000090E5           LDR      R0,[R0, #+0]
+   \   0000005C   000054E1           CMP      R4,R0
+   \   00000060   2800A003           MOVEQ    R0,#+40
+   \   00000064   1080BD08           POPEQ    {R4,PC}
+    148            if(GetDis()==1 && f==FONT_E_14R) return 14;
+   \                     ??GetFSize_4:
+   \   00000068   ........           BL       ??GetDis
+   \   0000006C   010050E3           CMP      R0,#+1
+   \   00000070   0400001A           BNE      ??GetFSize_5
+   \   00000074   60009FE5           LDR      R0,??GetFSize_2+0xC  ;; FONT_E_14R
+   \   00000078   000090E5           LDR      R0,[R0, #+0]
+   \   0000007C   000054E1           CMP      R4,R0
+   \   00000080   0E00A003           MOVEQ    R0,#+14
+   \   00000084   1080BD08           POPEQ    {R4,PC}
+    149            if(GetDis()==2 && f==FONT_E_18R) return 18;
+   \                     ??GetFSize_5:
+   \   00000088   ........           BL       ??GetDis
+   \   0000008C   020050E3           CMP      R0,#+2
+   \   00000090   0400001A           BNE      ??GetFSize_6
+   \   00000094   44009FE5           LDR      R0,??GetFSize_2+0x10  ;; FONT_E_18R
+   \   00000098   000090E5           LDR      R0,[R0, #+0]
+   \   0000009C   000054E1           CMP      R4,R0
+   \   000000A0   1200A003           MOVEQ    R0,#+18
+   \   000000A4   1080BD08           POPEQ    {R4,PC}
+    150            if(GetDis()==2 && f==FONT_D_7R) return 7;
+   \                     ??GetFSize_6:
+   \   000000A8   ........           BL       ??GetDis
+   \   000000AC   020050E3           CMP      R0,#+2
+   \   000000B0   0400001A           BNE      ??GetFSize_7
+   \   000000B4   28009FE5           LDR      R0,??GetFSize_2+0x14  ;; FONT_D_7R
+   \   000000B8   000090E5           LDR      R0,[R0, #+0]
+   \   000000BC   000054E1           CMP      R4,R0
+   \   000000C0   0700A003           MOVEQ    R0,#+7
+   \   000000C4   1080BD08           POPEQ    {R4,PC}
+    151            return 0;
+   \                     ??GetFSize_7:
+   \   000000C8   0000A0E3           MOV      R0,#+0
+   \   000000CC   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??GetFSize_2:
+   \   000000D0   ........           DC32     FONT_E_30R
+   \   000000D4   ........           DC32     FONT_E_12R
+   \   000000D8   ........           DC32     FONT_E_40R
+   \   000000DC   ........           DC32     FONT_E_14R
+   \   000000E0   ........           DC32     FONT_E_18R
+   \   000000E4   ........           DC32     FONT_D_7R
+    152          }
+    153          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    154          int FindFile(wchar_t*path, wchar_t const*name)
+    155          {
+   \                     ??FindFile:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   1CD04DE2           SUB      SP,SP,#+28
+    156            FSTAT _fstat;
+    157            if(fstat(path,name,&_fstat)==0) return 0;
+   \   00000008   0D20A0E1           MOV      R2,SP
+   \   0000000C   1C0100EF           SWI      +284
+   \   00000010   000050E3           CMP      R0,#+0
+    158            return 1;
+   \   00000014   0100A013           MOVNE    R0,#+1
+   \   00000018   1CD08DE2           ADD      SP,SP,#+28
+   \   0000001C   0080BDE8           POP      {PC}             ;; return
+    159          }
+    160          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    161          int CheckMusic(int x)
+    162          {
+   \                     ??CheckMusic:
+   \   00000000   F0422DE9           PUSH     {R4-R7,R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    163            int result=!FindFile(GetConfigPath(),MyBK()->nast->sound->names[x])*MyBK()->nast->sound->sound*MyBK()->nast->sound->status[x]*!FindBook(get_IsFmRadioBook())*!FindBook(get_IsAudioPlayerBook());
+   \   00000008   ........           BL       ??MyBK
+   \   0000000C   0050A0E1           MOV      R5,R0
+   \   00000010   ........           BL       ??GetConfigPath
+   \   00000014   341395E5           LDR      R1,[R5, #+820]
+   \   00000018   001091E5           LDR      R1,[R1, #+0]
+   \   0000001C   841481E0           ADD      R1,R1,R4, LSL #+9
+   \   00000020   ........           BL       ??FindFile
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0150A003           MOVEQ    R5,#+1
+   \   0000002C   0050A013           MOVNE    R5,#+0
+   \   00000030   ........           BL       ??MyBK
+   \   00000034   0060A0E1           MOV      R6,R0
+   \   00000038   ........           BL       ??MyBK
+   \   0000003C   0070A0E1           MOV      R7,R0
+   \   00000040   8A8200EF           SWI      +33418
+   \   00000044   300100EF           SWI      +304
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   0190A003           MOVEQ    R9,#+1
+   \   00000050   0090A013           MOVNE    R9,#+0
+   \   00000054   8B8200EF           SWI      +33419
+   \   00000058   300100EF           SWI      +304
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   340396E5           LDR      R0,[R6, #+820]
+   \   00000064   0110A003           MOVEQ    R1,#+1
+   \   00000068   000090E5           LDR      R0,[R0, #+0]
+   \   0000006C   0010A013           MOVNE    R1,#+0
+   \   00000070   180C90E5           LDR      R0,[R0, #+3096]
+   \   00000074   900502E0           MUL      R2,R0,R5
+   \   00000078   340397E5           LDR      R0,[R7, #+820]
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   040180E0           ADD      R0,R0,R4, LSL #+2
+   \   00000084   000C90E5           LDR      R0,[R0, #+3072]
+   \   00000088   900202E0           MUL      R2,R0,R2
+   \   0000008C   990200E0           MUL      R0,R9,R2
+   \   00000090   910000E0           MUL      R0,R1,R0
+    164            return result;
+   \   00000094   F082BDE8           POP      {R4-R7,R9,PC}
+    165          }
+    166          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    167          void DELTABL(TABL*t)
+    168          {
+   \                     ??DELTABL:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    169            for(int i=0; i<10; i++)
+   \   00000008   0050A0E3           MOV      R5,#+0
+    170            {
+    171              t->rezultat[i]=0;
+   \                     ??DELTABL_1:
+   \   0000000C   050184E0           ADD      R0,R4,R5, LSL #+2
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   A01080E5           STR      R1,[R0, #+160]
+    172              wstrcpy(t->name[i], L"Unknow");
+   \   00000018   14109FE5           LDR      R1,??DELTABL_2   ;; `?<Constant L"\\x55\\x6e\\x6b\\x6e\\x6f\\x77">`
+   \   0000001C   050284E0           ADD      R0,R4,R5, LSL #+4
+   \   00000020   520100EF           SWI      +338
+    173            }
+   \   00000024   015085E2           ADD      R5,R5,#+1
+   \   00000028   0A0055E3           CMP      R5,#+10
+   \   0000002C   F6FFFFBA           BLT      ??DELTABL_1
+    174          }
+   \   00000030   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??DELTABL_2:
+   \   00000034   ........           DC32     `?<Constant L"\\x55\\x6e\\x6b\\x6e\\x6f\\x77">`
+    175          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    176          int PlayMyMusic(int x)
+    177          {
+   \                     ??PlayMyMusic:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    178            if(CheckMusic(x)) PlayFile(GetConfigPath(),MyBK()->nast->sound->names[x]);
+   \   00000008   ........           BL       ??CheckMusic
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   3080BD08           POPEQ    {R4,R5,PC}
+   \   00000014   ........           BL       ??MyBK
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   ........           BL       ??GetConfigPath
+   \   00000020   341395E5           LDR      R1,[R5, #+820]
+   \   00000024   001091E5           LDR      R1,[R1, #+0]
+   \   00000028   841481E0           ADD      R1,R1,R4, LSL #+9
+   \   0000002C   B20100EF           SWI      +434
+    179            return 0;
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   3080BDE8           POP      {R4,R5,PC}       ;; return
+    180          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x417\\x432\\x443\\x43a\\x20\\x441\\x44`:
+   \   00000000   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000008   200041044204       DC8 20H, 0, 41H, 4, 42H, 4, 30H, 4
+   \              3004        
+   \   00000010   400442043004       DC8 40H, 4, 42H, 4, 30H, 4, 0, 0
+   \              0000        
+   \   00000018   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000020   20003E044704       DC8 20H, 0, 3EH, 4, 47H, 4, 3AH, 4
+   \              3A04        
+   \   00000028   30040000           DC8 30H, 4, 0, 0
+   \   0000002C   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000034   20003A043E04       DC8 20H, 0, 3AH, 4, 3EH, 4, 3DH, 4
+   \              3D04        
+   \   0000003C   460430042000       DC8 46H, 4, 30H, 4, 20H, 0, 38H, 4
+   \              3804        
+   \   00000044   330440044B04       DC8 33H, 4, 40H, 4, 4BH, 4, 0, 0
+   \              0000        
+   \   0000004C   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000054   200040043504       DC8 20H, 0, 40H, 4, 35H, 4, 3AH, 4
+   \              3A04        
+   \   0000005C   3E0440043404       DC8 3EH, 4, 40H, 4, 34H, 4, 30H, 4
+   \              3004        
+   \   00000064   0000               DC8 0, 0
+   \   00000066   0000               DC8 0, 0
+   \   00000068   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000070   20003F043004       DC8 20H, 0, 3FH, 4, 30H, 4, 43H, 4
+   \              4304        
+   \   00000078   37044B040000       DC8 37H, 4, 4BH, 4, 0, 0
+   \   0000007E   0000               DC8 0, 0
+   \   00000080   170432044304       DC8 17H, 4, 32H, 4, 43H, 4, 3AH, 4
+   \              3A04        
+   \   00000088   20003F043504       DC8 20H, 0, 3FH, 4, 35H, 4, 40H, 4
+   \              4004        
+   \   00000090   35043C043504       DC8 35H, 4, 3CH, 4, 35H, 4, 49H, 4
+   \              4904        
+   \   00000098   35043D043804       DC8 35H, 4, 3DH, 4, 38H, 4, 4FH, 4
+   \              4F04        
+   \   000000A0   0000               DC8 0, 0
+   \   000000A2   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   20000000           DC8 20H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x4d\\x41\\x52\\`:
+   \   00000000   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   00000008   4B004D004100       DC8 4BH, 0, 4DH, 0, 41H, 0, 52H, 0
+   \              5200        
+   \   00000010   4B005F004900       DC8 4BH, 0, 5FH, 0, 49H, 0, 4EH, 0
+   \              4E00        
+   \   00000018   5F0042004F00       DC8 5FH, 0, 42H, 0, 4FH, 0, 58H, 0
+   \              5800        
+   \   00000020   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000028   0000               DC8 0, 0
+   \   0000002A   0000               DC8 0, 0
+   \   0000002C   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   00000034   4B0042004F00       DC8 4BH, 0, 42H, 0, 4FH, 0, 58H, 0
+   \              5800        
+   \   0000003C   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000044   0000               DC8 0, 0
+   \   00000046   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x43a\\x43b\\x2e">`:
+   \   00000000   12043A043B04       DC8 12H, 4, 3AH, 4, 3BH, 4, 2EH, 0
+   \              2E00        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+   \   0000000C   1E0442043A04       DC8 1EH, 4, 42H, 4, 3AH, 4, 3BH, 4
+   \              3B04        
+   \   00000014   2E000000           DC8 2EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x43a\\x43b\\x44e\\x447\\x435\\x4`:
+   \   00000000   12043A043B04       DC8 12H, 4, 3AH, 4, 3BH, 4, 4EH, 4
+   \              4E04        
+   \   00000008   470435043D04       DC8 47H, 4, 35H, 4, 3DH, 4, 3DH, 4
+   \              3D04        
+   \   00000010   3E040000           DC8 3EH, 4, 0, 0
+   \   00000014   1E0442043A04       DC8 1EH, 4, 42H, 4, 3AH, 4, 3BH, 4
+   \              3B04        
+   \   0000001C   4E0447043504       DC8 4EH, 4, 47H, 4, 35H, 4, 3DH, 4
+   \              3D04        
+   \   00000024   3D043E040000       DC8 3DH, 4, 3EH, 4, 0, 0
+   \   0000002A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x2f\\x47\\x61\\x6d\\x65\\x73\\x2f\\x47\\`:
+   \   00000000   2F0047006100       DC8 2FH, 0, 47H, 0, 61H, 0, 6DH, 0
+   \              6D00        
+   \   00000008   650073002F00       DC8 65H, 0, 73H, 0, 2FH, 0, 47H, 0
+   \              4700        
+   \   00000010   6F006E006F00       DC8 6FH, 0, 6EH, 0, 6FH, 0, 34H, 0
+   \              3400        
+   \   00000018   6B0069000000       DC8 6BH, 0, 69H, 0, 0, 0
+   \   0000001E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x55\\x6e\\x6b\\x6e\\x6f\\x77">`:
+   \   00000000   55006E006B00       DC8 55H, 0, 6EH, 0, 6BH, 0, 6EH, 0
+   \              6E00        
+   \   00000008   6F0077000000       DC8 6FH, 0, 77H, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CheckMusic(int)                   28
+     DELTABL(TABL *)                   12
+     FindFile(wchar_t *, wchar_t const *)
+                                       32
+     GetConfigPath()                   12
+     GetDis()                           4
+     GetFSize(int)                      8
+     GetStrokaIMG(wchar_t *, int)      16
+     MyBK()                             4
+     NamesOfPunkts(int)                 0
+     Perestava(TABL *, wchar_t *, int, int)
+                                       32
+     PlayMyMusic(int)                  12
+     Record(TABL *, int, int)           0
+     StatusSettings(int)                0
+     StatusSettings1(int)               0
+     isBookX(char const *, int)        24
+     vibra()                            4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     NameMyElf                         8
+     vibra()                          44
+     NamesOfPunkts(int)               96
+     GetStrokaIMG(wchar_t *, int)     96
+     isBookX(char const *, int)      216
+     MyBK()                           16
+     StatusSettings1(int)             28
+     StatusSettings(int)              28
+     Record(TABL *, int, int)         56
+     Perestava(TABL *, wchar_t *, int, int)
+                                     148
+     GetConfigPath()                  96
+     GetDis()                         52
+     GetFSize(int)                   232
+     FindFile(wchar_t *, wchar_t const *)
+                                      32
+     CheckMusic(int)                 152
+     DELTABL(TABL *)                  56
+     PlayMyMusic(int)                 56
+     ?<Constant L"\x417\x432\x443\x43a\x20\x441\x44
+                                     164
+     ?<Constant L"\x20">               4
+     ?<Constant L"\x43\x48\x45\x43\x4b\x4d\x41\x52\
+                                      72
+     ?<Constant L"\x412\x43a\x43b\x2e">
+                                      24
+     ?<Constant L"\x412\x43a\x43b\x44e\x447\x435\x4
+                                      44
+     ?<Constant L"\x2f\x47\x61\x6d\x65\x73\x2f\x47\
+                                      32
+     ?<Constant L"\x55\x6e\x6b\x6e\x6f\x77">
+                                      16
+      Others                          76
+
+ 
+ 1 480 bytes in segment CODE
+   364 bytes in segment DATA_C
+ 
+ 1 404 bytes of CODE  memory (+ 76 bytes shared)
+   364 bytes of CONST memory
+
+Errors: none
+Warnings: none

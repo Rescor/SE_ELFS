@@ -1,0 +1,5737 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:05:49 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\main. /
+//                       c                                                   /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\main. /
+//                       c -D NDEBUG -D LANG_RU -D OLDFUNCTIONS -lCN         /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Relea /
+//                       se_RU\List\ -la Z:\home\perk11\www\perk11.info\svn\ /
+//                       SE\MiniGPS\Release_RU\List\ -o                      /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Relea /
+//                       se_RU\Obj\ -s9 --no_unroll --no_code_motion         /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --enable_multibytes  /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Relea /
+//                       se_RU\List\main.s79                                 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME main
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        EXTERN ??div32_a
+
+        PUBWEAK `?*?DATA_ID`
+        PUBLIC ??AddTo_db
+        FUNCTION ??AddTo_db,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??AddTo_db??rT
+        PUBLIC ??BackPressed
+        FUNCTION ??BackPressed,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??BackPressed??rT
+        PUBLIC ??CellIdProc
+        FUNCTION ??CellIdProc,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??CellIdProc??rT
+        PUBLIC ??CheckCellName
+        FUNCTION ??CheckCellName,0203H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??CheckCellName??rT
+        PUBLIC ??CheckCurrentCell
+        FUNCTION ??CheckCurrentCell,0203H
+        LOCFRAME CSTACK, 40, STACK
+        MULTWEAK ??CheckCurrentCell??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable100 EQU 0
+??DataTable101 EQU 0
+??DataTable104 EQU 0
+??DataTable105 EQU 0
+??DataTable106 EQU 0
+??DataTable107 EQU 0
+??DataTable108 EQU 0
+??DataTable109 EQU 0
+??DataTable11 EQU 0
+??DataTable111 EQU 0
+??DataTable113 EQU 0
+??DataTable115 EQU 0
+??DataTable117 EQU 0
+??DataTable118 EQU 0
+??DataTable12 EQU 0
+??DataTable120 EQU 0
+??DataTable122 EQU 0
+??DataTable123 EQU 0
+??DataTable129 EQU 0
+??DataTable130 EQU 0
+??DataTable131 EQU 0
+??DataTable132 EQU 0
+??DataTable133 EQU 0
+??DataTable134 EQU 0
+??DataTable135 EQU 0
+??DataTable136 EQU 0
+??DataTable137 EQU 0
+??DataTable139 EQU 0
+??DataTable14 EQU 0
+??DataTable141 EQU 0
+??DataTable142 EQU 0
+??DataTable143 EQU 0
+??DataTable144 EQU 0
+??DataTable145 EQU 0
+??DataTable146 EQU 0
+??DataTable147 EQU 0
+??DataTable148 EQU 0
+??DataTable149 EQU 0
+??DataTable15 EQU 0
+??DataTable150 EQU 0
+??DataTable151 EQU 0
+??DataTable152 EQU 0
+??DataTable153 EQU 0
+??DataTable154 EQU 0
+??DataTable156 EQU 0
+??DataTable16 EQU 0
+??DataTable160 EQU 0
+??DataTable17 EQU 0
+??DataTable170 EQU 0
+??DataTable18 EQU 0
+??DataTable19 EQU 0
+??DataTable2 EQU 0
+??DataTable20 EQU 0
+??DataTable22 EQU 0
+??DataTable23 EQU 0
+??DataTable24 EQU 0
+??DataTable25 EQU 0
+??DataTable26 EQU 0
+??DataTable27 EQU 0
+??DataTable28 EQU 0
+??DataTable29 EQU 0
+??DataTable3 EQU 0
+??DataTable30 EQU 0
+??DataTable31 EQU 0
+??DataTable32 EQU 0
+??DataTable33 EQU 0
+??DataTable34 EQU 0
+??DataTable35 EQU 0
+??DataTable36 EQU 0
+??DataTable37 EQU 0
+??DataTable38 EQU 0
+??DataTable39 EQU 0
+??DataTable4 EQU 0
+??DataTable40 EQU 0
+??DataTable41 EQU 0
+??DataTable43 EQU 0
+??DataTable46 EQU 0
+??DataTable47 EQU 0
+??DataTable48 EQU 0
+??DataTable49 EQU 0
+??DataTable5 EQU 0
+??DataTable50 EQU 0
+??DataTable51 EQU 0
+??DataTable52 EQU 0
+??DataTable54 EQU 0
+??DataTable55 EQU 0
+??DataTable57 EQU 0
+??DataTable6 EQU 0
+??DataTable60 EQU 0
+??DataTable61 EQU 0
+??DataTable63 EQU 0
+??DataTable64 EQU 0
+??DataTable65 EQU 0
+??DataTable66 EQU 0
+??DataTable67 EQU 0
+??DataTable68 EQU 0
+??DataTable7 EQU 0
+??DataTable70 EQU 0
+??DataTable71 EQU 0
+??DataTable72 EQU 0
+??DataTable75 EQU 0
+??DataTable76 EQU 0
+??DataTable77 EQU 0
+??DataTable78 EQU 0
+??DataTable79 EQU 0
+??DataTable8 EQU 0
+??DataTable80 EQU 0
+??DataTable81 EQU 0
+??DataTable82 EQU 0
+??DataTable84 EQU 0
+??DataTable88 EQU 0
+??DataTable9 EQU 0
+??DataTable92 EQU 0
+??DataTable93 EQU 0
+??DataTable94 EQU 0
+??DataTable97 EQU 0
+        PUBLIC ??Display_ReDraw
+        FUNCTION ??Display_ReDraw,0603H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??Display_ReDraw??rT
+        PUBLIC ??DrawHighlightID
+        FUNCTION ??DrawHighlightID,0203H
+        LOCFRAME CSTACK, 88, STACK
+        MULTWEAK ??DrawHighlightID??rT
+        PUBLIC ??DrawParams
+        FUNCTION ??DrawParams,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??DrawParams??rT
+        PUBLIC ??GetLocationImage
+        FUNCTION ??GetLocationImage,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??GetLocationImage??rT
+        MULTWEAK ??InitConfig??rA
+        PUBLIC ??InitVar
+        FUNCTION ??InitVar,0203H
+        LOCFRAME CSTACK, 52, STACK
+        MULTWEAK ??InitVar??rT
+        PUBLIC ??InvalidateAll
+        FUNCTION ??InvalidateAll,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??InvalidateAll??rT
+        PUBLIC ??MainPageEnter
+        FUNCTION ??MainPageEnter,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??MainPageEnter??rT
+        PUBLIC ??NewKey
+        FUNCTION ??NewKey,0603H
+        LOCFRAME CSTACK, 80, STACK
+        MULTWEAK ??NewKey??rT
+        PUBLIC ??OKPressed
+        FUNCTION ??OKPressed,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??OKPressed??rT
+        PUBLIC ??SB_ELF_Killed
+        FUNCTION ??SB_ELF_Killed,0603H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??SB_ELF_Killed??rT
+        PUBLIC ??Send_REDRAW_RELEASE
+        FUNCTION ??Send_REDRAW_RELEASE,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Send_REDRAW_RELEASE??rT
+        PUBLIC ??ShowAuthorInfo
+        FUNCTION ??ShowAuthorInfo,0603H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??ShowAuthorInfo??rT
+        PUBLIC ??ShowHideProc
+        FUNCTION ??ShowHideProc,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??ShowHideProc??rT
+        MULTWEAK ??ShowMenu??rA
+        PUBLIC ??Soft_ReDraw
+        FUNCTION ??Soft_ReDraw,0603H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??Soft_ReDraw??rT
+        PUBLIC ??StandbyModeActivatedHook
+        FUNCTION ??StandbyModeActivatedHook,0603H
+        MULTWEAK ??StandbyModeActivatedHook??rT
+        PUBLIC ??StandbyModeDeactivatedHook
+        FUNCTION ??StandbyModeDeactivatedHook,0603H
+        MULTWEAK ??StandbyModeDeactivatedHook??rT
+        PUBLIC ??Status_ReDraw
+        FUNCTION ??Status_ReDraw,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Status_ReDraw??rT
+        PUBLIC ??TerminateElf
+        FUNCTION ??TerminateElf,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??TerminateElf??rT
+        PUBLIC ??UpdateLocationImage
+        FUNCTION ??UpdateLocationImage,0203H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??UpdateLocationImage??rT
+        PUBLIC ??char2unicode
+        FUNCTION ??char2unicode,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??char2unicode??rT
+        PUBLIC ??elf_exit
+        FUNCTION ??elf_exit,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??elf_exit??rT
+        PUBLIC ??equ2manual_profile
+        FUNCTION ??equ2manual_profile,0203H
+        MULTWEAK ??equ2manual_profile??rT
+        MULTWEAK ??extractdir??rA
+        PUBLIC ??gb2un
+        FUNCTION ??gb2un,0203H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??gb2un??rT
+        PUBLIC ??getPlaceIndex
+        FUNCTION ??getPlaceIndex,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??getPlaceIndex??rT
+        PUBLIC ??getProfile
+        FUNCTION ??getProfile,0203H
+        MULTWEAK ??getProfile??rT
+        PUBLIC ??getSoundFile
+        FUNCTION ??getSoundFile,0203H
+        MULTWEAK ??getSoundFile??rT
+        PUBLIC ??getVibrate
+        FUNCTION ??getVibrate,0203H
+        MULTWEAK ??getVibrate??rT
+        MULTWEAK ??getdir??rA
+        PUBLIC ??isImageViewerBook
+        FUNCTION ??isImageViewerBook,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??isImageViewerBook??rT
+        PUBLIC ??isMiniGPSBook
+        FUNCTION ??isMiniGPSBook,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??isMiniGPSBook??rT
+        MULTWEAK ??kill_data??rA
+        PUBLIC ??load_db_file
+        FUNCTION ??load_db_file,0203H
+        LOCFRAME CSTACK, 52, STACK
+        MULTWEAK ??load_db_file??rT
+        PUBLIC ??load_encode_file
+        FUNCTION ??load_encode_file,0203H
+        LOCFRAME CSTACK, 52, STACK
+        MULTWEAK ??load_encode_file??rT
+        MULTWEAK ??main??rT
+        PUBLIC ??myModifyUIHook
+        FUNCTION ??myModifyUIHook,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??myModifyUIHook??rT
+        PUBLIC ??onBcfgConfig
+        FUNCTION ??onBcfgConfig,0203H
+        LOCFRAME CSTACK, 52, STACK
+        MULTWEAK ??onBcfgConfig??rT
+        PUBLIC ??onCloseMiniGPSBook
+        FUNCTION ??onCloseMiniGPSBook,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??onCloseMiniGPSBook??rT
+        FUNCTION ??onReconfigElf,0603H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC ??onTimer
+        FUNCTION ??onTimer,0603H
+        LOCFRAME CSTACK, 52, STACK
+        MULTWEAK ??onTimer??rT
+        PUBLIC ??onTimerNewAction
+        FUNCTION ??onTimerNewAction,0603H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??onTimerNewAction??rT
+        PUBLIC ??onTimer_disable
+        FUNCTION ??onTimer_disable,0603H
+        MULTWEAK ??onTimer_disable??rT
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new??rA`
+        MULTWEAK `??operator new[]??rA`
+        MULTWEAK ??rA??div32_a
+        PUBLIC ??un2gb
+        FUNCTION ??un2gb,0203H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??un2gb??rT
+        PUBLIC ??unicode2char
+        FUNCTION ??unicode2char,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??unicode2char??rT
+        PUBLIC ??vibrate
+        FUNCTION ??vibrate,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??vibrate??rT
+        PUBLIC ??w2c
+        FUNCTION ??w2c,0203H
+        MULTWEAK ??w2c??rT
+        MULTWEAK ??wcstoul??rA
+        PUBWEAK ?init?tab?DATA_I
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC AutoLocation
+        PUBLIC CODEMAP_ADDR
+        PUBLIC CellName
+        PUBLIC CellNameAction
+        PUBLIC CellNameID
+        PUBLIC CellNameStatus
+        PUBLIC DisplayHeight
+        PUBLIC DisplayWidth
+        PUBLIC Display_desc
+        PUBLIC Display_oldReDraw
+        PUBLIC GUI_display
+        PUBLIC GUI_soft
+        PUBLIC GUI_status
+        PUBLIC IsInStandby
+        PUBLIC MiniGPSBook
+        PUBLIC NewActionTimeout
+        PUBLIC SIwstr
+        PUBLIC SoftBarY
+        PUBLIC Soft_desc
+        PUBLIC Soft_oldReDraw
+        PUBLIC StatusBarY
+        PUBLIC Status_desc
+        PUBLIC Status_oldReDraw
+        PUBLIC auto_image
+        PUBLIC base_page
+        PUBLIC cfg_manual_profile
+        PUBLIC cfg_place
+        PUBLIC currentCID
+        PUBLIC currentLAC
+        PUBLIC db_buf
+        PUBLIC encode_buf
+        PUBLIC encode_type
+        PUBLIC imageHeight
+        PUBLIC imageWidth
+        PUBLIC isUCodeFile
+        PUBLIC location_image
+        PUBLIC logCellName
+        PUBLIC logFolder
+        PUBLIC main
+        FUNCTION main,0a03H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC main_page
+        PUBLIC prevCID
+        PUBLIC prevCID_action
+        PUBLIC prevCellName
+        PUBLIC prevCellNameAction
+        PUBLIC prevLAC
+        PUBLIC prevLAC_action
+        PUBLIC prevLocFound
+        PUBLIC showCellID
+        PUBLIC snewdb
+        PUBLIC timer
+        PUBLIC timerNewAction
+        PUBLIC timer_disable
+        PUBLIC tmpname
+        PUBLIC tmppath
+        PUBLIC visible
+        PUBLIC wnd
+        PUBLIC wsnewdb
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+
+
+kill_data           SYMBOL "kill_data"
+wcstoul             SYMBOL "wcstoul"
+
+??AddTo_db??rT      SYMBOL "??rT", ??AddTo_db
+
+??BackPressed??rT   SYMBOL "??rT", ??BackPressed
+
+??CellIdProc??rT    SYMBOL "??rT", ??CellIdProc
+
+??CheckCellName??rT SYMBOL "??rT", ??CheckCellName
+
+??CheckCurrentCell??rT SYMBOL "??rT", ??CheckCurrentCell
+
+??Display_ReDraw??rT SYMBOL "??rT", ??Display_ReDraw
+
+??DrawHighlightID??rT SYMBOL "??rT", ??DrawHighlightID
+
+??DrawParams??rT    SYMBOL "??rT", ??DrawParams
+
+??GetLocationImage??rT SYMBOL "??rT", ??GetLocationImage
+??InitConfig??rA    SYMBOL "??rA", ??InitConfig
+
+??InitVar??rT       SYMBOL "??rT", ??InitVar
+
+??InvalidateAll??rT SYMBOL "??rT", ??InvalidateAll
+
+??MainPageEnter??rT SYMBOL "??rT", ??MainPageEnter
+
+??NewKey??rT        SYMBOL "??rT", ??NewKey
+
+??OKPressed??rT     SYMBOL "??rT", ??OKPressed
+
+??SB_ELF_Killed??rT SYMBOL "??rT", ??SB_ELF_Killed
+
+??Send_REDRAW_RELEASE??rT SYMBOL "??rT", ??Send_REDRAW_RELEASE
+
+??ShowAuthorInfo??rT SYMBOL "??rT", ??ShowAuthorInfo
+
+??ShowHideProc??rT  SYMBOL "??rT", ??ShowHideProc
+??ShowMenu??rA      SYMBOL "??rA", ??ShowMenu
+
+??Soft_ReDraw??rT   SYMBOL "??rT", ??Soft_ReDraw
+
+??StandbyModeActivatedHook??rT SYMBOL "??rT", ??StandbyModeActivatedHook
+
+??StandbyModeDeactivatedHook??rT SYMBOL "??rT", ??StandbyModeDeactivatedHook
+
+??Status_ReDraw??rT SYMBOL "??rT", ??Status_ReDraw
+
+??TerminateElf??rT  SYMBOL "??rT", ??TerminateElf
+
+??UpdateLocationImage??rT SYMBOL "??rT", ??UpdateLocationImage
+
+??char2unicode??rT  SYMBOL "??rT", ??char2unicode
+
+??elf_exit??rT      SYMBOL "??rT", ??elf_exit
+
+??equ2manual_profile??rT SYMBOL "??rT", ??equ2manual_profile
+??extractdir??rA    SYMBOL "??rA", ??extractdir
+
+??gb2un??rT         SYMBOL "??rT", ??gb2un
+
+??getPlaceIndex??rT SYMBOL "??rT", ??getPlaceIndex
+
+??getProfile??rT    SYMBOL "??rT", ??getProfile
+
+??getSoundFile??rT  SYMBOL "??rT", ??getSoundFile
+
+??getVibrate??rT    SYMBOL "??rT", ??getVibrate
+??getdir??rA        SYMBOL "??rA", ??getdir
+
+??isImageViewerBook??rT SYMBOL "??rT", ??isImageViewerBook
+
+??isMiniGPSBook??rT SYMBOL "??rT", ??isMiniGPSBook
+??kill_data??rA     SYMBOL "??rA", kill_data
+
+??load_db_file??rT  SYMBOL "??rT", ??load_db_file
+
+??load_encode_file??rT SYMBOL "??rT", ??load_encode_file
+main                SYMBOL "main"
+??main??rT          SYMBOL "??rT", main
+
+??myModifyUIHook??rT SYMBOL "??rT", ??myModifyUIHook
+
+??onBcfgConfig??rT  SYMBOL "??rT", ??onBcfgConfig
+
+??onCloseMiniGPSBook??rT SYMBOL "??rT", ??onCloseMiniGPSBook
+
+??onTimer??rT       SYMBOL "??rT", ??onTimer
+
+??onTimerNewAction??rT SYMBOL "??rT", ??onTimerNewAction
+
+??onTimer_disable??rT SYMBOL "??rT", ??onTimer_disable
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new??rA` SYMBOL "??rA", `??operator new`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+??un2gb??rT         SYMBOL "??rT", ??un2gb
+
+??unicode2char??rT  SYMBOL "??rT", ??unicode2char
+
+??vibrate??rT       SYMBOL "??rT", ??vibrate
+
+??w2c??rT           SYMBOL "??rT", ??w2c
+??wcstoul??rA       SYMBOL "??rA", wcstoul
+
+        EXTERN ??InitConfig
+        FUNCTION ??InitConfig,0202H
+        EXTERN ??ShowMenu
+        FUNCTION ??ShowMenu,0202H
+        EXTERN ??extractdir
+        FUNCTION ??extractdir,0202H
+        EXTERN ??getdir
+        FUNCTION ??getdir,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new`
+        FUNCTION `??operator new`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+        EXTERN ELF_BEGIN
+        EXTERN PHONE_IN_STBY_EVENT
+        EXTERN STANDBY_IDLE_EVENT
+        EXTERN STANDBY_NOT_IDLE_EVENT
+        EXTERN SYNC
+        EXTERN UI_STANDBY_UNFOCUS_EVENT
+        EXTERN VAR_ARG_BOOK
+        EXTERN VAR_ARG_CALL_BACK_OK
+        EXTERN VAR_ARG_CALL_BACK_PREV_ACT
+        EXTERN VAR_ARG_STRINP_EMPTY_STR_EN
+        EXTERN VAR_ARG_STRINP_FIXED_TEXT
+        EXTERN VAR_ARG_STRINP_MAX_LEN
+        EXTERN VAR_ARG_STRINP_MODE
+        EXTERN VAR_ARG_STRINP_NEW_LINE
+        EXTERN VAR_ARG_STRINP_TEXT
+        EXTERN cfg_auto_file
+        EXTERN cfg_auto_image_show
+        EXTERN cfg_auto_image_x
+        EXTERN cfg_auto_image_y
+        EXTERN cfg_autolocation
+        EXTERN cfg_autolocationmode
+        EXTERN cfg_bcfgedit
+        EXTERN cfg_cell_align
+        EXTERN cfg_cell_border
+        EXTERN cfg_cell_color
+        EXTERN cfg_cell_font
+        EXTERN cfg_cell_x
+        EXTERN cfg_cell_y
+        EXTERN cfg_cellidmode
+        EXTERN cfg_chowcellidmode
+        EXTERN cfg_codemap_addr
+        EXTERN cfg_ctrlmode
+        EXTERN cfg_date_format
+        EXTERN cfg_default_profile
+        EXTERN cfg_encode_file
+        EXTERN cfg_encode_type
+        EXTERN cfg_highlight
+        EXTERN cfg_ignore_keylock
+        EXTERN cfg_images_path
+        EXTERN cfg_location
+        EXTERN cfg_location_file
+        EXTERN cfg_location_image
+        EXTERN cfg_log_ext
+        EXTERN cfg_log_mode
+        EXTERN cfg_logs_path
+        EXTERN cfg_manual_profile1
+        EXTERN cfg_manual_profile2
+        EXTERN cfg_manual_profile3
+        EXTERN cfg_manual_profile4
+        EXTERN cfg_manual_profile5
+        EXTERN cfg_manual_profile6
+        EXTERN cfg_manual_profile7
+        EXTERN cfg_menukey
+        EXTERN cfg_menukeymode
+        EXTERN cfg_new_action_timeout
+        EXTERN cfg_place_enable1
+        EXTERN cfg_place_enable10
+        EXTERN cfg_place_enable11
+        EXTERN cfg_place_enable12
+        EXTERN cfg_place_enable13
+        EXTERN cfg_place_enable14
+        EXTERN cfg_place_enable15
+        EXTERN cfg_place_enable16
+        EXTERN cfg_place_enable2
+        EXTERN cfg_place_enable3
+        EXTERN cfg_place_enable4
+        EXTERN cfg_place_enable5
+        EXTERN cfg_place_enable6
+        EXTERN cfg_place_enable7
+        EXTERN cfg_place_enable8
+        EXTERN cfg_place_enable9
+        EXTERN cfg_place_name1
+        EXTERN cfg_place_name10
+        EXTERN cfg_place_name11
+        EXTERN cfg_place_name12
+        EXTERN cfg_place_name13
+        EXTERN cfg_place_name14
+        EXTERN cfg_place_name15
+        EXTERN cfg_place_name16
+        EXTERN cfg_place_name2
+        EXTERN cfg_place_name3
+        EXTERN cfg_place_name4
+        EXTERN cfg_place_name5
+        EXTERN cfg_place_name6
+        EXTERN cfg_place_name7
+        EXTERN cfg_place_name8
+        EXTERN cfg_place_name9
+        EXTERN cfg_place_profile1
+        EXTERN cfg_place_profile10
+        EXTERN cfg_place_profile11
+        EXTERN cfg_place_profile12
+        EXTERN cfg_place_profile13
+        EXTERN cfg_place_profile14
+        EXTERN cfg_place_profile15
+        EXTERN cfg_place_profile16
+        EXTERN cfg_place_profile2
+        EXTERN cfg_place_profile3
+        EXTERN cfg_place_profile4
+        EXTERN cfg_place_profile5
+        EXTERN cfg_place_profile6
+        EXTERN cfg_place_profile7
+        EXTERN cfg_place_profile8
+        EXTERN cfg_place_profile9
+        EXTERN cfg_place_sound_enable1
+        EXTERN cfg_place_sound_enable10
+        EXTERN cfg_place_sound_enable11
+        EXTERN cfg_place_sound_enable12
+        EXTERN cfg_place_sound_enable13
+        EXTERN cfg_place_sound_enable14
+        EXTERN cfg_place_sound_enable15
+        EXTERN cfg_place_sound_enable16
+        EXTERN cfg_place_sound_enable2
+        EXTERN cfg_place_sound_enable3
+        EXTERN cfg_place_sound_enable4
+        EXTERN cfg_place_sound_enable5
+        EXTERN cfg_place_sound_enable6
+        EXTERN cfg_place_sound_enable7
+        EXTERN cfg_place_sound_enable8
+        EXTERN cfg_place_sound_enable9
+        EXTERN cfg_place_vibrate1
+        EXTERN cfg_place_vibrate10
+        EXTERN cfg_place_vibrate11
+        EXTERN cfg_place_vibrate12
+        EXTERN cfg_place_vibrate13
+        EXTERN cfg_place_vibrate14
+        EXTERN cfg_place_vibrate15
+        EXTERN cfg_place_vibrate16
+        EXTERN cfg_place_vibrate2
+        EXTERN cfg_place_vibrate3
+        EXTERN cfg_place_vibrate4
+        EXTERN cfg_place_vibrate5
+        EXTERN cfg_place_vibrate6
+        EXTERN cfg_place_vibrate7
+        EXTERN cfg_place_vibrate8
+        EXTERN cfg_place_vibrate9
+        EXTERN cfg_set_in_gdfs
+        EXTERN cfg_show_type
+        EXTERN cfg_showcellid
+        EXTERN cfg_showkey
+        EXTERN cfg_showkeymode
+        EXTERN cfg_silent
+        EXTERN cfg_sound_file1
+        EXTERN cfg_sound_file10
+        EXTERN cfg_sound_file11
+        EXTERN cfg_sound_file12
+        EXTERN cfg_sound_file13
+        EXTERN cfg_sound_file14
+        EXTERN cfg_sound_file15
+        EXTERN cfg_sound_file16
+        EXTERN cfg_sound_file2
+        EXTERN cfg_sound_file3
+        EXTERN cfg_sound_file4
+        EXTERN cfg_sound_file5
+        EXTERN cfg_sound_file6
+        EXTERN cfg_sound_file7
+        EXTERN cfg_sound_file8
+        EXTERN cfg_sound_file9
+        EXTERN cfg_standby_only
+        EXTERN cfg_update_interval
+        EXTERN cfg_vibrate
+        EXTERN kill_data
+        FUNCTION kill_data,0202H
+        EXTERN successed_config_name
+        EXTERN successed_config_path
+        EXTERN wcstoul
+        FUNCTION wcstoul,0202H
+
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(1)
+prevLAC_action:
+        DS8 2
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(1)
+prevCID_action:
+        DS8 2
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4`:
+        DATA
+        DC8 10H, 4, 32H, 4, 42H, 4, 3EH, 4
+        DC8 34H, 4, 3EH, 4, 31H, 4, 30H, 4
+        DC8 32H, 4, 3BH, 4, 35H, 4, 3DH, 4
+        DC8 38H, 4, 35H, 4, 20H, 0, 3CH, 4
+        DC8 35H, 4, 41H, 4, 42H, 4, 30H, 4
+        DC8 20H, 0, 32H, 4, 4BH, 4, 3AH, 4
+        DC8 3BH, 4, 4EH, 4, 47H, 4, 35H, 4
+        DC8 3DH, 4, 3EH, 4, 21H, 0, 0, 0
+        DC8 22H, 4, 35H, 4, 3AH, 4, 43H, 4
+        DC8 49H, 4, 35H, 4, 35H, 4, 20H, 0
+        DC8 3CH, 4, 35H, 4, 41H, 4, 42H, 4
+        DC8 3EH, 4, 3AH, 0, 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\`:
+        DATA
+        DC8 25H, 0, 30H, 0, 34H, 0, 64H, 0
+        DC8 2DH, 0, 25H, 0, 30H, 0, 32H, 0
+        DC8 64H, 0, 2DH, 0, 25H, 0, 30H, 0
+        DC8 32H, 0, 64H, 0, 2EH, 0, 0, 0
+        DC8 25H, 0, 30H, 0, 32H, 0, 64H, 0
+        DC8 2DH, 0, 25H, 0, 30H, 0, 32H, 0
+        DC8 64H, 0, 2DH, 0, 25H, 0, 30H, 0
+        DC8 34H, 0, 64H, 0, 2EH, 0, 0, 0
+        DC8 69H, 0, 6EH, 0, 69H, 0, 0, 0
+        DC8 "%02d:%02d:%02d - [%05d:%05d] %s\012"
+        DC8 0, 0, 0
+        DC8 "%02d:%02d:%02d - [%04X:%04X] %s\012"
+        DC8 0, 0, 0
+        DC8 74H, 0, 78H, 0, 74H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "[%s]">`:
+        DATA
+        DC8 "[%s]"
+        DC8 0, 0, 0
+        DC8 25H, 0, 30H, 0, 35H, 0, 64H, 0
+        DC8 3AH, 0, 25H, 0, 30H, 0, 35H, 0
+        DC8 64H, 0, 0, 0
+        DC8 25H, 0, 30H, 0, 34H, 0, 58H, 0
+        DC8 3AH, 0, 25H, 0, 30H, 0, 34H, 0
+        DC8 58H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+items:
+        DATA
+        DC32 7, 6, 0, 9, 13, 11, 12, 15, 14, 6
+        DC8 1DH, 4, 35H, 4, 20H, 0, 3CH, 4
+        DC8 3EH, 4, 33H, 4, 43H, 4, 20H, 0
+        DC8 37H, 4, 30H, 4, 33H, 4, 40H, 4
+        DC8 43H, 4, 37H, 4, 38H, 4, 42H, 4
+        DC8 4CH, 4, 20H, 0, 31H, 4, 30H, 4
+        DC8 37H, 4, 43H, 4, 20H, 0, 34H, 4
+        DC8 30H, 4, 3DH, 4, 3DH, 4, 4BH, 4
+        DC8 45H, 4, 21H, 0, 0, 0
+        DC8 0, 0
+        DC8 1DH, 4, 35H, 4, 3FH, 4, 40H, 4
+        DC8 30H, 4, 32H, 4, 38H, 4, 3BH, 4
+        DC8 4CH, 4, 3DH, 4, 4BH, 4, 39H, 4
+        DC8 20H, 0, 30H, 4, 34H, 4, 40H, 4
+        DC8 35H, 4, 41H, 4, 20H, 0, 3AH, 4
+        DC8 3EH, 4, 34H, 4, 3EH, 4, 32H, 4
+        DC8 3EH, 4, 39H, 4, 20H, 0, 41H, 4
+        DC8 42H, 4, 40H, 4, 30H, 4, 3DH, 4
+        DC8 38H, 4, 46H, 4, 4BH, 4, 21H, 0
+        DC8 0, 0
+        DC8 0, 0
+        DC8 24H, 4, 30H, 4, 39H, 4, 3BH, 4
+        DC8 20H, 0, 3AH, 4, 3EH, 4, 34H, 4
+        DC8 38H, 4, 40H, 4, 3EH, 4, 32H, 4
+        DC8 3AH, 4, 38H, 4, 20H, 0, 3DH, 4
+        DC8 35H, 4, 20H, 0, 3DH, 4, 30H, 4
+        DC8 39H, 4, 34H, 4, 35H, 4, 3DH, 4
+        DC8 21H, 0, 0, 0
+        DC8 18H, 4, 3AH, 4, 3EH, 4, 3DH, 4
+        DC8 3AH, 4, 30H, 4, 20H, 0, 32H, 4
+        DC8 3AH, 4, 3BH, 4, 2EH, 0, 20H, 0
+        DC8 30H, 4, 32H, 4, 42H, 4, 3EH, 4
+        DC8 34H, 4, 3EH, 4, 31H, 4, 30H, 4
+        DC8 32H, 4, 3BH, 4, 35H, 4, 3DH, 4
+        DC8 38H, 4, 4FH, 4, 20H, 0, 3CH, 4
+        DC8 35H, 4, 41H, 4, 42H, 4, 30H, 4
+        DC8 20H, 0, 3DH, 4, 35H, 4, 20H, 0
+        DC8 3DH, 4, 30H, 4, 39H, 4, 34H, 4
+        DC8 35H, 4, 3DH, 4, 30H, 4, 21H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x2e\\x6a\\x70\\x67">`:
+        DATA
+        DC8 2EH, 0, 6AH, 0, 70H, 0, 67H, 0
+        DC8 0, 0
+        DC8 0, 0
+        DC8 2EH, 0, 70H, 0, 6EH, 0, 67H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x5b\\x25\\x30\\x35\\x64\\x3a\\x25\\x30\\`:
+        DATA
+        DC8 5BH, 0, 25H, 0, 30H, 0, 35H, 0
+        DC8 64H, 0, 3AH, 0, 25H, 0, 30H, 0
+        DC8 35H, 0, 64H, 0, 5DH, 0, 3AH, 0
+        DC8 25H, 0, 6CH, 0, 73H, 0, 0DH, 0
+        DC8 0AH, 0, 0, 0
+        DC8 5BH, 0, 25H, 0, 30H, 0, 34H, 0
+        DC8 58H, 0, 3AH, 0, 25H, 0, 30H, 0
+        DC8 34H, 0, 58H, 0, 5DH, 0, 3AH, 0
+        DC8 25H, 0, 6CH, 0, 73H, 0, 0DH, 0
+        DC8 0AH, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "ImageViewerBook">`:
+        DATA
+        DC8 "ImageViewerBook"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "MiniGPS_MainPage">`:
+        DATA
+        DC8 "MiniGPS_MainPage"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "MiniGPS_BasePage">`:
+        DATA
+        DC8 "MiniGPS_BasePage"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "MiniGPS">`:
+        DATA
+        DC8 "MiniGPS"
+        DC8 4DH, 0, 69H, 0, 6EH, 0, 69H, 0
+        DC8 47H, 0, 50H, 0, 53H, 0, 0AH, 0
+        DC8 23H, 4, 36H, 4, 35H, 4, 20H, 0
+        DC8 37H, 4, 30H, 4, 3FH, 4, 43H, 4
+        DC8 49H, 4, 35H, 4, 3DH, 4, 21H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+        DATA
+        DC8 2FH, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x42\\x63\\x66\\x67\\x45\\x64\\x69\\x74\\`:
+        DATA
+        DC8 42H, 0, 63H, 0, 66H, 0, 67H, 0
+        DC8 45H, 0, 64H, 0, 69H, 0, 74H, 0
+        DC8 2EH, 0, 65H, 0, 6CH, 0, 66H, 0
+        DC8 20H, 0, 3DH, 4, 35H, 4, 20H, 0
+        DC8 3DH, 4, 30H, 4, 39H, 4, 34H, 4
+        DC8 35H, 4, 3DH, 4, 21H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x41d\\x430\\x441\\x442\\x440\\x43e\\x4`:
+        DATA
+        DC8 1DH, 4, 30H, 4, 41H, 4, 42H, 4
+        DC8 40H, 4, 3EH, 4, 39H, 4, 3AH, 4
+        DC8 38H, 4, 20H, 0, 4DH, 0, 69H, 0
+        DC8 6EH, 0, 69H, 0, 47H, 0, 50H, 0
+        DC8 53H, 0, 20H, 0, 3FH, 4, 40H, 4
+        DC8 38H, 4, 3CH, 4, 35H, 4, 3DH, 4
+        DC8 35H, 4, 3DH, 4, 4BH, 4, 21H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\xa\\x_1`:
+        DATA
+        DC8 4DH, 0, 69H, 0, 6EH, 0, 69H, 0
+        DC8 47H, 0, 50H, 0, 53H, 0, 0AH, 0
+        DC8 32H, 0, 2EH, 0, 36H, 0, 0AH, 0
+        DC8 0A9H, 0, 20H, 0, 63H, 0, 6FH, 0
+        DC8 70H, 0, 69H, 0, 6EH, 0, 69H, 0
+        DC8 0AH, 0, 74H, 0, 77H, 0, 65H, 0
+        DC8 61H, 0, 6BH, 0, 73H, 0, 20H, 0
+        DC8 62H, 0, 79H, 0, 0AH, 0, 7AH, 0
+        DC8 6FH, 0, 79H, 0, 64H, 0, 2CH, 0
+        DC8 20H, 0, 50H, 0, 6CH, 0, 6FH, 0
+        DC8 69H, 0, 6BH, 0, 2CH, 0, 20H, 0
+        DC8 6DH, 0, 6FH, 0, 75H, 0, 73H, 0
+        DC8 65H, 0, 78H, 0, 2CH, 0, 20H, 0
+        DC8 4AH, 0, 6FH, 0, 6BH, 0, 65H, 0
+        DC8 72H, 0, 20H, 0, 58H, 0, 54H, 0
+        DC8 2CH, 0, 20H, 0, 53H, 0, 74H, 0
+        DC8 6FH, 0, 6EH, 0, 6FH, 0, 73H, 0
+        DC8 2CH, 0, 20H, 0, 42H, 0, 69H, 0
+        DC8 67H, 0, 48H, 0, 65H, 0, 72H, 0
+        DC8 63H, 0, 75H, 0, 6CH, 0, 65H, 0
+        DC8 73H, 0, 0, 0
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isImageViewerBook??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??isImageViewerBook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??isImageViewerBook
+        ARM
+??isImageViewerBook:
+        LDR      R1,??isImageViewerBook_1  ;; `?<Constant "ImageViewerBook">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+4]
+        SWI      +345
+        CMP      R0,#+0
+        MOVEQ    R0,#+1
+        POPEQ    {PC}
+        MOV      R0,#+0
+        POP      {PC}             ;; return
+        DATA
+??isImageViewerBook_1:
+        DC32     `?<Constant "ImageViewerBook">`
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??myModifyUIHook??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??myModifyUIHook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??myModifyUIHook
+        ARM
+??myModifyUIHook:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R12,R1
+        MOV      R1,R2
+        CMP      R0,#+0
+        CMNNE    R0,#+1
+        MOVNE    R2,#+0
+        MOVEQ    R2,#+0
+        MOVEQ    R0,R12
+        SWI      +272
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??load_encode_file??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??load_encode_file
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??load_encode_file
+        ARM
+??load_encode_file:
+        LDR      R0,??DataTable44  ;; timer_disable
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SUB      SP,SP,#+40
+        CFI CFA R13+52
+        MOV      R1,#+0
+        STRB     R1,[R0, #+628]
+        MOV      R1,#+120
+        ORR      R1,R1,#0x1100
+        ADD      R4,R1,R0
+        LDR      R1,??load_encode_file_1  ;; cfg_encode_file
+        MOV      R0,R4
+        _BLF     ??getdir,??getdir??rA
+        MOV      R1,SP
+        MOV      R0,R4
+        SWI      +761
+        CMP      R0,#+0
+        BNE      ??load_encode_file_2
+        LDR      R0,??DataTable13  ;; timer_disable + 4472
+        MOV      R3,#+0
+        MOV      R2,#+255
+        ORR      R2,R2,#0x100
+        MOV      R1,#+1
+        SWI      +760
+        MOVS     R4,R0
+        BMI      ??load_encode_file_3
+        LDR      R0,[SP, #+24]
+        CMP      R0,#+512
+        BNE      ??load_encode_file_3
+        SWI      +259
+        MOV      R5,R0
+        MOV      R2,#+512
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +763
+        MOV      R0,#+0
+??load_encode_file_4:
+        LDR      R2,??DataTable44  ;; timer_disable
+        ADD      R1,R5,R0, LSL #+1
+        LDRB     R3,[R1, #+0]
+        LDRB     R1,[R1, #+1]
+        ADD      R2,R2,R0, LSL #+1
+        ADD      R0,R0,#+1
+        ORR      R1,R1,R3, LSL #+8
+        STRH     R1,[R2, #+20]
+        CMP      R0,#+256
+        BLT      ??load_encode_file_4
+        MOV      R0,R5
+        SWI      +260
+        LDR      R0,??DataTable42  ;; timer_disable + 628
+        MOV      R1,#+1
+        STRB     R1,[R0, #+0]
+??load_encode_file_3:
+        MOV      R0,R4
+        SWI      +765
+??load_encode_file_2:
+        LDR      R0,??DataTable42  ;; timer_disable + 628
+        LDRB     R0,[R0, #+0]
+        ADD      SP,SP,#+40
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??load_encode_file_1:
+        DC32     cfg_encode_file
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??char2unicode??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??char2unicode
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??char2unicode
+        ARM
+??char2unicode:
+        PUSH     {R4}
+        CFI R4 Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R3,R0
+        B        ??char2unicode_1
+??char2unicode_2:
+        LDR      R4,??DataTable42  ;; timer_disable + 628
+        CMP      R12,#+126
+        LDRB     R4,[R4, #+0]
+        MOVEQ    R12,#+10
+        CMP      R4,#+0
+        LDRNE    R4,??DataTable44  ;; timer_disable
+        ADDNE    R4,R4,R12, LSL #+1
+        LDRHNE   R12,[R4, #+20]
+        STRH     R12,[R0], #+2
+??char2unicode_1:
+        LDRB     R12,[R1], #+1
+        CMP      R12,#+0
+        BEQ      ??char2unicode_3
+        MOV      R4,R2
+        SUB      R2,R4,#+1
+        CMP      R4,#+1
+        BGE      ??char2unicode_2
+??char2unicode_3:
+        MOV      R1,#+0
+        STRH     R1,[R0, #+0]
+        POP      {R4}
+        CFI R4 SameValue
+        CFI CFA R13+0
+        MOV      R0,R3
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??w2c??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ??w2c
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??w2c
+        ARM
+??w2c:
+        LDR      R1,??DataTable42  ;; timer_disable + 628
+        LDRB     R1,[R1, #+0]
+        CMP      R1,#+0
+        BEQ      ??w2c_1
+        LDR      R2,??w2c_2       ;; timer_disable + 20
+        LDR      R3,??DataTable44  ;; timer_disable
+        LDRH     R2,[R2, #+0]
+        MOV      R1,#+0
+        CMP      R2,R0
+        BNE      ??w2c_3
+        B        ??w2c_4
+??w2c_5:
+        ADD      R1,R1,#+1
+        AND      R1,R1,#0xFF
+??w2c_3:
+        ADD      R2,R3,R1, LSL #+1
+        LDRH     R2,[R2, #+20]
+        CMP      R2,R0
+        BNE      ??w2c_5
+??w2c_4:
+        MOV      R0,R1
+        BX       LR
+??w2c_1:
+        AND      R0,R0,#0xFF
+        BX       LR               ;; return
+        DATA
+??w2c_2:
+        DC32     timer_disable + 20
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unicode2char??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ??unicode2char
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??unicode2char
+        ARM
+??unicode2char:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R4
+        B        ??unicode2char_1
+??unicode2char_2:
+        BL       ??w2c
+        STRB     R0,[R4], #+1
+??unicode2char_1:
+        LDRH     R1,[R5], #+2
+        MOVS     R0,R1
+        BEQ      ??unicode2char_3
+        MOV      R1,R6
+        SUB      R6,R1,#+1
+        CMP      R1,#+1
+        BGE      ??unicode2char_2
+??unicode2char_3:
+        MOV      R0,#+0
+        STRB     R0,[R4, #+0]
+        MOV      R0,R7
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??gb2un??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ??gb2un
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??gb2un
+        ARM
+??gb2un:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        SUB      SP,SP,#+4
+        CFI CFA R13+28
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R0,R5
+        SWI      +346
+        MOV      R7,#+0
+        MOV      R8,#+0
+        B        ??gb2un_1
+??gb2un_2:
+        ADD      R1,R4,R8, LSL #+1
+        MOV      R2,#+63
+??gb2un_3:
+        STRH     R2,[R1, #+0]
+        ADD      R8,R8,#+1
+??gb2un_1:
+        CMP      R7,R0
+        BCS      ??gb2un_4
+        MOV      R1,R6
+        SUB      R6,R1,#+1
+        CMP      R1,#+1
+        BLT      ??gb2un_4
+        LDRB     R1,[R7, +R5]
+        CMP      R1,#+128
+        BCS      ??gb2un_5
+        LDRB     R2,[R7, +R5]
+        ADD      R1,R4,R8, LSL #+1
+        ADD      R7,R7,#+1
+        B        ??gb2un_3
+??gb2un_5:
+        CMP      R1,#+129
+        BCS      ??gb2un_6
+        CMP      R1,#+128
+        BNE      ??gb2un_2
+        ADD      R1,R7,R5
+        LDRB     R1,[R1, #+1]
+        CMP      R1,#+65
+        BCC      ??gb2un_2
+??gb2un_6:
+        LDR      R2,??gb2un_7     ;; 0xfffffffffffefd80
+        LDR      R12,??DataTable10  ;; timer_disable + 600
+        ADD      R1,R7,R5
+        LDRB     R3,[R1, #+0]
+        ADD      R7,R7,#+2
+        STRB     R3,[SP, #+1]
+        LDRB     R1,[R1, #+1]
+        STRB     R1,[SP, #+0]
+        LDRH     R3,[SP, #+0]
+        LDR      R12,[R12, #+0]
+        ADD      R1,R4,R8, LSL #+1
+        ADD      R3,R12,R3, LSL #+1
+        LDRH     R2,[R2, +R3]
+        B        ??gb2un_3
+??gb2un_4:
+        ADD      R0,R4,R8, LSL #+1
+        MOV      R1,#+0
+        STRH     R1,[R0, #+0]
+        POP      {R0,R4-R8,PC}    ;; return
+        DATA
+??gb2un_7:
+        DC32     0xfffffffffffefd80
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??un2gb??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE ??un2gb
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??un2gb
+        ARM
+??un2gb:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+4
+        CFI CFA R13+24
+        MOV      R4,R0
+        MOV      R6,R1
+        MOV      R7,R2
+        MOV      R5,#+0
+        MOV      R0,R6
+        SWI      +343
+        CMP      R7,R0
+        MOVLT    R0,R7
+        MOV      R1,#+0
+        CMP      R0,#+1
+        BGE      ??un2gb_1
+??un2gb_2:
+        MOV      R0,#+0
+        STRB     R0,[R5, +R4]
+        POP      {R0,R4-R7,PC}    ;; return
+??un2gb_3:
+        MOV      R2,#+63
+??un2gb_4:
+        STRB     R2,[R5, +R4]
+        ADD      R5,R5,#+1
+??un2gb_5:
+        ADD      R1,R1,#+1
+??un2gb_1:
+        CMP      R1,R0
+        BGE      ??un2gb_2
+        ADD      R2,R6,R1, LSL #+1
+        LDRH     R2,[R2, #+0]
+        CMP      R2,#+129
+        ADD      R2,R6,R1, LSL #+1
+        LDRH     R2,[R2, #+0]
+        BCC      ??un2gb_4
+        CMP      R2,#+11904
+        BCC      ??un2gb_3
+        ADD      R7,R6,R1, LSL #+1
+        LDRH     R7,[R7, #+0]
+        MOV      R2,#+0
+        STRH     R7,[SP, #+0]
+        B        ??un2gb_6
+??un2gb_7:
+        ADD      R2,R2,#+1
+        MOV      R3,#+97
+        ORR      R3,R3,#0x7D00
+        CMP      R2,R3
+        BGE      ??un2gb_5
+??un2gb_6:
+        LDR      R3,??DataTable10  ;; timer_disable + 600
+        LDR      R3,[R3, #+0]
+        ADD      R3,R3,R2, LSL #+1
+        LDRH     R3,[R3, #+0]
+        CMP      R3,R7
+        BNE      ??un2gb_7
+        MOV      R7,#+64
+        ORR      R7,R7,#0x8100
+        ADD      R2,R7,R2
+        STRH     R2,[SP, #+0]
+        LDRB     R2,[SP, #+1]
+        STRB     R2,[R5, +R4]
+        LDRB     R3,[SP, #+0]
+        ADD      R2,R5,R4
+        ADD      R5,R5,#+2
+        STRB     R3,[R2, #+1]
+        B        ??un2gb_5
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable10:
+        DC32     timer_disable + 600
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DrawHighlightID??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE ??DrawHighlightID
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ??DrawHighlightID
+        ARM
+??DrawHighlightID:
+        PUSH     {R3-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+40
+        LDR      R6,[SP, #+40]
+        LDR      R7,[SP, #+44]
+        LDR      R8,[SP, #+48]
+        LDR      R9,[SP, #+52]
+        MOV      R4,R1
+        MOV      R5,R2
+        SWI      +497
+        LDR      R0,??DrawHighlightID_1  ;; cfg_highlight
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??DrawHighlightID_2
+        LDR      R0,[SP, #+0]
+        SUB      R11,R7,#+1
+        SUB      R10,R0,#+1
+        MOV      R0,R9
+        PUSH     {R0}
+        CFI CFA R13+44
+        PUSH     {R0}
+        CFI CFA R13+48
+        SUB      R3,R6,#+1
+        MOV      R2,R10
+        MOV      R1,R5
+        MOV      R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+52
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+56
+        MOV      R0,R8
+        PUSH     {R0}
+        CFI CFA R13+60
+        MOV      R0,R11
+        PUSH     {R0}
+        CFI CFA R13+64
+        MOV      R0,R4
+        SWI      +493
+        MOV      R0,R9
+        PUSH     {R0}
+        CFI CFA R13+68
+        PUSH     {R0}
+        CFI CFA R13+72
+        ADD      R3,R6,#+1
+        MOV      R2,R10
+        MOV      R1,R5
+        MOV      R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+76
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+80
+        MOV      R0,R8
+        PUSH     {R0}
+        CFI CFA R13+84
+        PUSH     {R11}
+        CFI CFA R13+88
+        MOV      R0,R4
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+40
+        LDR      R0,[SP, #+0]
+        ADD      R11,R7,#+1
+        ADD      R10,R0,#+1
+        MOV      R0,R9
+        PUSH     {R0}
+        CFI CFA R13+44
+        PUSH     {R0}
+        CFI CFA R13+48
+        SUB      R3,R6,#+1
+        MOV      R2,R10
+        MOV      R1,R5
+        MOV      R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+52
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+56
+        MOV      R0,R8
+        PUSH     {R0}
+        CFI CFA R13+60
+        MOV      R0,R11
+        PUSH     {R0}
+        CFI CFA R13+64
+        MOV      R0,R4
+        SWI      +493
+        MOV      R0,R9
+        PUSH     {R0}
+        CFI CFA R13+68
+        PUSH     {R9}
+        CFI CFA R13+72
+        ADD      R3,R6,#+1
+        MOV      R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+76
+        MOV      R2,R10
+        MOV      R1,R5
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+80
+        MOV      R0,R8
+        PUSH     {R0}
+        CFI CFA R13+84
+        PUSH     {R11}
+        CFI CFA R13+88
+        MOV      R0,R4
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+40
+??DrawHighlightID_2:
+        LDR      R0,[SP, #+56]
+        MOV      R3,R6
+        PUSH     {R0}
+        CFI CFA R13+44
+        PUSH     {R0}
+        CFI CFA R13+48
+        MOV      R1,R5
+        MOV      R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+52
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+56
+        PUSH     {R8}
+        CFI CFA R13+60
+        PUSH     {R7}
+        CFI CFA R13+64
+        LDR      R2,[SP, #+24]
+        MOV      R0,R4
+        SWI      +493
+        ADD      SP,SP,#+28
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??DrawHighlightID_1:
+        DC32     cfg_highlight
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??load_db_file??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE ??load_db_file
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ??load_db_file
+        ARM
+??load_db_file:
+        LDR      R0,??DataTable44  ;; timer_disable
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SUB      SP,SP,#+40
+        CFI CFA R13+52
+        MOV      R1,#+120
+        ORR      R1,R1,#0x1100
+        ADD      R4,R1,R0
+        LDR      R1,??DataTable21  ;; cfg_location_file
+        MOV      R0,R4
+        _BLF     ??getdir,??getdir??rA
+        MOV      R1,SP
+        MOV      R0,R4
+        SWI      +761
+        CMP      R0,#+0
+        BNE      ??load_db_file_1
+        LDR      R0,??DataTable13  ;; timer_disable + 4472
+        MOV      R3,#+0
+        MOV      R2,#+255
+        ORR      R2,R2,#0x100
+        MOV      R1,#+1
+        SWI      +760
+        MOVS     R4,R0
+        BMI      ??load_db_file_1
+        LDR      R0,[SP, #+24]
+        ADD      R0,R0,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOVS     R5,R0
+        BEQ      ??load_db_file_1
+        LDR      R2,[SP, #+24]
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +763
+        MOV      R1,#+0
+        STRB     R1,[R0, +R5]
+        MOV      R0,R4
+        SWI      +765
+        LDR      R0,??DataTable85  ;; timer_disable + 604
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??load_db_file_2
+        LDR      R0,??DataTable85  ;; timer_disable + 604
+        LDR      R0,[R0, #+0]
+        _BLF     `??operator delete`,`??operator delete??rA`
+??load_db_file_2:
+        LDR      R0,??DataTable44  ;; timer_disable
+        STR      R5,[R0, #+604]
+        MOV      R0,R5
+        ADD      SP,SP,#+40
+        CFI CFA R13+12
+        POP      {R4,R5,PC}
+        CFI CFA R13+52
+??load_db_file_1:
+        LDR      R0,??DataTable85  ;; timer_disable + 604
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??load_db_file_3
+        LDR      R0,??DataTable85  ;; timer_disable + 604
+        LDR      R0,[R0, #+0]
+        _BLF     `??operator delete`,`??operator delete??rA`
+??load_db_file_3:
+        LDR      R0,??DataTable85  ;; timer_disable + 604
+        MOV      R1,#+0
+        STR      R1,[R0, #+0]
+        MOV      R0,#+0
+        ADD      SP,SP,#+40
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable13:
+        DC32     timer_disable + 4472
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??AddTo_db??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock20
+        REQUIRE ??AddTo_db
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function ??AddTo_db
+        ARM
+??AddTo_db:
+        LDR      R0,??DataTable44  ;; timer_disable
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R1,#+120
+        ORR      R1,R1,#0x1100
+        MOV      R5,#+0
+        ADD      R4,R1,R0
+        LDR      R1,??DataTable21  ;; cfg_location_file
+        MOV      R0,R4
+        _BLF     ??getdir,??getdir??rA
+        MOV      R3,#+0
+        MOV      R2,#+255
+        ORR      R2,R2,#0x100
+        MOV      R1,#+4
+        MOV      R0,R4
+        SWI      +760
+        MOVS     R4,R0
+        BMI      ??AddTo_db_1
+        LDR      R0,??DataTable83  ;; cfg_cellidmode
+        MOV      R1,#+120
+        LDR      R0,[R0, #+0]
+        ORR      R1,R1,#0x1300
+        CMP      R0,#+0
+        LDR      R0,??DataTable44  ;; timer_disable
+        LDREQ    R2,??AddTo_db_2  ;; `?<Constant L"\\x5b\\x25\\x30\\x35\\x64\\x3a\\x25\\x30\\` + 36
+        ADD      R1,R1,R0
+        LDRNE    R2,??AddTo_db_2+0x4  ;; `?<Constant L"\\x5b\\x25\\x30\\x35\\x64\\x3a\\x25\\x30\\`
+        PUSH     {R1}
+        CFI CFA R13+16
+        LDRH     R1,[R0, #+4]
+        MOV      R5,#+56
+        ORR      R5,R5,#0x1400
+        PUSH     {R1}
+        CFI CFA R13+20
+        LDRH     R3,[R0, #+2]
+        ADD      R0,R5,R0
+        MOV      R1,#+95
+        SWI      +277
+        LDR      R0,??DataTable45  ;; timer_disable + 596
+        ADD      SP,SP,#+8
+        CFI CFA R13+12
+        LDR      R0,[R0, #+0]
+        MOV      R2,#+95
+        CMP      R0,#+0
+        LDR      R0,??DataTable44  ;; timer_disable
+        ORR      R3,R5,#0xC0
+        ADD      R1,R5,R0
+        ADD      R0,R3,R0
+        BNE      ??AddTo_db_3
+        BL       ??unicode2char
+        B        ??AddTo_db_4
+??AddTo_db_3:
+        BL       ??un2gb
+??AddTo_db_4:
+        LDR      R0,??DataTable44  ;; timer_disable
+        ORR      R1,R5,#0xC0
+        ADD      R5,R1,R0
+        MOV      R0,R5
+        SWI      +346
+        MOV      R2,R0
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +762
+        MOV      R0,R4
+        SWI      +765
+        MOV      R5,#+1
+??AddTo_db_1:
+        BL       ??load_db_file
+        LDR      R0,??DataTable86  ;; timer_disable + 626
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??AddTo_db_5
+        LDR      R0,??DataTable44  ;; timer_disable
+        MOV      R1,#+120
+        ORR      R1,R1,#0x1300
+        ADD      R1,R1,R0
+        MOV      R2,#+120
+        ORR      R2,R2,#0xD00
+        ADD      R0,R2,R0
+        SWI      +338
+??AddTo_db_5:
+        MOV      R0,R5
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??AddTo_db_2:
+        DC32     `?<Constant L"\\x5b\\x25\\x30\\x35\\x64\\x3a\\x25\\x30\\` + 36
+        DC32     `?<Constant L"\\x5b\\x25\\x30\\x35\\x64\\x3a\\x25\\x30\\`
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable21:
+        DC32     cfg_location_file
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??vibrate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock22
+        REQUIRE ??vibrate
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function ??vibrate
+        ARM
+??vibrate:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        CMP      R0,#+1
+        POPLT    {PC}
+        SWI      +479
+        CMP      R0,#+0
+        BNE      ??vibrate_1
+        SWI      +33233
+        LDR      R0,[R0, #+0]
+??vibrate_1:
+        LDR      R1,??DataTable91  ;; cfg_vibrate
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+1
+        BNE      ??vibrate_2
+        MOV      R3,#+94
+        ORR      R3,R3,#0x100
+        MOV      R2,#+70
+        MOV      R1,#+70
+        SWI      +466
+        POP      {PC}
+??vibrate_2:
+        LDR      R1,??DataTable91  ;; cfg_vibrate
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+2
+        BNE      ??vibrate_3
+        MOV      R3,#+250
+        MOV      R2,#+0
+        MOV      R1,#+250
+        B        ??vibrate_4
+??vibrate_3:
+        LDR      R1,??DataTable91  ;; cfg_vibrate
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+3
+        POPNE    {PC}
+        MOV      R3,#+500
+        MOV      R2,#+0
+        MOV      R1,#+500
+??vibrate_4:
+        SWI      +466
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??GetLocationImage??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock24
+        REQUIRE ??GetLocationImage
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function ??GetLocationImage
+        ARM
+??GetLocationImage:
+        LDR      R2,??DataTable56  ;; timer_disable + 16
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SWI      +716
+        CMP      R0,#+0
+        BPL      ??GetLocationImage_1
+        LDR      R0,??DataTable56  ;; timer_disable + 16
+        MOV      R1,#+255
+        ORR      R1,R1,#0xFF00
+        STRH     R1,[R0, #+0]
+        POP      {R4-R6,PC}
+??GetLocationImage_1:
+        LDR      R4,??DataTable44  ;; timer_disable
+        LDRH     R0,[R4, #+16]
+        SWI      +659
+        MOV      R5,R0
+        LDRH     R0,[R4, #+16]
+        SWI      +660
+        MOV      R2,R0
+        LDR      R0,??DataTable58  ;; cfg_location_image
+        LDRH     R1,[R0, #+2]
+        LDRH     R3,[R0, #+0]
+        SUB      R3,R1,R3
+        LDRH     R1,[R0, #+6]
+        LDRH     R0,[R0, #+4]
+        SUB      R6,R1,R0
+        MUL      R0,R6,R5
+        MOV      R1,R2
+        _BLF     ??div32_a,??rA??div32_a
+        CMP      R3,R1
+        LDRGE    R0,??GetLocationImage_2  ;; timer_disable + 616
+        STR      R1,[R4, #+612]
+        STRGE    R6,[R0, #+0]
+        POPGE    {R4-R6,PC}
+        STR      R3,[R4, #+612]
+        MUL      R0,R3,R2
+        MOV      R1,R5
+        _BLF     ??div32_a,??rA??div32_a
+        STR      R1,[R4, #+616]
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??GetLocationImage_2:
+        DC32     timer_disable + 616
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??UpdateLocationImage??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock26
+        REQUIRE ??UpdateLocationImage
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function ??UpdateLocationImage
+        ARM
+??UpdateLocationImage:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R4,??DataTable44  ;; timer_disable
+        SUB      SP,SP,#+28
+        CFI CFA R13+44
+        MOV      R0,#+0
+        STR      R0,[R4, #+616]
+        STR      R0,[R4, #+612]
+        LDRH     R0,[R4, #+16]
+        MOV      R1,#+255
+        ORR      R1,R1,#0xFF00
+        CMP      R0,R1
+        BEQ      ??UpdateLocationImage_1
+        SWI      +717
+        MOV      R0,#+255
+        ORR      R0,R0,#0xFF00
+        STRH     R0,[R4, #+16]
+??UpdateLocationImage_1:
+        LDR      R0,??DataTable90  ;; cfg_show_type
+        LDR      R0,[R0, #+0]
+        TST      R0,#0x2
+        BEQ      ??UpdateLocationImage_2
+        LDR      R1,??UpdateLocationImage_3  ;; cfg_images_path
+        MOV      R5,#+120
+        ORR      R5,R5,#0xF00
+        ADD      R0,R5,R4
+        _BLF     ??getdir,??getdir??rA
+        ADD      R0,R5,#+512
+        ADD      R6,R0,R4
+        SUB      R0,R0,#+3072
+        ADD      R1,R0,R4
+        MOV      R0,R6
+        SWI      +338
+        LDR      R1,??UpdateLocationImage_3+0x4  ;; `?<Constant L"\\x2e\\x6a\\x70\\x67">` + 12
+        MOV      R0,R6
+        SWI      +340
+        MOV      R2,SP
+        MOV      R1,R6
+        ADD      R0,R5,R4
+        SWI      +284
+        CMP      R0,#+0
+        ADD      R0,R5,#+512
+        BEQ      ??UpdateLocationImage_4
+        SUB      R0,R0,#+3072
+        ADD      R1,R0,R4
+        MOV      R0,R6
+        SWI      +338
+        LDR      R1,??UpdateLocationImage_3+0x8  ;; `?<Constant L"\\x2e\\x6a\\x70\\x67">`
+        MOV      R0,R6
+        SWI      +340
+        MOV      R2,SP
+        MOV      R1,R6
+        ADD      R0,R5,R4
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??UpdateLocationImage_2
+        ADD      R0,R5,#+512
+??UpdateLocationImage_4:
+        ADD      R1,R0,R4
+        ADD      R0,R5,R4
+        BL       ??GetLocationImage
+??UpdateLocationImage_2:
+        ADD      SP,SP,#+28       ;; stack cleaning
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??UpdateLocationImage_3:
+        DC32     cfg_images_path
+        DC32     `?<Constant L"\\x2e\\x6a\\x70\\x67">` + 12
+        DC32     `?<Constant L"\\x2e\\x6a\\x70\\x67">`
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InitVar??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock28
+        REQUIRE ??InitVar
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI Function ??InitVar
+        ARM
+??InitVar:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R4,??DataTable44  ;; timer_disable
+        SUB      SP,SP,#+28
+        CFI CFA R13+44
+        _BLF     ??InitConfig,??InitConfig??rA
+        SWI      +305
+        SWI      +536
+        LDR      R1,[R4, #+620]
+        MVN      R2,#-1879048192
+        SWI      +322
+        LDR      R0,??DataTable102  ;; cfg_location
+        LDR      R1,??InitVar_1   ;; items
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R1, +R0, LSL #+2]
+        MOV      R1,#+96
+        STR      R0,[R4, #+620]
+        LDR      R0,??InitVar_1+0x4  ;; cfg_new_action_timeout
+        ORR      R1,R1,#0xEA00
+        LDR      R0,[R0, #+0]
+        MUL      R0,R1,R0
+        STR      R0,[R4, #+592]
+        MOV      R0,#+0
+        SWI      +601
+        STR      R0,[R4, #+572]
+        MOV      R0,#+0
+        SWI      +600
+        STR      R0,[R4, #+576]
+        SWI      +33266
+        LDR      R0,[R0, #+0]
+        SWI      +756
+        STR      R0,[R4, #+584]
+        SWI      +675
+        SWI      +756
+        LDR      R1,[R4, #+576]
+        SUB      R0,R1,R0
+        STR      R0,[R4, #+580]
+        LDRH     R0,[R4, #+14]
+        MOV      R1,#+255
+        ORR      R1,R1,#0xFF00
+        CMP      R0,R1
+        BEQ      ??InitVar_2
+        SWI      +717
+        MOV      R0,#+255
+        ORR      R0,R0,#0xFF00
+        STRH     R0,[R4, #+14]
+??InitVar_2:
+        LDR      R0,??DataTable59  ;; cfg_auto_image_show
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??InitVar_3
+        LDR      R2,??InitVar_1+0x8  ;; cfg_auto_file
+        MOV      R0,#+120
+        ORR      R0,R0,#0x1100
+        ADD      R5,R0,R4
+        SUB      R6,R0,#+512
+        MOV      R1,R5
+        ADD      R0,R6,R4
+        _BLF     ??extractdir,??extractdir??rA
+        MOV      R2,SP
+        MOV      R1,R5
+        ADD      R0,R6,R4
+        SWI      +284
+        CMP      R0,#+0
+        BEQ      ??InitVar_4
+        LDR      R0,??InitVar_1+0xC  ;; items + 232
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,R0
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+48
+        MOV      R3,#+1
+        MOV      R2,R4
+        ADD      R0,R6,#+1040
+        PUSH     {R0}
+        CFI CFA R13+52
+        MVN      R0,#-1879048192
+        SWI      +599
+        ADD      SP,SP,#+8
+        CFI CFA R13+44
+        B        ??InitVar_3
+??InitVar_4:
+        ADD      R2,R4,#+14
+        ADD      R0,R6,#+512
+        ADD      R1,R0,R4
+        ADD      R0,R6,R4
+        SWI      +716
+        CMP      R0,#+0
+        BPL      ??InitVar_3
+        LDR      R0,??DataTable62  ;; timer_disable + 14
+        MOV      R1,#+255
+        ORR      R1,R1,#0xFF00
+        STRH     R1,[R0, #+0]
+??InitVar_3:
+        LDR      R0,??DataTable42  ;; timer_disable + 628
+        MOV      R1,#+0
+        STRB     R1,[R0, #+0]
+        LDR      R0,??InitVar_1+0x10  ;; cfg_encode_type
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??InitVar_5
+        LDR      R0,??DataTable45  ;; timer_disable + 596
+        STR      R1,[R0, #+0]
+        BL       ??load_encode_file
+        CMP      R0,#+0
+        BNE      ??InitVar_6
+        LDR      R0,??InitVar_1+0x14  ;; items + 180
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+        MOV      R1,#+0
+        B        ??InitVar_7
+??InitVar_5:
+        LDR      R4,??DataTable44  ;; timer_disable
+        MOV      R0,#+1
+        STR      R0,[R4, #+596]
+        LDR      R0,??InitVar_1+0x18  ;; cfg_codemap_addr
+        MOV      R2,#+0
+        _BLF     wcstoul,??wcstoul??rA
+        STR      R0,[R4, #+600]
+        CMP      R0,#+0
+        BNE      ??InitVar_6
+        LDR      R0,??DataTable45  ;; timer_disable + 596
+        MOV      R1,#+0
+        STR      R1,[R0, #+0]
+        LDR      R0,??InitVar_1+0x1C  ;; items + 104
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+??InitVar_7:
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+48
+        MOV      R3,#+1
+        MOV      R2,R4
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        PUSH     {R1}
+        CFI CFA R13+52
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+        ADD      SP,SP,#+8
+        CFI CFA R13+44
+??InitVar_6:
+        BL       ??load_db_file
+        CMP      R0,#+0
+        BNE      ??InitVar_8
+        LDR      R0,??InitVar_1+0x20  ;; items + 40
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+48
+        MOV      R3,#+1
+        MOV      R2,R4
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        PUSH     {R1}
+        CFI CFA R13+52
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+        ADD      SP,SP,#+8
+        CFI CFA R13+44
+??InitVar_8:
+        LDR      R1,??InitVar_1+0x24  ;; cfg_logs_path
+        LDR      R0,??DataTable95  ;; timer_disable + 632
+        _BLF     ??getdir,??getdir??rA
+        ADD      SP,SP,#+28
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??InitVar_1:
+        DC32     items
+        DC32     cfg_new_action_timeout
+        DC32     cfg_auto_file
+        DC32     items + 232
+        DC32     cfg_encode_type
+        DC32     items + 180
+        DC32     cfg_codemap_addr
+        DC32     items + 104
+        DC32     items + 40
+        DC32     cfg_logs_path
+        CFI EndBlock cfiBlock29
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable42:
+        DC32     timer_disable + 628
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable44:
+        DC32     timer_disable
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable45:
+        DC32     timer_disable + 596
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getPlaceIndex??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock30
+        REQUIRE ??getPlaceIndex
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon1
+        CFI Function ??getPlaceIndex
+        ARM
+??getPlaceIndex:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        MOV      R5,#+0
+??getPlaceIndex_1:
+        LDR      R1,??DataTable53  ;; cfg_place
+        MOV      R0,#+24
+        MLA      R1,R0,R5,R1
+        LDR      R0,[R1, #+0]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??getPlaceIndex_2
+        LDR      R2,??DataTable53  ;; cfg_place
+        MOV      R0,#+24
+        MLA      R2,R0,R5,R2
+        MOV      R1,R4
+        LDR      R0,[R2, #+4]
+        SWI      +342
+        CMP      R0,#+0
+        MOVEQ    R0,R5
+        POPEQ    {R4,R5,PC}
+??getPlaceIndex_2:
+        ADD      R5,R5,#+1
+        CMP      R5,#+16
+        BCC      ??getPlaceIndex_1
+        MVN      R0,#+0
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getProfile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock32
+        REQUIRE ??getProfile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon1
+        CFI Function ??getProfile
+        ARM
+??getProfile:
+        CMP      R0,#+0
+        BMI      ??getProfile_1
+        CMP      R0,#+16
+        BGE      ??getProfile_1
+        LDR      R2,??DataTable53  ;; cfg_place
+        MOV      R1,#+24
+        MLA      R2,R1,R0,R2
+        LDR      R1,[R2, #+8]
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+0
+        BEQ      ??getProfile_1
+        LDR      R2,??DataTable53  ;; cfg_place
+        MOV      R1,#+24
+        MLA      R0,R1,R0,R2
+        LDR      R0,[R0, #+8]
+        LDR      R0,[R0, #+0]
+        SUB      R0,R0,#+1
+        BX       LR
+??getProfile_1:
+        MVN      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getVibrate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock34
+        REQUIRE ??getVibrate
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon1
+        CFI Function ??getVibrate
+        ARM
+??getVibrate:
+        CMP      R0,#+0
+        BMI      ??getVibrate_1
+        CMP      R0,#+16
+        BGE      ??getVibrate_1
+        LDR      R2,??DataTable53  ;; cfg_place
+        MOV      R1,#+24
+        MLA      R0,R1,R0,R2
+        LDR      R0,[R0, #+12]
+        LDR      R0,[R0, #+0]
+        BX       LR
+??getVibrate_1:
+        MVN      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getSoundFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock36
+        REQUIRE ??getSoundFile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon1
+        CFI Function ??getSoundFile
+        ARM
+??getSoundFile:
+        CMP      R0,#+0
+        BMI      ??getSoundFile_1
+        CMP      R0,#+16
+        BGE      ??getSoundFile_1
+        LDR      R2,??DataTable53  ;; cfg_place
+        MOV      R1,#+24
+        MLA      R2,R1,R0,R2
+        LDR      R1,[R2, #+16]
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+0
+        BEQ      ??getSoundFile_1
+        LDR      R2,??DataTable53  ;; cfg_place
+        MOV      R1,#+24
+        MLA      R0,R1,R0,R2
+        LDR      R0,[R0, #+20]
+        BX       LR
+??getSoundFile_1:
+        MOV      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable53:
+        DC32     cfg_place
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??equ2manual_profile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock38
+        REQUIRE ??equ2manual_profile
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon1
+        CFI Function ??equ2manual_profile
+        ARM
+??equ2manual_profile:
+        MOV      R1,#+0
+??equ2manual_profile_1:
+        LDR      R2,??equ2manual_profile_2  ;; cfg_manual_profile
+        LDR      R2,[R2, +R1, LSL #+2]
+        LDR      R2,[R2, #+0]
+        CMP      R2,#+0
+        BEQ      ??equ2manual_profile_3
+        LDR      R2,??equ2manual_profile_2  ;; cfg_manual_profile
+        LDR      R2,[R2, +R1, LSL #+2]
+        LDR      R2,[R2, #+0]
+        SUB      R2,R2,#+1
+        CMP      R2,R0
+        MOVEQ    R0,#+1
+        BXEQ     LR
+??equ2manual_profile_3:
+        ADD      R1,R1,#+1
+        CMP      R1,#+7
+        BCC      ??equ2manual_profile_1
+        MOV      R0,#+0
+        BX       LR               ;; return
+        DATA
+??equ2manual_profile_2:
+        DC32     cfg_manual_profile
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DrawParams??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock40
+        REQUIRE ??DrawParams
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon1
+        CFI Function ??DrawParams
+        ARM
+??DrawParams:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        SWI      +485
+        MOV      R5,R0
+        LDR      R0,??DataTable90  ;; cfg_show_type
+        LDR      R0,[R0, #+0]
+        TST      R0,#0x2
+        BEQ      ??DrawParams_1
+        LDR      R0,??DataTable119  ;; timer_disable + 625
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??DrawParams_1
+        LDR      R0,??DataTable56  ;; timer_disable + 16
+        MOV      R1,#+255
+        LDRH     R0,[R0, #+0]
+        ORR      R1,R1,#0xFF00
+        CMP      R0,R1
+        BEQ      ??DrawParams_1
+        LDR      R0,??DataTable121  ;; timer_disable
+        LDR      R1,??DataTable58  ;; cfg_location_image
+        LDRH     R2,[R0, #+16]
+        PUSH     {R2}
+        CFI CFA R13+16
+        LDR      R2,[R0, #+616]
+        PUSH     {R2}
+        CFI CFA R13+20
+        LDR      R3,[R0, #+612]
+        LDRH     R0,[R1, #+4]
+        LDRH     R1,[R1, #+0]
+        SUB      R2,R0,R4
+        MOV      R0,R5
+        SWI      +320
+        ADD      SP,SP,#+8
+        CFI CFA R13+12
+??DrawParams_1:
+        LDR      R0,??DataTable59  ;; cfg_auto_image_show
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??DrawParams_2
+        LDR      R0,??DataTable87  ;; timer_disable + 627
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??DrawParams_2
+        LDR      R0,??DataTable62  ;; timer_disable + 14
+        MOV      R1,#+255
+        LDRH     R0,[R0, #+0]
+        ORR      R1,R1,#0xFF00
+        CMP      R0,R1
+        BEQ      ??DrawParams_2
+        LDR      R0,??DataTable62  ;; timer_disable + 14
+        MOV      R3,#+0
+        LDRH     R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+16
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+20
+        LDR      R0,??DrawParams_3  ;; cfg_auto_image_y
+        LDR      R0,[R0, #+0]
+        SUB      R2,R0,R4
+        LDR      R0,??DrawParams_3+0x4  ;; cfg_auto_image_x
+        LDR      R1,[R0, #+0]
+        MOV      R0,R5
+        SWI      +320
+        ADD      SP,SP,#+8
+        CFI CFA R13+12
+??DrawParams_2:
+        LDR      R0,??DataTable102  ;; cfg_location
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+9
+        POPNE    {R4,R5,PC}
+        LDR      R1,??DataTable119  ;; timer_disable + 625
+        LDR      R0,??DataTable90  ;; cfg_show_type
+        LDRB     R1,[R1, #+0]
+        LDR      R0,[R0, #+0]
+        AND      R0,R0,#0x1
+        TST      R1,R0
+        POPEQ    {R4,R5,PC}
+        LDR      R0,??DataTable89  ;; timer_disable + 608
+        MVN      R1,#-1879048192
+        LDR      R0,[R0, #+0]
+        CMP      R0,R1
+        POPEQ    {R4,R5,PC}
+        LDR      R0,??DrawParams_3+0x8  ;; cfg_cell_align
+        LDR      R1,??DrawParams_3+0xC  ;; cfg_cell_color
+        LDR      R0,[R0, #+0]
+        LDR      R1,[R1, #+0]
+        CMP      R0,#+1
+        LDR      R0,??DataTable121  ;; timer_disable
+        PUSH     {R1}
+        CFI CFA R13+16
+        LDR      R1,??DrawParams_3+0x10  ;; cfg_cell_border
+        LDR      R1,[R1, #+0]
+        PUSH     {R1}
+        CFI CFA R13+20
+        LDR      R1,[R0, #+576]
+        PUSH     {R1}
+        CFI CFA R13+24
+        BNE      ??DrawParams_4
+        LDR      R1,??DrawParams_3+0x14  ;; cfg_cell_x
+        MOV      R3,#+1
+        LDR      R1,[R1, #+0]
+        MOV      R2,#+1
+        PUSH     {R1}
+        CFI CFA R13+28
+        LDR      R1,??DrawParams_3+0x18  ;; cfg_cell_y
+        LDR      R1,[R1, #+0]
+        SUB      R1,R1,R4
+        PUSH     {R1}
+        CFI CFA R13+32
+        B        ??DrawParams_5
+        CFI CFA R13+24
+??DrawParams_4:
+        LDR      R1,[R0, #+572]
+        PUSH     {R1}
+        CFI CFA R13+28
+        LDR      R1,??DrawParams_3+0x18  ;; cfg_cell_y
+        LDR      R1,[R1, #+0]
+        SUB      R1,R1,R4
+        PUSH     {R1}
+        CFI CFA R13+32
+        LDR      R1,??DrawParams_3+0x14  ;; cfg_cell_x
+        LDR      R3,[R1, #+0]
+        LDR      R1,??DrawParams_3+0x8  ;; cfg_cell_align
+        LDR      R2,[R1, #+0]
+??DrawParams_5:
+        LDR      R1,[R0, #+608]
+        LDR      R0,??DrawParams_3+0x1C  ;; cfg_cell_font
+        LDR      R0,[R0, #+0]
+        BL       ??DrawHighlightID
+        ADD      SP,SP,#+20
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??DrawParams_3:
+        DC32     cfg_auto_image_y
+        DC32     cfg_auto_image_x
+        DC32     cfg_cell_align
+        DC32     cfg_cell_color
+        DC32     cfg_cell_border
+        DC32     cfg_cell_x
+        DC32     cfg_cell_y
+        DC32     cfg_cell_font
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable56:
+        DC32     timer_disable + 16
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable58:
+        DC32     cfg_location_image
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable59:
+        DC32     cfg_auto_image_show
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable62:
+        DC32     timer_disable + 14
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onTimer_disable??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock42
+        REQUIRE ??onTimer_disable
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon1
+        CFI Function ??onTimer_disable
+        ARM
+??onTimer_disable:
+        LDR      R0,??DataTable74  ;; timer_disable + 624
+        MOV      R1,#+0
+        STRB     R1,[R0, #+0]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock43
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Display_ReDraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock44
+        REQUIRE ??Display_ReDraw
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon1
+        CFI Function ??Display_ReDraw
+        ARM
+??Display_ReDraw:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        LDR      R8,??DataTable69  ;; timer_disable
+        MOV      R4,R0
+        MOV      R0,#+1
+        STRB     R0,[R8, #+624]
+        LDR      R0,??DataTable103  ;; cfg_update_interval
+        MOV      R5,R1
+        LDR      R0,[R0, #+0]
+        MOV      R6,R2
+        LDR      R2,??Display_ReDraw_1  ;; ??onTimer_disable
+        MOV      R7,R3
+        MOV      R3,#+0
+        LSL      R1,R0,#+1
+        MOV      R0,R8
+        SWI      +296
+        LDR      R0,[R8, #+584]
+        BL       ??DrawParams
+        LDR      R0,[R8, #+548]
+        CMP      R0,#+0
+        POPEQ    {R4-R8,PC}
+        MOV      R0,R4
+        LDR      R4,??Display_ReDraw_1+0x4  ;; timer_disable + 548
+        MOV      R3,R7
+        LDR      R4,[R4, #+0]
+        MOV      R2,R6
+        MOV      R1,R5
+        BLX      R4
+        POP      {R4-R8,PC}       ;; return
+        DATA
+??Display_ReDraw_1:
+        DC32     ??onTimer_disable
+        DC32     timer_disable + 548
+        CFI EndBlock cfiBlock45
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable69:
+        DC32     timer_disable
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock46 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Status_ReDraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock46
+        REQUIRE ??Status_ReDraw
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock47 Using cfiCommon1
+        CFI Function ??Status_ReDraw
+        ARM
+??Status_ReDraw:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R4,??DataTable121  ;; timer_disable
+        LDR      R12,[R4, #+536]
+        BLX      R12
+        LDRB     R0,[R4, #+624]
+        CMP      R0,#+0
+        BNE      ??Status_ReDraw_1
+        LDR      R0,??DataTable73  ;; cfg_standby_only
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        POPNE    {R4,PC}
+??Status_ReDraw_1:
+        MOV      R0,#+0
+        BL       ??DrawParams
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock47
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock48 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Soft_ReDraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock48
+        REQUIRE ??Soft_ReDraw
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock49 Using cfiCommon1
+        CFI Function ??Soft_ReDraw
+        ARM
+??Soft_ReDraw:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        MOV      R4,R0
+        LDR      R0,??Soft_ReDraw_1  ;; ??isImageViewerBook
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+        SWI      +304
+        MOV      R8,R0
+        SWI      +33587
+        SWI      +304
+        LDR      R1,??DataTable73  ;; cfg_standby_only
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+0
+        LDR      R1,??DataTable74  ;; timer_disable + 624
+        CMPEQ    R8,#+0
+        LDRB     R1,[R1, #+0]
+        CMPEQ    R0,#+0
+        MOVEQ    R0,#+1
+        MOVNE    R0,#+0
+        CMP      R1,#+0
+        BEQ      ??Soft_ReDraw_2
+        LDR      R8,??DataTable121  ;; timer_disable
+        LDR      R0,[R8, #+580]
+        BL       ??DrawParams
+        MOV      R3,R7
+        MOV      R2,R6
+        MOV      R1,R5
+        MOV      R0,R4
+        LDR      R4,[R8, #+560]
+        BLX      R4
+        POP      {R4-R8,PC}
+??Soft_ReDraw_2:
+        CMP      R0,#+0
+        BEQ      ??Soft_ReDraw_3
+        LDR      R0,??Soft_ReDraw_1+0x4  ;; timer_disable + 580
+        LDR      R0,[R0, #+0]
+        BL       ??DrawParams
+??Soft_ReDraw_3:
+        MOV      R0,R4
+        LDR      R4,??DataTable114  ;; timer_disable + 560
+        MOV      R3,R7
+        LDR      R4,[R4, #+0]
+        MOV      R2,R6
+        MOV      R1,R5
+        BLX      R4
+        POP      {R4-R8,PC}       ;; return
+        DATA
+??Soft_ReDraw_1:
+        DC32     ??isImageViewerBook
+        DC32     timer_disable + 580
+        CFI EndBlock cfiBlock49
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable73:
+        DC32     cfg_standby_only
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable74:
+        DC32     timer_disable + 624
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock50 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InvalidateAll??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock50
+        REQUIRE ??InvalidateAll
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock51 Using cfiCommon1
+        CFI Function ??InvalidateAll
+        ARM
+??InvalidateAll:
+        LDR      R0,??DataTable112  ;; timer_disable + 552
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??InvalidateAll_1
+        LDR      R0,??DataTable112  ;; timer_disable + 552
+        MOV      R1,#+0
+        LDR      R0,[R0, #+0]
+        SWI      +495
+??InvalidateAll_1:
+        LDR      R0,??DataTable110  ;; timer_disable + 540
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??InvalidateAll_2
+        LDR      R0,??DataTable110  ;; timer_disable + 540
+        MOV      R1,#+0
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+0]
+        SWI      +495
+??InvalidateAll_2:
+        LDR      R0,??DataTable116  ;; timer_disable + 564
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        POPEQ    {PC}
+        LDR      R0,??DataTable116  ;; timer_disable + 564
+        MOV      R1,#+0
+        LDR      R0,[R0, #+0]
+        SWI      +495
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock51
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock52 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CheckCurrentCell??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock52
+        REQUIRE ??CheckCurrentCell
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock53 Using cfiCommon1
+        CFI Function ??CheckCurrentCell
+        ARM
+??CheckCurrentCell:
+        LDR      R0,??DataTable83  ;; cfg_cellidmode
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R4,??DataTable121  ;; timer_disable
+        SUB      SP,SP,#+20
+        CFI CFA R13+36
+        LDR      R0,[R0, #+0]
+        MOV      R1,#+16
+        CMP      R0,#+0
+        LDRH     R0,[R4, #+4]
+        LDREQ    R2,??CheckCurrentCell_1  ;; `?<Constant "[%s]">` + 28
+        MOV      R5,#+120
+        LDRNE    R2,??CheckCurrentCell_1+0x4  ;; `?<Constant "[%s]">` + 8
+        PUSH     {R0}
+        CFI CFA R13+40
+        LDRH     R3,[R4, #+2]
+        ORR      R5,R5,#0x500
+        BIC      R6,R5,#0x100
+        MOV      R0,#+120
+        ORR      R0,R0,#0x500
+        ADD      R0,R0,R4
+        SWI      +277
+        ADD      SP,SP,#+4
+        CFI CFA R13+36
+        ADD      R1,R5,R4
+        ORR      R0,R5,#0x800
+        ADD      R0,R0,R4
+        SWI      +338
+        MOV      R2,#+15
+        ADD      R1,R5,R4
+        ADD      R0,R6,R4
+        SWI      +347
+        LDR      R1,??CheckCurrentCell_1+0x8  ;; `?<Constant "[%s]">`
+        ADD      R2,R6,R4
+        MOV      R0,SP
+        SWI      +276
+        LDR      R0,[R4, #+604]
+        MOV      R6,#+0
+        CMP      R0,#+0
+        BEQ      ??CheckCurrentCell_2
+        LDR      R0,??DataTable85  ;; timer_disable + 604
+        MOV      R2,#+0
+        LDR      R0,[R0, #+0]
+        MOV      R1,SP
+        SWI      +373
+        MOVS     R5,R0
+        BEQ      ??CheckCurrentCell_2
+        MOV      R1,R5
+        MOV      R0,#+120
+        ORR      R0,R0,#0x400
+        ADD      R0,R0,R4
+        SWI      +416
+        LDR      R0,[R4, #+596]
+        MOV      R2,#+255
+        CMP      R0,#+0
+        LDR      R0,??CheckCurrentCell_1+0xC  ;; timer_disable + 1400
+        MOV      R1,R5
+        BNE      ??CheckCurrentCell_3
+        BL       ??char2unicode
+        B        ??CheckCurrentCell_4
+??CheckCurrentCell_3:
+        BL       ??gb2un
+??CheckCurrentCell_4:
+        LDR      R0,??DataTable86  ;; timer_disable + 626
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??CheckCurrentCell_5
+        MOV      R0,#+120
+        ORR      R0,R0,#0x500
+        ADD      R1,R0,R4
+        ORR      R0,R0,#0x800
+        ADD      R0,R0,R4
+        SWI      +338
+??CheckCurrentCell_5:
+        MOV      R0,R5
+        SWI      +260
+        MOV      R6,#+1
+        B        ??CheckCurrentCell_6
+??CheckCurrentCell_2:
+        LDR      R0,??DataTable87  ;; timer_disable + 627
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??CheckCurrentCell_6
+        BL       ??AddTo_db
+        CMP      R0,#+0
+        MOVNE    R6,#+1
+??CheckCurrentCell_6:
+        LDR      R0,??DataTable89  ;; timer_disable + 608
+        MVN      R1,#-1879048192
+        LDR      R0,[R0, #+0]
+        CMP      R0,R1
+        BEQ      ??CheckCurrentCell_7
+        LDR      R0,??DataTable89  ;; timer_disable + 608
+        LDR      R0,[R0, #+0]
+        SWI      +353
+??CheckCurrentCell_7:
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        MOV      R0,#+120
+        ORR      R0,R0,#0xD00
+        ADD      R0,R0,R4
+        SWI      +349
+        STR      R0,[R4, #+608]
+        BL       ??UpdateLocationImage
+        LDR      R0,??DataTable90  ;; cfg_show_type
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??CheckCurrentCell_8
+        BL       ??InvalidateAll
+??CheckCurrentCell_8:
+        MOV      R0,R6
+        ADD      SP,SP,#+20
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??CheckCurrentCell_1:
+        DC32     `?<Constant "[%s]">` + 28
+        DC32     `?<Constant "[%s]">` + 8
+        DC32     `?<Constant "[%s]">`
+        DC32     timer_disable + 1400
+        CFI EndBlock cfiBlock53
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable83:
+        DC32     cfg_cellidmode
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable85:
+        DC32     timer_disable + 604
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable86:
+        DC32     timer_disable + 626
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable87:
+        DC32     timer_disable + 627
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable89:
+        DC32     timer_disable + 608
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable90:
+        DC32     cfg_show_type
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock54 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CheckCellName??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock54
+        REQUIRE ??CheckCellName
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock55 Using cfiCommon1
+        CFI Function ??CheckCellName
+        ARM
+??CheckCellName:
+        LDR      R0,??DataTable91  ;; cfg_vibrate
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        LDR      R4,??DataTable121  ;; timer_disable
+        SUB      SP,SP,#+8
+        CFI CFA R13+28
+        LDR      R0,[R0, #+0]
+        MOV      R6,#+120
+        BL       ??vibrate
+        LDRH     R0,[R4, #+2]
+        ORR      R6,R6,#0x900
+        SUB      R7,R6,#+1024
+        STRH     R0,[R4, #+6]
+        LDRH     R0,[R4, #+4]
+        ADD      R1,R7,R4
+        STRH     R0,[R4, #+8]
+        ADD      R0,R6,R4
+        SWI      +338
+        BL       ??CheckCurrentCell
+        MOV      R5,R0
+        ADD      R1,R6,R4
+        ADD      R0,R7,R4
+        SWI      +342
+        CMP      R0,#+0
+        BEQ      ??CheckCellName_1
+        CMP      R5,#+1
+        BEQ      ??CheckCellName_2
+??CheckCellName_1:
+        LDR      R0,??CheckCellName_3  ;; timer_disable + 588
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        BEQ      ??CheckCellName_4
+??CheckCellName_2:
+        LDR      R2,??DataTable99  ;; ??onTimerNewAction
+        LDR      R1,[R4, #+592]
+        MOV      R3,#+0
+        ADD      R0,R4,#+12
+        SWI      +296
+??CheckCellName_4:
+        LDR      R0,??CheckCellName_3  ;; timer_disable + 588
+        STR      R5,[R0, #+0]
+        LDR      R0,??CheckCellName_3+0x4  ;; cfg_log_mode
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        POPEQ    {R0,R1,R4-R7,PC}
+        LDR      R0,??CheckCellName_3+0x4  ;; cfg_log_mode
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+2
+        BNE      ??CheckCellName_5
+        ADD      R1,R6,R4
+        ADD      R0,R7,R4
+        SWI      +342
+        CMP      R0,#+0
+        B        ??CheckCellName_6
+??CheckCellName_5:
+        LDR      R0,??CheckCellName_3+0x4  ;; cfg_log_mode
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+3
+        BNE      ??CheckCellName_7
+        CMP      R5,#+0
+??CheckCellName_6:
+        BNE      ??CheckCellName_8
+        POP      {R0,R1,R4-R7,PC}
+??CheckCellName_7:
+        LDR      R0,??CheckCellName_3+0x4  ;; cfg_log_mode
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+4
+        CMPEQ    R5,#+1
+        POPEQ    {R0,R1,R4-R7,PC}
+??CheckCellName_8:
+        LDR      R0,??DataTable98  ;; SYNC
+        MOV      R1,SP
+        LDR      R0,[R0, #+0]
+        SWI      +366
+        MOV      R0,#+32
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R5,R0
+        LDR      R0,??CheckCellName_3+0x8  ;; cfg_date_format
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??CheckCellName_9
+        LDRH     R0,[SP, #+0]
+        LDR      R2,??CheckCellName_3+0xC  ;; `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 32
+        PUSH     {R0}
+        CFI CFA R13+32
+        LDRB     R0,[SP, #+6]
+        PUSH     {R0}
+        CFI CFA R13+36
+        LDRB     R3,[SP, #+11]
+        B        ??CheckCellName_10
+        CFI CFA R13+28
+??CheckCellName_9:
+        LDRB     R0,[SP, #+3]
+        LDR      R2,??CheckCellName_3+0x10  ;; `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\`
+        PUSH     {R0}
+        CFI CFA R13+32
+        LDRB     R0,[SP, #+6]
+        PUSH     {R0}
+        CFI CFA R13+36
+        LDRH     R3,[SP, #+8]
+??CheckCellName_10:
+        MOV      R1,#+11
+        MOV      R0,R5
+        SWI      +277
+        LDR      R0,??CheckCellName_3+0x14  ;; cfg_log_ext
+        ADD      SP,SP,#+8
+        CFI CFA R13+28
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        LDRNE    R1,??CheckCellName_3+0x18  ;; `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 64
+        MOV      R0,R5
+        LDREQ    R1,??CheckCellName_3+0x1C  ;; `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 144
+        SWI      +340
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+32
+        LDR      R0,??DataTable95  ;; timer_disable + 632
+        MOV      R3,#+384
+        MOV      R2,#+268
+        MOV      R1,R5
+        SWI      +278
+        MOVS     R7,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        BMI      ??CheckCellName_11
+        LDR      R0,??CheckCellName_3+0x20  ;; timer_disable + 1144
+        SWI      +346
+        ADD      R0,R0,#+32
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R6,R0
+        LDR      R0,??DataTable96  ;; cfg_cellidmode
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        LDREQ    R1,??CheckCellName_3+0x24  ;; `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 108
+        MOV      R0,#+120
+        LDRNE    R1,??CheckCellName_3+0x28  ;; `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 72
+        ORR      R0,R0,#0x400
+        ADD      R0,R0,R4
+        PUSH     {R0}
+        CFI CFA R13+32
+        LDRH     R0,[R4, #+4]
+        PUSH     {R0}
+        CFI CFA R13+36
+        LDRH     R0,[R4, #+2]
+        PUSH     {R0}
+        CFI CFA R13+40
+        LDRB     R0,[SP, #+18]
+        PUSH     {R0}
+        CFI CFA R13+44
+        LDRB     R2,[SP, #+20]
+        LDRB     R3,[SP, #+21]
+        MOV      R0,R6
+        SWI      +276
+        ADD      SP,SP,#+16
+        CFI CFA R13+28
+        MOV      R0,R6
+        SWI      +346
+        MOV      R2,R0
+        MOV      R1,R6
+        MOV      R0,R7
+        SWI      +281
+        MOV      R0,R7
+        SWI      +279
+        MOV      R0,R6
+        _BLF     `??operator delete`,`??operator delete??rA`
+??CheckCellName_11:
+        MOV      R0,R5
+        _BLF     `??operator delete`,`??operator delete??rA`
+        POP      {R0,R1,R4-R7,PC}  ;; return
+        DATA
+??CheckCellName_3:
+        DC32     timer_disable + 588
+        DC32     cfg_log_mode
+        DC32     cfg_date_format
+        DC32     `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 32
+        DC32     `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\`
+        DC32     cfg_log_ext
+        DC32     `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 64
+        DC32     `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 144
+        DC32     timer_disable + 1144
+        DC32     `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 108
+        DC32     `?<Constant L"\\x25\\x30\\x34\\x64\\x2d\\x25\\x30\\x32\\` + 72
+        CFI EndBlock cfiBlock55
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable91:
+        DC32     cfg_vibrate
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable95:
+        DC32     timer_disable + 632
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable96:
+        DC32     cfg_cellidmode
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock56 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onTimerNewAction??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock56
+        REQUIRE ??onTimerNewAction
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock57 Using cfiCommon1
+        CFI Function ??onTimerNewAction
+        ARM
+??onTimerNewAction:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        LDR      R5,??DataTable121  ;; timer_disable
+        SUB      SP,SP,#+8
+        CFI CFA R13+32
+        MOV      R6,#+120
+        ORR      R6,R6,#0xB00
+        SUB      R7,R6,#+1024
+        ADD      R1,R7,R5
+        ADD      R0,R6,R5
+        SWI      +338
+        SUB      R0,R6,#+1536
+        ADD      R1,R0,R5
+        ADD      R0,R7,R5
+        SWI      +338
+        ADD      R0,R7,R5
+        BL       ??getPlaceIndex
+        MOV      R4,R0
+        ADD      R1,R6,R5
+        ADD      R0,R7,R5
+        SWI      +342
+        CMP      R0,#+0
+        BEQ      ??onTimerNewAction_1
+        MOV      R0,R4
+        BL       ??getVibrate
+        BL       ??vibrate
+        MOV      R0,R4
+        BL       ??getSoundFile
+        MOVS     R6,R0
+        BEQ      ??onTimerNewAction_1
+        SWI      +587
+        CMP      R0,#+0
+        BEQ      ??onTimerNewAction_2
+        LDR      R0,??onTimerNewAction_3  ;; cfg_silent
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        BNE      ??onTimerNewAction_1
+??onTimerNewAction_2:
+        ADD      R1,SP,#+4
+        MOV      R0,#+2
+        SWI      +589
+        ADD      R0,R7,#+2560
+        ADD      R7,R0,R5
+        SUB      R8,R0,#+512
+        MOV      R2,R6
+        MOV      R1,R7
+        ADD      R0,R8,R5
+        _BLF     ??extractdir,??extractdir??rA
+        LDRB     R2,[SP, #+4]
+        MOV      R1,R7
+        ADD      R0,R8,R5
+        SWI      +586
+??onTimerNewAction_1:
+        MOV      R0,R4
+        BL       ??getProfile
+        MOV      R4,R0
+        LDR      R0,??DataTable98  ;; SYNC
+        MOV      R1,SP
+        LDR      R0,[R0, #+0]
+        SWI      +436
+        CMP      R4,#+0
+        BMI      ??onTimerNewAction_4
+        LDR      R0,[SP, #+0]
+        BL       ??equ2manual_profile
+        CMP      R0,#+0
+        BNE      ??onTimerNewAction_5
+        LDR      R0,??onTimerNewAction_3+0x4  ;; cfg_set_in_gdfs
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        B        ??onTimerNewAction_6
+??onTimerNewAction_4:
+        LDR      R0,??onTimerNewAction_3+0x8  ;; cfg_default_profile
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        BLT      ??onTimerNewAction_5
+        LDR      R0,[SP, #+0]
+        BL       ??equ2manual_profile
+        CMP      R0,#+0
+        BNE      ??onTimerNewAction_5
+        LDR      R0,??onTimerNewAction_3+0x4  ;; cfg_set_in_gdfs
+        LDR      R1,[R0, #+0]
+        LDR      R0,??onTimerNewAction_3+0x8  ;; cfg_default_profile
+        LDR      R0,[R0, #+0]
+        SUB      R0,R0,#+1
+??onTimerNewAction_6:
+        SWI      +437
+??onTimerNewAction_5:
+        LDR      R2,??DataTable99  ;; ??onTimerNewAction
+        LDR      R1,[R5, #+592]
+        MOV      R3,#+0
+        ADD      R0,R5,#+12
+        SWI      +296
+        POP      {R0,R1,R4-R8,PC}  ;; return
+        DATA
+??onTimerNewAction_3:
+        DC32     cfg_silent
+        DC32     cfg_set_in_gdfs
+        DC32     cfg_default_profile
+        CFI EndBlock cfiBlock57
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable98:
+        DC32     SYNC
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable99:
+        DC32     ??onTimerNewAction
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock58 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onTimer??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock58
+        REQUIRE ??onTimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock59 Using cfiCommon1
+        CFI Function ??onTimer
+        ARM
+??onTimer:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        LDR      R4,??DataTable121  ;; timer_disable
+        SUB      SP,SP,#+40
+        CFI CFA R13+52
+        MOV      R2,SP
+        ADD      R1,SP,#+16
+        ADD      R0,SP,#+4
+        SWI      +804
+        LDRB     R0,[SP, #+12]
+        LDRB     R1,[SP, #+13]
+        ORR      R0,R1,R0, LSL #+8
+        STRH     R0,[R4, #+2]
+        LDR      R1,[SP, #+20]
+        STRH     R1,[R4, #+4]
+        LDRH     R1,[R4, #+6]
+        CMP      R0,R1
+        BNE      ??onTimer_1
+        LDRH     R0,[R4, #+4]
+        LDRH     R1,[R4, #+8]
+        CMP      R0,R1
+        BEQ      ??onTimer_2
+??onTimer_1:
+        BL       ??CheckCellName
+??onTimer_2:
+        LDR      R0,??DataTable119  ;; timer_disable + 625
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onTimer_3
+        LDR      R0,??DataTable102  ;; cfg_location
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+9
+        BGE      ??onTimer_3
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        MOV      R0,#+120
+        ORR      R0,R0,#0xD00
+        ADD      R0,R0,R4
+        SWI      +349
+        MOV      R5,R0
+        SWI      +305
+        SWI      +536
+        LDR      R1,[R4, #+620]
+        MOV      R2,R5
+        SWI      +322
+??onTimer_3:
+        LDR      R0,??DataTable103  ;; cfg_update_interval
+        LDR      R2,??DataTable168  ;; ??onTimer
+        LDR      R1,[R0, #+0]
+        LDR      R0,??onTimer_4   ;; timer_disable + 10
+        MOV      R3,#+0
+        SWI      +296
+        ADD      SP,SP,#+40
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??onTimer_4:
+        DC32     timer_disable + 10
+        CFI EndBlock cfiBlock59
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable102:
+        DC32     cfg_location
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable103:
+        DC32     cfg_update_interval
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock60 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Send_REDRAW_RELEASE??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock60
+        REQUIRE ??Send_REDRAW_RELEASE
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock61 Using cfiCommon1
+        CFI Function ??Send_REDRAW_RELEASE
+        ARM
+??Send_REDRAW_RELEASE:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R0,#+24
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R4,R0
+        LDR      R0,??DataTable121  ;; timer_disable
+        LDR      R1,[R0, #+536]
+        STR      R1,[R4, #+8]
+        LDR      R1,??DataTable164  ;; ??Status_ReDraw
+        STR      R1,[R4, #+12]
+        LDR      R1,[R0, #+548]
+        STR      R1,[R4, #+0]
+        LDR      R1,??DataTable166  ;; ??Display_ReDraw
+        STR      R1,[R4, #+4]
+        LDR      R0,[R0, #+560]
+        STR      R0,[R4, #+16]
+        LDR      R0,??DataTable165  ;; ??Soft_ReDraw
+        STR      R0,[R4, #+20]
+        SWI      +33028
+        MOV      R2,R0
+        MOV      R1,R4
+        MOV      R0,#+227
+        ORR      R0,R0,#0x300
+        SWI      +425
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock61
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock62 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SB_ELF_Killed??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock62
+        REQUIRE ??SB_ELF_Killed
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock63 Using cfiCommon1
+        CFI Function ??SB_ELF_Killed
+        ARM
+??SB_ELF_Killed:
+        LDR      R1,??SB_ELF_Killed_1  ;; timer_disable + 536
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R1,[R1, #+0]
+        MOV      R5,R0
+        LDR      R0,[R5, #+12]
+        MOV      R4,#+0
+        CMP      R0,R1
+        BNE      ??SB_ELF_Killed_2
+        LDR      R6,??DataTable164  ;; ??Status_ReDraw
+        MOV      R0,#+24
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R4,R0
+        MOV      R2,#+24
+        MOV      R1,R5
+        SWI      +275
+        LDR      R0,[R5, #+8]
+        MVN      R1,#+0
+        CMP      R0,R1
+        LDRNE    R0,??SB_ELF_Killed_1  ;; timer_disable + 536
+        LDRNE    R1,[R5, #+8]
+        STRNE    R1,[R0, #+0]
+        LDR      R0,??DataTable110  ;; timer_disable + 540
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+0]
+        SWI      +543
+        MOV      R1,R6
+        SWI      +552
+        MVN      R0,#+0
+        STR      R0,[R4, #+8]
+        STR      R6,[R4, #+12]
+??SB_ELF_Killed_2:
+        LDR      R1,??SB_ELF_Killed_1+0x4  ;; timer_disable + 548
+        LDR      R0,[R5, #+4]
+        LDR      R1,[R1, #+0]
+        CMP      R0,R1
+        BNE      ??SB_ELF_Killed_3
+        CMP      R4,#+0
+        BNE      ??SB_ELF_Killed_4
+        MOV      R0,#+24
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R4,R0
+        MOV      R2,#+24
+        MOV      R1,R5
+        SWI      +275
+??SB_ELF_Killed_4:
+        LDR      R0,[R5, #+0]
+        LDR      R6,??DataTable166  ;; ??Display_ReDraw
+        MVN      R1,#+0
+        CMP      R0,R1
+        LDRNE    R0,??SB_ELF_Killed_1+0x4  ;; timer_disable + 548
+        LDRNE    R1,[R5, #+0]
+        STRNE    R1,[R0, #+0]
+        LDR      R0,??DataTable112  ;; timer_disable + 552
+        LDR      R0,[R0, #+0]
+        SWI      +543
+        MOV      R1,R6
+        SWI      +552
+        MVN      R0,#+0
+        STR      R0,[R4, #+0]
+        STR      R6,[R4, #+4]
+??SB_ELF_Killed_3:
+        LDR      R1,??DataTable114  ;; timer_disable + 560
+        LDR      R0,[R5, #+20]
+        LDR      R1,[R1, #+0]
+        CMP      R0,R1
+        BNE      ??SB_ELF_Killed_5
+        CMP      R4,#+0
+        BNE      ??SB_ELF_Killed_6
+        MOV      R0,#+24
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R4,R0
+        MOV      R2,#+24
+        MOV      R1,R5
+        SWI      +275
+??SB_ELF_Killed_6:
+        LDR      R0,[R5, #+16]
+        MVN      R1,#+0
+        CMP      R0,R1
+        LDRNE    R0,??DataTable114  ;; timer_disable + 560
+        LDRNE    R1,[R5, #+16]
+        LDR      R5,??DataTable165  ;; ??Soft_ReDraw
+        STRNE    R1,[R0, #+0]
+        LDR      R0,??DataTable116  ;; timer_disable + 564
+        LDR      R0,[R0, #+0]
+        SWI      +543
+        MOV      R1,R5
+        SWI      +552
+        MVN      R0,#+0
+        STR      R0,[R4, #+16]
+        STR      R5,[R4, #+20]
+??SB_ELF_Killed_5:
+        CMP      R4,#+0
+        BEQ      ??SB_ELF_Killed_7
+        SWI      +33028
+        MOV      R2,R0
+        MOV      R1,R4
+        MOV      R0,#+227
+        ORR      R0,R0,#0x300
+        SWI      +425
+        MOV      R0,#+154
+        ORR      R0,R0,#0x200
+        POP      {R4-R6,PC}
+??SB_ELF_Killed_7:
+        MOV      R0,#+0
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??SB_ELF_Killed_1:
+        DC32     timer_disable + 536
+        DC32     timer_disable + 548
+        CFI EndBlock cfiBlock63
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable110:
+        DC32     timer_disable + 540
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable112:
+        DC32     timer_disable + 552
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable114:
+        DC32     timer_disable + 560
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable116:
+        DC32     timer_disable + 564
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock64 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??TerminateElf??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock64
+        REQUIRE ??TerminateElf
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock65 Using cfiCommon1
+        CFI Function ??TerminateElf
+        ARM
+??TerminateElf:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R1
+        BL       ??Send_REDRAW_RELEASE
+        MOV      R0,R4
+        SWI      +303
+        MOV      R0,#+1
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock65
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock66 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ShowAuthorInfo??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock66
+        REQUIRE ??ShowAuthorInfo
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock67 Using cfiCommon1
+        CFI Function ??ShowAuthorInfo
+        ARM
+??ShowAuthorInfo:
+        LDR      R0,??ShowAuthorInfo_1  ;; `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\xa\\x_1`
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R1,#+0
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+12
+        MOV      R3,#+1
+        MOV      R2,R4
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        PUSH     {R1}
+        CFI CFA R13+16
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+        MOV      R0,#+1
+        POP      {R1,R2,R4,PC}    ;; return
+        DATA
+??ShowAuthorInfo_1:
+        DC32     `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53\\xa\\x_1`
+        CFI EndBlock cfiBlock67
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock68 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onReconfigElf??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock68
+        REQUIRE ??onReconfigElf
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock69 Using cfiCommon1
+        CFI Function ??onReconfigElf
+        ARM
+??onReconfigElf:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+        LDR      R0,??DataTable125  ;; successed_config_path
+        MOV      R5,#+0
+        LDR      R1,[R0, #+0]
+        MOV      R0,R4
+        SWI      +671
+        CMP      R0,#+0
+        BNE      ??onReconfigElf_1
+        LDR      R0,??DataTable124  ;; successed_config_name
+        LDR      R1,[R0, #+0]
+        ADD      R0,R4,#+128
+        SWI      +671
+        CMP      R0,#+0
+        BNE      ??onReconfigElf_1
+        LDR      R0,??onReconfigElf_2  ;; `?<Constant L"\\x41d\\x430\\x441\\x442\\x440\\x43e\\x4`
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,R5
+        PUSH     {R1}
+        CFI CFA R13+16
+        MOV      R3,#+1
+        MOV      R2,R4
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        PUSH     {R1}
+        CFI CFA R13+20
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+        BL       ??InitVar
+        BL       ??CheckCurrentCell
+        LDR      R0,??DataTable119  ;; timer_disable + 625
+        LDRB     R0,[R0, #+0]
+        ADD      SP,SP,#+8
+        CFI CFA R13+12
+        CMP      R0,#+0
+        BEQ      ??onReconfigElf_3
+        LDR      R0,??DataTable127  ;; cfg_location
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+9
+        BGE      ??onReconfigElf_3
+        LDR      R4,??DataTable121  ;; timer_disable
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        MOV      R0,#+120
+        ORR      R0,R0,#0xD00
+        ADD      R0,R0,R4
+        SWI      +349
+        MOV      R5,R0
+        SWI      +305
+        SWI      +536
+        LDR      R1,[R4, #+620]
+        MOV      R2,R5
+        SWI      +322
+??onReconfigElf_3:
+        MOV      R5,#+1
+??onReconfigElf_1:
+        MOV      R0,R5
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??onReconfigElf_2:
+        DC32     `?<Constant L"\\x41d\\x430\\x441\\x442\\x440\\x43e\\x4`
+        CFI EndBlock cfiBlock69
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable119:
+        DC32     timer_disable + 625
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable121:
+        DC32     timer_disable
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock70 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onBcfgConfig??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock70
+        REQUIRE ??onBcfgConfig
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock71 Using cfiCommon1
+        CFI Function ??onBcfgConfig
+        ARM
+??onBcfgConfig:
+        LDR      R2,??onBcfgConfig_1+0x4  ;; cfg_bcfgedit
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R4,??DataTable171  ;; timer_disable
+        SUB      SP,SP,#+28
+        CFI CFA R13+44
+        MOV      R0,#+120
+        ORR      R0,R0,#0x1100
+        ADD      R5,R0,R4
+        SUB      R6,R0,#+512
+        MOV      R1,R5
+        ADD      R0,R6,R4
+        _BLF     ??extractdir,??extractdir??rA
+        MOV      R2,SP
+        MOV      R1,R5
+        ADD      R0,R6,R4
+        SWI      +284
+        CMP      R0,#+0
+        BEQ      ??onBcfgConfig_2
+        MOV      R0,#+17
+        SWI      +261
+        LDR      R1,??DataTable126  ;; timer_disable + 4472
+        MOV      R2,SP
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??onBcfgConfig_3
+        MOV      R0,#+17
+??onBcfgConfig_4:
+        SWI      +261
+        MOV      R1,R0
+        LDR      R0,??onBcfgConfig_1+0x8  ;; timer_disable + 3960
+        SWI      +338
+??onBcfgConfig_2:
+        ADR      R1,??onBcfgConfig_1  ;; 0x2F, 0x00, 0x00, 0x00
+        ADD      R0,R6,R4
+        SWI      +340
+        ADD      R0,R6,#+512
+        ADD      R1,R0,R4
+        ADD      R0,R6,R4
+        SWI      +340
+        LDR      R0,??DataTable124  ;; successed_config_name
+        MOV      R3,#+0
+        LDR      R2,[R0, #+0]
+        LDR      R0,??DataTable125  ;; successed_config_path
+        LDR      R1,[R0, #+0]
+        ADD      R0,R6,R4
+        SWI      +269
+        MOV      R0,#+1
+        ADD      SP,SP,#+28
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI CFA R13+44
+??onBcfgConfig_3:
+        MOV      R0,#+16
+        SWI      +261
+        LDR      R1,??DataTable126  ;; timer_disable + 4472
+        MOV      R2,SP
+        SWI      +284
+        CMP      R0,#+0
+        MOVEQ    R0,#+16
+        BEQ      ??onBcfgConfig_4
+        LDR      R0,??onBcfgConfig_1+0xC  ;; `?<Constant L"\\x42\\x63\\x66\\x67\\x45\\x64\\x69\\x74\\`
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+48
+        MOV      R3,#+1
+        MOV      R2,R4
+        ADD      R1,R6,#+1040
+        PUSH     {R1}
+        CFI CFA R13+52
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+        MOV      R0,#+1
+        ADD      SP,SP,#+8
+        CFI CFA R13+44
+        ADD      SP,SP,#+28
+        CFI CFA R13+16
+        POP      {R4-R6,PC}
+        DATA
+??onBcfgConfig_1:
+        DC8      0x2F, 0x00, 0x00, 0x00
+        DC32     cfg_bcfgedit
+        DC32     timer_disable + 3960
+        DC32     `?<Constant L"\\x42\\x63\\x66\\x67\\x45\\x64\\x69\\x74\\`
+        CFI EndBlock cfiBlock71
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable124:
+        DC32     successed_config_name
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable125:
+        DC32     successed_config_path
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable126:
+        DC32     timer_disable + 4472
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock72 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??elf_exit??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock72
+        REQUIRE ??elf_exit
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+MiniGPS_BasePageEvents:
+        DATA
+        DC32 995, ??SB_ELF_Killed, 997, ??TerminateElf, 998, ??ShowAuthorInfo
+        DC32 996, ??onReconfigElf, 64, 0H
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock73 Using cfiCommon1
+        CFI Function ??elf_exit
+        ARM
+??elf_exit:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SWI      +33028
+        MOV      R1,R0
+        LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+        POP      {LR}             ;; Pop
+        CFI ?RET R14
+        CFI CFA R13+0
+        _BF      kill_data,??kill_data??rA  ;; tailcall
+        DATA
+??elf_exit_1:
+        DC32     ELF_BEGIN
+        CFI EndBlock cfiBlock73
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock74 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??isMiniGPSBook??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock74
+        REQUIRE ??isMiniGPSBook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock75 Using cfiCommon1
+        CFI Function ??isMiniGPSBook
+        ARM
+??isMiniGPSBook:
+        LDR      R1,??isMiniGPSBook_1  ;; myappname
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+4]
+        SWI      +345
+        CMP      R0,#+0
+        MOVEQ    R0,#+1
+        POPEQ    {PC}
+        MOV      R0,#+0
+        POP      {PC}             ;; return
+        DATA
+??isMiniGPSBook_1:
+        DC32     myappname
+        CFI EndBlock cfiBlock75
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock76 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ShowHideProc??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock76
+        REQUIRE ??ShowHideProc
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock77 Using cfiCommon1
+        CFI Function ??ShowHideProc
+        ARM
+??ShowHideProc:
+        LDR      R0,??DataTable127  ;; cfg_location
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+9
+        BGE      ??ShowHideProc_1
+        LDR      R0,??DataTable128  ;; timer_disable + 625
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??ShowHideProc_2
+        SWI      +305
+        SWI      +536
+        LDR      R1,??ShowHideProc_3  ;; timer_disable + 620
+        MVN      R2,#-1879048192
+        LDR      R1,[R1, #+0]
+        B        ??ShowHideProc_4
+??ShowHideProc_2:
+        LDR      R4,??DataTable171  ;; timer_disable
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        MOV      R0,#+120
+        ORR      R0,R0,#0xD00
+        ADD      R0,R0,R4
+        SWI      +349
+        MOV      R5,R0
+        SWI      +305
+        SWI      +536
+        LDR      R1,[R4, #+620]
+        MOV      R2,R5
+??ShowHideProc_4:
+        SWI      +322
+??ShowHideProc_1:
+        LDR      R4,??DataTable171  ;; timer_disable
+        LDRB     R0,[R4, #+625]
+        EOR      R0,R0,#0x1
+        STRB     R0,[R4, #+625]
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??ShowHideProc_3:
+        DC32     timer_disable + 620
+        CFI EndBlock cfiBlock77
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable127:
+        DC32     cfg_location
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable128:
+        DC32     timer_disable + 625
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock78 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CellIdProc??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock78
+        REQUIRE ??CellIdProc
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock79 Using cfiCommon1
+        CFI Function ??CellIdProc
+        ARM
+??CellIdProc:
+        LDR      R0,??DataTable171  ;; timer_disable
+        LDRB     R1,[R0, #+626]
+        EOR      R1,R1,#0x1
+        STRB     R1,[R0, #+626]
+        B        ??CheckCurrentCell  ;; tailcall
+        CFI EndBlock cfiBlock79
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock80 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??OKPressed??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock80
+        REQUIRE ??OKPressed
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock81 Using cfiCommon1
+        CFI Function ??OKPressed
+        ARM
+??OKPressed:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+        LDR      R0,??OKPressed_1  ;; timer_disable + 4984
+        SWI      +338
+        LDR      R0,[R4, #+32]
+        CMP      R0,#+0
+        BEQ      ??OKPressed_2
+        SWI      +462
+        MOV      R0,#+0
+        STR      R0,[R4, #+32]
+??OKPressed_2:
+        LDR      R0,??DataTable138  ;; timer_disable + 627
+        MOV      R1,#+1
+        STRB     R1,[R0, #+0]
+        BL       ??CheckCurrentCell
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +369
+        POP      {R4,PC}          ;; return
+        DATA
+??OKPressed_1:
+        DC32     timer_disable + 4984
+        CFI EndBlock cfiBlock81
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock82 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??BackPressed??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock82
+        REQUIRE ??BackPressed
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock83 Using cfiCommon1
+        CFI Function ??BackPressed
+        ARM
+??BackPressed:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+        LDR      R0,[R4, #+32]
+        CMP      R0,#+0
+        BEQ      ??BackPressed_1
+        SWI      +462
+        MOV      R0,#+0
+        STR      R0,[R4, #+32]
+??BackPressed_1:
+        MOV      R1,#+0
+        MOV      R0,R4
+        SWI      +369
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock83
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock84 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??NewKey??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock84
+        REQUIRE ??NewKey
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock85 Using cfiCommon1
+        CFI Function ??NewKey
+        ARM
+??NewKey:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOV      R4,R0
+        MOV      R5,R2
+        SWI      +439
+        CMP      R0,#+0
+        BEQ      ??NewKey_1
+        LDR      R0,??NewKey_2    ;; cfg_ignore_keylock
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        POPEQ    {R4-R6,PC}
+        MOV      R0,#+0
+??NewKey_1:
+        SWI      +795
+        MOV      R6,R0
+        SWI      +305
+        CMP      R6,R0
+        BNE      ??NewKey_3
+        LDR      R0,??NewKey_2+0x4  ;; cfg_ctrlmode
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??NewKey_4
+        LDR      R0,??NewKey_2+0x8  ;; cfg_menukey
+        LDR      R0,[R0, #+0]
+        CMP      R4,R0
+        BNE      ??NewKey_3
+        LDR      R0,??NewKey_2+0xC  ;; cfg_menukeymode
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        BNE      ??NewKey_3
+        LDR      R0,??DataTable172  ;; timer_disable + 532
+        LDR      R0,[R0, #+0]
+        _BLF     ??ShowMenu,??ShowMenu??rA
+        MOV      R0,#+0
+        POP      {R4-R6,PC}
+??NewKey_4:
+        LDR      R0,??NewKey_2+0x10  ;; cfg_showkey
+        LDR      R0,[R0, #+0]
+        CMP      R4,R0
+        BNE      ??NewKey_5
+        LDR      R0,??NewKey_2+0x14  ;; cfg_showkeymode
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        BNE      ??NewKey_5
+        BL       ??ShowHideProc
+        B        ??NewKey_6
+??NewKey_5:
+        LDR      R0,??NewKey_2+0x18  ;; cfg_showcellid
+        LDR      R0,[R0, #+0]
+        CMP      R4,R0
+        BNE      ??NewKey_7
+        LDR      R0,??NewKey_2+0x1C  ;; cfg_chowcellidmode
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        BNE      ??NewKey_7
+        BL       ??CellIdProc
+        B        ??NewKey_6
+??NewKey_7:
+        LDR      R0,??NewKey_2+0x20  ;; cfg_autolocation
+        LDR      R0,[R0, #+0]
+        CMP      R4,R0
+        BNE      ??NewKey_6
+        LDR      R0,??NewKey_2+0x24  ;; cfg_autolocationmode
+        LDR      R0,[R0, #+0]
+        CMP      R5,R0
+        BNE      ??NewKey_6
+        LDR      R0,??DataTable138  ;; timer_disable + 627
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??NewKey_8
+        LDR      R0,??DataTable172  ;; timer_disable + 532
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+32]
+        CMP      R0,#+0
+        BEQ      ??NewKey_9
+        LDR      R0,??DataTable172  ;; timer_disable + 532
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+32]
+        SWI      +462
+??NewKey_9:
+        LDR      R4,??DataTable171  ;; timer_disable
+        MOV      R6,#+255
+        ORR      R6,R6,#0xFF00
+        MOV      R2,R6
+        MOV      R1,#+0
+        MOV      R0,#+120
+        ORR      R0,R0,#0x1300
+        ADD      R0,R0,R4
+        SWI      +349
+        MOV      R5,R0
+        LDR      R0,??NewKey_2+0x28  ;; `?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4` + 64
+        MOV      R2,R6
+        MOV      R1,#+0
+        SWI      +349
+        LDR      R3,??NewKey_2+0x2C  ;; VAR_ARG_STRINP_FIXED_TEXT
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+20
+        LDR      R1,??NewKey_2+0x30  ;; ??BackPressed
+        PUSH     {R1}
+        CFI CFA R13+24
+        LDR      R1,??NewKey_2+0x34  ;; VAR_ARG_CALL_BACK_PREV_ACT
+        PUSH     {R1}
+        CFI CFA R13+28
+        LDR      R1,??NewKey_2+0x38  ;; ??OKPressed
+        PUSH     {R1}
+        CFI CFA R13+32
+        LDR      R1,??NewKey_2+0x3C  ;; VAR_ARG_CALL_BACK_OK
+        PUSH     {R1}
+        CFI CFA R13+36
+        MOV      R1,#+1
+        PUSH     {R1}
+        CFI CFA R13+40
+        LDR      R1,??NewKey_2+0x40  ;; VAR_ARG_STRINP_MODE
+        PUSH     {R1}
+        CFI CFA R13+44
+        MOV      R1,#+95
+        PUSH     {R1}
+        CFI CFA R13+48
+        LDR      R1,??NewKey_2+0x44  ;; VAR_ARG_STRINP_MAX_LEN
+        PUSH     {R1}
+        CFI CFA R13+52
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+56
+        LDR      R1,??NewKey_2+0x48  ;; VAR_ARG_STRINP_EMPTY_STR_EN
+        PUSH     {R1}
+        CFI CFA R13+60
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+64
+        LDR      R1,??NewKey_2+0x4C  ;; VAR_ARG_STRINP_NEW_LINE
+        PUSH     {R1}
+        CFI CFA R13+68
+        LDR      R1,??NewKey_2+0x50  ;; VAR_ARG_STRINP_TEXT
+        PUSH     {R5}
+        CFI CFA R13+72
+        PUSH     {R1}
+        CFI CFA R13+76
+        LDR      R1,??NewKey_2+0x54  ;; VAR_ARG_BOOK
+        PUSH     {R0}
+        CFI CFA R13+80
+        LDR      R2,[R4, #+532]
+        MOV      R0,#+0
+        SWI      +324
+        ADD      SP,SP,#+64
+        CFI CFA R13+16
+        MOV      R1,R0
+        LDR      R0,[R4, #+532]
+        STR      R1,[R0, #+32]
+        MOV      R1,#+0
+        SWI      +306
+        LDR      R0,[R4, #+532]
+        LDR      R0,[R0, #+32]
+        SWI      +308
+        B        ??NewKey_6
+??NewKey_8:
+        LDR      R0,??DataTable138  ;; timer_disable + 627
+        MOV      R1,#+0
+        STRB     R1,[R0, #+0]
+        LDR      R0,??NewKey_2+0x58  ;; `?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4`
+        MOV      R6,#+255
+        ORR      R6,R6,#0xFF00
+        MOV      R2,R6
+        SWI      +349
+        MOV      R1,R0
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+20
+        MOV      R3,#+1
+        MOV      R2,R6
+        MOV      R0,#+136
+        ORR      R0,R0,#0x1300
+        PUSH     {R0}
+        CFI CFA R13+24
+        MVN      R0,#-1879048192
+        SWI      +599
+        ADD      SP,SP,#+8
+        CFI CFA R13+16
+??NewKey_6:
+        BL       ??InvalidateAll
+??NewKey_3:
+        MOV      R0,#+0
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??NewKey_2:
+        DC32     cfg_ignore_keylock
+        DC32     cfg_ctrlmode
+        DC32     cfg_menukey
+        DC32     cfg_menukeymode
+        DC32     cfg_showkey
+        DC32     cfg_showkeymode
+        DC32     cfg_showcellid
+        DC32     cfg_chowcellidmode
+        DC32     cfg_autolocation
+        DC32     cfg_autolocationmode
+        DC32     `?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4` + 64
+        DC32     VAR_ARG_STRINP_FIXED_TEXT
+        DC32     ??BackPressed
+        DC32     VAR_ARG_CALL_BACK_PREV_ACT
+        DC32     ??OKPressed
+        DC32     VAR_ARG_CALL_BACK_OK
+        DC32     VAR_ARG_STRINP_MODE
+        DC32     VAR_ARG_STRINP_MAX_LEN
+        DC32     VAR_ARG_STRINP_EMPTY_STR_EN
+        DC32     VAR_ARG_STRINP_NEW_LINE
+        DC32     VAR_ARG_STRINP_TEXT
+        DC32     VAR_ARG_BOOK
+        DC32     `?<Constant L"\\x410\\x432\\x442\\x43e\\x434\\x43e\\x4`
+        CFI EndBlock cfiBlock85
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable138:
+        DC32     timer_disable + 627
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock86 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StandbyModeActivatedHook??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock86
+        REQUIRE ??StandbyModeActivatedHook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock87 Using cfiCommon1
+        CFI Function ??StandbyModeActivatedHook
+        ARM
+??StandbyModeActivatedHook:
+        LDR      R0,??DataTable140  ;; timer_disable + 624
+        MOV      R1,#+1
+        STRB     R1,[R0, #+0]
+        MOV      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock87
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock88 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StandbyModeDeactivatedHook??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock88
+        REQUIRE ??StandbyModeDeactivatedHook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock89 Using cfiCommon1
+        CFI Function ??StandbyModeDeactivatedHook
+        ARM
+??StandbyModeDeactivatedHook:
+        LDR      R0,??DataTable140  ;; timer_disable + 624
+        MOV      R1,#+0
+        STRB     R1,[R0, #+0]
+        MOV      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock89
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable140:
+        DC32     timer_disable + 624
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock90 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onCloseMiniGPSBook??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock90
+        REQUIRE ??onCloseMiniGPSBook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock91 Using cfiCommon1
+        CFI Function ??onCloseMiniGPSBook
+        ARM
+??onCloseMiniGPSBook:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+        POPEQ    {R4,R5,PC}
+        LDR      R0,??DataTable158  ;; UI_STANDBY_UNFOCUS_EVENT
+        LDR      R2,??DataTable157  ;; ??StandbyModeDeactivatedHook
+        LDR      R1,[R0, #+0]
+        LDR      R0,??DataTable159  ;; STANDBY_NOT_IDLE_EVENT
+        MOV      R3,#+0
+        LDR      R0,[R0, #+0]
+        BL       ??myModifyUIHook
+        LDR      R0,??DataTable161  ;; PHONE_IN_STBY_EVENT
+        LDR      R2,??DataTable162  ;; ??StandbyModeActivatedHook
+        LDR      R1,[R0, #+0]
+        LDR      R0,??DataTable163  ;; STANDBY_IDLE_EVENT
+        MOV      R3,#+0
+        LDR      R0,[R0, #+0]
+        BL       ??myModifyUIHook
+        LDR      R0,??onCloseMiniGPSBook_1  ;; timer_disable + 556
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_2
+        LDR      R5,??DataTable155  ;; timer_disable
+        LDR      R1,[R5, #+548]
+        SWI      +552
+??onCloseMiniGPSBook_2:
+        LDR      R0,??onCloseMiniGPSBook_1+0x4  ;; timer_disable + 544
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_3
+        LDR      R5,??DataTable155  ;; timer_disable
+        LDR      R1,[R5, #+536]
+        SWI      +552
+??onCloseMiniGPSBook_3:
+        LDR      R0,??onCloseMiniGPSBook_1+0x8  ;; timer_disable + 568
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_4
+        LDR      R5,??DataTable155  ;; timer_disable
+        LDR      R1,[R5, #+560]
+        SWI      +552
+??onCloseMiniGPSBook_4:
+        LDR      R0,??DataTable155  ;; timer_disable
+        LDRH     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_5
+        LDR      R0,??DataTable155  ;; timer_disable
+        SWI      +298
+??onCloseMiniGPSBook_5:
+        LDR      R0,??onCloseMiniGPSBook_1+0xC  ;; timer_disable + 10
+        LDRH     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_6
+        LDR      R0,??onCloseMiniGPSBook_1+0xC  ;; timer_disable + 10
+        SWI      +298
+??onCloseMiniGPSBook_6:
+        LDR      R0,??onCloseMiniGPSBook_1+0x10  ;; timer_disable + 12
+        LDRH     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_7
+        LDR      R0,??onCloseMiniGPSBook_1+0x10  ;; timer_disable + 12
+        SWI      +298
+??onCloseMiniGPSBook_7:
+        LDR      R0,??DataTable167  ;; ??NewKey
+        MOV      R2,#+0
+        MOV      R1,#+0
+        SWI      +263
+        SWI      +305
+        SWI      +536
+        LDR      R1,??onCloseMiniGPSBook_1+0x14  ;; timer_disable + 620
+        MVN      R2,#-1879048192
+        LDR      R1,[R1, #+0]
+        SWI      +322
+        LDR      R0,[R4, #+24]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_8
+        SWI      +462
+        MOV      R0,#+0
+        STR      R0,[R4, #+24]
+??onCloseMiniGPSBook_8:
+        LDR      R0,[R4, #+32]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_9
+        SWI      +462
+        MOV      R0,#+0
+        STR      R0,[R4, #+32]
+??onCloseMiniGPSBook_9:
+        LDR      R0,??onCloseMiniGPSBook_1+0x18  ;; timer_disable + 14
+        MOV      R1,#+255
+        LDRH     R0,[R0, #+0]
+        ORR      R1,R1,#0xFF00
+        CMP      R0,R1
+        BEQ      ??onCloseMiniGPSBook_10
+        LDR      R5,??DataTable155  ;; timer_disable
+        SWI      +717
+        MOV      R0,#+255
+        ORR      R0,R0,#0xFF00
+        STRH     R0,[R5, #+14]
+??onCloseMiniGPSBook_10:
+        LDR      R0,??onCloseMiniGPSBook_1+0x1C  ;; timer_disable + 16
+        MOV      R1,#+255
+        LDRH     R0,[R0, #+0]
+        ORR      R1,R1,#0xFF00
+        CMP      R0,R1
+        BEQ      ??onCloseMiniGPSBook_11
+        LDR      R5,??DataTable155  ;; timer_disable
+        SWI      +717
+        MOV      R0,#+255
+        ORR      R0,R0,#0xFF00
+        STRH     R0,[R5, #+16]
+??onCloseMiniGPSBook_11:
+        LDR      R0,??onCloseMiniGPSBook_1+0x20  ;; timer_disable + 608
+        MVN      R1,#-1879048192
+        LDR      R0,[R0, #+0]
+        CMP      R0,R1
+        BEQ      ??onCloseMiniGPSBook_12
+        LDR      R5,??DataTable155  ;; timer_disable
+        SWI      +353
+        MVN      R0,#-1879048192
+        STR      R0,[R5, #+608]
+??onCloseMiniGPSBook_12:
+        LDR      R0,??onCloseMiniGPSBook_1+0x24  ;; timer_disable + 604
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??onCloseMiniGPSBook_13
+        LDR      R0,??onCloseMiniGPSBook_1+0x24  ;; timer_disable + 604
+        LDR      R0,[R0, #+0]
+        _BLF     `??operator delete`,`??operator delete??rA`
+??onCloseMiniGPSBook_13:
+        LDR      R0,??DataTable173  ;; ??elf_exit
+        SWI      +264
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??onCloseMiniGPSBook_1:
+        DC32     timer_disable + 556
+        DC32     timer_disable + 544
+        DC32     timer_disable + 568
+        DC32     timer_disable + 10
+        DC32     timer_disable + 12
+        DC32     timer_disable + 620
+        DC32     timer_disable + 14
+        DC32     timer_disable + 16
+        DC32     timer_disable + 608
+        DC32     timer_disable + 604
+        CFI EndBlock cfiBlock91
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable155:
+        DC32     timer_disable
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock92 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??MainPageEnter??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock92
+        REQUIRE ??MainPageEnter
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock93 Using cfiCommon1
+        CFI Function ??MainPageEnter
+        ARM
+??MainPageEnter:
+        LDR      R2,??DataTable157  ;; ??StandbyModeDeactivatedHook
+        LDR      R0,??DataTable158  ;; UI_STANDBY_UNFOCUS_EVENT
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        LDR      R1,[R0, #+0]
+        LDR      R0,??DataTable159  ;; STANDBY_NOT_IDLE_EVENT
+        LDR      R4,??DataTable171  ;; timer_disable
+        LDR      R0,[R0, #+0]
+        MOV      R3,#+1
+        BL       ??myModifyUIHook
+        LDR      R0,??DataTable161  ;; PHONE_IN_STBY_EVENT
+        LDR      R2,??DataTable162  ;; ??StandbyModeActivatedHook
+        LDR      R1,[R0, #+0]
+        LDR      R0,??DataTable163  ;; STANDBY_IDLE_EVENT
+        MOV      R3,#+1
+        LDR      R0,[R0, #+0]
+        MOV      R5,#+0
+        BL       ??myModifyUIHook
+        SWI      +33266
+        STR      R0,[R4, #+540]
+        LDR      R0,[R0, #+0]
+        SWI      +543
+        STR      R0,[R4, #+544]
+        LDR      R0,[R4, #+540]
+        LDR      R0,[R0, #+0]
+        SWI      +553
+        LDR      R1,??DataTable164  ;; ??Status_ReDraw
+        STR      R0,[R4, #+536]
+        LDR      R0,[R4, #+544]
+        SWI      +552
+        SWI      +675
+        STR      R0,[R4, #+564]
+        SWI      +543
+        STR      R0,[R4, #+568]
+        LDR      R0,[R4, #+564]
+        SWI      +553
+        LDR      R1,??DataTable165  ;; ??Soft_ReDraw
+        STR      R0,[R4, #+560]
+        LDR      R0,[R4, #+568]
+        SWI      +552
+        SWI      +305
+        SWI      +536
+        SWI      +360
+        STR      R0,[R4, #+552]
+        SWI      +553
+        STR      R0,[R4, #+548]
+        LDR      R0,[R4, #+552]
+        SWI      +543
+        LDR      R1,??DataTable166  ;; ??Display_ReDraw
+        STR      R0,[R4, #+556]
+        SWI      +552
+        LDR      R0,??DataTable167  ;; ??NewKey
+        MOV      R2,#+0
+        MOV      R1,#+1
+        SWI      +263
+        LDR      R2,??DataTable168  ;; ??onTimer
+        MOV      R3,R5
+        MOV      R1,#+1000
+        ADD      R0,R4,#+10
+        SWI      +296
+        LDR      R2,??DataTable169  ;; ??onTimerNewAction
+        LDR      R1,[R4, #+592]
+        MOV      R3,R5
+        ADD      R0,R4,#+12
+        SWI      +296
+        MOV      R0,R5
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock93
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable157:
+        DC32     ??StandbyModeDeactivatedHook
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable158:
+        DC32     UI_STANDBY_UNFOCUS_EVENT
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable159:
+        DC32     STANDBY_NOT_IDLE_EVENT
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable161:
+        DC32     PHONE_IN_STBY_EVENT
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable162:
+        DC32     ??StandbyModeActivatedHook
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable163:
+        DC32     STANDBY_IDLE_EVENT
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable164:
+        DC32     ??Status_ReDraw
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable165:
+        DC32     ??Soft_ReDraw
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable166:
+        DC32     ??Display_ReDraw
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable167:
+        DC32     ??NewKey
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable168:
+        DC32     ??onTimer
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable169:
+        DC32     ??onTimerNewAction
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock94 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??main??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock94
+        REQUIRE main
+
+        RSEG DYN_PAGE:CONST:SORT:NOROOT(2)
+MiniGPS_MainPageEvents:
+        DATA
+        DC32 66, ??MainPageEnter, 64, 0H
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+timer_disable:
+        DS8 2
+        REQUIRE `?<Initializer for timer_disable>`
+currentLAC:
+        DS8 2
+        REQUIRE `?<Initializer for currentLAC>`
+currentCID:
+        DS8 2
+        REQUIRE `?<Initializer for currentCID>`
+prevLAC:
+        DS8 2
+        REQUIRE `?<Initializer for prevLAC>`
+prevCID:
+        DS8 2
+        REQUIRE `?<Initializer for prevCID>`
+timer:
+        DS8 2
+        REQUIRE `?<Initializer for timer>`
+timerNewAction:
+        DS8 2
+        REQUIRE `?<Initializer for timerNewAction>`
+auto_image:
+        DS8 2
+        REQUIRE `?<Initializer for auto_image>`
+location_image:
+        DS8 2
+        REQUIRE `?<Initializer for location_image>`
+        DS8 2
+encode_buf:
+        DS8 512
+        REQUIRE `?<Initializer for encode_buf>`
+MiniGPSBook:
+        DS8 4
+        REQUIRE `?<Initializer for MiniGPSBook>`
+Status_oldReDraw:
+        DS8 4
+        REQUIRE `?<Initializer for Status_oldReDraw>`
+GUI_status:
+        DS8 4
+        REQUIRE `?<Initializer for GUI_status>`
+Status_desc:
+        DS8 4
+        REQUIRE `?<Initializer for Status_desc>`
+Display_oldReDraw:
+        DS8 4
+        REQUIRE `?<Initializer for Display_oldReDraw>`
+GUI_display:
+        DS8 4
+        REQUIRE `?<Initializer for GUI_display>`
+Display_desc:
+        DS8 4
+        REQUIRE `?<Initializer for Display_desc>`
+Soft_oldReDraw:
+        DS8 4
+        REQUIRE `?<Initializer for Soft_oldReDraw>`
+GUI_soft:
+        DS8 4
+        REQUIRE `?<Initializer for GUI_soft>`
+Soft_desc:
+        DS8 4
+        REQUIRE `?<Initializer for Soft_desc>`
+DisplayWidth:
+        DS8 4
+        REQUIRE `?<Initializer for DisplayWidth>`
+DisplayHeight:
+        DS8 4
+        REQUIRE `?<Initializer for DisplayHeight>`
+SoftBarY:
+        DS8 4
+        REQUIRE `?<Initializer for SoftBarY>`
+StatusBarY:
+        DS8 4
+        REQUIRE `?<Initializer for StatusBarY>`
+prevLocFound:
+        DS8 4
+        REQUIRE `?<Initializer for prevLocFound>`
+NewActionTimeout:
+        DS8 4
+        REQUIRE `?<Initializer for NewActionTimeout>`
+encode_type:
+        DS8 4
+        REQUIRE `?<Initializer for encode_type>`
+CODEMAP_ADDR:
+        DS8 4
+        REQUIRE `?<Initializer for CODEMAP_ADDR>`
+db_buf:
+        DS8 4
+        REQUIRE `?<Initializer for db_buf>`
+CellNameID:
+        DS8 4
+        REQUIRE `?<Initializer for CellNameID>`
+imageWidth:
+        DS8 4
+        REQUIRE `?<Initializer for imageWidth>`
+imageHeight:
+        DS8 4
+        REQUIRE `?<Initializer for imageHeight>`
+wnd:
+        DS8 4
+        REQUIRE `?<Initializer for wnd>`
+IsInStandby:
+        DS8 1
+        REQUIRE `?<Initializer for IsInStandby>`
+visible:
+        DS8 1
+        REQUIRE `?<Initializer for visible>`
+showCellID:
+        DS8 1
+        REQUIRE `?<Initializer for showCellID>`
+AutoLocation:
+        DS8 1
+        REQUIRE `?<Initializer for AutoLocation>`
+isUCodeFile:
+        DS8 1
+        REQUIRE `?<Initializer for isUCodeFile>`
+        DS8 3
+logFolder:
+        DS8 512
+        REQUIRE `?<Initializer for logFolder>`
+logCellName:
+        DS8 256
+        REQUIRE `?<Initializer for logCellName>`
+CellName:
+        DS8 512
+        REQUIRE `?<Initializer for CellName>`
+CellNameAction:
+        DS8 512
+        REQUIRE `?<Initializer for CellNameAction>`
+prevCellName:
+        DS8 512
+        REQUIRE `?<Initializer for prevCellName>`
+prevCellNameAction:
+        DS8 512
+        REQUIRE `?<Initializer for prevCellNameAction>`
+CellNameStatus:
+        DS8 512
+        REQUIRE `?<Initializer for CellNameStatus>`
+tmppath:
+        DS8 512
+        REQUIRE `?<Initializer for tmppath>`
+tmpname:
+        DS8 512
+        REQUIRE `?<Initializer for tmpname>`
+SIwstr:
+        DS8 192
+        REQUIRE `?<Initializer for SIwstr>`
+wsnewdb:
+        DS8 192
+        REQUIRE `?<Initializer for wsnewdb>`
+snewdb:
+        DS8 96
+        REQUIRE `?<Initializer for snewdb>`
+base_page:
+        DS8 12
+        REQUIRE `?<Initializer for base_page>`
+main_page:
+        DS8 12
+        REQUIRE `?<Initializer for main_page>`
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+myappname:
+        DS8 8
+        REQUIRE `?<Initializer for myappname>`
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+cfg_manual_profile:
+        DS8 28
+        REQUIRE `?<Initializer for cfg_manual_profile>`
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+cfg_place:
+        DS8 384
+        REQUIRE `?<Initializer for cfg_place>`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock95 Using cfiCommon1
+        CFI Function main
+        ARM
+main:
+        LDR      R0,??main_0      ;; ??isMiniGPSBook
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SWI      +304
+        CMP      R0,#+0
+        BEQ      ??main_1
+        LDR      R0,??main_0+0x4  ;; `?<Constant "MiniGPS">` + 8
+        MOV      R4,#+255
+        ORR      R4,R4,#0xFF00
+        MOV      R2,R4
+        MOV      R1,#+0
+        SWI      +349
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+12
+        MOV      R3,#+1
+        MOV      R2,R4
+        MOV      R1,#+136
+        ORR      R1,R1,#0x1300
+        PUSH     {R1}
+        CFI CFA R13+16
+        MOV      R1,R0
+        MVN      R0,#-1879048192
+        SWI      +599
+        LDR      R0,??DataTable173  ;; ??elf_exit
+        SWI      +264
+        ADD      SP,SP,#+8
+        CFI CFA R13+8
+        B        ??main_2
+??main_1:
+        LDR      R4,??DataTable171  ;; timer_disable
+        BL       ??InitVar
+        MOV      R0,#+36
+        _BLF     `??operator new`,`??operator new??rA`
+        STR      R0,[R4, #+532]
+        MOV      R2,#+36
+        MOV      R1,#+0
+        SWI      +274
+        LDR      R3,??main_0+0x8  ;; `?<Constant "MiniGPS">`
+        LDR      R1,??main_0+0xC  ;; ??onCloseMiniGPSBook
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+12
+        MVN      R0,R0
+        PUSH     {R0}
+        CFI CFA R13+16
+        MOV      R0,#+88
+        ORR      R0,R0,#0x1500
+        ADD      R2,R0,R4
+        LDR      R0,[R4, #+532]
+        SWI      +299
+        CMP      R0,#+0
+        ADD      SP,SP,#+8
+        CFI CFA R13+8
+        BNE      ??main_3
+        LDR      R0,??DataTable172  ;; timer_disable + 532
+        LDR      R0,[R0, #+0]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        LDR      R0,??DataTable173  ;; ??elf_exit
+        SWI      +264
+??main_2:
+        MOV      R0,#+0
+        POP      {R4,PC}
+??main_3:
+        MOV      R0,#+100
+        ORR      R0,R0,#0x1500
+        ADD      R1,R0,R4
+        LDR      R0,[R4, #+532]
+        SWI      +301
+        MOV      R0,#+0
+        POP      {R4,PC}          ;; return
+        DATA
+??main_0:
+        DC32     ??isMiniGPSBook
+        DC32     `?<Constant "MiniGPS">` + 8
+        DC32     `?<Constant "MiniGPS">`
+        DC32     ??onCloseMiniGPSBook
+        CFI EndBlock cfiBlock95
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable171:
+        DC32     timer_disable
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable172:
+        DC32     timer_disable + 532
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable173:
+        DC32     ??elf_exit
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock96 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??getdir??rA:
+        LDR      R12,??Subroutine48_0  ;; ??getdir
+        BX       R12
+        DATA
+??Subroutine48_0:
+        DC32     ??getdir
+        CFI EndBlock cfiBlock96
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock97 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine49_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine49_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock97
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock98 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine50_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine50_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock98
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock99 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??rA??div32_a:
+        LDR      R12,??Subroutine51_0  ;; ??div32_a
+        MOV      PC,R12
+        DATA
+??Subroutine51_0:
+        DC32     ??div32_a
+        CFI EndBlock cfiBlock99
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock100 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??InitConfig??rA:
+        LDR      R12,??Subroutine52_0  ;; ??InitConfig
+        BX       R12
+        DATA
+??Subroutine52_0:
+        DC32     ??InitConfig
+        CFI EndBlock cfiBlock100
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock101 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??extractdir??rA:
+        LDR      R12,??Subroutine53_0  ;; ??extractdir
+        BX       R12
+        DATA
+??Subroutine53_0:
+        DC32     ??extractdir
+        CFI EndBlock cfiBlock101
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock102 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??wcstoul??rA:
+        LDR      R12,??Subroutine54_0  ;; wcstoul
+        BX       R12
+        DATA
+??Subroutine54_0:
+        DC32     wcstoul
+        CFI EndBlock cfiBlock102
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock103 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new??rA`:
+        LDR      R12,??Subroutine55_0  ;; `??operator new`
+        BX       R12
+        DATA
+??Subroutine55_0:
+        DC32     `??operator new`
+        CFI EndBlock cfiBlock103
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock104 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??kill_data??rA:
+        LDR      R12,??Subroutine56_0  ;; kill_data
+        BX       R12
+        DATA
+??Subroutine56_0:
+        DC32     kill_data
+        CFI EndBlock cfiBlock104
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock105 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??ShowMenu??rA:
+        LDR      R12,??Subroutine57_0  ;; ??ShowMenu
+        BX       R12
+        DATA
+??Subroutine57_0:
+        DC32     ??ShowMenu
+        CFI EndBlock cfiBlock105
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for timer_disable>`:
+        DATA
+        DC16 0
+`?<Initializer for currentLAC>`:
+        DC16 0
+`?<Initializer for currentCID>`:
+        DC16 0
+`?<Initializer for prevLAC>`:
+        DC16 0
+`?<Initializer for prevCID>`:
+        DC16 0
+`?<Initializer for timer>`:
+        DC16 0
+`?<Initializer for timerNewAction>`:
+        DC16 0
+`?<Initializer for auto_image>`:
+        DC16 65535
+`?<Initializer for location_image>`:
+        DC16 65535
+        DC8 0, 0
+`?<Initializer for encode_buf>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for MiniGPSBook>`:
+        DC32 0H
+`?<Initializer for Status_oldReDraw>`:
+        DC32 0H
+`?<Initializer for GUI_status>`:
+        DC32 0H
+`?<Initializer for Status_desc>`:
+        DC32 0H
+`?<Initializer for Display_oldReDraw>`:
+        DC32 0H
+`?<Initializer for GUI_display>`:
+        DC32 0H
+`?<Initializer for Display_desc>`:
+        DC32 0H
+`?<Initializer for Soft_oldReDraw>`:
+        DC32 0H
+`?<Initializer for GUI_soft>`:
+        DC32 0H
+`?<Initializer for Soft_desc>`:
+        DC32 0H
+`?<Initializer for DisplayWidth>`:
+        DC32 0
+`?<Initializer for DisplayHeight>`:
+        DC32 0
+`?<Initializer for SoftBarY>`:
+        DC32 0
+`?<Initializer for StatusBarY>`:
+        DC32 0
+`?<Initializer for prevLocFound>`:
+        DC32 -1
+`?<Initializer for NewActionTimeout>`:
+        DC32 600000
+`?<Initializer for encode_type>`:
+        DC32 0
+`?<Initializer for CODEMAP_ADDR>`:
+        DC32 1171521536
+`?<Initializer for db_buf>`:
+        DC32 0H
+`?<Initializer for CellNameID>`:
+        DC32 1879048191
+`?<Initializer for imageWidth>`:
+        DC32 0
+`?<Initializer for imageHeight>`:
+        DC32 0
+`?<Initializer for wnd>`:
+        DC32 6
+`?<Initializer for IsInStandby>`:
+        DC8 0
+`?<Initializer for visible>`:
+        DC8 1
+`?<Initializer for showCellID>`:
+        DC8 0
+`?<Initializer for AutoLocation>`:
+        DC8 0
+`?<Initializer for isUCodeFile>`:
+        DC8 0
+        DC8 0, 0, 0
+`?<Initializer for logFolder>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for logCellName>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for CellName>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for CellNameAction>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for prevCellName>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for prevCellNameAction>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for CellNameStatus>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for tmppath>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for tmpname>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for SIwstr>`:
+        DC16 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for wsnewdb>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for snewdb>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for base_page>`:
+        DC32 `?<Constant "MiniGPS_BasePage">`, 0H, MiniGPS_BasePageEvents
+`?<Initializer for main_page>`:
+        DC32 `?<Constant "MiniGPS_MainPage">`, 0H, MiniGPS_MainPageEvents
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for myappname>`:
+        DATA
+        DC8 "MiniGPS"
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for cfg_manual_profile>`:
+        DATA
+        DC32 cfg_manual_profile1, cfg_manual_profile2, cfg_manual_profile3
+        DC32 cfg_manual_profile4, cfg_manual_profile5, cfg_manual_profile6
+        DC32 cfg_manual_profile7
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for cfg_place>`:
+        DATA
+        DC32 cfg_place_enable1, cfg_place_name1, cfg_place_profile1
+        DC32 cfg_place_vibrate1, cfg_place_sound_enable1, cfg_sound_file1
+        DC32 cfg_place_enable2, cfg_place_name2, cfg_place_profile2
+        DC32 cfg_place_vibrate2, cfg_place_sound_enable2, cfg_sound_file2
+        DC32 cfg_place_enable3, cfg_place_name3, cfg_place_profile3
+        DC32 cfg_place_vibrate3, cfg_place_sound_enable3, cfg_sound_file3
+        DC32 cfg_place_enable4, cfg_place_name4, cfg_place_profile4
+        DC32 cfg_place_vibrate4, cfg_place_sound_enable4, cfg_sound_file4
+        DC32 cfg_place_enable5, cfg_place_name5, cfg_place_profile5
+        DC32 cfg_place_vibrate5, cfg_place_sound_enable5, cfg_sound_file5
+        DC32 cfg_place_enable6, cfg_place_name6, cfg_place_profile6
+        DC32 cfg_place_vibrate6, cfg_place_sound_enable6, cfg_sound_file6
+        DC32 cfg_place_enable7, cfg_place_name7, cfg_place_profile7
+        DC32 cfg_place_vibrate7, cfg_place_sound_enable7, cfg_sound_file7
+        DC32 cfg_place_enable8, cfg_place_name8, cfg_place_profile8
+        DC32 cfg_place_vibrate8, cfg_place_sound_enable8, cfg_sound_file8
+        DC32 cfg_place_enable9, cfg_place_name9, cfg_place_profile9
+        DC32 cfg_place_vibrate9, cfg_place_sound_enable9, cfg_sound_file9
+        DC32 cfg_place_enable10, cfg_place_name10, cfg_place_profile10
+        DC32 cfg_place_vibrate10, cfg_place_sound_enable10, cfg_sound_file10
+        DC32 cfg_place_enable11, cfg_place_name11, cfg_place_profile11
+        DC32 cfg_place_vibrate11, cfg_place_sound_enable11, cfg_sound_file11
+        DC32 cfg_place_enable12, cfg_place_name12, cfg_place_profile12
+        DC32 cfg_place_vibrate12, cfg_place_sound_enable12, cfg_sound_file12
+        DC32 cfg_place_enable13, cfg_place_name13, cfg_place_profile13
+        DC32 cfg_place_vibrate13, cfg_place_sound_enable13, cfg_sound_file13
+        DC32 cfg_place_enable14, cfg_place_name14, cfg_place_profile14
+        DC32 cfg_place_vibrate14, cfg_place_sound_enable14, cfg_sound_file14
+        DC32 cfg_place_enable15, cfg_place_name15, cfg_place_profile15
+        DC32 cfg_place_vibrate15, cfg_place_sound_enable15, cfg_sound_file15
+        DC32 cfg_place_enable16, cfg_place_name16, cfg_place_profile16
+        DC32 cfg_place_vibrate16, cfg_place_sound_enable16, cfg_sound_file16
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?*?DATA_ID`:
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_I:
+        DCD      sfe(DATA_I) - sfb(DATA_I), sfb(DATA_I), sfb(DATA_ID)
+
+        END
+// 
+// 9 976 bytes in segment CODE
+// 1 100 bytes in segment DATA_C
+// 5 908 bytes in segment DATA_I
+// 5 908 bytes in segment DATA_ID
+//     4 bytes in segment DATA_Z
+//    56 bytes in segment DYN_PAGE
+//    24 bytes in segment INITTAB
+// 
+// 9 664 bytes of CODE  memory (+ 336 bytes shared)
+// 7 064 bytes of CONST memory
+// 5 912 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

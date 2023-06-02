@@ -1,0 +1,367 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:58:47 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\NewRec #
+#                       ord.c                                                #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\NewRec #
+#                       ord.c -D NDEBUG -D OLDFUNCTIONS -lC                  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Go #
+#                       no4ki\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\Gono4ki\Release\Obj\ -s9 --no_unroll        #
+#                       --no_inline --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e            #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\List\NewRecord.lst                                 #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\Releas #
+#                       e\Obj\NewRecord.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\Gono4ki\NewRecord.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          #include "..\\include\cfg_items.h"
+      5          #include "StructBook.h"
+      6          #include "MyFUNC.h"
+      7          #include "Menu.h"
+      8          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+      9          const PAGE_MSG bk_msglst_gm[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_gm:
+   \   00000000   42000000....       DC32 66, ??CreateGM, 64, 0H
+   \              ....40000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   static char const __data NameMyElf[8]
+   \                     NameMyElf:
+   \   00000000   476F6E6F346B       DC8 "Gono4ki"
+   \              6900        
+   \   00000008   ........0000       DC32 `?<Constant "Game_GuiMenu_Page">`, 0H, bk_msglst_gm
+   \              0000........
+     10          {
+     11            PAGE_ENTER_EVENT_TAG,    CreateGM,
+     12            NIL_EVENT_TAG,           NULL
+     13          };
+     14          
+     15          const PAGE_DESC bk_gm = {"Game_GuiMenu_Page",0,bk_msglst_gm};
+     16          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     17          void OnEntII(BOOK * bk,wchar_t * string,int len)
+     18          {
+   \                     ??OnEntII:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     19            
+     20            switch(((MyBook*)bk)->speed)
+   \   00000008   2C0394E5           LDR      R0,[R4, #+812]
+   \   0000000C   010050E2           SUBS     R0,R0,#+1
+   \   00000010   0400000A           BEQ      ??OnEntII_1
+   \   00000014   010050E2           SUBS     R0,R0,#+1
+   \   00000018   0800000A           BEQ      ??OnEntII_2
+   \   0000001C   010050E2           SUBS     R0,R0,#+1
+   \   00000020   0C00000A           BEQ      ??OnEntII_3
+   \   00000024   110000EA           B        ??OnEntII_4
+     21            {
+     22            case 1:
+     23              if(Perestava(((MyBook*)bk)->nast->rez->te, string, ((MyBook*)bk)->point, 10))
+   \                     ??OnEntII_1:
+   \   00000028   340394E5           LDR      R0,[R4, #+820]
+   \   0000002C   302394E5           LDR      R2,[R4, #+816]
+   \   00000030   080090E5           LDR      R0,[R0, #+8]
+   \   00000034   0A30A0E3           MOV      R3,#+10
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   0A0000EA           B        ??OnEntII_5
+     24              {
+     25              }
+     26              break;
+     27            case 2:
+     28              if(Perestava(((MyBook*)bk)->nast->rez->tn, string, ((MyBook*)bk)->point, 10))
+   \                     ??OnEntII_2:
+   \   00000040   340394E5           LDR      R0,[R4, #+820]
+   \   00000044   302394E5           LDR      R2,[R4, #+816]
+   \   00000048   080090E5           LDR      R0,[R0, #+8]
+   \   0000004C   0A30A0E3           MOV      R3,#+10
+   \   00000050   040090E5           LDR      R0,[R0, #+4]
+   \   00000054   040000EA           B        ??OnEntII_5
+     29              {
+     30              }
+     31              break;
+     32            case 3:
+     33              if(Perestava(((MyBook*)bk)->nast->rez->th, string, ((MyBook*)bk)->point, 10))
+   \                     ??OnEntII_3:
+   \   00000058   340394E5           LDR      R0,[R4, #+820]
+   \   0000005C   302394E5           LDR      R2,[R4, #+816]
+   \   00000060   080090E5           LDR      R0,[R0, #+8]
+   \   00000064   0A30A0E3           MOV      R3,#+10
+   \   00000068   080090E5           LDR      R0,[R0, #+8]
+   \                     ??OnEntII_5:
+   \   0000006C   ........           _BLF     ??Perestava,??Perestava??rA
+     34              {
+     35              }
+     36              break;
+     37            }
+     38            GUIObject_Destroy(((MyBook*)bk)->gui1);
+   \                     ??OnEntII_4:
+   \   00000070   880194E5           LDR      R0,[R4, #+392]
+   \   00000074   CE0100EF           SWI      +462
+     39            ((MyBook*)bk)->gui1=0;
+   \   00000078   0000A0E3           MOV      R0,#+0
+   \   0000007C   880184E5           STR      R0,[R4, #+392]
+     40            BookObj_GotoPage(isBookX(NameMyElf, 0),&bk_gm);  
+   \   00000080   14409FE5           LDR      R4,??OnEntII_6   ;; NameMyElf
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   ........           _BLF     ??isBookX,??isBookX??rA
+   \   00000090   081084E2           ADD      R1,R4,#+8
+   \   00000094   2D0100EF           SWI      +301
+     41          }
+   \   00000098   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??OnEntII_6:
+   \   0000009C   ........           DC32     NameMyElf
+     42          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     43          void CreateInputName(BOOK*bk)
+     44          {
+   \                     ??CreateInputName:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     45            if(((MyBook*)bk)->gui1) GUIObject_Destroy(((MyBook*)bk)->gui1);
+   \   00000008   880194E5           LDR      R0,[R4, #+392]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??CreateInputName_1
+   \   00000014   CE0100EF           SWI      +462
+     46            ((MyBook*)bk)->gui1=0;
+   \   00000018   0000A0E3           MOV      R0,#+0
+     47            ((MyBook*)bk)->gui1=CreateStringInputVA(0,
+     48                                                 //VAR_PREV_ACTION_PROC(DestroyII),
+     49                                                 //VAR_LONG_BACK_PROC(DestroyII),
+     50                                                 VAR_BOOK((BOOK*)bk),
+     51                                                 VAR_STRINP_FIXED_TEXT(TextID_Create(L"Вы установили рекорд\nвведите имя:",ENC_UCS2, TEXTID_ANY_LEN)),
+     52                                                 VAR_STRINP_TEXT(TextID_Create(L"Игрок", ENC_UCS2, TEXTID_ANY_LEN)),
+     53                                                 VAR_STRINP_MAX_LEN(8),
+     54                                                 VAR_STRINP_MIN_LEN(1),
+     55                                                 VAR_OK_PROC(OnEntII),
+     56                                                 0);
+   \                     ??CreateInputName_1:
+   \   0000001C   94609FE5           LDR      R6,??CreateInputName_2  ;; `?<Constant L"\\x412\\x44b\\x20\\x443\\x441\\x442\\x43`
+   \   00000020   880184E5           STR      R0,[R4, #+392]
+   \   00000024   FF70A0E3           MOV      R7,#+255
+   \   00000028   FF7C87E3           ORR      R7,R7,#0xFF00
+   \   0000002C   0720A0E1           MOV      R2,R7
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   440086E2           ADD      R0,R6,#+68
+   \   00000038   5D0100EF           SWI      +349
+   \   0000003C   0050A0E1           MOV      R5,R0
+   \   00000040   0720A0E1           MOV      R2,R7
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0600A0E1           MOV      R0,R6
+   \   0000004C   5D0100EF           SWI      +349
+   \   00000050   64309FE5           LDR      R3,??CreateInputName_2+0x4  ;; VAR_ARG_STRINP_FIXED_TEXT
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   02002DE9           PUSH     {R1}
+   \   0000005C   5C109FE5           LDR      R1,??CreateInputName_2+0x8  ;; ??OnEntII
+   \   00000060   0420A0E1           MOV      R2,R4
+   \   00000064   02002DE9           PUSH     {R1}
+   \   00000068   54109FE5           LDR      R1,??CreateInputName_2+0xC  ;; VAR_ARG_CALL_BACK_OK
+   \   0000006C   02002DE9           PUSH     {R1}
+   \   00000070   0110A0E3           MOV      R1,#+1
+   \   00000074   02002DE9           PUSH     {R1}
+   \   00000078   48109FE5           LDR      R1,??CreateInputName_2+0x10  ;; VAR_ARG_STRINP_MIN_LEN
+   \   0000007C   02002DE9           PUSH     {R1}
+   \   00000080   0810A0E3           MOV      R1,#+8
+   \   00000084   02002DE9           PUSH     {R1}
+   \   00000088   3C109FE5           LDR      R1,??CreateInputName_2+0x14  ;; VAR_ARG_STRINP_MAX_LEN
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   38109FE5           LDR      R1,??CreateInputName_2+0x18  ;; VAR_ARG_STRINP_TEXT
+   \   00000094   20002DE9           PUSH     {R5}
+   \   00000098   02002DE9           PUSH     {R1}
+   \   0000009C   30109FE5           LDR      R1,??CreateInputName_2+0x1C  ;; VAR_ARG_BOOK
+   \   000000A0   01002DE9           PUSH     {R0}
+   \   000000A4   0000A0E3           MOV      R0,#+0
+   \   000000A8   440100EF           SWI      +324
+   \   000000AC   28D08DE2           ADD      SP,SP,#+40
+   \   000000B0   880184E5           STR      R0,[R4, #+392]
+     57          }
+   \   000000B4   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??CreateInputName_2:
+   \   000000B8   ........           DC32     `?<Constant L"\\x412\\x44b\\x20\\x443\\x441\\x442\\x43`
+   \   000000BC   ........           DC32     VAR_ARG_STRINP_FIXED_TEXT
+   \   000000C0   ........           DC32     ??OnEntII
+   \   000000C4   ........           DC32     VAR_ARG_CALL_BACK_OK
+   \   000000C8   ........           DC32     VAR_ARG_STRINP_MIN_LEN
+   \   000000CC   ........           DC32     VAR_ARG_STRINP_MAX_LEN
+   \   000000D0   ........           DC32     VAR_ARG_STRINP_TEXT
+   \   000000D4   ........           DC32     VAR_ARG_BOOK
+     58          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     59          int CreateGO(void*, BOOK*bk)
+     60          {
+   \                     ??CreateGO:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     61            int result=0;
+     62            switch(((MyBook*)bk)->speed)
+   \   00000008   2C0394E5           LDR      R0,[R4, #+812]
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   010050E2           SUBS     R0,R0,#+1
+   \   00000014   0400000A           BEQ      ??CreateGO_1
+   \   00000018   010050E2           SUBS     R0,R0,#+1
+   \   0000001C   0A00000A           BEQ      ??CreateGO_2
+   \   00000020   010050E2           SUBS     R0,R0,#+1
+   \   00000024   1000000A           BEQ      ??CreateGO_3
+   \   00000028   180000EA           B        ??CreateGO_4
+     63            {
+     64            case 1:
+     65              if(Record(((MyBook*)bk)->nast->rez->te, ((MyBook*)bk)->point, 10))
+   \                     ??CreateGO_1:
+   \   0000002C   340394E5           LDR      R0,[R4, #+820]
+   \   00000030   301394E5           LDR      R1,[R4, #+816]
+   \   00000034   080090E5           LDR      R0,[R0, #+8]
+   \   00000038   0A20A0E3           MOV      R2,#+10
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   ........           _BLF     ??Record,??Record??rA
+   \   00000044   000050E3           CMP      R0,#+0
+     66              {
+     67                result=1;
+   \   00000048   0150A013           MOVNE    R5,#+1
+     68              }
+     69            case 2:
+     70              if(Record(((MyBook*)bk)->nast->rez->tn, ((MyBook*)bk)->point, 10))
+   \                     ??CreateGO_2:
+   \   0000004C   340394E5           LDR      R0,[R4, #+820]
+   \   00000050   301394E5           LDR      R1,[R4, #+816]
+   \   00000054   080090E5           LDR      R0,[R0, #+8]
+   \   00000058   0A20A0E3           MOV      R2,#+10
+   \   0000005C   040090E5           LDR      R0,[R0, #+4]
+   \   00000060   ........           _BLF     ??Record,??Record??rA
+   \   00000064   000050E3           CMP      R0,#+0
+     71              {
+     72                result=1;
+   \   00000068   0150A013           MOVNE    R5,#+1
+     73              }
+     74            case 3:
+     75              if(Record(((MyBook*)bk)->nast->rez->th, ((MyBook*)bk)->point, 10))
+   \                     ??CreateGO_3:
+   \   0000006C   340394E5           LDR      R0,[R4, #+820]
+   \   00000070   301394E5           LDR      R1,[R4, #+816]
+   \   00000074   080090E5           LDR      R0,[R0, #+8]
+   \   00000078   0A20A0E3           MOV      R2,#+10
+   \   0000007C   080090E5           LDR      R0,[R0, #+8]
+   \   00000080   ........           _BLF     ??Record,??Record??rA
+   \   00000084   000050E3           CMP      R0,#+0
+     76              {
+     77                result=1;
+   \   00000088   0150A013           MOVNE    R5,#+1
+   \   0000008C   0100001A           BNE      ??CreateGO_5
+     78              }
+     79            }
+     80            if(result)
+   \                     ??CreateGO_4:
+   \   00000090   000055E3           CMP      R5,#+0
+   \   00000094   0500000A           BEQ      ??CreateGO_6
+     81            {
+     82              PlayMyMusic(3);
+   \                     ??CreateGO_5:
+   \   00000098   0300A0E3           MOV      R0,#+3
+   \   0000009C   ........           _BLF     ??PlayMyMusic,??PlayMyMusic??rA
+     83              CreateInputName((BOOK*)bk);
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   ........           BL       ??CreateInputName
+     84              return result;
+   \   000000A8   0500A0E1           MOV      R0,R5
+   \   000000AC   3080BDE8           POP      {R4,R5,PC}
+     85            }
+     86            BookObj_GotoPage(bk,&bk_gm);
+   \                     ??CreateGO_6:
+   \   000000B0   0C109FE5           LDR      R1,??CreateGO_7  ;; NameMyElf + 8
+   \   000000B4   0400A0E1           MOV      R0,R4
+   \   000000B8   2D0100EF           SWI      +301
+     87            return result;
+   \   000000BC   0000A0E3           MOV      R0,#+0
+   \   000000C0   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??CreateGO_7:
+   \   000000C4   ........           DC32     NameMyElf + 8
+     88          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Game_GuiMenu_Page">`:
+   \   00000000   47616D655F47       DC8 "Game_GuiMenu_Page"
+   \              75694D656E75
+   \              5F5061676500
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x44b\\x20\\x443\\x441\\x442\\x43`:
+   \   00000000   12044B042000       DC8 12H, 4, 4BH, 4, 20H, 0, 43H, 4
+   \              4304        
+   \   00000008   410442043004       DC8 41H, 4, 42H, 4, 30H, 4, 3DH, 4
+   \              3D04        
+   \   00000010   3E0432043804       DC8 3EH, 4, 32H, 4, 38H, 4, 3BH, 4
+   \              3B04        
+   \   00000018   380420004004       DC8 38H, 4, 20H, 0, 40H, 4, 35H, 4
+   \              3504        
+   \   00000020   3A043E044004       DC8 3AH, 4, 3EH, 4, 40H, 4, 34H, 4
+   \              3404        
+   \   00000028   0A0032043204       DC8 0AH, 0, 32H, 4, 32H, 4, 35H, 4
+   \              3504        
+   \   00000030   340438044204       DC8 34H, 4, 38H, 4, 42H, 4, 35H, 4
+   \              3504        
+   \   00000038   200038043C04       DC8 20H, 0, 38H, 4, 3CH, 4, 4FH, 4
+   \              4F04        
+   \   00000040   3A000000           DC8 3AH, 0, 0, 0
+   \   00000044   180433044004       DC8 18H, 4, 33H, 4, 40H, 4, 3EH, 4
+   \              3E04        
+   \   0000004C   3A040000           DC8 3AH, 4, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateGO(void *, BOOK *)          12
+     CreateInputName(BOOK *)           60
+     OnEntII(BOOK *, wchar_t *, int)
+                                        8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     bk_msglst_gm                     16
+     NameMyElf                        20
+     OnEntII(BOOK *, wchar_t *, int)
+                                     160
+     CreateInputName(BOOK *)         216
+     CreateGO(void *, BOOK *)        200
+     ?<Constant "Game_GuiMenu_Page">
+                                      20
+     ?<Constant L"\x412\x44b\x20\x443\x441\x442\x43
+                                      80
+      Others                          60
+
+ 
+ 636 bytes in segment CODE
+ 120 bytes in segment DATA_C
+  16 bytes in segment DYN_PAGE
+ 
+ 576 bytes of CODE  memory (+ 60 bytes shared)
+ 136 bytes of CONST memory
+
+Errors: none
+Warnings: none

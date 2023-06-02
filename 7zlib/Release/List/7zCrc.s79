@@ -1,0 +1,529 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:44:31 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zCrc.c /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zCrc.c /
+//                        -D NDEBUG -D OLDFUNCTIONS -lcN                     /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7z /
+//                       lib\Release\List\ -o Z:\home\perk11\www\perk11.info /
+//                       \svn\SE\7zlib\Release\Obj\ -s9 --no_unroll          /
+//                       --no_code_motion --cpu_mode thumb --endian little   /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --library_module -I                      /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\7zCrc.s79                                     /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        MODULE `7zCrc`
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??CrcCalculateDigest??rA
+        MULTWEAK ??CrcGetDigest??rA
+        MULTWEAK ??CrcInit??rA
+        MULTWEAK ??CrcUpdate??rA
+        MULTWEAK ??CrcUpdateByte??rA
+        MULTWEAK ??CrcUpdateUInt16??rA
+        MULTWEAK ??CrcUpdateUInt32??rA
+        MULTWEAK ??CrcUpdateUInt64??rA
+        MULTWEAK ??CrcVerifyDigest??rA
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+        MULTWEAK ??InitCrcTable??rA
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC CrcCalculateDigest
+        FUNCTION CrcCalculateDigest,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC CrcGetDigest
+        FUNCTION CrcGetDigest,0203H
+        PUBLIC CrcInit
+        FUNCTION CrcInit,0203H
+        PUBLIC CrcUpdate
+        FUNCTION CrcUpdate,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC CrcUpdateByte
+        FUNCTION CrcUpdateByte,0203H
+        PUBLIC CrcUpdateUInt16
+        FUNCTION CrcUpdateUInt16,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC CrcUpdateUInt32
+        FUNCTION CrcUpdateUInt32,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC CrcUpdateUInt64
+        FUNCTION CrcUpdateUInt64,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC CrcVerifyDigest
+        FUNCTION CrcVerifyDigest,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC InitCrcTable
+        FUNCTION InitCrcTable,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC g_CrcTable
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+CrcCalculateDigest  SYMBOL "CrcCalculateDigest"
+??CrcCalculateDigest??rA SYMBOL "??rA", CrcCalculateDigest
+CrcGetDigest        SYMBOL "CrcGetDigest"
+??CrcGetDigest??rA  SYMBOL "??rA", CrcGetDigest
+CrcInit             SYMBOL "CrcInit"
+??CrcInit??rA       SYMBOL "??rA", CrcInit
+CrcUpdate           SYMBOL "CrcUpdate"
+??CrcUpdate??rA     SYMBOL "??rA", CrcUpdate
+CrcUpdateByte       SYMBOL "CrcUpdateByte"
+??CrcUpdateByte??rA SYMBOL "??rA", CrcUpdateByte
+CrcUpdateUInt16     SYMBOL "CrcUpdateUInt16"
+??CrcUpdateUInt16??rA SYMBOL "??rA", CrcUpdateUInt16
+CrcUpdateUInt32     SYMBOL "CrcUpdateUInt32"
+??CrcUpdateUInt32??rA SYMBOL "??rA", CrcUpdateUInt32
+CrcUpdateUInt64     SYMBOL "CrcUpdateUInt64"
+??CrcUpdateUInt64??rA SYMBOL "??rA", CrcUpdateUInt64
+CrcVerifyDigest     SYMBOL "CrcVerifyDigest"
+??CrcVerifyDigest??rA SYMBOL "??rA", CrcVerifyDigest
+InitCrcTable        SYMBOL "InitCrcTable"
+??InitCrcTable??rA  SYMBOL "??rA", InitCrcTable
+
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+g_CrcTable:
+        DS8 1024
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??InitCrcTable??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock0
+        REQUIRE InitCrcTable
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function InitCrcTable
+        THUMB
+InitCrcTable:
+        MOVS     R0,#+0
+??InitCrcTable_0:
+        MOVS     R1,R0
+        MOVS     R2,#+0
+??InitCrcTable_1:
+        LSLS     R3,R1,#+31
+        BPL      ??InitCrcTable_2
+        LSRS     R3,R1,#+1
+        LDR      R1,??InitCrcTable_3  ;; 0xffffffffedb88320
+        EORS     R1,R1,R3
+        B        ??InitCrcTable_4
+??InitCrcTable_2:
+        LSRS     R1,R1,#+1
+??InitCrcTable_4:
+        ADDS     R2,R2,#+1
+        CMP      R2,#+8
+        BLT      ??InitCrcTable_1
+        LDR      R3,??DataTable2  ;; g_CrcTable
+        LSLS     R2,R0,#+2
+        STR      R1,[R3, R2]
+        ADDS     R0,R0,#+1
+        CMP      R0,#+255
+        BLS      ??InitCrcTable_0
+        BX       LR
+        DATA
+??InitCrcTable_3:
+        DC32     0xffffffffedb88320
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcInit??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock2
+        REQUIRE CrcInit
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function CrcInit
+        THUMB
+CrcInit:
+        MOVS     R1,#+0
+        MVNS     R1,R1
+        STR      R1,[R0, #+0]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcGetDigest??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock4
+        REQUIRE CrcGetDigest
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function CrcGetDigest
+        THUMB
+CrcGetDigest:
+        LDR      R1,[R0, #+0]
+        MOVS     R0,#+0
+        MVNS     R0,R0
+        EORS     R0,R0,R1
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcUpdateByte??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock6
+        REQUIRE CrcUpdateByte
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function CrcUpdateByte
+        THUMB
+CrcUpdateByte:
+        LDR      R2,[R0, #+0]
+        LSLS     R3,R2,#+24
+        LSRS     R3,R3,#+24
+        EORS     R1,R1,R3
+        LDR      R3,??DataTable2  ;; g_CrcTable
+        LSLS     R1,R1,#+2
+        LDR      R1,[R3, R1]
+        LSRS     R2,R2,#+8
+        EORS     R2,R2,R1
+        STR      R2,[R0, #+0]
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcUpdateUInt16??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock8
+        REQUIRE CrcUpdateUInt16
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function CrcUpdateUInt16
+        THUMB
+CrcUpdateUInt16:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+        MOVS     R5,R1
+        LSLS     R1,R1,#+24
+        LSRS     R1,R1,#+24
+        BL       CrcUpdateByte
+        LSRS     R1,R5,#+8
+        MOVS     R0,R4
+        BL       CrcUpdateByte
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcUpdateUInt32??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock10
+        REQUIRE CrcUpdateUInt32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function CrcUpdateUInt32
+        THUMB
+CrcUpdateUInt32:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOVS     R4,R1
+        MOVS     R5,R0
+        MOVS     R6,#+0
+??CrcUpdateUInt32_0:
+        MOVS     R1,R4
+        LSLS     R0,R6,#+3
+        LSRS     R1,R1,R0
+        LSLS     R1,R1,#+24
+        LSRS     R1,R1,#+24
+        MOVS     R0,R5
+        BL       CrcUpdateByte
+        ADDS     R6,R6,#+1
+        CMP      R6,#+4
+        BLT      ??CrcUpdateUInt32_0
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcUpdateUInt64??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock12
+        REQUIRE CrcUpdateUInt64
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function CrcUpdateUInt64
+        THUMB
+CrcUpdateUInt64:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOVS     R4,R1
+        MOVS     R5,R2
+        MOVS     R7,R0
+        MOVS     R6,#+0
+??CrcUpdateUInt64_0:
+        LSLS     R1,R4,#+24
+        LSRS     R1,R1,#+24
+        MOVS     R0,R7
+        BL       CrcUpdateByte
+        LSRS     R4,R4,#+8
+        LSLS     R0,R5,#+24
+        ORRS     R4,R4,R0
+        LSRS     R5,R5,#+8
+        ADDS     R6,R6,#+1
+        CMP      R6,#+8
+        BLT      ??CrcUpdateUInt64_0
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcUpdate??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock14
+        REQUIRE CrcUpdate
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function CrcUpdate
+        THUMB
+CrcUpdate:
+        PUSH     {R4,R5}
+        CFI R5 Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R3,[R0, #+0]
+        CMP      R2,#+0
+        BEQ      ??CrcUpdate_0
+??CrcUpdate_1:
+        LDRB     R5,[R1, #+0]
+        LSLS     R4,R3,#+24
+        LSRS     R4,R4,#+24
+        EORS     R5,R5,R4
+        LSLS     R4,R5,#+2
+        LDR      R5,??DataTable2  ;; g_CrcTable
+        LSRS     R3,R3,#+8
+        LDR      R4,[R5, R4]
+        SUBS     R2,R2,#+1
+        EORS     R3,R3,R4
+        ADDS     R1,R1,#+1
+        CMP      R2,#+0
+        BNE      ??CrcUpdate_1
+??CrcUpdate_0:
+        STR      R3,[R0, #+0]
+        POP      {R4,R5}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI CFA R13+0
+        BX       LR
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     g_CrcTable
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcCalculateDigest??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock16
+        REQUIRE CrcCalculateDigest
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function CrcCalculateDigest
+        THUMB
+CrcCalculateDigest:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SUB      SP,SP,#+4
+        CFI CFA R13+12
+        MOVS     R2,R1
+        MOVS     R4,#+0
+        MVNS     R4,R4
+        STR      R4,[SP, #+0]
+        MOVS     R1,R0
+        MOV      R0,SP
+        BL       CrcUpdate
+        LDR      R0,[SP, #+0]
+        ADD      SP,SP,#+4
+        CFI CFA R13+8
+        EORS     R4,R4,R0
+        MOVS     R0,R4
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CrcVerifyDigest??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock18
+        REQUIRE CrcVerifyDigest
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function CrcVerifyDigest
+        THUMB
+CrcVerifyDigest:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SUB      SP,SP,#+4
+        CFI CFA R13+16
+        MOVS     R4,R0
+        MOVS     R5,#+0
+        MVNS     R5,R5
+        STR      R5,[SP, #+0]
+        MOV      R0,SP
+        BL       CrcUpdate
+        LDR      R0,[SP, #+0]
+        EORS     R5,R5,R0
+        CMP      R5,R4
+        BNE      ??CrcVerifyDigest_0
+        MOVS     R0,#+1
+        B        ??CrcVerifyDigest_1
+??CrcVerifyDigest_0:
+        MOVS     R0,#+0
+??CrcVerifyDigest_1:
+        ADD      SP,SP,#+4
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        END
+// 
+//   366 bytes in segment CODE
+// 1 024 bytes in segment DATA_Z
+//    12 bytes in segment INITTAB
+// 
+//   286 bytes of CODE memory (+ 92 bytes shared)
+// 1 024 bytes of DATA memory
+//
+//Errors: none
+//Warnings: none

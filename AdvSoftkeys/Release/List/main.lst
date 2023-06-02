@@ -1,0 +1,475 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:49:13 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\ma #
+#                       in.cpp                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\ma #
+#                       in.cpp -D NDEBUG -D OLDFUNCTIONS -lC                 #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\AdvSoftkeys\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\main.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\main.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\main.cpp
+      1          #include "..\include\Lib_Clara.h"
+      2          #include "..\include\Dir.h"
+      3          #include "header\books.h"
+      4          #include "header\mybook.h"
+      5          #include "header\main.h"
+      6          #include "header\config_data.h"
+      7          #include "header\conf_loader.h"
+      8          #include "..\\include\cfg_items.h"
+      9          #include "header\cfg.h"
+     10          #include "header\iofunc.h"
+     11          #include "header\untar.h"
+     12          #include "header\xml.h"
+     13          #include "..\\include\var_arg.h"
+     14          
+     15          extern wchar_t myelfpath[512];
+     16          extern RECT rect;
+     17          
+     18          int NewKey(int key, int r1 , int mode, LPARAM, DISP_OBJ*);
+     19          int redraw_init();
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          void elf_exit()
+     22          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     23            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+     24          };
+     25          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     26          void Init()
+     27          { 
+   \                     ??Init:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     28            if (csofts_fill(GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG), L"AdvSoftkeys.cfg")<0)
+   \   00000004   00419FE5           LDR      R4,??Init_1+0x4  ;; `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\`
+   \   00000008   1400A0E3           MOV      R0,#+20
+   \   0000000C   050100EF           SWI      +261
+   \   00000010   0410A0E1           MOV      R1,R4
+   \   00000014   ........           _BLF     ??csofts_fill,??csofts_fill??rA
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0700005A           BPL      ??Init_2
+     29            {
+     30              csofts_create_empty(GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG), L"AdvSoftkeys.cfg");
+   \   00000020   1400A0E3           MOV      R0,#+20
+   \   00000024   050100EF           SWI      +261
+   \   00000028   0410A0E1           MOV      R1,R4
+   \   0000002C   ........           _BLF     ??csofts_create_empty,??csofts_create_empty??rA
+     31              csofts_fill(GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG), L"AdvSoftkeys.cfg");
+   \   00000030   1400A0E3           MOV      R0,#+20
+   \   00000034   050100EF           SWI      +261
+   \   00000038   0410A0E1           MOV      R1,R4
+   \   0000003C   ........           _BLF     ??csofts_fill,??csofts_fill??rA
+     32            }
+     33            wchar_t *extConfig=GetDir(MEM_EXTERNAL+DIR_ELFS_CONFIG);
+   \                     ??Init_2:
+   \   00000040   1400A0E3           MOV      R0,#+20
+   \   00000044   050100EF           SWI      +261
+   \   00000048   0050A0E1           MOV      R5,R0
+     34            wchar_t *folder=new wchar_t[wstrlen(extConfig)+1+wstrlen(L"AdvSoftkeys/")+1];
+   \   0000004C   570100EF           SWI      +343
+   \   00000050   0060A0E1           MOV      R6,R0
+   \   00000054   200084E2           ADD      R0,R4,#+32
+   \   00000058   570100EF           SWI      +343
+   \   0000005C   060080E0           ADD      R0,R0,R6
+   \   00000060   020080E2           ADD      R0,R0,#+2
+   \   00000064   8000A0E1           LSL      R0,R0,#+1
+   \   00000068   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000006C   0060A0E1           MOV      R6,R0
+     35            wstrcpy(folder,extConfig);
+   \   00000070   0510A0E1           MOV      R1,R5
+   \   00000074   520100EF           SWI      +338
+     36            wstrcat(folder,L"/");
+   \   00000078   221F8FE2           ADR      R1,??Init_1      ;; 0x2F, 0x00, 0x00, 0x00
+   \   0000007C   0600A0E1           MOV      R0,R6
+   \   00000080   540100EF           SWI      +340
+     37            wstrcat(folder,L"AdvSoftkeys/");
+   \   00000084   201084E2           ADD      R1,R4,#+32
+   \   00000088   0600A0E1           MOV      R0,R6
+   \   0000008C   540100EF           SWI      +340
+     38            if (!cmpfile(L"/tpa/system/settings/",L"current_theme.thm", folder, L"curthm.thm"))
+   \   00000090   8C3084E2           ADD      R3,R4,#+140
+   \   00000094   0620A0E1           MOV      R2,R6
+   \   00000098   681084E2           ADD      R1,R4,#+104
+   \   0000009C   3C0084E2           ADD      R0,R4,#+60
+   \   000000A0   ........           _BLF     ??cmpfile,??cmpfile??rA
+   \   000000A4   000050E3           CMP      R0,#+0
+   \   000000A8   0D00001A           BNE      ??Init_3
+     39            {
+     40              rmdir(folder, 0);
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   0600A0E1           MOV      R0,R6
+   \   000000B4   900200EF           SWI      +656
+     41              mkdir(folder);
+   \   000000B8   0600A0E1           MOV      R0,R6
+   \   000000BC   8F0200EF           SWI      +655
+     42              copyfile(L"/tpa/system/settings/",L"current_theme.thm", folder, L"curthm.thm");
+   \   000000C0   8C3084E2           ADD      R3,R4,#+140
+   \   000000C4   0620A0E1           MOV      R2,R6
+   \   000000C8   681084E2           ADD      R1,R4,#+104
+   \   000000CC   3C0084E2           ADD      R0,R4,#+60
+   \   000000D0   ........           _BLF     ??copyfile,??copyfile??rA
+     43              tar_uncompress(folder, L"curthm.thm", folder);
+   \   000000D4   0620A0E1           MOV      R2,R6
+   \   000000D8   8C1084E2           ADD      R1,R4,#+140
+   \   000000DC   0600A0E1           MOV      R0,R6
+   \   000000E0   ........           _BLF     ??tar_uncompress,??tar_uncompress??rA
+     44            }
+     45            skin_execute_xml(folder, L"Theme.xml");
+   \                     ??Init_3:
+   \   000000E4   A41084E2           ADD      R1,R4,#+164
+   \   000000E8   0600A0E1           MOV      R0,R6
+   \   000000EC   ........           _BLF     ??skin_execute_xml,??skin_execute_xml??rA
+     46            delete(folder);   
+   \   000000F0   0600A0E1           MOV      R0,R6
+   \   000000F4   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     47            DispObject_InvalidateRect(DispObject_SoftKeys_Get(),&rect);
+   \   000000F8   A30200EF           SWI      +675
+   \   000000FC   0C109FE5           LDR      R1,??Init_1+0x8  ;; rect
+   \   00000100   EF0100EF           SWI      +495
+     48          };
+   \   00000104   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??Init_1:
+   \   00000108   2F000000           DC8      0x2F, 0x00, 0x00, 0x00
+   \   0000010C   ........           DC32     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\`
+   \   00000110   ........           DC32     rect
+     49          
+     50          int isSoftkeysBook_ByName(BOOK *bk);
+     51          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     52          GUI *help=0;
+   \                     help:
+   \   00000000                      DS8 4
+     53          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     54          void OnYesExitGui(BOOK * bk, GUI *)
+     55          {
+   \                     ??OnYesExitGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     56            GUIObject_Destroy(help);
+   \   00000008   ........           LDR      R0,??DataTable4  ;; help
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   CE0100EF           SWI      +462
+     57            FreeBook(bk);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   2F0100EF           SWI      +303
+     58            SUBPROC(elf_exit);
+   \   0000001C   ........           LDR      R0,??DataTable5  ;; ??elf_exit
+   \   00000020   080100EF           SWI      +264
+     59          };
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+     60          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     61          void OnBackExitGui(BOOK * bk, GUI *)
+     62          {
+   \                     ??OnBackExitGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     63            GUIObject_Destroy(help);
+   \   00000008   ........           LDR      R0,??DataTable4  ;; help
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   CE0100EF           SWI      +462
+     64            BookObj_Hide(bk, 0);
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   710100EF           SWI      +369
+     65            SUBPROC(elf_exit);
+   \   00000020   ........           LDR      R0,??DataTable5  ;; ??elf_exit
+   \   00000024   080100EF           SWI      +264
+     66          };
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     67          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     68          int main(wchar_t *elfpath)
+     69          {
+   \                     main:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     70            BOOK *bk=0;
+     71            if (bk=FindBook(isSoftkeysBook_ByName))
+   \   00000008   20019FE5           LDR      R0,??main_0      ;; ??isSoftkeysBook_ByName
+   \   0000000C   300100EF           SWI      +304
+   \   00000010   0050B0E1           MOVS     R5,R0
+   \   00000014   3300000A           BEQ      ??main_1
+     72            {
+     73              BookObj_Show(bk, 0);
+     74              help=CreateYesNoQuestionVA(0,
+     75                                               VAR_BOOK(bk),
+     76                                               VAR_YESNO_PRE_QUESTION(TextID_Create(L"AdvSoftkeys is already runned",ENC_UCS2,TEXTID_ANY_LEN)),
+     77                                               VAR_YESNO_QUESTION(TextID_Create(L"Do you want to close it now?",ENC_UCS2,TEXTID_ANY_LEN)),
+     78                                               0);
+   \   00000018   14419FE5           LDR      R4,??main_0+0x4  ;; `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\_2`
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   720100EF           SWI      +370
+   \   00000024   FF60A0E3           MOV      R6,#+255
+   \   00000028   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   0000002C   0620A0E1           MOV      R2,R6
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   3C0084E2           ADD      R0,R4,#+60
+   \   00000038   5D0100EF           SWI      +349
+   \   0000003C   0070A0E1           MOV      R7,R0
+   \   00000040   0620A0E1           MOV      R2,R6
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   ........           LDR      R4,??DataTable4  ;; help
+   \   00000050   5D0100EF           SWI      +349
+   \   00000054   DC309FE5           LDR      R3,??main_0+0x8  ;; VAR_ARG_YESNO_PRE_QUESTION
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   D4109FE5           LDR      R1,??main_0+0xC  ;; VAR_ARG_YESNO_QUESTION
+   \   00000064   80002DE9           PUSH     {R7}
+   \   00000068   02002DE9           PUSH     {R1}
+   \   0000006C   CC109FE5           LDR      R1,??main_0+0x10  ;; VAR_ARG_BOOK
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   0520A0E1           MOV      R2,R5
+     79              GUIObject_SoftKeys_SetAction(help,ACTION_YES,OnYesExitGui);
+     80              GUIObject_SoftKeys_SetAction(help,ACTION_NO,OnBackExitGui);
+   \   00000078   C4509FE5           LDR      R5,??main_0+0x14  ;; ??OnBackExitGui
+   \   0000007C   0000A0E3           MOV      R0,#+0
+   \   00000080   A50200EF           SWI      +677
+   \   00000084   BC209FE5           LDR      R2,??main_0+0x18  ;; ??OnYesExitGui
+   \   00000088   000084E5           STR      R0,[R4, #+0]
+   \   0000008C   B8009FE5           LDR      R0,??main_0+0x1C  ;; ACTION_YES
+   \   00000090   001090E5           LDR      R1,[R0, #+0]
+   \   00000094   000094E5           LDR      R0,[R4, #+0]
+   \   00000098   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000009C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000A0   4B0100EF           SWI      +331
+   \   000000A4   A4009FE5           LDR      R0,??main_0+0x20  ;; ACTION_NO
+   \   000000A8   0520A0E1           MOV      R2,R5
+   \   000000AC   001090E5           LDR      R1,[R0, #+0]
+   \   000000B0   000094E5           LDR      R0,[R4, #+0]
+   \   000000B4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000B8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000BC   4B0100EF           SWI      +331
+     81              GUIObject_SoftKeys_SetAction(help,ACTION_BACK,OnBackExitGui);
+   \   000000C0   8C009FE5           LDR      R0,??main_0+0x24  ;; ACTION_BACK
+   \   000000C4   0520A0E1           MOV      R2,R5
+   \   000000C8   001090E5           LDR      R1,[R0, #+0]
+   \   000000CC   000094E5           LDR      R0,[R4, #+0]
+   \   000000D0   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000D4   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000D8   4B0100EF           SWI      +331
+     82              return 0;
+   \   000000DC   0000A0E3           MOV      R0,#+0
+   \   000000E0   10D08DE2           ADD      SP,SP,#+16
+   \   000000E4   F080BDE8           POP      {R4-R7,PC}
+     83            }
+     84            wstrcpy(myelfpath,elfpath);
+   \                     ??main_1:
+   \   000000E8   68009FE5           LDR      R0,??main_0+0x28  ;; myelfpath
+   \   000000EC   0410A0E1           MOV      R1,R4
+   \   000000F0   520100EF           SWI      +338
+     85            if (MyBook_Create())
+   \   000000F4   ........           _BLF     ??MyBook_Create,??MyBook_Create??rA
+   \   000000F8   000050E3           CMP      R0,#+0
+   \   000000FC   0700000A           BEQ      ??main_2
+     86            {
+     87              Init();
+   \   00000100   ........           BL       ??Init
+     88              ModifyKeyHook(NewKey,KEY_HOOK_ADD,NULL);
+   \   00000104   50009FE5           LDR      R0,??main_0+0x2C  ;; ??NewKey
+   \   00000108   0020A0E3           MOV      R2,#+0
+   \   0000010C   0110A0E3           MOV      R1,#+1
+   \   00000110   070100EF           SWI      +263
+     89              redraw_init();
+   \   00000114   ........           _BLF     ??redraw_init,??redraw_init??rA
+   \   00000118   0000A0E3           MOV      R0,#+0
+   \   0000011C   F080BDE8           POP      {R4-R7,PC}
+     90            }
+     91            else
+     92            {
+     93              SUBPROC(elf_exit);
+   \                     ??main_2:
+   \   00000120   ........           LDR      R0,??DataTable5  ;; ??elf_exit
+   \   00000124   080100EF           SWI      +264
+     94            }
+     95            return 0;
+   \   00000128   0000A0E3           MOV      R0,#+0
+   \   0000012C   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??main_0:
+   \   00000130   ........           DC32     ??isSoftkeysBook_ByName
+   \   00000134   ........           DC32     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\_2`
+   \   00000138   ........           DC32     VAR_ARG_YESNO_PRE_QUESTION
+   \   0000013C   ........           DC32     VAR_ARG_YESNO_QUESTION
+   \   00000140   ........           DC32     VAR_ARG_BOOK
+   \   00000144   ........           DC32     ??OnBackExitGui
+   \   00000148   ........           DC32     ??OnYesExitGui
+   \   0000014C   ........           DC32     ACTION_YES
+   \   00000150   ........           DC32     ACTION_NO
+   \   00000154   ........           DC32     ACTION_BACK
+   \   00000158   ........           DC32     myelfpath
+   \   0000015C   ........           DC32     ??NewKey
+     96          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     help
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\`:
+   \   00000000   410064007600       DC8 41H, 0, 64H, 0, 76H, 0, 53H, 0
+   \              5300        
+   \   00000008   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000010   650079007300       DC8 65H, 0, 79H, 0, 73H, 0, 2EH, 0
+   \              2E00        
+   \   00000018   630066006700       DC8 63H, 0, 66H, 0, 67H, 0, 0, 0
+   \              0000        
+   \   00000020   410064007600       DC8 41H, 0, 64H, 0, 76H, 0, 53H, 0
+   \              5300        
+   \   00000028   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000030   650079007300       DC8 65H, 0, 79H, 0, 73H, 0, 2FH, 0
+   \              2F00        
+   \   00000038   0000               DC8 0, 0
+   \   0000003A   0000               DC8 0, 0
+   \   0000003C   2F0074007000       DC8 2FH, 0, 74H, 0, 70H, 0, 61H, 0
+   \              6100        
+   \   00000044   2F0073007900       DC8 2FH, 0, 73H, 0, 79H, 0, 73H, 0
+   \              7300        
+   \   0000004C   740065006D00       DC8 74H, 0, 65H, 0, 6DH, 0, 2FH, 0
+   \              2F00        
+   \   00000054   730065007400       DC8 73H, 0, 65H, 0, 74H, 0, 74H, 0
+   \              7400        
+   \   0000005C   69006E006700       DC8 69H, 0, 6EH, 0, 67H, 0, 73H, 0
+   \              7300        
+   \   00000064   2F000000           DC8 2FH, 0, 0, 0
+   \   00000068   630075007200       DC8 63H, 0, 75H, 0, 72H, 0, 72H, 0
+   \              7200        
+   \   00000070   65006E007400       DC8 65H, 0, 6EH, 0, 74H, 0, 5FH, 0
+   \              5F00        
+   \   00000078   740068006500       DC8 74H, 0, 68H, 0, 65H, 0, 6DH, 0
+   \              6D00        
+   \   00000080   65002E007400       DC8 65H, 0, 2EH, 0, 74H, 0, 68H, 0
+   \              6800        
+   \   00000088   6D000000           DC8 6DH, 0, 0, 0
+   \   0000008C   630075007200       DC8 63H, 0, 75H, 0, 72H, 0, 74H, 0
+   \              7400        
+   \   00000094   68006D002E00       DC8 68H, 0, 6DH, 0, 2EH, 0, 74H, 0
+   \              7400        
+   \   0000009C   68006D000000       DC8 68H, 0, 6DH, 0, 0, 0
+   \   000000A2   0000               DC8 0, 0
+   \   000000A4   540068006500       DC8 54H, 0, 68H, 0, 65H, 0, 6DH, 0
+   \              6D00        
+   \   000000AC   65002E007800       DC8 65H, 0, 2EH, 0, 78H, 0, 6DH, 0
+   \              6D00        
+   \   000000B4   6C000000           DC8 6CH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   2F000000           DC8 2FH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x64\\x76\\x53\\x6f\\x66\\x74\\x6b\\_2`:
+   \   00000000   410064007600       DC8 41H, 0, 64H, 0, 76H, 0, 53H, 0
+   \              5300        
+   \   00000008   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000010   650079007300       DC8 65H, 0, 79H, 0, 73H, 0, 20H, 0
+   \              2000        
+   \   00000018   690073002000       DC8 69H, 0, 73H, 0, 20H, 0, 61H, 0
+   \              6100        
+   \   00000020   6C0072006500       DC8 6CH, 0, 72H, 0, 65H, 0, 61H, 0
+   \              6100        
+   \   00000028   640079002000       DC8 64H, 0, 79H, 0, 20H, 0, 72H, 0
+   \              7200        
+   \   00000030   75006E006E00       DC8 75H, 0, 6EH, 0, 6EH, 0, 65H, 0
+   \              6500        
+   \   00000038   64000000           DC8 64H, 0, 0, 0
+   \   0000003C   44006F002000       DC8 44H, 0, 6FH, 0, 20H, 0, 79H, 0
+   \              7900        
+   \   00000044   6F0075002000       DC8 6FH, 0, 75H, 0, 20H, 0, 77H, 0
+   \              7700        
+   \   0000004C   61006E007400       DC8 61H, 0, 6EH, 0, 74H, 0, 20H, 0
+   \              2000        
+   \   00000054   74006F002000       DC8 74H, 0, 6FH, 0, 20H, 0, 63H, 0
+   \              6300        
+   \   0000005C   6C006F007300       DC8 6CH, 0, 6FH, 0, 73H, 0, 65H, 0
+   \              6500        
+   \   00000064   200069007400       DC8 20H, 0, 69H, 0, 74H, 0, 20H, 0
+   \              2000        
+   \   0000006C   6E006F007700       DC8 6EH, 0, 6FH, 0, 77H, 0, 3FH, 0
+   \              3F00        
+   \   00000074   0000               DC8 0, 0
+   \   00000076   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                     CSTACK
+     --------                     ------
+     Init()                          16
+     OnBackExitGui(BOOK *, GUI *)     8
+     OnYesExitGui(BOOK *, GUI *)      8
+     elf_exit()                       4
+     main(wchar_t *)                 36
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     elf_exit()                       28
+     Init()                          276
+     help                              4
+     OnYesExitGui(BOOK *, GUI *)      40
+     OnBackExitGui(BOOK *, GUI *)     44
+     main(wchar_t *)                 352
+     ??DataTable4                      4
+     ??DataTable5                      4
+     ?<Constant L"\x41\x64\x76\x53\x6f\x66\x74\x6b\
+                                     184
+     ?<Constant L"\x2f">               4
+     ?<Constant L"\x41\x64\x76\x53\x6f\x66\x74\x6b\_2
+                                     120
+      Others                         164
+
+ 
+ 900 bytes in segment CODE
+ 308 bytes in segment DATA_C
+   4 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 748 bytes of CODE  memory (+ 164 bytes shared)
+ 308 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

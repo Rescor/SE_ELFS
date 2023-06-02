@@ -1,0 +1,2800 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:48:34 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\ZLib\min /
+//                       izip\zip.c                                          /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\ZLib\min /
+//                       izip\zip.c -D LOG -D USEZLIB -lCN                   /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcs /
+//                       e\Release\List\ -o Z:\home\perk11\www\perk11.info\s /
+//                       vn\SE\mcse\Release\Obj\ -s9 --no_unroll             /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --dlib_config                            /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\zip.s79                                        /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME zip
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??crc32??rA
+        MULTWEAK ??deflate??rA
+        MULTWEAK ??deflateEnd??rA
+        MULTWEAK ??deflateInit2_??rA
+        MULTWEAK ??fill_fopen_filefunc??rA
+        MULTWEAK ??get_crc_table??rA
+        MULTWEAK ??rand??rA
+        MULTWEAK ??srand??rA
+        MULTWEAK ??zipClose??rT
+        MULTWEAK ??zipCloseFileInZip??rT
+        MULTWEAK ??zipCloseFileInZipRaw??rT
+        MULTWEAK ??zipOpen2??rT
+        MULTWEAK ??zipOpen??rT
+        MULTWEAK ??zipOpenNewFileInZip2??rT
+        MULTWEAK ??zipOpenNewFileInZip3??rT
+        MULTWEAK ??zipOpenNewFileInZip??rT
+        MULTWEAK ??zipWriteInFileInZip??rT
+        PUBWEAK ?init?tab?DATA_Z
+        FUNCTION add_data_in_datablock,0203H
+        LOCFRAME CSTACK, 20, STACK
+        FUNCTION crypthead,0201H
+        LOCFRAME CSTACK, 48, STACK
+        FUNCTION update_keys,0203H
+        PUBLIC zipClose
+        FUNCTION zipClose,0203H
+        LOCFRAME CSTACK, 32, STACK
+        PUBLIC zipCloseFileInZip
+        FUNCTION zipCloseFileInZip,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC zipCloseFileInZipRaw
+        FUNCTION zipCloseFileInZipRaw,0203H
+        LOCFRAME CSTACK, 32, STACK
+        FUNCTION zipFlushWriteBuffer,0203H
+        LOCFRAME CSTACK, 24, STACK
+        PUBLIC zipOpen
+        FUNCTION zipOpen,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC zipOpen2
+        FUNCTION zipOpen2,0203H
+        LOCFRAME CSTACK, 16636, STACK
+        PUBLIC zipOpenNewFileInZip
+        FUNCTION zipOpenNewFileInZip,0203H
+        LOCFRAME CSTACK, 76, STACK
+        PUBLIC zipOpenNewFileInZip2
+        FUNCTION zipOpenNewFileInZip2,0203H
+        LOCFRAME CSTACK, 80, STACK
+        PUBLIC zipOpenNewFileInZip3
+        FUNCTION zipOpenNewFileInZip3,0203H
+        LOCFRAME CSTACK, 72, STACK
+        PUBLIC zipWriteInFileInZip
+        FUNCTION zipWriteInFileInZip,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC zip_copyright
+        FUNCTION ziplocal_SearchCentralDir,0203H
+        LOCFRAME CSTACK, 40, STACK
+        FUNCTION ziplocal_getByte,0203H
+        LOCFRAME CSTACK, 20, STACK
+        FUNCTION ziplocal_getLong,0203H
+        LOCFRAME CSTACK, 24, STACK
+        FUNCTION ziplocal_getShort,0203H
+        LOCFRAME CSTACK, 24, STACK
+        FUNCTION ziplocal_putValue,0203H
+        LOCFRAME CSTACK, 12, STACK
+        FUNCTION ziplocal_putValue_inmemory,0203H
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+crc32               SYMBOL "crc32"
+deflate             SYMBOL "deflate"
+deflateEnd          SYMBOL "deflateEnd"
+deflateInit2_       SYMBOL "deflateInit2_"
+fill_fopen_filefunc SYMBOL "fill_fopen_filefunc"
+get_crc_table       SYMBOL "get_crc_table"
+rand                SYMBOL "rand"
+srand               SYMBOL "srand"
+??crc32??rA         SYMBOL "??rA", crc32
+??deflate??rA       SYMBOL "??rA", deflate
+??deflateEnd??rA    SYMBOL "??rA", deflateEnd
+??deflateInit2_??rA SYMBOL "??rA", deflateInit2_
+??fill_fopen_filefunc??rA SYMBOL "??rA", fill_fopen_filefunc
+??get_crc_table??rA SYMBOL "??rA", get_crc_table
+??rand??rA          SYMBOL "??rA", rand
+??srand??rA         SYMBOL "??rA", srand
+zipClose            SYMBOL "zipClose"
+??zipClose??rT      SYMBOL "??rT", zipClose
+zipCloseFileInZip   SYMBOL "zipCloseFileInZip"
+??zipCloseFileInZip??rT SYMBOL "??rT", zipCloseFileInZip
+zipCloseFileInZipRaw SYMBOL "zipCloseFileInZipRaw"
+??zipCloseFileInZipRaw??rT SYMBOL "??rT", zipCloseFileInZipRaw
+zipOpen2            SYMBOL "zipOpen2"
+??zipOpen2??rT      SYMBOL "??rT", zipOpen2
+zipOpen             SYMBOL "zipOpen"
+??zipOpen??rT       SYMBOL "??rT", zipOpen
+zipOpenNewFileInZip2 SYMBOL "zipOpenNewFileInZip2"
+??zipOpenNewFileInZip2??rT SYMBOL "??rT", zipOpenNewFileInZip2
+zipOpenNewFileInZip3 SYMBOL "zipOpenNewFileInZip3"
+??zipOpenNewFileInZip3??rT SYMBOL "??rT", zipOpenNewFileInZip3
+zipOpenNewFileInZip SYMBOL "zipOpenNewFileInZip"
+??zipOpenNewFileInZip??rT SYMBOL "??rT", zipOpenNewFileInZip
+zipWriteInFileInZip SYMBOL "zipWriteInFileInZip"
+??zipWriteInFileInZip??rT SYMBOL "??rT", zipWriteInFileInZip
+
+        EXTERN crc32
+        FUNCTION crc32,0202H
+        EXTERN deflate
+        FUNCTION deflate,0202H
+        EXTERN deflateEnd
+        FUNCTION deflateEnd,0202H
+        EXTERN deflateInit2_
+        FUNCTION deflateInit2_,0202H
+        EXTERN fill_fopen_filefunc
+        FUNCTION fill_fopen_filefunc,0202H
+        EXTERN get_crc_table
+        FUNCTION get_crc_table,0202H
+        EXTERN rand
+        FUNCTION rand,0202H
+        EXTERN srand
+        FUNCTION srand,0202H
+
+
+        RSEG DATA_C:CONST:SORT:NOROOT(0)
+        DATA
+        DC8 "-"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "1.2.3">`:
+        DATA
+        DC8 "1.2.3"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+zip_copyright:
+        DATA
+        DC8 20H, 7AH, 69H, 70H, 20H, 31H, 2EH, 30H
+        DC8 31H, 20H, 43H, 6FH, 70H, 79H, 72H, 69H
+        DC8 67H, 68H, 74H, 20H, 31H, 39H, 39H, 38H
+        DC8 2DH, 32H, 30H, 30H, 34H, 20H, 47H, 69H
+        DC8 6CH, 6CH, 65H, 73H, 20H, 56H, 6FH, 6CH
+        DC8 6CH, 61H, 6EH, 74H, 20H, 2DH, 20H, 68H
+        DC8 74H, 74H, 70H, 3AH, 2FH, 2FH, 77H, 77H
+        DC8 77H, 2EH, 77H, 69H, 6EH, 69H, 6DH, 61H
+        DC8 67H, 65H, 2EH, 63H, 6FH, 6DH, 2FH, 7AH
+        DC8 4CH, 69H, 62H, 44H, 6CH, 6CH, 0
+        DC8 0
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??update_keys??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE update_keys
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function update_keys
+        ARM
+// static __??Code32?? __code __interwork __atpcs int update_keys(unsigned long *, unsigned long const *, int)
+update_keys:
+        LDR      R3,[R0, #+0]
+        LDR      R12,[R0, #+0]
+        EOR      R3,R2,R3
+        AND      R3,R3,#0xFF
+        LDR      R3,[R1, +R3, LSL #+2]
+        EOR      R3,R3,R12, LSR #+8
+        STR      R3,[R0, #+0]
+        LDR      R3,[R0, #+4]
+        LDR      R12,[R0, #+0]
+        AND      R12,R12,#0xFF
+        ADD      R3,R12,R3
+        LDR      R12,??update_keys_0  ;; 0x8088405
+        STR      R3,[R0, #+4]
+        LDR      R3,[R0, #+4]
+        MUL      R3,R12,R3
+        ADD      R3,R3,#+1
+        STR      R3,[R0, #+4]
+        LDR      R3,[R0, #+8]
+        LDR      R12,[R0, #+4]
+        EOR      R3,R3,R12, LSR #+24
+        AND      R3,R3,#0xFF
+        LDR      R1,[R1, +R3, LSL #+2]
+        LDR      R3,[R0, #+8]
+        EOR      R1,R1,R3, LSR #+8
+        STR      R1,[R0, #+8]
+        MOV      R0,R2
+        BX       LR               ;; return
+        DATA
+??update_keys_0:
+        DC32     0x8088405
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??crypthead??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE crypthead
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function crypthead
+        ARM
+// static __??Code32?? __code __interwork __atpcs int crypthead()
+crypthead:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+12
+        CFI CFA R13+48
+        LDR      R7,[SP, #+48]
+        LDR      R8,[SP, #+52]
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R3
+        CMP      R2,#+12
+        MOVLT    R0,#+0
+        POPLT    {R1-R11,PC}
+        LDR      R0,??crypthead_0  ;; ??calls
+        LDR      R1,[R0, #+0]
+        ADD      R1,R1,#+1
+        STR      R1,[R0, #+0]
+        CMP      R1,#+1
+        BNE      ??crypthead_1
+        MOV      R0,#+158
+        ORR      R0,R0,#0x5B00
+        _BLF     srand,??srand??rA
+??crypthead_1:
+        LDR      R0,??crypthead_0+0x4  ;; 0x12345678
+        MOV      R9,R4
+        STR      R0,[R6, #+0]
+        LDR      R0,??crypthead_0+0x8  ;; 0x23456789
+        STR      R0,[R6, #+4]
+        LDR      R0,??crypthead_0+0xC  ;; 0x34567890
+        STR      R0,[R6, #+8]
+        LDRB     R0,[R9, #+0]
+        CMP      R0,#+0
+        BEQ      ??crypthead_2
+??crypthead_3:
+        LDRB     R2,[R9], #+1
+        MOV      R1,R7
+        MOV      R0,R6
+        BL       update_keys
+        LDRB     R0,[R9, #+0]
+        CMP      R0,#+0
+        BNE      ??crypthead_3
+??crypthead_2:
+        MOV      R9,#+0
+??crypthead_4:
+        _BLF     rand,??rand??rA
+        MOV      R1,#+255
+        AND      R10,R1,R0, ASR #+7
+        LDR      R0,[R6, #+8]
+        MOV      R1,#+2
+        LSL      R0,R0,#+16
+        ORR      R11,R1,R0, LSR #+16
+        MOV      R2,R10
+        MOV      R1,R7
+        MOV      R0,R6
+        BL       update_keys
+        EOR      R1,R11,#0x1
+        MUL      R2,R1,R11
+        MOV      R0,SP
+        LSR      R1,R2,#+8
+        EOR      R1,R10,R1
+        STRB     R1,[R9, +R0]
+        ADD      R9,R9,#+1
+        CMP      R9,#+10
+        BLT      ??crypthead_4
+        LDR      R0,??crypthead_0+0x4  ;; 0x12345678
+        STR      R0,[R6, #+0]
+        LDR      R0,??crypthead_0+0x8  ;; 0x23456789
+        STR      R0,[R6, #+4]
+        LDR      R0,??crypthead_0+0xC  ;; 0x34567890
+        STR      R0,[R6, #+8]
+        LDRB     R0,[R4, #+0]
+        CMP      R0,#+0
+        BEQ      ??crypthead_5
+??crypthead_6:
+        LDRB     R2,[R4], #+1
+        MOV      R1,R7
+        MOV      R0,R6
+        BL       update_keys
+        LDRB     R0,[R4, #+0]
+        CMP      R0,#+0
+        BNE      ??crypthead_6
+??crypthead_5:
+        MOV      R4,#+0
+??crypthead_7:
+        LDR      R0,[R6, #+8]
+        MOV      R1,#+2
+        LSL      R0,R0,#+16
+        ORR      R9,R1,R0, LSR #+16
+        MOV      R0,SP
+        LDRB     R10,[R4, +R0]
+        MOV      R1,R7
+        MOV      R0,R6
+        MOV      R2,R10
+        BL       update_keys
+        EOR      R0,R9,#0x1
+        MUL      R1,R0,R9
+        LSR      R0,R1,#+8
+        EOR      R0,R10,R0
+        STRB     R0,[R4, +R5]
+        ADD      R4,R4,#+1
+        CMP      R4,#+10
+        BLT      ??crypthead_7
+        LDR      R0,[R6, #+8]
+        MOV      R9,#+255
+        ORR      R9,R9,#0xFF00
+        AND      R0,R9,R0
+        ORR      R10,R0,#0x2
+        LSR      R11,R8,#+16
+        AND      R2,R11,#0xFF
+        MOV      R1,R7
+        MOV      R0,R6
+        BL       update_keys
+        EOR      R0,R10,#0x1
+        MUL      R1,R0,R10
+        LSR      R8,R8,#+24
+        LSR      R0,R1,#+8
+        EOR      R0,R11,R0
+        STRB     R0,[R4, +R5]
+        LDR      R0,[R6, #+8]
+        MOV      R2,R8
+        AND      R0,R9,R0
+        ORR      R9,R0,#0x2
+        MOV      R1,R7
+        MOV      R0,R6
+        BL       update_keys
+        EOR      R0,R9,#0x1
+        MUL      R1,R0,R9
+        ADD      R4,R4,#+1
+        LSR      R0,R1,#+8
+        EOR      R0,R8,R0
+        STRB     R0,[R4, +R5]
+        ADD      R0,R4,#+1
+        POP      {R1-R11,PC}      ;; return
+        DATA
+??crypthead_0:
+        DC32     ??calls
+        DC32     0x12345678
+        DC32     0x23456789
+        DC32     0x34567890
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??add_data_in_datablock??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE add_data_in_datablock
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+// unsigned int __data calls
+??calls:
+        DS8 4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function add_data_in_datablock
+        ARM
+add_data_in_datablock:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R6,R1
+        MOV      R5,R2
+        CMP      R4,#+0
+        BNE      ??add_data_in_datablock_0
+??add_data_in_datablock_1:
+        MVN      R0,#+103
+        POP      {R4-R7,PC}
+??add_data_in_datablock_0:
+        LDR      R0,[R4, #+4]
+        CMP      R0,#+0
+        BNE      ??add_data_in_datablock_2
+        MOV      R0,#+4096
+        SWI      +259
+        CMP      R0,#+0
+        BEQ      ??add_data_in_datablock_3
+        MOV      R1,#+0
+        STR      R1,[R0, #+0]
+        STR      R1,[R0, #+8]
+        MOV      R1,#+4080
+        STR      R1,[R0, #+4]
+??add_data_in_datablock_3:
+        STR      R0,[R4, #+4]
+        STR      R0,[R4, #+0]
+        BEQ      ??add_data_in_datablock_1
+??add_data_in_datablock_2:
+        LDR      R7,[R4, #+4]
+        B        ??add_data_in_datablock_4
+??add_data_in_datablock_5:
+        LDRB     R3,[R1, +R6]
+        STRB     R3,[R1, +R0]
+        ADD      R1,R1,#+1
+??add_data_in_datablock_6:
+        CMP      R1,R2
+        BCC      ??add_data_in_datablock_5
+??add_data_in_datablock_7:
+        LDR      R0,[R7, #+8]
+        ADD      R6,R2,R6
+        ADD      R0,R2,R0
+        STR      R0,[R7, #+8]
+        LDR      R0,[R7, #+4]
+        SUB      R5,R5,R2
+        SUB      R0,R0,R2
+        STR      R0,[R7, #+4]
+??add_data_in_datablock_4:
+        CMP      R5,#+0
+        BEQ      ??add_data_in_datablock_8
+        LDR      R0,[R7, #+4]
+        CMP      R0,#+0
+        BNE      ??add_data_in_datablock_9
+        MOV      R0,#+4096
+        SWI      +259
+        CMP      R0,#+0
+        BEQ      ??add_data_in_datablock_10
+        MOV      R1,#+0
+        STR      R1,[R0, #+0]
+        STR      R1,[R0, #+8]
+        MOV      R1,#+4080
+        STR      R1,[R0, #+4]
+??add_data_in_datablock_10:
+        STR      R0,[R7, #+0]
+        BEQ      ??add_data_in_datablock_1
+        MOV      R7,R0
+        STR      R7,[R4, #+4]
+??add_data_in_datablock_9:
+        LDR      R0,[R7, #+4]
+        MOV      R1,#+0
+        CMP      R0,R5
+        MOVCC    R2,R0
+        LDR      R0,[R7, #+8]
+        MOVCS    R2,R5
+        ADD      R0,R0,R7
+        ADD      R0,R0,#+16
+        CMP      R2,#+0
+        BNE      ??add_data_in_datablock_6
+        B        ??add_data_in_datablock_7
+??add_data_in_datablock_8:
+        MOV      R0,#+0
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ziplocal_putValue??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ziplocal_putValue
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ziplocal_putValue
+        ARM
+ziplocal_putValue:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SUB      SP,SP,#+4
+        CFI CFA R13+12
+        MOV      R12,R0
+        MOV      R4,R3
+        MOV      R0,#+0
+        CMP      R4,#+1
+        BGE      ??ziplocal_putValue_0
+        B        ??ziplocal_putValue_1
+??ziplocal_putValue_2:
+        MOV      R3,SP
+        STRB     R2,[R0, +R3]
+        LSR      R2,R2,#+8
+        ADD      R0,R0,#+1
+??ziplocal_putValue_0:
+        CMP      R0,R4
+        BLT      ??ziplocal_putValue_2
+??ziplocal_putValue_1:
+        CMP      R2,#+0
+        BEQ      ??ziplocal_putValue_3
+        MOV      R0,#+0
+        CMP      R4,#+1
+        MOV      R3,#+255
+        BGE      ??ziplocal_putValue_4
+        B        ??ziplocal_putValue_3
+??ziplocal_putValue_5:
+        MOV      R2,SP
+        STRB     R3,[R0, +R2]
+        ADD      R0,R0,#+1
+??ziplocal_putValue_4:
+        CMP      R0,R4
+        BLT      ??ziplocal_putValue_5
+??ziplocal_putValue_3:
+        LDR      R0,[R12, #+28]
+        LDR      R12,[R12, #+8]
+        MOV      R3,R4
+        MOV      R2,SP
+        BLX      R12
+        CMP      R0,R4
+        MVNNE    R0,#+0
+        POPNE    {R1,R4,PC}
+        MOV      R0,#+0
+        POP      {R1,R4,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ziplocal_putValue_inmemory??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ziplocal_putValue_inmemory
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ziplocal_putValue_inmemory
+        ARM
+ziplocal_putValue_inmemory:
+        MOV      R3,#+0
+        CMP      R2,#+1
+        BGE      ??ziplocal_putValue_inmemory_0
+        B        ??ziplocal_putValue_inmemory_1
+??ziplocal_putValue_inmemory_2:
+        STRB     R1,[R3, +R0]
+        LSR      R1,R1,#+8
+        ADD      R3,R3,#+1
+??ziplocal_putValue_inmemory_0:
+        CMP      R3,R2
+        BLT      ??ziplocal_putValue_inmemory_2
+??ziplocal_putValue_inmemory_1:
+        CMP      R1,#+0
+        BXEQ     LR
+        MOV      R3,#+0
+        CMP      R2,#+1
+        MOV      R1,#+255
+        BGE      ??ziplocal_putValue_inmemory_3
+        BX       LR
+??ziplocal_putValue_inmemory_4:
+        STRB     R1,[R3, +R0]
+        ADD      R3,R3,#+1
+??ziplocal_putValue_inmemory_3:
+        CMP      R3,R2
+        BLT      ??ziplocal_putValue_inmemory_4
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ziplocal_getByte??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE ziplocal_getByte
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ziplocal_getByte
+        ARM
+ziplocal_getByte:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOV      R4,R0
+        LDR      R0,[R4, #+28]
+        LDR      R12,[R4, #+4]
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R3,#+1
+        MOV      R2,SP
+        BLX      R12
+        CMP      R0,#+1
+        BNE      ??ziplocal_getByte_0
+        LDRB     R0,[SP, #+0]
+        STR      R0,[R6, #+0]
+        MOV      R0,#+0
+        POP      {R1,R4-R6,PC}
+??ziplocal_getByte_0:
+        LDR      R0,[R4, #+28]
+        LDR      R2,[R4, #+24]
+        MOV      R1,R5
+        BLX      R2
+        CMP      R0,#+0
+        MVNNE    R0,#+0
+        POP      {R1,R4-R6,PC}    ;; return
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ziplocal_getShort??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE ziplocal_getShort
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ziplocal_getShort
+        ARM
+ziplocal_getShort:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+4
+        CFI CFA R13+24
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R2,SP
+        BL       ziplocal_getByte
+        LDR      R7,[SP, #+0]
+        CMP      R0,#+0
+        BNE      ??ziplocal_getShort_0
+        MOV      R2,SP
+        MOV      R1,R5
+        MOV      R0,R4
+        BL       ziplocal_getByte
+??ziplocal_getShort_0:
+        CMP      R0,#+0
+        LDREQ    R1,[SP, #+0]
+        ADDEQ    R1,R7,R1, LSL #+8
+        MOVNE    R1,#+0
+        STR      R1,[R6, #+0]
+        POP      {R1,R4-R7,PC}    ;; return
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ziplocal_getLong??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE ziplocal_getLong
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ziplocal_getLong
+        ARM
+ziplocal_getLong:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+4
+        CFI CFA R13+24
+        MOV      R5,R0
+        MOV      R6,R1
+        MOV      R4,R2
+        MOV      R2,SP
+        BL       ziplocal_getByte
+        LDR      R7,[SP, #+0]
+        CMP      R0,#+0
+        BNE      ??ziplocal_getLong_0
+        MOV      R2,SP
+        MOV      R1,R6
+        MOV      R0,R5
+        BL       ziplocal_getByte
+??ziplocal_getLong_0:
+        LDR      R1,[SP, #+0]
+        CMP      R0,#+0
+        ADD      R7,R7,R1, LSL #+8
+        BNE      ??ziplocal_getLong_1
+        MOV      R2,SP
+        MOV      R1,R6
+        MOV      R0,R5
+        BL       ziplocal_getByte
+??ziplocal_getLong_1:
+        LDR      R1,[SP, #+0]
+        CMP      R0,#+0
+        ADD      R7,R7,R1, LSL #+16
+        BNE      ??ziplocal_getLong_2
+        MOV      R2,SP
+        MOV      R1,R6
+        MOV      R0,R5
+        BL       ziplocal_getByte
+??ziplocal_getLong_2:
+        CMP      R0,#+0
+        LDREQ    R1,[SP, #+0]
+        ADDEQ    R1,R7,R1, LSL #+24
+        MOVNE    R1,#+0
+        STR      R1,[R4, #+0]
+        POP      {R1,R4-R7,PC}    ;; return
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ziplocal_SearchCentralDir??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE ziplocal_SearchCentralDir
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ziplocal_SearchCentralDir
+        ARM
+ziplocal_SearchCentralDir:
+        PUSH     {R1,R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+40
+        MOV      R4,R0
+        LDR      R0,[R4, #+28]
+        LDR      R6,[R4, #+16]
+        MOV      R7,#+255
+        ORR      R7,R7,#0xFF00
+        MOV      R5,#+0
+        MOV      R3,#+2
+        MOV      R2,#+0
+        BLX      R6
+        CMP      R0,#+0
+        BNE      ??ziplocal_SearchCentralDir_0
+        LDR      R0,[R4, #+28]
+        LDR      R1,[SP, #+0]
+        LDR      R2,[R4, #+12]
+        BLX      R2
+        MOV      R6,R0
+        CMP      R6,R7
+        MOVCC    R7,R6
+        MOV      R0,#+4
+        ORR      R0,R0,#0x400
+        SWI      +259
+        MOVS     R8,R0
+        BEQ      ??ziplocal_SearchCentralDir_0
+        MOV      R9,#+4
+??ziplocal_SearchCentralDir_1:
+        CMP      R9,R7
+        BCS      ??ziplocal_SearchCentralDir_2
+        ADD      R0,R9,#+1024
+        CMP      R7,R0
+        MOVCC    R9,R7
+        ADDCS    R9,R9,#+1024
+        SUB      R10,R6,R9
+        SUB      R0,R6,R10
+        LDR      R12,[R4, #+16]
+        MOV      R1,#+5
+        ORR      R1,R1,#0x400
+        CMP      R0,R1
+        LDR      R0,[R4, #+28]
+        BICCS    R11,R1,#0x1
+        LDR      R1,[SP, #+0]
+        SUBCC    R11,R6,R10
+        MOV      R3,#+0
+        MOV      R2,R10
+        BLX      R12
+        CMP      R0,#+0
+        BNE      ??ziplocal_SearchCentralDir_2
+        LDR      R0,[R4, #+28]
+        LDR      R1,[SP, #+0]
+        LDR      R12,[R4, #+4]
+        MOV      R3,R11
+        MOV      R2,R8
+        BLX      R12
+        CMP      R0,R11
+        BNE      ??ziplocal_SearchCentralDir_2
+        SUB      R0,R11,#+3
+??ziplocal_SearchCentralDir_3:
+        MOV      R1,R0
+        SUB      R0,R1,#+1
+        CMP      R1,#+1
+        BLT      ??ziplocal_SearchCentralDir_4
+        LDRB     R1,[R0, +R8]
+        CMP      R1,#+80
+        BNE      ??ziplocal_SearchCentralDir_3
+        ADD      R1,R0,R8
+        LDRB     R1,[R1, #+1]
+        CMP      R1,#+75
+        BNE      ??ziplocal_SearchCentralDir_3
+        ADD      R1,R0,R8
+        LDRB     R1,[R1, #+2]
+        CMP      R1,#+5
+        BNE      ??ziplocal_SearchCentralDir_3
+        ADD      R1,R0,R8
+        LDRB     R1,[R1, #+3]
+        CMP      R1,#+6
+        BNE      ??ziplocal_SearchCentralDir_3
+        ADD      R5,R0,R10
+??ziplocal_SearchCentralDir_4:
+        CMP      R5,#+0
+        BEQ      ??ziplocal_SearchCentralDir_1
+??ziplocal_SearchCentralDir_2:
+        MOV      R0,R8
+        SWI      +260
+??ziplocal_SearchCentralDir_0:
+        MOV      R0,R5
+        POP      {R1,R4-R11,PC}   ;; return
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipOpen2??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE zipOpen2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function zipOpen2
+        ARM
+zipOpen2:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+216
+        CFI CFA R13+252
+        SUB      SP,SP,#+16384
+        CFI CFA R13+16636
+        ADD      R0,SP,#+16384
+        LDR      R0,[R0, #+252]
+        MOV      R6,R1
+        MOV      R7,R2
+        MOV      R4,R3
+        MOV      R5,#+0
+        CMP      R0,#+0
+        BNE      ??zipOpen2_0
+        ADD      R0,SP,#+32
+        _BLF     fill_fopen_filefunc,??fill_fopen_filefunc??rA
+        B        ??zipOpen2_1
+??zipOpen2_0:
+        LDM      R0,{R2,R3,R8-R12,LR}
+        ADD      R1,SP,#+32
+        STM      R1,{R2,R3,R8-R12,LR}
+??zipOpen2_1:
+        LDR      R3,[SP, #+32]
+        ADD      R0,SP,#+36
+        LDR      R0,[R0, #+24]
+        CMP      R7,#+0
+        MOVEQ    R2,#+11
+        MOVNE    R2,#+7
+        MOV      R1,R6
+        BLX      R3
+        ADD      R1,SP,#+36
+        STR      R0,[R1, #+28]
+        ADD      R0,SP,#+36
+        LDR      R0,[R0, #+28]
+        CMP      R0,#+0
+        BNE      ??zipOpen2_2
+??zipOpen2_3:
+        MOV      R0,#+0
+        ADD      SP,SP,#+216
+        CFI CFA R13+16420
+        ADD      SP,SP,#+16384
+        CFI CFA R13+36
+        POP      {R4-R11,PC}
+        CFI CFA R13+16636
+??zipOpen2_2:
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        LDR      R0,[R0, #+24]
+        MOV      R8,#+168
+        ORR      R8,R8,#0x4000
+        ADD      R2,SP,#+36
+        LDR      R2,[R2, #+8]
+        BLX      R2
+        ADD      R1,SP,#+32
+        STR      R0,[R8, +R1]
+        MOV      R0,#+0
+        ADD      R1,SP,#+36
+        STR      R0,[R1, #+40]
+        STR      R0,[R1, #+100]
+        ADD      R1,SP,#+32
+        ADD      R1,R8,R1
+        STR      R0,[R1, #+8]
+        ADD      R1,SP,#+32
+        ADD      R1,R8,R1
+        STR      R0,[R1, #+4]
+        ADD      R1,SP,#+36
+        STR      R0,[R1, #+36]
+        STR      R0,[R1, #+32]
+        ORR      R0,R8,#0x10
+        SWI      +259
+        MOVS     R6,R0
+        BNE      ??zipOpen2_4
+??zipOpen2_5:
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        LDR      R0,[R0, #+24]
+        ADD      R2,SP,#+36
+        LDR      R2,[R2, #+16]
+        BLX      R2
+        B        ??zipOpen2_3
+??zipOpen2_4:
+        ADD      R1,SP,#+32
+        ADD      R0,R8,R1
+        MOV      R1,#+0
+        STR      R1,[R0, #+12]
+        CMP      R7,#+2
+        BNE      ??zipOpen2_6
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_SearchCentralDir
+        MOVS     R7,R0
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        LDR      R0,[R0, #+24]
+        MVNEQ    R5,R5
+        MOV      R3,#+0
+        MOV      R2,R7
+        ADD      R8,SP,#+36
+        LDR      R8,[R8, #+12]
+        BLX      R8
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        ADD      R2,SP,#+28
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getLong
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        ADD      R2,SP,#+16
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getShort
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        ADD      R2,SP,#+20
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getShort
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        ADD      R2,SP,#+24
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getShort
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        ADD      R2,SP,#+12
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getShort
+        LDR      R1,[SP, #+24]
+        CMP      R0,#+0
+        LDR      R0,[SP, #+12]
+        MVNNE    R5,#+0
+        CMP      R0,R1
+        LDREQ    R0,[SP, #+20]
+        ADD      R2,SP,#+8
+        CMPEQ    R0,#+0
+        LDREQ    R0,[SP, #+16]
+        CMPEQ    R0,#+0
+        MVNNE    R5,#+102
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getLong
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        ADD      R2,SP,#+4
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getLong
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        MOV      R2,SP
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        ADD      R0,SP,#+32
+        BL       ziplocal_getShort
+        LDR      R1,[SP, #+8]
+        CMP      R0,#+0
+        LDR      R0,[SP, #+4]
+        MVNNE    R5,#+0
+        ADD      R0,R1,R0
+        CMP      R7,R0
+        BCS      ??zipOpen2_7
+        CMP      R5,#+0
+        BEQ      ??zipOpen2_5
+??zipOpen2_7:
+        CMP      R5,#+0
+        BNE      ??zipOpen2_5
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BEQ      ??zipOpen2_8
+        MOV      R8,#+168
+        ORR      R8,R8,#0x4000
+        ADD      R0,R0,#+1
+        SWI      +259
+        ADD      R1,SP,#+32
+        ADD      R1,R8,R1
+        STR      R0,[R1, #+12]
+        ADD      R0,SP,#+32
+        ADD      R0,R8,R0
+        LDR      R0,[R0, #+12]
+        CMP      R0,#+0
+        BEQ      ??zipOpen2_8
+        LDR      R3,[SP, #+0]
+        LDR      R9,[SP, #+36]
+        ADD      R0,SP,#+32
+        ADD      R0,R8,R0
+        LDR      R2,[R0, #+12]
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        LDR      R0,[R0, #+24]
+        BLX      R9
+        STR      R0,[SP, #+0]
+        ADD      R1,SP,#+32
+        ADD      R1,R8,R1
+        LDR      R1,[R1, #+12]
+        MOV      R2,#+0
+        STRB     R2,[R0, +R1]
+??zipOpen2_8:
+        LDR      R0,[SP, #+4]
+        LDR      R1,[SP, #+8]
+        SUB      R0,R7,R0
+        SUB      R7,R0,R1
+        MOV      R0,#+168
+        ORR      R0,R0,#0x4000
+        ADD      R1,SP,#+32
+        ADD      R0,R0,R1
+        STR      R7,[R0, #+4]
+        LDR      R8,[SP, #+8]
+        MOV      R0,#+4080
+        SWI      +259
+        MOV      R9,R0
+        LDR      R0,[SP, #+4]
+        MOV      R3,#+0
+        ADD      R2,R7,R0
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        LDR      R0,[R0, #+24]
+        ADD      R10,SP,#+36
+        LDR      R10,[R10, #+12]
+        BLX      R10
+        CMP      R0,#+0
+        BEQ      ??zipOpen2_9
+        MVN      R5,#+0
+        B        ??zipOpen2_9
+??zipOpen2_10:
+        MOV      R2,R10
+        MOV      R1,R9
+        ADD      R0,SP,#+68
+        BL       add_data_in_datablock
+        MOV      R5,R0
+??zipOpen2_11:
+        SUB      R8,R8,R10
+??zipOpen2_9:
+        CMP      R8,#+0
+        BEQ      ??zipOpen2_12
+        CMP      R5,#+0
+        BNE      ??zipOpen2_12
+        LDR      R5,[SP, #+36]
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        LDR      R0,[R0, #+24]
+        MOV      R10,#+4080
+        CMP      R8,#+4080
+        MOVCC    R10,R8
+        MOV      R3,R10
+        MOV      R2,R9
+        BLX      R5
+        CMP      R0,R10
+        BEQ      ??zipOpen2_10
+        MVN      R5,#+0
+        B        ??zipOpen2_11
+??zipOpen2_12:
+        CMP      R9,#+0
+        BEQ      ??zipOpen2_13
+        MOV      R0,R9
+        SWI      +260
+??zipOpen2_13:
+        MOV      R8,#+168
+        ORR      R8,R8,#0x4000
+        ADD      R0,SP,#+32
+        STR      R7,[R8, +R0]
+        LDR      R1,[SP, #+12]
+        ADD      R0,R8,R0
+        STR      R1,[R0, #+8]
+        LDR      R0,[SP, #+4]
+        MOV      R3,#+0
+        ADD      R2,R7,R0
+        ADD      R0,SP,#+36
+        LDR      R1,[R0, #+28]
+        LDR      R0,[R0, #+24]
+        ADD      R7,SP,#+36
+        LDR      R7,[R7, #+12]
+        BLX      R7
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+??zipOpen2_6:
+        CMP      R4,#+0
+        BEQ      ??zipOpen2_14
+        ADD      R1,SP,#+32
+        ADD      R0,R8,R1
+        LDR      R0,[R0, #+12]
+        STR      R0,[R4, #+0]
+??zipOpen2_14:
+        CMP      R5,#+0
+        BEQ      ??zipOpen2_15
+        ADD      R1,SP,#+32
+        ADD      R0,R8,R1
+        LDR      R0,[R0, #+12]
+        CMP      R0,#+0
+        BEQ      ??zipOpen2_16
+        ADD      R0,R8,R1
+        LDR      R0,[R0, #+12]
+        SWI      +260
+??zipOpen2_16:
+        MOV      R0,R6
+        SWI      +260
+        B        ??zipOpen2_3
+??zipOpen2_15:
+        ADD      R0,SP,#+32
+        ORR      R2,R8,#0x10
+??zipOpen2_17:
+        SUBS     R2,R2,#+4
+        LDR      R1,[R0, R2]
+        STR      R1,[R6, R2]
+        BNE      ??zipOpen2_17
+        MOV      R0,R6
+        ADD      SP,SP,#+216
+        CFI CFA R13+16420
+        ADD      SP,SP,#+16384
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipOpen??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock20
+        REQUIRE zipOpen
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function zipOpen
+        ARM
+zipOpen:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R3,#+0
+        PUSH     {R3}
+        CFI CFA R13+8
+        BL       zipOpen2
+        POP      {R1,PC}          ;; return
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipOpenNewFileInZip3??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock22
+        REQUIRE zipOpenNewFileInZip3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function zipOpenNewFileInZip3
+        ARM
+zipOpenNewFileInZip3:
+        PUSH     {R1,R3-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+44
+        SUB      SP,SP,#+12
+        CFI CFA R13+56
+        LDR      R6,[SP, #+64]
+        LDR      R7,[SP, #+84]
+        MOV      R4,R0
+        MOV      R5,R2
+        CMP      R4,#+0
+        BNE      ??zipOpenNewFileInZip3_0
+??zipOpenNewFileInZip3_1:
+        MVN      R0,#+101
+??zipOpenNewFileInZip3_2:
+        ADD      SP,SP,#+20       ;; stack cleaning
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        CFI CFA R13+56
+??zipOpenNewFileInZip3_0:
+        LDR      R0,[SP, #+72]
+        CMP      R0,#+0
+        CMPNE    R0,#+8
+        BNE      ??zipOpenNewFileInZip3_1
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+36]
+        CMP      R0,#+1
+        BNE      ??zipOpenNewFileInZip3_3
+        MOV      R2,#+0
+        MOV      R1,#+0
+        MOV      R0,R4
+        BL       zipCloseFileInZipRaw
+        MOVS     R11,R0
+        BEQ      ??zipOpenNewFileInZip3_3
+??zipOpenNewFileInZip3_4:
+        B        ??zipOpenNewFileInZip3_5
+??zipOpenNewFileInZip3_3:
+        LDR      R0,[SP, #+12]
+        CMP      R0,#+0
+        ADREQ    R1,??zipOpenNewFileInZip3_6  ;; "-"
+        STREQ    R1,[SP, #+12]
+        LDR      R0,[SP, #+68]
+        CMP      R0,#+0
+        MOVEQ    R11,#+0
+        BEQ      ??zipOpenNewFileInZip3_7
+        SWI      +346
+        MOV      R11,R0
+??zipOpenNewFileInZip3_7:
+        LDR      R0,[SP, #+12]
+        SWI      +346
+        MOV      R8,R0
+        CMP      R5,#+0
+        BNE      ??zipOpenNewFileInZip3_8
+        MOV      R0,#+136
+        ORR      R0,R0,#0x4000
+        MOV      R1,#+0
+        B        ??zipOpenNewFileInZip3_9
+??zipOpenNewFileInZip3_8:
+        LDR      R0,[R5, #+24]
+        CMP      R0,#+0
+        BEQ      ??zipOpenNewFileInZip3_10
+        LDR      R1,[R5, #+24]
+        MOV      R0,#+136
+        ORR      R0,R0,#0x4000
+        B        ??zipOpenNewFileInZip3_9
+??zipOpenNewFileInZip3_10:
+        LDR      R1,[R5, #+20]
+        MOV      R0,#+189
+        ORR      R0,R0,#0x700
+        CMP      R1,R0
+        BCC      ??zipOpenNewFileInZip3_11
+        MVN      R0,#+187
+        BIC      R0,R0,#0x700
+        ADD      R1,R0,R1
+        B        ??zipOpenNewFileInZip3_12
+??zipOpenNewFileInZip3_11:
+        CMP      R1,#+81
+        SUBCS    R1,R1,#+80
+??zipOpenNewFileInZip3_12:
+        LDR      R2,[R5, #+12]
+        LDR      R3,[R5, #+16]
+        MOV      R0,#+136
+        ADD      R3,R3,#+1
+        ADD      R2,R2,R3, LSL #+5
+        LDR      R3,[R5, #+4]
+        ADD      R1,R2,R1, LSL #+9
+        LDR      R2,[R5, #+0]
+        LSL      R3,R3,#+5
+        ADD      R2,R3,R2, LSR #+1
+        LDR      R3,[R5, #+8]
+        ORR      R0,R0,#0x4000
+        ADD      R2,R2,R3, LSL #+11
+        ORR      R1,R2,R1, LSL #+16
+??zipOpenNewFileInZip3_9:
+        STR      R1,[R0, +R4]
+        ADD      R0,R4,#+8
+        MOV      R1,#+0
+        STR      R1,[R0, #+116]
+        LDR      R0,[SP, #+76]
+        CMP      R0,#+8
+        CMPNE    R0,#+9
+        ADDEQ    R9,R4,#+8
+        MOVEQ    R0,#+2
+        STREQ    R0,[R9, #+116]
+        LDR      R0,[SP, #+76]
+        CMP      R0,#+2
+        BNE      ??zipOpenNewFileInZip3_13
+        ADD      R9,R4,#+8
+        LDR      R0,[R9, #+116]
+        ORR      R0,R0,#0x4
+        B        ??zipOpenNewFileInZip3_14
+??zipOpenNewFileInZip3_13:
+        CMP      R0,#+1
+        BNE      ??zipOpenNewFileInZip3_15
+        ADD      R9,R4,#+8
+        LDR      R0,[R9, #+116]
+        ORR      R0,R0,#0x6
+??zipOpenNewFileInZip3_14:
+        STR      R0,[R9, #+116]
+??zipOpenNewFileInZip3_15:
+        LDR      R0,[SP, #+96]
+        CMP      R0,#+0
+        BEQ      ??zipOpenNewFileInZip3_16
+        ADD      R9,R4,#+8
+        LDR      R0,[R9, #+116]
+        ORR      R0,R0,#0x1
+        STR      R0,[R9, #+116]
+??zipOpenNewFileInZip3_16:
+        MOV      R0,#+136
+        ORR      R0,R0,#0x4000
+        ADD      R10,R0,R4
+        MOV      R0,#+0
+        STR      R0,[R10, #+4]
+        LDR      R1,[SP, #+72]
+        ADD      R9,R4,#+8
+        STR      R1,[R9, #+120]
+        STR      R0,[R10, #+8]
+        STR      R0,[R9, #+96]
+        STR      R0,[R9, #+100]
+        LDR      R0,[SP, #+80]
+        STR      R0,[R9, #+124]
+        LDR      R0,[R9, #+20]
+        LDR      R1,[R9, #+24]
+        LDR      R2,[R9, #+4]
+        BLX      R2
+        STR      R0,[R9, #+104]
+        ADD      R0,R6,R8
+        ADD      R0,R11,R0
+        ADD      R0,R0,#+46
+        STR      R0,[R9, #+112]
+        SWI      +259
+        LDR      R1,??zipOpenNewFileInZip3_17  ;; 0x2014b50
+        STR      R0,[R9, #+108]
+        MOV      R2,#+4
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+2
+        MOV      R1,#+0
+        ADD      R0,R0,#+4
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+2
+        MOV      R1,#+20
+        ADD      R0,R0,#+6
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        LDR      R1,[R9, #+116]
+        MOV      R2,#+2
+        ADD      R0,R0,#+8
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        LDR      R1,[R9, #+120]
+        MOV      R2,#+2
+        ADD      R0,R0,#+10
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        LDR      R1,[R10, #+0]
+        MOV      R2,#+4
+        ADD      R0,R0,#+12
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+4
+        MOV      R1,#+0
+        ADD      R0,R0,#+16
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+4
+        MOV      R1,#+0
+        ADD      R0,R0,#+20
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+4
+        MOV      R1,#+0
+        ADD      R0,R0,#+24
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+2
+        MOV      R1,R8
+        ADD      R0,R0,#+28
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+2
+        MOV      R1,R6
+        ADD      R0,R0,#+30
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+2
+        MOV      R1,R11
+        ADD      R0,R0,#+32
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+108]
+        MOV      R2,#+2
+        MOV      R1,#+0
+        ADD      R0,R0,#+34
+        BL       ziplocal_putValue_inmemory
+        CMP      R5,#+0
+        MOV      R2,#+2
+        BNE      ??zipOpenNewFileInZip3_18
+        LDR      R0,[R9, #+108]
+        MOV      R1,#+0
+        ADD      R0,R0,#+36
+        BL       ziplocal_putValue_inmemory
+        MOV      R2,#+4
+        MOV      R1,#+0
+        B        ??zipOpenNewFileInZip3_19
+??zipOpenNewFileInZip3_18:
+        LDR      R0,[R9, #+108]
+        LDR      R1,[R5, #+28]
+        ADD      R0,R0,#+36
+        BL       ziplocal_putValue_inmemory
+        LDR      R1,[R5, #+32]
+        MOV      R2,#+4
+??zipOpenNewFileInZip3_19:
+        LDR      R0,[R9, #+108]
+        ADD      R0,R0,#+38
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R9, #+104]
+        MOV      R1,#+136
+        ORR      R1,R1,#0x4000
+        ADD      R1,R1,R4
+        LDR      R1,[R1, #+36]
+        MOV      R2,#+4
+        SUB      R1,R0,R1
+        LDR      R0,[R9, #+108]
+        ADD      R0,R0,#+42
+        BL       ziplocal_putValue_inmemory
+        MOV      R0,#+0
+        CMP      R8,#+0
+        BNE      ??zipOpenNewFileInZip3_20
+        B        ??zipOpenNewFileInZip3_21
+??zipOpenNewFileInZip3_22:
+        LDR      R2,[SP, #+12]
+        ADD      R1,R4,#+8
+        LDRB     R2,[R0, +R2]
+        LDR      R1,[R1, #+108]
+        ADD      R1,R0,R1
+        STRB     R2,[R1, #+46]
+        ADD      R0,R0,#+1
+??zipOpenNewFileInZip3_20:
+        CMP      R0,R8
+        BCC      ??zipOpenNewFileInZip3_22
+??zipOpenNewFileInZip3_21:
+        MOV      R0,#+0
+        CMP      R6,#+0
+        BNE      ??zipOpenNewFileInZip3_23
+        B        ??zipOpenNewFileInZip3_24
+??zipOpenNewFileInZip3_25:
+        LDR      R2,[SP, #+60]
+        ADD      R1,R4,#+8
+        LDRB     R2,[R0, +R2]
+        LDR      R1,[R1, #+108]
+        ADD      R1,R8,R1
+        ADD      R1,R0,R1
+        STRB     R2,[R1, #+46]
+        ADD      R0,R0,#+1
+??zipOpenNewFileInZip3_23:
+        CMP      R0,R6
+        BCC      ??zipOpenNewFileInZip3_25
+??zipOpenNewFileInZip3_24:
+        MOV      R0,#+0
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_26
+        B        ??zipOpenNewFileInZip3_27
+        DATA
+??zipOpenNewFileInZip3_6:
+        DC8      "-",+0,+0
+        ARM
+??zipOpenNewFileInZip3_28:
+        LDR      R2,[SP, #+68]
+        ADD      R1,R4,#+8
+        LDRB     R2,[R0, +R2]
+        LDR      R1,[R1, #+108]
+        ADD      R1,R8,R1
+        ADD      R1,R6,R1
+        ADD      R1,R0,R1
+        STRB     R2,[R1, #+46]
+        ADD      R0,R0,#+1
+??zipOpenNewFileInZip3_26:
+        CMP      R0,R11
+        BCC      ??zipOpenNewFileInZip3_28
+??zipOpenNewFileInZip3_27:
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+108]
+        CMP      R0,#+0
+        MVNEQ    R0,#+103
+        BEQ      ??zipOpenNewFileInZip3_2
+        LDR      R2,??zipOpenNewFileInZip3_17+0x4  ;; 0x4034b50
+        MOV      R3,#+4
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOVS     R11,R0
+        BNE      ??zipOpenNewFileInZip3_29
+        MOV      R3,#+2
+        MOV      R2,#+20
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_29:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_30
+        LDR      R2,[R9, #+116]
+        LDR      R1,[R9, #+24]
+        MOV      R3,#+2
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_30:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_31
+        LDR      R2,[R9, #+120]
+        LDR      R1,[R9, #+24]
+        MOV      R3,#+2
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_31:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_32
+        MOV      R3,#+4
+        MOV      R0,#+136
+        ORR      R0,R0,#0x4000
+        LDR      R2,[R0, +R4]
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_32:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_33
+        MOV      R3,#+4
+        MOV      R2,#+0
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_33:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_34
+        MOV      R3,#+4
+        MOV      R2,#+0
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_34:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_35
+        MOV      R3,#+4
+        MOV      R2,#+0
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_35:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_36
+        MOV      R3,#+2
+        MOV      R2,R8
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_36:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_37
+        LDR      R2,[SP, #+56]
+        MOV      R3,#+2
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R11,R0
+??zipOpenNewFileInZip3_37:
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_38
+        CMP      R8,#+0
+        BEQ      ??zipOpenNewFileInZip3_39
+        LDR      R0,[R9, #+20]
+        LDR      R2,[SP, #+12]
+        LDR      R1,[R9, #+24]
+        LDR      R5,[R9, #+0]
+        MOV      R3,R8
+        BLX      R5
+        CMP      R0,R8
+        BNE      ??zipOpenNewFileInZip3_40
+??zipOpenNewFileInZip3_39:
+        LDR      R0,[SP, #+56]
+        CMP      R0,#+0
+        BEQ      ??zipOpenNewFileInZip3_38
+        LDR      R2,[SP, #+16]
+        LDR      R1,[R9, #+24]
+        LDR      R5,[R9, #+0]
+        MOV      R3,R0
+        LDR      R0,[R9, #+20]
+        BLX      R5
+        LDR      R1,[SP, #+56]
+        CMP      R0,R1
+        BEQ      ??zipOpenNewFileInZip3_38
+??zipOpenNewFileInZip3_40:
+        MVN      R11,#+0
+??zipOpenNewFileInZip3_38:
+        MOV      R0,#+0
+        STR      R0,[R9, #+44]
+        MOV      R1,#+16384
+        STR      R1,[R9, #+56]
+        ADD      R1,R4,#+136
+        STR      R1,[R9, #+52]
+        STR      R0,[R9, #+48]
+        STR      R0,[R9, #+60]
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_41
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+120]
+        CMP      R0,#+8
+        BNE      ??zipOpenNewFileInZip3_41
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+124]
+        CMP      R0,#+0
+        BNE      ??zipOpenNewFileInZip3_41
+        STR      R0,[R9, #+72]
+        STR      R0,[R9, #+76]
+        STR      R0,[R9, #+80]
+        MOV      R0,#+56
+        PUSH     {R0}
+        CFI CFA R13+60
+        LDR      R0,??zipOpenNewFileInZip3_17+0x8  ;; `?<Constant "1.2.3">`
+        CMP      R7,#+1
+        PUSH     {R0}
+        CFI CFA R13+64
+        LDR      R0,[SP, #+100]
+        RSBGE    R7,R7,#+0
+        PUSH     {R0}
+        CFI CFA R13+68
+        LDR      R0,[SP, #+100]
+        MOV      R3,R7
+        PUSH     {R0}
+        CFI CFA R13+72
+        LDR      R1,[SP, #+92]
+        MOV      R2,#+8
+        ADD      R0,R4,#+48
+        _BLF     deflateInit2_,??deflateInit2_??rA
+        MOVS     R11,R0
+        ADD      SP,SP,#+16
+        CFI CFA R13+56
+        ADDEQ    R0,R4,#+8
+        MOVEQ    R1,#+1
+        STREQ    R1,[R0, #+96]
+??zipOpenNewFileInZip3_41:
+        MOV      R0,#+136
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        MOV      R1,#+0
+        STR      R1,[R0, #+28]
+        CMP      R11,#+0
+        BNE      ??zipOpenNewFileInZip3_5
+        LDR      R0,[SP, #+96]
+        CMP      R0,#+0
+        BEQ      ??zipOpenNewFileInZip3_42
+        MOV      R0,#+1
+        STR      R0,[R10, #+8]
+        _BLF     get_crc_table,??get_crc_table??rA
+        STR      R0,[R10, #+24]
+        LDR      R0,[SP, #+100]
+        MOV      R2,#+12
+        PUSH     {R0}
+        CFI CFA R13+60
+        LDR      R0,[R10, #+24]
+        PUSH     {R0}
+        CFI CFA R13+64
+        ADD      R1,SP,#+8
+        MOV      R0,#+148
+        ORR      R0,R0,#0x4000
+        ADD      R3,R0,R4
+        LDR      R0,[SP, #+104]
+        BL       crypthead
+        MOV      R5,R0
+        STR      R5,[R10, #+28]
+        LDR      R0,[R9, #+20]
+        LDR      R1,[R9, #+24]
+        LDR      R6,[R9, #+0]
+        MOV      R3,R5
+        ADD      R2,SP,#+8
+        BLX      R6
+        CMP      R0,R5
+        ADD      SP,SP,#+8
+        CFI CFA R13+56
+        MVNNE    R11,#+0
+        BNE      ??zipOpenNewFileInZip3_5
+??zipOpenNewFileInZip3_42:
+        ADD      R0,R4,#+8
+        MOV      R1,#+1
+        STR      R1,[R0, #+36]
+??zipOpenNewFileInZip3_5:
+        MOV      R0,R11
+        ADD      SP,SP,#+20
+        CFI CFA R13+36
+        POP      {R4-R11,PC}
+        DATA
+??zipOpenNewFileInZip3_17:
+        DC32     0x2014b50
+        DC32     0x4034b50
+        DC32     `?<Constant "1.2.3">`
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipOpenNewFileInZip2??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock24
+        REQUIRE zipOpenNewFileInZip2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function zipOpenNewFileInZip2
+        ARM
+zipOpenNewFileInZip2:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        LDR      R12,[SP, #+32]
+        LDR      R4,[SP, #+36]
+        LDR      R5,[SP, #+40]
+        LDR      R6,[SP, #+44]
+        LDR      R7,[SP, #+48]
+        LDR      R8,[SP, #+52]
+        LDR      R9,[SP, #+56]
+        MOV      R10,#+0
+        PUSH     {R10}
+        CFI CFA R13+36
+        PUSH     {R10}
+        CFI CFA R13+40
+        PUSH     {R10}
+        CFI CFA R13+44
+        MOV      R10,#+8
+        PUSH     {R10}
+        CFI CFA R13+48
+        MVN      R10,#+14
+        PUSH     {R10}
+        CFI CFA R13+52
+        PUSH     {R9}
+        CFI CFA R13+56
+        PUSH     {R8}
+        CFI CFA R13+60
+        PUSH     {R7}
+        CFI CFA R13+64
+        PUSH     {R6}
+        CFI CFA R13+68
+        PUSH     {R5}
+        CFI CFA R13+72
+        PUSH     {R4}
+        CFI CFA R13+76
+        PUSH     {R12}
+        CFI CFA R13+80
+        BL       zipOpenNewFileInZip3
+        ADD      SP,SP,#+48
+        CFI CFA R13+32
+        POP      {R4-R10,PC}      ;; return
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipOpenNewFileInZip??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock26
+        REQUIRE zipOpenNewFileInZip
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function zipOpenNewFileInZip
+        ARM
+zipOpenNewFileInZip:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        LDR      R12,[SP, #+28]
+        LDR      R4,[SP, #+32]
+        LDR      R5,[SP, #+36]
+        LDR      R6,[SP, #+40]
+        LDR      R7,[SP, #+44]
+        LDR      R8,[SP, #+48]
+        MOV      R9,#+0
+        PUSH     {R9}
+        CFI CFA R13+32
+        PUSH     {R9}
+        CFI CFA R13+36
+        PUSH     {R9}
+        CFI CFA R13+40
+        MOV      R9,#+8
+        PUSH     {R9}
+        CFI CFA R13+44
+        MVN      R9,#+14
+        PUSH     {R9}
+        CFI CFA R13+48
+        MOV      R9,#+0
+        PUSH     {R9}
+        CFI CFA R13+52
+        PUSH     {R8}
+        CFI CFA R13+56
+        PUSH     {R7}
+        CFI CFA R13+60
+        PUSH     {R6}
+        CFI CFA R13+64
+        PUSH     {R5}
+        CFI CFA R13+68
+        PUSH     {R4}
+        CFI CFA R13+72
+        PUSH     {R12}
+        CFI CFA R13+76
+        BL       zipOpenNewFileInZip3
+        ADD      SP,SP,#+48
+        CFI CFA R13+28
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipFlushWriteBuffer??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock28
+        REQUIRE zipFlushWriteBuffer
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI Function zipFlushWriteBuffer
+        ARM
+zipFlushWriteBuffer:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        MOV      R4,R0
+        MOV      R0,#+144
+        ORR      R0,R0,#0x4000
+        LDR      R0,[R0, +R4]
+        MOV      R5,#+0
+        CMP      R0,#+0
+        BEQ      ??zipFlushWriteBuffer_0
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+100]
+        MOV      R6,#+0
+        CMP      R0,#+0
+        BNE      ??zipFlushWriteBuffer_1
+        B        ??zipFlushWriteBuffer_0
+??zipFlushWriteBuffer_2:
+        MOV      R0,#+144
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        LDR      R1,[R0, #+12]
+        MOV      R2,#+2
+        LSL      R1,R1,#+16
+        ORR      R7,R2,R1, LSR #+16
+        LDR      R1,[R0, #+16]
+        ADD      R8,R6,R4
+        LDRB     R2,[R8, #+136]
+        MOV      R0,#+148
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        BL       update_keys
+        LDRB     R0,[R8, #+136]
+        EOR      R1,R7,#0x1
+        MUL      R2,R1,R7
+        ADD      R6,R6,#+1
+        LSR      R1,R2,#+8
+        EOR      R0,R1,R0
+        STRB     R0,[R8, #+136]
+??zipFlushWriteBuffer_1:
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+100]
+        CMP      R6,R0
+        BCC      ??zipFlushWriteBuffer_2
+??zipFlushWriteBuffer_0:
+        ADD      R6,R4,#+8
+        LDR      R3,[R6, #+100]
+        LDR      R1,[R6, #+24]
+        LDR      R0,[R6, #+20]
+        LDR      R7,[R6, #+0]
+        ADD      R2,R4,#+136
+        BLX      R7
+        LDR      R1,[R6, #+100]
+        CMP      R0,R1
+        MVNNE    R5,R5
+        ADD      R0,R4,#+8
+        MOV      R1,#+0
+        STR      R1,[R0, #+100]
+        MOV      R0,R5
+        POP      {R4-R8,PC}       ;; return
+        CFI EndBlock cfiBlock29
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipWriteInFileInZip??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock30
+        REQUIRE zipWriteInFileInZip
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon1
+        CFI Function zipWriteInFileInZip
+        ARM
+zipWriteInFileInZip:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOVS     R4,R0
+        MOV      R5,#+0
+        BNE      ??zipWriteInFileInZip_0
+??zipWriteInFileInZip_1:
+        MVN      R0,#+101
+        POP      {R4-R7,PC}
+??zipWriteInFileInZip_0:
+        LDR      R0,[R4, #+44]
+        CMP      R0,#+0
+        BEQ      ??zipWriteInFileInZip_1
+        ADD      R6,R4,#+44
+        STR      R1,[R6, #+4]
+        STR      R2,[R6, #+8]
+        MOV      R0,#+140
+        ORR      R0,R0,#0x4000
+        ADD      R6,R0,R4
+        LDR      R0,[R6, #+0]
+        _BLF     crc32,??crc32??rA
+        STR      R0,[R6, #+0]
+        B        ??zipWriteInFileInZip_2
+??zipWriteInFileInZip_3:
+        ADD      R6,R4,#+44
+        LDR      R7,[R6, #+24]
+        MOV      R1,#+0
+        ADD      R0,R4,#+48
+        _BLF     deflate,??deflate??rA
+        LDR      R1,[R6, #+24]
+        MOV      R5,R0
+        LDR      R0,[R6, #+64]
+        CMP      R5,#+0
+        ADD      R0,R1,R0
+        SUB      R0,R0,R7
+        STR      R0,[R6, #+64]
+        BNE      ??zipWriteInFileInZip_4
+??zipWriteInFileInZip_2:
+        ADD      R0,R4,#+44
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BEQ      ??zipWriteInFileInZip_4
+        ADD      R0,R4,#+44
+        LDR      R0,[R0, #+20]
+        CMP      R0,#+0
+        BNE      ??zipWriteInFileInZip_5
+        MOV      R0,R4
+        BL       zipFlushWriteBuffer
+        CMN      R0,#+1
+        MVNEQ    R5,#+0
+        ADD      R6,R4,#+44
+        MOV      R0,#+16384
+        STR      R0,[R6, #+20]
+        ADD      R0,R4,#+136
+        STR      R0,[R6, #+16]
+        CMP      R5,#+0
+        BNE      ??zipWriteInFileInZip_4
+??zipWriteInFileInZip_5:
+        ADD      R0,R4,#+44
+        LDR      R0,[R0, #+84]
+        CMP      R0,#+8
+        BNE      ??zipWriteInFileInZip_6
+        ADD      R0,R4,#+44
+        LDR      R0,[R0, #+88]
+        CMP      R0,#+0
+        BEQ      ??zipWriteInFileInZip_3
+??zipWriteInFileInZip_6:
+        ADD      R6,R4,#+44
+        LDR      R0,[R6, #+8]
+        LDR      R1,[R6, #+20]
+        CMP      R0,R1
+        ADD      R0,R4,#+44
+        LDRCC    R0,[R0, #+8]
+        MOVCS    R0,R1
+        MOV      R1,#+0
+        CMP      R0,#+0
+        BNE      ??zipWriteInFileInZip_7
+        B        ??zipWriteInFileInZip_8
+??zipWriteInFileInZip_9:
+        LDR      R3,[R6, #+4]
+        LDR      R2,[R6, #+16]
+        LDRB     R3,[R1, +R3]
+        STRB     R3,[R1, +R2]
+        ADD      R1,R1,#+1
+??zipWriteInFileInZip_7:
+        CMP      R1,R0
+        BCC      ??zipWriteInFileInZip_9
+??zipWriteInFileInZip_8:
+        LDR      R1,[R6, #+8]
+        SUB      R1,R1,R0
+        STR      R1,[R6, #+8]
+        LDR      R1,[R6, #+20]
+        SUB      R1,R1,R0
+        STR      R1,[R6, #+20]
+        LDR      R1,[R6, #+4]
+        ADD      R1,R0,R1
+        STR      R1,[R6, #+4]
+        LDR      R1,[R6, #+16]
+        ADD      R1,R0,R1
+        STR      R1,[R6, #+16]
+        LDR      R1,[R6, #+12]
+        ADD      R1,R0,R1
+        STR      R1,[R6, #+12]
+        LDR      R1,[R6, #+24]
+        ADD      R1,R0,R1
+        STR      R1,[R6, #+24]
+        LDR      R1,[R6, #+64]
+        ADD      R0,R0,R1
+        STR      R0,[R6, #+64]
+        B        ??zipWriteInFileInZip_2
+??zipWriteInFileInZip_4:
+        MOV      R0,R5
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipCloseFileInZipRaw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock32
+        REQUIRE zipCloseFileInZipRaw
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon1
+        CFI Function zipCloseFileInZipRaw
+        ARM
+zipCloseFileInZipRaw:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        MOV      R4,R0
+        MOV      R6,R1
+        MOV      R7,R2
+        MOV      R5,#+0
+        CMP      R4,#+0
+        BNE      ??zipCloseFileInZipRaw_0
+??zipCloseFileInZipRaw_1:
+        MVN      R0,#+101
+        POP      {R4-R10,PC}
+??zipCloseFileInZipRaw_0:
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+32]
+        CMP      R0,#+0
+        BEQ      ??zipCloseFileInZipRaw_1
+        ADD      R8,R4,#+12
+        MOV      R0,#+0
+        STR      R0,[R8, #+40]
+        LDR      R0,[R8, #+116]
+        CMP      R0,#+8
+        BNE      ??zipCloseFileInZipRaw_2
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+120]
+        CMP      R0,#+0
+        BNE      ??zipCloseFileInZipRaw_2
+??zipCloseFileInZipRaw_3:
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+52]
+        CMP      R0,#+0
+        BNE      ??zipCloseFileInZipRaw_4
+        MOV      R0,R4
+        BL       zipFlushWriteBuffer
+        MOV      R0,#+16384
+        STR      R0,[R8, #+52]
+        ADD      R0,R4,#+136
+        STR      R0,[R8, #+48]
+??zipCloseFileInZipRaw_4:
+        LDR      R9,[R8, #+56]
+        MOV      R1,#+4
+        ADD      R0,R4,#+48
+        _BLF     deflate,??deflate??rA
+        LDR      R1,[R8, #+56]
+        MOV      R5,R0
+        LDR      R0,[R8, #+96]
+        CMP      R5,#+0
+        ADD      R0,R1,R0
+        SUB      R0,R0,R9
+        STR      R0,[R8, #+96]
+        BEQ      ??zipCloseFileInZipRaw_3
+        CMP      R5,#+1
+        MOVEQ    R5,#+0
+??zipCloseFileInZipRaw_2:
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+96]
+        CMP      R0,#+0
+        BEQ      ??zipCloseFileInZipRaw_5
+        CMP      R5,#+0
+        BNE      ??zipCloseFileInZipRaw_5
+        MOV      R0,R4
+        BL       zipFlushWriteBuffer
+        CMN      R0,#+1
+        MVNEQ    R5,#+0
+??zipCloseFileInZipRaw_5:
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+116]
+        CMP      R0,#+8
+        BNE      ??zipCloseFileInZipRaw_6
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+120]
+        CMP      R0,#+0
+        BNE      ??zipCloseFileInZipRaw_6
+        ADD      R0,R4,#+48
+        _BLF     deflateEnd,??deflateEnd??rA
+        MOV      R5,R0
+        ADD      R0,R4,#+12
+        MOV      R1,#+0
+        STR      R1,[R0, #+92]
+??zipCloseFileInZipRaw_6:
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+120]
+        CMP      R0,#+0
+        BNE      ??zipCloseFileInZipRaw_7
+        MOV      R0,#+140
+        ORR      R0,R0,#0x4000
+        LDR      R7,[R0, +R4]
+        ADD      R0,R4,#+12
+        LDR      R6,[R0, #+44]
+??zipCloseFileInZipRaw_7:
+        LDR      R0,[R8, #+56]
+        MOV      R1,#+140
+        ORR      R1,R1,#0x4000
+        ADD      R1,R1,R4
+        LDR      R1,[R1, #+24]
+        MOV      R2,#+4
+        ADD      R9,R1,R0
+        LDR      R0,[R8, #+104]
+        MOV      R1,R7
+        ADD      R0,R0,#+16
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R8, #+104]
+        MOV      R2,#+4
+        MOV      R1,R9
+        ADD      R0,R0,#+20
+        BL       ziplocal_putValue_inmemory
+        LDR      R0,[R8, #+80]
+        CMP      R0,#+1
+        BNE      ??zipCloseFileInZipRaw_8
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+104]
+        MOV      R2,#+2
+        MOV      R1,#+1
+        ADD      R0,R0,#+36
+        BL       ziplocal_putValue_inmemory
+??zipCloseFileInZipRaw_8:
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+104]
+        MOV      R2,#+4
+        MOV      R1,R6
+        ADD      R0,R0,#+24
+        BL       ziplocal_putValue_inmemory
+        CMP      R5,#+0
+        BNE      ??zipCloseFileInZipRaw_9
+        LDR      R2,[R8, #+108]
+        LDR      R1,[R8, #+104]
+        ADD      R0,R4,#+36
+        BL       add_data_in_datablock
+        MOV      R5,R0
+??zipCloseFileInZipRaw_9:
+        ADD      R0,R4,#+12
+        LDR      R0,[R0, #+104]
+        SWI      +260
+        CMP      R5,#+0
+        BNE      ??zipCloseFileInZipRaw_10
+        LDR      R0,[R8, #+16]
+        LDR      R1,[R8, #+20]
+        LDR      R2,[R8, #+0]
+        BLX      R2
+        LDR      R1,[R8, #+20]
+        LDR      R5,[R8, #+4]
+        MOV      R10,R0
+        LDR      R0,[R8, #+100]
+        MOV      R3,#+0
+        ADD      R2,R0,#+14
+        LDR      R0,[R8, #+16]
+        BLX      R5
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+        BNE      ??zipCloseFileInZipRaw_11
+        MOV      R3,#+4
+        MOV      R2,R7
+        ADD      R0,R4,#+12
+        LDR      R1,[R0, #+20]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOVS     R5,R0
+        BNE      ??zipCloseFileInZipRaw_12
+        MOV      R3,#+4
+        MOV      R2,R9
+        ADD      R0,R4,#+12
+        LDR      R1,[R0, #+20]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R5,R0
+??zipCloseFileInZipRaw_12:
+        CMP      R5,#+0
+        BNE      ??zipCloseFileInZipRaw_11
+        MOV      R3,#+4
+        MOV      R2,R6
+        ADD      R0,R4,#+12
+        LDR      R1,[R0, #+20]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R5,R0
+??zipCloseFileInZipRaw_11:
+        LDR      R0,[R8, #+16]
+        LDR      R1,[R8, #+20]
+        LDR      R6,[R8, #+4]
+        MOV      R3,#+0
+        MOV      R2,R10
+        BLX      R6
+        CMP      R0,#+0
+        MVNNE    R5,#+0
+??zipCloseFileInZipRaw_10:
+        MOV      R0,#+140
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        LDR      R1,[R0, #+36]
+        ADD      R1,R1,#+1
+        STR      R1,[R0, #+36]
+        ADD      R0,R4,#+12
+        MOV      R1,#+0
+        STR      R1,[R0, #+32]
+        MOV      R0,R5
+        POP      {R4-R10,PC}      ;; return
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipCloseFileInZip??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock34
+        REQUIRE zipCloseFileInZip
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon1
+        CFI Function zipCloseFileInZip
+        ARM
+zipCloseFileInZip:
+        MOV      R2,#+0
+        MOV      R1,#+0
+        B        zipCloseFileInZipRaw  ;; tailcall
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??zipClose??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock36
+        REQUIRE zipClose
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon1
+        CFI Function zipClose
+        ARM
+zipClose:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        MOV      R4,R0
+        MOV      R7,R1
+        MOV      R6,#+0
+        MOV      R5,#+0
+        CMP      R4,#+0
+        MVNEQ    R0,#+101
+        POPEQ    {R4-R10,PC}
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+36]
+        CMP      R0,#+1
+        BNE      ??zipClose_0
+        MOV      R2,#+0
+        MOV      R1,R2
+        MOV      R0,R4
+        BL       zipCloseFileInZipRaw
+        MOV      R6,R0
+??zipClose_0:
+        CMP      R7,#+0
+        BNE      ??zipClose_1
+        MOV      R0,#+172
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        LDR      R7,[R0, #+8]
+??zipClose_1:
+        CMP      R7,#+0
+        MOVEQ    R8,#+0
+        BEQ      ??zipClose_2
+        MOV      R0,R7
+        SWI      +346
+        MOV      R8,R0
+??zipClose_2:
+        ADD      R12,R4,#+8
+        LDR      R0,[R12, #+20]
+        LDR      R1,[R12, #+24]
+        LDR      R2,[R12, #+4]
+        BLX      R2
+        MOV      R9,R0
+        CMP      R6,#+0
+        BNE      ??zipClose_3
+        ADD      R0,R4,#+8
+        LDR      R10,[R0, #+28]
+        CMP      R10,#+0
+        BNE      ??zipClose_4
+        B        ??zipClose_3
+??zipClose_5:
+        CMP      R6,#+0
+        BNE      ??zipClose_6
+??zipClose_4:
+        LDR      R0,[R10, #+8]
+        CMP      R0,#+0
+        BEQ      ??zipClose_6
+        ADD      R12,R4,#+8
+        LDR      R1,[R12, #+24]
+        MOV      R3,R0
+        LDR      R0,[R12, #+20]
+        LDR      R12,[R12, #+0]
+        ADD      R2,R10,#+16
+        BLX      R12
+        LDR      R1,[R10, #+8]
+        CMP      R0,R1
+        MVNNE    R6,#+0
+??zipClose_6:
+        LDR      R0,[R10, #+8]
+        LDR      R10,[R10, #+0]
+        ADD      R5,R0,R5
+        CMP      R10,#+0
+        BNE      ??zipClose_5
+??zipClose_3:
+        ADD      R0,R4,#+8
+        LDR      R0,[R0, #+28]
+        CMP      R0,#+0
+        BEQ      ??zipClose_7
+??zipClose_8:
+        LDR      R10,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??zipClose_9
+        SWI      +260
+??zipClose_9:
+        MOVS     R0,R10
+        BNE      ??zipClose_8
+??zipClose_7:
+        CMP      R6,#+0
+        BNE      ??zipClose_10
+        LDR      R2,??zipClose_11  ;; 0x6054b50
+        MOV      R3,#+4
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_10:
+        CMP      R6,#+0
+        BNE      ??zipClose_12
+        MOV      R3,#+2
+        MOV      R2,#+0
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_12:
+        CMP      R6,#+0
+        BNE      ??zipClose_13
+        MOV      R3,#+2
+        MOV      R2,#+0
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_13:
+        CMP      R6,#+0
+        BNE      ??zipClose_14
+        MOV      R3,#+2
+        MOV      R0,#+172
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        LDR      R2,[R0, #+4]
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_14:
+        CMP      R6,#+0
+        BNE      ??zipClose_15
+        MOV      R3,#+2
+        MOV      R0,#+172
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        LDR      R2,[R0, #+4]
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_15:
+        CMP      R6,#+0
+        BNE      ??zipClose_16
+        MOV      R3,#+4
+        MOV      R2,R5
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_16:
+        CMP      R6,#+0
+        BNE      ??zipClose_17
+        MOV      R0,#+172
+        ORR      R0,R0,#0x4000
+        LDR      R0,[R0, +R4]
+        MOV      R3,#+4
+        SUB      R2,R9,R0
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_17:
+        CMP      R6,#+0
+        BNE      ??zipClose_18
+        MOV      R3,#+2
+        MOV      R2,R8
+        ADD      R0,R4,#+8
+        LDR      R1,[R0, #+24]
+        MOV      R0,R4
+        BL       ziplocal_putValue
+        MOV      R6,R0
+??zipClose_18:
+        CMP      R6,#+0
+        BNE      ??zipClose_19
+        CMP      R8,#+0
+        BEQ      ??zipClose_19
+        ADD      R12,R4,#+8
+        LDR      R0,[R12, #+20]
+        LDR      R1,[R12, #+24]
+        LDR      R5,[R12, #+0]
+        MOV      R3,R8
+        MOV      R2,R7
+        BLX      R5
+        CMP      R0,R8
+        MVNNE    R6,#+0
+??zipClose_19:
+        ADD      R12,R4,#+8
+        LDR      R0,[R12, #+20]
+        LDR      R1,[R12, #+24]
+        LDR      R2,[R12, #+12]
+        BLX      R2
+        CMP      R0,#+0
+        BEQ      ??zipClose_20
+        CMP      R6,#+0
+        MVNEQ    R6,#+0
+??zipClose_20:
+        MOV      R0,#+172
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BEQ      ??zipClose_21
+        MOV      R0,#+172
+        ORR      R0,R0,#0x4000
+        ADD      R0,R0,R4
+        LDR      R0,[R0, #+8]
+        SWI      +260
+??zipClose_21:
+        CMP      R4,#+0
+        BEQ      ??zipClose_22
+        MOV      R0,R4
+        SWI      +260
+??zipClose_22:
+        MOV      R0,R6
+        POP      {R4-R10,PC}      ;; return
+        DATA
+??zipClose_11:
+        DC32     0x6054b50
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??srand??rA:
+        LDR      R12,??Subroutine19_0  ;; srand
+        BX       R12
+        DATA
+??Subroutine19_0:
+        DC32     srand
+        CFI EndBlock cfiBlock38
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??rand??rA:
+        LDR      R12,??Subroutine20_0  ;; rand
+        BX       R12
+        DATA
+??Subroutine20_0:
+        DC32     rand
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??fill_fopen_filefunc??rA:
+        LDR      R12,??Subroutine21_0  ;; fill_fopen_filefunc
+        BX       R12
+        DATA
+??Subroutine21_0:
+        DC32     fill_fopen_filefunc
+        CFI EndBlock cfiBlock40
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??deflateInit2_??rA:
+        LDR      R12,??Subroutine22_0  ;; deflateInit2_
+        BX       R12
+        DATA
+??Subroutine22_0:
+        DC32     deflateInit2_
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??get_crc_table??rA:
+        LDR      R12,??Subroutine23_0  ;; get_crc_table
+        BX       R12
+        DATA
+??Subroutine23_0:
+        DC32     get_crc_table
+        CFI EndBlock cfiBlock42
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??crc32??rA:
+        LDR      R12,??Subroutine24_0  ;; crc32
+        BX       R12
+        DATA
+??Subroutine24_0:
+        DC32     crc32
+        CFI EndBlock cfiBlock43
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??deflate??rA:
+        LDR      R12,??Subroutine25_0  ;; deflate
+        BX       R12
+        DATA
+??Subroutine25_0:
+        DC32     deflate
+        CFI EndBlock cfiBlock44
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??deflateEnd??rA:
+        LDR      R12,??Subroutine26_0  ;; deflateEnd
+        BX       R12
+        DATA
+??Subroutine26_0:
+        DC32     deflateEnd
+        CFI EndBlock cfiBlock45
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        END
+// 
+// 7 352 bytes in segment CODE
+//    90 bytes in segment DATA_C
+//     4 bytes in segment DATA_Z
+//    12 bytes in segment INITTAB
+// 
+// 7 180 bytes of CODE  memory (+ 184 bytes shared)
+//    90 bytes of CONST memory
+//     4 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

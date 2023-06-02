@@ -1,0 +1,1367 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:55:17 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\String #
+#                       Input.c                                              #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\String #
+#                       Input.c -D NDEBUG -D OLDFUNCTIONS -lC                #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Ev #
+#                       tEdit\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\EvtEdit\Release\Obj\ -s9 --cpu_mode arm     #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --enable_multibytes --fpu None        #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\StringInput.lst                               #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\Obj\StringInput.r79                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\StringInput.c
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "..\include\var_arg.h"
+      6          #include "header\pages.h"
+      7          #include "header\externals.h"
+      8          #include "header\lng.h"
+      9          #include <errno.h>
+     10          extern "C" unsigned long wcstoul(const wchar_t *, wchar_t **, int);
+     11          
+     12          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          void OnBackCreateTextInputGui(BOOK * bk, u16 *string, int len)
+     14          {
+     15            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \                     ??OnBackCreateTextInputGui:
+   \   00000000   ........           LDR      R1,??DataTable1  ;; PREVIOUS_EVENT
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   2E0100EF           SWI      +302
+     16          };
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     17          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     18          void kickbadsymbols(wchar_t *string, int len)
+     19          {
+     20            char *str=(char*)string;
+     21            if (len>0)
+   \                     ??kickbadsymbols:
+   \   00000000   010051E3           CMP      R1,#+1
+   \   00000004   1EFF2FB1           BXLT     LR
+     22            {
+     23              int x;
+     24              for (x=0;x<(len*2);x++)
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   8110A0E1           LSL      R1,R1,#+1
+   \   00000010   010051E3           CMP      R1,#+1
+   \   00000014   060000AA           BGE      ??kickbadsymbols_1
+   \   00000018   1EFF2FE1           BX       LR
+     25              {
+     26                if (str[x]==0xFE || str[x]==0xFF)
+   \                     ??kickbadsymbols_2:
+   \   0000001C   0030D2E7           LDRB     R3,[R2, +R0]
+   \   00000020   FE0053E3           CMP      R3,#+254
+   \   00000024   FF005313           CMPNE    R3,#+255
+     27                {
+     28                  str[x]=' ';
+   \   00000028   2030A003           MOVEQ    R3,#+32
+   \   0000002C   0030C207           STRBEQ   R3,[R2, +R0]
+     29                }
+     30              }
+   \   00000030   012082E2           ADD      R2,R2,#+1
+   \                     ??kickbadsymbols_1:
+   \   00000034   010052E1           CMP      R2,R1
+   \   00000038   F7FFFFBA           BLT      ??kickbadsymbols_2
+     31            }
+     32          };
+   \   0000003C   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+     33          void kickbadsymbols2(wchar_t *string, int len)
+     34          {
+     35            if (len>0)
+   \                     ??kickbadsymbols2:
+   \   00000000   010051E3           CMP      R1,#+1
+   \   00000004   1EFF2FB1           BXLT     LR
+     36            {
+     37              int x;
+     38              for (x=0;x<len;x++)
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   050000EA           B        ??kickbadsymbols2_1
+     39              {
+     40                if (string[x]==L':')
+   \                     ??kickbadsymbols2_2:
+   \   00000010   823080E0           ADD      R3,R0,R2, LSL #+1
+   \   00000014   B0C0D3E1           LDRH     R12,[R3, #+0]
+     41                {
+     42                  string[x]=L'-';
+     43                }
+     44              }
+   \   00000018   012082E2           ADD      R2,R2,#+1
+   \   0000001C   3A005CE3           CMP      R12,#+58
+   \   00000020   2DC0A003           MOVEQ    R12,#+45
+   \   00000024   B0C0C301           STRHEQ   R12,[R3, #+0]
+   \                     ??kickbadsymbols2_1:
+   \   00000028   010052E1           CMP      R2,R1
+   \   0000002C   F7FFFFBA           BLT      ??kickbadsymbols2_2
+     45            }
+     46          };
+   \   00000030   1EFF2FE1           BX       LR               ;; return
+     47          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     48          char *unicode2win1251(char *s, wchar_t *ws, int len)
+     49          {
+   \                     ??unicode2win1251:
+   \   00000000   10002DE9           PUSH     {R4}
+     50            char *d=s;
+   \   00000004   0030A0E1           MOV      R3,R0
+   \   00000008   060000EA           B        ??unicode2win1251_1
+     51            int c;
+     52            while((c=*ws++)&&((len--)>0))
+     53            {
+     54              if (c==0x401) c=0xA8;
+     55              if (c==0x404) c=0xAA;
+     56              if (c==0x407) c=0xAF;
+     57              if (c==0x451) c=0xB8;
+     58              if (c==0x454) c=0xBA;
+     59              if (c==0x457) c=0xBF;
+     60              if ((c>=0x410)&&(c<0x450)) c-=0x350;
+   \                     ??unicode2win1251_2:
+   \   0000000C   410E5CE3           CMP      R12,#+1040
+   \   00000010   030000BA           BLT      ??unicode2win1251_3
+   \   00000014   450E5CE3           CMP      R12,#+1104
+   \   00000018   4F40E0B3           MVNLT    R4,#+79
+   \   0000001C   C04FC4B3           BICLT    R4,R4,#0x300
+   \   00000020   0CC084B0           ADDLT    R12,R4,R12
+     61              *s++=c;
+   \                     ??unicode2win1251_3:
+   \   00000024   ........           STRB     R12,[R0], #+1
+   \                     ??unicode2win1251_1:
+   \   00000028   ........           LDRH     R12,[R1], #+2
+   \   0000002C   00005CE3           CMP      R12,#+0
+   \   00000030   1D00000A           BEQ      ??unicode2win1251_4
+   \   00000034   0240A0E1           MOV      R4,R2
+   \   00000038   012044E2           SUB      R2,R4,#+1
+   \   0000003C   010054E3           CMP      R4,#+1
+   \   00000040   190000BA           BLT      ??unicode2win1251_4
+   \   00000044   0140A0E3           MOV      R4,#+1
+   \   00000048   404E84E3           ORR      R4,R4,#0x400
+   \   0000004C   04005CE1           CMP      R12,R4
+   \   00000050   A8C0A003           MOVEQ    R12,#+168
+   \   00000054   F2FFFF0A           BEQ      ??unicode2win1251_3
+   \   00000058   034084E2           ADD      R4,R4,#+3
+   \   0000005C   04005CE1           CMP      R12,R4
+   \   00000060   AAC0A003           MOVEQ    R12,#+170
+   \   00000064   EEFFFF0A           BEQ      ??unicode2win1251_3
+   \   00000068   034084E3           ORR      R4,R4,#0x3
+   \   0000006C   04005CE1           CMP      R12,R4
+   \   00000070   AFC0A003           MOVEQ    R12,#+175
+   \   00000074   EAFFFF0A           BEQ      ??unicode2win1251_3
+   \   00000078   4A4084E2           ADD      R4,R4,#+74
+   \   0000007C   04005CE1           CMP      R12,R4
+   \   00000080   B8C0A003           MOVEQ    R12,#+184
+   \   00000084   E6FFFF0A           BEQ      ??unicode2win1251_3
+   \   00000088   034084E2           ADD      R4,R4,#+3
+   \   0000008C   04005CE1           CMP      R12,R4
+   \   00000090   BAC0A003           MOVEQ    R12,#+186
+   \   00000094   E2FFFF0A           BEQ      ??unicode2win1251_3
+   \   00000098   034084E3           ORR      R4,R4,#0x3
+   \   0000009C   04005CE1           CMP      R12,R4
+   \   000000A0   D9FFFF1A           BNE      ??unicode2win1251_2
+   \   000000A4   BFC0A0E3           MOV      R12,#+191
+   \   000000A8   DDFFFFEA           B        ??unicode2win1251_3
+     62            }
+     63            *s=0;
+   \                     ??unicode2win1251_4:
+   \   000000AC   0010A0E3           MOV      R1,#+0
+   \   000000B0   0010C0E5           STRB     R1,[R0, #+0]
+     64            return(d);
+   \   000000B4   1000BDE8           POP      {R4}
+   \   000000B8   0300A0E1           MOV      R0,R3
+   \   000000BC   1EFF2FE1           BX       LR               ;; return
+     65          };
+     66          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     67          void OnOkCreateWinOrPassGui(BOOK * bk, wchar_t *string, int len)
+     68          {
+   \                     ??OnOkCreateWinOrPassGui:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   84D04DE2           SUB      SP,SP,#+132
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0180A0E1           MOV      R8,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+     69            MyBOOK * mbk=(MyBOOK *)bk;
+     70            kickbadsymbols(string, len); 
+   \   00000014   0610A0E1           MOV      R1,R6
+     71            if (mbk->TextInputType==0)
+   \   00000018   8C569FE5           LDR      R5,??OnOkCreateWinOrPassGui_1  ;; `?<Constant L"\\x6d\\x69\\x6e\\x3a\\x20\\x25\\x75\\xa\\x`
+   \   0000001C   0800A0E1           MOV      R0,R8
+   \   00000020   ........           BL       ??kickbadsymbols
+   \   00000024   010086E2           ADD      R0,R6,#+1
+   \   00000028   8070A0E1           LSL      R7,R0,#+1
+   \   0000002C   400094E5           LDR      R0,[R4, #+64]
+   \   00000030   8890A0E3           MOV      R9,#+136
+   \   00000034   4C9D89E3           ORR      R9,R9,#0x1300
+   \   00000038   FFA0A0E3           MOV      R10,#+255
+   \   0000003C   FFAC8AE3           ORR      R10,R10,#0xFF00
+   \   00000040   00B0A0E3           MOV      R11,#+0
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   4400001A           BNE      ??OnOkCreateWinOrPassGui_2
+     72            {
+     73              if (mbk->minint==-1)
+   \   0000004C   380094E5           LDR      R0,[R4, #+56]
+   \   00000050   010070E3           CMN      R0,#+1
+   \   00000054   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000058   340090E5           LDR      R0,[R0, #+52]
+   \   0000005C   1800001A           BNE      ??OnOkCreateWinOrPassGui_3
+     74              {
+     75                DELETE(mbk->selev->param);
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   0400000A           BEQ      ??OnOkCreateWinOrPassGui_4
+   \   00000068   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000006C   340090E5           LDR      R0,[R0, #+52]
+   \   00000070   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000074   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000078   34B080E5           STR      R11,[R0, #+52]
+     76                if (len>0)
+   \                     ??OnOkCreateWinOrPassGui_4:
+   \   0000007C   010056E3           CMP      R6,#+1
+   \   00000080   0C0000BA           BLT      ??OnOkCreateWinOrPassGui_5
+     77                {
+     78                  mbk->selev->param=new wchar_t[len+1];
+   \                     ??OnOkCreateWinOrPassGui_6:
+   \   00000084   0700A0E1           MOV      R0,R7
+   \   00000088   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000008C   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000090   340081E5           STR      R0,[R1, #+52]
+     79                  wstrcpy(mbk->selev->param,string);
+   \   00000094   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000098   0810A0E1           MOV      R1,R8
+   \   0000009C   340090E5           LDR      R0,[R0, #+52]
+   \   000000A0   520100EF           SWI      +338
+     80                  mbk->selev->param[len]=L'\0';
+   \   000000A4   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000A8   340090E5           LDR      R0,[R0, #+52]
+   \                     ??OnOkCreateWinOrPassGui_7:
+   \   000000AC   860080E0           ADD      R0,R0,R6, LSL #+1
+   \   000000B0   B0B0C0E1           STRH     R11,[R0, #+0]
+   \   000000B4   5F0100EA           B        ??OnOkCreateWinOrPassGui_8
+     81                }
+     82                else
+     83                {
+     84                  mbk->selev->param=0;
+   \                     ??OnOkCreateWinOrPassGui_5:
+   \   000000B8   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000BC   34B080E5           STR      R11,[R0, #+52]
+   \   000000C0   5C0100EA           B        ??OnOkCreateWinOrPassGui_8
+     85                }
+     86              }
+     87              else
+     88              {
+     89                DELETE(mbk->selev->param);
+   \                     ??OnOkCreateWinOrPassGui_3:
+   \   000000C4   000050E3           CMP      R0,#+0
+   \   000000C8   0400000A           BEQ      ??OnOkCreateWinOrPassGui_9
+   \   000000CC   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000D0   340090E5           LDR      R0,[R0, #+52]
+   \   000000D4   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   000000D8   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000DC   34B080E5           STR      R11,[R0, #+52]
+     90                unsigned int ui;
+     91                *_Geterrno()=0;
+   \                     ??OnOkCreateWinOrPassGui_9:
+   \   000000E0   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   000000E4   00B080E5           STR      R11,[R0, #+0]
+     92                ui=wcstoul(string,0,10);
+   \   000000E8   0A20A0E3           MOV      R2,#+10
+   \   000000EC   0010A0E3           MOV      R1,#+0
+   \   000000F0   0800A0E1           MOV      R0,R8
+   \   000000F4   ........           _BLF     wcstoul,??wcstoul??rA
+     93                if (ui<mbk->minint || ui>mbk->maxint || *_Geterrno()==ERANGE)
+   \   000000F8   381094E5           LDR      R1,[R4, #+56]
+   \   000000FC   010050E1           CMP      R0,R1
+   \   00000100   3C109425           LDRCS    R1,[R4, #+60]
+   \   00000104   00005121           CMPCS    R1,R0
+   \   00000108   0300003A           BCC      ??OnOkCreateWinOrPassGui_10
+   \   0000010C   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   00000110   000090E5           LDR      R0,[R0, #+0]
+   \   00000114   220050E3           CMP      R0,#+34
+   \   00000118   D9FFFF1A           BNE      ??OnOkCreateWinOrPassGui_6
+     94                {
+     95                  wchar_t ustr[64];
+     96                  snwprintf(ustr,MAXELEMS(ustr)-1,L"min: %u\nmax: %u",mbk->minint , mbk->maxint );
+   \                     ??OnOkCreateWinOrPassGui_10:
+   \   0000011C   3C0094E5           LDR      R0,[R4, #+60]
+   \   00000120   0520A0E1           MOV      R2,R5
+   \   00000124   01002DE9           PUSH     {R0}
+   \   00000128   383094E5           LDR      R3,[R4, #+56]
+   \   0000012C   3F10A0E3           MOV      R1,#+63
+   \   00000130   08008DE2           ADD      R0,SP,#+8
+   \   00000134   150100EF           SWI      +277
+     97                  MessageBox(EMPTY_TEXTID,TextID_Create(ustr,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, bk);
+   \   00000138   0A20A0E1           MOV      R2,R10
+   \   0000013C   0010A0E3           MOV      R1,#+0
+   \   00000140   08008DE2           ADD      R0,SP,#+8
+   \   00000144   5D0100EF           SWI      +349
+   \   00000148   10002DE9           PUSH     {R4}
+   \   0000014C   00022DE9           PUSH     {R9}
+   \   00000150   0010A0E1           MOV      R1,R0
+   \   00000154   0130A0E3           MOV      R3,#+1
+   \   00000158   0A20A0E1           MOV      R2,R10
+   \                     ??OnOkCreateWinOrPassGui_11:
+   \   0000015C   BA0000EA           B        ??OnOkCreateWinOrPassGui_12
+     98                  return;
+     99                }
+    100                else
+    101                {
+    102                   mbk->selev->param=new wchar_t[len+1];
+    103                   wstrcpy(mbk->selev->param,string);
+    104                   mbk->selev->param[len]=L'\0';
+    105                }
+    106              }
+    107            }
+    108            else if (mbk->TextInputType==1)
+   \                     ??OnOkCreateWinOrPassGui_2:
+   \   00000160   010050E3           CMP      R0,#+1
+   \   00000164   1500001A           BNE      ??OnOkCreateWinOrPassGui_13
+    109            {
+    110              DELETE(mbk->selev->txt);
+   \   00000168   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000016C   380090E5           LDR      R0,[R0, #+56]
+   \   00000170   000050E3           CMP      R0,#+0
+   \   00000174   0400000A           BEQ      ??OnOkCreateWinOrPassGui_14
+   \   00000178   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000017C   380090E5           LDR      R0,[R0, #+56]
+   \   00000180   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000184   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000188   38B080E5           STR      R11,[R0, #+56]
+    111              if (len>0)
+   \                     ??OnOkCreateWinOrPassGui_14:
+   \   0000018C   010056E3           CMP      R6,#+1
+   \   00000190   280100BA           BLT      ??OnOkCreateWinOrPassGui_8
+    112              {
+    113                mbk->selev->txt=new wchar_t[len+1];
+   \   00000194   0700A0E1           MOV      R0,R7
+   \   00000198   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000019C   1C1094E5           LDR      R1,[R4, #+28]
+   \   000001A0   380081E5           STR      R0,[R1, #+56]
+    114                wstrcpy(mbk->selev->txt,string);
+   \   000001A4   1C0094E5           LDR      R0,[R4, #+28]
+   \   000001A8   0810A0E1           MOV      R1,R8
+   \   000001AC   380090E5           LDR      R0,[R0, #+56]
+   \   000001B0   520100EF           SWI      +338
+    115                mbk->selev->txt[len]=L'\0';
+   \   000001B4   1C0094E5           LDR      R0,[R4, #+28]
+   \   000001B8   380090E5           LDR      R0,[R0, #+56]
+   \   000001BC   BAFFFFEA           B        ??OnOkCreateWinOrPassGui_7
+    116              }
+    117            }
+    118            else if (mbk->TextInputType==2)
+   \                     ??OnOkCreateWinOrPassGui_13:
+   \   000001C0   020050E3           CMP      R0,#+2
+   \   000001C4   0600001A           BNE      ??OnOkCreateWinOrPassGui_15
+    119            {
+    120              int res=wcstoul(string,0,10);
+   \   000001C8   0A20A0E3           MOV      R2,#+10
+   \   000001CC   0010A0E3           MOV      R1,#+0
+   \   000001D0   0800A0E1           MOV      R0,R8
+   \   000001D4   ........           _BLF     wcstoul,??wcstoul??rA
+    121              mbk->selev->AskBefore=res;
+   \   000001D8   1C1094E5           LDR      R1,[R4, #+28]
+   \   000001DC   040081E5           STR      R0,[R1, #+4]
+   \   000001E0   140100EA           B        ??OnOkCreateWinOrPassGui_8
+    122            }
+    123             else if (mbk->TextInputType==3)
+   \                     ??OnOkCreateWinOrPassGui_15:
+   \   000001E4   030050E3           CMP      R0,#+3
+   \   000001E8   0600001A           BNE      ??OnOkCreateWinOrPassGui_16
+    124            {
+    125              int res=wcstoul(string,0,10);
+   \   000001EC   0A20A0E3           MOV      R2,#+10
+   \   000001F0   0010A0E3           MOV      R1,#+0
+   \   000001F4   0800A0E1           MOV      R0,R8
+   \   000001F8   ........           _BLF     wcstoul,??wcstoul??rA
+    126              mbk->selev->AskAfter=res;
+   \   000001FC   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000200   0C0081E5           STR      R0,[R1, #+12]
+   \   00000204   0B0100EA           B        ??OnOkCreateWinOrPassGui_8
+    127            }
+    128            else if (mbk->TextInputType==4)
+   \                     ??OnOkCreateWinOrPassGui_16:
+   \   00000208   040050E3           CMP      R0,#+4
+   \   0000020C   2E00001A           BNE      ??OnOkCreateWinOrPassGui_17
+    129            {
+    130              kickbadsymbols2(string, len);
+   \   00000210   0610A0E1           MOV      R1,R6
+   \   00000214   0800A0E1           MOV      R0,R8
+   \   00000218   ........           BL       ??kickbadsymbols2
+    131              if (len>0)
+   \   0000021C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000220   0170A0E3           MOV      R7,#+1
+   \   00000224   010056E3           CMP      R6,#+1
+   \   00000228   170000BA           BLT      ??OnOkCreateWinOrPassGui_18
+    132              {
+    133                mbk->selev->isGps=true;
+   \   0000022C   1070C0E5           STRB     R7,[R0, #+16]
+    134                DELETE(mbk->selev->gps);
+   \   00000230   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000234   3C0090E5           LDR      R0,[R0, #+60]
+   \   00000238   000050E3           CMP      R0,#+0
+   \   0000023C   0400000A           BEQ      ??OnOkCreateWinOrPassGui_19
+   \   00000240   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000244   3C0090E5           LDR      R0,[R0, #+60]
+   \   00000248   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   0000024C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000250   3CB080E5           STR      R11,[R0, #+60]
+    135                mbk->selev->gps=new char[wstrlen(string)+1];
+   \                     ??OnOkCreateWinOrPassGui_19:
+   \   00000254   0800A0E1           MOV      R0,R8
+   \   00000258   570100EF           SWI      +343
+   \   0000025C   010080E2           ADD      R0,R0,#+1
+   \   00000260   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000264   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000268   3C0081E5           STR      R0,[R1, #+60]
+    136                unicode2win1251(mbk->selev->gps,string,wstrlen(string));
+   \   0000026C   0800A0E1           MOV      R0,R8
+   \   00000270   570100EF           SWI      +343
+   \   00000274   0020A0E1           MOV      R2,R0
+   \   00000278   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000027C   0810A0E1           MOV      R1,R8
+   \   00000280   3C0090E5           LDR      R0,[R0, #+60]
+   \   00000284   ........           BL       ??unicode2win1251
+   \   00000288   EA0000EA           B        ??OnOkCreateWinOrPassGui_8
+    137              }
+    138              else
+    139              {
+    140                mbk->selev->isGps=false;
+   \                     ??OnOkCreateWinOrPassGui_18:
+   \   0000028C   0010A0E3           MOV      R1,#+0
+   \   00000290   1010C0E5           STRB     R1,[R0, #+16]
+    141                DELETE(mbk->selev->gps);
+   \   00000294   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000298   3C0090E5           LDR      R0,[R0, #+60]
+   \   0000029C   000050E3           CMP      R0,#+0
+   \   000002A0   0400000A           BEQ      ??OnOkCreateWinOrPassGui_20
+   \   000002A4   1C0094E5           LDR      R0,[R4, #+28]
+   \   000002A8   3C0090E5           LDR      R0,[R0, #+60]
+   \   000002AC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   000002B0   1C0094E5           LDR      R0,[R4, #+28]
+   \   000002B4   3CB080E5           STR      R11,[R0, #+60]
+    142                mbk->selev->dtype=0;
+   \                     ??OnOkCreateWinOrPassGui_20:
+   \   000002B8   1C0094E5           LDR      R0,[R4, #+28]
+   \   000002BC   14B080E5           STR      R11,[R0, #+20]
+    143                mbk->selev->ttype=1;
+   \   000002C0   1C0094E5           LDR      R0,[R4, #+28]
+   \   000002C4   287080E5           STR      R7,[R0, #+40]
+   \   000002C8   DA0000EA           B        ??OnOkCreateWinOrPassGui_8
+    144              }
+    145            }
+    146            else if (mbk->TextInputType==5)
+   \                     ??OnOkCreateWinOrPassGui_17:
+   \   000002CC   050050E3           CMP      R0,#+5
+   \   000002D0   0500001A           BNE      ??OnOkCreateWinOrPassGui_21
+    147            {
+    148              int res=wcstoul(string,0,10);
+   \   000002D4   0A20A0E3           MOV      R2,#+10
+   \   000002D8   0010A0E3           MOV      R1,#+0
+   \   000002DC   0800A0E1           MOV      R0,R8
+   \   000002E0   ........           _BLF     wcstoul,??wcstoul??rA
+    149              mbk->tempvol=res;
+   \   000002E4   840084E5           STR      R0,[R4, #+132]
+   \   000002E8   D20000EA           B        ??OnOkCreateWinOrPassGui_8
+    150            }
+    151            else if (mbk->TextInputType==6)
+   \                     ??OnOkCreateWinOrPassGui_21:
+   \   000002EC   060050E3           CMP      R0,#+6
+   \   000002F0   2300001A           BNE      ??OnOkCreateWinOrPassGui_22
+    152            {
+    153              TIME *time=mbk->curtime;
+   \   000002F4   506094E5           LDR      R6,[R4, #+80]
+    154              *_Geterrno()=0;
+   \   000002F8   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   000002FC   00B080E5           STR      R11,[R0, #+0]
+    155              unsigned int ui=wcstoul(string,0,10);
+   \   00000300   0A20A0E3           MOV      R2,#+10
+   \   00000304   0010A0E3           MOV      R1,#+0
+   \   00000308   0800A0E1           MOV      R0,R8
+   \   0000030C   ........           _BLF     wcstoul,??wcstoul??rA
+   \   00000310   0070A0E1           MOV      R7,R0
+    156              if (ui<mbk->minint || ui>mbk->maxint || *_Geterrno()==ERANGE)
+   \   00000314   380094E5           LDR      R0,[R4, #+56]
+   \   00000318   000057E1           CMP      R7,R0
+   \   0000031C   3C009425           LDRCS    R0,[R4, #+60]
+   \   00000320   07005021           CMPCS    R0,R7
+   \   00000324   0300003A           BCC      ??OnOkCreateWinOrPassGui_23
+   \   00000328   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   0000032C   000090E5           LDR      R0,[R0, #+0]
+   \   00000330   220050E3           CMP      R0,#+34
+   \   00000334   1000001A           BNE      ??OnOkCreateWinOrPassGui_24
+    157              {
+    158                wchar_t ustr[64];
+    159                snwprintf(ustr,MAXELEMS(ustr)-1,L"min: %u\nmax: %u",mbk->minint , mbk->maxint );
+   \                     ??OnOkCreateWinOrPassGui_23:
+   \   00000338   3C0094E5           LDR      R0,[R4, #+60]
+   \   0000033C   0520A0E1           MOV      R2,R5
+   \   00000340   01002DE9           PUSH     {R0}
+   \   00000344   383094E5           LDR      R3,[R4, #+56]
+   \   00000348   3F10A0E3           MOV      R1,#+63
+   \   0000034C   08008DE2           ADD      R0,SP,#+8
+   \   00000350   150100EF           SWI      +277
+    160                MessageBox(EMPTY_TEXTID,TextID_Create(ustr,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, bk);
+   \   00000354   0A20A0E1           MOV      R2,R10
+   \   00000358   0010A0E3           MOV      R1,#+0
+   \   0000035C   08008DE2           ADD      R0,SP,#+8
+   \   00000360   5D0100EF           SWI      +349
+   \   00000364   10002DE9           PUSH     {R4}
+   \   00000368   00022DE9           PUSH     {R9}
+   \   0000036C   0130A0E3           MOV      R3,#+1
+   \   00000370   0A20A0E1           MOV      R2,R10
+   \   00000374   0010A0E1           MOV      R1,R0
+   \   00000378   330000EA           B        ??OnOkCreateWinOrPassGui_12
+    161                return;
+    162              }
+    163              else
+    164              {
+    165                time->sec=ui;
+   \                     ??OnOkCreateWinOrPassGui_24:
+   \   0000037C   0270C6E5           STRB     R7,[R6, #+2]
+   \   00000380   AC0000EA           B        ??OnOkCreateWinOrPassGui_8
+    166              }
+    167            }
+    168            else if (mbk->TextInputType==7)
+   \                     ??OnOkCreateWinOrPassGui_22:
+   \   00000384   070050E3           CMP      R0,#+7
+   \   00000388   9400001A           BNE      ??OnOkCreateWinOrPassGui_25
+    169            {
+    170              int step=mbk->cur_clone_time;
+   \   0000038C   B81094E5           LDR      R1,[R4, #+184]
+    171              int x=mbk->selev->time.hour * 3600 + mbk->selev->time.min * 60 + mbk->selev->time.sec;
+    172              x=x+step;
+   \   00000390   3C30A0E3           MOV      R3,#+60
+   \   00000394   00108DE5           STR      R1,[SP, #+0]
+   \   00000398   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000039C   1C2094E5           LDR      R2,[R4, #+28]
+   \   000003A0   2C00D0E5           LDRB     R0,[R0, #+44]
+   \   000003A4   2D20D2E5           LDRB     R2,[R2, #+45]
+   \   000003A8   E11EA0E3           MOV      R1,#+3600
+    173              int i=0,i_max=wcstoul(string,0,10);
+   \   000003AC   0070A0E3           MOV      R7,#+0
+   \   000003B0   930202E0           MUL      R2,R3,R2
+   \   000003B4   912020E0           MLA      R0,R1,R0,R2
+   \   000003B8   1C1094E5           LDR      R1,[R4, #+28]
+   \   000003BC   0A20A0E3           MOV      R2,#+10
+   \   000003C0   2E10D1E5           LDRB     R1,[R1, #+46]
+   \   000003C4   000081E0           ADD      R0,R1,R0
+   \   000003C8   00109DE5           LDR      R1,[SP, #+0]
+   \   000003CC   006081E0           ADD      R6,R1,R0
+   \   000003D0   0710A0E1           MOV      R1,R7
+   \   000003D4   0800A0E1           MOV      R0,R8
+   \   000003D8   ........           _BLF     wcstoul,??wcstoul??rA
+   \   000003DC   0080A0E1           MOV      R8,R0
+    174              *_Geterrno()=0;
+   \   000003E0   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   000003E4   00B080E5           STR      R11,[R0, #+0]
+    175              if (i_max<mbk->minint || i_max>mbk->maxint || *_Geterrno()==ERANGE)
+   \   000003E8   380094E5           LDR      R0,[R4, #+56]
+   \   000003EC   000058E1           CMP      R8,R0
+   \   000003F0   3C0094A5           LDRGE    R0,[R4, #+60]
+   \   000003F4   080050A1           CMPGE    R0,R8
+   \   000003F8   030000BA           BLT      ??OnOkCreateWinOrPassGui_26
+   \   000003FC   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   00000400   000090E5           LDR      R0,[R0, #+0]
+   \   00000404   220050E3           CMP      R0,#+34
+   \   00000408   1400001A           BNE      ??OnOkCreateWinOrPassGui_27
+    176              {
+    177                wchar_t ustr[64];
+    178                snwprintf(ustr,MAXELEMS(ustr)-1,L"min: %u\nmax: %u",mbk->minint , mbk->maxint );
+   \                     ??OnOkCreateWinOrPassGui_26:
+   \   0000040C   3C0094E5           LDR      R0,[R4, #+60]
+   \   00000410   0520A0E1           MOV      R2,R5
+   \   00000414   01002DE9           PUSH     {R0}
+   \   00000418   383094E5           LDR      R3,[R4, #+56]
+   \   0000041C   3F10A0E3           MOV      R1,#+63
+   \   00000420   08008DE2           ADD      R0,SP,#+8
+   \   00000424   150100EF           SWI      +277
+    179                MessageBox(EMPTY_TEXTID,TextID_Create(ustr,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, bk);
+   \   00000428   0A20A0E1           MOV      R2,R10
+   \   0000042C   0010A0E3           MOV      R1,#+0
+   \   00000430   08008DE2           ADD      R0,SP,#+8
+   \   00000434   5D0100EF           SWI      +349
+   \   00000438   10002DE9           PUSH     {R4}
+   \   0000043C   00022DE9           PUSH     {R9}
+   \   00000440   0130A0E3           MOV      R3,#+1
+   \   00000444   0A20A0E1           MOV      R2,R10
+   \   00000448   0010A0E1           MOV      R1,R0
+   \                     ??OnOkCreateWinOrPassGui_12:
+   \   0000044C   9004E0E3           MVN      R0,#-1879048192
+   \   00000450   570200EF           SWI      +599
+    180                return;
+   \   00000454   0CD08DE2           ADD      SP,SP,#+12
+   \   00000458   84D08DE2           ADD      SP,SP,#+132
+   \   0000045C   F08FBDE8           POP      {R4-R11,PC}
+    181              }
+    182              for (x=x;x<86400;x+=step)
+   \                     ??OnOkCreateWinOrPassGui_27:
+   \   00000460   500BA0E3           MOV      R0,#+81920
+   \   00000464   460D80E3           ORR      R0,R0,#0x1180
+   \   00000468   000056E1           CMP      R6,R0
+    183              {
+    184                if (i<i_max)
+   \   0000046C   080057B1           CMPLT    R7,R8
+   \   00000470   700000AA           BGE      ??OnOkCreateWinOrPassGui_8
+    185                {
+    186                  EVENT *ev=new EVENT;
+   \   00000474   4400A0E3           MOV      R0,#+68
+   \   00000478   ........           _BLF     `??operator new`,`??operator new??rA`
+    187                  memcpy(ev,mbk->selev, sizeof(EVENT));
+   \   0000047C   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000480   0090A0E1           MOV      R9,R0
+   \   00000484   4420A0E3           MOV      R2,#+68
+   \   00000488   130100EF           SWI      +275
+    188                  ev->time.hour=x/3600;
+   \   0000048C   1C029FE5           LDR      R0,??OnOkCreateWinOrPassGui_1+0x4  ;; 0xffffffff91a2b3c5
+   \   00000490   9016C2E0           SMULL    R1,R2,R0,R6
+   \   00000494   062082E0           ADD      R2,R2,R6
+   \   00000498   C225A0E1           ASR      R2,R2,#+11
+   \   0000049C   A60F82E0           ADD      R0,R2,R6, LSR #+31
+   \   000004A0   2C00C9E5           STRB     R0,[R9, #+44]
+    189                  ev->time.min=(x%3600)/60;
+   \   000004A4   04029FE5           LDR      R0,??OnOkCreateWinOrPassGui_1+0x4  ;; 0xffffffff91a2b3c5
+   \   000004A8   9610C2E0           SMULL    R1,R2,R6,R0
+   \   000004AC   E11EA0E3           MOV      R1,#+3600
+   \   000004B0   062082E0           ADD      R2,R2,R6
+   \   000004B4   C225A0E1           ASR      R2,R2,#+11
+   \   000004B8   A62F82E0           ADD      R2,R2,R6, LSR #+31
+   \   000004BC   910202E0           MUL      R2,R1,R2
+   \   000004C0   EC119FE5           LDR      R1,??OnOkCreateWinOrPassGui_1+0x8  ;; 0xffffffff88888889
+   \   000004C4   020046E0           SUB      R0,R6,R2
+   \   000004C8   9120C3E0           SMULL    R2,R3,R1,R0
+   \   000004CC   003083E0           ADD      R3,R3,R0
+   \   000004D0   C332A0E1           ASR      R3,R3,#+5
+   \   000004D4   A01F83E0           ADD      R1,R3,R0, LSR #+31
+   \   000004D8   2D10C9E5           STRB     R1,[R9, #+45]
+    190                  ev->time.sec=((x%3600)%60)/60;
+   \   000004DC   D0119FE5           LDR      R1,??OnOkCreateWinOrPassGui_1+0x8  ;; 0xffffffff88888889
+   \   000004E0   9021C3E0           SMULL    R2,R3,R0,R1
+   \   000004E4   3C20A0E3           MOV      R2,#+60
+   \   000004E8   003083E0           ADD      R3,R3,R0
+   \   000004EC   C332A0E1           ASR      R3,R3,#+5
+   \   000004F0   A03F83E0           ADD      R3,R3,R0, LSR #+31
+   \   000004F4   920303E0           MUL      R3,R2,R3
+   \   000004F8   030040E0           SUB      R0,R0,R3
+   \   000004FC   9120C3E0           SMULL    R2,R3,R1,R0
+   \   00000500   003083E0           ADD      R3,R3,R0
+   \   00000504   C332A0E1           ASR      R3,R3,#+5
+   \   00000508   A00F83E0           ADD      R0,R3,R0, LSR #+31
+   \   0000050C   2E00C9E5           STRB     R0,[R9, #+46]
+    191                  if (mbk->selev->txt)
+   \   00000510   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000514   380090E5           LDR      R0,[R0, #+56]
+   \   00000518   000050E3           CMP      R0,#+0
+   \   0000051C   0A00000A           BEQ      ??OnOkCreateWinOrPassGui_28
+    192                  {
+    193                    ev->txt=new wchar_t[wstrlen(mbk->selev->txt)+1];
+   \   00000520   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000524   380090E5           LDR      R0,[R0, #+56]
+   \   00000528   570100EF           SWI      +343
+   \   0000052C   010080E2           ADD      R0,R0,#+1
+   \   00000530   8000A0E1           LSL      R0,R0,#+1
+   \   00000534   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000538   380089E5           STR      R0,[R9, #+56]
+    194                    wstrcpy(ev->txt, mbk->selev->txt);
+   \   0000053C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000540   381090E5           LDR      R1,[R0, #+56]
+   \   00000544   380099E5           LDR      R0,[R9, #+56]
+   \   00000548   520100EF           SWI      +338
+    195                  }
+    196                  if (mbk->selev->param)
+   \                     ??OnOkCreateWinOrPassGui_28:
+   \   0000054C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000550   340090E5           LDR      R0,[R0, #+52]
+   \   00000554   000050E3           CMP      R0,#+0
+   \   00000558   0A00000A           BEQ      ??OnOkCreateWinOrPassGui_29
+    197                  {
+    198                    ev->param=new wchar_t[wstrlen(mbk->selev->param)+1];
+   \   0000055C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000560   340090E5           LDR      R0,[R0, #+52]
+   \   00000564   570100EF           SWI      +343
+   \   00000568   010080E2           ADD      R0,R0,#+1
+   \   0000056C   8000A0E1           LSL      R0,R0,#+1
+   \   00000570   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000574   340089E5           STR      R0,[R9, #+52]
+    199                    wstrcpy(ev->param, mbk->selev->param);
+   \   00000578   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000057C   341090E5           LDR      R1,[R0, #+52]
+   \   00000580   340099E5           LDR      R0,[R9, #+52]
+   \   00000584   520100EF           SWI      +338
+    200                  }
+    201                  if (mbk->selev->gps)
+   \                     ??OnOkCreateWinOrPassGui_29:
+   \   00000588   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000058C   3C0090E5           LDR      R0,[R0, #+60]
+   \   00000590   000050E3           CMP      R0,#+0
+   \   00000594   0900000A           BEQ      ??OnOkCreateWinOrPassGui_30
+    202                  {
+    203                    ev->gps=new char[strlen(mbk->selev->gps)+1];
+   \   00000598   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000059C   3C0090E5           LDR      R0,[R0, #+60]
+   \   000005A0   5A0100EF           SWI      +346
+   \   000005A4   010080E2           ADD      R0,R0,#+1
+   \   000005A8   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000005AC   3C0089E5           STR      R0,[R9, #+60]
+    204                    strcpy(ev->gps, mbk->selev->gps);
+   \   000005B0   1C0094E5           LDR      R0,[R4, #+28]
+   \   000005B4   3C1090E5           LDR      R1,[R0, #+60]
+   \   000005B8   3C0099E5           LDR      R0,[R9, #+60]
+   \   000005BC   A00100EF           SWI      +416
+    205                  }
+    206                  extern LIST *events;
+    207                  List_InsertLast(events,ev);
+   \                     ??OnOkCreateWinOrPassGui_30:
+   \   000005C0   F0009FE5           LDR      R0,??OnOkCreateWinOrPassGui_1+0xC  ;; events
+   \   000005C4   0910A0E1           MOV      R1,R9
+   \   000005C8   000090E5           LDR      R0,[R0, #+0]
+    208                  i++;
+   \   000005CC   017087E2           ADD      R7,R7,#+1
+   \   000005D0   B00100EF           SWI      +432
+    209                }
+    210                else break;
+    211              }
+   \   000005D4   00009DE5           LDR      R0,[SP, #+0]
+   \   000005D8   066080E0           ADD      R6,R0,R6
+   \   000005DC   9FFFFFEA           B        ??OnOkCreateWinOrPassGui_27
+    212            }
+    213            else if (mbk->TextInputType==8)
+   \                     ??OnOkCreateWinOrPassGui_25:
+   \   000005E0   080050E3           CMP      R0,#+8
+   \   000005E4   1300001A           BNE      ??OnOkCreateWinOrPassGui_8
+    214            {
+    215              int step=wcstoul(string,0,10);
+   \   000005E8   0A20A0E3           MOV      R2,#+10
+   \   000005EC   0010A0E3           MOV      R1,#+0
+   \   000005F0   0800A0E1           MOV      R0,R8
+   \   000005F4   ........           _BLF     wcstoul,??wcstoul??rA
+   \   000005F8   0060A0E1           MOV      R6,R0
+    216              *_Geterrno()=0;
+   \   000005FC   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   00000600   00B080E5           STR      R11,[R0, #+0]
+    217              if (step<mbk->minint || step>mbk->maxint || *_Geterrno()==ERANGE)
+   \   00000604   380094E5           LDR      R0,[R4, #+56]
+   \   00000608   000056E1           CMP      R6,R0
+   \   0000060C   3C0094A5           LDRGE    R0,[R4, #+60]
+   \   00000610   060050A1           CMPGE    R0,R6
+   \   00000614   47FFFFBA           BLT      ??OnOkCreateWinOrPassGui_23
+   \   00000618   ........           _BLF     _Geterrno,??_Geterrno??rA
+   \   0000061C   000090E5           LDR      R0,[R0, #+0]
+   \   00000620   220050E3           CMP      R0,#+34
+   \   00000624   0000001A           BNE      ??OnOkCreateWinOrPassGui_31
+    218              {
+    219                wchar_t ustr[64];
+    220                snwprintf(ustr,MAXELEMS(ustr)-1,L"min: %u\nmax: %u",mbk->minint , mbk->maxint );
+   \                     ??OnOkCreateWinOrPassGui_32:
+   \   00000628   42FFFFEA           B        ??OnOkCreateWinOrPassGui_23
+    221                MessageBox(EMPTY_TEXTID,TextID_Create(ustr,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, bk);
+    222                return;
+    223              }
+    224              else
+    225              {
+    226                step*=60;
+    227              }
+    228              mbk->cur_clone_time=step;
+   \                     ??OnOkCreateWinOrPassGui_31:
+   \   0000062C   3C00A0E3           MOV      R0,#+60
+   \   00000630   900601E0           MUL      R1,R0,R6
+   \   00000634   B81084E5           STR      R1,[R4, #+184]
+    229            }
+    230            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \                     ??OnOkCreateWinOrPassGui_8:
+   \   00000638   ........           LDR      R0,??DataTable1  ;; PREVIOUS_EVENT
+   \   0000063C   001090E5           LDR      R1,[R0, #+0]
+   \   00000640   0400A0E1           MOV      R0,R4
+   \   00000644   2E0100EF           SWI      +302
+    231            if (mbk->TextInputType==7)
+   \   00000648   400094E5           LDR      R0,[R4, #+64]
+   \   0000064C   68109FE5           LDR      R1,??OnOkCreateWinOrPassGui_1+0x10  ;; bk_main
+   \   00000650   070050E3           CMP      R0,#+7
+   \   00000654   1000000A           BEQ      ??OnOkCreateWinOrPassGui_33
+    232            {
+    233              extern const PAGE_DESC bk_StringInput;
+    234              BookObj_CallPage(bk,&bk_main);
+    235            }
+    236            else if (mbk->TextInputType==8)
+   \   00000658   080050E3           CMP      R0,#+8
+   \   0000065C   0500001A           BNE      ??OnOkCreateWinOrPassGui_34
+    237            {
+    238              extern const PAGE_DESC bk_StringInput;
+    239              mbk->TextInputType=7;
+   \   00000660   0700A0E3           MOV      R0,#+7
+   \   00000664   400084E5           STR      R0,[R4, #+64]
+    240              mbk->inputType=IT_UNSIGNED_DIGIT;
+   \   00000668   0900A0E3           MOV      R0,#+9
+   \   0000066C   440084E5           STR      R0,[R4, #+68]
+    241              BookObj_CallPage(bk,&bk_StringInput);
+   \   00000670   201085E2           ADD      R1,R5,#+32
+   \   00000674   080000EA           B        ??OnOkCreateWinOrPassGui_33
+    242              return;
+    243            }
+    244            else if (mbk->TextInputType==2 || mbk->TextInputType==3)
+   \                     ??OnOkCreateWinOrPassGui_34:
+   \   00000678   020050E3           CMP      R0,#+2
+   \   0000067C   03005013           CMPNE    R0,#+3
+   \   00000680   0300001A           BNE      ??OnOkCreateWinOrPassGui_35
+    245            {
+    246              BookObj_CallPage(bk,&bk_main);
+   \   00000684   0400A0E1           MOV      R0,R4
+   \   00000688   B80200EF           SWI      +696
+    247              BookObj_CallPage(bk,&bk_days);
+   \   0000068C   2C109FE5           LDR      R1,??OnOkCreateWinOrPassGui_1+0x14  ;; bk_days
+   \   00000690   010000EA           B        ??OnOkCreateWinOrPassGui_33
+    248            }
+    249            else if (mbk->TextInputType==5)
+   \                     ??OnOkCreateWinOrPassGui_35:
+   \   00000694   050050E3           CMP      R0,#+5
+    250            {
+    251              BookObj_CallPage(bk,&SelectFile_page);
+   \   00000698   24109F05           LDREQ    R1,??OnOkCreateWinOrPassGui_1+0x18  ;; SelectFile_page
+    252            }
+    253            else
+    254            {
+    255              BookObj_CallPage(bk,&bk_main);
+   \                     ??OnOkCreateWinOrPassGui_33:
+   \   0000069C   0400A0E1           MOV      R0,R4
+   \   000006A0   B80200EF           SWI      +696
+   \   000006A4   84D08DE2           ADD      SP,SP,#+132
+   \   000006A8   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??OnOkCreateWinOrPassGui_1:
+   \   000006AC   ........           DC32     `?<Constant L"\\x6d\\x69\\x6e\\x3a\\x20\\x25\\x75\\xa\\x`
+   \   000006B0   C5B3A291           DC32     0xffffffff91a2b3c5
+   \   000006B4   89888888           DC32     0xffffffff88888889
+   \   000006B8   ........           DC32     events
+   \   000006BC   ........           DC32     bk_main
+   \   000006C0   ........           DC32     bk_days
+   \   000006C4   ........           DC32     SelectFile_page
+    256            }
+    257          };
+    258          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    259          int get_headerstrid(int type)
+    260          {
+    261            switch (type)
+   \                     ??get_headerstrid:
+   \   00000000   64309FE5           LDR      R3,??get_headerstrid_2  ;; lng
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000010   080050E3           CMP      R0,#+8
+   \   00000014   1200008A           BHI      ??get_headerstrid_3
+   \   00000018   011F8FE2           ADR      R1,??get_headerstrid_1
+   \   0000001C   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000020   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??get_headerstrid_1:
+   \   00000024   02020202           DC8      +2,+2,+2,+2
+   \   00000028   020F0507           DC8      +2,+15,+5,+7
+   \   0000002C   0B000000           DC8      +11,+0,+0,+0
+    262            {
+    263            case 0:
+    264            case 1:
+    265            case 2:
+    266            case 3:
+    267            case 4:
+    268              return GetStrID(L"WAP_ENTER_SK");
+   \                     ??get_headerstrid_4:
+   \   00000030   38009FE5           LDR      R0,??get_headerstrid_2+0x4  ;; `?<Constant L"\\x57\\x41\\x50\\x5f\\x45\\x4e\\x54\\x45\\`
+   \   00000034   ........           _BLF     ??GetStrID,??GetStrID??rA
+   \   00000038   0080BDE8           POP      {PC}
+    269            case 6:
+    270              return TextID_Create(lng[SECONDS],ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??get_headerstrid_5:
+   \   0000003C   E80093E5           LDR      R0,[R3, #+232]
+   \   00000040   040000EA           B        ??get_headerstrid_6
+    271            case 7:
+    272              return TextID_Create(lng[MAXCOUNT],ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??get_headerstrid_7:
+   \   00000044   F00093E5           LDR      R0,[R3, #+240]
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   5D0100EF           SWI      +349
+   \   00000050   0080BDE8           POP      {PC}
+    273            case 8:
+    274              return TextID_Create(lng[INTERVAL],ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??get_headerstrid_8:
+   \   00000054   EC0093E5           LDR      R0,[R3, #+236]
+   \                     ??get_headerstrid_6:
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   5D0100EF           SWI      +349
+   \   00000060   0080BDE8           POP      {PC}
+    275            default:
+    276              return EMPTY_TEXTID;
+   \                     ??get_headerstrid_3:
+   \   00000064   9004E0E3           MVN      R0,#-1879048192
+   \   00000068   0080BDE8           POP      {PC}             ;; return
+   \                     ??get_headerstrid_2:
+   \   0000006C   ........           DC32     lng
+   \   00000070   ........           DC32     `?<Constant L"\\x57\\x41\\x50\\x5f\\x45\\x4e\\x54\\x45\\`
+    277            }
+    278          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+    279          int get_curstrid(MyBOOK *mbk)
+    280          {
+   \                     ??get_curstrid:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    281            switch (mbk->TextInputType)
+   \   00000004   FF40A0E3           MOV      R4,#+255
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   401095E5           LDR      R1,[R5, #+64]
+   \   00000010   1C3095E5           LDR      R3,[R5, #+28]
+   \   00000014   3C0F8FE2           ADR      R0,??get_curstrid_2  ;; 0x00, 0x00
+   \   00000018   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   0000001C   080051E3           CMP      R1,#+8
+   \   00000020   3700008A           BHI      ??get_curstrid_3
+   \   00000024   012F8FE2           ADR      R2,??get_curstrid_1
+   \   00000028   0120D2E7           LDRB     R2,[R2, R1]
+   \   0000002C   02F18FE0           ADD      PC,PC,R2, LSL #+2
+   \                     ??get_curstrid_1:
+   \   00000030   02091012           DC8      +2,+9,+16,+18
+   \   00000034   15342E34           DC8      +21,+52,+46,+52
+   \   00000038   32000000           DC8      +50,+0,+0,+0
+    282            {
+    283            case 0:
+    284              if (mbk->selev->param)
+   \                     ??get_curstrid_4:
+   \   0000003C   341093E5           LDR      R1,[R3, #+52]
+   \   00000040   0420A0E1           MOV      R2,R4
+   \   00000044   000051E3           CMP      R1,#+0
+    285              {
+    286                int ret_strid=TextID_Create(mbk->selev->param,ENC_UCS2,TEXTID_ANY_LEN);
+    287                return ret_strid;
+   \   00000048   34009315           LDRNE    R0,[R3, #+52]
+   \   0000004C   0010A013           MOVNE    R1,#+0
+    288              }
+    289              else
+    290              {
+    291                return TextID_Create(L"",ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??get_curstrid_5:
+   \   00000050   5D0100EF           SWI      +349
+   \   00000054   7080BDE8           POP      {R4-R6,PC}
+    292              }
+    293            case 1:
+    294              if (mbk->selev->txt)
+   \                     ??get_curstrid_6:
+   \   00000058   381093E5           LDR      R1,[R3, #+56]
+   \   0000005C   0420A0E1           MOV      R2,R4
+   \   00000060   000051E3           CMP      R1,#+0
+   \   00000064   F9FFFF0A           BEQ      ??get_curstrid_5
+    295              {
+    296                int ret_strid=TextID_Create(mbk->selev->txt,ENC_UCS2,TEXTID_ANY_LEN);
+    297                return ret_strid;
+   \   00000068   380093E5           LDR      R0,[R3, #+56]
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   1B0000EA           B        ??get_curstrid_7
+    298              }
+    299              else
+    300              {
+    301                return TextID_Create(L"",ENC_UCS2,TEXTID_ANY_LEN);
+    302              }
+    303            case 2:
+    304              return TextID_CreateIntegerID(mbk->selev->AskBefore);
+   \                     ??get_curstrid_8:
+   \   00000074   040093E5           LDR      R0,[R3, #+4]
+   \   00000078   1D0000EA           B        ??get_curstrid_9
+    305            case 3:
+    306              return TextID_CreateIntegerID(mbk->selev->AskAfter);
+   \                     ??get_curstrid_10:
+   \   0000007C   0C0093E5           LDR      R0,[R3, #+12]
+   \   00000080   5C0100EF           SWI      +348
+   \   00000084   7080BDE8           POP      {R4-R6,PC}
+    307            case 4:
+    308              if (mbk->selev->gps)
+   \                     ??get_curstrid_11:
+   \   00000088   3C1093E5           LDR      R1,[R3, #+60]
+   \   0000008C   000051E3           CMP      R1,#+0
+   \   00000090   1200000A           BEQ      ??get_curstrid_12
+    309              {
+    310                wchar_t *ret=new wchar_t[strlen(mbk->selev->gps)+1];
+   \   00000094   0100A0E1           MOV      R0,R1
+   \   00000098   5A0100EF           SWI      +346
+   \   0000009C   010080E2           ADD      R0,R0,#+1
+   \   000000A0   8000A0E1           LSL      R0,R0,#+1
+   \   000000A4   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000A8   0060A0E1           MOV      R6,R0
+    311                str2wstr(ret,mbk->selev->gps);
+   \   000000AC   1C0095E5           LDR      R0,[R5, #+28]
+   \   000000B0   3C1090E5           LDR      R1,[R0, #+60]
+   \   000000B4   0600A0E1           MOV      R0,R6
+   \   000000B8   580100EF           SWI      +344
+    312                int ret_strid=TextID_Create(ret,ENC_UCS2,TEXTID_ANY_LEN);
+   \   000000BC   0420A0E1           MOV      R2,R4
+   \   000000C0   0010A0E3           MOV      R1,#+0
+   \   000000C4   0600A0E1           MOV      R0,R6
+   \   000000C8   5D0100EF           SWI      +349
+   \   000000CC   0040A0E1           MOV      R4,R0
+    313                delete(ret);
+   \   000000D0   0600A0E1           MOV      R0,R6
+   \   000000D4   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    314                return ret_strid;
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   7080BDE8           POP      {R4-R6,PC}
+    315              }
+    316              else
+    317              {
+    318                return TextID_Create(L"",ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??get_curstrid_12:
+   \   000000E0   0420A0E1           MOV      R2,R4
+   \                     ??get_curstrid_7:
+   \   000000E4   5D0100EF           SWI      +349
+   \   000000E8   7080BDE8           POP      {R4-R6,PC}
+    319              }
+    320            case 6:
+    321              return TextID_CreateIntegerID(mbk->curtime->sec);
+   \                     ??get_curstrid_13:
+   \   000000EC   500095E5           LDR      R0,[R5, #+80]
+   \   000000F0   0200D0E5           LDRB     R0,[R0, #+2]
+   \                     ??get_curstrid_9:
+   \   000000F4   5C0100EF           SWI      +348
+   \   000000F8   7080BDE8           POP      {R4-R6,PC}
+    322            case 8:
+    323              return TextID_CreateIntegerID(0);
+   \                     ??get_curstrid_14:
+   \   000000FC   0000A0E3           MOV      R0,#+0
+   \   00000100   FBFFFFEA           B        ??get_curstrid_9
+    324            }
+    325            return EMPTY_TEXTID;
+   \                     ??get_curstrid_3:
+   \   00000104   9004E0E3           MVN      R0,#-1879048192
+   \   00000108   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??get_curstrid_2:
+   \   0000010C   00000000           DC8      0x00, 0x00,+0,+0
+    326          };
+    327          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    328          int getnumwidth(unsigned int num)
+    329          {
+    330            int i=1;
+   \                     ??getnumwidth:
+   \   00000000   28209FE5           LDR      R2,??getnumwidth_1  ;; 0xffffffffcccccccd
+   \   00000004   0110A0E3           MOV      R1,#+1
+   \   00000008   0A0050E3           CMP      R0,#+10
+   \   0000000C   0500003A           BCC      ??getnumwidth_2
+    331            while(num>=10)
+    332            {
+    333              num/=10;
+   \                     ??getnumwidth_3:
+   \   00000010   92308CE0           UMULL    R3,R12,R2,R0
+    334              i++;
+   \   00000014   011081E2           ADD      R1,R1,#+1
+   \   00000018   ACC1A0E1           LSR      R12,R12,#+3
+   \   0000001C   0C00A0E1           MOV      R0,R12
+    335            }
+   \   00000020   0A0050E3           CMP      R0,#+10
+   \   00000024   F9FFFF2A           BCS      ??getnumwidth_3
+    336            return (i);
+   \                     ??getnumwidth_2:
+   \   00000028   0100A0E1           MOV      R0,R1
+   \   0000002C   1EFF2FE1           BX       LR               ;; return
+   \                     ??getnumwidth_1:
+   \   00000030   CDCCCCCC           DC32     0xffffffffcccccccd
+    337          };
+    338          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    339          void CreateTextInput(MyBOOK *myBook)
+    340          {
+   \                     ??CreateTextInput:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    341            int text=EMPTY_TEXTID;
+    342            int type=myBook->inputType;
+   \   00000008   445094E5           LDR      R5,[R4, #+68]
+    343            int size=0;
+    344            text=get_curstrid(myBook);
+   \   0000000C   ........           BL       ??get_curstrid
+   \   00000010   0060A0E1           MOV      R6,R0
+    345            if (myBook->inputType==IT_UNSIGNED_DIGIT)
+   \   00000014   440094E5           LDR      R0,[R4, #+68]
+   \   00000018   090050E3           CMP      R0,#+9
+   \   0000001C   0300001A           BNE      ??CreateTextInput_1
+    346            {
+    347              size=getnumwidth(myBook->maxint);
+   \   00000020   3C0094E5           LDR      R0,[R4, #+60]
+   \   00000024   ........           BL       ??getnumwidth
+   \   00000028   0070A0E1           MOV      R7,R0
+   \   0000002C   000000EA           B        ??CreateTextInput_2
+    348            }
+    349            else
+    350            {
+    351              size=myBook->maxint;
+   \                     ??CreateTextInput_1:
+   \   00000030   3C7094E5           LDR      R7,[R4, #+60]
+    352            }
+    353            int en=0;
+    354            if (myBook->TextInputType==4 || myBook->TextInputType==1)
+   \                     ??CreateTextInput_2:
+   \   00000034   400094E5           LDR      R0,[R4, #+64]
+   \   00000038   0080A0E3           MOV      R8,#+0
+   \   0000003C   040050E3           CMP      R0,#+4
+   \   00000040   01005013           CMPNE    R0,#+1
+    355            {
+    356              en=1;
+    357            }
+    358            myBook->text_input = CreateStringInputVA(0,
+    359                                                        VAR_HEADER_TEXT(get_headerstrid(myBook->TextInputType)),
+    360                                                        VAR_STRINP_FIXED_TEXT(GetStrID(L"EC_TEXTP_TXT")),
+    361                                                        VAR_STRINP_ENABLE_EMPTY_STR(en),
+    362                                                        VAR_STRINP_MAX_LEN(size),
+    363                                                        VAR_STRINP_MODE(type),
+    364                                                        VAR_STRINP_TEXT(text),
+    365                                                        VAR_BOOK(myBook),
+    366                                                        VAR_PREV_ACTION_PROC(OnBackCreateTextInputGui),
+    367                                                        VAR_OK_PROC(OnOkCreateWinOrPassGui),
+    368                                                        0);
+   \   00000044   9C009FE5           LDR      R0,??CreateTextInput_3  ;; `?<Constant L"\\x45\\x43\\x5f\\x54\\x45\\x58\\x54\\x50\\`
+   \   00000048   0180A003           MOVEQ    R8,#+1
+   \   0000004C   ........           _BLF     ??GetStrID,??GetStrID??rA
+   \   00000050   0090A0E1           MOV      R9,R0
+   \   00000054   400094E5           LDR      R0,[R4, #+64]
+   \   00000058   ........           BL       ??get_headerstrid
+   \   0000005C   88309FE5           LDR      R3,??CreateTextInput_3+0x4  ;; VAR_ARG_STRINP_FIXED_TEXT
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   02002DE9           PUSH     {R1}
+   \   00000068   80109FE5           LDR      R1,??CreateTextInput_3+0x8  ;; ??OnOkCreateWinOrPassGui
+   \   0000006C   0020A0E1           MOV      R2,R0
+   \   00000070   02002DE9           PUSH     {R1}
+   \   00000074   78109FE5           LDR      R1,??CreateTextInput_3+0xC  ;; VAR_ARG_CALL_BACK_OK
+   \   00000078   0000A0E3           MOV      R0,#+0
+   \   0000007C   02002DE9           PUSH     {R1}
+   \   00000080   70109FE5           LDR      R1,??CreateTextInput_3+0x10  ;; ??OnBackCreateTextInputGui
+   \   00000084   02002DE9           PUSH     {R1}
+   \   00000088   6C109FE5           LDR      R1,??CreateTextInput_3+0x14  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   0410A0E1           MOV      R1,R4
+   \   00000094   02002DE9           PUSH     {R1}
+   \   00000098   60109FE5           LDR      R1,??CreateTextInput_3+0x18  ;; VAR_ARG_BOOK
+   \   0000009C   02002DE9           PUSH     {R1}
+   \   000000A0   5C109FE5           LDR      R1,??CreateTextInput_3+0x1C  ;; VAR_ARG_STRINP_TEXT
+   \   000000A4   40002DE9           PUSH     {R6}
+   \   000000A8   02002DE9           PUSH     {R1}
+   \   000000AC   54109FE5           LDR      R1,??CreateTextInput_3+0x20  ;; VAR_ARG_STRINP_MODE
+   \   000000B0   20002DE9           PUSH     {R5}
+   \   000000B4   02002DE9           PUSH     {R1}
+   \   000000B8   4C109FE5           LDR      R1,??CreateTextInput_3+0x24  ;; VAR_ARG_STRINP_MAX_LEN
+   \   000000BC   80002DE9           PUSH     {R7}
+   \   000000C0   02002DE9           PUSH     {R1}
+   \   000000C4   44109FE5           LDR      R1,??CreateTextInput_3+0x28  ;; VAR_ARG_STRINP_EMPTY_STR_EN
+   \   000000C8   00012DE9           PUSH     {R8}
+   \   000000CC   02002DE9           PUSH     {R1}
+   \   000000D0   3C109FE5           LDR      R1,??CreateTextInput_3+0x2C  ;; VAR_ARG_HTEXT
+   \   000000D4   00022DE9           PUSH     {R9}
+   \   000000D8   440100EF           SWI      +324
+   \   000000DC   40D08DE2           ADD      SP,SP,#+64
+   \   000000E0   340084E5           STR      R0,[R4, #+52]
+    369          };
+   \   000000E4   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??CreateTextInput_3:
+   \   000000E8   ........           DC32     `?<Constant L"\\x45\\x43\\x5f\\x54\\x45\\x58\\x54\\x50\\`
+   \   000000EC   ........           DC32     VAR_ARG_STRINP_FIXED_TEXT
+   \   000000F0   ........           DC32     ??OnOkCreateWinOrPassGui
+   \   000000F4   ........           DC32     VAR_ARG_CALL_BACK_OK
+   \   000000F8   ........           DC32     ??OnBackCreateTextInputGui
+   \   000000FC   ........           DC32     VAR_ARG_CALL_BACK_PREV_ACT
+   \   00000100   ........           DC32     VAR_ARG_BOOK
+   \   00000104   ........           DC32     VAR_ARG_STRINP_TEXT
+   \   00000108   ........           DC32     VAR_ARG_STRINP_MODE
+   \   0000010C   ........           DC32     VAR_ARG_STRINP_MAX_LEN
+   \   00000110   ........           DC32     VAR_ARG_STRINP_EMPTY_STR_EN
+   \   00000114   ........           DC32     VAR_ARG_HTEXT
+    370          
+    371          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    372          static int StringInputPage_OnEnter(void *,BOOK * bk)
+    373          {
+   \                     ??StringInputPage_OnEnter:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+    374            CreateTextInput((MyBOOK*)bk);
+   \   00000008   ........           BL       ??CreateTextInput
+    375            return (1);
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    376          };
+    377          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    378          static int StringInputPage_OnExit(void *, BOOK * bk)
+    379          {
+   \                     ??StringInputPage_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    380            MyBOOK *mbk=(MyBOOK *)bk;
+    381            FREE_GUI(mbk->text_input);
+   \   00000008   340094E5           LDR      R0,[R4, #+52]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??StringInputPage_OnExit_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   340084E5           STR      R0,[R4, #+52]
+    382            return (1);  
+   \                     ??StringInputPage_OnExit_1:
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    383          };
+    384          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    385          const PAGE_MSG bk_msglst_StringInput[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_StringInput:
+   \   00000000   42000000....       DC32 66, ??StringInputPage_OnEnter, 67, ??StringInputPage_OnExit, 64
+   \              ....43000000
+   \              ........4000
+   \              0000        
+   \   00000014   00000000           DC32 0H
+    386          {
+    387            PAGE_ENTER_EVENT_TAG,    StringInputPage_OnEnter,
+    388            PAGE_EXIT_EVENT_TAG,     StringInputPage_OnExit,
+    389            NIL_EVENT_TAG,           NULL
+    390          };
+    391          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x6d\\x69\\x6e\\x3a\\x20\\x25\\x75\\xa\\x`:
+   \   00000000   6D0069006E00       DC8 6DH, 0, 69H, 0, 6EH, 0, 3AH, 0
+   \              3A00        
+   \   00000008   200025007500       DC8 20H, 0, 25H, 0, 75H, 0, 0AH, 0
+   \              0A00        
+   \   00000010   6D0061007800       DC8 6DH, 0, 61H, 0, 78H, 0, 3AH, 0
+   \              3A00        
+   \   00000018   200025007500       DC8 20H, 0, 25H, 0, 75H, 0, 0, 0
+   \              0000        
+    392          const PAGE_DESC bk_StringInput = {"EvtEdit_StringInput_Page",0,bk_msglst_StringInput};
+   \                     bk_StringInput:
+   \   00000020   ........0000       DC32 `?<Constant "EvtEdit_StringInput_Page">`, 0H
+   \              0000        
+   \   00000028   ........           DC32 bk_msglst_StringInput
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     PREVIOUS_EVENT
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtEdit_StringInput_Page">`:
+   \   00000000   457674456469       DC8 "EvtEdit_StringInput_Page"
+   \              745F53747269
+   \              6E67496E7075
+   \              745F50616765
+   \              00          
+   \   00000019   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x57\\x41\\x50\\x5f\\x45\\x4e\\x54\\x45\\`:
+   \   00000000   570041005000       DC8 57H, 0, 41H, 0, 50H, 0, 5FH, 0
+   \              5F00        
+   \   00000008   45004E005400       DC8 45H, 0, 4EH, 0, 54H, 0, 45H, 0
+   \              4500        
+   \   00000010   52005F005300       DC8 52H, 0, 5FH, 0, 53H, 0, 4BH, 0
+   \              4B00        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 2, align-sorted
+   \   00000000   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x45\\x43\\x5f\\x54\\x45\\x58\\x54\\x50\\`:
+   \   00000000   450043005F00       DC8 45H, 0, 43H, 0, 5FH, 0, 54H, 0
+   \              5400        
+   \   00000008   450058005400       DC8 45H, 0, 58H, 0, 54H, 0, 50H, 0
+   \              5000        
+   \   00000010   5F0054005800       DC8 5FH, 0, 54H, 0, 58H, 0, 54H, 0
+   \              5400        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+    393          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateTextInput(MyBOOK *)         92
+     OnBackCreateTextInputGui(BOOK *, u16 *, int)
+                                        4
+     OnOkCreateWinOrPassGui(BOOK *, wchar_t *, int)
+                                      180
+     StringInputPage_OnEnter(void *, BOOK *)
+                                        4
+     StringInputPage_OnExit(void *, BOOK *)
+                                        8
+     get_curstrid(MyBOOK *)            16
+     get_headerstrid(int)               4
+     getnumwidth(unsigned int)          0
+     kickbadsymbols(wchar_t *, int)     0
+     kickbadsymbols2(wchar_t *, int)
+                                        0
+     unicode2win1251(char *, wchar_t *, int)
+                                        4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     OnBackCreateTextInputGui(BOOK *, u16 *, int)
+                                      20
+     kickbadsymbols(wchar_t *, int)   64
+     kickbadsymbols2(wchar_t *, int)
+                                      52
+     unicode2win1251(char *, wchar_t *, int)
+                                     192
+     OnOkCreateWinOrPassGui(BOOK *, wchar_t *, int)
+                                    1736
+     get_headerstrid(int)            116
+     get_curstrid(MyBOOK *)          272
+     getnumwidth(unsigned int)        52
+     CreateTextInput(MyBOOK *)       280
+     StringInputPage_OnEnter(void *, BOOK *)
+                                      20
+     StringInputPage_OnExit(void *, BOOK *)
+                                      36
+     bk_msglst_StringInput            24
+     ?<Constant L"\x6d\x69\x6e\x3a\x20\x25\x75\xa\x
+                                      44
+     ??DataTable1                      4
+     ?<Constant "EvtEdit_StringInput_Page">
+                                      28
+     ?<Constant L"\x57\x41\x50\x5f\x45\x4e\x54\x45\
+                                      28
+     ?<Constant L"">                   2
+     ?<Constant L"\x45\x43\x5f\x54\x45\x58\x54\x50\
+                                      28
+      Others                         116
+
+ 
+ 2 960 bytes in segment CODE
+   130 bytes in segment DATA_C
+    24 bytes in segment DYN_PAGE
+ 
+ 2 844 bytes of CODE  memory (+ 116 bytes shared)
+   154 bytes of CONST memory
+
+Errors: none
+Warnings: none

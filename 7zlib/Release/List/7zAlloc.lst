@@ -1,0 +1,126 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:44:25 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zAlloc. #
+#                       c                                                    #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zAlloc. #
+#                       c -D NDEBUG -D OLDFUNCTIONS -lcN                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7zli #
+#                       b\Release\List\ -o Z:\home\perk11\www\perk11.info\sv #
+#                       n\SE\7zlib\Release\Obj\ -s9 --no_unroll              #
+#                       --no_code_motion --cpu_mode thumb --endian little    #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --library_module -I                       #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\7zAlloc.lst                                     #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       Obj\7zAlloc.r79                                      #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zAlloc.c
+      1          /* 7zAlloc.c */
+      2          
+      3          #include "7zAlloc.h"
+      4          
+      5          /* #define _SZ_ALLOC_DEBUG */
+      6          /* use _SZ_ALLOC_DEBUG to debug alloc/free operations */
+      7          
+      8          #ifdef _SZ_ALLOC_DEBUG
+      9          
+     10          #ifdef _WIN32
+     11          #include <windows.h>
+     12          #endif
+     13          #include <stdio.h>
+     14          int g_allocCount = 0;
+     15          int g_allocCountTemp = 0;
+     16          #endif
+     17          
+     18          __arm void *SzAlloc(size_t size)
+     19          {
+     20            if (size == 0)
+     21              return 0;
+     22            #ifdef _SZ_ALLOC_DEBUG
+     23            fprintf(stderr, "\nAlloc %10d bytes; count = %10d", size, g_allocCount);
+     24            g_allocCount++;
+     25            #endif
+     26            return malloc(size);
+     27          }
+     28          
+     29          __arm void SzFree(void *address)
+     30          {
+     31            #ifdef _SZ_ALLOC_DEBUG
+     32            if (address != 0)
+     33            {
+     34              g_allocCount--;
+     35              fprintf(stderr, "\nFree; count = %10d", g_allocCount);
+     36            }
+     37            #endif
+     38            mfree(address);
+     39          }
+     40          
+     41          __arm void *SzAllocTemp(size_t size)
+     42          {
+     43            if (size == 0)
+     44              return 0;
+     45            #ifdef _SZ_ALLOC_DEBUG
+     46            fprintf(stderr, "\nAlloc_temp %10d bytes;  count = %10d", size, g_allocCountTemp);
+     47            g_allocCountTemp++;
+     48            #ifdef _WIN32
+     49            return HeapAlloc(GetProcessHeap(), 0, size);
+     50            #endif
+     51            #endif
+     52            return malloc(size);
+     53          }
+     54          
+     55          __arm void SzFreeTemp(void *address)
+     56          {
+     57            #ifdef _SZ_ALLOC_DEBUG
+     58            if (address != 0)
+     59            {
+     60              g_allocCountTemp--;
+     61              fprintf(stderr, "\nFree_temp; count = %10d", g_allocCountTemp);
+     62            }
+     63            #ifdef _WIN32
+     64            HeapFree(GetProcessHeap(), 0, address);
+     65            return;
+     66            #endif
+     67            #endif
+     68            mfree(address);
+     69          }
+
+   Maximum stack usage in bytes:
+
+     Function    CSTACK
+     --------    ------
+     SzAlloc         4
+     SzAllocTemp     4
+     SzFree          4
+     SzFreeTemp      4
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     SzAlloc          20
+     SzFree           12
+     SzAllocTemp      20
+     SzFreeTemp       12
+      Others          16
+
+ 
+ 80 bytes in segment CODE
+ 
+ 64 bytes of CODE memory (+ 16 bytes shared)
+
+Errors: none
+Warnings: none

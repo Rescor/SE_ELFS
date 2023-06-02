@@ -1,0 +1,2104 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:47:43 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\main.cpp  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\main.cpp  #
+#                       -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN            #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\main.lst                                         #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\main.r79                                          #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\main.cpp
+      1          #include "..\\include\Dir.h"
+      2          #include "..\\include\cfg_items.h"
+      3          
+      4          #include "inc\log.h"
+      5          #include "inc\mc.h"
+      6          #include "inc\fslib.h"
+      7          #include "inc\main.h"
+      8          #include "inc\gui.h"
+      9          #include "inc\mui.h"
+     10          #include "inc\ColorMap.h"
+     11          #include "inc\zslib.h"
+     12          #include "inc\config.h"
+     13          #include "inc\conf_loader.h"
+     14          #include "inc\zslib.h"
+     15          #include "inc\7zslib.h"
+     16          #include "inc\keys.h"
+     17          #include "inc\file_op.h"
+     18          
+     19          extern void CloseAllFiles(MyBOOK *mbk);
+     20          MyBOOK * MCBook;
+     21          DISP_OBJ *main_obj=NULL;
+     22          volatile int Busy = 0;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     23          volatile int Terminate = 0; // флаг необходимости завершени€ работы
+   \                     Terminate:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     24          volatile int RedrawGUI = 0; // флаг необходимости перерисовки гу€
+   \                     RedrawGUI:
+   \   00000000                      DS8 4
+     25          int is_db2010=0;
+     26          
+     27          wchar_t STD_ICONS[TOTAL_ICONS];
+     28          
+     29          void FreeData();
+     30          void FreeDrvInfo();
+     31          
+     32          #pragma segment="ELFBEGIN"
+
+   \                                 In segment CODE, align 4, keep-with-next
+     33          void elf_exit(void){
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     34            trace_done();
+     35            WriteLog("elf_exit");
+     36            kill_data(__segment_begin("ELFBEGIN"), (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; SFB(ELFBEGIN)
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     SFB(ELFBEGIN)
+     37          }
+     38          
+     39          #define MESSAGE(__STR__) MessageBox(EMPTY_TEXTID,__STR__,NOIMAGE, 1 ,11000,NULL);
+     40          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     41          void MsgBoxError(int lgind, char* str)
+     42          {
+   \                     ??MsgBoxError:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     43            snwprintf(msgbuf,MAXELEMS(msgbuf), muitxt(lgind), str);
+   \   00000004   ........           LDR      R5,??DataTable6  ;; msgbuf
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000010   0020A0E1           MOV      R2,R0
+   \   00000014   0430A0E1           MOV      R3,R4
+   \   00000018   401FA0E3           MOV      R1,#+256
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   150100EF           SWI      +277
+     44            TEXTID q=TextID_Create(msgbuf,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000024   FF40A0E3           MOV      R4,#+255
+   \   00000028   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   0000002C   0420A0E1           MOV      R2,R4
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   5D0100EF           SWI      +349
+   \   0000003C   0010A0E1           MOV      R1,R0
+     45            MessageBox(LGP_NULL,q, NOIMAGE, 1 ,11000,(BOOK*)MCBook);
+   \   00000040   ........           LDR      R0,??DataTable35  ;; STD_ICONS + 12
+   \   00000044   0130A0E3           MOV      R3,#+1
+   \   00000048   000090E5           LDR      R0,[R0, #+0]
+   \   0000004C   0420A0E1           MOV      R2,R4
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   F800A0E3           MOV      R0,#+248
+   \   00000058   A80D80E3           ORR      R0,R0,#0x2A00
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   9004E0E3           MVN      R0,#-1879048192
+   \   00000064   570200EF           SWI      +599
+     46          }
+   \   00000068   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+     47          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     48          void MsgBoxError(int lgind, wchar_t* str)
+     49          {
+   \                     ??MsgBoxError_1:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     50            snwprintf(msgbuf,MAXELEMS(msgbuf), muitxt(lgind), str);
+   \   00000004   ........           LDR      R5,??DataTable6  ;; msgbuf
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000010   0020A0E1           MOV      R2,R0
+   \   00000014   0430A0E1           MOV      R3,R4
+   \   00000018   401FA0E3           MOV      R1,#+256
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   150100EF           SWI      +277
+     51            TEXTID q=TextID_Create(msgbuf,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000024   FF40A0E3           MOV      R4,#+255
+   \   00000028   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   0000002C   0420A0E1           MOV      R2,R4
+   \   00000030   0010A0E3           MOV      R1,#+0
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   5D0100EF           SWI      +349
+   \   0000003C   0010A0E1           MOV      R1,R0
+     52            MessageBox(LGP_NULL,q, NOIMAGE, 1 ,11000,(BOOK*)MCBook);
+   \   00000040   ........           LDR      R0,??DataTable35  ;; STD_ICONS + 12
+   \   00000044   0130A0E3           MOV      R3,#+1
+   \   00000048   000090E5           LDR      R0,[R0, #+0]
+   \   0000004C   0420A0E1           MOV      R2,R4
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   F800A0E3           MOV      R0,#+248
+   \   00000058   A80D80E3           ORR      R0,R0,#0x2A00
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   9004E0E3           MVN      R0,#-1879048192
+   \   00000064   570200EF           SWI      +599
+     53          }
+   \   00000068   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+     54          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     55          void MsgBoxError(char *err)
+     56          {
+   \                     ??MsgBoxError_2:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     57            win12512unicode(msgbuf,err,MAXELEMS(msgbuf)-1);
+   \   00000004   ........           LDR      R4,??DataTable6  ;; msgbuf
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   0010A0E1           MOV      R1,R0
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   ........           _BLF     ??win12512unicode,??win12512unicode??rA
+     58            TEXTID q=TextID_Create(msgbuf,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000018   FF50A0E3           MOV      R5,#+255
+   \   0000001C   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000020   0520A0E1           MOV      R2,R5
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   5D0100EF           SWI      +349
+   \   00000030   0010A0E1           MOV      R1,R0
+     59            MessageBox(LGP_NULL,q, NOIMAGE, 1 ,11000,(BOOK*)MCBook);
+   \   00000034   ........           LDR      R0,??DataTable35  ;; STD_ICONS + 12
+   \   00000038   0130A0E3           MOV      R3,#+1
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   0520A0E1           MOV      R2,R5
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   F800A0E3           MOV      R0,#+248
+   \   0000004C   A80D80E3           ORR      R0,R0,#0x2A00
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   9004E0E3           MVN      R0,#-1879048192
+   \   00000058   570200EF           SWI      +599
+     60          }
+   \   0000005C   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+     61          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     62          void MsgBoxError(wchar_t *err, int a)
+     63          {
+   \                     ??MsgBoxError_3:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     64            snwprintf(msgbuf,MAXELEMS(msgbuf), err, a);
+   \   00000004   ........           LDR      R4,??DataTable6  ;; msgbuf
+   \   00000008   0130A0E1           MOV      R3,R1
+   \   0000000C   0020A0E1           MOV      R2,R0
+   \   00000010   401FA0E3           MOV      R1,#+256
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   150100EF           SWI      +277
+     65            TEXTID q=TextID_Create(msgbuf,ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000001C   FF50A0E3           MOV      R5,#+255
+   \   00000020   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000024   0520A0E1           MOV      R2,R5
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   5D0100EF           SWI      +349
+     66            MessageBox(LGP_NULL,q, NOIMAGE, 1 ,11000,(BOOK*)MCBook);
+   \   00000034   ........           LDR      R1,??DataTable35  ;; STD_ICONS + 12
+   \   00000038   0130A0E3           MOV      R3,#+1
+   \   0000003C   001091E5           LDR      R1,[R1, #+0]
+   \   00000040   0520A0E1           MOV      R2,R5
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   F810A0E3           MOV      R1,#+248
+   \   0000004C   A81D81E3           ORR      R1,R1,#0x2A00
+   \   00000050   02002DE9           PUSH     {R1}
+   \   00000054   0010A0E1           MOV      R1,R0
+   \   00000058   9004E0E3           MVN      R0,#-1879048192
+   \   0000005C   570200EF           SWI      +599
+     67          }
+   \   00000060   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+     68          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     69          void MsgBoxError(wchar_t *err)
+     70          {
+   \                     ??MsgBoxError_4:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     71            TEXTID q=TextID_Create(err,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   FF40A0E3           MOV      R4,#+255
+   \   0000000C   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   00000010   0420A0E1           MOV      R2,R4
+   \   00000014   5D0100EF           SWI      +349
+   \   00000018   0010A0E1           MOV      R1,R0
+     72            MessageBox(LGP_NULL,q, NOIMAGE, 1 ,11000,(BOOK*)MCBook);
+   \   0000001C   ........           LDR      R0,??DataTable35  ;; STD_ICONS + 12
+   \   00000020   0130A0E3           MOV      R3,#+1
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   0420A0E1           MOV      R2,R4
+   \   0000002C   01002DE9           PUSH     {R0}
+   \   00000030   F800A0E3           MOV      R0,#+248
+   \   00000034   A80D80E3           ORR      R0,R0,#0x2A00
+   \   00000038   01002DE9           PUSH     {R0}
+   \   0000003C   9004E0E3           MVN      R0,#-1879048192
+   \   00000040   570200EF           SWI      +599
+     73          }
+   \   00000044   1380BDE8           POP      {R0,R1,R4,PC}    ;; return
+     74          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     75          static void YSYes(BOOK * bk, void *)
+     76          {
+   \                     ??YSYes:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     77            MyBOOK *mcb=(MyBOOK *)bk;
+     78            mcb->YesNoFunc(1);
+   \   00000008   301094E5           LDR      R1,[R4, #+48]
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   31FF2FE1           BLX      R1
+     79            FREE_GUI(mcb->yes_no);
+   \   00000014   200094E5           LDR      R0,[R4, #+32]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1080BD08           POPEQ    {R4,PC}
+   \   00000020   CE0100EF           SWI      +462
+   \   00000024   200084E5           STR      R0,[R4, #+32]
+     80          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     81          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     82          static void YSNo (BOOK * bk, void *)
+     83          {
+   \                     ??YSNo:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     84            MyBOOK *mcb=(MyBOOK *)bk;
+     85            mcb->YesNoFunc(0);
+   \   00000008   301094E5           LDR      R1,[R4, #+48]
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   31FF2FE1           BLX      R1
+     86            FREE_GUI(mcb->yes_no);
+   \   00000014   200094E5           LDR      R0,[R4, #+32]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1080BD08           POPEQ    {R4,PC}
+   \   00000020   CE0100EF           SWI      +462
+   \   00000024   200084E5           STR      R0,[R4, #+32]
+     87          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     88          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          void MsgBoxYesNo(wchar_t *qv, void(*f)(int))
+     90          {
+   \                     ??MsgBoxYesNo:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     91            TEXTID q=TextID_Create(qv,ENC_UCS2,TEXTID_ANY_LEN);
+     92            MCBook->YesNoFunc=f;
+   \   00000004   ........           LDR      R4,??DataTable47  ;; STD_ICONS
+   \   00000008   FF20A0E3           MOV      R2,#+255
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   5D0100EF           SWI      +349
+   \   0000001C   0C2094E5           LDR      R2,[R4, #+12]
+     93            MCBook->yes_no=CreateYesNoQuestionVA(0,
+     94                                                 VAR_BOOK(MCBook),
+     95                                                 VAR_YESNO_QUESTION(q),
+     96                                                 VAR_YESNO_YES_ACTION(YSYes),
+     97                                                 VAR_YESNO_NO_ACTION(YSNo),
+     98                                                 VAR_PREV_ACTION_PROC(YSNo),
+     99                                                 0);
+   \   00000020   58109FE5           LDR      R1,??MsgBoxYesNo_1  ;; ??YSNo
+   \   00000024   305082E5           STR      R5,[R2, #+48]
+   \   00000028   0030A0E3           MOV      R3,#+0
+   \   0000002C   08002DE9           PUSH     {R3}
+   \   00000030   0130A0E1           MOV      R3,R1
+   \   00000034   08002DE9           PUSH     {R3}
+   \   00000038   ........           LDR      R3,??DataTable39  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   0000003C   08002DE9           PUSH     {R3}
+   \   00000040   ........           LDR      R3,??DataTable38  ;; VAR_ARG_YESNO_QUESTION
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   ........           LDR      R1,??DataTable40  ;; VAR_ARG_YESNO_NO_ACTION
+   \   0000004C   02002DE9           PUSH     {R1}
+   \   00000050   2C109FE5           LDR      R1,??MsgBoxYesNo_1+0x4  ;; ??YSYes
+   \   00000054   02002DE9           PUSH     {R1}
+   \   00000058   ........           LDR      R1,??DataTable41  ;; VAR_ARG_YESNO_YES_ACTION
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   ........           LDR      R1,??DataTable42  ;; VAR_ARG_BOOK
+   \   00000064   01002DE9           PUSH     {R0}
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   A50200EF           SWI      +677
+   \   00000070   0C1094E5           LDR      R1,[R4, #+12]
+   \   00000074   200081E5           STR      R0,[R1, #+32]
+    100          }
+   \   00000078   20D08DE2           ADD      SP,SP,#+32
+   \   0000007C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MsgBoxYesNo_1:
+   \   00000080   ........           DC32     ??YSNo
+   \   00000084   ........           DC32     ??YSYes
+    101          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    102          void FreeData()
+    103          {
+    104            WriteLog("FreeData");
+    105            
+    106            if (CONFIG_LOAD_CS) SaveCS(NULL);
+   \                     ??FreeData:
+   \   00000000   84009FE5           LDR      R0,??FreeData_1  ;; CONFIG_LOAD_CS
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??FreeData_2
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   ........           _BLF     ??SaveCS,??SaveCS??rA
+    107            if (CONFIG_LOAD_MUI) SaveMUI(NULL);
+   \                     ??FreeData_2:
+   \   0000001C   ........           LDR      R0,??DataTable25  ;; CONFIG_LOAD_MUI
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0100000A           BEQ      ??FreeData_3
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   ........           _BLF     ??SaveMUI,??SaveMUI??rA
+    108            SaveCfg();
+   \                     ??FreeData_3:
+   \   00000034   ........           _BLF     ??SaveCfg,??SaveCfg??rA
+    109            fn_free(&buffer);
+   \   00000038   ........           LDR      R0,??DataTable24  ;; buffer
+    110            FreeMUI();
+    111            //FreeExt();
+    112            for(int ii=0; ii<MAX_TABS+1; ii++)
+   \   0000003C   0040A0E3           MOV      R4,#+0
+   \   00000040   ........           _BLF     ??fn_free,??fn_free??rA
+   \   00000044   ........           _BLF     ??FreeMUI,??FreeMUI??rA
+    113            {
+    114              DelFiles(ii);
+   \                     ??FreeData_4:
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   ........           _BLF     ??DelFiles,??DelFiles??rA
+    115              FreeTab(ii);
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   ........           _BLF     ??FreeTab,??FreeTab??rA
+    116            }
+   \   00000058   014084E2           ADD      R4,R4,#+1
+   \   0000005C   030054E3           CMP      R4,#+3
+   \   00000060   F8FFFFBA           BLT      ??FreeData_4
+    117            FreeDrvInfo();
+    118            DestroyPathBuf();
+    119            DestroySendList(MCBook->lst_send);
+   \   00000064   ........           LDR      R4,??DataTable47  ;; STD_ICONS
+   \   00000068   ........           BL       ??FreeDrvInfo
+   \   0000006C   ........           _BLF     ??DestroyPathBuf,??DestroyPathBuf??rA
+   \   00000070   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000074   340090E5           LDR      R0,[R0, #+52]
+   \   00000078   ........           _BLF     ??DestroySendList,??DestroySendList??rA
+    120            List_Destroy(MCBook->lst_send);
+   \   0000007C   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000080   340090E5           LDR      R0,[R0, #+52]
+   \   00000084   6A0100EF           SWI      +362
+    121          }
+   \   00000088   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??FreeData_1:
+   \   0000008C   ........           DC32     CONFIG_LOAD_CS
+    122          
+    123          wchar_t *SA_ICONS[]=
+    124          {
+    125            L_ICN_FOLDER,
+    126            L_ICN_CHMARK,
+    127            L_ICN_CH_RB,
+    128            L_ICN_RB,
+    129            L_ICN_CH_CB,
+    130            L_ICN_CB  
+    131          };
+    132          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    133          void InitDrvInfo()
+    134          {
+   \                     ??InitDrvInfo:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    135            int drv_num=wstrcmpi(GetDir(DIR_OTHER|MEM_INTERNAL),GetDir(DIR_OTHER|MEM_EXTERNAL))?3:2;
+   \   00000004   0800A0E3           MOV      R0,#+8
+   \   00000008   050100EF           SWI      +261
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0900A0E3           MOV      R0,#+9
+   \   00000014   050100EF           SWI      +261
+   \   00000018   0410A0E1           MOV      R1,R4
+   \   0000001C   9F0200EF           SWI      +671
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0340A013           MOVNE    R4,#+3
+   \   00000028   0240A003           MOVEQ    R4,#+2
+    136            FreeDrvInfo();
+   \   0000002C   ........           BL       ??FreeDrvInfo
+    137            if (SHOW_ROOT_FOLDER)
+   \   00000030   58019FE5           LDR      R0,??InitDrvInfo_1+0x4  ;; SHOW_ROOT_FOLDER
+   \   00000034   000090E5           LDR      R0,[R0, #+0]
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0E00000A           BEQ      ??InitDrvInfo_2
+    138            {
+    139              Drives[drv_num-1].path=new wchar_t[2];
+   \   00000040   ........           LDR      R5,??DataTable23  ;; Drives
+   \   00000044   1800A0E3           MOV      R0,#+24
+   \   00000048   905425E0           MLA      R5,R0,R4,R5
+   \   0000004C   0400A0E3           MOV      R0,#+4
+   \   00000050   346045E2           SUB      R6,R5,#+52
+   \   00000054   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000058   1C0086E5           STR      R0,[R6, #+28]
+    140              wstrcpy(Drives[drv_num-1].path, L"/");
+   \   0000005C   4A1F8FE2           ADR      R1,??InitDrvInfo_1  ;; 0x2F, 0x00, 0x00, 0x00
+   \   00000060   520100EF           SWI      +338
+    141              wstrcpy(Drives[drv_num-1].name,L"root");
+   \   00000064   28119FE5           LDR      R1,??InitDrvInfo_1+0x8  ;; `?<Constant L"\\x72\\x6f\\x6f\\x74">`
+   \   00000068   140045E2           SUB      R0,R5,#+20
+   \   0000006C   520100EF           SWI      +338
+    142              Drives[drv_num-1].enabled=1;
+   \   00000070   0100A0E3           MOV      R0,#+1
+   \   00000074   300086E5           STR      R0,[R6, #+48]
+   \   00000078   050000EA           B        ??InitDrvInfo_3
+    143            }
+    144            else
+    145            {
+    146              Drives[drv_num-1].enabled=0;    
+   \                     ??InitDrvInfo_2:
+   \   0000007C   ........           LDR      R1,??DataTable23  ;; Drives
+   \   00000080   1800A0E3           MOV      R0,#+24
+   \   00000084   901421E0           MLA      R1,R0,R4,R1
+   \   00000088   340041E2           SUB      R0,R1,#+52
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   301080E5           STR      R1,[R0, #+48]
+    147            }
+    148            wchar_t *ws=new wchar_t[wstrlen(GetDir(DIR_OTHER|MEM_INTERNAL))+1];
+    149            wstrcpy(ws, GetDir(DIR_OTHER|MEM_INTERNAL));
+    150            wchar_t *last=wstrrchr(ws,L'/');
+    151            if (last) *last=0;
+    152            Drives[drv_num-2].path=ws;
+   \                     ??InitDrvInfo_3:
+   \   00000094   ........           LDR      R5,??DataTable23  ;; Drives
+   \   00000098   0900A0E3           MOV      R0,#+9
+   \   0000009C   050100EF           SWI      +261
+   \   000000A0   570100EF           SWI      +343
+   \   000000A4   010080E2           ADD      R0,R0,#+1
+   \   000000A8   8000A0E1           LSL      R0,R0,#+1
+   \   000000AC   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000B0   0070A0E1           MOV      R7,R0
+   \   000000B4   0900A0E3           MOV      R0,#+9
+   \   000000B8   050100EF           SWI      +261
+   \   000000BC   0010A0E1           MOV      R1,R0
+   \   000000C0   0700A0E1           MOV      R0,R7
+   \   000000C4   520100EF           SWI      +338
+   \   000000C8   2F10A0E3           MOV      R1,#+47
+   \   000000CC   0700A0E1           MOV      R0,R7
+   \   000000D0   AE0100EF           SWI      +430
+   \   000000D4   000050E3           CMP      R0,#+0
+   \   000000D8   0010A013           MOVNE    R1,#+0
+   \   000000DC   B010C011           STRHNE   R1,[R0, #+0]
+    153            wstrcpy(Drives[drv_num-2].name,L"phone");
+   \   000000E0   B0109FE5           LDR      R1,??InitDrvInfo_1+0xC  ;; `?<Constant L"\\x72\\x6f\\x6f\\x74">` + 12
+   \   000000E4   1800A0E3           MOV      R0,#+24
+   \   000000E8   905425E0           MLA      R5,R0,R4,R5
+   \   000000EC   346045E2           SUB      R6,R5,#+52
+   \   000000F0   047086E5           STR      R7,[R6, #+4]
+   \   000000F4   2C0045E2           SUB      R0,R5,#+44
+   \   000000F8   520100EF           SWI      +338
+    154            Drives[drv_num-2].enabled=1;
+   \   000000FC   0100A0E3           MOV      R0,#+1
+   \   00000100   180086E5           STR      R0,[R6, #+24]
+    155            
+    156            if (drv_num==3)
+   \   00000104   030054E3           CMP      R4,#+3
+   \   00000108   1900001A           BNE      ??InitDrvInfo_4
+    157            {
+    158              wchar_t *ws=new wchar_t[wstrlen(GetDir(DIR_OTHER|MEM_EXTERNAL))+1];
+    159              wstrcpy(ws, GetDir(DIR_OTHER|MEM_EXTERNAL));
+    160              wchar_t *last=wstrrchr(ws,L'/');
+    161              if (last) *last=0;
+    162              Drives[drv_num-3].path=ws;
+   \   0000010C   ........           LDR      R5,??DataTable23  ;; Drives
+   \   00000110   0800A0E3           MOV      R0,#+8
+   \   00000114   050100EF           SWI      +261
+   \   00000118   570100EF           SWI      +343
+   \   0000011C   010080E2           ADD      R0,R0,#+1
+   \   00000120   8000A0E1           LSL      R0,R0,#+1
+   \   00000124   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000128   0040A0E1           MOV      R4,R0
+   \   0000012C   0800A0E3           MOV      R0,#+8
+   \   00000130   050100EF           SWI      +261
+   \   00000134   0010A0E1           MOV      R1,R0
+   \   00000138   0400A0E1           MOV      R0,R4
+   \   0000013C   520100EF           SWI      +338
+   \   00000140   2F10A0E3           MOV      R1,#+47
+   \   00000144   0400A0E1           MOV      R0,R4
+   \   00000148   AE0100EF           SWI      +430
+   \   0000014C   000050E3           CMP      R0,#+0
+   \   00000150   0010A013           MOVNE    R1,#+0
+   \   00000154   B010C011           STRHNE   R1,[R0, #+0]
+    163              wstrcpy(Drives[drv_num-3].name,L"card");
+   \   00000158   3C109FE5           LDR      R1,??InitDrvInfo_1+0x10  ;; `?<Constant L"\\x72\\x6f\\x6f\\x74">` + 24
+   \   0000015C   004085E5           STR      R4,[R5, #+0]
+   \   00000160   040085E2           ADD      R0,R5,#+4
+   \   00000164   520100EF           SWI      +338
+    164              Drives[drv_num-3].enabled=1;
+   \   00000168   0100A0E3           MOV      R0,#+1
+   \   0000016C   140085E5           STR      R0,[R5, #+20]
+   \   00000170   F080BDE8           POP      {R4-R7,PC}
+    165            }
+    166            else
+    167              Drives[drv_num-3].enabled=0;
+   \                     ??InitDrvInfo_4:
+   \   00000174   ........           LDR      R1,??DataTable23  ;; Drives
+   \   00000178   1800A0E3           MOV      R0,#+24
+   \   0000017C   901421E0           MLA      R1,R0,R4,R1
+   \   00000180   0000A0E3           MOV      R0,#+0
+   \   00000184   340001E5           STR      R0,[R1, #-52]
+    168          }
+   \   00000188   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??InitDrvInfo_1:
+   \   0000018C   2F000000           DC8      0x2F, 0x00, 0x00, 0x00
+   \   00000190   ........           DC32     SHOW_ROOT_FOLDER
+   \   00000194   ........           DC32     `?<Constant L"\\x72\\x6f\\x6f\\x74">`
+   \   00000198   ........           DC32     `?<Constant L"\\x72\\x6f\\x6f\\x74">` + 12
+   \   0000019C   ........           DC32     `?<Constant L"\\x72\\x6f\\x6f\\x74">` + 24
+    169          
+    170          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    171          void FreeDrvInfo()
+    172          {
+   \                     ??FreeDrvInfo:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    173            for (int i=0; i<MAX_DRV; i++)
+   \   00000004   0040A0E3           MOV      R4,#+0
+    174            {
+    175              delete (Drives[i].path);
+   \                     ??FreeDrvInfo_1:
+   \   00000008   ........           LDR      R1,??DataTable23  ;; Drives
+   \   0000000C   1800A0E3           MOV      R0,#+24
+   \   00000010   901425E0           MLA      R5,R0,R4,R1
+    176              Drives[i].path=NULL;
+    177              Drives[i].enabled=0;    
+    178            }
+   \   00000014   014084E2           ADD      R4,R4,#+1
+   \   00000018   000095E5           LDR      R0,[R5, #+0]
+   \   0000001C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   000085E5           STR      R0,[R5, #+0]
+   \   00000028   140085E5           STR      R0,[R5, #+20]
+   \   0000002C   030054E3           CMP      R4,#+3
+   \   00000030   F4FFFFBA           BLT      ??FreeDrvInfo_1
+    179          }
+   \   00000034   3080BDE8           POP      {R4,R5,PC}       ;; return
+    180          
+    181          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    182          int MainGuiOnCreate(DISP_OBJ_MAIN *db)
+    183          {
+   \                     ??MainGuiOnCreate:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    184            int tmp;
+    185            WriteLog("MainGuiOnCreate");
+    186            main_obj=&db->dsp_obj;
+   \   00000008   B0029FE5           LDR      R0,??MainGuiOnCreate_1  ;; STD_ICONS + 16
+   \   0000000C   04D04DE2           SUB      SP,SP,#+4
+   \   00000010   004080E5           STR      R4,[R0, #+0]
+    187            for (int i=0; i<TOTAL_ICONS; i++)
+   \   00000014   0050A0E3           MOV      R5,#+0
+    188            {
+    189              if (iconidname2id(SA_ICONS[i],-1,&tmp))
+   \                     ??MainGuiOnCreate_2:
+   \   00000018   A4029FE5           LDR      R0,??MainGuiOnCreate_1+0x4  ;; STD_ICONS
+   \   0000001C   0D20A0E1           MOV      R2,SP
+   \   00000020   050180E0           ADD      R0,R0,R5, LSL #+2
+   \   00000024   1C0090E5           LDR      R0,[R0, #+28]
+   \   00000028   0010E0E3           MVN      R1,#+0
+   \   0000002C   860200EF           SWI      +646
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   88029FE5           LDR      R0,??MainGuiOnCreate_1+0x4  ;; STD_ICONS
+    190                STD_ICONS[i]=tmp;
+   \   00000038   00109D15           LDRNE    R1,[SP, #+0]
+   \   0000003C   850080E0           ADD      R0,R0,R5, LSL #+1
+    191              else
+    192                STD_ICONS[i]=NOIMAGE;
+   \   00000040   FF10A003           MOVEQ    R1,#+255
+   \   00000044   FF1C8103           ORREQ    R1,R1,#0xFF00
+   \   00000048   B010C0E1           STRH     R1,[R0, #+0]
+    193            }
+   \   0000004C   015085E2           ADD      R5,R5,#+1
+   \   00000050   060055E3           CMP      R5,#+6
+   \   00000054   EFFFFFBA           BLT      ??MainGuiOnCreate_2
+    194            is_db2010=(GetChipID()&CHIPID_MASK)==CHIPID_DB2010;
+   \   00000058   4E0200EF           SWI      +590
+   \   0000005C   64129FE5           LDR      R1,??MainGuiOnCreate_1+0x8  ;; STD_ICONS + 24
+   \   00000060   FE0C00E2           AND      R0,R0,#0xFE00
+   \   00000064   800C50E3           CMP      R0,#+32768
+   \   00000068   0100A003           MOVEQ    R0,#+1
+   \   0000006C   0000A013           MOVNE    R0,#+0
+   \   00000070   000081E5           STR      R0,[R1, #+0]
+    195            InitDrvInfo();
+   \   00000074   ........           BL       ??InitDrvInfo
+    196            WriteLog("LoadKeys");
+    197            LoadKeys();
+   \   00000078   ........           _BLF     ??LoadKeys,??LoadKeys??rA
+    198            WriteLog("LoadCfg");
+    199            LoadCfg();
+   \   0000007C   ........           _BLF     ??LoadCfg,??LoadCfg??rA
+    200            ZeroArchiveBuffer();
+   \   00000080   ........           _BLF     ??ZeroArchiveBuffer,??ZeroArchiveBuffer??rA
+    201            fn_zero(&buffer);
+   \   00000084   ........           LDR      R0,??DataTable24  ;; buffer
+    202            for(int ii=0; ii < MAX_TABS+1; ii++)
+   \   00000088   0050A0E3           MOV      R5,#+0
+   \   0000008C   ........           _BLF     ??fn_zero,??fn_zero??rA
+    203              InitTab(ii);
+   \                     ??MainGuiOnCreate_3:
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   ........           _BLF     ??InitTab,??InitTab??rA
+   \   00000098   015085E2           ADD      R5,R5,#+1
+   \   0000009C   030055E3           CMP      R5,#+3
+   \   000000A0   FAFFFFBA           BLT      ??MainGuiOnCreate_3
+    204            if (CONFIG_SAVE_PATH)
+   \   000000A4   20029FE5           LDR      R0,??MainGuiOnCreate_1+0xC  ;; CONFIG_SAVE_PATH
+   \   000000A8   000090E5           LDR      R0,[R0, #+0]
+   \   000000AC   000050E3           CMP      R0,#+0
+   \   000000B0   2400000A           BEQ      ??MainGuiOnCreate_4
+    205            {
+    206              WriteLog("Init Last Dirs");
+    207              for(int ii=0;ii<MAX_TABS;ii++)
+   \   000000B4   0050A0E3           MOV      R5,#+0
+    208              {
+    209                int srt=MCConfig.tabs[ii].sort;
+   \                     ??MainGuiOnCreate_5:
+   \   000000B8   10129FE5           LDR      R1,??MainGuiOnCreate_1+0x10  ;; MCConfig
+   \   000000BC   830FA0E3           MOV      R0,#+524
+   \   000000C0   901521E0           MLA      R1,R0,R5,R1
+   \   000000C4   040091E5           LDR      R0,[R1, #+4]
+    210                int srtH=(srt & STD_MASK);
+    211                int srtL=(srt & STV_MASK);
+   \   000000C8   0F1000E2           AND      R1,R0,#0xF
+    212                srt=(srtL<=ST_LAST?srtL:0) | srtH;
+   \   000000CC   040051E3           CMP      R1,#+4
+   \   000000D0   0010A0A3           MOVGE    R1,#+0
+   \   000000D4   400F00E2           AND      R0,R0,#0x100
+   \   000000D8   010080E1           ORR      R0,R0,R1
+    213                tabs[ii]->sort=srt;
+   \   000000DC   F0119FE5           LDR      R1,??MainGuiOnCreate_1+0x14  ;; tabs
+   \   000000E0   051191E7           LDR      R1,[R1, +R5, LSL #+2]
+   \   000000E4   B200C1E1           STRH     R0,[R1, #+2]
+    214                if (MCConfig.tabs[ii].LastPath[0] /*&& isdir(MCConfig.tabs[ii].LastPath, &err)*/)
+   \   000000E8   E0119FE5           LDR      R1,??MainGuiOnCreate_1+0x10  ;; MCConfig
+   \   000000EC   830FA0E3           MOV      R0,#+524
+   \   000000F0   901521E0           MLA      R1,R0,R5,R1
+   \   000000F4   B001D1E1           LDRH     R0,[R1, #+16]
+   \   000000F8   000050E3           CMP      R0,#+0
+   \   000000FC   0A00000A           BEQ      ??MainGuiOnCreate_6
+   \   00000100   C8119FE5           LDR      R1,??MainGuiOnCreate_1+0x10  ;; MCConfig
+   \   00000104   830FA0E3           MOV      R0,#+524
+   \   00000108   901526E0           MLA      R6,R0,R5,R1
+   \   0000010C   0500A0E1           MOV      R0,R5
+   \   00000110   0C2096E5           LDR      R2,[R6, #+12]
+   \   00000114   101086E2           ADD      R1,R6,#+16
+    215                {
+    216                  cd(ii, MCConfig.tabs[ii].LastPath, MCConfig.tabs[ii].drv);
+   \   00000118   ........           _BLF     ??cd,??cd??rA
+    217                  SetTabIndex(ii, MCConfig.tabs[ii].LastInd, 0);
+   \   0000011C   081096E5           LDR      R1,[R6, #+8]
+   \   00000120   0020A0E3           MOV      R2,#+0
+   \   00000124   0500A0E1           MOV      R0,R5
+   \   00000128   ........           _BLF     ??SetTabIndex,??SetTabIndex??rA
+    218                }
+    219              }
+   \                     ??MainGuiOnCreate_6:
+   \   0000012C   015085E2           ADD      R5,R5,#+1
+   \   00000130   020055E3           CMP      R5,#+2
+   \   00000134   DFFFFFBA           BLT      ??MainGuiOnCreate_5
+    220              curtab = MCConfig.curtab;
+   \   00000138   90119FE5           LDR      R1,??MainGuiOnCreate_1+0x10  ;; MCConfig
+   \   0000013C   94019FE5           LDR      R0,??MainGuiOnCreate_1+0x18  ;; curtab
+   \   00000140   001091E5           LDR      R1,[R1, #+0]
+   \   00000144   001080E5           STR      R1,[R0, #+0]
+    221            }
+    222            WriteLog("InitScr");
+    223            InitScr();
+   \                     ??MainGuiOnCreate_4:
+   \   00000148   ........           _BLF     ??InitScr,??InitScr??rA
+    224            WriteLog("InitCS");
+    225            InitCS();
+   \   0000014C   ........           _BLF     ??InitCS,??InitCS??rA
+    226            WriteLog("LoadMUI");
+    227            if (CONFIG_LOAD_MUI)
+   \   00000150   ........           LDR      R0,??DataTable25  ;; CONFIG_LOAD_MUI
+   \   00000154   000090E5           LDR      R0,[R0, #+0]
+   \   00000158   000050E3           CMP      R0,#+0
+   \   0000015C   0100000A           BEQ      ??MainGuiOnCreate_7
+    228              LoadMUI(NULL);
+   \   00000160   0000A0E3           MOV      R0,#+0
+   \   00000164   ........           _BLF     ??LoadMUI,??LoadMUI??rA
+    229            WriteLog("Create lst_send");
+    230            MCBook->lst_send=List_Create();
+   \                     ??MainGuiOnCreate_7:
+   \   00000168   690100EF           SWI      +361
+   \   0000016C   68119FE5           LDR      R1,??MainGuiOnCreate_1+0x1C  ;; STD_ICONS + 12
+   \   00000170   001091E5           LDR      R1,[R1, #+0]
+   \   00000174   340081E5           STR      R0,[R1, #+52]
+    231            DispObject_SetRefreshTimer(&db->dsp_obj,100);
+   \   00000178   6410A0E3           MOV      R1,#+100
+   \   0000017C   0400A0E1           MOV      R0,R4
+   \   00000180   DD0200EF           SWI      +733
+    232            if (in_open_path[0]=='/')
+   \   00000184   ........           LDR      R0,??DataTable52  ;; in_open_path
+   \   00000188   B000D0E1           LDRH     R0,[R0, #+0]
+   \   0000018C   2F0050E3           CMP      R0,#+47
+   \   00000190   4800001A           BNE      ??MainGuiOnCreate_8
+    233            {
+    234              if (isdir(in_open_path))
+   \   00000194   ........           LDR      R0,??DataTable52  ;; in_open_path
+   \   00000198   ........           _BLF     ??isdir,??isdir??rA
+   \   0000019C   000050E3           CMP      R0,#+0
+   \   000001A0   0800000A           BEQ      ??MainGuiOnCreate_9
+    235              {
+    236                cd(curtab = 0, in_open_path, -1);
+   \   000001A4   2C019FE5           LDR      R0,??MainGuiOnCreate_1+0x18  ;; curtab
+   \   000001A8   0010A0E3           MOV      R1,#+0
+   \   000001AC   001080E5           STR      R1,[R0, #+0]
+   \   000001B0   0120E0E1           MVN      R2,R1
+   \   000001B4   ........           LDR      R1,??DataTable52  ;; in_open_path
+   \   000001B8   0000A0E3           MOV      R0,#+0
+   \   000001BC   ........           _BLF     ??cd,??cd??rA
+   \   000001C0   0100A0E3           MOV      R0,#+1
+   \   000001C4   7280BDE8           POP      {R1,R4-R6,PC}
+    237              }
+    238              else if (CONFIG_ZIP_ENABLE && IsItZipFile(in_open_path))
+   \                     ??MainGuiOnCreate_9:
+   \   000001C8   10019FE5           LDR      R0,??MainGuiOnCreate_1+0x20  ;; CONFIG_ZIP_ENABLE
+   \   000001CC   000090E5           LDR      R0,[R0, #+0]
+   \   000001D0   000050E3           CMP      R0,#+0
+   \   000001D4   1900000A           BEQ      ??MainGuiOnCreate_10
+   \   000001D8   ........           LDR      R0,??DataTable52  ;; in_open_path
+   \   000001DC   ........           _BLF     ??IsItZipFile,??IsItZipFile??rA
+   \   000001E0   000050E3           CMP      R0,#+0
+   \   000001E4   1500000A           BEQ      ??MainGuiOnCreate_10
+    239              {
+    240                // переходим в папку с зипом
+    241                cd(curtab = 0, GetFileDir(in_open_path, pathbuf,0), -1);
+   \   000001E8   ........           LDR      R4,??DataTable52  ;; in_open_path
+   \   000001EC   F0109FE5           LDR      R1,??MainGuiOnCreate_1+0x24  ;; pathbuf
+   \   000001F0   0020A0E3           MOV      R2,#+0
+   \   000001F4   0400A0E1           MOV      R0,R4
+   \   000001F8   ........           _BLF     ??GetFileDir,??GetFileDir??rA
+   \   000001FC   0010A0E1           MOV      R1,R0
+   \   00000200   D0009FE5           LDR      R0,??MainGuiOnCreate_1+0x18  ;; curtab
+   \   00000204   0020A0E3           MOV      R2,#+0
+   \   00000208   002080E5           STR      R2,[R0, #+0]
+   \   0000020C   0220E0E1           MVN      R2,R2
+   \   00000210   0000A0E3           MOV      R0,#+0
+   \   00000214   ........           _BLF     ??cd,??cd??rA
+    242                // ищем наш зип файл
+    243                int idx = GetCurTabFileIndex(GetFileName(in_open_path));
+   \   00000218   0400A0E1           MOV      R0,R4
+   \   0000021C   ........           _BLF     ??GetFileName,??GetFileName??rA
+   \   00000220   ........           _BLF     ??GetCurTabFileIndex,??GetCurTabFileIndex??rA
+    244                SetCurTabIndex(idx, 0);
+   \   00000224   0010A0E3           MOV      R1,#+0
+   \   00000228   ........           _BLF     ??SetCurTabIndex,??SetCurTabIndex??rA
+    245                // открываем
+    246                wstrcpy(arcpathbuf, in_open_path);
+   \   0000022C   B4009FE5           LDR      R0,??MainGuiOnCreate_1+0x28  ;; arcpathbuf
+   \   00000230   0410A0E1           MOV      R1,R4
+   \   00000234   520100EF           SWI      +338
+    247                SUBPROC((void*)S_ZipOpen);
+   \   00000238   AC009FE5           LDR      R0,??MainGuiOnCreate_1+0x2C  ;; ??S_ZipOpen
+   \   0000023C   1C0000EA           B        ??MainGuiOnCreate_11
+    248              }
+    249              else if (CONFIG_7Z_ENABLE && IsIt7ZipFile(in_open_path))
+   \                     ??MainGuiOnCreate_10:
+   \   00000240   A8009FE5           LDR      R0,??MainGuiOnCreate_1+0x30  ;; CONFIG_7Z_ENABLE
+   \   00000244   000090E5           LDR      R0,[R0, #+0]
+   \   00000248   000050E3           CMP      R0,#+0
+   \   0000024C   1900000A           BEQ      ??MainGuiOnCreate_8
+   \   00000250   ........           LDR      R0,??DataTable52  ;; in_open_path
+   \   00000254   ........           _BLF     ??IsIt7ZipFile,??IsIt7ZipFile??rA
+   \   00000258   000050E3           CMP      R0,#+0
+   \   0000025C   1500000A           BEQ      ??MainGuiOnCreate_8
+    250              {
+    251                // переходим в папку с зипом
+    252                cd(curtab = 0, GetFileDir(in_open_path, pathbuf,0), -1);
+   \   00000260   ........           LDR      R4,??DataTable52  ;; in_open_path
+   \   00000264   78109FE5           LDR      R1,??MainGuiOnCreate_1+0x24  ;; pathbuf
+   \   00000268   0020A0E3           MOV      R2,#+0
+   \   0000026C   0400A0E1           MOV      R0,R4
+   \   00000270   ........           _BLF     ??GetFileDir,??GetFileDir??rA
+   \   00000274   5C109FE5           LDR      R1,??MainGuiOnCreate_1+0x18  ;; curtab
+   \   00000278   0020A0E3           MOV      R2,#+0
+   \   0000027C   002081E5           STR      R2,[R1, #+0]
+   \   00000280   0220E0E1           MVN      R2,R2
+   \   00000284   0010A0E1           MOV      R1,R0
+   \   00000288   0000A0E3           MOV      R0,#+0
+   \   0000028C   ........           _BLF     ??cd,??cd??rA
+    253                // ищем наш зип файл
+    254                int idx = GetCurTabFileIndex(GetFileName(in_open_path));
+   \   00000290   0400A0E1           MOV      R0,R4
+   \   00000294   ........           _BLF     ??GetFileName,??GetFileName??rA
+   \   00000298   ........           _BLF     ??GetCurTabFileIndex,??GetCurTabFileIndex??rA
+    255                SetCurTabIndex(idx, 0);
+   \   0000029C   0010A0E3           MOV      R1,#+0
+   \   000002A0   ........           _BLF     ??SetCurTabIndex,??SetCurTabIndex??rA
+    256                // открываем
+    257                wstrcpy(arcpathbuf, in_open_path);
+   \   000002A4   3C009FE5           LDR      R0,??MainGuiOnCreate_1+0x28  ;; arcpathbuf
+   \   000002A8   0410A0E1           MOV      R1,R4
+   \   000002AC   520100EF           SWI      +338
+    258                SUBPROC((void*)S_7ZOpen);
+   \   000002B0   3C009FE5           LDR      R0,??MainGuiOnCreate_1+0x34  ;; ??S_7ZOpen
+   \                     ??MainGuiOnCreate_11:
+   \   000002B4   080100EF           SWI      +264
+    259              }
+    260            }
+    261            return (1);
+   \                     ??MainGuiOnCreate_8:
+   \   000002B8   0100A0E3           MOV      R0,#+1
+   \   000002BC   7280BDE8           POP      {R1,R4-R6,PC}    ;; return
+   \                     ??MainGuiOnCreate_1:
+   \   000002C0   ........           DC32     STD_ICONS + 16
+   \   000002C4   ........           DC32     STD_ICONS
+   \   000002C8   ........           DC32     STD_ICONS + 24
+   \   000002CC   ........           DC32     CONFIG_SAVE_PATH
+   \   000002D0   ........           DC32     MCConfig
+   \   000002D4   ........           DC32     tabs
+   \   000002D8   ........           DC32     curtab
+   \   000002DC   ........           DC32     STD_ICONS + 12
+   \   000002E0   ........           DC32     CONFIG_ZIP_ENABLE
+   \   000002E4   ........           DC32     pathbuf
+   \   000002E8   ........           DC32     arcpathbuf
+   \   000002EC   ........           DC32     ??S_ZipOpen
+   \   000002F0   ........           DC32     CONFIG_7Z_ENABLE
+   \   000002F4   ........           DC32     ??S_7ZOpen
+    262          }
+    263          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    264          void MainGuiOnClose(DISP_OBJ_MAIN *db)
+    265          {
+   \                     ??MainGuiOnClose:
+   \   00000000   00402DE9           PUSH     {LR}
+    266            WriteLog("MainGuiOnClose");
+    267            DispObject_KillRefreshTimer(&db->dsp_obj);
+   \   00000004   DE0200EF           SWI      +734
+    268            DisableScroll();
+   \   00000008   ........           _BLF     ??DisableScroll,??DisableScroll??rA
+    269            FreeData();
+   \   0000000C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000010   ........           B        ??FreeData       ;; tailcall
+    270          }
+    271          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    272          void MainGuiOnRedraw(DISP_OBJ_MAIN *db,int ,RECT *cur_rc,int)
+    273          {
+   \                     ??MainGuiOnRedraw:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0240A0E1           MOV      R4,R2
+    274            int font_old, gc_xx;
+    275            int font=CONFIG_FONT_ATTR;
+    276            GC *gc=get_DisplayGC();
+   \   00000008   E50100EF           SWI      +485
+   \   0000000C   0050A0E1           MOV      R5,R0
+    277            gc_xx=GC_GetXX(gc);
+   \   00000010   E80100EF           SWI      +488
+   \   00000014   0060A0E1           MOV      R6,R0
+    278            GC_SetXX(gc,1);
+   \   00000018   0110A0E3           MOV      R1,#+1
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   E90100EF           SWI      +489
+    279            font_old=SetFont(font);
+   \   00000024   2C009FE5           LDR      R0,??MainGuiOnRedraw_1  ;; CONFIG_FONT_ATTR
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   F10100EF           SWI      +497
+   \   00000030   0070A0E1           MOV      R7,R0
+    280            ShowFiles(gc, cur_rc);
+   \   00000034   0410A0E1           MOV      R1,R4
+   \   00000038   0500A0E1           MOV      R0,R5
+   \   0000003C   ........           _BLF     ??ShowFiles,??ShowFiles??rA
+    281            SetFont(font_old);
+   \   00000040   0700A0E1           MOV      R0,R7
+   \   00000044   F10100EF           SWI      +497
+    282            GC_SetXX(gc,gc_xx);
+   \   00000048   0610A0E1           MOV      R1,R6
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   E90100EF           SWI      +489
+    283          }
+   \   00000054   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??MainGuiOnRedraw_1:
+   \   00000058   ........           DC32     CONFIG_FONT_ATTR
+    284          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    285          static void CBStop(BOOK * bk, void *)
+    286          {
+    287            progr_stop = 1;
+   \                     ??CBStop:
+   \   00000000   38009FE5           LDR      R0,??CBStop_1    ;; progr_stop
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   001080E5           STR      R1,[R0, #+0]
+    288            FREE_GUI(MCBook->stop_progr);
+   \   00000010   ........           LDR      R0,??DataTable35  ;; STD_ICONS + 12
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   1C0090E5           LDR      R0,[R0, #+28]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   1080BD08           POPEQ    {R4,PC}
+   \   00000024   ........           LDR      R4,??DataTable47  ;; STD_ICONS
+   \   00000028   0C0094E5           LDR      R0,[R4, #+12]
+   \   0000002C   1C0090E5           LDR      R0,[R0, #+28]
+   \   00000030   CE0100EF           SWI      +462
+   \   00000034   0C1094E5           LDR      R1,[R4, #+12]
+   \   00000038   1C0081E5           STR      R0,[R1, #+28]
+    289          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??CBStop_1:
+   \   00000040   ........           DC32     progr_stop
+    290          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    291          static void CBBack(BOOK * bk, void *)
+    292          {
+    293            FREE_GUI(MCBook->stop_progr);
+   \                     ??CBBack:
+   \   00000000   ........           LDR      R0,??DataTable35  ;; STD_ICONS + 12
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   1C0090E5           LDR      R0,[R0, #+28]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+   \   00000018   ........           LDR      R4,??DataTable47  ;; STD_ICONS
+   \   0000001C   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000020   1C0090E5           LDR      R0,[R0, #+28]
+   \   00000024   CE0100EF           SWI      +462
+   \   00000028   0C1094E5           LDR      R1,[R4, #+12]
+   \   0000002C   1C0081E5           STR      R0,[R1, #+28]
+    294          }
+   \   00000030   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     STD_ICONS:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for STD_ICONS>`
+   \                     MCBook:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for MCBook>`
+   \                     main_obj:
+   \   00000010                      DS8 4
+   \   00000014                      REQUIRE `?<Initializer for main_obj>`
+   \                     Busy:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for Busy>`
+   \                     is_db2010:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for is_db2010>`
+   \                     SA_ICONS:
+   \   0000001C                      DS8 24
+   \   00000034                      REQUIRE `?<Initializer for SA_ICONS>`
+    295          
+    296          int lastKey = -1;
+   \                     lastKey:
+   \   00000034                      DS8 4
+   \   00000038                      REQUIRE `?<Initializer for lastKey>`
+    297          int lastIsLongPress = 0;
+   \                     lastIsLongPress:
+   \   00000038                      DS8 4
+   \   0000003C                      REQUIRE `?<Initializer for lastIsLongPress>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+    298          void MainGuiOnKey(DISP_OBJ_MAIN *db,int key,int,int repeat,int type)
+    299          {
+   \                     ??MainGuiOnKey:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   14709DE5           LDR      R7,[SP, #+20]
+   \   00000008   0060A0E1           MOV      R6,R0
+    300            int isLongPress = 0;
+    301            int ignore = 1;
+    302            if (progr_start)
+   \   0000000C   68019FE5           LDR      R0,??MainGuiOnKey_1  ;; progr_start
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   0050A0E3           MOV      R5,#+0
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   2900000A           BEQ      ??MainGuiOnKey_2
+    303            {
+    304              //2do: переделать на нормальные софты
+    305              if (key==KEY_LEFT_SOFT || key==KEY_RIGHT_SOFT)
+   \   00000024   54019FE5           LDR      R0,??MainGuiOnKey_1+0x4  ;; KEY_LEFT_SOFT
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   000054E1           CMP      R4,R0
+   \   00000030   0300000A           BEQ      ??MainGuiOnKey_3
+   \   00000034   48019FE5           LDR      R0,??MainGuiOnKey_1+0x8  ;; KEY_RIGHT_SOFT
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   000054E1           CMP      R4,R0
+   \   00000040   1D00001A           BNE      ??MainGuiOnKey_4
+    306              {
+    307                TEXTID q=TextID_Create(muitxt(ind_pmt_stop),ENC_UCS2,TEXTID_ANY_LEN);
+    308                MCBook->stop_progr=CreateYesNoQuestionVA(0,
+    309                                                         VAR_BOOK(MCBook),
+    310                                                         VAR_YESNO_QUESTION(q),
+    311                                                         VAR_YESNO_YES_ACTION(CBStop),
+    312                                                         VAR_YESNO_NO_ACTION(CBBack),
+    313                                                         VAR_PREV_ACTION_PROC(CBBack),
+    314                                                         0);
+   \                     ??MainGuiOnKey_3:
+   \   00000044   ........           LDR      R6,??DataTable47  ;; STD_ICONS
+   \   00000048   4500A0E3           MOV      R0,#+69
+   \   0000004C   ........           _BLF     ??muitxt,??muitxt??rA
+   \   00000050   FF20A0E3           MOV      R2,#+255
+   \   00000054   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   5D0100EF           SWI      +349
+   \   00000060   20119FE5           LDR      R1,??MainGuiOnKey_1+0xC  ;; ??CBBack
+   \   00000064   ........           LDR      R3,??DataTable38  ;; VAR_ARG_YESNO_QUESTION
+   \   00000068   0520A0E1           MOV      R2,R5
+   \   0000006C   04002DE9           PUSH     {R2}
+   \   00000070   0120A0E1           MOV      R2,R1
+   \   00000074   04002DE9           PUSH     {R2}
+   \   00000078   ........           LDR      R2,??DataTable39  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   0000007C   04002DE9           PUSH     {R2}
+   \   00000080   02002DE9           PUSH     {R1}
+   \   00000084   ........           LDR      R1,??DataTable40  ;; VAR_ARG_YESNO_NO_ACTION
+   \   00000088   02002DE9           PUSH     {R1}
+   \   0000008C   F8109FE5           LDR      R1,??MainGuiOnKey_1+0x10  ;; ??CBStop
+   \   00000090   02002DE9           PUSH     {R1}
+   \   00000094   ........           LDR      R1,??DataTable41  ;; VAR_ARG_YESNO_YES_ACTION
+   \   00000098   02002DE9           PUSH     {R1}
+   \   0000009C   ........           LDR      R1,??DataTable42  ;; VAR_ARG_BOOK
+   \   000000A0   01002DE9           PUSH     {R0}
+   \   000000A4   0C2096E5           LDR      R2,[R6, #+12]
+   \   000000A8   0500A0E1           MOV      R0,R5
+   \   000000AC   A50200EF           SWI      +677
+   \   000000B0   0C1096E5           LDR      R1,[R6, #+12]
+   \   000000B4   1C0081E5           STR      R0,[R1, #+28]
+   \   000000B8   20D08DE2           ADD      SP,SP,#+32
+    315              }
+    316            }
+    317            else if (!Busy)
+    318            {
+    319              if (GetKeyprocLongByKey(key) == NULL)
+    320              {
+    321                ignore = (type != KBD_SHORT_PRESS && type != KBD_REPEAT);
+    322              }
+    323              else
+    324              {
+    325                isLongPress = (type == KBD_REPEAT);
+    326                ignore = (lastKey == key && lastIsLongPress && type == KBD_SHORT_RELEASE)
+    327                  	|| (type != KBD_SHORT_RELEASE && type != KBD_REPEAT);
+    328              }
+    329              
+    330              
+    331            }
+    332            if (!ignore)
+    333            {
+    334              DoKey(isLongPress, key);
+    335              DispObject_InvalidateRect(&db->dsp_obj,0);
+    336            }
+    337            lastKey = key;
+   \                     ??MainGuiOnKey_4:
+   \   000000BC   ........           LDR      R6,??DataTable47  ;; STD_ICONS
+   \   000000C0   344086E5           STR      R4,[R6, #+52]
+    338            lastIsLongPress = isLongPress;
+   \   000000C4   385086E5           STR      R5,[R6, #+56]
+    339          }
+   \   000000C8   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??MainGuiOnKey_2:
+   \   000000CC   BC009FE5           LDR      R0,??MainGuiOnKey_1+0x14  ;; STD_ICONS + 20
+   \   000000D0   000090E5           LDR      R0,[R0, #+0]
+   \   000000D4   000050E3           CMP      R0,#+0
+   \   000000D8   F7FFFF1A           BNE      ??MainGuiOnKey_4
+   \   000000DC   FF0004E2           AND      R0,R4,#0xFF
+   \   000000E0   ........           _BLF     ??GetKeyprocLongByKey,??GetKeyprocLongByKey??rA
+   \   000000E4   000050E3           CMP      R0,#+0
+   \   000000E8   0E00001A           BNE      ??MainGuiOnKey_5
+   \   000000EC   A0009FE5           LDR      R0,??MainGuiOnKey_1+0x18  ;; KBD_SHORT_PRESS
+   \   000000F0   000090E5           LDR      R0,[R0, #+0]
+   \   000000F4   000057E1           CMP      R7,R0
+   \   000000F8   0300000A           BEQ      ??MainGuiOnKey_6
+   \                     ??MainGuiOnKey_7:
+   \   000000FC   94009FE5           LDR      R0,??MainGuiOnKey_1+0x1C  ;; KBD_REPEAT
+   \   00000100   000090E5           LDR      R0,[R0, #+0]
+   \   00000104   000057E1           CMP      R7,R0
+   \   00000108   EBFFFF1A           BNE      ??MainGuiOnKey_4
+   \                     ??MainGuiOnKey_6:
+   \   0000010C   0410A0E1           MOV      R1,R4
+   \   00000110   0500A0E1           MOV      R0,R5
+   \   00000114   ........           _BLF     ??DoKey,??DoKey??rA
+   \   00000118   0010A0E3           MOV      R1,#+0
+   \   0000011C   0600A0E1           MOV      R0,R6
+   \   00000120   EF0100EF           SWI      +495
+   \   00000124   E4FFFFEA           B        ??MainGuiOnKey_4
+   \                     ??MainGuiOnKey_5:
+   \   00000128   68009FE5           LDR      R0,??MainGuiOnKey_1+0x1C  ;; KBD_REPEAT
+   \   0000012C   000090E5           LDR      R0,[R0, #+0]
+   \   00000130   000057E1           CMP      R7,R0
+   \   00000134   60009FE5           LDR      R0,??MainGuiOnKey_1+0x20  ;; STD_ICONS + 52
+   \   00000138   0150A003           MOVEQ    R5,#+1
+   \   0000013C   000090E5           LDR      R0,[R0, #+0]
+   \   00000140   040050E1           CMP      R0,R4
+   \   00000144   0700001A           BNE      ??MainGuiOnKey_8
+   \   00000148   50009FE5           LDR      R0,??MainGuiOnKey_1+0x24  ;; STD_ICONS + 56
+   \   0000014C   000090E5           LDR      R0,[R0, #+0]
+   \   00000150   000050E3           CMP      R0,#+0
+   \   00000154   0300000A           BEQ      ??MainGuiOnKey_8
+   \   00000158   44009FE5           LDR      R0,??MainGuiOnKey_1+0x28  ;; KBD_SHORT_RELEASE
+   \   0000015C   000090E5           LDR      R0,[R0, #+0]
+   \   00000160   000057E1           CMP      R7,R0
+   \   00000164   D4FFFF0A           BEQ      ??MainGuiOnKey_4
+   \                     ??MainGuiOnKey_8:
+   \   00000168   34009FE5           LDR      R0,??MainGuiOnKey_1+0x28  ;; KBD_SHORT_RELEASE
+   \   0000016C   000090E5           LDR      R0,[R0, #+0]
+   \   00000170   000057E1           CMP      R7,R0
+   \   00000174   E4FFFF0A           BEQ      ??MainGuiOnKey_6
+   \   00000178   DFFFFFEA           B        ??MainGuiOnKey_7
+   \                     ??MainGuiOnKey_1:
+   \   0000017C   ........           DC32     progr_start
+   \   00000180   ........           DC32     KEY_LEFT_SOFT
+   \   00000184   ........           DC32     KEY_RIGHT_SOFT
+   \   00000188   ........           DC32     ??CBBack
+   \   0000018C   ........           DC32     ??CBStop
+   \   00000190   ........           DC32     STD_ICONS + 20
+   \   00000194   ........           DC32     KBD_SHORT_PRESS
+   \   00000198   ........           DC32     KBD_REPEAT
+   \   0000019C   ........           DC32     STD_ICONS + 52
+   \   000001A0   ........           DC32     STD_ICONS + 56
+   \   000001A4   ........           DC32     KBD_SHORT_RELEASE
+    340          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    341          void MainGuiOnRefresh(DISP_OBJ_MAIN *db)
+    342          {
+   \                     ??MainGuiOnRefresh:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    343            if (RedrawGUI){
+   \   00000008   30009FE5           LDR      R0,??MainGuiOnRefresh_1  ;; RedrawGUI
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0500000A           BEQ      ??MainGuiOnRefresh_2
+    344              DispObject_InvalidateRect(&db->dsp_obj,0);
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   EF0100EF           SWI      +495
+    345              RedrawGUI=0;
+   \   00000024   14009FE5           LDR      R0,??MainGuiOnRefresh_1  ;; RedrawGUI
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   001080E5           STR      R1,[R0, #+0]
+    346            }
+    347            DispObject_SetRefreshTimer(&db->dsp_obj,150);
+   \                     ??MainGuiOnRefresh_2:
+   \   00000030   9610A0E3           MOV      R1,#+150
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   DD0200EF           SWI      +733
+    348          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??MainGuiOnRefresh_1:
+   \   00000040   ........           DC32     RedrawGUI
+    349          
+    350          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    351          static const char MainGuiName[]="Gui_MainMC";
+   \                     MainGuiName:
+   \   00000000   4775695F4D61       DC8 "Gui_MainMC"
+   \              696E4D4300  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment CODE, align 4, keep-with-next
+    352          void MainGui_constr(DISP_DESC *desc)
+    353          {
+    354            DISP_DESC_SetName(desc,MainGuiName);
+   \                     ??MainGui_constr:
+   \   00000000   54109FE5           LDR      R1,??MainGui_constr_1  ;; MainGuiName
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   200200EF           SWI      +544
+    355            DISP_DESC_SetSize(desc,sizeof(DISP_OBJ_MAIN));
+   \   00000010   5B1FA0E3           MOV      R1,#+364
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   220200EF           SWI      +546
+    356            DISP_DESC_SetOnCreate(desc,(DISP_OBJ_ONCREATE_METHOD)MainGuiOnCreate);
+   \   0000001C   3C109FE5           LDR      R1,??MainGui_constr_1+0x4  ;; ??MainGuiOnCreate
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   240200EF           SWI      +548
+    357            DISP_DESC_SetOnClose(desc,(DISP_OBJ_ONCLOSE_METHOD)MainGuiOnClose);
+   \   00000028   34109FE5           LDR      R1,??MainGui_constr_1+0x8  ;; ??MainGuiOnClose
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   260200EF           SWI      +550
+    358            DISP_DESC_SetOnRedraw(desc,(DISP_OBJ_ONREDRAW_METHOD)MainGuiOnRedraw);
+   \   00000034   2C109FE5           LDR      R1,??MainGui_constr_1+0xC  ;; ??MainGuiOnRedraw
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   280200EF           SWI      +552
+    359            DISP_DESC_SetOnKey(desc,(DISP_OBJ_ONKEY_METHOD)MainGuiOnKey);
+   \   00000040   24109FE5           LDR      R1,??MainGui_constr_1+0x10  ;; ??MainGuiOnKey
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   2A0200EF           SWI      +554
+    360            DISP_DESC_SetOnRefresh(desc,(DISP_OBJ_METHOD)MainGuiOnRefresh);
+   \   0000004C   1C109FE5           LDR      R1,??MainGui_constr_1+0x14  ;; ??MainGuiOnRefresh
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   2C0200EF           SWI      +556
+    361          }
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??MainGui_constr_1:
+   \   0000005C   ........           DC32     MainGuiName
+   \   00000060   ........           DC32     ??MainGuiOnCreate
+   \   00000064   ........           DC32     ??MainGuiOnClose
+   \   00000068   ........           DC32     ??MainGuiOnRedraw
+   \   0000006C   ........           DC32     ??MainGuiOnKey
+   \   00000070   ........           DC32     ??MainGuiOnRefresh
+    362          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    363          void MainGui_destr( GUI* ){}
+   \                     ??MainGui_destr:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    364          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    365          void SK_DoMenu( BOOK*, GUI* gui)
+    366          {
+    367            DoMenu();
+   \                     ??SK_DoMenu:
+   \   00000000   ........           _BF      ??DoMenu,??DoMenu??rA  ;; tailcall
+    368          }
+    369          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    370          void SK_DoOpen( BOOK*, GUI* gui)
+    371          {
+   \                     ??SK_DoOpen:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    372            DoOpen();
+   \   00000008   ........           _BLF     ??DoOpen,??DoOpen??rA
+    373            DispObject_InvalidateRect( GUIObject_GetDispObject( gui ),0);
+   \   0000000C   0400A0E1           MOV      R0,R4
+   \   00000010   680100EF           SWI      +360
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   EF0100EF           SWI      +495
+    374          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    375          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    376          void SK_DoBackK( BOOK*, GUI* gui)
+    377          {
+   \                     ??SK_DoBackK:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    378            DoBackK();
+   \   00000008   ........           _BLF     ??DoBackK,??DoBackK??rA
+    379            DispObject_InvalidateRect( GUIObject_GetDispObject( gui ),0);
+   \   0000000C   0400A0E1           MOV      R0,R4
+   \   00000010   680100EF           SWI      +360
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   EF0100EF           SWI      +495
+    380          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    381          
+    382          static GUI *CreateMainGui(MyBOOK *mbk)
+    383          {
+    384            MAIN_GUI *main_gui=new MAIN_GUI;
+    385            if (!GUIObject_Create( main_gui,MainGui_destr,MainGui_constr, &mbk->book,0,0,0))
+    386            {
+    387              delete main_gui;
+    388              return 0;    
+    389            }
+    390            GUI *gui = main_gui;
+    391            if (mbk) BookObj_AddGUIObject(&mbk->book,gui);
+    392            GUIObject_SetStyle(gui,4);
+    393            GUIObject_SetTitleType(gui, 1);
+    394            GUIObject_SoftKeys_Hide(gui);
+    395            //GUIObject_SoftKeys_SetAction(myBook->coord,ACTION_BACK, OnBackCoordinatesEdit);
+    396            GUIObject_SoftKeys_SetAction(gui, ACTION_OK, SK_DoOpen);
+    397            GUIObject_SoftKeys_SetAction(gui, ACTION_MORE, SK_DoMenu);
+    398            GUIObject_SoftKeys_SetAction(gui, ACTION_BACK, SK_DoBackK);
+    399            GUIObject_Show(gui);
+    400            return gui;
+    401          }
+    402          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    403          static int MainPageOnEnter(void *, BOOK *bk)
+    404          {
+   \                     ??MainPageOnEnter:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    405            MyBOOK *mbk=(MyBOOK *)bk;
+    406            WriteLog("MainPageOnEnter");
+    407            mbk->main_gui=CreateMainGui(mbk);
+   \   00000004   9000A0E3           MOV      R0,#+144
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000010   E0209FE5           LDR      R2,??MainPageOnEnter_1  ;; ??MainGui_constr
+   \   00000014   E0109FE5           LDR      R1,??MainPageOnEnter_1+0x4  ;; ??MainGui_destr
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0430A0E1           MOV      R3,R4
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   F00100EF           SWI      +496
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0CD08DE2           ADD      SP,SP,#+12
+   \   00000040   0500001A           BNE      ??MainPageOnEnter_2
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   0000004C   0050A0E3           MOV      R5,#+0
+   \   00000050   185084E5           STR      R5,[R4, #+24]
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   3080BDE8           POP      {R4,R5,PC}
+   \                     ??MainPageOnEnter_2:
+   \   0000005C   000054E3           CMP      R4,#+0
+   \   00000060   0200000A           BEQ      ??MainPageOnEnter_3
+   \   00000064   0510A0E1           MOV      R1,R5
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   EB0100EF           SWI      +491
+   \                     ??MainPageOnEnter_3:
+   \   00000070   0410A0E3           MOV      R1,#+4
+   \   00000074   0500A0E1           MOV      R0,R5
+   \   00000078   360100EF           SWI      +310
+   \   0000007C   0110A0E3           MOV      R1,#+1
+   \   00000080   0500A0E1           MOV      R0,R5
+   \   00000084   810200EF           SWI      +641
+   \   00000088   0500A0E1           MOV      R0,R5
+   \   0000008C   A10200EF           SWI      +673
+   \   00000090   68009FE5           LDR      R0,??MainPageOnEnter_1+0x8  ;; ACTION_OK
+   \   00000094   68209FE5           LDR      R2,??MainPageOnEnter_1+0xC  ;; ??SK_DoOpen
+   \   00000098   001090E5           LDR      R1,[R0, #+0]
+   \   0000009C   0500A0E1           MOV      R0,R5
+   \   000000A0   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000A4   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000A8   4B0100EF           SWI      +331
+   \   000000AC   54009FE5           LDR      R0,??MainPageOnEnter_1+0x10  ;; ACTION_MORE
+   \   000000B0   54209FE5           LDR      R2,??MainPageOnEnter_1+0x14  ;; ??SK_DoMenu
+   \   000000B4   001090E5           LDR      R1,[R0, #+0]
+   \   000000B8   0500A0E1           MOV      R0,R5
+   \   000000BC   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000C0   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000C4   4B0100EF           SWI      +331
+   \   000000C8   40009FE5           LDR      R0,??MainPageOnEnter_1+0x18  ;; ACTION_BACK
+   \   000000CC   40209FE5           LDR      R2,??MainPageOnEnter_1+0x1C  ;; ??SK_DoBackK
+   \   000000D0   001090E5           LDR      R1,[R0, #+0]
+   \   000000D4   0500A0E1           MOV      R0,R5
+   \   000000D8   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000DC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000E0   4B0100EF           SWI      +331
+   \   000000E4   0500A0E1           MOV      R0,R5
+   \   000000E8   340100EF           SWI      +308
+   \   000000EC   185084E5           STR      R5,[R4, #+24]
+    408            return (1);
+   \   000000F0   0100A0E3           MOV      R0,#+1
+   \   000000F4   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MainPageOnEnter_1:
+   \   000000F8   ........           DC32     ??MainGui_constr
+   \   000000FC   ........           DC32     ??MainGui_destr
+   \   00000100   ........           DC32     ACTION_OK
+   \   00000104   ........           DC32     ??SK_DoOpen
+   \   00000108   ........           DC32     ACTION_MORE
+   \   0000010C   ........           DC32     ??SK_DoMenu
+   \   00000110   ........           DC32     ACTION_BACK
+   \   00000114   ........           DC32     ??SK_DoBackK
+    409          }
+    410          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    411          static int MainPageOnExit(void *, BOOK *bk)
+    412          {
+   \                     ??MainPageOnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    413            MyBOOK *mbk=(MyBOOK *)bk;
+    414            WriteLog("MainPageOnExit");
+    415            FREE_GUI(mbk->main_gui);
+   \   00000008   180094E5           LDR      R0,[R4, #+24]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??MainPageOnExit_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   180084E5           STR      R0,[R4, #+24]
+    416            return (1);
+   \                     ??MainPageOnExit_1:
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    417          }
+    418          
+    419          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    420          int TerminateElf(void * ,BOOK* book)
+    421          {
+   \                     ??TerminateElf:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+    422            FreeBook(book);
+   \   00000008   2F0100EF           SWI      +303
+    423            return(1);
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    424          }
+    425          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    426          static int ReconfigElf(void *mess ,BOOK *book)
+    427          {
+   \                     ??ReconfigElf:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    428            RECONFIG_EVENT_DATA *reconf=(RECONFIG_EVENT_DATA *)mess;
+    429            int result=0;
+    430            if (wstrcmpi(reconf->path,successed_config_path)==0 && wstrcmpi(reconf->name,successed_config_name)==0)
+   \   00000008   48009FE5           LDR      R0,??ReconfigElf_1  ;; successed_config_path
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   001090E5           LDR      R1,[R0, #+0]
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   9F0200EF           SWI      +671
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0A00001A           BNE      ??ReconfigElf_2
+   \   00000024   30009FE5           LDR      R0,??ReconfigElf_1+0x4  ;; successed_config_name
+   \   00000028   001090E5           LDR      R1,[R0, #+0]
+   \   0000002C   800084E2           ADD      R0,R4,#+128
+   \   00000030   9F0200EF           SWI      +671
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0400001A           BNE      ??ReconfigElf_2
+    431            {
+    432              InitConfig();
+   \   0000003C   ........           _BLF     ??InitConfig,??InitConfig??rA
+    433              InitDrvInfo();
+   \   00000040   ........           BL       ??InitDrvInfo
+    434              InitScr();
+   \   00000044   ........           _BLF     ??InitScr,??InitScr??rA
+    435              UpdateAll();
+   \   00000048   ........           _BLF     ??UpdateAll,??UpdateAll??rA
+    436              result=1;
+   \   0000004C   0150A0E3           MOV      R5,#+1
+    437            }
+    438            return(result);
+   \                     ??ReconfigElf_2:
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??ReconfigElf_1:
+   \   00000058   ........           DC32     successed_config_path
+   \   0000005C   ........           DC32     successed_config_name
+    439          }
+    440          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    441          const PAGE_MSG bk_msglst_base[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_base:
+   \   00000000   E5030000....       DC32 997, ??TerminateElf, 996, ??ReconfigElf, 64, 0H
+   \              ....E4030000
+   \              ........4000
+   \              000000000000
+    442          {
+    443            ELF_TERMINATE_EVENT,     TerminateElf,
+    444            ELF_RECONFIG_EVENT,      ReconfigElf,
+    445            NIL_EVENT_TAG,           NULL
+    446          };
+    447          
+    448          const PAGE_DESC bk_base = {"MC_Base_Page",0,bk_msglst_base};
+    449          
+    450          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    451          const PAGE_MSG bk_msglst_main[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_main:
+   \   00000000   42000000....       DC32 66, ??MainPageOnEnter, 67, ??MainPageOnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x47\\x6f\\x20\\x73\\x6d\\x6f\\x6b\\x65\\`:
+   \   00000000   47006F002000       DC8 47H, 0, 6FH, 0, 20H, 0, 73H, 0
+   \              7300        
+   \   00000008   6D006F006B00       DC8 6DH, 0, 6FH, 0, 6BH, 0, 65H, 0
+   \              6500        
+   \   00000010   200062006100       DC8 20H, 0, 62H, 0, 61H, 0, 6DH, 0
+   \              6D00        
+   \   00000018   62006F006F00       DC8 62H, 0, 6FH, 0, 6FH, 0, 20H, 0
+   \              2000        
+   \   00000020   6F0072002000       DC8 6FH, 0, 72H, 0, 20H, 0, 75H, 0
+   \              7500        
+   \   00000028   700064006100       DC8 70H, 0, 64H, 0, 61H, 0, 74H, 0
+   \              7400        
+   \   00000030   650020006400       DC8 65H, 0, 20H, 0, 64H, 0, 79H, 0
+   \              7900        
+   \   00000038   6E0063006F00       DC8 6EH, 0, 63H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000040   730074000000       DC8 73H, 0, 74H, 0, 0, 0
+   \   00000046   0000               DC8 0, 0
+   \   00000048   ........0000       DC32 `?<Constant "MC_Base_Page">`, 0H, bk_msglst_base
+   \              0000........
+   \   00000054   ........0000       DC32 `?<Constant "MC_Main_Page">`, 0H, bk_msglst_main
+   \              0000........
+    452          {
+    453            PAGE_ENTER_EVENT_TAG,    MainPageOnEnter,
+    454            PAGE_EXIT_EVENT_TAG,     MainPageOnExit,
+    455            NIL_EVENT_TAG,           NULL
+    456          };
+    457          
+    458          const PAGE_DESC bk_main = {"MC_Main_Page",0,bk_msglst_main};
+    459          
+    460          // при закрытии книги
+
+   \                                 In segment CODE, align 4, keep-with-next
+    461          static void onMyBookClose(BOOK * book)
+    462          {
+    463            WriteLog("onMyBookClose");
+    464            //SUBPROC(FreeData);
+    465            SUBPROC(elf_exit);
+   \                     ??onMyBookClose:
+   \   00000000   ........           LDR      R0,??DataTable50  ;; ??elf_exit
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   080100EF           SWI      +264
+    466          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+    467          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    468          int isMcBook(BOOK * struc)
+    469          {
+    470            return(struc->onClose==onMyBookClose);
+   \                     ??isMcBook:
+   \   00000000   040090E5           LDR      R0,[R0, #+4]
+   \   00000004   ........           LDR      R1,??DataTable48  ;; ??onMyBookClose
+   \   00000008   010050E1           CMP      R0,R1
+   \   0000000C   0100A003           MOVEQ    R0,#+1
+   \   00000010   1EFF2F01           BXEQ     LR
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   1EFF2FE1           BX       LR               ;; return
+    471          }
+    472          
+    473          #pragma segment="DYN_CONST"
+    474          #pragma segment="DYN_CONST_DESC"
+
+   \                                 In segment CODE, align 4, keep-with-next
+    475          int CheckConst(void)
+    476          {
+    477            int result=1;
+    478            int const_count=*(int *)__segment_begin("DYN_CONST_DESC");
+   \                     ??CheckConst:
+   \   00000000   30109FE5           LDR      R1,??CheckConst_1  ;; SFB(DYN_CONST_DESC)
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+    479            int *constt=(int *)__segment_begin("DYN_CONST");
+    480            for (int i=0; i<const_count; i++)
+   \   0000000C   0020A0E3           MOV      R2,#+0
+   \   00000010   000000EA           B        ??CheckConst_2
+   \                     ??CheckConst_3:
+   \   00000014   012082E2           ADD      R2,R2,#+1
+   \                     ??CheckConst_2:
+   \   00000018   010052E1           CMP      R2,R1
+   \   0000001C   1EFF2FA1           BXGE     LR
+    481            {
+    482              if (constt[i]==0xFFFFFFFF) {result=0; break;}
+   \   00000020   14309FE5           LDR      R3,??CheckConst_1+0x4  ;; SFB(DYN_CONST)
+   \   00000024   023193E7           LDR      R3,[R3, +R2, LSL #+2]
+   \   00000028   010073E3           CMN      R3,#+1
+   \   0000002C   F8FFFF1A           BNE      ??CheckConst_3
+   \   00000030   0000A0E3           MOV      R0,#+0
+    483            }
+    484            return (result);
+   \   00000034   1EFF2FE1           BX       LR               ;; return
+   \                     ??CheckConst_1:
+   \   00000038   ........           DC32     SFB(DYN_CONST_DESC)
+   \   0000003C   ........           DC32     SFB(DYN_CONST)
+    485          }
+    486          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    487          int main(wchar_t *elfname, wchar_t *path, wchar_t *fname)
+    488          {
+   \                     main:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+   \   0000000C   0240A0E1           MOV      R4,R2
+    489            trace_init();
+    490            if (!CheckConst())
+   \   00000010   ........           BL       ??CheckConst
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   1400001A           BNE      ??main_0
+    491            {
+    492              MESSAGE(TextID_Create(L"Go smoke bamboo or update dynconst",ENC_UCS2,TEXTID_ANY_LEN));
+   \   0000001C   2C019FE5           LDR      R0,??main_1+0x4  ;; `?<Constant L"\\x47\\x6f\\x20\\x73\\x6d\\x6f\\x6b\\x65\\`
+   \   00000020   FF40A0E3           MOV      R4,#+255
+   \   00000024   FF4C84E3           ORR      R4,R4,#0xFF00
+   \   00000028   0420A0E1           MOV      R2,R4
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   5D0100EF           SWI      +349
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   0130A0E3           MOV      R3,#+1
+   \   00000040   0420A0E1           MOV      R2,R4
+   \   00000044   F810A0E3           MOV      R1,#+248
+   \   00000048   A81D81E3           ORR      R1,R1,#0x2A00
+   \   0000004C   02002DE9           PUSH     {R1}
+   \   00000050   0010A0E1           MOV      R1,R0
+   \   00000054   9004E0E3           MVN      R0,#-1879048192
+   \   00000058   570200EF           SWI      +599
+    493              SUBPROC(elf_exit);
+   \   0000005C   ........           LDR      R0,??DataTable50  ;; ??elf_exit
+   \   00000060   080100EF           SWI      +264
+    494              return 0;
+   \   00000064   0000A0E3           MOV      R0,#+0
+   \   00000068   08D08DE2           ADD      SP,SP,#+8
+   \   0000006C   F080BDE8           POP      {R4-R7,PC}
+    495            }
+    496            MCBook=new MyBOOK;
+   \                     ??main_0:
+   \   00000070   ........           LDR      R7,??DataTable47  ;; STD_ICONS
+   \   00000074   4000A0E3           MOV      R0,#+64
+   \   00000078   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000007C   0C0087E5           STR      R0,[R7, #+12]
+    497            memset(MCBook,0,sizeof(MyBOOK));
+   \   00000080   4020A0E3           MOV      R2,#+64
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   120100EF           SWI      +274
+    498            GetFileDir(elfname, mcpath,0);
+   \   0000008C   C0109FE5           LDR      R1,??main_1+0x8  ;; mcpath
+   \   00000090   0020A0E3           MOV      R2,#+0
+   \   00000094   0500A0E1           MOV      R0,R5
+   \   00000098   ........           _BLF     ??GetFileDir,??GetFileDir??rA
+    499            StartLog();
+    500            WriteLog("Start");
+    501            WriteLog("InitConfig");
+    502            InitConfig();
+   \   0000009C   ........           _BLF     ??InitConfig,??InitConfig??rA
+    503            if (!CreateBook((BOOK*)MCBook,onMyBookClose,&bk_base,"mc",-1,0))
+   \   000000A0   B0209FE5           LDR      R2,??main_1+0xC  ;; `?<Constant L"\\x47\\x6f\\x20\\x73\\x6d\\x6f\\x6b\\x65\\` + 72
+   \   000000A4   ........           LDR      R1,??DataTable48  ;; ??onMyBookClose
+   \   000000A8   0000A0E3           MOV      R0,#+0
+   \   000000AC   01002DE9           PUSH     {R0}
+   \   000000B0   253F8FE2           ADR      R3,??main_1      ;; "mc"
+   \   000000B4   0000E0E1           MVN      R0,R0
+   \   000000B8   01002DE9           PUSH     {R0}
+   \   000000BC   0C0097E5           LDR      R0,[R7, #+12]
+   \   000000C0   2B0100EF           SWI      +299
+   \   000000C4   000050E3           CMP      R0,#+0
+   \   000000C8   08D08DE2           ADD      SP,SP,#+8
+   \   000000CC   0600001A           BNE      ??main_2
+    504            {
+    505              delete MCBook;
+   \   000000D0   ........           LDR      R0,??DataTable53  ;; STD_ICONS + 12
+   \   000000D4   000090E5           LDR      R0,[R0, #+0]
+   \   000000D8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    506              SUBPROC(elf_exit);
+   \   000000DC   ........           LDR      R0,??DataTable50  ;; ??elf_exit
+   \   000000E0   080100EF           SWI      +264
+    507              return (0);    
+   \   000000E4   0000A0E3           MOV      R0,#+0
+   \   000000E8   F080BDE8           POP      {R4-R7,PC}
+    508            }
+    509            if (path && fname) 
+   \                     ??main_2:
+   \   000000EC   000056E3           CMP      R6,#+0
+   \   000000F0   00005413           CMPNE    R4,#+0
+   \   000000F4   0B00000A           BEQ      ??main_3
+    510            {
+    511              wstrcpy(in_open_path, path);
+   \   000000F8   ........           LDR      R5,??DataTable52  ;; in_open_path
+   \   000000FC   0610A0E1           MOV      R1,R6
+   \   00000100   0500A0E1           MOV      R0,R5
+   \   00000104   520100EF           SWI      +338
+    512              int l=wstrlen(path);
+   \   00000108   0600A0E1           MOV      R0,R6
+   \   0000010C   570100EF           SWI      +343
+    513              in_open_path[l++]=L'/';
+   \   00000110   800085E0           ADD      R0,R5,R0, LSL #+1
+   \   00000114   2F10A0E3           MOV      R1,#+47
+   \   00000118   ........           STRH     R1,[R0], #+2
+    514              wstrcpy(in_open_path+l, fname);
+   \   0000011C   0410A0E1           MOV      R1,R4
+   \   00000120   520100EF           SWI      +338
+   \   00000124   020000EA           B        ??main_4
+    515            }
+    516            else *in_open_path=0;
+   \                     ??main_3:
+   \   00000128   ........           LDR      R0,??DataTable52  ;; in_open_path
+   \   0000012C   0010A0E3           MOV      R1,#+0
+   \   00000130   B010C0E1           STRH     R1,[R0, #+0]
+    517            BookObj_GotoPage((BOOK *)MCBook,&bk_main);
+   \                     ??main_4:
+   \   00000134   ........           LDR      R0,??DataTable53  ;; STD_ICONS + 12
+   \   00000138   1C109FE5           LDR      R1,??main_1+0x10  ;; `?<Constant L"\\x47\\x6f\\x20\\x73\\x6d\\x6f\\x6b\\x65\\` + 84
+   \   0000013C   000090E5           LDR      R0,[R0, #+0]
+   \   00000140   2D0100EF           SWI      +301
+    518            return 0;
+   \   00000144   0000A0E3           MOV      R0,#+0
+   \   00000148   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??main_1:
+   \   0000014C   6D630000           DC8      "mc",+0
+   \   00000150   ........           DC32     `?<Constant L"\\x47\\x6f\\x20\\x73\\x6d\\x6f\\x6b\\x65\\`
+   \   00000154   ........           DC32     mcpath
+   \   00000158   ........           DC32     `?<Constant L"\\x47\\x6f\\x20\\x73\\x6d\\x6f\\x6b\\x65\\` + 72
+   \   0000015C   ........           DC32     `?<Constant L"\\x47\\x6f\\x20\\x73\\x6d\\x6f\\x6b\\x65\\` + 84
+    519          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     msgbuf
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable23:
+   \   00000000   ........           DC32     Drives
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable24:
+   \   00000000   ........           DC32     buffer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable25:
+   \   00000000   ........           DC32     CONFIG_LOAD_MUI
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable35:
+   \   00000000   ........           DC32     STD_ICONS + 12
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable38:
+   \   00000000   ........           DC32     VAR_ARG_YESNO_QUESTION
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable39:
+   \   00000000   ........           DC32     VAR_ARG_CALL_BACK_PREV_ACT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable40:
+   \   00000000   ........           DC32     VAR_ARG_YESNO_NO_ACTION
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable41:
+   \   00000000   ........           DC32     VAR_ARG_YESNO_YES_ACTION
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable42:
+   \   00000000   ........           DC32     VAR_ARG_BOOK
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable47:
+   \   00000000   ........           DC32     STD_ICONS
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable48:
+   \   00000000   ........           DC32     ??onMyBookClose
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable50:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable52:
+   \   00000000   ........           DC32     in_open_path
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable53:
+   \   00000000   ........           DC32     STD_ICONS + 12
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for STD_ICONS>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \                     `?<Initializer for MCBook>`:
+   \   0000000C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for main_obj>`:
+   \   00000010   00000000           DC32 0H
+   \                     `?<Initializer for Busy>`:
+   \   00000014   00000000           DC32 0
+   \                     `?<Initializer for is_db2010>`:
+   \   00000018   00000000           DC32 0
+   \                     `?<Initializer for SA_ICONS>`:
+   \   0000001C   ........           DC32 `?<Constant L"\\x44\\x42\\x5f\\x4c\\x49\\x53\\x54\\x5f\\`
+   \   00000020   ........           DC32 `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x4d\\x41\\x52\\`
+   \   00000024   ........           DC32 `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x45\\x44\\x5f\\`
+   \   00000028   ........           DC32 `?<Constant L"\\x52\\x41\\x44\\x49\\x4f\\x42\\x55\\x54\\`
+   \   0000002C   ........           DC32 `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x4d\\x41\\x52\\_1`
+   \   00000030   ........           DC32 `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x42\\x4f\\x58\\`
+   \                     `?<Initializer for lastKey>`:
+   \   00000034   FFFFFFFF           DC32 -1
+   \                     `?<Initializer for lastIsLongPress>`:
+   \   00000038   00000000           DC32 0
+
+   \                                 In segment DYN_CONST, align 1
+
+   \                                 In segment DYN_CONST_DESC, align 1
+
+   \                                 In segment ELFBEGIN, align 1
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x44\\x42\\x5f\\x4c\\x49\\x53\\x54\\x5f\\`:
+   \   00000000   440042005F00       DC8 44H, 0, 42H, 0, 5FH, 0, 4CH, 0
+   \              4C00        
+   \   00000008   490053005400       DC8 49H, 0, 53H, 0, 54H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   46004F004C00       DC8 46H, 0, 4FH, 0, 4CH, 0, 44H, 0
+   \              4400        
+   \   00000018   450052005F00       DC8 45H, 0, 52H, 0, 5FH, 0, 49H, 0
+   \              4900        
+   \   00000020   43004E000000       DC8 43H, 0, 4EH, 0, 0, 0
+   \   00000026   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x4d\\x41\\x52\\`:
+   \   00000000   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   00000008   4B004D004100       DC8 4BH, 0, 4DH, 0, 41H, 0, 52H, 0
+   \              5200        
+   \   00000010   4B005F004900       DC8 4BH, 0, 5FH, 0, 49H, 0, 43H, 0
+   \              4300        
+   \   00000018   4E000000           DC8 4EH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x45\\x44\\x5f\\`:
+   \   00000000   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   00000008   4B0045004400       DC8 4BH, 0, 45H, 0, 44H, 0, 5FH, 0
+   \              5F00        
+   \   00000010   520041004400       DC8 52H, 0, 41H, 0, 44H, 0, 49H, 0
+   \              4900        
+   \   00000018   4F0042005500       DC8 4FH, 0, 42H, 0, 55H, 0, 54H, 0
+   \              5400        
+   \   00000020   54004F004E00       DC8 54H, 0, 4FH, 0, 4EH, 0, 5FH, 0
+   \              5F00        
+   \   00000028   490043004E00       DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x41\\x44\\x49\\x4f\\x42\\x55\\x54\\`:
+   \   00000000   520041004400       DC8 52H, 0, 41H, 0, 44H, 0, 49H, 0
+   \              4900        
+   \   00000008   4F0042005500       DC8 4FH, 0, 42H, 0, 55H, 0, 54H, 0
+   \              5400        
+   \   00000010   54004F004E00       DC8 54H, 0, 4FH, 0, 4EH, 0, 5FH, 0
+   \              5F00        
+   \   00000018   490043004E00       DC8 49H, 0, 43H, 0, 4EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x4d\\x41\\x52\\_1`:
+   \   00000000   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   00000008   4B004D004100       DC8 4BH, 0, 4DH, 0, 41H, 0, 52H, 0
+   \              5200        
+   \   00000010   4B005F004900       DC8 4BH, 0, 5FH, 0, 49H, 0, 4EH, 0
+   \              4E00        
+   \   00000018   5F0042004F00       DC8 5FH, 0, 42H, 0, 4FH, 0, 58H, 0
+   \              5800        
+   \   00000020   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000028   0000               DC8 0, 0
+   \   0000002A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x48\\x45\\x43\\x4b\\x42\\x4f\\x58\\`:
+   \   00000000   430048004500       DC8 43H, 0, 48H, 0, 45H, 0, 43H, 0
+   \              4300        
+   \   00000008   4B0042004F00       DC8 4BH, 0, 42H, 0, 4FH, 0, 58H, 0
+   \              5800        
+   \   00000010   5F0049004300       DC8 5FH, 0, 49H, 0, 43H, 0, 4EH, 0
+   \              4E00        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MC_Base_Page">`:
+   \   00000000   4D435F426173       DC8 "MC_Base_Page"
+   \              655F50616765
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MC_Main_Page">`:
+   \   00000000   4D435F4D6169       DC8 "MC_Main_Page"
+   \              6E5F50616765
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   2F000000           DC8 2FH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x72\\x6f\\x6f\\x74">`:
+   \   00000000   72006F006F00       DC8 72H, 0, 6FH, 0, 6FH, 0, 74H, 0
+   \              7400        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+   \   0000000C   700068006F00       DC8 70H, 0, 68H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000014   65000000           DC8 65H, 0, 0, 0
+   \   00000018   630061007200       DC8 63H, 0, 61H, 0, 72H, 0, 64H, 0
+   \              6400        
+   \   00000020   0000               DC8 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   6D6300             DC8 "mc"
+    520          
+    521          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CBBack(BOOK *, void *)             8
+     CBStop(BOOK *, void *)             8
+     CheckConst()                       0
+     FreeData()                         8
+     FreeDrvInfo()                     12
+     InitDrvInfo()                     20
+     MainGuiOnClose(DISP_OBJ_MAIN *)
+                                        4
+     MainGuiOnCreate(DISP_OBJ_MAIN *)
+                                       20
+     MainGuiOnKey(DISP_OBJ_MAIN *, int, int, int, int)
+                                       52
+     MainGuiOnRedraw(DISP_OBJ_MAIN *, int, RECT *, int)
+                                       20
+     MainGuiOnRefresh(DISP_OBJ_MAIN *)
+                                        8
+     MainGui_constr(DISP_DESC *)        8
+     MainGui_destr(GUI *)               0
+     MainPageOnEnter(void *, BOOK *)
+                                       24
+     MainPageOnExit(void *, BOOK *)     8
+     MsgBoxError(char *)               20
+     MsgBoxError(int, char *)          20
+     MsgBoxError(int, wchar_t *)       20
+     MsgBoxError(wchar_t *)            16
+     MsgBoxError(wchar_t *, int)       20
+     MsgBoxYesNo(wchar_t *, void (*)(int))
+                                       44
+     ReconfigElf(void *, BOOK *)       12
+     SK_DoBackK(BOOK *, GUI *)          8
+     SK_DoMenu(BOOK *, GUI *)           4
+     SK_DoOpen(BOOK *, GUI *)           8
+     TerminateElf(void *, BOOK *)       4
+     YSNo(BOOK *, void *)               8
+     YSYes(BOOK *, void *)              8
+     elf_exit()                         4
+     isMcBook(BOOK *)                   0
+     main(wchar_t *, wchar_t *, wchar_t *)
+                                       28
+     onMyBookClose(BOOK *)              4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     Terminate                         4
+     RedrawGUI                         4
+     elf_exit()                       28
+     MsgBoxError(int, char *)        108
+     MsgBoxError(int, wchar_t *)     108
+     MsgBoxError(char *)              96
+     MsgBoxError(wchar_t *, int)     100
+     MsgBoxError(wchar_t *)           72
+     YSYes(BOOK *, void *)            44
+     YSNo(BOOK *, void *)             44
+     MsgBoxYesNo(wchar_t *, void (*)(int))
+                                     136
+     FreeData()                      144
+     InitDrvInfo()                   416
+     FreeDrvInfo()                    56
+     MainGuiOnCreate(DISP_OBJ_MAIN *)
+                                     760
+     MainGuiOnClose(DISP_OBJ_MAIN *)
+                                      20
+     MainGuiOnRedraw(DISP_OBJ_MAIN *, int, RECT *, int)
+                                      92
+     CBStop(BOOK *, void *)           68
+     CBBack(BOOK *, void *)           52
+     STD_ICONS                        60
+     MainGuiOnKey(DISP_OBJ_MAIN *, int, int, int, int)
+                                     424
+     MainGuiOnRefresh(DISP_OBJ_MAIN *)
+                                      68
+     MainGuiName                      12
+     MainGui_constr(DISP_DESC *)     116
+     MainGui_destr(GUI *)              4
+     SK_DoMenu(BOOK *, GUI *)          4
+     SK_DoOpen(BOOK *, GUI *)         32
+     SK_DoBackK(BOOK *, GUI *)        32
+     MainPageOnEnter(void *, BOOK *)
+                                     280
+     MainPageOnExit(void *, BOOK *)   36
+     TerminateElf(void *, BOOK *)     20
+     ReconfigElf(void *, BOOK *)      96
+     bk_msglst_base                   24
+     bk_msglst_main                   24
+     ?<Constant L"\x47\x6f\x20\x73\x6d\x6f\x6b\x65\
+                                      96
+     onMyBookClose(BOOK *)            16
+     isMcBook(BOOK *)                 28
+     CheckConst()                     64
+     main(wchar_t *, wchar_t *, wchar_t *)
+                                     352
+     ??DataTable6                      4
+     ??DataTable23                     4
+     ??DataTable24                     4
+     ??DataTable25                     4
+     ??DataTable35                     4
+     ??DataTable38                     4
+     ??DataTable39                     4
+     ??DataTable40                     4
+     ??DataTable41                     4
+     ??DataTable42                     4
+     ??DataTable47                     4
+     ??DataTable48                     4
+     ??DataTable50                     4
+     ??DataTable52                     4
+     ??DataTable53                     4
+     ?<Initializer for STD_ICONS>     60
+     ?<Constant L"\x44\x42\x5f\x4c\x49\x53\x54\x5f\
+                                      40
+     ?<Constant L"\x43\x48\x45\x43\x4b\x4d\x41\x52\
+                                      28
+     ?<Constant L"\x43\x48\x45\x43\x4b\x45\x44\x5f\
+                                      48
+     ?<Constant L"\x52\x41\x44\x49\x4f\x42\x55\x54\
+                                      32
+     ?<Constant L"\x43\x48\x45\x43\x4b\x4d\x41\x52\_1
+                                      44
+     ?<Constant L"\x43\x48\x45\x43\x4b\x42\x4f\x58\
+                                      28
+     ?<Constant "MC_Base_Page">       16
+     ?<Constant "MC_Main_Page">       16
+     ?<Constant L"\x2f">               4
+     ?<Constant L"\x72\x6f\x6f\x74">
+                                      36
+     ?<Constant "mc">                  3
+      Others                         644
+
+ 
+ 4 596 bytes in segment CODE
+   403 bytes in segment DATA_C
+    60 bytes in segment DATA_I
+    60 bytes in segment DATA_ID
+     8 bytes in segment DATA_Z
+    48 bytes in segment DYN_PAGE
+    24 bytes in segment INITTAB
+ 
+ 3 976 bytes of CODE  memory (+ 644 bytes shared)
+   511 bytes of CONST memory
+    68 bytes of DATA  memory
+
+Errors: none
+Warnings: none

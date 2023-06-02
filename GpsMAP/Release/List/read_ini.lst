@@ -1,0 +1,697 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:41:50 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\read_in #
+#                       i.c                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\read_in #
+#                       i.c -D NDEBUG -D OLDFUNCTIONS -lCN                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\Gps #
+#                       MAP\Release\List\ -o Z:\home\perk11\www\perk11.info\ #
+#                       svn\SE\GpsMAP\Release\Obj\ -s9 --no_unroll           #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\read_ini.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \Obj\read_ini.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\read_ini.c
+      1          #define USEPNG
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "..\\include\Dir.h"
+      4          #include "main.h"
+      5          #include "map_object.h"
+      6          #include "read_csv.h"
+      7          #include "read_ini.h"
+      8          
+      9          extern "C" float strtof(const char *, char **);
+     10          extern "C" long strtol(const char *, char **, int);
+     11          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          void MainIniInit(MAIN_INI *ini)
+     13          {
+   \                     ??MainIniInit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     14            ini->towns=List_Create();
+   \   00000008   690100EF           SWI      +361
+   \   0000000C   000084E5           STR      R0,[R4, #+0]
+     15            ini->cur_town=NULL; 
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   040084E5           STR      R0,[R4, #+4]
+     16            ReadMainIni(ini);
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000020   ........           B        ??ReadMainIni    ;; tailcall
+     17          }
+     18          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     19          void MainIniDeInit(MAIN_INI *ini)
+     20          {
+   \                     ??MainIniDeInit:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0C00000A           BEQ      ??MainIniDeInit_1
+     21            TOWN *town;
+     22            while(ini->towns->FirstFree)
+     23            {
+     24              town=(TOWN *)List_RemoveAt(ini->towns,0);
+   \                     ??MainIniDeInit_2:
+   \   00000018   000094E5           LDR      R0,[R4, #+0]
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   790100EF           SWI      +377
+   \   00000024   0050A0E1           MOV      R5,R0
+     25              DestroyCsvList(town);
+   \   00000028   ........           _BLF     ??DestroyCsvList,??DestroyCsvList??rA
+     26              List_Destroy(town->bs_dat);
+   \   0000002C   300095E5           LDR      R0,[R5, #+48]
+   \   00000030   6A0100EF           SWI      +362
+     27              delete town->name;
+   \   00000034   000095E5           LDR      R0,[R5, #+0]
+   \   00000038   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     28            }
+   \   0000003C   000094E5           LDR      R0,[R4, #+0]
+   \   00000040   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   F2FFFF1A           BNE      ??MainIniDeInit_2
+     29            List_Destroy(ini->towns);
+   \                     ??MainIniDeInit_1:
+   \   0000004C   000094E5           LDR      R0,[R4, #+0]
+   \   00000050   6A0100EF           SWI      +362
+     30          }
+   \   00000054   3080BDE8           POP      {R4,R5,PC}       ;; return
+     31          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     32          char *find_eol(char *s)
+     33          {
+     34            int c;
+     35            s--;
+   \                     ??find_eol:
+   \   00000000   010040E2           SUB      R0,R0,#+1
+     36            do
+     37            {
+     38              s++;
+     39              c=*s;
+   \                     ??find_eol_1:
+   \   00000004   0110F0E5           LDRB     R1,[R0, #+1]!
+     40            }
+     41            while((c)&&(c!='\r')&&(c!='\n'));
+   \   00000008   000051E3           CMP      R1,#+0
+   \   0000000C   0D005113           CMPNE    R1,#+13
+   \   00000010   0A005113           CMPNE    R1,#+10
+   \   00000014   FAFFFF1A           BNE      ??find_eol_1
+     42            return s;
+   \   00000018   1EFF2FE1           BX       LR               ;; return
+     43          }
+     44          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     45          float str_tof(char *str, char **end)
+     46          {
+   \                     ??str_tof:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   40D04DE2           SUB      SP,SP,#+64
+     47            float x=0;
+   \   00000008   0040A0E3           MOV      R4,#+0
+   \   0000000C   0050A0E1           MOV      R5,R0
+     48            int len;
+     49            int c;
+     50            char *s, tmp[64];
+     51            for (s=tmp; (c=*str)!='°'; str++)
+   \   00000010   0D00A0E1           MOV      R0,SP
+   \   00000014   020000EA           B        ??str_tof_1
+     52            {
+     53              if ((c>='0' && c<='9') || c=='.') *s++=c;
+   \                     ??str_tof_2:
+   \   00000018   3A0051E3           CMP      R1,#+58
+   \   0000001C   070000BA           BLT      ??str_tof_3
+   \                     ??str_tof_4:
+   \   00000020   015085E2           ADD      R5,R5,#+1
+   \                     ??str_tof_1:
+   \   00000024   0010D5E5           LDRB     R1,[R5, #+0]
+   \   00000028   B00051E3           CMP      R1,#+176
+   \   0000002C   0600000A           BEQ      ??str_tof_5
+   \   00000030   300051E3           CMP      R1,#+48
+   \   00000034   F7FFFFAA           BGE      ??str_tof_2
+   \   00000038   2E0051E3           CMP      R1,#+46
+   \   0000003C   0000001A           BNE      ??str_tof_6
+   \                     ??str_tof_3:
+   \   00000040   ........           STRB     R1,[R0], #+1
+     54              if (!c) break;
+   \                     ??str_tof_6:
+   \   00000044   000051E3           CMP      R1,#+0
+   \   00000048   F4FFFF1A           BNE      ??str_tof_4
+     55            }
+     56            *s=0;
+   \                     ??str_tof_5:
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   0010C0E5           STRB     R1,[R0, #+0]
+     57            if (s!=tmp) x+=strtof(tmp,NULL);
+   \   00000054   0D10A0E1           MOV      R1,SP
+   \   00000058   010050E1           CMP      R0,R1
+   \   0000005C   0500000A           BEQ      ??str_tof_7
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   0D00A0E1           MOV      R0,SP
+   \   00000068   ........           _BLF     strtof,??strtof??rA
+   \   0000006C   0410A0E1           MOV      R1,R4
+   \   00000070   ........           _BLF     __fAdd,??__fAdd??rA
+   \   00000074   0040A0E1           MOV      R4,R0
+     58            for (s=tmp; (c=*str)!='\''; str++)
+   \                     ??str_tof_7:
+   \   00000078   0D00A0E1           MOV      R0,SP
+   \   0000007C   020000EA           B        ??str_tof_8
+     59            {
+     60              if ((c>='0' && c<='9') || c=='.') *s++=c;
+   \                     ??str_tof_9:
+   \   00000080   3A0051E3           CMP      R1,#+58
+   \   00000084   070000BA           BLT      ??str_tof_10
+   \                     ??str_tof_11:
+   \   00000088   015085E2           ADD      R5,R5,#+1
+   \                     ??str_tof_8:
+   \   0000008C   0010D5E5           LDRB     R1,[R5, #+0]
+   \   00000090   270051E3           CMP      R1,#+39
+   \   00000094   0600000A           BEQ      ??str_tof_12
+   \   00000098   300051E3           CMP      R1,#+48
+   \   0000009C   F7FFFFAA           BGE      ??str_tof_9
+   \   000000A0   2E0051E3           CMP      R1,#+46
+   \   000000A4   0000001A           BNE      ??str_tof_13
+   \                     ??str_tof_10:
+   \   000000A8   ........           STRB     R1,[R0], #+1
+     61              if (!c) break;
+   \                     ??str_tof_13:
+   \   000000AC   000051E3           CMP      R1,#+0
+   \   000000B0   F4FFFF1A           BNE      ??str_tof_11
+     62            }
+     63            *s=0;
+   \                     ??str_tof_12:
+   \   000000B4   0010A0E3           MOV      R1,#+0
+   \   000000B8   0010C0E5           STRB     R1,[R0, #+0]
+     64            if (s!=tmp) x+=(strtof(tmp,NULL)/60);  
+   \   000000BC   0D10A0E1           MOV      R1,SP
+   \   000000C0   010050E1           CMP      R0,R1
+   \   000000C4   0800000A           BEQ      ??str_tof_14
+   \   000000C8   0010A0E3           MOV      R1,#+0
+   \   000000CC   0D00A0E1           MOV      R0,SP
+   \   000000D0   ........           _BLF     strtof,??strtof??rA
+   \   000000D4   4014A0E3           MOV      R1,#+1073741824
+   \   000000D8   9C1781E3           ORR      R1,R1,#0x2700000
+   \   000000DC   ........           _BLF     __fDiv,??__fDiv??rA
+   \   000000E0   0410A0E1           MOV      R1,R4
+   \   000000E4   ........           _BLF     __fAdd,??__fAdd??rA
+   \   000000E8   0040A0E1           MOV      R4,R0
+     65            for (s=tmp; (c=*str)!='\"'; str++)
+   \                     ??str_tof_14:
+   \   000000EC   0D00A0E1           MOV      R0,SP
+   \   000000F0   020000EA           B        ??str_tof_15
+     66            {
+     67              if ((c>='0' && c<='9') || c=='.') *s++=c;
+   \                     ??str_tof_16:
+   \   000000F4   3A0051E3           CMP      R1,#+58
+   \   000000F8   070000BA           BLT      ??str_tof_17
+   \                     ??str_tof_18:
+   \   000000FC   015085E2           ADD      R5,R5,#+1
+   \                     ??str_tof_15:
+   \   00000100   0010D5E5           LDRB     R1,[R5, #+0]
+   \   00000104   220051E3           CMP      R1,#+34
+   \   00000108   0600000A           BEQ      ??str_tof_19
+   \   0000010C   300051E3           CMP      R1,#+48
+   \   00000110   F7FFFFAA           BGE      ??str_tof_16
+   \   00000114   2E0051E3           CMP      R1,#+46
+   \   00000118   0000001A           BNE      ??str_tof_20
+   \                     ??str_tof_17:
+   \   0000011C   ........           STRB     R1,[R0], #+1
+     68              if (!c) break;
+   \                     ??str_tof_20:
+   \   00000120   000051E3           CMP      R1,#+0
+   \   00000124   F4FFFF1A           BNE      ??str_tof_18
+     69            }
+     70            *s=0;
+   \                     ??str_tof_19:
+   \   00000128   0010A0E3           MOV      R1,#+0
+   \   0000012C   0010C0E5           STRB     R1,[R0, #+0]
+     71            if (s!=tmp) x+=(strtof(tmp,NULL)/3600);  
+   \   00000130   0D10A0E1           MOV      R1,SP
+   \   00000134   010050E1           CMP      R0,R1
+   \   00000138   0800000A           BEQ      ??str_tof_21
+   \   0000013C   0010A0E3           MOV      R1,#+0
+   \   00000140   0D00A0E1           MOV      R0,SP
+   \   00000144   ........           _BLF     strtof,??strtof??rA
+   \   00000148   4514A0E3           MOV      R1,#+1157627904
+   \   0000014C   611881E3           ORR      R1,R1,#0x610000
+   \   00000150   ........           _BLF     __fDiv,??__fDiv??rA
+   \   00000154   0410A0E1           MOV      R1,R4
+   \   00000158   ........           _BLF     __fAdd,??__fAdd??rA
+   \   0000015C   0040A0E1           MOV      R4,R0
+     72            return x;
+   \                     ??str_tof_21:
+   \   00000160   0400A0E1           MOV      R0,R4
+   \   00000164   40D08DE2           ADD      SP,SP,#+64
+   \   00000168   3080BDE8           POP      {R4,R5,PC}       ;; return
+     73          }
+     74          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     75          char *skip_probel(char *s)
+     76          {
+     77            int c;
+     78            s--;
+   \                     ??skip_probel:
+   \   00000000   010040E2           SUB      R0,R0,#+1
+     79            do
+     80            {
+     81              s++;
+     82              c=*s;
+   \                     ??skip_probel_1:
+   \   00000004   0110F0E5           LDRB     R1,[R0, #+1]!
+     83            }
+     84            while((c)&&((c==' ')||(c=='\t')));
+   \   00000008   000051E3           CMP      R1,#+0
+   \   0000000C   1EFF2F01           BXEQ     LR
+   \   00000010   200051E3           CMP      R1,#+32
+   \   00000014   09005113           CMPNE    R1,#+9
+   \   00000018   F9FFFF0A           BEQ      ??skip_probel_1
+     85            return s; 
+   \   0000001C   1EFF2FE1           BX       LR               ;; return
+     86          }
+     87          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     88          void ReadMainIni(MAIN_INI *ini)
+     89          {
+   \                     ??ReadMainIni:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   3CD04DE2           SUB      SP,SP,#+60
+   \   00000008   0050A0E1           MOV      R5,R0
+     90            char *buf, *s,*d;
+     91            FSTAT stat;
+     92            int fsize;
+     93            int c;
+     94            char tmp[32];
+     95            int f;
+     96            int len;
+     97            int pindex, to_skip;
+     98            TOWN *town=NULL;
+   \   0000000C   0060A0E3           MOV      R6,#+0
+     99            if (fstat(GetDir(DIR_ELFS_CONFIG),L"GpsMAP.ini",&stat)<0) return;
+   \   00000010   1400A0E3           MOV      R0,#+20
+   \   00000014   050100EF           SWI      +261
+   \   00000018   14139FE5           LDR      R1,??ReadMainIni_2  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\`
+   \   0000001C   20208DE2           ADD      R2,SP,#+32
+   \   00000020   1C0100EF           SWI      +284
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   BF00004A           BMI      ??ReadMainIni_3
+    100            if ((fsize=stat.fsize)>0)
+   \   0000002C   28909DE5           LDR      R9,[SP, #+40]
+   \   00000030   010059E3           CMP      R9,#+1
+   \   00000034   BC0000BA           BLT      ??ReadMainIni_3
+    101            {
+    102              if ((f=_fopen(GetDir(DIR_ELFS_CONFIG),L"GpsMAP.ini",FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,NULL))>=0)
+   \   00000038   1400A0E3           MOV      R0,#+20
+   \   0000003C   050100EF           SWI      +261
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   603FA0E3           MOV      R3,#+384
+   \   0000004C   E0129FE5           LDR      R1,??ReadMainIni_2  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\`
+   \   00000050   0120A0E3           MOV      R2,#+1
+   \   00000054   160100EF           SWI      +278
+   \   00000058   0040B0E1           MOVS     R4,R0
+   \   0000005C   04D08DE2           ADD      SP,SP,#+4
+   \   00000060   B100004A           BMI      ??ReadMainIni_3
+    103              {
+    104                buf=new char[fsize+1];
+   \   00000064   010089E2           ADD      R0,R9,#+1
+   \   00000068   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000006C   0070A0E1           MOV      R7,R0
+    105                if ((s=buf))
+   \   00000070   0780B0E1           MOVS     R8,R7
+   \   00000074   AA00000A           BEQ      ??ReadMainIni_4
+    106                {
+    107                  buf[fread(f,buf,fsize)]=0;
+   \   00000078   0920A0E1           MOV      R2,R9
+   \   0000007C   0710A0E1           MOV      R1,R7
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   180100EF           SWI      +280
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   0710C0E7           STRB     R1,[R0, +R7]
+   \   00000090   000000EA           B        ??ReadMainIni_5
+    108                  while((c=*s))
+    109                  {
+    110                    if (c=='\r' || c=='\n')  // Конец строки
+    111                    {
+    112                      s++;
+   \                     ??ReadMainIni_6:
+   \   00000094   018088E2           ADD      R8,R8,#+1
+    113                      continue;
+    114                    }
+   \                     ??ReadMainIni_5:
+   \   00000098   0000D8E5           LDRB     R0,[R8, #+0]
+   \   0000009C   000050E3           CMP      R0,#+0
+   \   000000A0   9800000A           BEQ      ??ReadMainIni_7
+   \   000000A4   0D0050E3           CMP      R0,#+13
+   \   000000A8   0A005013           CMPNE    R0,#+10
+   \   000000AC   F8FFFF0A           BEQ      ??ReadMainIni_6
+    115                    if (c==';') // Комментарий
+   \   000000B0   3B0050E3           CMP      R0,#+59
+   \   000000B4   0300001A           BNE      ??ReadMainIni_8
+    116                    {
+    117                      s=find_eol(s);
+   \                     ??ReadMainIni_9:
+   \   000000B8   0800A0E1           MOV      R0,R8
+   \   000000BC   ........           BL       ??find_eol
+   \   000000C0   0080A0E1           MOV      R8,R0
+    118                      continue;
+   \   000000C4   F3FFFFEA           B        ??ReadMainIni_5
+    119                    }
+    120                    if (c=='[')
+   \                     ??ReadMainIni_8:
+   \   000000C8   5B0050E3           CMP      R0,#+91
+   \   000000CC   1A00001A           BNE      ??ReadMainIni_10
+    121                    {
+    122                      s++;
+    123                      if (strncmp(s,"Town ",5)==0)
+   \   000000D0   60129FE5           LDR      R1,??ReadMainIni_2+0x4  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 24
+   \   000000D4   0520A0E3           MOV      R2,#+5
+   \   000000D8   018088E2           ADD      R8,R8,#+1
+   \   000000DC   0800A0E1           MOV      R0,R8
+   \   000000E0   7E0200EF           SWI      +638
+   \   000000E4   000050E3           CMP      R0,#+0
+   \   000000E8   1300001A           BNE      ??ReadMainIni_10
+    124                      {
+    125                        s+=5;
+   \   000000EC   058088E2           ADD      R8,R8,#+5
+    126                        if (town) List_InsertFirst(ini->towns,town);
+   \   000000F0   000056E3           CMP      R6,#+0
+   \   000000F4   0200000A           BEQ      ??ReadMainIni_11
+   \   000000F8   000095E5           LDR      R0,[R5, #+0]
+   \   000000FC   0610A0E1           MOV      R1,R6
+   \   00000100   6B0100EF           SWI      +363
+    127                        town=new TOWN;
+   \                     ??ReadMainIni_11:
+   \   00000104   3400A0E3           MOV      R0,#+52
+   \   00000108   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000010C   0060A0E1           MOV      R6,R0
+    128                        memset(town,0,sizeof(TOWN));
+   \   00000110   3420A0E3           MOV      R2,#+52
+   \   00000114   0010A0E3           MOV      R1,#+0
+   \   00000118   120100EF           SWI      +274
+    129                        town->bs_dat=List_Create();
+   \   0000011C   690100EF           SWI      +361
+   \   00000120   300086E5           STR      R0,[R6, #+48]
+    130                        town->map_index=strtol(s,NULL,10);
+   \   00000124   0A20A0E3           MOV      R2,#+10
+   \   00000128   0010A0E3           MOV      R1,#+0
+   \   0000012C   0800A0E1           MOV      R0,R8
+   \   00000130   ........           _BLF     strtol,??strtol??rA
+   \   00000134   040086E5           STR      R0,[R6, #+4]
+    131                        s=find_eol(s);
+   \   00000138   DEFFFFEA           B        ??ReadMainIni_9
+    132                        continue;
+    133                      }
+    134                    }
+    135                    s=skip_probel(s);
+   \                     ??ReadMainIni_10:
+   \   0000013C   0800A0E1           MOV      R0,R8
+   \   00000140   ........           BL       ??skip_probel
+    136                    if (strncmp(s,"Name",4)==0) {pindex=1; to_skip=4;}
+   \   00000144   F0119FE5           LDR      R1,??ReadMainIni_2+0x8  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 72
+   \   00000148   0080A0E1           MOV      R8,R0
+   \   0000014C   0420A0E3           MOV      R2,#+4
+   \   00000150   7E0200EF           SWI      +638
+   \   00000154   000050E3           CMP      R0,#+0
+   \   00000158   0190A003           MOVEQ    R9,#+1
+   \   0000015C   0400A003           MOVEQ    R0,#+4
+   \   00000160   1E00000A           BEQ      ??ReadMainIni_12
+    137                    else if (strncmp(s,"MapStartX",9)==0) {pindex=2; to_skip=9;}
+   \   00000164   D4119FE5           LDR      R1,??ReadMainIni_2+0xC  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 60
+   \   00000168   0920A0E3           MOV      R2,#+9
+   \   0000016C   0800A0E1           MOV      R0,R8
+   \   00000170   7E0200EF           SWI      +638
+   \   00000174   000050E3           CMP      R0,#+0
+   \   00000178   0200001A           BNE      ??ReadMainIni_13
+   \   0000017C   0290A0E3           MOV      R9,#+2
+   \                     ??ReadMainIni_14:
+   \   00000180   0900A0E3           MOV      R0,#+9
+   \   00000184   150000EA           B        ??ReadMainIni_12
+    138                    else if (strncmp(s,"MapStartY",9)==0) {pindex=3; to_skip=9;}
+   \                     ??ReadMainIni_13:
+   \   00000188   B4119FE5           LDR      R1,??ReadMainIni_2+0x10  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 48
+   \   0000018C   0920A0E3           MOV      R2,#+9
+   \   00000190   0800A0E1           MOV      R0,R8
+   \   00000194   7E0200EF           SWI      +638
+   \   00000198   000050E3           CMP      R0,#+0
+   \   0000019C   0390A003           MOVEQ    R9,#+3
+   \   000001A0   F6FFFF0A           BEQ      ??ReadMainIni_14
+    139                    else if (strncmp(s,"MapEndX",7)==0) {pindex=4; to_skip=7;}
+   \   000001A4   9C119FE5           LDR      R1,??ReadMainIni_2+0x14  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 40
+   \   000001A8   0720A0E3           MOV      R2,#+7
+   \   000001AC   0800A0E1           MOV      R0,R8
+   \   000001B0   7E0200EF           SWI      +638
+   \   000001B4   000050E3           CMP      R0,#+0
+   \   000001B8   0490A003           MOVEQ    R9,#+4
+   \   000001BC   0600000A           BEQ      ??ReadMainIni_15
+    140                    else if (strncmp(s,"MapEndY",7)==0) {pindex=5; to_skip=7;}
+   \   000001C0   84119FE5           LDR      R1,??ReadMainIni_2+0x18  ;; `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 32
+   \   000001C4   0720A0E3           MOV      R2,#+7
+   \   000001C8   0800A0E1           MOV      R0,R8
+   \   000001CC   7E0200EF           SWI      +638
+   \   000001D0   000050E3           CMP      R0,#+0
+   \   000001D4   B7FFFF1A           BNE      ??ReadMainIni_9
+   \   000001D8   0590A0E3           MOV      R9,#+5
+   \                     ??ReadMainIni_15:
+   \   000001DC   0700A0E3           MOV      R0,#+7
+    141                    else
+    142                    {
+    143                      s=find_eol(s);
+    144                      continue;
+    145                    }
+    146                    s+=to_skip;
+    147                    s=skip_probel(s);
+   \                     ??ReadMainIni_12:
+   \   000001E0   080080E0           ADD      R0,R0,R8
+   \   000001E4   ........           BL       ??skip_probel
+   \   000001E8   0080A0E1           MOV      R8,R0
+    148                    if (*s=='=')
+   \   000001EC   0000D8E5           LDRB     R0,[R8, #+0]
+   \   000001F0   3D0050E3           CMP      R0,#+61
+   \   000001F4   AFFFFF1A           BNE      ??ReadMainIni_9
+    149                    {
+    150                      s++;
+    151                      s=skip_probel(s);
+   \   000001F8   010088E2           ADD      R0,R8,#+1
+   \   000001FC   ........           BL       ??skip_probel
+   \   00000200   0080A0E1           MOV      R8,R0
+    152                      d=find_eol(s);
+    153                      if ((len=d-s))
+   \   00000204   ........           BL       ??find_eol
+   \   00000208   08A050E0           SUBS     R10,R0,R8
+   \   0000020C   1400000A           BEQ      ??ReadMainIni_16
+    154                      {
+    155                        if (len>31) len=31;
+   \   00000210   20005AE3           CMP      R10,#+32
+   \   00000214   1FA0A0A3           MOVGE    R10,#+31
+    156                        strncpy(tmp,s,len);
+   \   00000218   0A20A0E1           MOV      R2,R10
+   \   0000021C   0810A0E1           MOV      R1,R8
+   \   00000220   0D00A0E1           MOV      R0,SP
+   \   00000224   7F0200EF           SWI      +639
+    157                        tmp[len]=0;
+   \   00000228   0D00A0E1           MOV      R0,SP
+   \   0000022C   0010A0E3           MOV      R1,#+0
+   \   00000230   010000EA           B        ??ReadMainIni_17
+    158                        while(tmp[len-1]==' ' || tmp[len-1]=='\t') tmp[--len]=0;
+   \                     ??ReadMainIni_18:
+   \   00000234   01A04AE2           SUB      R10,R10,#+1
+   \   00000238   0D00A0E1           MOV      R0,SP
+   \                     ??ReadMainIni_17:
+   \   0000023C   0010CAE7           STRB     R1,[R10, +R0]
+   \   00000240   00008AE0           ADD      R0,R10,R0
+   \   00000244   010050E5           LDRB     R0,[R0, #-1]
+   \   00000248   200050E3           CMP      R0,#+32
+   \   0000024C   F8FFFF0A           BEQ      ??ReadMainIni_18
+   \   00000250   0D00A0E1           MOV      R0,SP
+   \   00000254   00008AE0           ADD      R0,R10,R0
+   \   00000258   010050E5           LDRB     R0,[R0, #-1]
+   \   0000025C   090050E3           CMP      R0,#+9
+   \   00000260   F3FFFF0A           BEQ      ??ReadMainIni_18
+    159                      }
+    160                      if (town && len)
+   \                     ??ReadMainIni_16:
+   \   00000264   000056E3           CMP      R6,#+0
+   \   00000268   00005A13           CMPNE    R10,#+0
+   \   0000026C   91FFFF0A           BEQ      ??ReadMainIni_9
+    161                      {
+    162                        switch(pindex)
+   \   00000270   019049E2           SUB      R9,R9,#+1
+   \   00000274   040059E3           CMP      R9,#+4
+   \   00000278   8EFFFF8A           BHI      ??ReadMainIni_9
+   \   0000027C   010F8FE2           ADR      R0,??ReadMainIni_1
+   \   00000280   D90090E1           LDRSB    R0,[R0, R9]
+   \   00000284   00F18FE0           ADD      PC,PC,R0, LSL #+2
+   \                     ??ReadMainIni_1:
+   \   00000288   010B1015           DC8      +1,+11,+16,+21
+   \   0000028C   1A000000           DC8      +26,+0,+0,+0
+    163                        {
+    164                        case 1:
+    165                          town->name=new char[len+1];
+   \                     ??ReadMainIni_19:
+   \   00000290   01008AE2           ADD      R0,R10,#+1
+   \   00000294   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000298   000086E5           STR      R0,[R6, #+0]
+    166                          strncpy(town->name,tmp,len);
+   \   0000029C   0A20A0E1           MOV      R2,R10
+   \   000002A0   0D10A0E1           MOV      R1,SP
+   \   000002A4   7F0200EF           SWI      +639
+    167                          town->name[len]=0;
+   \   000002A8   000096E5           LDR      R0,[R6, #+0]
+   \   000002AC   0010A0E3           MOV      R1,#+0
+   \   000002B0   0010CAE7           STRB     R1,[R10, +R0]
+   \   000002B4   7FFFFFEA           B        ??ReadMainIni_9
+    168                          break;
+    169                        case 2:
+    170                          town->start_x=str_tof(tmp,NULL);
+   \                     ??ReadMainIni_20:
+   \   000002B8   0010A0E3           MOV      R1,#+0
+   \   000002BC   0D00A0E1           MOV      R0,SP
+   \   000002C0   ........           BL       ??str_tof
+   \   000002C4   080086E5           STR      R0,[R6, #+8]
+   \   000002C8   7AFFFFEA           B        ??ReadMainIni_9
+    171                          break;
+    172                        case 3:
+    173                          town->start_y=str_tof(tmp,NULL);
+   \                     ??ReadMainIni_21:
+   \   000002CC   0010A0E3           MOV      R1,#+0
+   \   000002D0   0D00A0E1           MOV      R0,SP
+   \   000002D4   ........           BL       ??str_tof
+   \   000002D8   0C0086E5           STR      R0,[R6, #+12]
+   \   000002DC   75FFFFEA           B        ??ReadMainIni_9
+    174                          break;
+    175                        case 4:
+    176                          town->end_x=str_tof(tmp,NULL);
+   \                     ??ReadMainIni_22:
+   \   000002E0   0010A0E3           MOV      R1,#+0
+   \   000002E4   0D00A0E1           MOV      R0,SP
+   \   000002E8   ........           BL       ??str_tof
+   \   000002EC   100086E5           STR      R0,[R6, #+16]
+   \   000002F0   70FFFFEA           B        ??ReadMainIni_9
+    177                          break;
+    178                        case 5:
+    179                          town->end_y=str_tof(tmp,NULL);
+   \                     ??ReadMainIni_23:
+   \   000002F4   0010A0E3           MOV      R1,#+0
+   \   000002F8   0D00A0E1           MOV      R0,SP
+   \   000002FC   ........           BL       ??str_tof
+   \   00000300   140086E5           STR      R0,[R6, #+20]
+   \   00000304   6BFFFFEA           B        ??ReadMainIni_9
+    180                          break;               
+    181                        }
+    182                      }
+    183                    }
+    184                    s=find_eol(s);
+    185                  }
+    186                  if (town) List_InsertFirst(ini->towns,town);
+   \                     ??ReadMainIni_7:
+   \   00000308   000056E3           CMP      R6,#+0
+   \   0000030C   0200000A           BEQ      ??ReadMainIni_24
+   \   00000310   000095E5           LDR      R0,[R5, #+0]
+   \   00000314   0610A0E1           MOV      R1,R6
+   \   00000318   6B0100EF           SWI      +363
+    187                  delete buf;
+   \                     ??ReadMainIni_24:
+   \   0000031C   0700A0E1           MOV      R0,R7
+   \   00000320   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    188                }
+    189                fclose(f);
+   \                     ??ReadMainIni_4:
+   \   00000324   0400A0E1           MOV      R0,R4
+   \   00000328   170100EF           SWI      +279
+   \                     ??ReadMainIni_3:
+   \   0000032C   3CD08DE2           ADD      SP,SP,#+60       ;; stack cleaning
+   \   00000330   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??ReadMainIni_2:
+   \   00000334   ........           DC32     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\`
+   \   00000338   ........           DC32     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 24
+   \   0000033C   ........           DC32     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 72
+   \   00000340   ........           DC32     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 60
+   \   00000344   ........           DC32     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 48
+   \   00000348   ........           DC32     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 40
+   \   0000034C   ........           DC32     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\` + 32
+    190              }
+    191            }
+    192          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x47\\x70\\x73\\x4d\\x41\\x50\\x2e\\x69\\`:
+   \   00000000   470070007300       DC8 47H, 0, 70H, 0, 73H, 0, 4DH, 0
+   \              4D00        
+   \   00000008   410050002E00       DC8 41H, 0, 50H, 0, 2EH, 0, 69H, 0
+   \              6900        
+   \   00000010   6E0069000000       DC8 6EH, 0, 69H, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+   \   00000018   546F776E2000       DC8 "Town "
+   \   0000001E   0000               DC8 0, 0
+   \   00000020   4D6170456E64       DC8 "MapEndY"
+   \              5900        
+   \   00000028   4D6170456E64       DC8 "MapEndX"
+   \              5800        
+   \   00000030   4D6170537461       DC8 "MapStartY"
+   \              72745900    
+   \   0000003A   0000               DC8 0, 0
+   \   0000003C   4D6170537461       DC8 "MapStartX"
+   \              72745800    
+   \   00000046   0000               DC8 0, 0
+   \   00000048   4E616D6500         DC8 "Name"
+   \   0000004D   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                  CSTACK
+     --------                  ------
+     MainIniDeInit(MAIN_INI *)    12
+     MainIniInit(MAIN_INI *)       8
+     ReadMainIni(MAIN_INI *)      96
+     find_eol(char *)              0
+     skip_probel(char *)           0
+     str_tof(char *, char **)     76
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     MainIniInit(MAIN_INI *)          36
+     MainIniDeInit(MAIN_INI *)        88
+     find_eol(char *)                 28
+     str_tof(char *, char **)        364
+     skip_probel(char *)              32
+     ReadMainIni(MAIN_INI *)         848
+     ?<Constant L"\x47\x70\x73\x4d\x41\x50\x2e\x69\
+                                      80
+      Others                         120
+
+ 
+ 1 516 bytes in segment CODE
+    80 bytes in segment DATA_C
+ 
+ 1 396 bytes of CODE  memory (+ 120 bytes shared)
+    80 bytes of CONST memory
+
+Errors: none
+Warnings: 1

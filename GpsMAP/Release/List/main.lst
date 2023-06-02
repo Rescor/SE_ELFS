@@ -1,0 +1,268 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:41:27 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\main.cp #
+#                       p                                                    #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\main.cp #
+#                       p -D NDEBUG -D OLDFUNCTIONS -lCN                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\Gps #
+#                       MAP\Release\List\ -o Z:\home\perk11\www\perk11.info\ #
+#                       svn\SE\GpsMAP\Release\Obj\ -s9 --no_unroll           #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \List\main.lst                                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Release #
+#                       \Obj\main.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\main.cpp
+      1          #define USEPNG
+      2          #include "..\include\Lib_Clara.h"
+      3          #include "pngread.h"
+      4          #include "map_object.h"
+      5          #include "main.h"
+      6          
+      7          
+      8          #pragma segment="ELFBEGIN"
+
+   \                                 In segment CODE, align 4, keep-with-next
+      9          void elf_exit(void){
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     10            kill_data(__segment_begin("ELFBEGIN"), (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; SFB(ELFBEGIN)
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     SFB(ELFBEGIN)
+     11          }
+     12          
+     13          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     14          void CloseMyBook( BOOK* bk, GUI* )
+     15          {
+   \                     ??CloseMyBook:
+   \   00000000   00402DE9           PUSH     {LR}
+     16            FreeBook(bk);
+   \   00000004   2F0100EF           SWI      +303
+     17          }
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+     18          
+     19          //extern "C" void GUIObject_SetTitleType(GUI *gui, int type);
+
+   \                                 In segment CODE, align 4, keep-with-next
+     20          static int MainPageOnCreate(void *, BOOK *bk)
+     21          {
+   \                     ??MainPageOnCreate:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+     22            MyBOOK *mbk=(MyBOOK *)bk;
+     23            GUI * map_gui = CreateMapGUI(bk);
+   \   00000008   0400A0E1           MOV      R0,R4
+   \   0000000C   ........           _BLF     ??CreateMapGUI,??CreateMapGUI??rA
+     24            GUIObject_SoftKeys_SetAction(map_gui,ACTION_BACK, CloseMyBook);
+   \   00000010   38209FE5           LDR      R2,??MainPageOnCreate_1  ;; ??CloseMyBook
+   \   00000014   0050A0E1           MOV      R5,R0
+   \   00000018   34009FE5           LDR      R0,??MainPageOnCreate_1+0x4  ;; ACTION_BACK
+   \   0000001C   001090E5           LDR      R1,[R0, #+0]
+   \   00000020   0500A0E1           MOV      R0,R5
+   \   00000024   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000028   2118A0E1           MOV      R1,R1, LSR #+16
+   \   0000002C   4B0100EF           SWI      +331
+     25            GUIObject_SetTitleType(map_gui, 1);
+   \   00000030   0110A0E3           MOV      R1,#+1
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   810200EF           SWI      +641
+     26            GUIObject_Show(map_gui);
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   340100EF           SWI      +308
+     27            mbk->map_gui=map_gui;
+   \   00000044   185084E5           STR      R5,[R4, #+24]
+     28            return (1);
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MainPageOnCreate_1:
+   \   00000050   ........           DC32     ??CloseMyBook
+   \   00000054   ........           DC32     ACTION_BACK
+     29          }
+     30          
+     31          
+     32          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+     33          const PAGE_MSG bk_msglst_base[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_base:
+   \   00000000   400000000000       DC32 64, 0H
+   \              0000        
+     34          {
+     35            NIL_EVENT_TAG,           NULL
+     36          };
+     37          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+     38          const PAGE_MSG bk_msglst_main[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_main:
+   \   00000000   42000000....       DC32 66, ??MainPageOnCreate, 64, 0H
+   \              ....40000000
+   \              00000000    
+     39          {
+     40            PAGE_ENTER_EVENT_TAG,    MainPageOnCreate,
+     41            NIL_EVENT_TAG,           NULL
+     42          };
+     43          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "GpsMAP">`:
+   \   00000000   4770734D4150       DC8 "GpsMAP"
+   \              00          
+   \   00000007   00                 DC8 0
+   \   00000008   ........0000       DC32 `?<Constant "GpsMAP_Base_Page">`, 0H, bk_msglst_base
+   \              0000........
+   \   00000014   ........0000       DC32 `?<Constant "GpsMAP_Main_Page">`, 0H, bk_msglst_main
+   \              0000........
+     44          const PAGE_DESC bk_base = {"GpsMAP_Base_Page",0,bk_msglst_base};
+     45          const PAGE_DESC bk_main = {"GpsMAP_Main_Page",0,bk_msglst_main};
+     46          
+     47          
+     48          
+     49          // при закрытии книги
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          static void onMyBookClose(BOOK * book)
+     51          {
+     52            SUBPROC(elf_exit);
+   \                     ??onMyBookClose:
+   \   00000000   ........           LDR      R0,??DataTable1  ;; ??elf_exit
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   080100EF           SWI      +264
+     53          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+     54          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     55          int main()
+     56          {
+   \                     main:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     57            MyBOOK * myBook=new MyBOOK;
+   \   00000004   1C00A0E3           MOV      R0,#+28
+   \   00000008   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   0000000C   0040A0E1           MOV      R4,R0
+     58            memset(myBook,0,sizeof(MyBOOK));
+   \   00000010   1C20A0E3           MOV      R2,#+28
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   120100EF           SWI      +274
+     59            if (!CreateBook((BOOK*)myBook,onMyBookClose,&bk_base,"GpsMAP",-1,0))
+   \   0000001C   58009FE5           LDR      R0,??main_0      ;; `?<Constant "GpsMAP">`
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   02002DE9           PUSH     {R1}
+   \   00000028   0030A0E1           MOV      R3,R0
+   \   0000002C   082080E2           ADD      R2,R0,#+8
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   0110E0E1           MVN      R1,R1
+   \   00000038   02002DE9           PUSH     {R1}
+   \   0000003C   3C109FE5           LDR      R1,??main_0+0x4  ;; ??onMyBookClose
+   \   00000040   2B0100EF           SWI      +299
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   08D08DE2           ADD      SP,SP,#+8
+   \   0000004C   0500001A           BNE      ??main_1
+     60            {
+     61              delete myBook;
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     62              SUBPROC(elf_exit);
+   \   00000058   ........           LDR      R0,??DataTable1  ;; ??elf_exit
+   \   0000005C   080100EF           SWI      +264
+     63              return (0);    
+   \   00000060   0000A0E3           MOV      R0,#+0
+   \   00000064   1080BDE8           POP      {R4,PC}
+     64            }
+     65            BookObj_GotoPage((BOOK *)myBook,&bk_main);
+   \                     ??main_1:
+   \   00000068   14109FE5           LDR      R1,??main_0+0x8  ;; `?<Constant "GpsMAP">` + 20
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   2D0100EF           SWI      +301
+     66            return 0;
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??main_0:
+   \   0000007C   ........           DC32     `?<Constant "GpsMAP">`
+   \   00000080   ........           DC32     ??onMyBookClose
+   \   00000084   ........           DC32     `?<Constant "GpsMAP">` + 20
+     67          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment ELFBEGIN, align 1
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "GpsMAP_Base_Page">`:
+   \   00000000   4770734D4150       DC8 "GpsMAP_Base_Page"
+   \              5F426173655F
+   \              5061676500  
+   \   00000011   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "GpsMAP_Main_Page">`:
+   \   00000000   4770734D4150       DC8 "GpsMAP_Main_Page"
+   \              5F4D61696E5F
+   \              5061676500  
+   \   00000011   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CloseMyBook(BOOK *, GUI *)         4
+     MainPageOnCreate(void *, BOOK *)
+                                       12
+     elf_exit()                         4
+     main()                            16
+     onMyBookClose(BOOK *)              4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     elf_exit()                       28
+     CloseMyBook(BOOK *, GUI *)       12
+     MainPageOnCreate(void *, BOOK *)
+                                      88
+     bk_msglst_base                    8
+     bk_msglst_main                   16
+     ?<Constant "GpsMAP">             32
+     onMyBookClose(BOOK *)            16
+     main()                          136
+     ??DataTable1                      4
+     ?<Constant "GpsMAP_Base_Page">   20
+     ?<Constant "GpsMAP_Main_Page">   20
+      Others                          68
+
+ 
+ 352 bytes in segment CODE
+  72 bytes in segment DATA_C
+  24 bytes in segment DYN_PAGE
+ 
+ 284 bytes of CODE  memory (+ 68 bytes shared)
+  96 bytes of CONST memory
+
+Errors: none
+Warnings: none

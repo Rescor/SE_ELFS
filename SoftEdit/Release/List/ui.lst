@@ -1,0 +1,1909 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:52:26 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\ui.cp #
+#                       p                                                    #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\ui.cp #
+#                       p -D NDEBUG -lC Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\SoftEdit\Release\List\ -o                          #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\List\ui.lst                                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ui.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\ui.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h"
+      3          #include "header\structs.h"
+      4          #include "header\extern.h"
+      5          extern const PAGE_DESC bk_skin;
+      6          
+      7          UI_SOFTKEY sk[3]={ {0,296,0,0x18,320,220,1,0x12}, {0,293,2,0x2C,320,115,1,0x2C}, {240,296,1,0x18,320,0,1,0x12} };
+      8          int sk240[24]=   {  0,296,0,0x18,320,220,1,0x12  ,  0,293,2,0x2C,320,115,1,0x2C  ,  240,296,1,0x18,320,0,1,0x12 };
+      9          int sk176[24]=   {  0,198,0,0x18,220,156,1,0x12  ,  0,193,2,0x2C,220,80 ,1,0x2C  ,  176,198,1,0x18,220,0,1,0x12 };
+     10          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          void auto_select()
+     12          {
+   \                     ??auto_select:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     13            int a=Display_GetHeight(0);
+     14            switch (a)
+   \   00000004   ........           LDR      R4,??DataTable6  ;; sk
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   580200EF           SWI      +600
+   \   00000010   500F50E3           CMP      R0,#+320
+   \   00000014   6020A0E3           MOV      R2,#+96
+     15            {
+     16            case 320:
+     17              memcpy(&sk[0], &sk240[0], 3*8*4);
+   \   00000018   84108402           ADDEQ    R1,R4,#+132
+     18              break;
+     19            case 220:
+     20              memcpy(&sk[0], &sk176[0], 3*8*4);
+   \   0000001C   E4108412           ADDNE    R1,R4,#+228
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   130100EF           SWI      +275
+     21              break;
+     22            default:
+     23              memcpy(&sk[0], &sk176[0], 3*8*4);
+     24              break;
+     25            }
+     26          };
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     sk:
+   \   00000000                      DS8 96
+   \   00000060                      REQUIRE `?<Initializer for sk>`
+     27          
+     28          wchar_t *horiz[]={L"Lower softkey",L"Middle softkey",L"Upper softkey"};
+   \                     horiz:
+   \   00000060                      DS8 12
+   \   0000006C                      REQUIRE `?<Initializer for horiz>`
+     29          wchar_t *vert[]={L"Left softkey",L"Middle softkey",L"Right softkey"};
+   \                     vert:
+   \   0000006C                      DS8 12
+   \   00000078                      REQUIRE `?<Initializer for vert>`
+     30          wchar_t *cts[]={L"Left",L"Right",L"Center"};
+   \                     cts:
+   \   00000078                      DS8 12
+   \   00000084                      REQUIRE `?<Initializer for cts>`
+   \                     sk240:
+   \   00000084                      DS8 96
+   \   000000E4                      REQUIRE `?<Initializer for sk240>`
+   \                     sk176:
+   \   000000E4                      DS8 96
+   \   00000144                      REQUIRE `?<Initializer for sk176>`
+     31          
+     32          int getint(char *line, int *pos,char end);
+     33          char *getparam(char *buf, char *mask, char end, int fsize);
+     34          int isSBook(BOOK *bk);
+     35          int isSoftEditBook(BOOK*);
+     36          
+     37          void DrawHighlightID2(int font,int text,int ct, int XPos, int YPos, int borderColor, int NormalColor, bool clean);
+     38          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     39          void addui(char *line,int elem)
+     40          {
+   \                     ??addui:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     41            int x=0;
+     42            //--------------------
+     43            sk[elem].x=getint(line, &x,':');
+   \   00000004   ........           LDR      R6,??DataTable6  ;; sk
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   00108DE5           STR      R1,[SP, #+0]
+   \   0000001C   3A20A0E3           MOV      R2,#+58
+   \   00000020   0D10A0E1           MOV      R1,SP
+   \   00000024   ........           _BLF     ??getint,??getint??rA
+   \   00000028   850286E7           STR      R0,[R6, +R5, LSL #+5]
+     44            sk[elem].y=getint(line, &x,':');
+   \   0000002C   855286E0           ADD      R5,R6,R5, LSL #+5
+   \   00000030   3A20A0E3           MOV      R2,#+58
+   \   00000034   0D10A0E1           MOV      R1,SP
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   ........           _BLF     ??getint,??getint??rA
+   \   00000040   040085E5           STR      R0,[R5, #+4]
+     45            sk[elem].ct=getint(line, &x,':');
+   \   00000044   3A20A0E3           MOV      R2,#+58
+   \   00000048   0D10A0E1           MOV      R1,SP
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   ........           _BLF     ??getint,??getint??rA
+   \   00000054   080085E5           STR      R0,[R5, #+8]
+     46            sk[elem].font=getint(line, &x,':');
+   \   00000058   3A20A0E3           MOV      R2,#+58
+   \   0000005C   0D10A0E1           MOV      R1,SP
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   ........           _BLF     ??getint,??getint??rA
+   \   00000068   0C0085E5           STR      R0,[R5, #+12]
+     47            sk[elem].hx=getint(line, &x,':');
+   \   0000006C   3A20A0E3           MOV      R2,#+58
+   \   00000070   0D10A0E1           MOV      R1,SP
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   ........           _BLF     ??getint,??getint??rA
+   \   0000007C   100085E5           STR      R0,[R5, #+16]
+     48            sk[elem].hy=getint(line, &x,':');
+   \   00000080   3A20A0E3           MOV      R2,#+58
+   \   00000084   0D10A0E1           MOV      R1,SP
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   ........           _BLF     ??getint,??getint??rA
+   \   00000090   140085E5           STR      R0,[R5, #+20]
+     49            sk[elem].hct=getint(line, &x,':');
+   \   00000094   3A20A0E3           MOV      R2,#+58
+   \   00000098   0D10A0E1           MOV      R1,SP
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   ........           _BLF     ??getint,??getint??rA
+   \   000000A4   180085E5           STR      R0,[R5, #+24]
+     50            sk[elem].hfont=getint(line, &x,';');
+   \   000000A8   3B20A0E3           MOV      R2,#+59
+   \   000000AC   0D10A0E1           MOV      R1,SP
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   ........           _BLF     ??getint,??getint??rA
+   \   000000B8   1C0085E5           STR      R0,[R5, #+28]
+     51            //--------------------
+     52          };
+   \   000000BC   7180BDE8           POP      {R0,R4-R6,PC}    ;; return
+     53          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     54          int set_ui(char *buf, int fsize)
+     55          {
+   \                     ??set_ui:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   80D04DE2           SUB      SP,SP,#+128
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+     56            auto_select();
+   \   00000010   ........           BL       ??auto_select
+     57            int x;
+     58            for (x=0;x<3;x++)
+   \   00000014   0060A0E3           MOV      R6,#+0
+     59            {
+     60              char pattern[128];
+     61              sprintf(pattern,"%dsk)",x);
+   \                     ??set_ui_1:
+   \   00000018   4C109FE5           LDR      R1,??set_ui_2    ;; `?<Constant "%dsk)">`
+   \   0000001C   0620A0E1           MOV      R2,R6
+   \   00000020   0D00A0E1           MOV      R0,SP
+   \   00000024   140100EF           SWI      +276
+     62              char *param;
+     63              if (param=getparam(buf,pattern,';', fsize))
+   \   00000028   0530A0E1           MOV      R3,R5
+   \   0000002C   3B20A0E3           MOV      R2,#+59
+   \   00000030   0D10A0E1           MOV      R1,SP
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   ........           _BLF     ??getparam,??getparam??rA
+   \   0000003C   0070B0E1           MOVS     R7,R0
+   \   00000040   0600000A           BEQ      ??set_ui_3
+     64              {
+     65                addui(param,x);
+   \   00000044   0610A0E1           MOV      R1,R6
+   \   00000048   ........           BL       ??addui
+     66                delete(param);
+   \   0000004C   0700A0E1           MOV      R0,R7
+   \   00000050   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     67              }
+     68              else
+     69              {
+     70                break;
+     71              }
+     72            }
+   \   00000054   016086E2           ADD      R6,R6,#+1
+   \   00000058   030056E3           CMP      R6,#+3
+   \   0000005C   EDFFFFBA           BLT      ??set_ui_1
+     73            return 1;
+   \                     ??set_ui_3:
+   \   00000060   0100A0E3           MOV      R0,#+1
+   \   00000064   80D08DE2           ADD      SP,SP,#+128
+   \   00000068   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??set_ui_2:
+   \   0000006C   ........           DC32     `?<Constant "%dsk)">`
+     74          };
+     75          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     76          int SkinGui_OnCreate(DISP_OBJ_SKIN *db)
+     77          {
+     78            return 1;
+   \                     ??SkinGui_OnCreate:
+   \   00000000   0100A0E3           MOV      R0,#+1
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+     79          };
+     80          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     81          void SkinGui_OnClose(DISP_OBJ_SKIN *db)
+     82          {
+     83            delete(db->fonts);
+   \                     ??SkinGui_OnClose:
+   \   00000000   780190E5           LDR      R0,[R0, #+376]
+   \   00000004   ........           _BF      `??operator delete`,`??operator delete??rA`  ;; tailcall
+     84          };
+     85          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     86          wchar_t *Font_GetNameByFontId(int id)
+     87          {
+   \                     ??Font_GetNameByFontId:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     88            wchar_t *txt=L"Undefined";
+   \   00000004   44509FE5           LDR      R5,??Font_GetNameByFontId_1  ;; `?<Constant L"\\x55\\x6e\\x64\\x65\\x66\\x69\\x6e\\x65\\`
+   \   00000008   0040A0E1           MOV      R4,R0
+     89            FONT_DESC *font=GetFontDesc();
+     90            for (int i=0, max=*GetFontCount(); i<max; i++)
+   \   0000000C   0070A0E3           MOV      R7,#+0
+   \   00000010   BB8200EF           SWI      +33467
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   BC8200EF           SWI      +33468
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   000000EA           B        ??Font_GetNameByFontId_2
+   \                     ??Font_GetNameByFontId_3:
+   \   00000024   017087E2           ADD      R7,R7,#+1
+   \                     ??Font_GetNameByFontId_2:
+   \   00000028   000057E1           CMP      R7,R0
+   \   0000002C   050000AA           BGE      ??Font_GetNameByFontId_4
+     91            {
+     92              if (id==font[i].id)
+   \   00000030   1620A0E3           MOV      R2,#+22
+   \   00000034   926721E0           MLA      R1,R2,R7,R6
+   \   00000038   B020D1E1           LDRH     R2,[R1, #+0]
+   \   0000003C   020054E1           CMP      R4,R2
+   \   00000040   F7FFFF1A           BNE      ??Font_GetNameByFontId_3
+     93              {
+     94                txt=font[i].name;
+   \   00000044   025081E2           ADD      R5,R1,#+2
+     95                break;
+     96              }
+     97            }
+     98            return txt;
+   \                     ??Font_GetNameByFontId_4:
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??Font_GetNameByFontId_1:
+   \   00000050   ........           DC32     `?<Constant L"\\x55\\x6e\\x64\\x65\\x66\\x69\\x6e\\x65\\`
+     99          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+    100          void SkinGui_OnRedraw(DISP_OBJ_SKIN *db,int ,int,int)
+    101          {
+   \                     ??SkinGui_OnRedraw:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   64D04DE2           SUB      SP,SP,#+100
+    102            int width=Display_GetWidth(0);
+    103            int height=Display_GetHeight(0);
+    104            DrawRect(0, 0, 500, 500, clBlack,    clBlack);
+    105            DrawRect(0, 0, width,  25, 0xAA00FF00, 0xAA00FF00);
+    106            DrawRect(0, 0, width,  25, 0xAA00FF00, 0xAA00FF00);
+    107            if (BookObj_GetDisplayOrientation(FindBook(isSoftEditBook))==0)
+   \   00000008   B4759FE5           LDR      R7,??SkinGui_OnRedraw_1  ;; `?<Constant L"\\x25\\x64\\x2d\\x25\\x64">`
+   \   0000000C   ........           LDR      R8,??DataTable6  ;; sk
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   590200EF           SWI      +601
+   \   0000001C   0050A0E1           MOV      R5,R0
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   580200EF           SWI      +600
+   \   00000028   FF04A0E3           MOV      R0,#-16777216
+   \   0000002C   01002DE9           PUSH     {R0}
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   7D3FA0E3           MOV      R3,#+500
+   \   00000038   7D2FA0E3           MOV      R2,#+500
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   0100A0E1           MOV      R0,R1
+   \   00000044   EC0100EF           SWI      +492
+   \   00000048   AA64A0E3           MOV      R6,#-1442840576
+   \   0000004C   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000050   0600A0E1           MOV      R0,R6
+   \   00000054   01002DE9           PUSH     {R0}
+   \   00000058   01002DE9           PUSH     {R0}
+   \   0000005C   1930A0E3           MOV      R3,#+25
+   \   00000060   0520A0E1           MOV      R2,R5
+   \   00000064   0010A0E3           MOV      R1,#+0
+   \   00000068   0100A0E1           MOV      R0,R1
+   \   0000006C   EC0100EF           SWI      +492
+   \   00000070   0600A0E1           MOV      R0,R6
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   40002DE9           PUSH     {R6}
+   \   0000007C   1930A0E3           MOV      R3,#+25
+   \   00000080   0520A0E1           MOV      R2,R5
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   0100A0E1           MOV      R0,R1
+   \   0000008C   EC0100EF           SWI      +492
+   \   00000090   ........           LDR      R0,??DataTable4  ;; ??isSoftEditBook
+   \   00000094   FF60A0E3           MOV      R6,#+255
+   \   00000098   300100EF           SWI      +304
+   \   0000009C   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   000000A0   190300EF           SWI      +793
+   \   000000A4   000050E3           CMP      R0,#+0
+   \   000000A8   18D08DE2           ADD      SP,SP,#+24
+   \   000000AC   6C0194E5           LDR      R0,[R4, #+364]
+   \   000000B0   8E00001A           BNE      ??SkinGui_OnRedraw_2
+    108            {
+    109              wchar_t hz[50];
+    110              snwprintf(hz, 49, L"%d-%d", sk[db->curkey].x, sk[db->curkey].y);
+   \   000000B4   801288E0           ADD      R1,R8,R0, LSL #+5
+   \   000000B8   041091E5           LDR      R1,[R1, #+4]
+   \   000000BC   0720A0E1           MOV      R2,R7
+   \   000000C0   02002DE9           PUSH     {R1}
+   \   000000C4   803298E7           LDR      R3,[R8, +R0, LSL #+5]
+   \   000000C8   04008DE2           ADD      R0,SP,#+4
+   \   000000CC   3110A0E3           MOV      R1,#+49
+   \   000000D0   150100EF           SWI      +277
+    111              DrawHighlightID2(FONT_E_20R, TextID_Create(L"SoftkeysUI", ENC_UCS2, TEXTID_ANY_LEN), 2, 0, 0,  clBlack, clWhite, true);
+   \   000000D4   0620A0E1           MOV      R2,R6
+   \   000000D8   0010A0E3           MOV      R1,#+0
+   \   000000DC   0C0087E2           ADD      R0,R7,#+12
+   \   000000E0   5D0100EF           SWI      +349
+   \   000000E4   0010A0E1           MOV      R1,R0
+   \   000000E8   D8049FE5           LDR      R0,??SkinGui_OnRedraw_1+0x4  ;; FONT_E_20R
+   \   000000EC   0030A0E3           MOV      R3,#+0
+   \   000000F0   009090E5           LDR      R9,[R0, #+0]
+   \   000000F4   0100A0E3           MOV      R0,#+1
+   \   000000F8   01002DE9           PUSH     {R0}
+   \   000000FC   0220A0E3           MOV      R2,#+2
+   \   00000100   000060E2           RSB      R0,R0,#+0
+   \   00000104   01002DE9           PUSH     {R0}
+   \   00000108   FF04A0E3           MOV      R0,#-16777216
+   \   0000010C   01002DE9           PUSH     {R0}
+   \   00000110   0000A0E3           MOV      R0,#+0
+   \   00000114   01002DE9           PUSH     {R0}
+   \   00000118   0900A0E1           MOV      R0,R9
+   \   0000011C   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    112              DrawHighlightID2(FONT_E_20R, TextID_Create(vert[db->curkey], ENC_UCS2, TEXTID_ANY_LEN), 0, 0, 22, clBlack, clWhite, true);
+   \   00000120   6C0194E5           LDR      R0,[R4, #+364]
+   \   00000124   0620A0E1           MOV      R2,R6
+   \   00000128   0010A0E3           MOV      R1,#+0
+   \   0000012C   000188E0           ADD      R0,R8,R0, LSL #+2
+   \   00000130   6C0090E5           LDR      R0,[R0, #+108]
+   \   00000134   5D0100EF           SWI      +349
+   \   00000138   0110A0E3           MOV      R1,#+1
+   \   0000013C   02002DE9           PUSH     {R1}
+   \   00000140   0030A0E3           MOV      R3,#+0
+   \   00000144   0320A0E1           MOV      R2,R3
+   \   00000148   001061E2           RSB      R1,R1,#+0
+   \   0000014C   02002DE9           PUSH     {R1}
+   \   00000150   FF14A0E3           MOV      R1,#-16777216
+   \   00000154   02002DE9           PUSH     {R1}
+   \   00000158   1610A0E3           MOV      R1,#+22
+   \   0000015C   02002DE9           PUSH     {R1}
+   \   00000160   0010A0E1           MOV      R1,R0
+   \   00000164   0900A0E1           MOV      R0,R9
+   \   00000168   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+   \   0000016C   24D08DE2           ADD      SP,SP,#+36
+    113              DrawHighlightID2(FONT_E_20R, TextID_Create(hz,ENC_UCS2,TEXTID_ANY_LEN), 0, 0, 44, clBlack, clWhite, true);
+   \   00000170   0620A0E1           MOV      R2,R6
+   \   00000174   0010A0E3           MOV      R1,#+0
+   \   00000178   0D00A0E1           MOV      R0,SP
+   \   0000017C   5D0100EF           SWI      +349
+   \   00000180   0110A0E3           MOV      R1,#+1
+   \   00000184   02002DE9           PUSH     {R1}
+   \   00000188   0030A0E3           MOV      R3,#+0
+   \   0000018C   0320A0E1           MOV      R2,R3
+   \   00000190   001061E2           RSB      R1,R1,#+0
+   \   00000194   02002DE9           PUSH     {R1}
+   \   00000198   FF14A0E3           MOV      R1,#-16777216
+   \   0000019C   02002DE9           PUSH     {R1}
+   \   000001A0   2C10A0E3           MOV      R1,#+44
+   \   000001A4   02002DE9           PUSH     {R1}
+   \   000001A8   0010A0E1           MOV      R1,R0
+   \   000001AC   0900A0E1           MOV      R0,R9
+   \   000001B0   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    114              DrawHighlightID2(FONT_E_20R, TextID_Create(cts[sk[db->curkey].ct],ENC_UCS2,TEXTID_ANY_LEN), 0, 0, 66, clBlack, clWhite, true);
+   \   000001B4   6C0194E5           LDR      R0,[R4, #+364]
+   \   000001B8   0620A0E1           MOV      R2,R6
+   \   000001BC   800288E0           ADD      R0,R8,R0, LSL #+5
+   \   000001C0   080090E5           LDR      R0,[R0, #+8]
+   \   000001C4   0010A0E3           MOV      R1,#+0
+   \   000001C8   000188E0           ADD      R0,R8,R0, LSL #+2
+   \   000001CC   780090E5           LDR      R0,[R0, #+120]
+   \   000001D0   5D0100EF           SWI      +349
+   \   000001D4   0110A0E3           MOV      R1,#+1
+   \   000001D8   02002DE9           PUSH     {R1}
+   \   000001DC   0030A0E3           MOV      R3,#+0
+   \   000001E0   0320A0E1           MOV      R2,R3
+   \   000001E4   001061E2           RSB      R1,R1,#+0
+   \   000001E8   02002DE9           PUSH     {R1}
+   \   000001EC   FF14A0E3           MOV      R1,#-16777216
+   \   000001F0   02002DE9           PUSH     {R1}
+   \   000001F4   4210A0E3           MOV      R1,#+66
+   \   000001F8   02002DE9           PUSH     {R1}
+   \   000001FC   0010A0E1           MOV      R1,R0
+   \   00000200   0900A0E1           MOV      R0,R9
+   \   00000204   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    115              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press vol up/down",ENC_UCS2,TEXTID_ANY_LEN),1,width,24,clBlack,clWhite,true);
+   \   00000208   0620A0E1           MOV      R2,R6
+   \   0000020C   0010A0E3           MOV      R1,#+0
+   \   00000210   240087E2           ADD      R0,R7,#+36
+   \   00000214   5D0100EF           SWI      +349
+   \   00000218   AC139FE5           LDR      R1,??SkinGui_OnRedraw_1+0x8  ;; FONT_E_14R
+   \   0000021C   0530A0E1           MOV      R3,R5
+   \   00000220   00A091E5           LDR      R10,[R1, #+0]
+   \   00000224   0110A0E3           MOV      R1,#+1
+   \   00000228   02002DE9           PUSH     {R1}
+   \   0000022C   0120A0E3           MOV      R2,#+1
+   \   00000230   001061E2           RSB      R1,R1,#+0
+   \   00000234   02002DE9           PUSH     {R1}
+   \   00000238   FF14A0E3           MOV      R1,#-16777216
+   \   0000023C   02002DE9           PUSH     {R1}
+   \   00000240   1810A0E3           MOV      R1,#+24
+   \   00000244   02002DE9           PUSH     {R1}
+   \   00000248   0010A0E1           MOV      R1,R0
+   \   0000024C   0A00A0E1           MOV      R0,R10
+   \   00000250   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+   \   00000254   30D08DE2           ADD      SP,SP,#+48
+    116              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press joystick",ENC_UCS2,TEXTID_ANY_LEN),1,width,46,clBlack,clWhite,true);
+   \   00000258   0620A0E1           MOV      R2,R6
+   \   0000025C   0010A0E3           MOV      R1,#+0
+   \   00000260   480087E2           ADD      R0,R7,#+72
+   \   00000264   5D0100EF           SWI      +349
+   \   00000268   0110A0E3           MOV      R1,#+1
+   \   0000026C   02002DE9           PUSH     {R1}
+   \   00000270   0530A0E1           MOV      R3,R5
+   \   00000274   0120A0E3           MOV      R2,#+1
+   \   00000278   001061E2           RSB      R1,R1,#+0
+   \   0000027C   02002DE9           PUSH     {R1}
+   \   00000280   FF14A0E3           MOV      R1,#-16777216
+   \   00000284   02002DE9           PUSH     {R1}
+   \   00000288   2E10A0E3           MOV      R1,#+46
+   \   0000028C   02002DE9           PUSH     {R1}
+   \   00000290   0010A0E1           MOV      R1,R0
+   \   00000294   0A00A0E1           MOV      R0,R10
+   \   00000298   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    117              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press press 'C'",ENC_UCS2,TEXTID_ANY_LEN),1,width,68,clBlack,clWhite,true);
+   \   0000029C   0620A0E1           MOV      R2,R6
+   \   000002A0   0010A0E3           MOV      R1,#+0
+   \   000002A4   680087E2           ADD      R0,R7,#+104
+   \   000002A8   5D0100EF           SWI      +349
+   \   000002AC   0110A0E3           MOV      R1,#+1
+   \   000002B0   02002DE9           PUSH     {R1}
+   \   000002B4   0530A0E1           MOV      R3,R5
+   \   000002B8   0120A0E3           MOV      R2,#+1
+   \   000002BC   001061E2           RSB      R1,R1,#+0
+   \   000002C0   02002DE9           PUSH     {R1}
+   \   000002C4   FF14A0E3           MOV      R1,#-16777216
+   \   000002C8   02002DE9           PUSH     {R1}
+   \   000002CC   4410A0E3           MOV      R1,#+68
+   \   000002D0   02002DE9           PUSH     {R1}
+   \   000002D4   0010A0E1           MOV      R1,R0
+   \   000002D8   0A00A0E1           MOV      R0,R10
+   \   000002DC   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    118              DrawHighlightID2(FONT_E_20R,TextID_Create(Font_GetNameByFontId(sk[db->curkey].font),ENC_UCS2,TEXTID_ANY_LEN),0,0,90,clBlack,clWhite,true);
+   \   000002E0   6C0194E5           LDR      R0,[R4, #+364]
+   \   000002E4   800288E0           ADD      R0,R8,R0, LSL #+5
+   \   000002E8   0C0090E5           LDR      R0,[R0, #+12]
+   \   000002EC   8E0000EA           B        ??SkinGui_OnRedraw_3
+    119              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press 1/3",ENC_UCS2,TEXTID_ANY_LEN),1,width,90,clBlack,clWhite,true);
+    120            }
+    121            else
+    122            {
+    123              wchar_t hz[50];
+    124              snwprintf(hz,49,L"%d-%d",sk[db->curkey].hx,sk[db->curkey].hy);
+   \                     ??SkinGui_OnRedraw_2:
+   \   000002F0   800288E0           ADD      R0,R8,R0, LSL #+5
+   \   000002F4   141090E5           LDR      R1,[R0, #+20]
+   \   000002F8   0720A0E1           MOV      R2,R7
+   \   000002FC   02002DE9           PUSH     {R1}
+   \   00000300   103090E5           LDR      R3,[R0, #+16]
+   \   00000304   04008DE2           ADD      R0,SP,#+4
+   \   00000308   3110A0E3           MOV      R1,#+49
+   \   0000030C   150100EF           SWI      +277
+    125              DrawHighlightID2(FONT_E_20R,TextID_Create(L"SoftkeysUI", ENC_UCS2, TEXTID_ANY_LEN),2,0,0,clBlack,clGreen, true);
+   \   00000310   0620A0E1           MOV      R2,R6
+   \   00000314   0010A0E3           MOV      R1,#+0
+   \   00000318   0C0087E2           ADD      R0,R7,#+12
+   \   0000031C   5D0100EF           SWI      +349
+   \   00000320   A0129FE5           LDR      R1,??SkinGui_OnRedraw_1+0x4  ;; FONT_E_20R
+   \   00000324   0030A0E3           MOV      R3,#+0
+   \   00000328   009091E5           LDR      R9,[R1, #+0]
+   \   0000032C   0110A0E3           MOV      R1,#+1
+   \   00000330   02002DE9           PUSH     {R1}
+   \   00000334   0220A0E3           MOV      R2,#+2
+   \   00000338   FF14A0E3           MOV      R1,#-16777216
+   \   0000033C   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000340   02002DE9           PUSH     {R1}
+   \   00000344   FF14A0E3           MOV      R1,#-16777216
+   \   00000348   02002DE9           PUSH     {R1}
+   \   0000034C   0010A0E3           MOV      R1,#+0
+   \   00000350   02002DE9           PUSH     {R1}
+   \   00000354   0010A0E1           MOV      R1,R0
+   \   00000358   0900A0E1           MOV      R0,R9
+   \   0000035C   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    126              DrawHighlightID2(FONT_E_20R,TextID_Create(horiz[db->curkey],ENC_UCS2,TEXTID_ANY_LEN),0,0,22,clBlack,clWhite,true);
+   \   00000360   6C0194E5           LDR      R0,[R4, #+364]
+   \   00000364   0620A0E1           MOV      R2,R6
+   \   00000368   0010A0E3           MOV      R1,#+0
+   \   0000036C   000188E0           ADD      R0,R8,R0, LSL #+2
+   \   00000370   600090E5           LDR      R0,[R0, #+96]
+   \   00000374   5D0100EF           SWI      +349
+   \   00000378   0110A0E3           MOV      R1,#+1
+   \   0000037C   02002DE9           PUSH     {R1}
+   \   00000380   0030A0E3           MOV      R3,#+0
+   \   00000384   0320A0E1           MOV      R2,R3
+   \   00000388   001061E2           RSB      R1,R1,#+0
+   \   0000038C   02002DE9           PUSH     {R1}
+   \   00000390   FF14A0E3           MOV      R1,#-16777216
+   \   00000394   02002DE9           PUSH     {R1}
+   \   00000398   1610A0E3           MOV      R1,#+22
+   \   0000039C   02002DE9           PUSH     {R1}
+   \   000003A0   0010A0E1           MOV      R1,R0
+   \   000003A4   0900A0E1           MOV      R0,R9
+   \   000003A8   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+   \   000003AC   24D08DE2           ADD      SP,SP,#+36
+    127              DrawHighlightID2(FONT_E_20R,TextID_Create(hz,ENC_UCS2,TEXTID_ANY_LEN),0,0,44,clBlack,clWhite, true);
+   \   000003B0   0620A0E1           MOV      R2,R6
+   \   000003B4   0010A0E3           MOV      R1,#+0
+   \   000003B8   0D00A0E1           MOV      R0,SP
+   \   000003BC   5D0100EF           SWI      +349
+   \   000003C0   0110A0E3           MOV      R1,#+1
+   \   000003C4   02002DE9           PUSH     {R1}
+   \   000003C8   0030A0E3           MOV      R3,#+0
+   \   000003CC   0320A0E1           MOV      R2,R3
+   \   000003D0   001061E2           RSB      R1,R1,#+0
+   \   000003D4   02002DE9           PUSH     {R1}
+   \   000003D8   FF14A0E3           MOV      R1,#-16777216
+   \   000003DC   02002DE9           PUSH     {R1}
+   \   000003E0   2C10A0E3           MOV      R1,#+44
+   \   000003E4   02002DE9           PUSH     {R1}
+   \   000003E8   0010A0E1           MOV      R1,R0
+   \   000003EC   0900A0E1           MOV      R0,R9
+   \   000003F0   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    128              DrawHighlightID2(FONT_E_20R,TextID_Create(cts[sk[db->curkey].hct],ENC_UCS2,TEXTID_ANY_LEN),0,0,66,clBlack,clWhite, true);
+   \   000003F4   6C0194E5           LDR      R0,[R4, #+364]
+   \   000003F8   0620A0E1           MOV      R2,R6
+   \   000003FC   800288E0           ADD      R0,R8,R0, LSL #+5
+   \   00000400   180090E5           LDR      R0,[R0, #+24]
+   \   00000404   0010A0E3           MOV      R1,#+0
+   \   00000408   000188E0           ADD      R0,R8,R0, LSL #+2
+   \   0000040C   780090E5           LDR      R0,[R0, #+120]
+   \   00000410   5D0100EF           SWI      +349
+   \   00000414   0110A0E3           MOV      R1,#+1
+   \   00000418   02002DE9           PUSH     {R1}
+   \   0000041C   0030A0E3           MOV      R3,#+0
+   \   00000420   0320A0E1           MOV      R2,R3
+   \   00000424   001061E2           RSB      R1,R1,#+0
+   \   00000428   02002DE9           PUSH     {R1}
+   \   0000042C   FF14A0E3           MOV      R1,#-16777216
+   \   00000430   02002DE9           PUSH     {R1}
+   \   00000434   4210A0E3           MOV      R1,#+66
+   \   00000438   02002DE9           PUSH     {R1}
+   \   0000043C   0010A0E1           MOV      R1,R0
+   \   00000440   0900A0E1           MOV      R0,R9
+   \   00000444   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    129              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press vol up/down",ENC_UCS2,TEXTID_ANY_LEN),1,width,24,clBlack,clWhite,true);
+   \   00000448   0620A0E1           MOV      R2,R6
+   \   0000044C   0010A0E3           MOV      R1,#+0
+   \   00000450   240087E2           ADD      R0,R7,#+36
+   \   00000454   5D0100EF           SWI      +349
+   \   00000458   6C119FE5           LDR      R1,??SkinGui_OnRedraw_1+0x8  ;; FONT_E_14R
+   \   0000045C   0530A0E1           MOV      R3,R5
+   \   00000460   00A091E5           LDR      R10,[R1, #+0]
+   \   00000464   0110A0E3           MOV      R1,#+1
+   \   00000468   02002DE9           PUSH     {R1}
+   \   0000046C   0120A0E3           MOV      R2,#+1
+   \   00000470   001061E2           RSB      R1,R1,#+0
+   \   00000474   02002DE9           PUSH     {R1}
+   \   00000478   FF14A0E3           MOV      R1,#-16777216
+   \   0000047C   02002DE9           PUSH     {R1}
+   \   00000480   1810A0E3           MOV      R1,#+24
+   \   00000484   02002DE9           PUSH     {R1}
+   \   00000488   0010A0E1           MOV      R1,R0
+   \   0000048C   0A00A0E1           MOV      R0,R10
+   \   00000490   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+   \   00000494   30D08DE2           ADD      SP,SP,#+48
+    130              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press joystick",ENC_UCS2,TEXTID_ANY_LEN),1,width,46,clBlack,clWhite,true);
+   \   00000498   0620A0E1           MOV      R2,R6
+   \   0000049C   0010A0E3           MOV      R1,#+0
+   \   000004A0   480087E2           ADD      R0,R7,#+72
+   \   000004A4   5D0100EF           SWI      +349
+   \   000004A8   0110A0E3           MOV      R1,#+1
+   \   000004AC   02002DE9           PUSH     {R1}
+   \   000004B0   0530A0E1           MOV      R3,R5
+   \   000004B4   0120A0E3           MOV      R2,#+1
+   \   000004B8   001061E2           RSB      R1,R1,#+0
+   \   000004BC   02002DE9           PUSH     {R1}
+   \   000004C0   FF14A0E3           MOV      R1,#-16777216
+   \   000004C4   02002DE9           PUSH     {R1}
+   \   000004C8   2E10A0E3           MOV      R1,#+46
+   \   000004CC   02002DE9           PUSH     {R1}
+   \   000004D0   0010A0E1           MOV      R1,R0
+   \   000004D4   0A00A0E1           MOV      R0,R10
+   \   000004D8   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    131              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press press 'C'",ENC_UCS2,TEXTID_ANY_LEN),1,width,68,clBlack,clWhite,true);
+   \   000004DC   0620A0E1           MOV      R2,R6
+   \   000004E0   0010A0E3           MOV      R1,#+0
+   \   000004E4   680087E2           ADD      R0,R7,#+104
+   \   000004E8   5D0100EF           SWI      +349
+   \   000004EC   0110A0E3           MOV      R1,#+1
+   \   000004F0   02002DE9           PUSH     {R1}
+   \   000004F4   0530A0E1           MOV      R3,R5
+   \   000004F8   0120A0E3           MOV      R2,#+1
+   \   000004FC   001061E2           RSB      R1,R1,#+0
+   \   00000500   02002DE9           PUSH     {R1}
+   \   00000504   FF14A0E3           MOV      R1,#-16777216
+   \   00000508   02002DE9           PUSH     {R1}
+   \   0000050C   4410A0E3           MOV      R1,#+68
+   \   00000510   02002DE9           PUSH     {R1}
+   \   00000514   0010A0E1           MOV      R1,R0
+   \   00000518   0A00A0E1           MOV      R0,R10
+   \   0000051C   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+    132              DrawHighlightID2(FONT_E_20R,TextID_Create(Font_GetNameByFontId(sk[db->curkey].hfont),ENC_UCS2,TEXTID_ANY_LEN),0,0,90,clBlack,clWhite,true);
+   \   00000520   6C0194E5           LDR      R0,[R4, #+364]
+   \   00000524   800288E0           ADD      R0,R8,R0, LSL #+5
+   \   00000528   1C0090E5           LDR      R0,[R0, #+28]
+   \                     ??SkinGui_OnRedraw_3:
+   \   0000052C   ........           BL       ??Font_GetNameByFontId
+   \   00000530   0620A0E1           MOV      R2,R6
+   \   00000534   0010A0E3           MOV      R1,#+0
+   \   00000538   5D0100EF           SWI      +349
+   \   0000053C   0110A0E3           MOV      R1,#+1
+   \   00000540   02002DE9           PUSH     {R1}
+   \   00000544   0030A0E3           MOV      R3,#+0
+   \   00000548   0020A0E3           MOV      R2,#+0
+   \   0000054C   001061E2           RSB      R1,R1,#+0
+   \   00000550   02002DE9           PUSH     {R1}
+   \   00000554   FF14A0E3           MOV      R1,#-16777216
+   \   00000558   02002DE9           PUSH     {R1}
+   \   0000055C   5A10A0E3           MOV      R1,#+90
+   \   00000560   02002DE9           PUSH     {R1}
+   \   00000564   0010A0E1           MOV      R1,R0
+   \   00000568   0900A0E1           MOV      R0,R9
+   \   0000056C   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+   \   00000570   30D08DE2           ADD      SP,SP,#+48
+    133              DrawHighlightID2(FONT_E_14R,TextID_Create(L"press 1/3",ENC_UCS2,TEXTID_ANY_LEN),1,width,90,clBlack,clWhite,true);
+   \   00000574   0620A0E1           MOV      R2,R6
+   \   00000578   0010A0E3           MOV      R1,#+0
+   \   0000057C   880087E2           ADD      R0,R7,#+136
+   \   00000580   5D0100EF           SWI      +349
+   \   00000584   0110A0E3           MOV      R1,#+1
+   \   00000588   02002DE9           PUSH     {R1}
+   \   0000058C   0530A0E1           MOV      R3,R5
+   \   00000590   0120A0E3           MOV      R2,#+1
+   \   00000594   001061E2           RSB      R1,R1,#+0
+   \   00000598   02002DE9           PUSH     {R1}
+   \   0000059C   FF14A0E3           MOV      R1,#-16777216
+   \   000005A0   02002DE9           PUSH     {R1}
+   \   000005A4   5A10A0E3           MOV      R1,#+90
+   \   000005A8   02002DE9           PUSH     {R1}
+   \   000005AC   0010A0E1           MOV      R1,R0
+   \   000005B0   0A00A0E1           MOV      R0,R10
+   \   000005B4   ........           _BLF     ??DrawHighlightID2,??DrawHighlightID2??rA
+   \   000005B8   10D08DE2           ADD      SP,SP,#+16
+    134            }
+    135          };
+   \   000005BC   64D08DE2           ADD      SP,SP,#+100
+   \   000005C0   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??SkinGui_OnRedraw_1:
+   \   000005C4   ........           DC32     `?<Constant L"\\x25\\x64\\x2d\\x25\\x64">`
+   \   000005C8   ........           DC32     FONT_E_20R
+   \   000005CC   ........           DC32     FONT_E_14R
+    136          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    137          int get_fontindex(DISP_OBJ_SKIN *db, int font)
+    138          {
+    139            int x;
+    140            for (x=0;x<db->total_fonts;x++)
+   \                     ??get_fontindex:
+   \   00000000   0020A0E3           MOV      R2,#+0
+   \   00000004   000000EA           B        ??get_fontindex_1
+   \                     ??get_fontindex_2:
+   \   00000008   012082E2           ADD      R2,R2,#+1
+   \                     ??get_fontindex_1:
+   \   0000000C   743190E5           LDR      R3,[R0, #+372]
+   \   00000010   030052E1           CMP      R2,R3
+   \   00000014   060000AA           BGE      ??get_fontindex_3
+    141            {
+    142              if (db->fonts[x]==font)
+   \   00000018   783190E5           LDR      R3,[R0, #+376]
+   \   0000001C   823083E0           ADD      R3,R3,R2, LSL #+1
+   \   00000020   B030D3E1           LDRH     R3,[R3, #+0]
+   \   00000024   010053E1           CMP      R3,R1
+   \   00000028   F6FFFF1A           BNE      ??get_fontindex_2
+    143              {
+    144                return x;
+   \   0000002C   0200A0E1           MOV      R0,R2
+   \   00000030   1EFF2FE1           BX       LR
+    145              }
+    146            }
+    147            return 0;
+   \                     ??get_fontindex_3:
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   1EFF2FE1           BX       LR               ;; return
+    148          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+    149          void SkinGui_OnKey(DISP_OBJ_SKIN *db,int key,int,int repeat,int type)
+    150          {
+   \                     ??SkinGui_OnKey:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   10009DE5           LDR      R0,[SP, #+16]
+   \   0000000C   0150A0E1           MOV      R5,R1
+    151            if (type==KBD_SHORT_PRESS || type==KBD_LONG_PRESS || type==KBD_LONG_RELEASE)return;
+   \   00000010   DC129FE5           LDR      R1,??SkinGui_OnKey_1  ;; KBD_SHORT_PRESS
+   \   00000014   001091E5           LDR      R1,[R1, #+0]
+   \   00000018   010050E1           CMP      R0,R1
+   \   0000001C   7080BD08           POPEQ    {R4-R6,PC}
+   \   00000020   D0129FE5           LDR      R1,??SkinGui_OnKey_1+0x4  ;; KBD_LONG_PRESS
+   \   00000024   001091E5           LDR      R1,[R1, #+0]
+   \   00000028   010050E1           CMP      R0,R1
+   \   0000002C   7080BD08           POPEQ    {R4-R6,PC}
+   \   00000030   C4129FE5           LDR      R1,??SkinGui_OnKey_1+0x8  ;; KBD_LONG_RELEASE
+   \   00000034   001091E5           LDR      R1,[R1, #+0]
+   \   00000038   010050E1           CMP      R0,R1
+   \   0000003C   7080BD08           POPEQ    {R4-R6,PC}
+    152            if (type==KBD_SHORT_RELEASE) db->step=1;
+   \   00000040   B8129FE5           LDR      R1,??SkinGui_OnKey_1+0xC  ;; KBD_SHORT_RELEASE
+   \   00000044   001091E5           LDR      R1,[R1, #+0]
+   \   00000048   010050E1           CMP      R0,R1
+   \   0000004C   0100A003           MOVEQ    R0,#+1
+   \   00000050   0600000A           BEQ      ??SkinGui_OnKey_2
+    153            else if (type==KBD_REPEAT && repeat>10) db->step=8;
+   \   00000054   A8129FE5           LDR      R1,??SkinGui_OnKey_1+0x10  ;; KBD_REPEAT
+   \   00000058   001091E5           LDR      R1,[R1, #+0]
+   \   0000005C   010050E1           CMP      R0,R1
+   \   00000060   0300001A           BNE      ??SkinGui_OnKey_3
+   \   00000064   0B0053E3           CMP      R3,#+11
+   \   00000068   010000BA           BLT      ??SkinGui_OnKey_3
+   \   0000006C   0800A0E3           MOV      R0,#+8
+   \                     ??SkinGui_OnKey_2:
+   \   00000070   800184E5           STR      R0,[R4, #+384]
+    154            int stat=BookObj_GetDisplayOrientation(FindBook(isSoftEditBook));
+   \                     ??SkinGui_OnKey_3:
+   \   00000074   ........           LDR      R0,??DataTable4  ;; ??isSoftEditBook
+    155            if (key==KEY_VOL_DOWN)
+   \   00000078   ........           LDR      R6,??DataTable6  ;; sk
+   \   0000007C   300100EF           SWI      +304
+   \   00000080   190300EF           SWI      +793
+   \   00000084   7C129FE5           LDR      R1,??SkinGui_OnKey_1+0x14  ;; KEY_VOL_DOWN
+   \   00000088   6CC194E5           LDR      R12,[R4, #+364]
+   \   0000008C   001091E5           LDR      R1,[R1, #+0]
+   \   00000090   010055E1           CMP      R5,R1
+   \   00000094   2000001A           BNE      ??SkinGui_OnKey_4
+    156            {
+    157              if (db->curkey==0)
+   \   00000098   00005CE3           CMP      R12,#+0
+    158              {
+    159                db->curkey=2;
+   \   0000009C   0210A003           MOVEQ    R1,#+2
+    160              }
+    161              else
+    162              {
+    163                db->curkey--;
+   \   000000A0   01104C12           SUBNE    R1,R12,#+1
+   \   000000A4   6C1184E5           STR      R1,[R4, #+364]
+   \   000000A8   6C1194E5           LDR      R1,[R4, #+364]
+   \   000000AC   000050E3           CMP      R0,#+0
+   \   000000B0   811286E0           ADD      R1,R6,R1, LSL #+5
+    164              }
+    165              if (stat==0)
+    166              {
+    167                db->cur=get_fontindex(db, sk[db->curkey].font);
+   \   000000B4   0C109105           LDREQ    R1,[R1, #+12]
+    168              }
+    169              else
+    170              {
+    171                db->cur=get_fontindex(db, sk[db->curkey].hfont);
+   \   000000B8   1C109115           LDRNE    R1,[R1, #+28]
+   \                     ??SkinGui_OnKey_5:
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   ........           BL       ??get_fontindex
+   \   000000C4   7C0184E5           STR      R0,[R4, #+380]
+    172              }
+    173              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+   \                     ??SkinGui_OnKey_6:
+   \   000000C8   0010A0E3           MOV      R1,#+0
+   \   000000CC   0400A0E1           MOV      R0,R4
+   \   000000D0   EF0100EF           SWI      +495
+    174            }
+    175            else if (key==KEY_VOL_UP)
+    176            {
+    177              if (db->curkey==2)
+    178              {
+    179                db->curkey=0;
+    180              }
+    181              else
+    182              {
+    183                db->curkey++;
+    184              }
+    185              if (stat==0)
+    186              {
+    187                db->cur=get_fontindex(db, sk[db->curkey].font);
+    188              }
+    189              else
+    190              {
+    191                db->cur=get_fontindex(db, sk[db->curkey].hfont);
+    192              }
+    193              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    194            }
+    195            else if (key==KEY_UP)
+    196            {
+    197              if (stat==0)
+    198              {
+    199                sk[db->curkey].y=sk[db->curkey].y-db->step;
+    200              }
+    201              else
+    202              {
+    203                sk[db->curkey].hy=sk[db->curkey].hy-db->step;
+    204              }
+    205              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    206            }
+    207            else if (key==KEY_DOWN)
+    208            {
+    209              if (stat==0)
+    210              {
+    211                sk[db->curkey].y=sk[db->curkey].y+db->step;;
+    212              }
+    213              else
+    214              {
+    215                sk[db->curkey].hy=sk[db->curkey].hy+db->step;;
+    216              }
+    217              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    218            }
+    219            else if (key==KEY_LEFT)
+    220            {
+    221              if (stat==0)
+    222              {
+    223                sk[db->curkey].x=sk[db->curkey].x-db->step;
+    224              }
+    225              else
+    226              {
+    227                sk[db->curkey].hx=sk[db->curkey].hx-db->step;
+    228              }
+    229              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    230            }
+    231            else if (key==KEY_RIGHT)
+    232            {
+    233              if (stat==0)
+    234              {
+    235                sk[db->curkey].x=sk[db->curkey].x+db->step;
+    236              }
+    237              else
+    238              {
+    239                sk[db->curkey].hx=sk[db->curkey].hx+db->step;
+    240              }
+    241              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    242            }
+    243            else if (key==KEY_DEL)
+    244            {
+    245              if (stat==0)
+    246              {
+    247                if (sk[db->curkey].ct==2)
+    248                {
+    249                  sk[db->curkey].ct=0;
+    250                }
+    251                else
+    252                {
+    253                  sk[db->curkey].ct++;
+    254                }
+    255              }
+    256              else
+    257              {
+    258                if (sk[db->curkey].hct==2)
+    259                {
+    260                  sk[db->curkey].hct=0;
+    261                }
+    262                else
+    263                {
+    264                  sk[db->curkey].hct++;
+    265                }
+    266              }
+    267              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    268            }
+    269            else if (key-KEY_DIGITAL_0==1)
+    270            {
+    271              if (db->cur==0)
+    272              {
+    273                db->cur=db->total_fonts;
+    274              }
+    275              else 
+    276              {
+    277                db->cur--;
+    278              }
+    279              if (stat==0)
+    280              {
+    281                sk[db->curkey].font=db->fonts[db->cur];
+    282              }
+    283              else
+    284              {
+    285                sk[db->curkey].hfont=db->fonts[db->cur];
+    286              }
+    287              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    288            }
+    289            else if (key-KEY_DIGITAL_0==3)
+    290            {
+    291              if (db->cur==db->total_fonts)
+    292              {
+    293                db->cur=0;
+    294              }
+    295              else 
+    296              {
+    297                db->cur++;
+    298              }
+    299              if (stat==0)
+    300              {
+    301                sk[db->curkey].font=db->fonts[db->cur];
+    302              }
+    303              else
+    304              {
+    305                sk[db->curkey].hfont=db->fonts[db->cur];
+    306              }
+    307              DispObject_InvalidateRect((DISP_OBJ*)db,0);
+    308            }
+    309            SKBOOK *sb=(SKBOOK*)FindBook(isSBook);
+   \                     ??SkinGui_OnKey_7:
+   \   000000D4   30029FE5           LDR      R0,??SkinGui_OnKey_1+0x18  ;; ??isSBook
+   \   000000D8   300100EF           SWI      +304
+   \   000000DC   0040B0E1           MOVS     R4,R0
+    310            if (sb)
+    311            {
+    312              if (sb->change)
+   \   000000E0   30209415           LDRNE    R2,[R4, #+48]
+   \   000000E4   00005213           CMPNE    R2,#+0
+   \   000000E8   7080BD08           POPEQ    {R4-R6,PC}
+    313              {
+    314                sb->change(&sk[0],0);
+   \   000000EC   0010A0E3           MOV      R1,#+0
+   \   000000F0   0600A0E1           MOV      R0,R6
+   \   000000F4   32FF2FE1           BLX      R2
+    315                sb->change(&sk[1],1);
+   \   000000F8   302094E5           LDR      R2,[R4, #+48]
+   \   000000FC   0110A0E3           MOV      R1,#+1
+   \   00000100   200086E2           ADD      R0,R6,#+32
+   \   00000104   32FF2FE1           BLX      R2
+    316                sb->change(&sk[2],2);
+   \   00000108   302094E5           LDR      R2,[R4, #+48]
+   \   0000010C   0210A0E3           MOV      R1,#+2
+   \   00000110   400086E2           ADD      R0,R6,#+64
+   \   00000114   32FF2FE1           BLX      R2
+   \   00000118   7080BDE8           POP      {R4-R6,PC}       ;; return
+    317              }
+    318            }
+   \                     ??SkinGui_OnKey_4:
+   \   0000011C   EC119FE5           LDR      R1,??SkinGui_OnKey_1+0x1C  ;; KEY_VOL_UP
+   \   00000120   0020A0E3           MOV      R2,#+0
+   \   00000124   001091E5           LDR      R1,[R1, #+0]
+   \   00000128   010055E1           CMP      R5,R1
+   \   0000012C   0900001A           BNE      ??SkinGui_OnKey_8
+   \   00000130   02005CE3           CMP      R12,#+2
+   \   00000134   6C218405           STREQ    R2,[R4, #+364]
+   \   00000138   01108C12           ADDNE    R1,R12,#+1
+   \   0000013C   6C118415           STRNE    R1,[R4, #+364]
+   \   00000140   6C1194E5           LDR      R1,[R4, #+364]
+   \   00000144   000050E3           CMP      R0,#+0
+   \   00000148   811286E0           ADD      R1,R6,R1, LSL #+5
+   \   0000014C   1C109115           LDRNE    R1,[R1, #+28]
+   \   00000150   0C109105           LDREQ    R1,[R1, #+12]
+   \   00000154   D8FFFFEA           B        ??SkinGui_OnKey_5
+   \                     ??SkinGui_OnKey_8:
+   \   00000158   B4E19FE5           LDR      LR,??SkinGui_OnKey_1+0x20  ;; KEY_UP
+   \   0000015C   803194E5           LDR      R3,[R4, #+384]
+   \   00000160   00E09EE5           LDR      LR,[LR, #+0]
+   \   00000164   8C1286E0           ADD      R1,R6,R12, LSL #+5
+   \   00000168   0E0055E1           CMP      R5,LR
+   \   0000016C   0900001A           BNE      ??SkinGui_OnKey_9
+   \   00000170   000050E3           CMP      R0,#+0
+   \   00000174   0300001A           BNE      ??SkinGui_OnKey_10
+   \   00000178   040091E5           LDR      R0,[R1, #+4]
+   \   0000017C   030040E0           SUB      R0,R0,R3
+   \                     ??SkinGui_OnKey_11:
+   \   00000180   040081E5           STR      R0,[R1, #+4]
+   \   00000184   CFFFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_10:
+   \   00000188   140091E5           LDR      R0,[R1, #+20]
+   \   0000018C   030040E0           SUB      R0,R0,R3
+   \                     ??SkinGui_OnKey_12:
+   \   00000190   140081E5           STR      R0,[R1, #+20]
+   \   00000194   CBFFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_9:
+   \   00000198   78E19FE5           LDR      LR,??SkinGui_OnKey_1+0x24  ;; KEY_DOWN
+   \   0000019C   00E09EE5           LDR      LR,[LR, #+0]
+   \   000001A0   0E0055E1           CMP      R5,LR
+   \   000001A4   0600001A           BNE      ??SkinGui_OnKey_13
+   \   000001A8   000050E3           CMP      R0,#+0
+   \   000001AC   04009105           LDREQ    R0,[R1, #+4]
+   \   000001B0   00008300           ADDEQ    R0,R3,R0
+   \   000001B4   F1FFFF0A           BEQ      ??SkinGui_OnKey_11
+   \   000001B8   140091E5           LDR      R0,[R1, #+20]
+   \   000001BC   000083E0           ADD      R0,R3,R0
+   \   000001C0   F2FFFFEA           B        ??SkinGui_OnKey_12
+   \                     ??SkinGui_OnKey_13:
+   \   000001C4   50E19FE5           LDR      LR,??SkinGui_OnKey_1+0x28  ;; KEY_LEFT
+   \   000001C8   00E09EE5           LDR      LR,[LR, #+0]
+   \   000001CC   0E0055E1           CMP      R5,LR
+   \   000001D0   0900001A           BNE      ??SkinGui_OnKey_14
+   \   000001D4   000050E3           CMP      R0,#+0
+   \   000001D8   0300001A           BNE      ??SkinGui_OnKey_15
+   \   000001DC   8C0296E7           LDR      R0,[R6, +R12, LSL #+5]
+   \   000001E0   030040E0           SUB      R0,R0,R3
+   \                     ??SkinGui_OnKey_16:
+   \   000001E4   8C0286E7           STR      R0,[R6, +R12, LSL #+5]
+   \   000001E8   B6FFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_15:
+   \   000001EC   100091E5           LDR      R0,[R1, #+16]
+   \   000001F0   030040E0           SUB      R0,R0,R3
+   \                     ??SkinGui_OnKey_17:
+   \   000001F4   100081E5           STR      R0,[R1, #+16]
+   \   000001F8   B2FFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_14:
+   \   000001FC   1CE19FE5           LDR      LR,??SkinGui_OnKey_1+0x2C  ;; KEY_RIGHT
+   \   00000200   00E09EE5           LDR      LR,[LR, #+0]
+   \   00000204   0E0055E1           CMP      R5,LR
+   \   00000208   0600001A           BNE      ??SkinGui_OnKey_18
+   \   0000020C   000050E3           CMP      R0,#+0
+   \   00000210   8C029607           LDREQ    R0,[R6, +R12, LSL #+5]
+   \   00000214   00008300           ADDEQ    R0,R3,R0
+   \   00000218   F1FFFF0A           BEQ      ??SkinGui_OnKey_16
+   \   0000021C   100091E5           LDR      R0,[R1, #+16]
+   \   00000220   000083E0           ADD      R0,R3,R0
+   \   00000224   F2FFFFEA           B        ??SkinGui_OnKey_17
+   \                     ??SkinGui_OnKey_18:
+   \   00000228   F4309FE5           LDR      R3,??SkinGui_OnKey_1+0x30  ;; KEY_DEL
+   \   0000022C   003093E5           LDR      R3,[R3, #+0]
+   \   00000230   030055E1           CMP      R5,R3
+   \   00000234   0D00001A           BNE      ??SkinGui_OnKey_19
+   \   00000238   000050E3           CMP      R0,#+0
+   \   0000023C   0500001A           BNE      ??SkinGui_OnKey_20
+   \   00000240   080091E5           LDR      R0,[R1, #+8]
+   \   00000244   020050E3           CMP      R0,#+2
+   \   00000248   01008012           ADDNE    R0,R0,#+1
+   \   0000024C   08008115           STRNE    R0,[R1, #+8]
+   \   00000250   08208105           STREQ    R2,[R1, #+8]
+   \   00000254   9BFFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_20:
+   \   00000258   180091E5           LDR      R0,[R1, #+24]
+   \   0000025C   020050E3           CMP      R0,#+2
+   \   00000260   01008012           ADDNE    R0,R0,#+1
+   \   00000264   18008115           STRNE    R0,[R1, #+24]
+   \   00000268   18208105           STREQ    R2,[R1, #+24]
+   \   0000026C   95FFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_19:
+   \   00000270   B0E09FE5           LDR      LR,??SkinGui_OnKey_1+0x34  ;; KEY_DIGITAL_0
+   \   00000274   743194E5           LDR      R3,[R4, #+372]
+   \   00000278   00E09EE5           LDR      LR,[LR, #+0]
+   \   0000027C   7CC194E5           LDR      R12,[R4, #+380]
+   \   00000280   0E5045E0           SUB      R5,R5,LR
+   \   00000284   010055E3           CMP      R5,#+1
+   \   00000288   0D00001A           BNE      ??SkinGui_OnKey_21
+   \   0000028C   00005CE3           CMP      R12,#+0
+   \   00000290   7C318405           STREQ    R3,[R4, #+380]
+   \   00000294   01204C12           SUBNE    R2,R12,#+1
+   \   00000298   7C218415           STRNE    R2,[R4, #+380]
+   \   0000029C   782194E5           LDR      R2,[R4, #+376]
+   \   000002A0   7C3194E5           LDR      R3,[R4, #+380]
+   \   000002A4   000050E3           CMP      R0,#+0
+   \   000002A8   832082E0           ADD      R2,R2,R3, LSL #+1
+   \   000002AC   B000D2E1           LDRH     R0,[R2, #+0]
+   \   000002B0   0100001A           BNE      ??SkinGui_OnKey_22
+   \                     ??SkinGui_OnKey_23:
+   \   000002B4   0C0081E5           STR      R0,[R1, #+12]
+   \   000002B8   82FFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_22:
+   \   000002BC   1C0081E5           STR      R0,[R1, #+28]
+   \   000002C0   80FFFFEA           B        ??SkinGui_OnKey_6
+   \                     ??SkinGui_OnKey_21:
+   \   000002C4   030055E3           CMP      R5,#+3
+   \   000002C8   81FFFF1A           BNE      ??SkinGui_OnKey_7
+   \   000002CC   03005CE1           CMP      R12,R3
+   \   000002D0   01208C12           ADDNE    R2,R12,#+1
+   \   000002D4   7C2184E5           STR      R2,[R4, #+380]
+   \   000002D8   782194E5           LDR      R2,[R4, #+376]
+   \   000002DC   7C3194E5           LDR      R3,[R4, #+380]
+   \   000002E0   000050E3           CMP      R0,#+0
+   \   000002E4   832082E0           ADD      R2,R2,R3, LSL #+1
+   \   000002E8   B000D2E1           LDRH     R0,[R2, #+0]
+   \   000002EC   F2FFFF1A           BNE      ??SkinGui_OnKey_22
+   \   000002F0   EFFFFFEA           B        ??SkinGui_OnKey_23
+   \                     ??SkinGui_OnKey_1:
+   \   000002F4   ........           DC32     KBD_SHORT_PRESS
+   \   000002F8   ........           DC32     KBD_LONG_PRESS
+   \   000002FC   ........           DC32     KBD_LONG_RELEASE
+   \   00000300   ........           DC32     KBD_SHORT_RELEASE
+   \   00000304   ........           DC32     KBD_REPEAT
+   \   00000308   ........           DC32     KEY_VOL_DOWN
+   \   0000030C   ........           DC32     ??isSBook
+   \   00000310   ........           DC32     KEY_VOL_UP
+   \   00000314   ........           DC32     KEY_UP
+   \   00000318   ........           DC32     KEY_DOWN
+   \   0000031C   ........           DC32     KEY_LEFT
+   \   00000320   ........           DC32     KEY_RIGHT
+   \   00000324   ........           DC32     KEY_DEL
+   \   00000328   ........           DC32     KEY_DIGITAL_0
+    319          };
+    320          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    321          static const char SkinGuiName[]="Gui_SkinEditor";
+   \                     SkinGuiName:
+   \   00000000   4775695F536B       DC8 "Gui_SkinEditor"
+   \              696E45646974
+   \              6F7200      
+   \   0000000F   00                 DC8 0
+    322          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    323          void SkinGui_constr(DISP_DESC *desc)
+    324          {
+    325            DISP_DESC_SetName(desc,SkinGuiName);
+   \                     ??SkinGui_constr:
+   \   00000000   48109FE5           LDR      R1,??SkinGui_constr_1  ;; SkinGuiName
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   200200EF           SWI      +544
+    326            DISP_DESC_SetSize(desc,sizeof(DISP_OBJ_SKIN));
+   \   00000010   611FA0E3           MOV      R1,#+388
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   220200EF           SWI      +546
+    327            DISP_DESC_SetOnCreate(desc,(DISP_OBJ_ONCREATE_METHOD)SkinGui_OnCreate);
+   \   0000001C   30109FE5           LDR      R1,??SkinGui_constr_1+0x4  ;; ??SkinGui_OnCreate
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   240200EF           SWI      +548
+    328            DISP_DESC_SetOnClose(desc,(DISP_OBJ_ONCLOSE_METHOD)SkinGui_OnClose);
+   \   00000028   28109FE5           LDR      R1,??SkinGui_constr_1+0x8  ;; ??SkinGui_OnClose
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   260200EF           SWI      +550
+    329            DISP_DESC_SetOnRedraw(desc,(DISP_OBJ_ONREDRAW_METHOD)SkinGui_OnRedraw);
+   \   00000034   20109FE5           LDR      R1,??SkinGui_constr_1+0xC  ;; ??SkinGui_OnRedraw
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   280200EF           SWI      +552
+    330            DISP_DESC_SetOnKey(desc,(DISP_OBJ_ONKEY_METHOD)SkinGui_OnKey);
+   \   00000040   18109FE5           LDR      R1,??SkinGui_constr_1+0x10  ;; ??SkinGui_OnKey
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   2A0200EF           SWI      +554
+    331          };
+   \   0000004C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??SkinGui_constr_1:
+   \   00000050   ........           DC32     SkinGuiName
+   \   00000054   ........           DC32     ??SkinGui_OnCreate
+   \   00000058   ........           DC32     ??SkinGui_OnClose
+   \   0000005C   ........           DC32     ??SkinGui_OnRedraw
+   \   00000060   ........           DC32     ??SkinGui_OnKey
+    332          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    333          void SkinGui_destr( GUI* )
+    334          {
+    335            return;
+   \                     ??SkinGui_destr:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    336          };
+    337          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    338          void SkinGui_OnBack(BOOK * bk, void *)
+    339          {
+    340            return;
+   \                     ??SkinGui_OnBack:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    341          };
+    342          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    343          GUI_SKIN *CreateSkinGUI(MyBOOK *mbk)
+    344          {
+   \                     ??CreateSkinGUI:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    345            GUI_SKIN *gui_skin=new GUI_SKIN;
+   \   00000008   9000A0E3           MOV      R0,#+144
+   \   0000000C   ........           _BLF     `??operator new`,`??operator new??rA`
+    346            if (!GUIObject_Create( gui_skin,SkinGui_destr, SkinGui_constr,&mbk->book,0,0,0))
+   \   00000010   5C209FE5           LDR      R2,??CreateSkinGUI_1  ;; ??SkinGui_constr
+   \   00000014   5C109FE5           LDR      R1,??CreateSkinGUI_1+0x4  ;; ??SkinGui_destr
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0430A0E1           MOV      R3,R4
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   F00100EF           SWI      +496
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0CD08DE2           ADD      SP,SP,#+12
+   \   00000040   0300001A           BNE      ??CreateSkinGUI_2
+    347            {
+    348              delete gui_skin;
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    349              return 0;    
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   3080BDE8           POP      {R4,R5,PC}
+    350            }
+    351            if (mbk) BookObj_AddGUIObject(&mbk->book, gui_skin);
+   \                     ??CreateSkinGUI_2:
+   \   00000054   000054E3           CMP      R4,#+0
+   \   00000058   0200000A           BEQ      ??CreateSkinGUI_3
+   \   0000005C   0510A0E1           MOV      R1,R5
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   EB0100EF           SWI      +491
+    352            mbk->skin = gui_skin;
+   \                     ??CreateSkinGUI_3:
+   \   00000068   245084E5           STR      R5,[R4, #+36]
+    353            return gui_skin;
+   \   0000006C   0500A0E1           MOV      R0,R5
+   \   00000070   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??CreateSkinGUI_1:
+   \   00000074   ........           DC32     ??SkinGui_constr
+   \   00000078   ........           DC32     ??SkinGui_destr
+    354          };
+    355          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    356          void SkinGUI_OnBack( BOOK* bk, GUI* )
+    357          {
+   \                     ??SkinGUI_OnBack:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    358            BookObj_SetDisplayOrientation(bk,0);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   1A0300EF           SWI      +794
+    359            BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \   00000010   0C009FE5           LDR      R0,??SkinGUI_OnBack_1  ;; PREVIOUS_EVENT
+   \   00000014   001090E5           LDR      R1,[R0, #+0]
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   2E0100EF           SWI      +302
+    360          };
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??SkinGUI_OnBack_1:
+   \   00000024   ........           DC32     PREVIOUS_EVENT
+    361          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    362          void SkinGUI_Test( BOOK* bk, GUI* )
+    363          {
+   \                     ??SkinGUI_Test:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    364            MyBOOK *mbk=(MyBOOK*)bk;
+    365            DISP_OBJ_SKIN *db=(DISP_OBJ_SKIN*)GUIObject_GetDispObject(mbk->skin);
+    366            if (BookObj_GetDisplayOrientation(bk)==0)
+   \   00000004   ........           LDR      R6,??DataTable6  ;; sk
+   \   00000008   ........           LDR      R7,??DataTable8  ;; `?<Constant L"\\x4e\\x6f\\x72\\x6d\\x61\\x6c">`
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   240094E5           LDR      R0,[R4, #+36]
+   \   00000014   FF80A0E3           MOV      R8,#+255
+   \   00000018   680100EF           SWI      +360
+   \   0000001C   0050A0E1           MOV      R5,R0
+   \   00000020   FF8C88E3           ORR      R8,R8,#0xFF00
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   190300EF           SWI      +793
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0E00001A           BNE      ??SkinGUI_Test_1
+    367            {
+    368              BookObj_SetDisplayOrientation(bk,1);
+   \   00000034   0110A0E3           MOV      R1,#+1
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   1A0300EF           SWI      +794
+    369              GUIObject_SoftKeys_SetText(mbk->skin,0,TextID_Create(L"Normal",ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000040   0820A0E1           MOV      R2,R8
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0700A0E1           MOV      R0,R7
+   \   0000004C   5D0100EF           SWI      +349
+   \   00000050   0020A0E1           MOV      R2,R0
+   \   00000054   240094E5           LDR      R0,[R4, #+36]
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   4C0100EF           SWI      +332
+    370              db->cur=get_fontindex(db, sk[db->curkey].hfont);
+   \   00000060   6C0195E5           LDR      R0,[R5, #+364]
+   \   00000064   800286E0           ADD      R0,R6,R0, LSL #+5
+   \   00000068   1C1090E5           LDR      R1,[R0, #+28]
+   \   0000006C   0D0000EA           B        ??SkinGUI_Test_2
+    371            }
+    372            else
+    373            {
+    374              BookObj_SetDisplayOrientation(bk,0);
+   \                     ??SkinGUI_Test_1:
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   1A0300EF           SWI      +794
+    375              GUIObject_SoftKeys_SetText(mbk->skin,0,TextID_Create(L"Landscape",ENC_UCS2,TEXTID_ANY_LEN));
+   \   0000007C   0820A0E1           MOV      R2,R8
+   \   00000080   0010A0E3           MOV      R1,#+0
+   \   00000084   100087E2           ADD      R0,R7,#+16
+   \   00000088   5D0100EF           SWI      +349
+   \   0000008C   0020A0E1           MOV      R2,R0
+   \   00000090   240094E5           LDR      R0,[R4, #+36]
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \   00000098   4C0100EF           SWI      +332
+    376              db->cur=get_fontindex(db, sk[db->curkey].font);
+   \   0000009C   6C0195E5           LDR      R0,[R5, #+364]
+   \   000000A0   800286E0           ADD      R0,R6,R0, LSL #+5
+   \   000000A4   0C1090E5           LDR      R1,[R0, #+12]
+   \                     ??SkinGUI_Test_2:
+   \   000000A8   0500A0E1           MOV      R0,R5
+   \   000000AC   ........           BL       ??get_fontindex
+   \   000000B0   7C0185E5           STR      R0,[R5, #+380]
+    377            }
+    378            BookObj_Hide(bk,0);
+   \   000000B4   0010A0E3           MOV      R1,#+0
+   \   000000B8   0400A0E1           MOV      R0,R4
+   \   000000BC   710100EF           SWI      +369
+    379            BookObj_Show(bk,0);
+   \   000000C0   0010A0E3           MOV      R1,#+0
+   \   000000C4   0400A0E1           MOV      R0,R4
+   \   000000C8   720100EF           SWI      +370
+    380          };
+   \   000000CC   F081BDE8           POP      {R4-R8,PC}       ;; return
+    381          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    382          void SkinGUI_Dummy( BOOK* bk, GUI* )
+    383          {
+    384            return;
+   \                     ??SkinGUI_Dummy:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    385          };
+    386          extern bool smthchanged;
+
+   \                                 In segment CODE, align 4, keep-with-next
+    387          int Skin_OnEnter(void *, BOOK * bk)
+    388          {
+    389            smthchanged=true;
+   \                     ??Skin_OnEnter:
+   \   00000000   B0019FE5           LDR      R0,??Skin_OnEnter_1  ;; smthchanged
+   \   00000004   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   0150A0E3           MOV      R5,#+1
+   \   00000010   0050C0E5           STRB     R5,[R0, #+0]
+    390            GUI * skin_gui = CreateSkinGUI((MyBOOK*)bk);
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   ........           BL       ??CreateSkinGUI
+   \   0000001C   0060A0E1           MOV      R6,R0
+    391            bool pl;
+    392            switch(GetChipID()&CHIPID_MASK)
+   \   00000020   0070A0E3           MOV      R7,#+0
+   \   00000024   4E0200EF           SWI      +590
+   \   00000028   FE0C00E2           AND      R0,R0,#0xFE00
+   \   0000002C   700C50E2           SUBS     R0,R0,#+28672
+   \   00000030   400D5012           SUBSNE   R0,R0,#+4096
+   \   00000034   0200000A           BEQ      ??Skin_OnEnter_2
+   \   00000038   600D50E2           SUBS     R0,R0,#+6144
+   \   0000003C   0500000A           BEQ      ??Skin_OnEnter_3
+   \   00000040   080000EA           B        ??Skin_OnEnter_4
+    393            {
+    394            case CHIPID_DB2000:
+    395            case CHIPID_DB2010:
+    396              GUIObject_SetStyle(skin_gui,3);
+   \                     ??Skin_OnEnter_2:
+   \   00000044   0310A0E3           MOV      R1,#+3
+   \   00000048   0600A0E1           MOV      R0,R6
+   \   0000004C   360100EF           SWI      +310
+    397              pl=0;
+   \   00000050   0080A0E3           MOV      R8,#+0
+   \   00000054   030000EA           B        ??Skin_OnEnter_4
+    398              break;
+    399            case CHIPID_DB2020:
+    400              GUIObject_SetStyle(skin_gui,4);
+   \                     ??Skin_OnEnter_3:
+   \   00000058   0410A0E3           MOV      R1,#+4
+   \   0000005C   0600A0E1           MOV      R0,R6
+   \   00000060   360100EF           SWI      +310
+    401              pl=1;
+   \   00000064   0180A0E3           MOV      R8,#+1
+    402              break;
+    403            }
+    404            GUIObject_SetTitleType(skin_gui, 1);
+   \                     ??Skin_OnEnter_4:
+   \   00000068   0110A0E3           MOV      R1,#+1
+    405            GUIObject_SoftKeys_SetAction(skin_gui,ACTION_BACK, SkinGUI_OnBack);
+    406            GUIObject_SoftKeys_SetAction(skin_gui,0,SkinGUI_Test);
+    407            if (BookObj_GetDisplayOrientation(bk)==0)
+   \   0000006C   ........           LDR      R9,??DataTable8  ;; `?<Constant L"\\x4e\\x6f\\x72\\x6d\\x61\\x6c">`
+   \   00000070   0600A0E1           MOV      R0,R6
+   \   00000074   810200EF           SWI      +641
+   \   00000078   3C019FE5           LDR      R0,??Skin_OnEnter_1+0x4  ;; ACTION_BACK
+   \   0000007C   3C219FE5           LDR      R2,??Skin_OnEnter_1+0x8  ;; ??SkinGUI_OnBack
+   \   00000080   001090E5           LDR      R1,[R0, #+0]
+   \   00000084   0600A0E1           MOV      R0,R6
+   \   00000088   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000008C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000090   4B0100EF           SWI      +331
+   \   00000094   28219FE5           LDR      R2,??Skin_OnEnter_1+0xC  ;; ??SkinGUI_Test
+   \   00000098   0710A0E1           MOV      R1,R7
+   \   0000009C   0600A0E1           MOV      R0,R6
+   \   000000A0   4B0100EF           SWI      +331
+   \   000000A4   FFA0A0E3           MOV      R10,#+255
+   \   000000A8   FFAC8AE3           ORR      R10,R10,#0xFF00
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   190300EF           SWI      +793
+   \   000000B4   000050E3           CMP      R0,#+0
+   \   000000B8   0A20A0E1           MOV      R2,R10
+   \   000000BC   0710A0E1           MOV      R1,R7
+    408            {
+    409              GUIObject_SoftKeys_SetText(skin_gui,0,TextID_Create(L"Landscape",ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000C0   10008902           ADDEQ    R0,R9,#+16
+    410            }
+    411            else
+    412            {
+    413              GUIObject_SoftKeys_SetText(skin_gui,0,TextID_Create(L"Normal",ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000C4   0900A011           MOVNE    R0,R9
+   \   000000C8   5D0100EF           SWI      +349
+   \   000000CC   0020A0E1           MOV      R2,R0
+   \   000000D0   0010A0E3           MOV      R1,#+0
+   \   000000D4   0600A0E1           MOV      R0,R6
+   \   000000D8   4C0100EF           SWI      +332
+    414            }
+    415            GUIObject_SoftKeys_SetEnable(skin_gui,0,pl);
+   \   000000DC   FF2008E2           AND      R2,R8,#0xFF
+   \   000000E0   0710A0E1           MOV      R1,R7
+   \   000000E4   0600A0E1           MOV      R0,R6
+   \   000000E8   4D0100EF           SWI      +333
+    416            GUIObject_SoftKeys_SetAction(skin_gui,1,SkinGUI_Dummy);
+   \   000000EC   D4209FE5           LDR      R2,??Skin_OnEnter_1+0x10  ;; ??SkinGUI_Dummy
+   \   000000F0   0510A0E1           MOV      R1,R5
+   \   000000F4   0600A0E1           MOV      R0,R6
+   \   000000F8   4B0100EF           SWI      +331
+    417            GUIObject_SoftKeys_SetText(skin_gui,1,TextID_Create(L"-test-",ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000FC   0A20A0E1           MOV      R2,R10
+   \   00000100   0710A0E1           MOV      R1,R7
+   \   00000104   240089E2           ADD      R0,R9,#+36
+   \   00000108   5D0100EF           SWI      +349
+   \   0000010C   0020A0E1           MOV      R2,R0
+   \   00000110   0510A0E1           MOV      R1,R5
+   \   00000114   0600A0E1           MOV      R0,R6
+   \   00000118   4C0100EF           SWI      +332
+    418            
+    419            DISP_OBJ_SKIN *db=(DISP_OBJ_SKIN*)GUIObject_GetDispObject(skin_gui);
+   \   0000011C   0600A0E1           MOV      R0,R6
+   \   00000120   680100EF           SWI      +360
+   \   00000124   0080A0E1           MOV      R8,R0
+    420            db->curkey=0;
+   \   00000128   6C7188E5           STR      R7,[R8, #+364]
+    421            db->setting=0;
+   \   0000012C   707188E5           STR      R7,[R8, #+368]
+    422            db->total_fonts=*GetFontCount();
+   \   00000130   BC8200EF           SWI      +33468
+   \   00000134   000090E5           LDR      R0,[R0, #+0]
+    423            db->fonts=new u16[db->total_fonts];
+    424            for (int i=0; i<db->total_fonts; i++)
+   \   00000138   0790A0E1           MOV      R9,R7
+   \   0000013C   740188E5           STR      R0,[R8, #+372]
+   \   00000140   8000A0E1           LSL      R0,R0,#+1
+   \   00000144   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000148   780188E5           STR      R0,[R8, #+376]
+   \   0000014C   740198E5           LDR      R0,[R8, #+372]
+   \   00000150   010050E3           CMP      R0,#+1
+   \   00000154   080000AA           BGE      ??Skin_OnEnter_5
+   \   00000158   0A0000EA           B        ??Skin_OnEnter_6
+    425            {
+    426              db->fonts[i]=GetFontDesc()[i].id;
+   \                     ??Skin_OnEnter_7:
+   \   0000015C   BB8200EF           SWI      +33467
+   \   00000160   781198E5           LDR      R1,[R8, #+376]
+   \   00000164   1620A0E3           MOV      R2,#+22
+   \   00000168   920920E0           MLA      R0,R2,R9,R0
+   \   0000016C   891081E0           ADD      R1,R1,R9, LSL #+1
+   \   00000170   B000D0E1           LDRH     R0,[R0, #+0]
+    427            }
+   \   00000174   019089E2           ADD      R9,R9,#+1
+   \   00000178   B000C1E1           STRH     R0,[R1, #+0]
+   \                     ??Skin_OnEnter_5:
+   \   0000017C   740198E5           LDR      R0,[R8, #+372]
+   \   00000180   000059E1           CMP      R9,R0
+   \   00000184   F4FFFFBA           BLT      ??Skin_OnEnter_7
+    428            db->cur=0;
+   \                     ??Skin_OnEnter_6:
+   \   00000188   7C7188E5           STR      R7,[R8, #+380]
+    429            db->step=1;
+   \   0000018C   805188E5           STR      R5,[R8, #+384]
+    430            GUIObject_Show(skin_gui);
+   \   00000190   0600A0E1           MOV      R0,R6
+   \   00000194   340100EF           SWI      +308
+    431            BookObj_Hide(bk,0);
+   \   00000198   0010A0E3           MOV      R1,#+0
+   \   0000019C   0400A0E1           MOV      R0,R4
+   \   000001A0   710100EF           SWI      +369
+    432            BookObj_Show(bk,0);
+   \   000001A4   0710A0E1           MOV      R1,R7
+   \   000001A8   0400A0E1           MOV      R0,R4
+   \   000001AC   720100EF           SWI      +370
+    433            return (1);
+   \   000001B0   0500A0E1           MOV      R0,R5
+   \   000001B4   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??Skin_OnEnter_1:
+   \   000001B8   ........           DC32     smthchanged
+   \   000001BC   ........           DC32     ACTION_BACK
+   \   000001C0   ........           DC32     ??SkinGUI_OnBack
+   \   000001C4   ........           DC32     ??SkinGUI_Test
+   \   000001C8   ........           DC32     ??SkinGUI_Dummy
+    434          };
+    435          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    436          int Skin_OnExit(void *, BOOK * bk)
+    437          {
+   \                     ??Skin_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    438            MyBOOK *mbk=(MyBOOK *)bk;
+    439            if (mbk->skin)GUIObject_Destroy( mbk->skin);
+   \   00000008   240094E5           LDR      R0,[R4, #+36]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??Skin_OnExit_1
+   \   00000014   CE0100EF           SWI      +462
+    440            mbk->skin=0;
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \                     ??Skin_OnExit_1:
+   \   0000001C   240084E5           STR      R0,[R4, #+36]
+    441            return (1);
+   \   00000020   0100A0E3           MOV      R0,#+1
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+    442          };
+    443          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    444          const PAGE_MSG bk_msglst_skin[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_skin:
+   \   00000000   42000000....       DC32 66, ??Skin_OnEnter, 67, ??Skin_OnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+    445          {
+    446            PAGE_ENTER_EVENT_TAG,            Skin_OnEnter,
+    447            PAGE_EXIT_EVENT_TAG,             Skin_OnExit,
+    448            NIL_EVENT_TAG,                   NULL
+    449          };
+    450          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    451          const PAGE_DESC bk_skin = {"SoftEdit_SkinEditor",0,bk_msglst_skin};
+   \                     bk_skin:
+   \   00000000   ........0000       DC32 `?<Constant "SoftEdit_SkinEditor">`, 0H, bk_msglst_skin
+   \              0000........
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     ??isSoftEditBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     sk
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     `?<Constant L"\\x4e\\x6f\\x72\\x6d\\x61\\x6c">`
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for sk>`:
+   \   00000000   000000002801       DC32 0, 296, 0, 24, 320, 220, 1, 18, 0, 293, 2, 44, 320, 115, 1, 44
+   \              000000000000
+   \              180000004001
+   \              0000DC000000
+   \              010000001200
+   \              000000000000
+   \              250100000200
+   \              00002C000000
+   \              400100007300
+   \              000001000000
+   \              2C000000    
+   \   00000040   F00000002801       DC32 240, 296, 1, 24, 320, 0, 1, 18
+   \              000001000000
+   \              180000004001
+   \              000000000000
+   \              010000001200
+   \              0000        
+   \                     `?<Initializer for horiz>`:
+   \   00000060   ........           DC32 `?<Constant L"\\x4c\\x6f\\x77\\x65\\x72\\x20\\x73\\x6f\\`
+   \   00000064   ........           DC32 `?<Constant L"\\x4d\\x69\\x64\\x64\\x6c\\x65\\x20\\x73\\`
+   \   00000068   ........           DC32 `?<Constant L"\\x55\\x70\\x70\\x65\\x72\\x20\\x73\\x6f\\`
+   \                     `?<Initializer for vert>`:
+   \   0000006C   ........           DC32 `?<Constant L"\\x4c\\x65\\x66\\x74\\x20\\x73\\x6f\\x66\\`
+   \   00000070   ........           DC32 `?<Constant L"\\x4d\\x69\\x64\\x64\\x6c\\x65\\x20\\x73\\`
+   \   00000074   ........           DC32 `?<Constant L"\\x52\\x69\\x67\\x68\\x74\\x20\\x73\\x6f\\`
+   \                     `?<Initializer for cts>`:
+   \   00000078   ........           DC32 `?<Constant L"\\x4c\\x65\\x66\\x74">`
+   \   0000007C   ........           DC32 `?<Constant L"\\x52\\x69\\x67\\x68\\x74">`
+   \   00000080   ........           DC32 `?<Constant L"\\x43\\x65\\x6e\\x74\\x65\\x72">`
+   \                     `?<Initializer for sk240>`:
+   \   00000084   000000002801       DC32 0, 296, 0, 24, 320, 220, 1, 18, 0, 293, 2, 44, 320, 115, 1, 44
+   \              000000000000
+   \              180000004001
+   \              0000DC000000
+   \              010000001200
+   \              000000000000
+   \              250100000200
+   \              00002C000000
+   \              400100007300
+   \              000001000000
+   \              2C000000    
+   \   000000C4   F00000002801       DC32 240, 296, 1, 24, 320, 0, 1, 18
+   \              000001000000
+   \              180000004001
+   \              000000000000
+   \              010000001200
+   \              0000        
+   \                     `?<Initializer for sk176>`:
+   \   000000E4   00000000C600       DC32 0, 198, 0, 24, 220, 156, 1, 18, 0, 193, 2, 44, 220, 80, 1, 44, 176
+   \              000000000000
+   \              18000000DC00
+   \              00009C000000
+   \              010000001200
+   \              000000000000
+   \              C10000000200
+   \              00002C000000
+   \              DC0000005000
+   \              000001000000
+   \              2C000000B000
+   \              0000        
+   \   00000128   C60000000100       DC32 198, 1, 24, 220, 0, 1, 18
+   \              000018000000
+   \              DC0000000000
+   \              000001000000
+   \              12000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4c\\x6f\\x77\\x65\\x72\\x20\\x73\\x6f\\`:
+   \   00000000   4C006F007700       DC8 4CH, 0, 6FH, 0, 77H, 0, 65H, 0
+   \              6500        
+   \   00000008   720020007300       DC8 72H, 0, 20H, 0, 73H, 0, 6FH, 0
+   \              6F00        
+   \   00000010   660074006B00       DC8 66H, 0, 74H, 0, 6BH, 0, 65H, 0
+   \              6500        
+   \   00000018   79000000           DC8 79H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x69\\x64\\x64\\x6c\\x65\\x20\\x73\\`:
+   \   00000000   4D0069006400       DC8 4DH, 0, 69H, 0, 64H, 0, 64H, 0
+   \              6400        
+   \   00000008   6C0065002000       DC8 6CH, 0, 65H, 0, 20H, 0, 73H, 0
+   \              7300        
+   \   00000010   6F0066007400       DC8 6FH, 0, 66H, 0, 74H, 0, 6BH, 0
+   \              6B00        
+   \   00000018   650079000000       DC8 65H, 0, 79H, 0, 0, 0
+   \   0000001E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x55\\x70\\x70\\x65\\x72\\x20\\x73\\x6f\\`:
+   \   00000000   550070007000       DC8 55H, 0, 70H, 0, 70H, 0, 65H, 0
+   \              6500        
+   \   00000008   720020007300       DC8 72H, 0, 20H, 0, 73H, 0, 6FH, 0
+   \              6F00        
+   \   00000010   660074006B00       DC8 66H, 0, 74H, 0, 6BH, 0, 65H, 0
+   \              6500        
+   \   00000018   79000000           DC8 79H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4c\\x65\\x66\\x74\\x20\\x73\\x6f\\x66\\`:
+   \   00000000   4C0065006600       DC8 4CH, 0, 65H, 0, 66H, 0, 74H, 0
+   \              7400        
+   \   00000008   200073006F00       DC8 20H, 0, 73H, 0, 6FH, 0, 66H, 0
+   \              6600        
+   \   00000010   74006B006500       DC8 74H, 0, 6BH, 0, 65H, 0, 79H, 0
+   \              7900        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x69\\x67\\x68\\x74\\x20\\x73\\x6f\\`:
+   \   00000000   520069006700       DC8 52H, 0, 69H, 0, 67H, 0, 68H, 0
+   \              6800        
+   \   00000008   740020007300       DC8 74H, 0, 20H, 0, 73H, 0, 6FH, 0
+   \              6F00        
+   \   00000010   660074006B00       DC8 66H, 0, 74H, 0, 6BH, 0, 65H, 0
+   \              6500        
+   \   00000018   79000000           DC8 79H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4c\\x65\\x66\\x74">`:
+   \   00000000   4C0065006600       DC8 4CH, 0, 65H, 0, 66H, 0, 74H, 0
+   \              7400        
+   \   00000008   0000               DC8 0, 0
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x52\\x69\\x67\\x68\\x74">`:
+   \   00000000   520069006700       DC8 52H, 0, 69H, 0, 67H, 0, 68H, 0
+   \              6800        
+   \   00000008   74000000           DC8 74H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x65\\x6e\\x74\\x65\\x72">`:
+   \   00000000   430065006E00       DC8 43H, 0, 65H, 0, 6EH, 0, 74H, 0
+   \              7400        
+   \   00000008   650072000000       DC8 65H, 0, 72H, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SoftEdit_SkinEditor">`:
+   \   00000000   536F66744564       DC8 "SoftEdit_SkinEditor"
+   \              69745F536B69
+   \              6E456469746F
+   \              7200        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%dsk)">`:
+   \   00000000   2564736B2900       DC8 "%dsk)"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x55\\x6e\\x64\\x65\\x66\\x69\\x6e\\x65\\`:
+   \   00000000   55006E006400       DC8 55H, 0, 6EH, 0, 64H, 0, 65H, 0
+   \              6500        
+   \   00000008   660069006E00       DC8 66H, 0, 69H, 0, 6EH, 0, 65H, 0
+   \              6500        
+   \   00000010   64000000           DC8 64H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x64\\x2d\\x25\\x64">`:
+   \   00000000   250064002D00       DC8 25H, 0, 64H, 0, 2DH, 0, 25H, 0
+   \              2500        
+   \   00000008   64000000           DC8 64H, 0, 0, 0
+   \   0000000C   53006F006600       DC8 53H, 0, 6FH, 0, 66H, 0, 74H, 0
+   \              7400        
+   \   00000014   6B0065007900       DC8 6BH, 0, 65H, 0, 79H, 0, 73H, 0
+   \              7300        
+   \   0000001C   550049000000       DC8 55H, 0, 49H, 0, 0, 0
+   \   00000022   0000               DC8 0, 0
+   \   00000024   700072006500       DC8 70H, 0, 72H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   0000002C   730020007600       DC8 73H, 0, 20H, 0, 76H, 0, 6FH, 0
+   \              6F00        
+   \   00000034   6C0020007500       DC8 6CH, 0, 20H, 0, 75H, 0, 70H, 0
+   \              7000        
+   \   0000003C   2F0064006F00       DC8 2FH, 0, 64H, 0, 6FH, 0, 77H, 0
+   \              7700        
+   \   00000044   6E000000           DC8 6EH, 0, 0, 0
+   \   00000048   700072006500       DC8 70H, 0, 72H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   00000050   730020006A00       DC8 73H, 0, 20H, 0, 6AH, 0, 6FH, 0
+   \              6F00        
+   \   00000058   790073007400       DC8 79H, 0, 73H, 0, 74H, 0, 69H, 0
+   \              6900        
+   \   00000060   63006B000000       DC8 63H, 0, 6BH, 0, 0, 0
+   \   00000066   0000               DC8 0, 0
+   \   00000068   700072006500       DC8 70H, 0, 72H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   00000070   730020007000       DC8 73H, 0, 20H, 0, 70H, 0, 72H, 0
+   \              7200        
+   \   00000078   650073007300       DC8 65H, 0, 73H, 0, 73H, 0, 20H, 0
+   \              2000        
+   \   00000080   270043002700       DC8 27H, 0, 43H, 0, 27H, 0, 0, 0
+   \              0000        
+   \   00000088   700072006500       DC8 70H, 0, 72H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   00000090   730020003100       DC8 73H, 0, 20H, 0, 31H, 0, 2FH, 0
+   \              2F00        
+   \   00000098   33000000           DC8 33H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4e\\x6f\\x72\\x6d\\x61\\x6c">`:
+   \   00000000   4E006F007200       DC8 4EH, 0, 6FH, 0, 72H, 0, 6DH, 0
+   \              6D00        
+   \   00000008   61006C000000       DC8 61H, 0, 6CH, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+   \   00000010   4C0061006E00       DC8 4CH, 0, 61H, 0, 6EH, 0, 64H, 0
+   \              6400        
+   \   00000018   730063006100       DC8 73H, 0, 63H, 0, 61H, 0, 70H, 0
+   \              7000        
+   \   00000020   65000000           DC8 65H, 0, 0, 0
+   \   00000024   2D0074006500       DC8 2DH, 0, 74H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   0000002C   74002D000000       DC8 74H, 0, 2DH, 0, 0, 0
+   \   00000032   0000               DC8 0, 0
+    452          
+    453          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateSkinGUI(MyBOOK *)           24
+     Font_GetNameByFontId(int)         20
+     SkinGUI_Dummy(BOOK *, GUI *)       0
+     SkinGUI_OnBack(BOOK *, GUI *)      8
+     SkinGUI_Test(BOOK *, GUI *)       24
+     SkinGui_OnBack(BOOK *, void *)     0
+     SkinGui_OnClose(DISP_OBJ_SKIN *)
+                                        4
+     SkinGui_OnCreate(DISP_OBJ_SKIN *)
+                                        0
+     SkinGui_OnKey(DISP_OBJ_SKIN *, int, int, int, int)
+                                       16
+     SkinGui_OnRedraw(DISP_OBJ_SKIN *, int, int, int)
+                                      180
+     SkinGui_constr(DISP_DESC *)        8
+     SkinGui_destr(GUI *)               0
+     Skin_OnEnter(void *, BOOK *)      32
+     Skin_OnExit(void *, BOOK *)        8
+     addui(char *, int)                20
+     auto_select()                      8
+     get_fontindex(DISP_OBJ_SKIN *, int)
+                                        0
+     set_ui(char *, int)              148
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     auto_select()                    44
+     sk                              324
+     addui(char *, int)              192
+     set_ui(char *, int)             112
+     SkinGui_OnCreate(DISP_OBJ_SKIN *)
+                                       8
+     SkinGui_OnClose(DISP_OBJ_SKIN *)
+                                       8
+     Font_GetNameByFontId(int)        84
+     SkinGui_OnRedraw(DISP_OBJ_SKIN *, int, int, int)
+                                    1488
+     get_fontindex(DISP_OBJ_SKIN *, int)
+                                      60
+     SkinGui_OnKey(DISP_OBJ_SKIN *, int, int, int, int)
+                                     812
+     SkinGuiName                      16
+     SkinGui_constr(DISP_DESC *)     100
+     SkinGui_destr(GUI *)              4
+     SkinGui_OnBack(BOOK *, void *)    4
+     CreateSkinGUI(MyBOOK *)         124
+     SkinGUI_OnBack(BOOK *, GUI *)    40
+     SkinGUI_Test(BOOK *, GUI *)     208
+     SkinGUI_Dummy(BOOK *, GUI *)      4
+     Skin_OnEnter(void *, BOOK *)    460
+     Skin_OnExit(void *, BOOK *)      40
+     bk_msglst_skin                   24
+     bk_skin                          12
+     ??DataTable4                      4
+     ??DataTable6                      4
+     ??DataTable8                      4
+     ?<Initializer for sk>           324
+     ?<Constant L"\x4c\x6f\x77\x65\x72\x20\x73\x6f\
+                                      28
+     ?<Constant L"\x4d\x69\x64\x64\x6c\x65\x20\x73\
+                                      32
+     ?<Constant L"\x55\x70\x70\x65\x72\x20\x73\x6f\
+                                      28
+     ?<Constant L"\x4c\x65\x66\x74\x20\x73\x6f\x66\
+                                      28
+     ?<Constant L"\x52\x69\x67\x68\x74\x20\x73\x6f\
+                                      28
+     ?<Constant L"\x4c\x65\x66\x74">
+                                      12
+     ?<Constant L"\x52\x69\x67\x68\x74">
+                                      12
+     ?<Constant L"\x43\x65\x6e\x74\x65\x72">
+                                      16
+     ?<Constant "SoftEdit_SkinEditor">
+                                      20
+     ?<Constant "%dsk)">               8
+     ?<Constant L"\x55\x6e\x64\x65\x66\x69\x6e\x65\
+                                      20
+     ?<Constant L"\x25\x64\x2d\x25\x64">
+                                     156
+     ?<Constant L"\x4e\x6f\x72\x6d\x61\x6c">
+                                      52
+      Others                         156
+
+ 
+ 3 948 bytes in segment CODE
+   468 bytes in segment DATA_C
+   324 bytes in segment DATA_I
+   324 bytes in segment DATA_ID
+    24 bytes in segment DYN_PAGE
+    12 bytes in segment INITTAB
+ 
+ 3 804 bytes of CODE  memory (+ 156 bytes shared)
+   816 bytes of CONST memory
+   324 bytes of DATA  memory
+
+Errors: none
+Warnings: none

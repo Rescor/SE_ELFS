@@ -1,0 +1,534 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:49:37 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\u /
+//                       ntar.cpp                                            /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\u /
+//                       ntar.cpp -D NDEBUG -D OLDFUNCTIONS -lC              /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\R /
+//                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn /
+//                       \SE\AdvSoftkeys\Release\List\ -o                    /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\R /
+//                       elease\Obj\ -s9 --cpu_mode arm --endian little      /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\R /
+//                       elease\List\untar.s79                               /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME untar
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        MULTWEAK ??oct2int??rA
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new??rA`
+        MULTWEAK `??operator new[]??rA`
+        MULTWEAK ??pos2bs??rA
+        PUBLIC ??tar_getnextheader
+        FUNCTION ??tar_getnextheader,0203H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??tar_getnextheader??rT
+        PUBLIC ??tar_savefile
+        FUNCTION ??tar_savefile,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??tar_savefile??rT
+        PUBLIC ??tar_uncompress
+        FUNCTION ??tar_uncompress,0203H
+        LOCFRAME CSTACK, 260, STACK
+        MULTWEAK ??tar_uncompress??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+??oct2int??rA       SYMBOL "??rA", ??oct2int
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new??rA` SYMBOL "??rA", `??operator new`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+??pos2bs??rA        SYMBOL "??rA", ??pos2bs
+
+??tar_getnextheader??rT SYMBOL "??rT", ??tar_getnextheader
+
+??tar_savefile??rT  SYMBOL "??rT", ??tar_savefile
+
+??tar_uncompress??rT SYMBOL "??rT", ??tar_uncompress
+
+        EXTERN ??oct2int
+        FUNCTION ??oct2int,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new`
+        FUNCTION `??operator new`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+        EXTERN ??pos2bs
+        FUNCTION ??pos2bs,0202H
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??tar_getnextheader??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??tar_getnextheader
+// Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\untar.cpp
+//    1 #include "..\\include\Lib_Clara.h" 
+//    2 #include "..\\include\Dir.h" 
+//    3 #include "header\untar.h"
+//    4 #include "header\string.h"
+//    5 #define F_SAVESIZE 300
+//    6 
+//    7 //Рабочий модуль для распаковки *.thm...
+//    8 //может работать с некоторыми архивами некорректно, т.к. особо логику *.tar не разбирал...
+//    9 //(C) UltraShot
+//   10 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??tar_getnextheader
+        ARM
+//   11 TAR_HEADER *tar_getnextheader(int file)
+//   12 {
+??tar_getnextheader:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SUB      SP,SP,#+16
+        CFI CFA R13+28
+        MOV      R4,R0
+//   13   TAR_HEADER *h=new TAR_HEADER;
+        MOV      R0,#+108
+        _BLF     `??operator new`,`??operator new??rA`
+        MOV      R5,R0
+//   14   memset(h,0,sizeof(TAR_HEADER));
+        MOV      R2,#+108
+        MOV      R1,#+0
+        SWI      +274
+//   15   fread(file,h->fname,0x64);
+        MOV      R2,#+100
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +280
+//   16   lseek(file,0x18,SEEK_CUR);
+        MOV      R2,#+1
+        MOV      R1,#+24
+        MOV      R0,R4
+        SWI      +374
+//   17   char size[13];
+//   18   fread(file,size,12);
+        MOV      R2,#+12
+        MOV      R1,SP
+        MOV      R0,R4
+        SWI      +280
+//   19   h->size=oct2int(size);
+        MOV      R0,SP
+        _BLF     ??oct2int,??oct2int??rA
+        STR      R0,[R5, #+104]
+//   20   if (h->size>0)
+        CMP      R0,#+1
+        BLT      ??tar_getnextheader_1
+//   21   {
+//   22     lseek(file,HEADER_SIZE-0x64-0x18-12, SEEK_CUR);
+        MOV      R2,#+1
+        MOV      R1,#+376
+        MOV      R0,R4
+        SWI      +374
+//   23   }
+//   24   else
+//   25   {
+//   26     delete(h);
+//   27     return 0;
+//   28   }
+//   29   return h;
+        MOV      R0,R5
+        ADD      SP,SP,#+16
+        CFI CFA R13+12
+        POP      {R4,R5,PC}
+        CFI CFA R13+28
+??tar_getnextheader_1:
+        MOV      R0,R5
+        _BLF     `??operator delete`,`??operator delete??rA`
+        MOV      R0,#+0
+        ADD      SP,SP,#+16
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock1
+//   30 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??tar_savefile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??tar_savefile
+//   31 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??tar_savefile
+        ARM
+//   32 int tar_savefile(int file, int size, wchar_t *path, wchar_t *fname)
+//   33 {
+??tar_savefile:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        MOV      R4,R0
+        MOV      R0,R2
+//   34   int sfile;
+//   35   if ((sfile=_fopen(path,fname,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R2,#+0
+        PUSH     {R2}
+        CFI CFA R13+32
+        MOV      R5,R1
+        MOV      R1,R3
+        MOV      R3,#+384
+        MOV      R2,#+516
+        SWI      +278
+        MOVS     R6,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        BMI      ??tar_savefile_1
+//   36   {
+//   37     int x=0;
+//   38     for (x=0;x<size;x=x+F_SAVESIZE)
+        MOV      R7,#+0
+        CMP      R5,#+1
+        BGE      ??tar_savefile_2
+        B        ??tar_savefile_1
+//   39     {
+//   40       int ts=F_SAVESIZE;
+??tar_savefile_3:
+        MOV      R8,#+300
+//   41       if ((size-x)>=F_SAVESIZE)
+        SUB      R0,R5,R7
+        CMP      R0,#+300
+//   42       {
+//   43         ts=F_SAVESIZE;
+//   44       }
+//   45       else if ((size-x)<F_SAVESIZE)
+//   46       {
+//   47         ts=size-x;
+        MOVLT    R8,R0
+//   48       }
+//   49       char *buf=new char[ts+1];
+        ADD      R0,R8,#+1
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOV      R9,R0
+//   50       fread(file, buf, ts);
+        MOV      R2,R8
+        MOV      R1,R9
+        MOV      R0,R4
+        SWI      +280
+//   51       fwrite(sfile, buf, ts);
+        MOV      R2,R8
+        MOV      R1,R9
+        MOV      R0,R6
+        SWI      +281
+//   52       delete(buf);
+        MOV      R0,R9
+        _BLF     `??operator delete`,`??operator delete??rA`
+//   53     }
+        ADD      R7,R7,#+300
+??tar_savefile_2:
+        CMP      R7,R5
+        BLT      ??tar_savefile_3
+//   54   }
+//   55   fclose(sfile);
+??tar_savefile_1:
+        MOV      R0,R6
+        SWI      +279
+//   56   return 0;
+        MOV      R0,#+0
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock3
+//   57 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??tar_uncompress??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??tar_uncompress
+//   58 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??tar_uncompress
+        ARM
+//   59 int tar_uncompress(wchar_t *path, wchar_t *name, wchar_t *folder)
+//   60 {
+??tar_uncompress:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        SUB      SP,SP,#+232
+        CFI CFA R13+256
+        MOV      R6,R0
+        MOV      R7,R1
+        MOV      R4,R2
+//   61   int res=0;
+        MOV      R5,#+0
+//   62   int file;
+//   63   FSTAT fst;
+//   64   if (fstat(path,name,&fst)==0)
+        MOV      R2,SP
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??tar_uncompress_1
+//   65   {
+//   66     if ((file=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        PUSH     {R0}
+        CFI CFA R13+260
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R7
+        MOV      R0,R6
+        SWI      +278
+        MOVS     R6,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+256
+        BMI      ??tar_uncompress_2
+//   67     {
+//   68       int pos=0;
+        MOV      R7,#+0
+        B        ??tar_uncompress_3
+//   69       while (pos<fst.fsize)
+//   70       {
+//   71         lseek(file,pos,SEEK_SET);
+//   72         TAR_HEADER *h=0;
+//   73         if (pos<fst.fsize)
+//   74         {
+//   75           h=tar_getnextheader(file);
+//   76           pos=pos+0x200;
+//   77           if (h)
+//   78           {
+//   79             wchar_t fname[0x64+1];
+//   80             str2wstr(fname, h->fname);
+??tar_uncompress_4:
+        MOV      R1,R8
+        ADD      R0,SP,#+28
+        SWI      +344
+//   81             tar_savefile(file, h->size, folder, fname);
+        LDR      R1,[R8, #+104]
+        ADD      R3,SP,#+28
+        MOV      R2,R4
+        MOV      R0,R6
+        BL       ??tar_savefile
+//   82             pos=pos+h->size;
+//   83             pos = pos2bs(pos);
+        LDR      R0,[R8, #+104]
+//   84             delete(h);
+//   85             res++;
+        ADD      R5,R5,#+1
+        ADD      R0,R7,R0
+        ADD      R0,R0,#+512
+        _BLF     ??pos2bs,??pos2bs??rA
+        MOV      R7,R0
+        MOV      R0,R8
+        _BLF     `??operator delete`,`??operator delete??rA`
+//   86           }
+??tar_uncompress_3:
+        LDR      R0,[SP, #+8]
+        CMP      R7,R0
+        BGE      ??tar_uncompress_2
+        MOV      R2,#+0
+        MOV      R1,R7
+        MOV      R0,R6
+        SWI      +374
+        LDR      R0,[SP, #+8]
+        CMP      R7,R0
+        BGE      ??tar_uncompress_2
+        MOV      R0,R6
+        BL       ??tar_getnextheader
+        MOVS     R8,R0
+        BNE      ??tar_uncompress_4
+//   87           else break;
+//   88         }
+//   89         else break;
+//   90       }
+//   91     }
+//   92     fclose(file);
+??tar_uncompress_2:
+        MOV      R0,R6
+        SWI      +279
+//   93   }
+//   94   return res;
+??tar_uncompress_1:
+        MOV      R0,R5
+        ADD      SP,SP,#+232
+        CFI CFA R13+24
+        POP      {R4-R8,PC}       ;; return
+        CFI EndBlock cfiBlock5
+//   95 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new??rA`:
+        LDR      R12,??Subroutine3_0  ;; `??operator new`
+        BX       R12
+        DATA
+??Subroutine3_0:
+        DC32     `??operator new`
+        CFI EndBlock cfiBlock6
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??oct2int??rA:
+        LDR      R12,??Subroutine4_0  ;; ??oct2int
+        BX       R12
+        DATA
+??Subroutine4_0:
+        DC32     ??oct2int
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine5_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine5_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock8
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine6_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine6_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??pos2bs??rA:
+        LDR      R12,??Subroutine7_0  ;; ??pos2bs
+        BX       R12
+        DATA
+??Subroutine7_0:
+        DC32     ??pos2bs
+        CFI EndBlock cfiBlock10
+
+        END
+// 
+// 612 bytes in segment CODE
+// 
+// 540 bytes of CODE memory (+ 72 bytes shared)
+//
+//Errors: none
+//Warnings: none

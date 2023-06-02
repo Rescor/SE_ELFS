@@ -1,0 +1,149 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:44:32 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zCrc.c  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zCrc.c  #
+#                       -D NDEBUG -D OLDFUNCTIONS -lcN                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7zli #
+#                       b\Release\List\ -o Z:\home\perk11\www\perk11.info\sv #
+#                       n\SE\7zlib\Release\Obj\ -s9 --no_unroll              #
+#                       --no_code_motion --cpu_mode thumb --endian little    #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --library_module -I                       #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\7zCrc.lst                                       #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       Obj\7zCrc.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zCrc.c
+      1          /* 7zCrc.c */
+      2          
+      3          #include "7zCrc.h"
+      4          
+      5          #define kCrcPoly 0xEDB88320
+      6          
+      7          UInt32 g_CrcTable[256];
+      8          
+      9          void InitCrcTable(void)
+     10          {
+     11            UInt32 i;
+     12            for (i = 0; i < 256; i++)
+     13            {
+     14              UInt32 r = i;
+     15              int j;
+     16              for (j = 0; j < 8; j++)
+     17                if (r & 1) 
+     18                  r = (r >> 1) ^ kCrcPoly;
+     19                else     
+     20                  r >>= 1;
+     21              g_CrcTable[i] = r;
+     22            }
+     23          }
+     24          
+     25          void CrcInit(UInt32 *crc) { *crc = 0xFFFFFFFF; }
+     26          UInt32 CrcGetDigest(UInt32 *crc) { return *crc ^ 0xFFFFFFFF; } 
+     27          
+     28          void CrcUpdateByte(UInt32 *crc, Byte b)
+     29          {
+     30            *crc = g_CrcTable[((Byte)(*crc)) ^ b] ^ (*crc >> 8);
+     31          }
+     32          
+     33          void CrcUpdateUInt16(UInt32 *crc, UInt16 v)
+     34          {
+     35            CrcUpdateByte(crc, (Byte)v);
+     36            CrcUpdateByte(crc, (Byte)(v >> 8));
+     37          }
+     38          
+     39          void CrcUpdateUInt32(UInt32 *crc, UInt32 v)
+     40          {
+     41            int i;
+     42            for (i = 0; i < 4; i++)
+     43              CrcUpdateByte(crc, (Byte)(v >> (8 * i)));
+     44          }
+     45          
+     46          void CrcUpdateUInt64(UInt32 *crc, UInt64 v)
+     47          {
+     48            int i;
+     49            for (i = 0; i < 8; i++)
+     50            {
+     51              CrcUpdateByte(crc, (Byte)(v));
+     52              v >>= 8;
+     53            }
+     54          }
+     55          
+     56          void CrcUpdate(UInt32 *crc, const void *data, size_t size)
+     57          {
+     58            UInt32 v = *crc;
+     59            const Byte *p = (const Byte *)data;
+     60            for (; size > 0 ; size--, p++)
+     61              v = g_CrcTable[((Byte)(v)) ^ *p] ^ (v >> 8);
+     62            *crc = v;
+     63          }
+     64          
+     65          UInt32 CrcCalculateDigest(const void *data, size_t size)
+     66          {
+     67            UInt32 crc;
+     68            CrcInit(&crc);
+     69            CrcUpdate(&crc, data, size);
+     70            return CrcGetDigest(&crc);
+     71          }
+     72          
+     73          int CrcVerifyDigest(UInt32 digest, const void *data, size_t size)
+     74          {
+     75            return (CrcCalculateDigest(data, size) == digest);
+     76          }
+
+   Maximum stack usage in bytes:
+
+     Function           CSTACK
+     --------           ------
+     CrcCalculateDigest    12
+     CrcGetDigest           0
+     CrcInit                0
+     CrcUpdate             12
+     CrcUpdateByte          0
+     CrcUpdateUInt16       12
+     CrcUpdateUInt32       16
+     CrcUpdateUInt64       20
+     CrcVerifyDigest       16
+     InitCrcTable           4
+
+
+   Segment part sizes:
+
+     Function/Label     Bytes
+     --------------     -----
+     g_CrcTable         1024
+     InitCrcTable         44
+     CrcInit               8
+     CrcGetDigest         10
+     CrcUpdateByte        22
+     CrcUpdateUInt16      24
+     CrcUpdateUInt32      32
+     CrcUpdateUInt64      36
+     CrcUpdate            40
+     CrcCalculateDigest   30
+     CrcVerifyDigest      36
+     ??DataTable2          4
+      Others              92
+
+ 
+   366 bytes in segment CODE
+ 1 024 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+   286 bytes of CODE memory (+ 92 bytes shared)
+ 1 024 bytes of DATA memory
+
+Errors: none
+Warnings: none

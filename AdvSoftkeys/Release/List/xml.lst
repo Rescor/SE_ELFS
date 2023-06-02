@@ -1,0 +1,486 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:49:40 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\xm #
+#                       l.cpp                                                #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\xm #
+#                       l.cpp -D NDEBUG -D OLDFUNCTIONS -lC                  #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\AdvSoftkeys\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\xml.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\xml.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\xml.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          #include "header\string.h"
+      4          #include "header\iofunc.h"
+      5          //------------------------------------------------------------------
+      6          void images_add(wchar_t *path, wchar_t *name, int index);
+      7          //------------------------------------------------------------------
+      8          #define STANDBY_SOFTKEY 0
+      9          #define LEFT_PRESSED 1
+     10          #define MIDDLE_PRESSED 2
+     11          #define RIGHT_PRESSED 3
+     12          #define STANDBY 4
+     13          #define DESKTOP 5
+     14          #define NAVIGATION 6
+     15          #define INT_NUM 6
+     16          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     17          char *params[]={        "Softkey_text_left Color", 
+     18                                  "Softkey_text_left_pressed Color", 
+     19                                  "Softkey_text_middle Color", 
+     20                                  "Softkey_text_middle_pressed Color", 
+     21                                  "Softkey_text_right Color", 
+     22                                  "Softkey_text_right_pressed Color"};
+     23          
+     24          char *params_wstr[]={   "Standby_softkey_image Source",
+     25                                  "Softkey_left_pressed_image Source",
+     26                                  "Softkey_middle_pressed_image Source",
+     27                                  "Softkey_right_pressed_image Source",
+     28                                  "Standby_image Source",
+     29                                  "Desktop_image Source",
+     30                                  "Background_image Source"};
+     31          
+     32          int colors[INT_NUM];
+   \                     colors:
+   \   00000000                      DS8 24
+   \   00000018                      REQUIRE `?<Initializer for colors>`
+   \                     params:
+   \   00000018                      DS8 24
+   \   00000030                      REQUIRE `?<Initializer for params>`
+   \                     params_wstr:
+   \   00000030                      DS8 28
+   \   0000004C                      REQUIRE `?<Initializer for params_wstr>`
+     33          //------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+     34          int xml_get_maxlen(char *param)
+     35          {
+   \                     ??xml_get_maxlen:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     36            int x=0;
+     37            for (x=0;x<strlen(param);x++)
+   \   00000008   0050A0E3           MOV      R5,#+0
+   \   0000000C   000000EA           B        ??xml_get_maxlen_1
+   \                     ??xml_get_maxlen_2:
+   \   00000010   015085E2           ADD      R5,R5,#+1
+   \                     ??xml_get_maxlen_1:
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   5A0100EF           SWI      +346
+   \   0000001C   000055E1           CMP      R5,R0
+   \   00000020   040000AA           BGE      ??xml_get_maxlen_3
+     38            {
+     39              if (param[x]==0x22)
+   \   00000024   0400D5E7           LDRB     R0,[R5, +R4]
+   \   00000028   220050E3           CMP      R0,#+34
+   \   0000002C   F7FFFF1A           BNE      ??xml_get_maxlen_2
+     40              {
+     41                return x;
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   3080BDE8           POP      {R4,R5,PC}
+     42              }
+     43            }
+     44            return 0;
+   \                     ??xml_get_maxlen_3:
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   3080BDE8           POP      {R4,R5,PC}       ;; return
+     45          };
+     46          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     47          char *get_xml_param(char *xml, char *param)
+     48          {
+   \                     ??get_xml_param:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     49            char *fname=strstr(xml, param);
+   \   00000004   980200EF           SWI      +664
+   \   00000008   0040B0E1           MOVS     R4,R0
+     50            if (fname)
+   \   0000000C   1700000A           BEQ      ??get_xml_param_1
+     51            { 
+     52              while ((*fname++)!=0)
+   \                     ??get_xml_param_2:
+   \   00000010   ........           LDRB     R0,[R4], #+1
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   3080BD08           POPEQ    {R4,R5,PC}
+     53              {
+     54                if (fname[0]==0x22)
+   \   0000001C   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000020   220050E3           CMP      R0,#+34
+   \   00000024   F9FFFF1A           BNE      ??get_xml_param_2
+     55                {
+     56                  *fname++;
+     57                  char *test=new char[xml_get_maxlen(fname) + 1];
+   \   00000028   014084E2           ADD      R4,R4,#+1
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           BL       ??xml_get_maxlen
+   \   00000034   010080E2           ADD      R0,R0,#+1
+   \   00000038   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000003C   0050A0E1           MOV      R5,R0
+     58                  strncpy(test,fname,xml_get_maxlen(fname));
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   ........           BL       ??xml_get_maxlen
+   \   00000048   0020A0E1           MOV      R2,R0
+   \   0000004C   0410A0E1           MOV      R1,R4
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   7F0200EF           SWI      +639
+     59                  test[xml_get_maxlen(fname)]='\0';
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   ........           BL       ??xml_get_maxlen
+   \   00000060   0010A0E3           MOV      R1,#+0
+   \   00000064   0510C0E7           STRB     R1,[R0, +R5]
+     60                  return test;          
+   \   00000068   0500A0E1           MOV      R0,R5
+   \   0000006C   3080BDE8           POP      {R4,R5,PC}
+     61                }
+     62              }
+     63            }
+     64            return 0;
+   \                     ??get_xml_param_1:
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   3080BDE8           POP      {R4,R5,PC}       ;; return
+     65          };
+     66          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     67          int skin_execute_xml(wchar_t *folder, wchar_t *name)
+     68          {
+   \                     ??skin_execute_xml:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+     69            memset(colors,0,sizeof(int)*INT_NUM);
+   \   00000004   0C519FE5           LDR      R5,??skin_execute_xml_1  ;; colors
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0160A0E1           MOV      R6,R1
+   \   00000014   1820A0E3           MOV      R2,#+24
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   120100EF           SWI      +274
+     70            int len=0;
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   00108DE5           STR      R1,[SP, #+0]
+     71            char *buf=file_read(folder, name, &len);
+   \   0000002C   0D20A0E1           MOV      R2,SP
+   \   00000030   0610A0E1           MOV      R1,R6
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   ........           _BLF     ??file_read,??file_read??rA
+   \   0000003C   0060A0E1           MOV      R6,R0
+     72            int x;
+     73            for (x=0;x<INT_NUM;x++)
+   \   00000040   0070A0E3           MOV      R7,#+0
+   \   00000044   060000EA           B        ??skin_execute_xml_2
+     74            {
+     75              if (x==2)
+   \                     ??skin_execute_xml_3:
+   \   00000048   020057E3           CMP      R7,#+2
+     76              {
+     77                colors[x]=colors[0];
+   \   0000004C   00009505           LDREQ    R0,[R5, #+0]
+   \   00000050   08008505           STREQ    R0,[R5, #+8]
+   \   00000054   0200000A           BEQ      ??skin_execute_xml_2
+     78              }
+     79              else if (x==3)
+   \   00000058   030057E3           CMP      R7,#+3
+     80              {
+     81                colors[x]=colors[1];
+   \   0000005C   04009505           LDREQ    R0,[R5, #+4]
+   \   00000060   0C008505           STREQ    R0,[R5, #+12]
+     82              }
+     83              char *val=get_xml_param(buf, params[x]);
+   \                     ??skin_execute_xml_2:
+   \   00000064   070185E0           ADD      R0,R5,R7, LSL #+2
+   \   00000068   181090E5           LDR      R1,[R0, #+24]
+   \   0000006C   0600A0E1           MOV      R0,R6
+   \   00000070   ........           BL       ??get_xml_param
+   \   00000074   0080B0E1           MOVS     R8,R0
+     84              if (val)
+   \   00000078   0600000A           BEQ      ??skin_execute_xml_4
+     85              {
+     86                abc2ABC(val);
+   \   0000007C   ........           _BLF     ??abc2ABC,??abc2ABC??rA
+     87                int cl=h2i(val);
+     88                cl=cl|0xFF000000;
+     89                colors[x]=cl;
+   \   00000080   0800A0E1           MOV      R0,R8
+   \   00000084   ........           _BLF     ??h2i,??h2i??rA
+   \   00000088   FF0480E3           ORR      R0,R0,#0xFF000000
+   \   0000008C   070185E7           STR      R0,[R5, +R7, LSL #+2]
+     90                delete(val);
+   \   00000090   0800A0E1           MOV      R0,R8
+   \   00000094   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     91              }
+     92            }
+   \                     ??skin_execute_xml_4:
+   \   00000098   017087E2           ADD      R7,R7,#+1
+   \   0000009C   060057E3           CMP      R7,#+6
+   \   000000A0   E8FFFFBA           BLT      ??skin_execute_xml_3
+     93            for (x=0;x<7;x++)
+   \   000000A4   0070A0E3           MOV      R7,#+0
+     94            {
+     95              char *val=get_xml_param(buf, params_wstr[x]);
+   \                     ??skin_execute_xml_5:
+   \   000000A8   070185E0           ADD      R0,R5,R7, LSL #+2
+   \   000000AC   301090E5           LDR      R1,[R0, #+48]
+   \   000000B0   0600A0E1           MOV      R0,R6
+   \   000000B4   ........           BL       ??get_xml_param
+   \   000000B8   0080B0E1           MOVS     R8,R0
+     96              if (val)
+   \   000000BC   0E00000A           BEQ      ??skin_execute_xml_6
+     97              {
+     98                wchar_t *wval=new wchar_t[strlen(val)+1];
+   \   000000C0   5A0100EF           SWI      +346
+   \   000000C4   010080E2           ADD      R0,R0,#+1
+   \   000000C8   8000A0E1           LSL      R0,R0,#+1
+   \   000000CC   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000D0   0090A0E1           MOV      R9,R0
+     99                str2wstr(wval,val);
+   \   000000D4   0810A0E1           MOV      R1,R8
+   \   000000D8   580100EF           SWI      +344
+    100                images_add(folder, wval, x);
+   \   000000DC   0720A0E1           MOV      R2,R7
+   \   000000E0   0910A0E1           MOV      R1,R9
+   \   000000E4   0400A0E1           MOV      R0,R4
+   \   000000E8   ........           _BLF     ??images_add,??images_add??rA
+    101                delete(wval);
+   \   000000EC   0900A0E1           MOV      R0,R9
+   \   000000F0   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    102                delete(val);
+   \   000000F4   0800A0E1           MOV      R0,R8
+   \   000000F8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    103              }
+    104            }
+   \                     ??skin_execute_xml_6:
+   \   000000FC   017087E2           ADD      R7,R7,#+1
+   \   00000100   070057E3           CMP      R7,#+7
+   \   00000104   E7FFFFBA           BLT      ??skin_execute_xml_5
+    105            delete(buf);
+   \   00000108   0600A0E1           MOV      R0,R6
+   \   0000010C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    106            return 0;
+   \   00000110   0000A0E3           MOV      R0,#+0
+   \   00000114   F283BDE8           POP      {R1,R4-R9,PC}    ;; return
+   \                     ??skin_execute_xml_1:
+   \   00000118   ........           DC32     colors
+    107          };
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for colors>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000010   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for params>`:
+   \   00000018   ........           DC32 `?<Constant "Softkey_text_left Color">`
+   \   0000001C   ........           DC32 `?<Constant "Softkey_text_left_pre...">`
+   \   00000020   ........           DC32 `?<Constant "Softkey_text_middle C...">`
+   \   00000024   ........           DC32 `?<Constant "Softkey_text_middle_p...">`
+   \   00000028   ........           DC32 `?<Constant "Softkey_text_right Color">`
+   \   0000002C   ........           DC32 `?<Constant "Softkey_text_right_pr...">`
+   \                     `?<Initializer for params_wstr>`:
+   \   00000030   ........           DC32 `?<Constant "Standby_softkey_image...">`
+   \   00000034   ........           DC32 `?<Constant "Softkey_left_pressed_...">`
+   \   00000038   ........           DC32 `?<Constant "Softkey_middle_presse...">`
+   \   0000003C   ........           DC32 `?<Constant "Softkey_right_pressed...">`
+   \   00000040   ........           DC32 `?<Constant "Standby_image Source">`
+   \   00000044   ........           DC32 `?<Constant "Desktop_image Source">`
+   \   00000048   ........           DC32 `?<Constant "Background_image Source">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_text_left Color">`:
+   \   00000000   536F66746B65       DC8 "Softkey_text_left Color"
+   \              795F74657874
+   \              5F6C65667420
+   \              436F6C6F7200
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_text_left_pre...">`:
+   \   00000000   536F66746B65       DC8 "Softkey_text_left_pressed Color"
+   \              795F74657874
+   \              5F6C6566745F
+   \              707265737365
+   \              6420436F6C6F
+   \              7200        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_text_middle C...">`:
+   \   00000000   536F66746B65       DC8 "Softkey_text_middle Color"
+   \              795F74657874
+   \              5F6D6964646C
+   \              6520436F6C6F
+   \              7200        
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_text_middle_p...">`:
+   \   00000000   536F66746B65       DC8 "Softkey_text_middle_pressed Color"
+   \              795F74657874
+   \              5F6D6964646C
+   \              655F70726573
+   \              73656420436F
+   \              6C6F7200    
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_text_right Color">`:
+   \   00000000   536F66746B65       DC8 "Softkey_text_right Color"
+   \              795F74657874
+   \              5F7269676874
+   \              20436F6C6F72
+   \              00          
+   \   00000019   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_text_right_pr...">`:
+   \   00000000   536F66746B65       DC8 "Softkey_text_right_pressed Color"
+   \              795F74657874
+   \              5F7269676874
+   \              5F7072657373
+   \              656420436F6C
+   \              6F7200      
+   \   00000021   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Standby_softkey_image...">`:
+   \   00000000   5374616E6462       DC8 "Standby_softkey_image Source"
+   \              795F736F6674
+   \              6B65795F696D
+   \              61676520536F
+   \              7572636500  
+   \   0000001D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_left_pressed_...">`:
+   \   00000000   536F66746B65       DC8 "Softkey_left_pressed_image Source"
+   \              795F6C656674
+   \              5F7072657373
+   \              65645F696D61
+   \              676520536F75
+   \              72636500    
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_middle_presse...">`:
+   \   00000000   536F66746B65       DC8 "Softkey_middle_pressed_image Source"
+   \              795F6D696464
+   \              6C655F707265
+   \              737365645F69
+   \              6D6167652053
+   \              6F7572636500
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Softkey_right_pressed...">`:
+   \   00000000   536F66746B65       DC8 "Softkey_right_pressed_image Source"
+   \              795F72696768
+   \              745F70726573
+   \              7365645F696D
+   \              61676520536F
+   \              7572636500  
+   \   00000023   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Standby_image Source">`:
+   \   00000000   5374616E6462       DC8 "Standby_image Source"
+   \              795F696D6167
+   \              6520536F7572
+   \              636500      
+   \   00000015   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Desktop_image Source">`:
+   \   00000000   4465736B746F       DC8 "Desktop_image Source"
+   \              705F696D6167
+   \              6520536F7572
+   \              636500      
+   \   00000015   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Background_image Source">`:
+   \   00000000   4261636B6772       DC8 "Background_image Source"
+   \              6F756E645F69
+   \              6D6167652053
+   \              6F7572636500
+    108          //------------------------------------------------------------------
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     get_xml_param(char *, char *)     12
+     skin_execute_xml(wchar_t *, wchar_t *)
+                                       32
+     xml_get_maxlen(char *)            12
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     colors                           76
+     xml_get_maxlen(char *)           64
+     get_xml_param(char *, char *)   120
+     skin_execute_xml(wchar_t *, wchar_t *)
+                                     284
+     ?<Initializer for colors>        76
+     ?<Constant "Softkey_text_left Color">
+                                      24
+     ?<Constant "Softkey_text_left_pre...">
+                                      32
+     ?<Constant "Softkey_text_middle C...">
+                                      28
+     ?<Constant "Softkey_text_middle_p...">
+                                      36
+     ?<Constant "Softkey_text_right Color">
+                                      28
+     ?<Constant "Softkey_text_right_pr...">
+                                      36
+     ?<Constant "Standby_softkey_image...">
+                                      32
+     ?<Constant "Softkey_left_pressed_...">
+                                      36
+     ?<Constant "Softkey_middle_presse...">
+                                      36
+     ?<Constant "Softkey_right_pressed...">
+                                      36
+     ?<Constant "Standby_image Source">
+                                      24
+     ?<Constant "Desktop_image Source">
+                                      24
+     ?<Constant "Background_image Source">
+                                      24
+      Others                          96
+
+ 
+ 552 bytes in segment CODE
+ 396 bytes in segment DATA_C
+  76 bytes in segment DATA_I
+  76 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 468 bytes of CODE  memory (+ 96 bytes shared)
+ 472 bytes of CONST memory
+  76 bytes of DATA  memory
+
+Errors: none
+Warnings: none

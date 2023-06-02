@@ -1,0 +1,404 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:48:02 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\quicksor /
+//                       t.cpp                                               /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\quicksor /
+//                       t.cpp -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN     /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcs /
+//                       e\Release\List\ -o Z:\home\perk11\www\perk11.info\s /
+//                       vn\SE\mcse\Release\Obj\ -s9 --no_unroll             /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl /
+//                       8n.h --preinclude Z:\home\perk11\www\perk11.info\sv /
+//                       n\SE\mcse\..\deleaker\mem2.h -I                     /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\ /
+//                       List\quicksort.s79                                  /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME quicksort
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        MULTWEAK ??MsgBoxError??rA
+        MULTWEAK ??muitxt??rA
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new[]??rA`
+        PUBLIC ??quickSort
+        FUNCTION ??quickSort,0203H
+        LOCFRAME CSTACK, 48, STACK
+        PUBLIC ??quickSort1
+        FUNCTION ??quickSort1,0203H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??quickSort1??rT
+        MULTWEAK ??quickSort??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+??MsgBoxError??rA   SYMBOL "??rA", ??MsgBoxError
+??muitxt??rA        SYMBOL "??rA", ??muitxt
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+
+??quickSort1??rT    SYMBOL "??rT", ??quickSort1
+??quickSort??rT     SYMBOL "??rT", ??quickSort
+
+        EXTERN ??MsgBoxError
+        FUNCTION ??MsgBoxError,0202H
+        EXTERN ??muitxt
+        FUNCTION ??muitxt,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??quickSort??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??quickSort
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??quickSort
+        ARM
+??quickSort:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+12
+        CFI CFA R13+48
+        MOV      R4,R0
+        MOV      R7,R1
+        MOV      R5,R2
+        MOV      R0,#+8192
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BEQ      ??quickSort_1
+        MOV      R0,#+8192
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[SP, #+4]
+        CMP      R0,#+0
+        BNE      ??quickSort_2
+        LDR      R0,[SP, #+0]
+        _BLF     `??operator delete`,`??operator delete??rA`
+??quickSort_1:
+        MOV      R0,#+87
+        _BLF     ??muitxt,??muitxt??rA
+        _BLF     ??MsgBoxError,??MsgBoxError??rA
+        POP      {R0-R2,R4-R11,PC}
+??quickSort_2:
+        LDR      R0,[SP, #+0]
+        MOV      R1,#+0
+        STR      R1,[R0, #+4]
+        LDR      R0,[SP, #+4]
+        MOV      R6,#+1
+        SUB      R1,R7,#+1
+        STR      R1,[R0, #+4]
+??quickSort_3:
+        LDR      R0,[SP, #+0]
+        LDR      R7,[R0, +R6, LSL #+2]
+        LDR      R0,[SP, #+4]
+        LDR      R8,[R0, +R6, LSL #+2]
+        SUB      R6,R6,#+1
+??quickSort_4:
+        ADD      R1,R8,R7
+        ASR      R1,R1,#+1
+        STR      R1,[SP, #+8]
+        MOV      R10,R7
+        MOV      R11,R8
+        MOV      R0,R1
+        LDR      R9,[R4, +R0, LSL #+2]
+??quickSort_5:
+        LDR      R1,[R4, +R10, LSL #+2]
+        MOV      R0,R9
+        MOV      R2,R5
+        BLX      R2
+        CMP      R0,#+0
+        BEQ      ??quickSort_6
+        ADD      R10,R10,#+1
+        B        ??quickSort_5
+??quickSort_7:
+        SUB      R11,R11,#+1
+??quickSort_6:
+        LDR      R0,[R4, +R11, LSL #+2]
+        MOV      R1,R9
+        MOV      R2,R5
+        BLX      R2
+        CMP      R0,#+0
+        BNE      ??quickSort_7
+        CMP      R11,R10
+        BLT      ??quickSort_8
+        LDR      R0,[R4, +R10, LSL #+2]
+        LDR      R1,[R4, +R11, LSL #+2]
+        STR      R1,[R4, +R10, LSL #+2]
+        STR      R0,[R4, +R11, LSL #+2]
+        ADD      R10,R10,#+1
+        SUB      R11,R11,#+1
+??quickSort_8:
+        CMP      R11,R10
+        BGE      ??quickSort_5
+        LDR      R0,[SP, #+8]
+        CMP      R10,R0
+        BGE      ??quickSort_9
+        CMP      R10,R8
+        BGE      ??quickSort_10
+        LDR      R0,[SP, #+0]
+        ADD      R6,R6,#+1
+        STR      R10,[R0, +R6, LSL #+2]
+        LDR      R0,[SP, #+4]
+        STR      R8,[R0, +R6, LSL #+2]
+??quickSort_10:
+        MOV      R8,R11
+        B        ??quickSort_11
+??quickSort_9:
+        CMP      R7,R11
+        BGE      ??quickSort_12
+        LDR      R0,[SP, #+0]
+        ADD      R6,R6,#+1
+        STR      R7,[R0, +R6, LSL #+2]
+        LDR      R0,[SP, #+4]
+        STR      R11,[R0, +R6, LSL #+2]
+??quickSort_12:
+        MOV      R7,R10
+??quickSort_11:
+        CMP      R7,R8
+        BLT      ??quickSort_4
+        CMP      R6,#+0
+        BNE      ??quickSort_3
+        LDR      R0,[SP, #+4]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        LDR      R0,[SP, #+0]
+        _BLF     `??operator delete`,`??operator delete??rA`
+        POP      {R0-R2,R4-R11,PC}  ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??quickSort1??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??quickSort1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??quickSort1
+        ARM
+??quickSort1:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,#+0
+        SUB      R8,R5,#+1
+        ASR      R0,R5,#+1
+        LDR      R9,[R4, +R0, LSL #+2]
+??quickSort1_1:
+        LDR      R1,[R4, +R7, LSL #+2]
+        MOV      R0,R9
+        MOV      R2,R6
+        BLX      R2
+        CMP      R0,#+0
+        BEQ      ??quickSort1_2
+        ADD      R7,R7,#+1
+        B        ??quickSort1_1
+??quickSort1_3:
+        SUB      R8,R8,#+1
+??quickSort1_2:
+        LDR      R0,[R4, +R8, LSL #+2]
+        MOV      R1,R9
+        MOV      R2,R6
+        BLX      R2
+        CMP      R0,#+0
+        BNE      ??quickSort1_3
+        CMP      R8,R7
+        BLT      ??quickSort1_4
+        LDR      R0,[R4, +R7, LSL #+2]
+        LDR      R1,[R4, +R8, LSL #+2]
+        STR      R1,[R4, +R7, LSL #+2]
+        STR      R0,[R4, +R8, LSL #+2]
+        ADD      R7,R7,#+1
+        SUB      R8,R8,#+1
+??quickSort1_4:
+        CMP      R8,R7
+        BGE      ??quickSort1_1
+        CMP      R8,#+1
+        BLT      ??quickSort1_5
+        MOV      R2,R6
+        MOV      R1,R8
+        MOV      R0,R4
+        BL       ??quickSort
+??quickSort1_5:
+        CMP      R7,R5
+        POPGE    {R4-R9,PC}
+        MOV      R2,R6
+        SUB      R1,R5,R7
+        ADD      R0,R4,R7, LSL #+2
+        BL       ??quickSort
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine2_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine2_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??muitxt??rA:
+        LDR      R12,??Subroutine3_0  ;; ??muitxt
+        BX       R12
+        DATA
+??Subroutine3_0:
+        DC32     ??muitxt
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??MsgBoxError??rA:
+        LDR      R12,??Subroutine4_0  ;; ??MsgBoxError
+        BX       R12
+        DATA
+??Subroutine4_0:
+        DC32     ??MsgBoxError
+        CFI EndBlock cfiBlock6
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine5_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine5_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock7
+
+        END
+// 
+// 616 bytes in segment CODE
+// 
+// 560 bytes of CODE memory (+ 56 bytes shared)
+//
+//Errors: none
+//Warnings: 2

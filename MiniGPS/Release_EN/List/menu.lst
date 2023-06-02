@@ -1,0 +1,876 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:06:25 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\menu.c #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\menu.c #
+#                        -D NDEBUG -D LANG_EN -D OLDFUNCTIONS -lCN           #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_EN\List\ -la Z:\home\perk11\www\perk11.info\svn\SE #
+#                       \MiniGPS\Release_EN\List\ -o                         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_EN\Obj\ -s9 --no_unroll --no_code_motion           #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --enable_multibytes   #
+#                       --fpu None --eec++ --dlib_config                     #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_EN\List\menu.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\Releas #
+#                       e_EN\Obj\menu.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\MiniGPS\menu.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "..\\include\var_arg.h"
+      4          #include "..\\include\cfg_items.h"
+      5          #include "main.h"
+      6          #include "menu.h"
+      7          #include "language.h"
+      8          
+      9          #define MENU_ITEM_NUM   5
+     10          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          void AutoOKPressed(BOOK * bk, wchar_t *string, int len)
+     12          {
+   \                     ??AutoOKPressed:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     13            wstrcpy(SIwstr, string);
+   \   00000008   ........           LDR      R0,??DataTable5  ;; SIwstr
+   \   0000000C   520100EF           SWI      +338
+     14            AutoLocation=true;
+   \   00000010   ........           LDR      R0,??DataTable10  ;; AutoLocation
+   \   00000014   0110A0E3           MOV      R1,#+1
+   \   00000018   0010C0E5           STRB     R1,[R0, #+0]
+     15            CheckCurrentCell();
+   \   0000001C   ........           _BLF     ??CheckCurrentCell,??CheckCurrentCell??rA
+     16            BookObj_ReturnPage(bk,NIL_EVENT);
+   \   00000020   ........           LDR      R0,??DataTable12  ;; NIL_EVENT
+   \   00000024   001090E5           LDR      R1,[R0, #+0]
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   2E0100EF           SWI      +302
+     17          }
+   \   00000030   1080BDE8           POP      {R4,PC}          ;; return
+     18          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     19          void AutoBackPressed(BOOK * bk, u16 *string, int len)
+     20          {
+     21            BookObj_ReturnPage(bk,NIL_EVENT);
+   \                     ??AutoBackPressed:
+   \   00000000   ........           LDR      R1,??DataTable12  ;; NIL_EVENT
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   2E0100EF           SWI      +302
+     22          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     23          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     24          void CreateAutoLacationInput()
+     25          {
+     26            MyBOOK * bk = (MyBOOK *) FindBook(isMiniGPSBook);
+   \                     ??CreateAutoLacationInput:
+   \   00000000   ........           LDR      R0,??DataTable13  ;; ??isMiniGPSBook
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   300100EF           SWI      +304
+   \   0000000C   0040A0E1           MOV      R4,R0
+     27            FREE_GUI(bk->text_input);
+   \   00000010   200094E5           LDR      R0,[R4, #+32]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0200000A           BEQ      ??CreateAutoLacationInput_1
+   \   0000001C   CE0100EF           SWI      +462
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   200084E5           STR      R0,[R4, #+32]
+     28            TEXTID text = TextID_Create(SIwstr,ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??CreateAutoLacationInput_1:
+   \   00000028   ........           LDR      R0,??DataTable5  ;; SIwstr
+   \   0000002C   FF60A0E3           MOV      R6,#+255
+   \   00000030   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   00000034   0620A0E1           MOV      R2,R6
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   5D0100EF           SWI      +349
+   \   00000040   0050A0E1           MOV      R5,R0
+     29            bk->text_input = CreateStringInputVA(0,
+     30                                      VAR_BOOK(bk),
+     31                                      VAR_STRINP_FIXED_TEXT(TextID_Create(LG_CURRENTLOCATION,ENC_UCS2,TEXTID_ANY_LEN)),
+     32                                      VAR_STRINP_TEXT(text),
+     33                                      VAR_STRINP_NEW_LINE(0),
+     34                                      VAR_STRINP_ENABLE_EMPTY_STR(0),
+     35                                      VAR_STRINP_MAX_LEN(MAX_AUTOLOCATION_LEN - 1),
+     36                                      VAR_STRINP_MODE(IT_STRING),
+     37                                      VAR_OK_PROC(AutoOKPressed),
+     38                                      VAR_PREV_ACTION_PROC(AutoBackPressed),
+     39                                      0);
+   \   00000044   B4009FE5           LDR      R0,??CreateAutoLacationInput_2  ;; `?<Constant L"\\x43\\x75\\x72\\x72\\x65\\x6e\\x74\\x20\\`
+   \   00000048   0620A0E1           MOV      R2,R6
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   5D0100EF           SWI      +349
+   \   00000054   A8309FE5           LDR      R3,??CreateAutoLacationInput_2+0x4  ;; VAR_ARG_STRINP_FIXED_TEXT
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   A0109FE5           LDR      R1,??CreateAutoLacationInput_2+0x8  ;; ??AutoBackPressed
+   \   00000064   0420A0E1           MOV      R2,R4
+   \   00000068   02002DE9           PUSH     {R1}
+   \   0000006C   98109FE5           LDR      R1,??CreateAutoLacationInput_2+0xC  ;; VAR_ARG_CALL_BACK_PREV_ACT
+   \   00000070   02002DE9           PUSH     {R1}
+   \   00000074   94109FE5           LDR      R1,??CreateAutoLacationInput_2+0x10  ;; ??AutoOKPressed
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   90109FE5           LDR      R1,??CreateAutoLacationInput_2+0x14  ;; VAR_ARG_CALL_BACK_OK
+   \   00000080   02002DE9           PUSH     {R1}
+   \   00000084   0110A0E3           MOV      R1,#+1
+   \   00000088   02002DE9           PUSH     {R1}
+   \   0000008C   84109FE5           LDR      R1,??CreateAutoLacationInput_2+0x18  ;; VAR_ARG_STRINP_MODE
+   \   00000090   02002DE9           PUSH     {R1}
+   \   00000094   5F10A0E3           MOV      R1,#+95
+   \   00000098   02002DE9           PUSH     {R1}
+   \   0000009C   78109FE5           LDR      R1,??CreateAutoLacationInput_2+0x1C  ;; VAR_ARG_STRINP_MAX_LEN
+   \   000000A0   02002DE9           PUSH     {R1}
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   02002DE9           PUSH     {R1}
+   \   000000AC   6C109FE5           LDR      R1,??CreateAutoLacationInput_2+0x20  ;; VAR_ARG_STRINP_EMPTY_STR_EN
+   \   000000B0   02002DE9           PUSH     {R1}
+   \   000000B4   0010A0E3           MOV      R1,#+0
+   \   000000B8   02002DE9           PUSH     {R1}
+   \   000000BC   60109FE5           LDR      R1,??CreateAutoLacationInput_2+0x24  ;; VAR_ARG_STRINP_NEW_LINE
+   \   000000C0   02002DE9           PUSH     {R1}
+   \   000000C4   5C109FE5           LDR      R1,??CreateAutoLacationInput_2+0x28  ;; VAR_ARG_STRINP_TEXT
+   \   000000C8   20002DE9           PUSH     {R5}
+   \   000000CC   02002DE9           PUSH     {R1}
+   \   000000D0   54109FE5           LDR      R1,??CreateAutoLacationInput_2+0x2C  ;; VAR_ARG_BOOK
+   \   000000D4   01002DE9           PUSH     {R0}
+   \   000000D8   0000A0E3           MOV      R0,#+0
+   \   000000DC   440100EF           SWI      +324
+   \   000000E0   40D08DE2           ADD      SP,SP,#+64
+   \   000000E4   200084E5           STR      R0,[R4, #+32]
+     40            BookObj_SetFocus( &bk->book,0);
+   \   000000E8   0010A0E3           MOV      R1,#+0
+   \   000000EC   0400A0E1           MOV      R0,R4
+   \   000000F0   320100EF           SWI      +306
+     41            GUIObject_Show(bk->text_input);
+   \   000000F4   200094E5           LDR      R0,[R4, #+32]
+   \   000000F8   340100EF           SWI      +308
+     42          }
+   \   000000FC   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??CreateAutoLacationInput_2:
+   \   00000100   ........           DC32     `?<Constant L"\\x43\\x75\\x72\\x72\\x65\\x6e\\x74\\x20\\`
+   \   00000104   ........           DC32     VAR_ARG_STRINP_FIXED_TEXT
+   \   00000108   ........           DC32     ??AutoBackPressed
+   \   0000010C   ........           DC32     VAR_ARG_CALL_BACK_PREV_ACT
+   \   00000110   ........           DC32     ??AutoOKPressed
+   \   00000114   ........           DC32     VAR_ARG_CALL_BACK_OK
+   \   00000118   ........           DC32     VAR_ARG_STRINP_MODE
+   \   0000011C   ........           DC32     VAR_ARG_STRINP_MAX_LEN
+   \   00000120   ........           DC32     VAR_ARG_STRINP_EMPTY_STR_EN
+   \   00000124   ........           DC32     VAR_ARG_STRINP_NEW_LINE
+   \   00000128   ........           DC32     VAR_ARG_STRINP_TEXT
+   \   0000012C   ........           DC32     VAR_ARG_BOOK
+     43          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          int menu_callback(GUI_MESSAGE * msg)
+     45          {
+   \                     ??menu_callback:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     46            int str_id;
+     47            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   2E00001A           BNE      ??menu_callback_2
+     48            {
+     49            case 1:
+     50              int curitem = GUIonMessage_GetCreatedItemIndex(msg);
+     51              {
+     52                switch(curitem)
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   370100EF           SWI      +311
+   \   0000001C   040050E3           CMP      R0,#+4
+   \   00000020   2700008A           BHI      ??menu_callback_3
+   \   00000024   011F8FE2           ADR      R1,??menu_callback_1
+   \   00000028   0010D1E7           LDRB     R1,[R1, R0]
+   \   0000002C   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??menu_callback_1:
+   \   00000030   010A131C           DC8      +1,+10,+19,+28
+   \   00000034   1E000000           DC8      +30,+0,+0,+0
+     53                {
+     54                case 0:
+     55                  if(visible)
+   \                     ??menu_callback_4:
+   \   00000038   98009FE5           LDR      R0,??menu_callback_5  ;; visible
+   \   0000003C   FF20A0E3           MOV      R2,#+255
+   \   00000040   0000D0E5           LDRB     R0,[R0, #+0]
+   \   00000044   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   84009F05           LDREQ    R0,??menu_callback_5+0x4  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 28
+     56                    str_id  = TextID_Create(LG_HIDE,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000054   84009F15           LDRNE    R0,??menu_callback_5+0x8  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\`
+   \   00000058   170000EA           B        ??menu_callback_6
+     57                  else
+     58                    str_id  = TextID_Create(LG_SHOW,ENC_UCS2,TEXTID_ANY_LEN);
+     59                  break;
+     60                case 1:
+     61                  if(showCellID)
+   \                     ??menu_callback_7:
+   \   0000005C   80009FE5           LDR      R0,??menu_callback_5+0xC  ;; showCellID
+   \   00000060   FF20A0E3           MOV      R2,#+255
+   \   00000064   0000D0E5           LDRB     R0,[R0, #+0]
+   \   00000068   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   6C009F05           LDREQ    R0,??menu_callback_5+0x10  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 76
+     62                    str_id  = TextID_Create(LG_NAME,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000078   6C009F15           LDRNE    R0,??menu_callback_5+0x14  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 56
+   \   0000007C   0E0000EA           B        ??menu_callback_6
+     63                  else
+     64                    str_id  = TextID_Create(LG_CELLID,ENC_UCS2,TEXTID_ANY_LEN);
+     65                  break;
+     66                case 2:
+     67                  if(AutoLocation)
+   \                     ??menu_callback_8:
+   \   00000080   ........           LDR      R0,??DataTable10  ;; AutoLocation
+   \   00000084   FF20A0E3           MOV      R2,#+255
+   \   00000088   0000D0E5           LDRB     R0,[R0, #+0]
+   \   0000008C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000090   0010A0E3           MOV      R1,#+0
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   50009F05           LDREQ    R0,??menu_callback_5+0x18  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 144
+     68                    str_id  = TextID_Create(LG_AUTOLOCATION_OFF,ENC_UCS2,TEXTID_ANY_LEN);
+   \   0000009C   50009F15           LDRNE    R0,??menu_callback_5+0x1C  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 100
+   \   000000A0   050000EA           B        ??menu_callback_6
+     69                  else
+     70                    str_id  = TextID_Create(LG_AUTOLOCATION_ON,ENC_UCS2,TEXTID_ANY_LEN);
+     71                  break;
+     72                case 3:
+     73                  str_id  = TextID_Create(LG_SETTINGS,ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??menu_callback_9:
+   \   000000A4   4C009FE5           LDR      R0,??menu_callback_5+0x20  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 188
+   \   000000A8   000000EA           B        ??menu_callback_10
+     74                  break;
+     75                case 4:
+     76                  str_id  = TextID_Create(LG_ABOUT,ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??menu_callback_11:
+   \   000000AC   48009FE5           LDR      R0,??menu_callback_5+0x24  ;; `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 208
+   \                     ??menu_callback_10:
+   \   000000B0   FF20A0E3           MOV      R2,#+255
+   \   000000B4   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000000B8   0010A0E3           MOV      R1,#+0
+   \                     ??menu_callback_6:
+   \   000000BC   5D0100EF           SWI      +349
+   \   000000C0   0050A0E1           MOV      R5,R0
+     77                  break;
+     78                }
+     79              }
+     80              GUIonMessage_SetMenuItemText(msg,str_id);
+   \                     ??menu_callback_3:
+   \   000000C4   0510A0E1           MOV      R1,R5
+   \   000000C8   0400A0E1           MOV      R0,R4
+   \   000000CC   380100EF           SWI      +312
+     81            }
+     82            return(1);
+   \                     ??menu_callback_2:
+   \   000000D0   0100A0E3           MOV      R0,#+1
+   \   000000D4   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??menu_callback_5:
+   \   000000D8   ........           DC32     visible
+   \   000000DC   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 28
+   \   000000E0   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\`
+   \   000000E4   ........           DC32     showCellID
+   \   000000E8   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 76
+   \   000000EC   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 56
+   \   000000F0   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 144
+   \   000000F4   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 100
+   \   000000F8   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 188
+   \   000000FC   ........           DC32     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\` + 208
+     83          }
+     84          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     85          void MenuOnBack( BOOK* book, GUI* )
+     86          {
+     87            BookObj_ReturnPage(book,NIL_EVENT);
+   \                     ??MenuOnBack:
+   \   00000000   ........           LDR      R1,??DataTable12  ;; NIL_EVENT
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   2E0100EF           SWI      +302
+     88          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     89          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     90          void MenuOnEnter( BOOK* book, GUI* )
+     91          {
+   \                     ??MenuOnEnter:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     92            MyBOOK *bk = (MyBOOK *)book;
+     93            int item_num = ListMenu_GetSelectedItem(bk->menu);
+     94            switch(item_num){
+   \   00000008   180094E5           LDR      R0,[R4, #+24]
+   \   0000000C   3E0100EF           SWI      +318
+   \   00000010   040050E3           CMP      R0,#+4
+   \   00000014   3080BD88           POPHI    {R4,R5,PC}
+   \   00000018   011F8FE2           ADR      R1,??MenuOnEnter_1
+   \   0000001C   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000020   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??MenuOnEnter_1:
+   \   00000024   01030A29           DC8      +1,+3,+10,+41
+   \   00000028   2D000000           DC8      +45,+0,+0,+0
+     95            case 0:
+     96              ShowHideProc();
+   \                     ??MenuOnEnter_2:
+   \   0000002C   ........           _BLF     ??ShowHideProc,??ShowHideProc??rA
+     97              InvalidateAll();
+   \   00000030   000000EA           B        ??MenuOnEnter_3
+     98              BookObj_ReturnPage(book,NIL_EVENT);
+     99              break;
+    100            case 1:
+    101              CellIdProc();
+   \                     ??MenuOnEnter_4:
+   \   00000034   ........           _BLF     ??CellIdProc,??CellIdProc??rA
+    102              InvalidateAll();
+   \                     ??MenuOnEnter_3:
+   \   00000038   ........           _BLF     ??InvalidateAll,??InvalidateAll??rA
+    103              BookObj_ReturnPage(book,NIL_EVENT);
+   \                     ??MenuOnEnter_5:
+   \   0000003C   ........           LDR      R0,??DataTable12  ;; NIL_EVENT
+   \   00000040   001090E5           LDR      R1,[R0, #+0]
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   2E0100EF           SWI      +302
+   \   0000004C   3080BDE8           POP      {R4,R5,PC}
+    104              break;
+    105            case 2:
+    106              if (AutoLocation == false)
+   \                     ??MenuOnEnter_6:
+   \   00000050   ........           LDR      R0,??DataTable10  ;; AutoLocation
+   \   00000054   0000D0E5           LDRB     R0,[R0, #+0]
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   0100001A           BNE      ??MenuOnEnter_7
+    107              {
+    108                CreateAutoLacationInput();
+   \   00000060   ........           BL       ??CreateAutoLacationInput
+   \   00000064   3080BDE8           POP      {R4,R5,PC}
+    109              }
+    110              else
+    111              {
+    112                AutoLocation = false;
+   \                     ??MenuOnEnter_7:
+   \   00000068   ........           LDR      R0,??DataTable10  ;; AutoLocation
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   0010C0E5           STRB     R1,[R0, #+0]
+    113                MessageBox(EMPTY_TEXTID, TextID_Create(LG_AUTOLOCATIONOFF,ENC_UCS2,TEXTID_ANY_LEN), NOIMAGE, 1, 5000, 0);
+   \   00000074   80009FE5           LDR      R0,??MenuOnEnter_8  ;; `?<Constant L"\\x41\\x75\\x74\\x6f\\x20\\x6c\\x6f\\x63\\`
+   \   00000078   FF50A0E3           MOV      R5,#+255
+   \   0000007C   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000080   0520A0E1           MOV      R2,R5
+   \   00000084   5D0100EF           SWI      +349
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   0130A0E3           MOV      R3,#+1
+   \   00000094   0520A0E1           MOV      R2,R5
+   \   00000098   8810A0E3           MOV      R1,#+136
+   \   0000009C   4C1D81E3           ORR      R1,R1,#0x1300
+   \   000000A0   02002DE9           PUSH     {R1}
+   \   000000A4   0010A0E1           MOV      R1,R0
+   \   000000A8   9004E0E3           MVN      R0,#-1879048192
+   \   000000AC   570200EF           SWI      +599
+    114                InvalidateAll();
+   \   000000B0   ........           _BLF     ??InvalidateAll,??InvalidateAll??rA
+    115                BookObj_ReturnPage(book,NIL_EVENT);
+   \   000000B4   ........           LDR      R0,??DataTable12  ;; NIL_EVENT
+   \   000000B8   001090E5           LDR      R1,[R0, #+0]
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   2E0100EF           SWI      +302
+   \   000000C4   08D08DE2           ADD      SP,SP,#+8
+   \   000000C8   3080BDE8           POP      {R4,R5,PC}
+    116              }
+    117              break;
+    118            case 3:
+    119              onBcfgConfig(0, book);
+   \                     ??MenuOnEnter_9:
+   \   000000CC   0410A0E1           MOV      R1,R4
+   \   000000D0   0000A0E3           MOV      R0,#+0
+   \   000000D4   ........           _BLF     ??onBcfgConfig,??onBcfgConfig??rA
+    120              BookObj_ReturnPage(book,NIL_EVENT);
+   \   000000D8   D7FFFFEA           B        ??MenuOnEnter_5
+    121              break;
+    122            case 4:
+    123              ShowAuthorInfo(0 , book);
+   \                     ??MenuOnEnter_10:
+   \   000000DC   0410A0E1           MOV      R1,R4
+   \   000000E0   0000A0E3           MOV      R0,#+0
+   \   000000E4   ........           _BLF     ??ShowAuthorInfo,??ShowAuthorInfo??rA
+    124              BookObj_ReturnPage(book,NIL_EVENT);
+   \   000000E8   ........           LDR      R0,??DataTable12  ;; NIL_EVENT
+   \   000000EC   001090E5           LDR      R1,[R0, #+0]
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   2E0100EF           SWI      +302
+    125              break;
+    126            }
+    127          }
+   \                     ??MenuOnEnter_11:
+   \   000000F8   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MenuOnEnter_8:
+   \   000000FC   ........           DC32     `?<Constant L"\\x41\\x75\\x74\\x6f\\x20\\x6c\\x6f\\x63\\`
+    128          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    129          void MenuOnKey(DISP_OBJ *db, int key, int unk, int repeat, int type)
+    130          {
+   \                     ??MenuOnKey:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   1C609DE5           LDR      R6,[SP, #+28]
+   \   00000008   0070A0E1           MOV      R7,R0
+    131            MyBOOK * bk = (MyBOOK *) FindBook(isMiniGPSBook);
+   \   0000000C   ........           LDR      R0,??DataTable13  ;; ??isMiniGPSBook
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   0280A0E1           MOV      R8,R2
+   \   00000018   0390A0E1           MOV      R9,R3
+   \   0000001C   300100EF           SWI      +304
+   \   00000020   0040A0E1           MOV      R4,R0
+    132            bk->oldOnKey(db, key, unk, repeat, type);
+   \   00000024   0600A0E1           MOV      R0,R6
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0930A0E1           MOV      R3,R9
+   \   00000030   0820A0E1           MOV      R2,R8
+   \   00000034   0510A0E1           MOV      R1,R5
+   \   00000038   0700A0E1           MOV      R0,R7
+   \   0000003C   1C7094E5           LDR      R7,[R4, #+28]
+   \   00000040   37FF2FE1           BLX      R7
+    133            if(type == KBD_SHORT_RELEASE)
+   \   00000044   84009FE5           LDR      R0,??MenuOnKey_1  ;; KBD_SHORT_RELEASE
+   \   00000048   000090E5           LDR      R0,[R0, #+0]
+   \   0000004C   04D08DE2           ADD      SP,SP,#+4
+   \   00000050   000056E1           CMP      R6,R0
+   \   00000054   F083BD18           POPNE    {R4-R9,PC}
+    134            {
+    135              int num = key - KEY_DIGITAL_0;
+   \   00000058   74009FE5           LDR      R0,??MenuOnKey_1+0x4  ;; KEY_DIGITAL_0
+   \   0000005C   000090E5           LDR      R0,[R0, #+0]
+   \   00000060   000045E0           SUB      R0,R5,R0
+    136              if(num == 2)
+   \   00000064   020050E3           CMP      R0,#+2
+   \   00000068   0700001A           BNE      ??MenuOnKey_2
+    137              {
+    138                int item = ListMenu_GetSelectedItem(bk->menu) - 1;
+   \   0000006C   180094E5           LDR      R0,[R4, #+24]
+   \   00000070   3E0100EF           SWI      +318
+   \   00000074   011050E2           SUBS     R1,R0,#+1
+    139                if(item < 0) item = MENU_ITEM_NUM - 1;
+   \   00000078   0B00005A           BPL      ??MenuOnKey_3
+    140                ListMenu_SetCursorToItem(bk->menu, item);
+   \   0000007C   180094E5           LDR      R0,[R4, #+24]
+   \   00000080   0410A0E3           MOV      R1,#+4
+   \   00000084   350100EF           SWI      +309
+   \   00000088   F083BDE8           POP      {R4-R9,PC}
+    141              }
+    142              else if((num == 8) || (num == 0))
+   \                     ??MenuOnKey_2:
+   \   0000008C   080050E3           CMP      R0,#+8
+   \   00000090   00005013           CMPNE    R0,#+0
+   \   00000094   0700001A           BNE      ??MenuOnKey_4
+    143              {
+    144                int item = ListMenu_GetSelectedItem(bk->menu) + 1;
+   \   00000098   180094E5           LDR      R0,[R4, #+24]
+   \   0000009C   3E0100EF           SWI      +318
+   \   000000A0   011080E2           ADD      R1,R0,#+1
+    145                if(item >= MENU_ITEM_NUM) item = 0;
+   \   000000A4   050051E3           CMP      R1,#+5
+   \   000000A8   0010A0A3           MOVGE    R1,#+0
+    146                ListMenu_SetCursorToItem(bk->menu, item);
+   \                     ??MenuOnKey_3:
+   \   000000AC   180094E5           LDR      R0,[R4, #+24]
+   \   000000B0   350100EF           SWI      +309
+   \   000000B4   F083BDE8           POP      {R4-R9,PC}
+    147              }
+    148              else if(num == 5)
+   \                     ??MenuOnKey_4:
+   \   000000B8   050050E3           CMP      R0,#+5
+   \   000000BC   F083BD18           POPNE    {R4-R9,PC}
+    149              {
+    150                MenuOnEnter((BOOK*)bk, 0);
+   \   000000C0   0010A0E3           MOV      R1,#+0
+   \   000000C4   0400A0E1           MOV      R0,R4
+   \   000000C8   ........           BL       ??MenuOnEnter
+    151              }
+    152            }
+    153          }
+   \   000000CC   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??MenuOnKey_1:
+   \   000000D0   ........           DC32     KBD_SHORT_RELEASE
+   \   000000D4   ........           DC32     KEY_DIGITAL_0
+    154          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    155          void CreateMenu(MyBOOK *mbk)
+    156          {
+   \                     ??CreateMenu:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    157            mbk->menu = CreateListMenu(&mbk->book,0);
+    158          
+    159            GUIObject_SetTitleText(mbk->menu, TextID_Create(LELFNAME,ENC_UCS2,TEXTID_ANY_LEN));
+    160            ListMenu_SetItemCount(mbk->menu, MENU_ITEM_NUM);
+    161            OneOfMany_SetOnMessage((GUI_ONEOFMANY*)mbk->menu, menu_callback);
+    162            ListMenu_SetCursorToItem(mbk->menu,0);
+    163          
+    164          //  ListMenu_SetItemStyle(mbk->menu, 4);
+    165          
+    166            GUIObject_SoftKeys_SetAction(mbk->menu,ACTION_BACK, MenuOnBack);
+   \   00000004   E0509FE5           LDR      R5,??CreateMenu_1  ;; ??MenuOnBack
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   C00100EF           SWI      +448
+   \   00000014   180084E5           STR      R0,[R4, #+24]
+   \   00000018   D0009FE5           LDR      R0,??CreateMenu_1+0x4  ;; `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53">`
+   \   0000001C   FF20A0E3           MOV      R2,#+255
+   \   00000020   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   5D0100EF           SWI      +349
+   \   0000002C   0010A0E1           MOV      R1,R0
+   \   00000030   180094E5           LDR      R0,[R4, #+24]
+   \   00000034   330100EF           SWI      +307
+   \   00000038   180094E5           LDR      R0,[R4, #+24]
+   \   0000003C   0510A0E3           MOV      R1,#+5
+   \   00000040   C10100EF           SWI      +449
+   \   00000044   A8109FE5           LDR      R1,??CreateMenu_1+0x8  ;; ??menu_callback
+   \   00000048   180094E5           LDR      R0,[R4, #+24]
+   \   0000004C   E10100EF           SWI      +481
+   \   00000050   180094E5           LDR      R0,[R4, #+24]
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   350100EF           SWI      +309
+   \   0000005C   94009FE5           LDR      R0,??CreateMenu_1+0xC  ;; ACTION_BACK
+   \   00000060   0520A0E1           MOV      R2,R5
+   \   00000064   001090E5           LDR      R1,[R0, #+0]
+   \   00000068   180094E5           LDR      R0,[R4, #+24]
+   \   0000006C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000070   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000074   4B0100EF           SWI      +331
+    167            GUIObject_SoftKeys_SetAction(mbk->menu,ACTION_LONG_BACK, MenuOnBack);
+   \   00000078   7C009FE5           LDR      R0,??CreateMenu_1+0x10  ;; ACTION_LONG_BACK
+   \   0000007C   0520A0E1           MOV      R2,R5
+   \   00000080   001090E5           LDR      R1,[R0, #+0]
+   \   00000084   180094E5           LDR      R0,[R4, #+24]
+   \   00000088   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000008C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000090   4B0100EF           SWI      +331
+    168            GUIObject_SoftKeys_SetAction(mbk->menu,ACTION_SELECT1, MenuOnEnter);
+   \   00000094   64009FE5           LDR      R0,??CreateMenu_1+0x14  ;; ACTION_SELECT1
+   \   00000098   64209FE5           LDR      R2,??CreateMenu_1+0x18  ;; ??MenuOnEnter
+   \   0000009C   001090E5           LDR      R1,[R0, #+0]
+   \   000000A0   180094E5           LDR      R0,[R4, #+24]
+   \   000000A4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000A8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000AC   4B0100EF           SWI      +331
+    169          
+    170            mbk->oldOnKey = DispObject_GetOnKey( GUIObject_GetDispObject(mbk->menu) );
+   \   000000B0   180094E5           LDR      R0,[R4, #+24]
+   \   000000B4   680100EF           SWI      +360
+   \   000000B8   2B0200EF           SWI      +555
+   \   000000BC   1C0084E5           STR      R0,[R4, #+28]
+    171            DISP_DESC_SetOnKey( DispObject_GetDESC ( GUIObject_GetDispObject(mbk->menu) ), MenuOnKey );
+   \   000000C0   180094E5           LDR      R0,[R4, #+24]
+   \   000000C4   680100EF           SWI      +360
+   \   000000C8   1F0200EF           SWI      +543
+   \   000000CC   34109FE5           LDR      R1,??CreateMenu_1+0x1C  ;; ??MenuOnKey
+   \   000000D0   2A0200EF           SWI      +554
+    172          
+    173            BookObj_SetFocus( &mbk->book,0);
+   \   000000D4   0010A0E3           MOV      R1,#+0
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   320100EF           SWI      +306
+    174            GUIObject_Show(mbk->menu);
+   \   000000E0   180094E5           LDR      R0,[R4, #+24]
+   \   000000E4   340100EF           SWI      +308
+    175          }
+   \   000000E8   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??CreateMenu_1:
+   \   000000EC   ........           DC32     ??MenuOnBack
+   \   000000F0   ........           DC32     `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53">`
+   \   000000F4   ........           DC32     ??menu_callback
+   \   000000F8   ........           DC32     ACTION_BACK
+   \   000000FC   ........           DC32     ACTION_LONG_BACK
+   \   00000100   ........           DC32     ACTION_SELECT1
+   \   00000104   ........           DC32     ??MenuOnEnter
+   \   00000108   ........           DC32     ??MenuOnKey
+    176          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    177          static int MenuPageOnEnter(void *, BOOK *bk)
+    178          {
+   \                     ??MenuPageOnEnter:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+    179            MyBOOK *mbk=(MyBOOK *)bk;
+    180            CreateMenu(mbk);
+   \   00000008   ........           BL       ??CreateMenu
+    181            return (1);
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    182          }
+    183          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    184          static int MenuPageOnExit(void *, BOOK *bk)
+    185          {
+   \                     ??MenuPageOnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    186            MyBOOK *mbk=(MyBOOK *)bk;
+    187            FREE_GUI(mbk->menu);
+   \   00000008   180094E5           LDR      R0,[R4, #+24]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0200000A           BEQ      ??MenuPageOnExit_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   180084E5           STR      R0,[R4, #+24]
+    188            FREE_GUI(mbk->text_input);
+   \                     ??MenuPageOnExit_1:
+   \   00000020   200094E5           LDR      R0,[R4, #+32]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0200000A           BEQ      ??MenuPageOnExit_2
+   \   0000002C   CE0100EF           SWI      +462
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   200084E5           STR      R0,[R4, #+32]
+    189            BookObj_Hide(bk,0);
+   \                     ??MenuPageOnExit_2:
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   710100EF           SWI      +369
+    190          //  BookObj_SetFocus(Find_StandbyBook(),0);
+    191            return (1);
+   \   00000044   0100A0E3           MOV      R0,#+1
+   \   00000048   1080BDE8           POP      {R4,PC}          ;; return
+    192          }
+    193          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    194          const PAGE_MSG bk_msglst_menu[] @ "DYN_PAGE"  =
+   \                     bk_msglst_menu:
+   \   00000000   42000000....       DC32 66, ??MenuPageOnEnter, 67, ??MenuPageOnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+    195          {
+    196            PAGE_ENTER_EVENT_TAG,    MenuPageOnEnter,
+    197            PAGE_EXIT_EVENT_TAG,     MenuPageOnExit,
+    198            NIL_EVENT_TAG,           NULL
+    199          };
+    200          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    201          const PAGE_DESC bk_menu = {"MiniGPS_Menu_Page",0,bk_msglst_menu};
+   \                     bk_menu:
+   \   00000000   ........0000       DC32 `?<Constant "MiniGPS_Menu_Page">`, 0H, bk_msglst_menu
+   \              0000........
+    202          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    203          void ShowMenu(BOOK * book)
+    204          {
+    205            BookObj_CallPage(book, &bk_menu);
+   \                     ??ShowMenu:
+   \   00000000   08109FE5           LDR      R1,??ShowMenu_1  ;; bk_menu
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   B80200EF           SWI      +696
+    206          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+   \                     ??ShowMenu_1:
+   \   00000010   ........           DC32     bk_menu
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     SIwstr
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     AutoLocation
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable12:
+   \   00000000   ........           DC32     NIL_EVENT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     ??isMiniGPSBook
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MiniGPS_Menu_Page">`:
+   \   00000000   4D696E694750       DC8 "MiniGPS_Menu_Page"
+   \              535F4D656E75
+   \              5F5061676500
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x43\\x75\\x72\\x72\\x65\\x6e\\x74\\x20\\`:
+   \   00000000   430075007200       DC8 43H, 0, 75H, 0, 72H, 0, 72H, 0
+   \              7200        
+   \   00000008   65006E007400       DC8 65H, 0, 6EH, 0, 74H, 0, 20H, 0
+   \              2000        
+   \   00000010   6C006F006300       DC8 6CH, 0, 6FH, 0, 63H, 0, 61H, 0
+   \              6100        
+   \   00000018   740069006F00       DC8 74H, 0, 69H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000020   3A000000           DC8 3AH, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x48\\x69\\x64\\x65\\x20\\x6c\\x6f\\x63\\`:
+   \   00000000   480069006400       DC8 48H, 0, 69H, 0, 64H, 0, 65H, 0
+   \              6500        
+   \   00000008   20006C006F00       DC8 20H, 0, 6CH, 0, 6FH, 0, 63H, 0
+   \              6300        
+   \   00000010   610074006900       DC8 61H, 0, 74H, 0, 69H, 0, 6FH, 0
+   \              6F00        
+   \   00000018   6E000000           DC8 6EH, 0, 0, 0
+   \   0000001C   530068006F00       DC8 53H, 0, 68H, 0, 6FH, 0, 77H, 0
+   \              7700        
+   \   00000024   20006C006F00       DC8 20H, 0, 6CH, 0, 6FH, 0, 63H, 0
+   \              6300        
+   \   0000002C   610074006900       DC8 61H, 0, 74H, 0, 69H, 0, 6FH, 0
+   \              6F00        
+   \   00000034   6E000000           DC8 6EH, 0, 0, 0
+   \   00000038   530068006F00       DC8 53H, 0, 68H, 0, 6FH, 0, 77H, 0
+   \              7700        
+   \   00000040   20004E006100       DC8 20H, 0, 4EH, 0, 61H, 0, 6DH, 0
+   \              6D00        
+   \   00000048   65000000           DC8 65H, 0, 0, 0
+   \   0000004C   530068006F00       DC8 53H, 0, 68H, 0, 6FH, 0, 77H, 0
+   \              7700        
+   \   00000054   200043006500       DC8 20H, 0, 43H, 0, 65H, 0, 6CH, 0
+   \              6C00        
+   \   0000005C   6C0049004400       DC8 6CH, 0, 49H, 0, 44H, 0, 0, 0
+   \              0000        
+   \   00000064   540075007200       DC8 54H, 0, 75H, 0, 72H, 0, 6EH, 0
+   \              6E00        
+   \   0000006C   20006F006600       DC8 20H, 0, 6FH, 0, 66H, 0, 66H, 0
+   \              6600        
+   \   00000074   200061007500       DC8 20H, 0, 61H, 0, 75H, 0, 74H, 0
+   \              7400        
+   \   0000007C   6F006C006F00       DC8 6FH, 0, 6CH, 0, 6FH, 0, 63H, 0
+   \              6300        
+   \   00000084   610074006900       DC8 61H, 0, 74H, 0, 69H, 0, 6FH, 0
+   \              6F00        
+   \   0000008C   6E000000           DC8 6EH, 0, 0, 0
+   \   00000090   540075007200       DC8 54H, 0, 75H, 0, 72H, 0, 6EH, 0
+   \              6E00        
+   \   00000098   20006F006E00       DC8 20H, 0, 6FH, 0, 6EH, 0, 20H, 0
+   \              2000        
+   \   000000A0   610075007400       DC8 61H, 0, 75H, 0, 74H, 0, 6FH, 0
+   \              6F00        
+   \   000000A8   6C006F006300       DC8 6CH, 0, 6FH, 0, 63H, 0, 61H, 0
+   \              6100        
+   \   000000B0   740069006F00       DC8 74H, 0, 69H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   000000B8   0000               DC8 0, 0
+   \   000000BA   0000               DC8 0, 0
+   \   000000BC   530065007400       DC8 53H, 0, 65H, 0, 74H, 0, 74H, 0
+   \              7400        
+   \   000000C4   69006E006700       DC8 69H, 0, 6EH, 0, 67H, 0, 73H, 0
+   \              7300        
+   \   000000CC   0000               DC8 0, 0
+   \   000000CE   0000               DC8 0, 0
+   \   000000D0   410062006F00       DC8 41H, 0, 62H, 0, 6FH, 0, 75H, 0
+   \              7500        
+   \   000000D8   74000000           DC8 74H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41\\x75\\x74\\x6f\\x20\\x6c\\x6f\\x63\\`:
+   \   00000000   410075007400       DC8 41H, 0, 75H, 0, 74H, 0, 6FH, 0
+   \              6F00        
+   \   00000008   20006C006F00       DC8 20H, 0, 6CH, 0, 6FH, 0, 63H, 0
+   \              6300        
+   \   00000010   610074006900       DC8 61H, 0, 74H, 0, 69H, 0, 6FH, 0
+   \              6F00        
+   \   00000018   6E0020006400       DC8 6EH, 0, 20H, 0, 64H, 0, 69H, 0
+   \              6900        
+   \   00000020   730061006200       DC8 73H, 0, 61H, 0, 62H, 0, 6CH, 0
+   \              6C00        
+   \   00000028   650064002E00       DC8 65H, 0, 64H, 0, 2EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x4d\\x69\\x6e\\x69\\x47\\x50\\x53">`:
+   \   00000000   4D0069006E00       DC8 4DH, 0, 69H, 0, 6EH, 0, 69H, 0
+   \              6900        
+   \   00000008   470050005300       DC8 47H, 0, 50H, 0, 53H, 0, 0, 0
+   \              0000        
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     AutoBackPressed(BOOK *, u16 *, int)
+                                        4
+     AutoOKPressed(BOOK *, wchar_t *, int)
+                                        8
+     CreateAutoLacationInput()         80
+     CreateMenu(MyBOOK *)              12
+     MenuOnBack(BOOK *, GUI *)          4
+     MenuOnEnter(BOOK *, GUI *)        20
+     MenuOnKey(DISP_OBJ *, int, int, int, int)
+                                       32
+     MenuPageOnEnter(void *, BOOK *)
+                                        4
+     MenuPageOnExit(void *, BOOK *)     8
+     ShowMenu(BOOK *)                   4
+     menu_callback(GUI_MESSAGE *)      12
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     AutoOKPressed(BOOK *, wchar_t *, int)
+                                      52
+     AutoBackPressed(BOOK *, u16 *, int)
+                                      20
+     CreateAutoLacationInput()       304
+     menu_callback(GUI_MESSAGE *)    256
+     MenuOnBack(BOOK *, GUI *)        20
+     MenuOnEnter(BOOK *, GUI *)      256
+     MenuOnKey(DISP_OBJ *, int, int, int, int)
+                                     216
+     CreateMenu(MyBOOK *)            268
+     MenuPageOnEnter(void *, BOOK *)
+                                      20
+     MenuPageOnExit(void *, BOOK *)   76
+     bk_msglst_menu                   24
+     bk_menu                          12
+     ShowMenu(BOOK *)                 20
+     ??DataTable5                      4
+     ??DataTable10                     4
+     ??DataTable12                     4
+     ??DataTable13                     4
+     ?<Constant "MiniGPS_Menu_Page">
+                                      20
+     ?<Constant L"\x43\x75\x72\x72\x65\x6e\x74\x20\
+                                      36
+     ?<Constant L"\x48\x69\x64\x65\x20\x6c\x6f\x63\
+                                     220
+     ?<Constant L"\x41\x75\x74\x6f\x20\x6c\x6f\x63\
+                                      48
+     ?<Constant L"\x4d\x69\x6e\x69\x47\x50\x53">
+                                      16
+      Others                         116
+
+ 
+ 1 640 bytes in segment CODE
+   352 bytes in segment DATA_C
+    24 bytes in segment DYN_PAGE
+ 
+ 1 524 bytes of CODE  memory (+ 116 bytes shared)
+   376 bytes of CONST memory
+
+Errors: none
+Warnings: none

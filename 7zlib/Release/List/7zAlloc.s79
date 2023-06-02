@@ -1,0 +1,220 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:44:25 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zAlloc /
+//                       .c                                                  /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zAlloc /
+//                       .c -D NDEBUG -D OLDFUNCTIONS -lcN                   /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7z /
+//                       lib\Release\List\ -o Z:\home\perk11\www\perk11.info /
+//                       \svn\SE\7zlib\Release\Obj\ -s9 --no_unroll          /
+//                       --no_code_motion --cpu_mode thumb --endian little   /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --library_module -I                      /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\7zAlloc.s79                                   /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        MODULE `7zAlloc`
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??SzAlloc??rT
+        MULTWEAK ??SzAllocTemp??rT
+        MULTWEAK ??SzFree??rT
+        MULTWEAK ??SzFreeTemp??rT
+        PUBLIC SzAlloc
+        FUNCTION SzAlloc,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SzAllocTemp
+        FUNCTION SzAllocTemp,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SzFree
+        FUNCTION SzFree,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SzFreeTemp
+        FUNCTION SzFreeTemp,0203H
+        LOCFRAME CSTACK, 4, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+SzAlloc             SYMBOL "SzAlloc"
+??SzAlloc??rT       SYMBOL "??rT", SzAlloc
+SzAllocTemp         SYMBOL "SzAllocTemp"
+??SzAllocTemp??rT   SYMBOL "??rT", SzAllocTemp
+SzFree              SYMBOL "SzFree"
+??SzFree??rT        SYMBOL "??rT", SzFree
+SzFreeTemp          SYMBOL "SzFreeTemp"
+??SzFreeTemp??rT    SYMBOL "??rT", SzFreeTemp
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SzAlloc??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE SzAlloc
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function SzAlloc
+        ARM
+SzAlloc:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        CMP      R0,#+0
+        POPEQ    {PC}
+        SWI      +259
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SzFree??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE SzFree
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function SzFree
+        ARM
+SzFree:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SWI      +260
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SzAllocTemp??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE SzAllocTemp
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function SzAllocTemp
+        ARM
+SzAllocTemp:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        CMP      R0,#+0
+        POPEQ    {PC}
+        SWI      +259
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SzFreeTemp??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE SzFreeTemp
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function SzFreeTemp
+        ARM
+SzFreeTemp:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SWI      +260
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock7
+
+        END
+// 
+// 80 bytes in segment CODE
+// 
+// 64 bytes of CODE memory (+ 16 bytes shared)
+//
+//Errors: none
+//Warnings: none

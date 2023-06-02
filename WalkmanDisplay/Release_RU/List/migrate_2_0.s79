@@ -1,0 +1,1648 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:10:26 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\migrate_2_0.cpp                                   /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\migrate_2_0.cpp -D NDEBUG -D RUS -D OLDFUNCTIONS  /
+//                       -lC Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDi /
+//                       splay\Release_RU\List\ -lA                          /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\Release_RU\List\ -o Z:\home\perk11\www\perk11.inf /
+//                       o\svn\SE\WalkmanDisplay\Release_RU\Obj\ -s9         /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --enable_multibytes  /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\Release_RU\List\migrate_2_0.s79                   /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME migrate_2_0
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??migrate_from_2_0_to_2_1
+        FUNCTION ??migrate_from_2_0_to_2_1,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??migrate_from_2_0_to_2_1??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??migrate_from_2_0_to_2_1??rT SYMBOL "??rT", ??migrate_from_2_0_to_2_1
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??migrate_from_2_0_to_2_1??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??migrate_from_2_0_to_2_1
+// Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\migrate_2_0.cpp
+//    1 #include "..\deleaker\mem2.h"
+//    2 #include "..\include\Lib_Clara.h"
+//    3 #include "..\include\Dir.h"
+//    4 #include "header\cl.h"
+//    5 #include "header\accelctrl.h"
+//    6 #include "header\wdisplay.h"
+//    7 #include "header\images.h"
+//    8 #include "..\include\cfg_items.h"
+//    9 #include "header\conf_loader.h"
+//   10 #include "header\config_data.h"
+//   11 #include "header\skin_data.h"
+//   12 #include "header\skin_loader.h"
+//   13 
+//   14 #include "header\rus.h"
+//   15 #include "header\eng.h"
+//   16 
+//   17 #include "cfg_2_0.h"
+//   18 #include "cfg_2_1.h"
+//   19 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??migrate_from_2_0_to_2_1
+        ARM
+//   20 int migrate_from_2_0_to_2_1(CFG_2_0 *oldcfg, CFG_2_1 *cfg)
+//   21 {
+??migrate_from_2_0_to_2_1:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOV      R4,R0
+        MOV      R5,R1
+//   22   cfg->standartwnd=oldcfg->standartwnd;
+        ADD      R7,R4,#+88
+        LDR      R0,[R7, #+0]
+        ADD      R6,R5,#+88
+        STR      R0,[R6, #+0]
+//   23   cfg->title_show=oldcfg->title_show;
+        LDR      R0,[R7, #+92]
+        STR      R0,[R6, #+92]
+//   24   cfg->title_font=oldcfg->title_font;
+        LDR      R0,[R7, #+140]
+        STR      R0,[R6, #+140]
+//   25   cfg->title_rc=oldcfg->title_rc;
+        MOV      R0,#+276
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   26   cfg->title_color=oldcfg->title_color;
+        LDR      R0,[R7, #+240]
+        STR      R0,[R6, #+240]
+//   27   cfg->title_scolor=oldcfg->title_scolor;
+        LDR      R0,[R7, #+288]
+        STR      R0,[R6, #+288]
+//   28   cfg->title_hl=oldcfg->title_hl;
+        LDR      R0,[R7, #+336]
+        STR      R0,[R6, #+336]
+//   29   cfg->title_ct=oldcfg->title_ct;
+        LDR      R0,[R7, #+480]
+        STR      R0,[R6, #+480]
+//   30   cfg->album_show=oldcfg->album_show;
+        LDR      R0,[R7, #+712]
+        STR      R0,[R6, #+712]
+//   31   cfg->album_font=oldcfg->album_font;
+        LDR      R0,[R7, #+760]
+        STR      R0,[R6, #+760]
+//   32   cfg->album_rc=oldcfg->album_rc;
+        MOV      R0,#+896
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   33   cfg->album_color=oldcfg->album_color;
+        LDR      R0,[R7, #+860]
+        STR      R0,[R6, #+860]
+//   34   cfg->album_scolor=oldcfg->album_scolor;
+        LDR      R0,[R7, #+908]
+        STR      R0,[R6, #+908]
+//   35   cfg->album_hl=oldcfg->album_hl;
+        LDR      R0,[R7, #+956]
+        STR      R0,[R6, #+956]
+//   36   cfg->album_ct=oldcfg->album_ct;
+        LDR      R0,[R7, #+1100]
+        STR      R0,[R6, #+1100]
+//   37   cfg->artist_show=oldcfg->artist_show;
+        LDR      R0,[R7, #+1332]
+        STR      R0,[R6, #+1332]
+//   38   cfg->artist_font=oldcfg->artist_font;
+        LDR      R0,[R7, #+1380]
+        STR      R0,[R6, #+1380]
+//   39   cfg->artist_rc=oldcfg->artist_rc;
+        MOV      R0,#+236
+        ORR      R0,R0,#0x500
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   40   cfg->artist_color=oldcfg->artist_color;
+        LDR      R0,[R7, #+1480]
+        STR      R0,[R6, #+1480]
+//   41   cfg->artist_scolor=oldcfg->artist_scolor;
+        LDR      R0,[R7, #+1528]
+        STR      R0,[R6, #+1528]
+//   42   cfg->artist_hl=oldcfg->artist_hl;
+        LDR      R0,[R7, #+1576]
+        STR      R0,[R6, #+1576]
+//   43   cfg->artist_ct=oldcfg->artist_ct;
+        LDR      R0,[R7, #+1720]
+        STR      R0,[R6, #+1720]
+//   44   cfg->year_show=oldcfg->year_show;
+        LDR      R0,[R7, #+1952]
+        STR      R0,[R6, #+1952]
+//   45   cfg->year_font=oldcfg->year_font;
+        LDR      R0,[R7, #+2000]
+        STR      R0,[R6, #+2000]
+//   46   cfg->year_rc=oldcfg->year_rc;
+        MOV      R0,#+88
+        ORR      R0,R0,#0x800
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   47   cfg->year_color=oldcfg->year_color;
+        LDR      R0,[R7, #+2100]
+        STR      R0,[R6, #+2100]
+//   48   cfg->year_scolor=oldcfg->year_scolor;
+        LDR      R0,[R7, #+2148]
+        STR      R0,[R6, #+2148]
+//   49   cfg->year_hl=oldcfg->year_hl;
+        LDR      R0,[R7, #+2196]
+        STR      R0,[R6, #+2196]
+//   50   cfg->year_ct=oldcfg->year_ct;
+        LDR      R0,[R7, #+2340]
+        STR      R0,[R6, #+2340]
+//   51   cfg->genre_show=oldcfg->genre_show;
+        LDR      R0,[R7, #+2572]
+        STR      R0,[R6, #+2572]
+//   52   cfg->genre_font=oldcfg->genre_font;
+        LDR      R0,[R7, #+2620]
+        STR      R0,[R6, #+2620]
+//   53   cfg->genre_rc=oldcfg->genre_rc;
+        MOV      R0,#+196
+        ORR      R0,R0,#0xA00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   54   cfg->genre_color=oldcfg->genre_color;
+        LDR      R0,[R7, #+2720]
+        STR      R0,[R6, #+2720]
+//   55   cfg->genre_scolor=oldcfg->genre_scolor;
+        LDR      R0,[R7, #+2768]
+        STR      R0,[R6, #+2768]
+//   56   cfg->genre_hl=oldcfg->genre_hl;
+        LDR      R0,[R7, #+2816]
+        STR      R0,[R6, #+2816]
+//   57   cfg->genre_ct=oldcfg->genre_ct;
+        LDR      R0,[R7, #+2960]
+        STR      R0,[R6, #+2960]
+//   58   cfg->trackn_show=oldcfg->trackn_show;
+        LDR      R0,[R7, #+3192]
+        STR      R0,[R6, #+3192]
+//   59   cfg->trackn_font=oldcfg->trackn_font;
+        LDR      R0,[R7, #+3240]
+        STR      R0,[R6, #+3240]
+//   60   cfg->trackn_rc=oldcfg->trackn_rc;
+        MOV      R0,#+3376
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   61   cfg->trackn_color=oldcfg->trackn_color;
+        LDR      R0,[R7, #+3340]
+//   62   cfg->trackn_scolor=oldcfg->trackn_scolor;
+//   63   cfg->trackn_hl=oldcfg->trackn_hl;
+//   64   cfg->trackn_ct=oldcfg->trackn_ct;
+//   65   memcpy(cfg->trackn_mask, oldcfg->trackn_mask,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+3340]
+        LDR      R0,[R7, #+3388]
+        STR      R0,[R6, #+3388]
+        LDR      R0,[R7, #+3436]
+        STR      R0,[R6, #+3436]
+        LDR      R0,[R7, #+3580]
+        STR      R0,[R6, #+3580]
+        MOV      R0,#+228
+        ORR      R0,R0,#0xE00
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//   66   cfg->tracks_show=oldcfg->tracks_show;
+        LDR      R0,[R7, #+3956]
+        STR      R0,[R6, #+3956]
+//   67   cfg->tracks_font=oldcfg->tracks_font;
+        LDR      R0,[R7, #+4004]
+        STR      R0,[R6, #+4004]
+//   68   cfg->tracks_rc=oldcfg->tracks_rc;
+        MOV      R0,#+44
+        ORR      R0,R0,#0x1000
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+//   69   cfg->tracks_color=oldcfg->tracks_color;
+        MOV      R0,#+96
+        ORR      R0,R0,#0x1000
+        STRH     R2,[R1, #+6]
+        ADD      R6,R0,R5
+        ADD      R7,R0,R4
+        LDR      R0,[R7, #+0]
+//   70   cfg->tracks_scolor=oldcfg->tracks_scolor;
+//   71   cfg->tracks_hl=oldcfg->tracks_hl;
+//   72   cfg->tracks_ct=oldcfg->tracks_ct;
+//   73   memcpy(cfg->tracks_mask, oldcfg->tracks_mask,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+0]
+        LDR      R0,[R7, #+48]
+        STR      R0,[R6, #+48]
+        LDR      R0,[R7, #+96]
+        STR      R0,[R6, #+96]
+        LDR      R0,[R7, #+240]
+        STR      R0,[R6, #+240]
+        MOV      R0,#+224
+        ORR      R0,R0,#0x1100
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//   74   cfg->ctime_show=oldcfg->ctime_show;
+        LDR      R0,[R7, #+616]
+        STR      R0,[R6, #+616]
+//   75   cfg->ctime_font=oldcfg->ctime_font;
+        LDR      R0,[R7, #+664]
+        STR      R0,[R6, #+664]
+//   76   cfg->ctime_rc=oldcfg->ctime_rc;
+        MOV      R0,#+40
+        ORR      R0,R0,#0x1300
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   77   cfg->ctime_color=oldcfg->ctime_color;
+        LDR      R0,[R7, #+764]
+//   78   cfg->ctime_scolor=oldcfg->ctime_scolor;
+//   79   cfg->ctime_hl=oldcfg->ctime_hl;
+//   80   cfg->ctime_ct=oldcfg->ctime_ct;
+//   81   memcpy(cfg->ctime_mask, oldcfg->ctime_mask,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+764]
+        LDR      R0,[R7, #+812]
+        STR      R0,[R6, #+812]
+        LDR      R0,[R7, #+860]
+        STR      R0,[R6, #+860]
+        LDR      R0,[R7, #+1004]
+        STR      R0,[R6, #+1004]
+        MOV      R0,#+220
+        ORR      R0,R0,#0x1400
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//   82   cfg->ftime_show=oldcfg->ftime_show;
+        LDR      R0,[R7, #+1380]
+        STR      R0,[R6, #+1380]
+//   83   cfg->ftime_font=oldcfg->ftime_font;
+        LDR      R0,[R7, #+1428]
+        STR      R0,[R6, #+1428]
+//   84   cfg->ftime_rc=oldcfg->ftime_rc;
+        MOV      R0,#+36
+        ORR      R0,R0,#0x1600
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   85   cfg->ftime_color=oldcfg->ftime_color;
+        LDR      R0,[R7, #+1528]
+//   86   cfg->ftime_scolor=oldcfg->ftime_scolor;
+//   87   cfg->ftime_hl=oldcfg->ftime_hl;
+//   88   cfg->ftime_ct=oldcfg->ftime_ct;
+//   89   memcpy(cfg->ftime_mask, oldcfg->ftime_mask,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+1528]
+        LDR      R0,[R7, #+1576]
+        STR      R0,[R6, #+1576]
+        LDR      R0,[R7, #+1624]
+        STR      R0,[R6, #+1624]
+        LDR      R0,[R7, #+1768]
+        STR      R0,[R6, #+1768]
+        MOV      R0,#+216
+        ORR      R0,R0,#0x1700
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//   90   cfg->ltime_show=oldcfg->ltime_show;
+        LDR      R0,[R7, #+2144]
+        STR      R0,[R6, #+2144]
+//   91   cfg->ltime_font=oldcfg->ltime_font;
+        LDR      R0,[R7, #+2192]
+        STR      R0,[R6, #+2192]
+//   92   cfg->ltime_rc=oldcfg->ltime_rc;
+        MOV      R0,#+32
+        ORR      R0,R0,#0x1900
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//   93   cfg->ltime_color=oldcfg->ltime_color;
+        LDR      R0,[R7, #+2292]
+//   94   cfg->ltime_scolor=oldcfg->ltime_scolor;
+//   95   cfg->ltime_hl=oldcfg->ltime_hl;
+//   96   cfg->ltime_ct=oldcfg->ltime_ct;
+//   97   memcpy(cfg->ltime_mask, oldcfg->ltime_mask,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+2292]
+        LDR      R0,[R7, #+2340]
+        STR      R0,[R6, #+2340]
+        LDR      R0,[R7, #+2388]
+        STR      R0,[R6, #+2388]
+        LDR      R0,[R7, #+2532]
+        STR      R0,[R6, #+2532]
+        MOV      R0,#+212
+        ORR      R0,R0,#0x1A00
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//   98   cfg->bitrate_show=oldcfg->bitrate_show;
+        LDR      R0,[R7, #+2908]
+        STR      R0,[R6, #+2908]
+//   99   cfg->bitrate_font=oldcfg->bitrate_font;
+        LDR      R0,[R7, #+2956]
+        STR      R0,[R6, #+2956]
+//  100   cfg->bitrate_rc=oldcfg->bitrate_rc;
+        MOV      R0,#+28
+        ORR      R0,R0,#0x1C00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  101   cfg->bitrate_color=oldcfg->bitrate_color;
+        LDR      R0,[R7, #+3056]
+//  102   cfg->bitrate_scolor=oldcfg->bitrate_scolor;
+//  103   cfg->bitrate_hl=oldcfg->bitrate_hl;
+//  104   cfg->bitrate_ct=oldcfg->bitrate_ct;
+//  105   memcpy(cfg->bitrate_mask, oldcfg->bitrate_mask,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+3056]
+        LDR      R0,[R7, #+3104]
+        STR      R0,[R6, #+3104]
+        LDR      R0,[R7, #+3152]
+        STR      R0,[R6, #+3152]
+        LDR      R0,[R7, #+3296]
+        STR      R0,[R6, #+3296]
+        MOV      R0,#+208
+        ORR      R0,R0,#0x1D00
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  106   memcpy(cfg->bitrate_vbr, oldcfg->bitrate_vbr,49*2);
+        MOV      R0,#+96
+        ORR      R0,R0,#0x1E00
+        MOV      R2,#+98
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  107   cfg->freq_show=oldcfg->freq_show;
+        LDR      R0,[R7, #+3816]
+        STR      R0,[R6, #+3816]
+//  108   cfg->freq_font=oldcfg->freq_font;
+        LDR      R0,[R7, #+3864]
+        STR      R0,[R6, #+3864]
+//  109   cfg->freq_rc=oldcfg->freq_rc;
+        MOV      R0,#+168
+        ORR      R0,R0,#0x1F00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  110   cfg->freq_color=oldcfg->freq_color;
+        LDR      R0,[R7, #+3964]
+//  111   cfg->freq_scolor=oldcfg->freq_scolor;
+//  112   cfg->freq_hl=oldcfg->freq_hl;
+//  113   cfg->freq_ct=oldcfg->freq_ct;
+//  114   memcpy(cfg->freq_mask, oldcfg->freq_mask,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+3964]
+        LDR      R0,[R7, #+4012]
+        STR      R0,[R6, #+4012]
+        LDR      R0,[R7, #+4060]
+        STR      R0,[R6, #+4060]
+        MOV      R0,#+204
+        ORR      R0,R0,#0x2000
+        ADD      R6,R0,R5
+        ADD      R7,R0,R4
+        LDR      R0,[R7, #+0]
+        STR      R0,[R6, #+0]
+        MOV      R0,#+92
+        ORR      R0,R0,#0x2100
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  115   cfg->ch_show=oldcfg->ch_show;
+        LDR      R0,[R7, #+376]
+        STR      R0,[R6, #+376]
+//  116   cfg->ch_font=oldcfg->ch_font;
+        LDR      R0,[R7, #+424]
+        STR      R0,[R6, #+424]
+//  117   cfg->ch_rc=oldcfg->ch_rc;
+        MOV      R0,#+164
+        ORR      R0,R0,#0x2200
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  118   cfg->ch_color=oldcfg->ch_color;
+        LDR      R0,[R7, #+524]
+        STR      R0,[R6, #+524]
+//  119   cfg->ch_scolor=oldcfg->ch_scolor;
+        LDR      R0,[R7, #+572]
+        STR      R0,[R6, #+572]
+//  120   cfg->ch_hl=oldcfg->ch_hl;
+        LDR      R0,[R7, #+620]
+        STR      R0,[R6, #+620]
+//  121   cfg->ch_ct=oldcfg->ch_ct;
+        LDR      R0,[R7, #+764]
+        STR      R0,[R6, #+764]
+//  122   cfg->ProgressBar_Show=oldcfg->ProgressBar_Show;
+        LDR      R0,[R7, #+996]
+        STR      R0,[R6, #+996]
+//  123   cfg->pbrect=oldcfg->pbrect;
+        MOV      R0,#+224
+        ORR      R0,R0,#0x2400
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  124   cfg->ProgressBar_cColor=oldcfg->ProgressBar_cColor;
+        LDR      R0,[R7, #+1096]
+        STR      R0,[R6, #+1096]
+//  125   cfg->ProgressBar_oColor=oldcfg->ProgressBar_oColor;
+        LDR      R0,[R7, #+1144]
+        STR      R0,[R6, #+1144]
+//  126   cfg->ProgressBar_bColor=oldcfg->ProgressBar_bColor;
+        LDR      R0,[R7, #+1192]
+        STR      R0,[R6, #+1192]
+//  127   cfg->ProgressBar_highlight=oldcfg->ProgressBar_highlight;
+        LDR      R0,[R7, #+1240]
+        STR      R0,[R6, #+1240]
+//  128   cfg->cover_show=oldcfg->cover_show;
+        LDR      R0,[R7, #+1376]
+        STR      R0,[R6, #+1376]
+//  129   cfg->cover_rect=oldcfg->cover_rect;
+        MOV      R0,#+92
+        ORR      R0,R0,#0x2600
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  130   cfg->ticn_show=oldcfg->ticn_show;
+        LDR      R0,[R7, #+1608]
+        STR      R0,[R6, #+1608]
+//  131   cfg->ticn_rect=oldcfg->ticn_rect;
+        MOV      R0,#+68
+        ORR      R0,R0,#0x2700
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  132   cfg->alicn_show=oldcfg->alicn_show;
+        LDR      R0,[R7, #+1796]
+        STR      R0,[R6, #+1796]
+//  133   cfg->alicn_rect=oldcfg->alicn_rect;
+        MOV      R0,#+10240
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  134   cfg->aricn_show=oldcfg->aricn_show;
+        LDR      R0,[R7, #+1984]
+        STR      R0,[R6, #+1984]
+//  135   cfg->aricn_rect=oldcfg->aricn_rect;
+        MOV      R0,#+188
+        ORR      R0,R0,#0x2800
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  136   cfg->pls_show=oldcfg->pls_show;
+        LDR      R0,[R7, #+2172]
+        STR      R0,[R6, #+2172]
+//  137   cfg->pls_rect=oldcfg->pls_rect;
+        MOV      R0,#+120
+        ORR      R0,R0,#0x2900
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  138   cfg->eq_preset_show=oldcfg->eq_preset_show;
+        LDR      R0,[R7, #+2360]
+        STR      R0,[R6, #+2360]
+//  139   cfg->eq_preset_rect=oldcfg->eq_preset_rect;
+        MOV      R0,#+52
+        ORR      R0,R0,#0x2A00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  140   cfg->shuffle_show=oldcfg->shuffle_show;
+        LDR      R0,[R7, #+2548]
+        STR      R0,[R6, #+2548]
+//  141   cfg->shuffle_rect=oldcfg->shuffle_rect;
+        MOV      R0,#+240
+        ORR      R0,R0,#0x2A00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  142   cfg->repeat_show=oldcfg->repeat_show;
+        LDR      R0,[R7, #+2736]
+        STR      R0,[R6, #+2736]
+//  143   cfg->repeat_rect=oldcfg->repeat_rect;
+        MOV      R0,#+172
+        ORR      R0,R0,#0x2B00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  144   cfg->stereo_show=oldcfg->stereo_show;
+        LDR      R0,[R7, #+2924]
+        STR      R0,[R6, #+2924]
+//  145   cfg->stereo_rect=oldcfg->stereo_rect;
+        MOV      R0,#+104
+        ORR      R0,R0,#0x2C00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  146   cfg->navigimg_show=oldcfg->navigimg_show;
+        LDR      R0,[R7, #+3200]
+        STR      R0,[R6, #+3200]
+//  147   cfg->navigimg_rect=oldcfg->navigimg_rect;
+        MOV      R0,#+124
+        ORR      R0,R0,#0x2D00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  148   cfg->leftimg_show=oldcfg->leftimg_show;
+        LDR      R0,[R7, #+3388]
+        STR      R0,[R6, #+3388]
+//  149   cfg->leftimg_rect=oldcfg->leftimg_rect;
+        MOV      R0,#+56
+        ORR      R0,R0,#0x2E00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  150   cfg->rightimg_show=oldcfg->rightimg_show;
+        LDR      R0,[R7, #+3576]
+        STR      R0,[R6, #+3576]
+//  151   cfg->rightimg_rect=oldcfg->rightimg_rect;
+        MOV      R0,#+244
+        ORR      R0,R0,#0x2E00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  152   cfg->centerimg_show=oldcfg->centerimg_show;
+        LDR      R0,[R7, #+3764]
+        STR      R0,[R6, #+3764]
+//  153   cfg->centerimg_rect=oldcfg->centerimg_rect;
+        MOV      R0,#+176
+        ORR      R0,R0,#0x2F00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  154   cfg->upimg_show=oldcfg->upimg_show;
+        LDR      R0,[R7, #+3952]
+        STR      R0,[R6, #+3952]
+//  155   cfg->upimg_rect=oldcfg->upimg_rect;
+        MOV      R0,#+108
+        ORR      R0,R0,#0x3000
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  156   cfg->downimg_show=oldcfg->downimg_show;
+        MOV      R1,#+248
+        ORR      R1,R1,#0x3000
+        ADD      R0,R1,R5
+        ADD      R1,R1,R4
+        LDR      R2,[R1, #+0]
+        STR      R2,[R0, #+0]
+//  157   cfg->downimg_rect=oldcfg->downimg_rect;
+        MOV      R2,#+40
+        ORR      R2,R2,#0x3100
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  158   cfg->title_show_h=oldcfg->title_show_h;
+        LDR      R2,[R1, #+320]
+        STR      R2,[R0, #+320]
+//  159   cfg->title_font_h=oldcfg->title_font_h;
+        LDR      R2,[R1, #+368]
+        STR      R2,[R0, #+368]
+//  160   cfg->title_rc_h=oldcfg->title_rc_h;
+        MOV      R2,#+152
+        ORR      R2,R2,#0x3200
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  161   cfg->title_color_h=oldcfg->title_color_h;
+        LDR      R2,[R1, #+468]
+        STR      R2,[R0, #+468]
+//  162   cfg->title_scolor_h=oldcfg->title_scolor_h;
+        LDR      R2,[R1, #+516]
+        STR      R2,[R0, #+516]
+//  163   cfg->title_hl_h=oldcfg->title_hl_h;
+        LDR      R2,[R1, #+564]
+        STR      R2,[R0, #+564]
+//  164   cfg->title_ct_h=oldcfg->title_ct_h;
+        LDR      R2,[R1, #+708]
+        STR      R2,[R0, #+708]
+//  165   cfg->album_show_h=oldcfg->album_show_h;
+        LDR      R2,[R1, #+940]
+        STR      R2,[R0, #+940]
+//  166   cfg->album_font_h=oldcfg->album_font_h;
+        LDR      R2,[R1, #+988]
+        STR      R2,[R0, #+988]
+//  167   cfg->album_rc_h=oldcfg->album_rc_h;
+        MOV      R2,#+4
+        ORR      R2,R2,#0x3500
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  168   cfg->album_color_h=oldcfg->album_color_h;
+        LDR      R2,[R1, #+1088]
+        STR      R2,[R0, #+1088]
+//  169   cfg->album_scolor_h=oldcfg->album_scolor_h;
+        LDR      R2,[R1, #+1136]
+        STR      R2,[R0, #+1136]
+//  170   cfg->album_hl_h=oldcfg->album_hl_h;
+        LDR      R2,[R1, #+1184]
+        STR      R2,[R0, #+1184]
+//  171   cfg->album_ct_h=oldcfg->album_ct_h;
+        LDR      R2,[R1, #+1328]
+        STR      R2,[R0, #+1328]
+//  172   cfg->artist_show_h=oldcfg->artist_show_h;
+        LDR      R2,[R1, #+1560]
+        STR      R2,[R0, #+1560]
+//  173   cfg->artist_font_h=oldcfg->artist_font_h;
+        LDR      R2,[R1, #+1608]
+        STR      R2,[R0, #+1608]
+//  174   cfg->artist_rc_h=oldcfg->artist_rc_h;
+        MOV      R2,#+112
+        ORR      R2,R2,#0x3700
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  175   cfg->artist_color_h=oldcfg->artist_color_h;
+        LDR      R2,[R1, #+1708]
+        STR      R2,[R0, #+1708]
+//  176   cfg->artist_scolor_h=oldcfg->artist_scolor_h;
+        LDR      R2,[R1, #+1756]
+        STR      R2,[R0, #+1756]
+//  177   cfg->artist_hl_h=oldcfg->artist_hl_h;
+        LDR      R2,[R1, #+1804]
+        STR      R2,[R0, #+1804]
+//  178   cfg->artist_ct_h=oldcfg->artist_ct_h;
+        LDR      R2,[R1, #+1948]
+        STR      R2,[R0, #+1948]
+//  179   cfg->year_show_h=oldcfg->year_show_h;
+        LDR      R2,[R1, #+2180]
+        STR      R2,[R0, #+2180]
+//  180   cfg->year_font_h=oldcfg->year_font_h;
+        LDR      R2,[R1, #+2228]
+        STR      R2,[R0, #+2228]
+//  181   cfg->year_rc_h=oldcfg->year_rc_h;
+        MOV      R2,#+220
+        ORR      R2,R2,#0x3900
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  182   cfg->year_color_h=oldcfg->year_color_h;
+        LDR      R2,[R1, #+2328]
+        STR      R2,[R0, #+2328]
+//  183   cfg->year_scolor_h=oldcfg->year_scolor_h;
+        LDR      R2,[R1, #+2376]
+        STR      R2,[R0, #+2376]
+//  184   cfg->year_hl_h=oldcfg->year_hl_h;
+        LDR      R2,[R1, #+2424]
+        STR      R2,[R0, #+2424]
+//  185   cfg->year_ct_h=oldcfg->year_ct_h;
+        LDR      R2,[R1, #+2568]
+        STR      R2,[R0, #+2568]
+//  186   cfg->genre_show_h=oldcfg->genre_show_h;
+        LDR      R2,[R1, #+2800]
+        STR      R2,[R0, #+2800]
+//  187   cfg->genre_font_h=oldcfg->genre_font_h;
+        LDR      R2,[R1, #+2848]
+        STR      R2,[R0, #+2848]
+//  188   cfg->genre_rc_h=oldcfg->genre_rc_h;
+        MOV      R2,#+72
+        ORR      R2,R2,#0x3C00
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  189   cfg->genre_color_h=oldcfg->genre_color_h;
+        LDR      R2,[R1, #+2948]
+        STR      R2,[R0, #+2948]
+//  190   cfg->genre_scolor_h=oldcfg->genre_scolor_h;
+        LDR      R2,[R1, #+2996]
+        STR      R2,[R0, #+2996]
+//  191   cfg->genre_hl_h=oldcfg->genre_hl_h;
+        LDR      R2,[R1, #+3044]
+        STR      R2,[R0, #+3044]
+//  192   cfg->genre_ct_h=oldcfg->genre_ct_h;
+        LDR      R2,[R1, #+3188]
+        STR      R2,[R0, #+3188]
+//  193   cfg->trackn_show_h=oldcfg->trackn_show_h;
+        LDR      R2,[R1, #+3420]
+        STR      R2,[R0, #+3420]
+//  194   cfg->trackn_font_h=oldcfg->trackn_font_h;
+        LDR      R2,[R1, #+3468]
+        STR      R2,[R0, #+3468]
+//  195   cfg->trackn_rc_h=oldcfg->trackn_rc_h;
+        MOV      R2,#+180
+        ORR      R2,R2,#0x3E00
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  196   cfg->trackn_color_h=oldcfg->trackn_color_h;
+        LDR      R2,[R1, #+3568]
+        STR      R2,[R0, #+3568]
+//  197   cfg->trackn_scolor_h=oldcfg->trackn_scolor_h;
+        LDR      R2,[R1, #+3616]
+        STR      R2,[R0, #+3616]
+//  198   cfg->trackn_hl_h=oldcfg->trackn_hl_h;
+        LDR      R2,[R1, #+3664]
+        STR      R2,[R0, #+3664]
+//  199   cfg->trackn_ct_h=oldcfg->trackn_ct_h;
+        LDR      R1,[R1, #+3808]
+//  200   memcpy(cfg->trackn_mask_h, oldcfg->trackn_mask_h,49*2);
+        MOV      R2,#+98
+        STR      R1,[R0, #+3808]
+        MOV      R0,#+104
+        ORR      R0,R0,#0x4000
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  201   cfg->tracks_show_h=oldcfg->tracks_show_h;
+        MOV      R0,#+80
+        ORR      R0,R0,#0x4100
+        ADD      R6,R0,R5
+        ADD      R7,R0,R4
+        LDR      R0,[R7, #+0]
+        STR      R0,[R6, #+0]
+//  202   cfg->tracks_font_h=oldcfg->tracks_font_h;
+        LDR      R0,[R7, #+48]
+        STR      R0,[R6, #+48]
+//  203   cfg->tracks_rc_h=oldcfg->tracks_rc_h;
+        MOV      R0,#+176
+        ORR      R0,R0,#0x4100
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  204   cfg->tracks_color_h=oldcfg->tracks_color_h;
+        LDR      R0,[R7, #+148]
+//  205   cfg->tracks_scolor_h=oldcfg->tracks_scolor_h;
+//  206   cfg->tracks_hl_h=oldcfg->tracks_hl_h;
+//  207   cfg->tracks_ct_h=oldcfg->tracks_ct_h;
+//  208   memcpy(cfg->tracks_mask_h, oldcfg->tracks_mask_h,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+148]
+        LDR      R0,[R7, #+196]
+        STR      R0,[R6, #+196]
+        LDR      R0,[R7, #+244]
+        STR      R0,[R6, #+244]
+        LDR      R0,[R7, #+388]
+        STR      R0,[R6, #+388]
+        MOV      R0,#+100
+        ORR      R0,R0,#0x4300
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  209   cfg->ctime_show_h=oldcfg->ctime_show_h;
+        LDR      R0,[R7, #+764]
+        STR      R0,[R6, #+764]
+//  210   cfg->ctime_font_h=oldcfg->ctime_font_h;
+        LDR      R0,[R7, #+812]
+        STR      R0,[R6, #+812]
+//  211   cfg->ctime_rc_h=oldcfg->ctime_rc_h;
+        MOV      R0,#+172
+        ORR      R0,R0,#0x4400
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  212   cfg->ctime_color_h=oldcfg->ctime_color_h;
+        LDR      R0,[R7, #+912]
+//  213   cfg->ctime_scolor_h=oldcfg->ctime_scolor_h;
+//  214   cfg->ctime_hl_h=oldcfg->ctime_hl_h;
+//  215   cfg->ctime_ct_h=oldcfg->ctime_ct_h;
+//  216   memcpy(cfg->ctime_mask_h, oldcfg->ctime_mask_h,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+912]
+        LDR      R0,[R7, #+960]
+        STR      R0,[R6, #+960]
+        LDR      R0,[R7, #+1008]
+        STR      R0,[R6, #+1008]
+        LDR      R0,[R7, #+1152]
+        STR      R0,[R6, #+1152]
+        MOV      R0,#+96
+        ORR      R0,R0,#0x4600
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  217   cfg->ftime_show_h=oldcfg->ftime_show_h;
+        LDR      R0,[R7, #+1528]
+        STR      R0,[R6, #+1528]
+//  218   cfg->ftime_font_h=oldcfg->ftime_font_h;
+        LDR      R0,[R7, #+1576]
+        STR      R0,[R6, #+1576]
+//  219   cfg->ftime_rc_h=oldcfg->ftime_rc_h;
+        MOV      R0,#+168
+        ORR      R0,R0,#0x4700
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  220   cfg->ftime_color_h=oldcfg->ftime_color_h;
+        LDR      R0,[R7, #+1676]
+//  221   cfg->ftime_scolor_h=oldcfg->ftime_scolor_h;
+//  222   cfg->ftime_hl_h=oldcfg->ftime_hl_h;
+//  223   cfg->ftime_ct_h=oldcfg->ftime_ct_h;
+//  224   memcpy(cfg->ftime_mask_h, oldcfg->ftime_mask_h,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+1676]
+        LDR      R0,[R7, #+1724]
+        STR      R0,[R6, #+1724]
+        LDR      R0,[R7, #+1772]
+        STR      R0,[R6, #+1772]
+        LDR      R0,[R7, #+1916]
+        STR      R0,[R6, #+1916]
+        MOV      R0,#+92
+        ORR      R0,R0,#0x4900
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  225   cfg->ltime_show_h=oldcfg->ltime_show_h;
+        LDR      R0,[R7, #+2292]
+        STR      R0,[R6, #+2292]
+//  226   cfg->ltime_font_h=oldcfg->ltime_font_h;
+        LDR      R0,[R7, #+2340]
+        STR      R0,[R6, #+2340]
+//  227   cfg->ltime_rc_h=oldcfg->ltime_rc_h;
+        MOV      R0,#+164
+        ORR      R0,R0,#0x4A00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  228   cfg->ltime_color_h=oldcfg->ltime_color_h;
+        LDR      R0,[R7, #+2440]
+//  229   cfg->ltime_scolor_h=oldcfg->ltime_scolor_h;
+//  230   cfg->ltime_hl_h=oldcfg->ltime_hl_h;
+//  231   cfg->ltime_ct_h=oldcfg->ltime_ct_h;
+//  232   memcpy(cfg->ltime_mask_h, oldcfg->ltime_mask_h,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+2440]
+        LDR      R0,[R7, #+2488]
+        STR      R0,[R6, #+2488]
+        LDR      R0,[R7, #+2536]
+        STR      R0,[R6, #+2536]
+        LDR      R0,[R7, #+2680]
+        STR      R0,[R6, #+2680]
+        MOV      R0,#+88
+        ORR      R0,R0,#0x4C00
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  233   cfg->bitrate_show_h=oldcfg->bitrate_show_h;
+        LDR      R0,[R7, #+3056]
+        STR      R0,[R6, #+3056]
+//  234   cfg->bitrate_font_h=oldcfg->bitrate_font_h;
+        LDR      R0,[R7, #+3104]
+        STR      R0,[R6, #+3104]
+//  235   cfg->bitrate_rc_h=oldcfg->bitrate_rc_h;
+        MOV      R0,#+160
+        ORR      R0,R0,#0x4D00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  236   cfg->bitrate_color_h=oldcfg->bitrate_color_h;
+        LDR      R0,[R7, #+3204]
+//  237   cfg->bitrate_scolor_h=oldcfg->bitrate_scolor_h;
+//  238   cfg->bitrate_hl_h=oldcfg->bitrate_hl_h;
+//  239   cfg->bitrate_ct_h=oldcfg->bitrate_ct_h;
+//  240   memcpy(cfg->bitrate_mask_h, oldcfg->bitrate_mask_h,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+3204]
+        LDR      R0,[R7, #+3252]
+        STR      R0,[R6, #+3252]
+        LDR      R0,[R7, #+3300]
+        STR      R0,[R6, #+3300]
+        LDR      R0,[R7, #+3444]
+        STR      R0,[R6, #+3444]
+        MOV      R0,#+84
+        ORR      R0,R0,#0x4F00
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  241   memcpy(cfg->bitrate_vbr_h, oldcfg->bitrate_vbr_h,49*2);
+        MOV      R0,#+228
+        ORR      R0,R0,#0x4F00
+        MOV      R2,#+98
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  242   cfg->freq_show_h=oldcfg->freq_show_h;
+        LDR      R0,[R7, #+3964]
+        STR      R0,[R6, #+3964]
+//  243   cfg->freq_font_h=oldcfg->freq_font_h;
+        LDR      R0,[R7, #+4012]
+        STR      R0,[R6, #+4012]
+//  244   cfg->freq_rc_h=oldcfg->freq_rc_h;
+        MOV      R0,#+44
+        ORR      R0,R0,#0x5100
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+//  245   cfg->freq_color_h=oldcfg->freq_color_h;
+        MOV      R0,#+96
+        ORR      R0,R0,#0x5100
+        STRH     R2,[R1, #+6]
+        ADD      R6,R0,R5
+        ADD      R7,R0,R4
+        LDR      R0,[R7, #+0]
+//  246   cfg->freq_scolor_h=oldcfg->freq_scolor_h;
+//  247   cfg->freq_hl_h=oldcfg->freq_hl_h;
+//  248   cfg->freq_ct_h=oldcfg->freq_ct_h;
+//  249   memcpy(cfg->freq_mask_h, oldcfg->freq_mask_h,49*2);
+        MOV      R2,#+98
+        STR      R0,[R6, #+0]
+        LDR      R0,[R7, #+48]
+        STR      R0,[R6, #+48]
+        LDR      R0,[R7, #+96]
+        STR      R0,[R6, #+96]
+        LDR      R0,[R7, #+240]
+        STR      R0,[R6, #+240]
+        MOV      R0,#+224
+        ORR      R0,R0,#0x5200
+        ADD      R1,R0,R4
+        ADD      R0,R0,R5
+        SWI      +275
+//  250   cfg->ch_show_h=oldcfg->ch_show_h;
+        LDR      R0,[R7, #+616]
+        STR      R0,[R6, #+616]
+//  251   cfg->ch_font_h=oldcfg->ch_font_h;
+        LDR      R0,[R7, #+664]
+        STR      R0,[R6, #+664]
+//  252   cfg->ch_rc_h=oldcfg->ch_rc_h;
+        MOV      R0,#+40
+        ORR      R0,R0,#0x5400
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  253   cfg->ch_color_h=oldcfg->ch_color_h;
+        LDR      R0,[R7, #+764]
+        STR      R0,[R6, #+764]
+//  254   cfg->ch_scolor_h=oldcfg->ch_scolor_h;
+        LDR      R0,[R7, #+812]
+        STR      R0,[R6, #+812]
+//  255   cfg->ch_hl_h=oldcfg->ch_hl_h;
+        LDR      R0,[R7, #+860]
+        STR      R0,[R6, #+860]
+//  256   cfg->ch_ct_h=oldcfg->ch_ct_h;
+        LDR      R0,[R7, #+1004]
+        STR      R0,[R6, #+1004]
+//  257   cfg->ProgressBar_Show_h=oldcfg->ProgressBar_Show_h;
+        LDR      R0,[R7, #+1236]
+        STR      R0,[R6, #+1236]
+//  258   cfg->pbrect_h=oldcfg->pbrect_h;
+        MOV      R0,#+100
+        ORR      R0,R0,#0x5600
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  259   cfg->ProgressBar_cColor_h=oldcfg->ProgressBar_cColor_h;
+        LDR      R0,[R7, #+1336]
+        STR      R0,[R6, #+1336]
+//  260   cfg->ProgressBar_oColor_h=oldcfg->ProgressBar_oColor_h;
+        LDR      R0,[R7, #+1384]
+        STR      R0,[R6, #+1384]
+//  261   cfg->ProgressBar_bColor_h=oldcfg->ProgressBar_bColor_h;
+        LDR      R0,[R7, #+1432]
+        STR      R0,[R6, #+1432]
+//  262   cfg->ProgressBar_highlight_h=oldcfg->ProgressBar_highlight_h;
+        LDR      R0,[R7, #+1480]
+        STR      R0,[R6, #+1480]
+//  263   cfg->cover_show_h=oldcfg->cover_show_h;
+        LDR      R0,[R7, #+1616]
+        STR      R0,[R6, #+1616]
+//  264   cfg->cover_rect_h=oldcfg->cover_rect_h;
+        MOV      R0,#+224
+        ORR      R0,R0,#0x5700
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  265   cfg->ticn_show_h=oldcfg->ticn_show_h;
+        LDR      R0,[R7, #+1848]
+        STR      R0,[R6, #+1848]
+//  266   cfg->ticn_rect_h=oldcfg->ticn_rect_h;
+        MOV      R0,#+200
+        ORR      R0,R0,#0x5800
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  267   cfg->alicn_show_h=oldcfg->alicn_show_h;
+        LDR      R0,[R7, #+2036]
+        STR      R0,[R6, #+2036]
+//  268   cfg->alicn_rect_h=oldcfg->alicn_rect_h;
+        MOV      R0,#+132
+        ORR      R0,R0,#0x5900
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  269   cfg->aricn_show_h=oldcfg->aricn_show_h;
+        LDR      R0,[R7, #+2224]
+        STR      R0,[R6, #+2224]
+//  270   cfg->aricn_rect_h=oldcfg->aricn_rect_h;
+        MOV      R0,#+64
+        ORR      R0,R0,#0x5A00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  271   cfg->pls_show_h=oldcfg->pls_show_h;
+        LDR      R0,[R7, #+2412]
+        STR      R0,[R6, #+2412]
+//  272   cfg->pls_rect_h=oldcfg->pls_rect_h;
+        MOV      R0,#+252
+        ORR      R0,R0,#0x5A00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  273   cfg->eq_preset_show_h=oldcfg->eq_preset_show_h;
+        LDR      R0,[R7, #+2600]
+        STR      R0,[R6, #+2600]
+//  274   cfg->eq_preset_rect_h=oldcfg->eq_preset_rect_h;
+        MOV      R0,#+184
+        ORR      R0,R0,#0x5B00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  275   cfg->shuffle_show_h=oldcfg->shuffle_show_h;
+        LDR      R0,[R7, #+2788]
+        STR      R0,[R6, #+2788]
+//  276   cfg->shuffle_rect_h=oldcfg->shuffle_rect_h;
+        MOV      R0,#+116
+        ORR      R0,R0,#0x5C00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  277   cfg->repeat_show_h=oldcfg->repeat_show_h;
+        LDR      R0,[R7, #+2976]
+        STR      R0,[R6, #+2976]
+//  278   cfg->repeat_rect_h=oldcfg->repeat_rect_h;
+        MOV      R0,#+48
+        ORR      R0,R0,#0x5D00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  279   cfg->stereo_show_h=oldcfg->stereo_show_h;
+        LDR      R0,[R7, #+3164]
+        STR      R0,[R6, #+3164]
+//  280   cfg->stereo_rect_h=oldcfg->stereo_rect_h;
+        MOV      R0,#+236
+        ORR      R0,R0,#0x5D00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  281   cfg->navigimg_show_h=oldcfg->navigimg_show_h;
+        LDR      R0,[R7, #+3440]
+        STR      R0,[R6, #+3440]
+//  282   cfg->navigimg_rect_h=oldcfg->navigimg_rect_h;
+        MOV      R0,#+24320
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  283   cfg->leftimg_show_h=oldcfg->leftimg_show_h;
+        LDR      R0,[R7, #+3628]
+        STR      R0,[R6, #+3628]
+//  284   cfg->leftimg_rect_h=oldcfg->leftimg_rect_h;
+        MOV      R0,#+188
+        ORR      R0,R0,#0x5F00
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  285   cfg->rightimg_show_h=oldcfg->rightimg_show_h;
+        LDR      R0,[R7, #+3816]
+        STR      R0,[R6, #+3816]
+//  286   cfg->rightimg_rect_h=oldcfg->rightimg_rect_h;
+        MOV      R0,#+120
+        ORR      R0,R0,#0x6000
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+        STRH     R2,[R1, #+6]
+//  287   cfg->centerimg_show_h=oldcfg->centerimg_show_h;
+        LDR      R0,[R7, #+4004]
+        STR      R0,[R6, #+4004]
+//  288   cfg->centerimg_rect_h=oldcfg->centerimg_rect_h;
+        MOV      R0,#+52
+        ORR      R0,R0,#0x6100
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+//  289   cfg->upimg_show_h=oldcfg->upimg_show_h;
+        MOV      R0,#+192
+        ORR      R0,R0,#0x6100
+        STRH     R2,[R1, #+6]
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDR      R2,[R0, #+0]
+        STR      R2,[R1, #+0]
+//  290   cfg->upimg_rect_h=oldcfg->upimg_rect_h;
+        MOV      R2,#+240
+        ORR      R2,R2,#0x6100
+        ADD      R3,R2,R5
+        ADD      R2,R2,R4
+        LDRH     R6,[R2, #0]
+        STRH     R6,[R3, #+0]
+        LDRH     R6,[R2, #+2]
+        STRH     R6,[R3, #+2]
+        LDRH     R6,[R2, #+4]
+        STRH     R6,[R3, #+4]
+        LDRH     R6,[R2, #+6]
+        STRH     R6,[R3, #+6]
+//  291   cfg->downimg_show_h=oldcfg->downimg_show_h;
+        LDR      R0,[R0, #+188]
+        STR      R0,[R1, #+188]
+//  292   cfg->downimg_rect_h=oldcfg->downimg_rect_h;
+        MOV      R0,#+172
+        ORR      R0,R0,#0x6200
+        ADD      R1,R0,R5
+        ADD      R0,R0,R4
+        LDRH     R2,[R0, #0]
+        STRH     R2,[R1, #+0]
+        LDRH     R2,[R0, #+2]
+        STRH     R2,[R1, #+2]
+        LDRH     R2,[R0, #+4]
+        STRH     R2,[R1, #+4]
+        LDRH     R2,[R0, #+6]
+//  293   return 1;
+        MOV      R0,#+1
+        STRH     R2,[R1, #+6]
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock1
+//  294 }
+
+        END
+// 
+// 4 852 bytes in segment CODE
+// 
+// 4 848 bytes of CODE memory (+ 4 bytes shared)
+//
+//Errors: none
+//Warnings: none

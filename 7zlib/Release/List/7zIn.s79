@@ -1,0 +1,4262 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:44:59 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zIn.c  /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zIn.c  /
+//                       -D NDEBUG -D OLDFUNCTIONS -lcN                      /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7z /
+//                       lib\Release\List\ -o Z:\home\perk11\www\perk11.info /
+//                       \svn\SE\7zlib\Release\Obj\ -s9 --no_unroll          /
+//                       --no_code_motion --cpu_mode thumb --endian little   /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --library_module -I                      /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\7zIn.s79                                      /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        MODULE `7zIn`
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        EXTERN ??lllsl_t
+
+        PUBWEAK `?*?DATA_ID`
+        MULTWEAK ??CrcGetDigest??rT
+        MULTWEAK ??CrcInit??rT
+        MULTWEAK ??CrcUpdateUInt32??rT
+        MULTWEAK ??CrcUpdateUInt64??rT
+        MULTWEAK ??CrcVerifyDigest??rT
+        MULTWEAK ??MySzInAlloc??rA
+        MULTWEAK ??SafeReadDirect??rA
+        MULTWEAK ??SafeReadDirectByte??rA
+        MULTWEAK ??SafeReadDirectUInt32??rA
+        MULTWEAK ??SafeReadDirectUInt64??rA
+        MULTWEAK ??SzArDbExFill??rA
+        MULTWEAK ??SzArDbExFree??rA
+        MULTWEAK ??SzArDbExInit??rA
+        MULTWEAK ??SzArDbGetFolderFullPackSize??rA
+        MULTWEAK ??SzArDbGetFolderStreamPos??rA
+        MULTWEAK ??SzArchiveDatabaseFree??rT
+        MULTWEAK ??SzArchiveDatabaseInit??rT
+        MULTWEAK ??SzArchiveOpen2??rA
+        MULTWEAK ??SzArchiveOpen??rA
+        MULTWEAK ??SzByteBufferCreate??rT
+        MULTWEAK ??SzByteBufferFree??rT
+        MULTWEAK ??SzCoderInfoInit??rT
+        MULTWEAK ??SzDecode??rT
+        MULTWEAK ??SzFileInit??rT
+        MULTWEAK ??SzFolderFindBindPairForInStream??rT
+        MULTWEAK ??SzFolderGetNumOutStreams??rT
+        MULTWEAK ??SzFolderGetUnPackSize??rT
+        MULTWEAK ??SzFolderInit??rT
+        MULTWEAK ??SzGetNextFolderItem??rA
+        MULTWEAK ??SzReadAndDecodePackedStreams2??rA
+        MULTWEAK ??SzReadAndDecodePackedStreams??rA
+        MULTWEAK ??SzReadArchiveProperties??rA
+        MULTWEAK ??SzReadBoolVector2??rA
+        MULTWEAK ??SzReadBoolVector??rA
+        MULTWEAK ??SzReadByte??rA
+        MULTWEAK ??SzReadBytes??rA
+        MULTWEAK ??SzReadFileNames??rA
+        MULTWEAK ??SzReadHashDigests??rA
+        MULTWEAK ??SzReadHeader2??rA
+        MULTWEAK ??SzReadHeader??rA
+        MULTWEAK ??SzReadID??rA
+        MULTWEAK ??SzReadNumber32??rA
+        MULTWEAK ??SzReadNumber??rA
+        MULTWEAK ??SzReadPackInfo??rA
+        MULTWEAK ??SzReadSize??rA
+        MULTWEAK ??SzReadStreamsInfo??rA
+        MULTWEAK ??SzReadSubStreamsInfo??rA
+        MULTWEAK ??SzReadSwitch??rA
+        MULTWEAK ??SzReadUInt32??rA
+        MULTWEAK ??SzReadUnPackInfo??rA
+        MULTWEAK ??SzSkeepData??rA
+        MULTWEAK ??SzSkeepDataSize??rA
+        MULTWEAK ??SzWaitAttribute??rA
+        MULTWEAK ??TestSignatureCandidate??rA
+        MULTWEAK ??rT??lllsl_t
+        PUBWEAK ?init?tab?DATA_I
+        PUBLIC MySzInAlloc
+        FUNCTION MySzInAlloc,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC SafeReadDirect
+        FUNCTION SafeReadDirect,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SafeReadDirectByte
+        FUNCTION SafeReadDirectByte,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SafeReadDirectUInt32
+        FUNCTION SafeReadDirectUInt32,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC SafeReadDirectUInt64
+        FUNCTION SafeReadDirectUInt64,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC SzArDbExFill
+        FUNCTION SzArDbExFill,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC SzArDbExFree
+        FUNCTION SzArDbExFree,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC SzArDbExInit
+        FUNCTION SzArDbExInit,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC SzArDbGetFolderFullPackSize
+        FUNCTION SzArDbGetFolderFullPackSize,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SzArDbGetFolderStreamPos
+        FUNCTION SzArDbGetFolderStreamPos,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SzArchiveOpen
+        FUNCTION SzArchiveOpen,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SzArchiveOpen2
+        FUNCTION SzArchiveOpen2,0203H
+        LOCFRAME CSTACK, 100, STACK
+        PUBLIC SzGetNextFolderItem
+        FUNCTION SzGetNextFolderItem,0203H
+        LOCFRAME CSTACK, 52, STACK
+        PUBLIC SzReadAndDecodePackedStreams
+        FUNCTION SzReadAndDecodePackedStreams,0203H
+        LOCFRAME CSTACK, 96, STACK
+        PUBLIC SzReadAndDecodePackedStreams2
+        FUNCTION SzReadAndDecodePackedStreams2,0203H
+        LOCFRAME CSTACK, 72, STACK
+        PUBLIC SzReadArchiveProperties
+        FUNCTION SzReadArchiveProperties,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SzReadBoolVector
+        FUNCTION SzReadBoolVector,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC SzReadBoolVector2
+        FUNCTION SzReadBoolVector2,0203H
+        LOCFRAME CSTACK, 24, STACK
+        PUBLIC SzReadByte
+        FUNCTION SzReadByte,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SzReadBytes
+        FUNCTION SzReadBytes,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC SzReadFileNames
+        FUNCTION SzReadFileNames,0203H
+        LOCFRAME CSTACK, 40, STACK
+        PUBLIC SzReadHashDigests
+        FUNCTION SzReadHashDigests,0203H
+        LOCFRAME CSTACK, 24, STACK
+        PUBLIC SzReadHeader
+        FUNCTION SzReadHeader,0203H
+        LOCFRAME CSTACK, 56, STACK
+        PUBLIC SzReadHeader2
+        FUNCTION SzReadHeader2,0203H
+        LOCFRAME CSTACK, 88, STACK
+        PUBLIC SzReadID
+        FUNCTION SzReadID,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SzReadNumber
+        FUNCTION SzReadNumber,0203H
+        LOCFRAME CSTACK, 32, STACK
+        PUBLIC SzReadNumber32
+        FUNCTION SzReadNumber32,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SzReadPackInfo
+        FUNCTION SzReadPackInfo,0203H
+        LOCFRAME CSTACK, 32, STACK
+        PUBLIC SzReadSize
+        FUNCTION SzReadSize,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SzReadStreamsInfo
+        FUNCTION SzReadStreamsInfo,0203H
+        LOCFRAME CSTACK, 52, STACK
+        PUBLIC SzReadSubStreamsInfo
+        FUNCTION SzReadSubStreamsInfo,0203H
+        LOCFRAME CSTACK, 64, STACK
+        PUBLIC SzReadSwitch
+        FUNCTION SzReadSwitch,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC SzReadUInt32
+        FUNCTION SzReadUInt32,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC SzReadUnPackInfo
+        FUNCTION SzReadUnPackInfo,0203H
+        LOCFRAME CSTACK, 52, STACK
+        PUBLIC SzSkeepData
+        FUNCTION SzSkeepData,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SzSkeepDataSize
+        FUNCTION SzSkeepDataSize,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC SzWaitAttribute
+        FUNCTION SzWaitAttribute,0203H
+        LOCFRAME CSTACK, 24, STACK
+        PUBLIC TestSignatureCandidate
+        FUNCTION TestSignatureCandidate,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC kUtf8Limits
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+CrcGetDigest        SYMBOL "CrcGetDigest"
+CrcInit             SYMBOL "CrcInit"
+CrcUpdateUInt32     SYMBOL "CrcUpdateUInt32"
+CrcUpdateUInt64     SYMBOL "CrcUpdateUInt64"
+CrcVerifyDigest     SYMBOL "CrcVerifyDigest"
+SzArchiveDatabaseFree SYMBOL "SzArchiveDatabaseFree"
+SzArchiveDatabaseInit SYMBOL "SzArchiveDatabaseInit"
+SzByteBufferCreate  SYMBOL "SzByteBufferCreate"
+SzByteBufferFree    SYMBOL "SzByteBufferFree"
+SzCoderInfoInit     SYMBOL "SzCoderInfoInit"
+SzDecode            SYMBOL "SzDecode"
+SzFileInit          SYMBOL "SzFileInit"
+SzFolderFindBindPairForInStream SYMBOL "SzFolderFindBindPairForInStream"
+SzFolderGetNumOutStreams SYMBOL "SzFolderGetNumOutStreams"
+SzFolderGetUnPackSize SYMBOL "SzFolderGetUnPackSize"
+SzFolderInit        SYMBOL "SzFolderInit"
+??CrcGetDigest??rT  SYMBOL "??rT", CrcGetDigest
+??CrcInit??rT       SYMBOL "??rT", CrcInit
+??CrcUpdateUInt32??rT SYMBOL "??rT", CrcUpdateUInt32
+??CrcUpdateUInt64??rT SYMBOL "??rT", CrcUpdateUInt64
+??CrcVerifyDigest??rT SYMBOL "??rT", CrcVerifyDigest
+MySzInAlloc         SYMBOL "MySzInAlloc"
+??MySzInAlloc??rA   SYMBOL "??rA", MySzInAlloc
+SafeReadDirect      SYMBOL "SafeReadDirect"
+??SafeReadDirect??rA SYMBOL "??rA", SafeReadDirect
+SafeReadDirectByte  SYMBOL "SafeReadDirectByte"
+??SafeReadDirectByte??rA SYMBOL "??rA", SafeReadDirectByte
+SafeReadDirectUInt32 SYMBOL "SafeReadDirectUInt32"
+??SafeReadDirectUInt32??rA SYMBOL "??rA", SafeReadDirectUInt32
+SafeReadDirectUInt64 SYMBOL "SafeReadDirectUInt64"
+??SafeReadDirectUInt64??rA SYMBOL "??rA", SafeReadDirectUInt64
+SzArDbExFill        SYMBOL "SzArDbExFill"
+??SzArDbExFill??rA  SYMBOL "??rA", SzArDbExFill
+SzArDbExFree        SYMBOL "SzArDbExFree"
+??SzArDbExFree??rA  SYMBOL "??rA", SzArDbExFree
+SzArDbExInit        SYMBOL "SzArDbExInit"
+??SzArDbExInit??rA  SYMBOL "??rA", SzArDbExInit
+SzArDbGetFolderFullPackSize SYMBOL "SzArDbGetFolderFullPackSize"
+??SzArDbGetFolderFullPackSize??rA SYMBOL "??rA", SzArDbGetFolderFullPackSize
+SzArDbGetFolderStreamPos SYMBOL "SzArDbGetFolderStreamPos"
+??SzArDbGetFolderStreamPos??rA SYMBOL "??rA", SzArDbGetFolderStreamPos
+??SzArchiveDatabaseFree??rT SYMBOL "??rT", SzArchiveDatabaseFree
+??SzArchiveDatabaseInit??rT SYMBOL "??rT", SzArchiveDatabaseInit
+SzArchiveOpen2      SYMBOL "SzArchiveOpen2"
+??SzArchiveOpen2??rA SYMBOL "??rA", SzArchiveOpen2
+SzArchiveOpen       SYMBOL "SzArchiveOpen"
+??SzArchiveOpen??rA SYMBOL "??rA", SzArchiveOpen
+??SzByteBufferCreate??rT SYMBOL "??rT", SzByteBufferCreate
+??SzByteBufferFree??rT SYMBOL "??rT", SzByteBufferFree
+??SzCoderInfoInit??rT SYMBOL "??rT", SzCoderInfoInit
+??SzDecode??rT      SYMBOL "??rT", SzDecode
+??SzFileInit??rT    SYMBOL "??rT", SzFileInit
+??SzFolderFindBindPairForInStream??rT SYMBOL "??rT", SzFolderFindBindPairForInStream
+??SzFolderGetNumOutStreams??rT SYMBOL "??rT", SzFolderGetNumOutStreams
+??SzFolderGetUnPackSize??rT SYMBOL "??rT", SzFolderGetUnPackSize
+??SzFolderInit??rT  SYMBOL "??rT", SzFolderInit
+SzGetNextFolderItem SYMBOL "SzGetNextFolderItem"
+??SzGetNextFolderItem??rA SYMBOL "??rA", SzGetNextFolderItem
+SzReadAndDecodePackedStreams2 SYMBOL "SzReadAndDecodePackedStreams2"
+??SzReadAndDecodePackedStreams2??rA SYMBOL "??rA", SzReadAndDecodePackedStreams2
+SzReadAndDecodePackedStreams SYMBOL "SzReadAndDecodePackedStreams"
+??SzReadAndDecodePackedStreams??rA SYMBOL "??rA", SzReadAndDecodePackedStreams
+SzReadArchiveProperties SYMBOL "SzReadArchiveProperties"
+??SzReadArchiveProperties??rA SYMBOL "??rA", SzReadArchiveProperties
+SzReadBoolVector2   SYMBOL "SzReadBoolVector2"
+??SzReadBoolVector2??rA SYMBOL "??rA", SzReadBoolVector2
+SzReadBoolVector    SYMBOL "SzReadBoolVector"
+??SzReadBoolVector??rA SYMBOL "??rA", SzReadBoolVector
+SzReadByte          SYMBOL "SzReadByte"
+??SzReadByte??rA    SYMBOL "??rA", SzReadByte
+SzReadBytes         SYMBOL "SzReadBytes"
+??SzReadBytes??rA   SYMBOL "??rA", SzReadBytes
+SzReadFileNames     SYMBOL "SzReadFileNames"
+??SzReadFileNames??rA SYMBOL "??rA", SzReadFileNames
+SzReadHashDigests   SYMBOL "SzReadHashDigests"
+??SzReadHashDigests??rA SYMBOL "??rA", SzReadHashDigests
+SzReadHeader2       SYMBOL "SzReadHeader2"
+??SzReadHeader2??rA SYMBOL "??rA", SzReadHeader2
+SzReadHeader        SYMBOL "SzReadHeader"
+??SzReadHeader??rA  SYMBOL "??rA", SzReadHeader
+SzReadID            SYMBOL "SzReadID"
+??SzReadID??rA      SYMBOL "??rA", SzReadID
+SzReadNumber32      SYMBOL "SzReadNumber32"
+??SzReadNumber32??rA SYMBOL "??rA", SzReadNumber32
+SzReadNumber        SYMBOL "SzReadNumber"
+??SzReadNumber??rA  SYMBOL "??rA", SzReadNumber
+SzReadPackInfo      SYMBOL "SzReadPackInfo"
+??SzReadPackInfo??rA SYMBOL "??rA", SzReadPackInfo
+SzReadSize          SYMBOL "SzReadSize"
+??SzReadSize??rA    SYMBOL "??rA", SzReadSize
+SzReadStreamsInfo   SYMBOL "SzReadStreamsInfo"
+??SzReadStreamsInfo??rA SYMBOL "??rA", SzReadStreamsInfo
+SzReadSubStreamsInfo SYMBOL "SzReadSubStreamsInfo"
+??SzReadSubStreamsInfo??rA SYMBOL "??rA", SzReadSubStreamsInfo
+SzReadSwitch        SYMBOL "SzReadSwitch"
+??SzReadSwitch??rA  SYMBOL "??rA", SzReadSwitch
+SzReadUInt32        SYMBOL "SzReadUInt32"
+??SzReadUInt32??rA  SYMBOL "??rA", SzReadUInt32
+SzReadUnPackInfo    SYMBOL "SzReadUnPackInfo"
+??SzReadUnPackInfo??rA SYMBOL "??rA", SzReadUnPackInfo
+SzSkeepData         SYMBOL "SzSkeepData"
+??SzSkeepData??rA   SYMBOL "??rA", SzSkeepData
+SzSkeepDataSize     SYMBOL "SzSkeepDataSize"
+??SzSkeepDataSize??rA SYMBOL "??rA", SzSkeepDataSize
+SzWaitAttribute     SYMBOL "SzWaitAttribute"
+??SzWaitAttribute??rA SYMBOL "??rA", SzWaitAttribute
+TestSignatureCandidate SYMBOL "TestSignatureCandidate"
+??TestSignatureCandidate??rA SYMBOL "??rA", TestSignatureCandidate
+
+        EXTERN CrcGetDigest
+        FUNCTION CrcGetDigest,0202H
+        EXTERN CrcInit
+        FUNCTION CrcInit,0202H
+        EXTERN CrcUpdateUInt32
+        FUNCTION CrcUpdateUInt32,0202H
+        EXTERN CrcUpdateUInt64
+        FUNCTION CrcUpdateUInt64,0202H
+        EXTERN CrcVerifyDigest
+        FUNCTION CrcVerifyDigest,0202H
+        EXTERN SzArchiveDatabaseFree
+        FUNCTION SzArchiveDatabaseFree,0202H
+        EXTERN SzArchiveDatabaseInit
+        FUNCTION SzArchiveDatabaseInit,0202H
+        EXTERN SzByteBufferCreate
+        FUNCTION SzByteBufferCreate,0202H
+        EXTERN SzByteBufferFree
+        FUNCTION SzByteBufferFree,0202H
+        EXTERN SzCoderInfoInit
+        FUNCTION SzCoderInfoInit,0202H
+        EXTERN SzDecode
+        FUNCTION SzDecode,0202H
+        EXTERN SzFileInit
+        FUNCTION SzFileInit,0202H
+        EXTERN SzFolderFindBindPairForInStream
+        FUNCTION SzFolderFindBindPairForInStream,0202H
+        EXTERN SzFolderGetNumOutStreams
+        FUNCTION SzFolderGetNumOutStreams,0202H
+        EXTERN SzFolderGetUnPackSize
+        FUNCTION SzFolderGetUnPackSize,0202H
+        EXTERN SzFolderInit
+        FUNCTION SzFolderInit,0202H
+        EXTERN k7zSignature
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzArDbExInit??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock0
+        REQUIRE SzArDbExInit
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function SzArDbExInit
+        THUMB
+SzArDbExInit:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        _BLF     SzArchiveDatabaseInit,??SzArchiveDatabaseInit??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+40]
+        STR      R0,[R4, #+44]
+        STR      R0,[R4, #+48]
+        STR      R0,[R4, #+52]
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzArDbExFree??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock2
+        REQUIRE SzArDbExFree
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function SzArDbExFree
+        THUMB
+SzArDbExFree:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+        LDR      R0,[R4, #+40]
+        MOVS     R5,R1
+        BLX      R5
+        LDR      R0,[R4, #+44]
+        BLX      R5
+        LDR      R0,[R4, #+48]
+        BLX      R5
+        LDR      R0,[R4, #+52]
+        BLX      R5
+        MOVS     R1,R5
+        MOVS     R0,R4
+        _BLF     SzArchiveDatabaseFree,??SzArchiveDatabaseFree??rT
+        MOVS     R0,R4
+        BL       SzArDbExInit
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??MySzInAlloc??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock4
+        REQUIRE MySzInAlloc
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function MySzInAlloc
+        THUMB
+MySzInAlloc:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        MOVS     R0,R1
+        BNE      ??MySzInAlloc_0
+        MOVS     R0,#+0
+        STR      R0,[R4, #+0]
+??MySzInAlloc_1:
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+??MySzInAlloc_0:
+        BLX      R2
+        STR      R0,[R4, #+0]
+        CMP      R0,#+0
+        BNE      ??MySzInAlloc_1
+        MOVS     R0,#+2
+        POP      {R4,PC}
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzArDbExFill??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock6
+        REQUIRE SzArDbExFill
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function SzArDbExFill
+        THUMB
+SzArDbExFill:
+        PUSH     {R1,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+24
+        SUB      SP,SP,#+4
+        CFI CFA R13+28
+        MOVS     R4,R0
+        MOVS     R5,#+0
+        STR      R5,[SP, #+0]
+        LDR      R0,[R4, #+16]
+        MOVS     R6,#+0
+        MOVS     R7,R5
+        MOVS     R2,R1
+        LSLS     R1,R0,#+2
+        MOVS     R0,R4
+        ADDS     R0,R0,#+40
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzArDbExFill_0
+        LDR      R1,[R4, #+16]
+        CMP      R1,#+0
+        BNE      ??SzArDbExFill_1
+        B        ??SzArDbExFill_2
+??SzArDbExFill_3:
+        LDR      R1,[R4, #+40]
+        LDR      R2,[SP, #+0]
+        LSLS     R3,R0,#+2
+        STR      R2,[R1, R3]
+        LDR      R3,[R4, #+20]
+        LDR      R1,[SP, #+0]
+        MOVS     R2,#+40
+        MULS     R2,R0,R2
+        ADDS     R2,R3,R2
+        LDR      R2,[R2, #+16]
+        ADDS     R0,R0,#+1
+        ADDS     R1,R1,R2
+        STR      R1,[SP, #+0]
+??SzArDbExFill_1:
+        LDR      R1,[R4, #+16]
+        CMP      R0,R1
+        BCC      ??SzArDbExFill_3
+??SzArDbExFill_2:
+        LDR      R0,[R4, #+0]
+        LDR      R2,[SP, #+4]
+        LSLS     R1,R0,#+2
+        MOVS     R0,R4
+        ADDS     R0,R0,#+44
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzArDbExFill_0
+        LDR      R1,[R4, #+0]
+        CMP      R1,#+0
+        BNE      ??SzArDbExFill_4
+        B        ??SzArDbExFill_5
+??SzArDbExFill_6:
+        LDR      R2,[R4, #+44]
+        LSLS     R1,R0,#+2
+        STR      R5,[R2, R1]
+        LDR      R2,[R4, #+4]
+        ADDS     R0,R0,#+1
+        LDR      R1,[R2, R1]
+        ADDS     R5,R5,R1
+??SzArDbExFill_4:
+        LDR      R1,[R4, #+0]
+        CMP      R0,R1
+        BCC      ??SzArDbExFill_6
+??SzArDbExFill_5:
+        LDR      R0,[R4, #+16]
+        LDR      R2,[SP, #+4]
+        LSLS     R1,R0,#+2
+        MOVS     R0,R4
+        ADDS     R0,R0,#+48
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzArDbExFill_0
+        LDR      R0,[R4, #+24]
+        LDR      R2,[SP, #+4]
+        LSLS     R1,R0,#+2
+        MOVS     R0,R4
+        ADDS     R0,R0,#+52
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzArDbExFill_0
+        B        ??SzArDbExFill_7
+??SzArDbExFill_8:
+        LDR      R3,[R4, #+48]
+        LSLS     R2,R6,#+2
+        STR      R0,[R3, R2]
+        LDR      R3,[R4, #+20]
+        MOVS     R2,#+40
+        MULS     R2,R6,R2
+        ADDS     R2,R3,R2
+        LDR      R2,[R2, #+36]
+        CMP      R2,#+0
+        BEQ      ??SzArDbExFill_9
+??SzArDbExFill_10:
+        LDR      R3,[R4, #+52]
+        LSLS     R2,R0,#+2
+        STR      R6,[R3, R2]
+        CMP      R1,#+0
+        BNE      ??SzArDbExFill_11
+        LDR      R2,[R4, #+20]
+        MOVS     R1,#+40
+        MULS     R1,R6,R1
+        ADDS     R1,R2,R1
+        LDR      R1,[R1, #+36]
+        ADDS     R7,R7,#+1
+        CMP      R7,R1
+        BCC      ??SzArDbExFill_11
+        ADDS     R6,R6,#+1
+        MOVS     R7,#+0
+??SzArDbExFill_11:
+        ADDS     R0,R0,#+1
+??SzArDbExFill_7:
+        LDR      R1,[R4, #+24]
+        CMP      R0,R1
+        BCS      ??SzArDbExFill_12
+        LDR      R2,[R4, #+28]
+        LSLS     R1,R0,#+4
+        ADDS     R1,R2,R1
+        LDRB     R1,[R1, #+13]
+        CMP      R1,#+0
+        BNE      ??SzArDbExFill_13
+        MOVS     R1,#+1
+        CMP      R7,#+0
+        BNE      ??SzArDbExFill_14
+        LDR      R2,[R4, #+52]
+        LSLS     R1,R0,#+2
+        MOVS     R3,#+0
+        MVNS     R3,R3
+        STR      R3,[R2, R1]
+        B        ??SzArDbExFill_11
+??SzArDbExFill_13:
+        MOVS     R1,#+0
+??SzArDbExFill_14:
+        CMP      R7,#+0
+        BNE      ??SzArDbExFill_10
+        B        ??SzArDbExFill_15
+??SzArDbExFill_9:
+        ADDS     R6,R6,#+1
+??SzArDbExFill_15:
+        LDR      R2,[R4, #+16]
+        CMP      R6,R2
+        BCC      ??SzArDbExFill_8
+        MOVS     R0,#+6
+        B        ??SzArDbExFill_0
+??SzArDbExFill_12:
+        MOVS     R0,#+0
+??SzArDbExFill_0:
+        ADD      SP,SP,#+8
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzArDbGetFolderStreamPos??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock8
+        REQUIRE SzArDbGetFolderStreamPos
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function SzArDbGetFolderStreamPos
+        THUMB
+SzArDbGetFolderStreamPos:
+        PUSH     {R4}
+        CFI R4 Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R3,[R0, #+36]
+        LDR      R4,[R0, #+40]
+        LDR      R0,[R0, #+44]
+        LSLS     R1,R1,#+2
+        LDR      R1,[R4, R1]
+        ADDS     R1,R1,R2
+        LSLS     R1,R1,#+2
+        LDR      R0,[R0, R1]
+        POP      {R4}
+        CFI R4 SameValue
+        CFI CFA R13+0
+        ADDS     R0,R3,R0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzArDbGetFolderFullPackSize??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock10
+        REQUIRE SzArDbGetFolderFullPackSize
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function SzArDbGetFolderFullPackSize
+        THUMB
+SzArDbGetFolderFullPackSize:
+        PUSH     {R4-R6}
+        CFI R6 Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R2,R0
+        LDR      R3,[R2, #+40]
+        LSLS     R0,R1,#+2
+        LDR      R3,[R3, R0]
+        MOVS     R0,#+40
+        MULS     R1,R0,R1
+        LDR      R0,[R2, #+20]
+        MOVS     R4,#+0
+        ADDS     R1,R0,R1
+        LDR      R5,[R1, #+16]
+        MOVS     R0,#+0
+        CMP      R5,#+0
+        BNE      ??SzArDbGetFolderFullPackSize_0
+        POP      {R4-R6}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI CFA R13+0
+        BX       LR
+        CFI R4 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -4)
+        CFI CFA R13+12
+??SzArDbGetFolderFullPackSize_1:
+        LDR      R6,[R2, #+4]
+        ADDS     R5,R3,R4
+        LSLS     R5,R5,#+2
+        LDR      R5,[R6, R5]
+        ADDS     R4,R4,#+1
+        ADDS     R0,R0,R5
+??SzArDbGetFolderFullPackSize_0:
+        LDR      R5,[R1, #+16]
+        CMP      R4,R5
+        BCC      ??SzArDbGetFolderFullPackSize_1
+        POP      {R4-R6}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI CFA R13+0
+        BX       LR
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SafeReadDirect??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock12
+        REQUIRE SafeReadDirect
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function SafeReadDirect
+        THUMB
+SafeReadDirect:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SUB      SP,SP,#+4
+        CFI CFA R13+16
+        LDR      R4,[R0, #+0]
+        MOVS     R5,R2
+        MOV      R3,SP
+        BLX      R4
+        CMP      R0,#+0
+        BNE      ??SafeReadDirect_0
+        LDR      R0,[SP, #+0]
+        CMP      R0,R5
+        BEQ      ??SafeReadDirect_1
+        MOVS     R0,#+5
+        B        ??SafeReadDirect_0
+??SafeReadDirect_1:
+        MOVS     R0,#+0
+??SafeReadDirect_0:
+        ADD      SP,SP,#+4
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SafeReadDirectByte??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock14
+        REQUIRE SafeReadDirectByte
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function SafeReadDirectByte
+        THUMB
+SafeReadDirectByte:
+        MOVS     R2,#+1
+        B        SafeReadDirect
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SafeReadDirectUInt32??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock16
+        REQUIRE SafeReadDirectUInt32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function SafeReadDirectUInt32
+        THUMB
+SafeReadDirectUInt32:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOVS     R4,R0
+        MOVS     R5,R1
+        MOVS     R6,#+0
+        STR      R6,[R5, #+0]
+??SafeReadDirectUInt32_0:
+        MOVS     R2,#+1
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SafeReadDirect
+        CMP      R0,#+0
+        BNE      ??SafeReadDirectUInt32_1
+        LDR      R0,[R5, #+0]
+        MOV      R1,SP
+        LDRB     R1,[R1, #+0]
+        LSLS     R2,R6,#+3
+        ADDS     R6,R6,#+1
+        LSLS     R1,R1,R2
+        ORRS     R1,R1,R0
+        STR      R1,[R5, #+0]
+        CMP      R6,#+4
+        BLT      ??SafeReadDirectUInt32_0
+        MOVS     R0,#+0
+??SafeReadDirectUInt32_1:
+        ADD      SP,SP,#+4
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SafeReadDirectUInt64??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock18
+        REQUIRE SafeReadDirectUInt64
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function SafeReadDirectUInt64
+        THUMB
+SafeReadDirectUInt64:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOVS     R5,R1
+        MOVS     R6,R0
+        MOVS     R0,#+0
+        MOVS     R1,#+0
+        STM      R5!,{R0,R1}
+        SUBS     R5,R5,#+8
+        MOVS     R4,R0
+??SafeReadDirectUInt64_0:
+        MOVS     R2,#+1
+        MOV      R1,SP
+        MOVS     R0,R6
+        BL       SafeReadDirect
+        CMP      R0,#+0
+        BNE      ??SafeReadDirectUInt64_1
+        LDM      R5!,{R2,R3}
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        SUBS     R5,R5,#+8
+        LSLS     R1,R4,#+3
+        LSLS     R0,R0,R1
+        MOVS     R1,#+0
+        ORRS     R0,R0,R2
+        ORRS     R1,R1,R3
+        STM      R5!,{R0,R1}
+        SUBS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        CMP      R4,#+8
+        BLT      ??SafeReadDirectUInt64_0
+        MOVS     R0,#+0
+??SafeReadDirectUInt64_1:
+        ADD      SP,SP,#+4
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??TestSignatureCandidate??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock20
+        REQUIRE TestSignatureCandidate
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function TestSignatureCandidate
+        THUMB
+TestSignatureCandidate:
+        MOVS     R1,#+0
+??TestSignatureCandidate_0:
+        LDR      R3,??TestSignatureCandidate_1  ;; k7zSignature
+        LDRB     R2,[R0, R1]
+        LDRB     R3,[R3, R1]
+        CMP      R2,R3
+        BEQ      ??TestSignatureCandidate_2
+        MOVS     R0,#+0
+        BX       LR
+??TestSignatureCandidate_2:
+        ADDS     R1,R1,#+1
+        CMP      R1,#+6
+        BCC      ??TestSignatureCandidate_0
+        MOVS     R0,#+1
+        BX       LR
+        Nop      
+        DATA
+??TestSignatureCandidate_1:
+        DC32     k7zSignature
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadByte??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock22
+        REQUIRE SzReadByte
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function SzReadByte
+        THUMB
+SzReadByte:
+        LDR      R2,[R0, #+4]
+        CMP      R2,#+0
+        BNE      ??SzReadByte_0
+        MOVS     R0,#+6
+        BX       LR
+??SzReadByte_0:
+        SUBS     R2,R2,#+1
+        STR      R2,[R0, #+4]
+        LDR      R2,[R0, #+0]
+        ADDS     R3,R2,#+1
+        STR      R3,[R0, #+0]
+        LDRB     R0,[R2, #+0]
+        STRB     R0,[R1, #+0]
+        MOVS     R0,#+0
+        BX       LR
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadBytes??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock24
+        REQUIRE SzReadBytes
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function SzReadBytes
+        THUMB
+SzReadBytes:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOVS     R4,R0
+        MOVS     R5,R1
+        MOVS     R6,R2
+        MOVS     R7,#+0
+        B        ??SzReadBytes_0
+??SzReadBytes_1:
+        ADDS     R7,R7,#+1
+??SzReadBytes_0:
+        CMP      R7,R6
+        BCS      ??SzReadBytes_2
+        ADDS     R1,R5,R7
+        MOVS     R0,R4
+        BL       SzReadByte
+        CMP      R0,#+0
+        BEQ      ??SzReadBytes_1
+        POP      {R4-R7,PC}
+??SzReadBytes_2:
+        MOVS     R0,#+0
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadUInt32??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock26
+        REQUIRE SzReadUInt32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function SzReadUInt32
+        THUMB
+SzReadUInt32:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+4
+        CFI CFA R13+20
+        MOVS     R4,R0
+        MOVS     R5,R1
+        MOVS     R6,#+0
+        STR      R6,[R5, #+0]
+??SzReadUInt32_0:
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadByte
+        CMP      R0,#+0
+        BNE      ??SzReadUInt32_1
+        LDR      R0,[R5, #+0]
+        MOV      R1,SP
+        LDRB     R1,[R1, #+0]
+        LSLS     R2,R6,#+3
+        ADDS     R6,R6,#+1
+        LSLS     R1,R1,R2
+        ORRS     R1,R1,R0
+        STR      R1,[R5, #+0]
+        CMP      R6,#+4
+        BLT      ??SzReadUInt32_0
+        MOVS     R0,#+0
+??SzReadUInt32_1:
+        ADD      SP,SP,#+4
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadNumber??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock28
+        REQUIRE SzReadNumber
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI Function SzReadNumber
+        THUMB
+SzReadNumber:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+4
+        CFI CFA R13+24
+        MOVS     R6,R1
+        MOVS     R7,R0
+        MOVS     R4,#+128
+        MOV      R1,SP
+        BL       SzReadByte
+        CMP      R0,#+0
+        BNE      ??SzReadNumber_0
+        MOVS     R1,#+0
+        STM      R6!,{R0,R1}
+        SUBS     R6,R6,#+8
+        MOVS     R5,#+0
+??SzReadNumber_1:
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        TST      R0,R4
+        BNE      ??SzReadNumber_2
+        LDM      R6!,{R0,R1}
+        SUBS     R6,R6,#+8
+        PUSH     {R0,R1}
+        CFI CFA R13+32
+        SUBS     R4,R4,#+1
+        LSLS     R2,R5,#+3
+        ADD      R0,SP,#+8
+        LDRB     R0,[R0, #+0]
+        ANDS     R4,R4,R0
+        MOVS     R0,R4
+        ASRS     R1,R4,#+31
+        _BLF     ??lllsl_t,??rT??lllsl_t
+        POP      {R2,R3}
+        CFI CFA R13+24
+        ADDS     R0,R0,R2
+        ADCS     R1,R1,R3
+        STM      R6!,{R0,R1}
+        B.N      ??SzReadNumber_3
+??SzReadNumber_2:
+        ADD      R1,SP,#+0
+        ADDS     R1,R1,#+1
+        MOVS     R0,R7
+        BL       SzReadByte
+        CMP      R0,#+0
+        BNE      ??SzReadNumber_0
+        LDM      R6!,{R0,R1}
+        SUBS     R6,R6,#+8
+        PUSH     {R0,R1}
+        CFI CFA R13+32
+        LSLS     R2,R5,#+3
+        LSLS     R4,R4,#+23
+        ADD      R0,SP,#+8
+        LDRB     R0,[R0, #+1]
+        MOVS     R1,#+0
+        LSRS     R4,R4,#+24
+        _BLF     ??lllsl_t,??rT??lllsl_t
+        POP      {R2,R3}
+        CFI CFA R13+24
+        ORRS     R0,R0,R2
+        ORRS     R1,R1,R3
+        STM      R6!,{R0,R1}
+        SUBS     R6,R6,#+8
+        ADDS     R5,R5,#+1
+        CMP      R5,#+8
+        BLT      ??SzReadNumber_1
+??SzReadNumber_3:
+        MOVS     R0,#+0
+??SzReadNumber_0:
+        ADD      SP,SP,#+4
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock29
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadSize??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock30
+        REQUIRE SzReadSize
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon1
+        CFI Function SzReadSize
+        THUMB
+SzReadSize:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SUB      SP,SP,#+8
+        CFI CFA R13+16
+        MOVS     R4,R1
+        MOV      R1,SP
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadSize_0
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        STR      R0,[R4, #+0]
+        MOVS     R0,#+0
+??SzReadSize_0:
+        ADD      SP,SP,#+8
+        CFI CFA R13+8
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadNumber32??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock32
+        REQUIRE SzReadNumber32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon1
+        CFI Function SzReadNumber32
+        THUMB
+SzReadNumber32:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SUB      SP,SP,#+8
+        CFI CFA R13+16
+        MOVS     R4,R1
+        MOV      R1,SP
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadNumber32_0
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+24
+        MOVS     R3,#+0
+        CMP      R1,R3
+        BCC      ??SzReadNumber32_1
+        BHI      ??SzReadNumber32_2
+        CMP      R0,R2
+        BCC      ??SzReadNumber32_1
+??SzReadNumber32_2:
+        MOVS     R0,#+4
+        B        ??SzReadNumber32_0
+??SzReadNumber32_1:
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        LSRS     R2,R2,#+5
+        CMP      R1,R3
+        BCC      ??SzReadNumber32_3
+        BHI      ??SzReadNumber32_2
+        CMP      R0,R2
+        BCC      ??SzReadNumber32_3
+??SzReadNumber32_4:
+        B.N      ??SzReadNumber32_2
+??SzReadNumber32_3:
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        STR      R0,[R4, #+0]
+        MOVS     R0,#+0
+??SzReadNumber32_0:
+        ADD      SP,SP,#+8
+        CFI CFA R13+8
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadID??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock34
+        REQUIRE SzReadID
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon1
+        CFI Function SzReadID
+        THUMB
+SzReadID:
+        B        SzReadNumber
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzSkeepDataSize??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock36
+        REQUIRE SzSkeepDataSize
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon1
+        CFI Function SzSkeepDataSize
+        THUMB
+SzSkeepDataSize:
+        PUSH     {R4,R5}
+        CFI R5 Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R4,[R0, #+4]
+        MOVS     R5,#+0
+        CMP      R5,R2
+        BHI      ??SzSkeepDataSize_0
+        BCC      ??SzSkeepDataSize_1
+        CMP      R4,R1
+        BCS      ??SzSkeepDataSize_0
+??SzSkeepDataSize_1:
+        MOVS     R0,#+6
+        POP      {R4,R5}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI CFA R13+0
+        BX       LR
+        CFI R4 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -4)
+        CFI CFA R13+8
+??SzSkeepDataSize_0:
+        SUBS     R3,R4,R1
+        STR      R3,[R0, #+4]
+        LDR      R2,[R0, #+0]
+        ADDS     R1,R2,R1
+        STR      R1,[R0, #+0]
+        MOVS     R0,#+0
+        POP      {R4,R5}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI CFA R13+0
+        BX       LR
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzSkeepData??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock38
+        REQUIRE SzSkeepData
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon1
+        CFI Function SzSkeepData
+        THUMB
+SzSkeepData:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SUB      SP,SP,#+8
+        CFI CFA R13+16
+        MOV      R1,SP
+        MOVS     R4,R0
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzSkeepData_0
+        MOV      R0,SP
+        LDM      R0!,{R1,R2}
+        MOVS     R0,R4
+        BL       SzSkeepDataSize
+??SzSkeepData_0:
+        ADD      SP,SP,#+8
+        CFI CFA R13+8
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadArchiveProperties??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock40
+        REQUIRE SzReadArchiveProperties
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon1
+        CFI Function SzReadArchiveProperties
+        THUMB
+SzReadArchiveProperties:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SUB      SP,SP,#+8
+        CFI CFA R13+16
+        MOVS     R4,R0
+        B        ??SzReadArchiveProperties_0
+??SzReadArchiveProperties_1:
+        MOVS     R0,R4
+        BL       SzSkeepData
+??SzReadArchiveProperties_0:
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadArchiveProperties_2
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadArchiveProperties_1
+        CMP      R0,#+0
+        BNE      ??SzReadArchiveProperties_1
+??SzReadArchiveProperties_2:
+        ADD      SP,SP,#+8
+        CFI CFA R13+8
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzWaitAttribute??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock42
+        REQUIRE SzWaitAttribute
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon1
+        CFI Function SzWaitAttribute
+        THUMB
+SzWaitAttribute:
+        PUSH     {R4,R6,R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+8
+        CFI CFA R13+24
+        MOVS     R4,R0
+        MOVS     R6,R1
+        MOVS     R7,R2
+??SzWaitAttribute_0:
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzWaitAttribute_1
+        MOV      R0,SP
+        LDM      R0!,{R1,R2}
+        CMP      R2,R7
+        BNE      ??SzWaitAttribute_2
+        CMP      R1,R6
+        BNE      ??SzWaitAttribute_2
+        MOVS     R0,#+0
+        B        ??SzWaitAttribute_1
+??SzWaitAttribute_2:
+        MOV      R0,SP
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzWaitAttribute_3
+        CMP      R1,#+0
+        BNE      ??SzWaitAttribute_3
+        MOVS     R0,#+6
+        B        ??SzWaitAttribute_1
+??SzWaitAttribute_3:
+        MOVS     R0,R4
+        BL       SzSkeepData
+        CMP      R0,#+0
+        BEQ      ??SzWaitAttribute_0
+??SzWaitAttribute_1:
+        ADD      SP,SP,#+8
+        CFI CFA R13+16
+        POP      {R4,R6,R7,PC}    ;; return
+        CFI EndBlock cfiBlock43
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadBoolVector??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock44
+        REQUIRE SzReadBoolVector
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon1
+        CFI Function SzReadBoolVector
+        THUMB
+SzReadBoolVector:
+        PUSH     {R0,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+24
+        SUB      SP,SP,#+4
+        CFI CFA R13+28
+        MOVS     R4,R1
+        MOVS     R5,R2
+        MOVS     R2,R3
+        MOVS     R6,#+0
+        MOV      R0,SP
+        STRB     R6,[R0, #+0]
+        MOVS     R0,R5
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadBoolVector_0
+        MOVS     R7,#+0
+        B        ??SzReadBoolVector_1
+??SzReadBoolVector_2:
+        MOVS     R0,#+0
+??SzReadBoolVector_3:
+        LDR      R1,[R5, #+0]
+        LSLS     R6,R6,#+23
+        STRB     R0,[R1, R7]
+        LSRS     R6,R6,#+24
+        ADDS     R7,R7,#+1
+??SzReadBoolVector_1:
+        CMP      R7,R4
+        BCS      ??SzReadBoolVector_4
+        MOVS     R0,R6
+        BNE      ??SzReadBoolVector_5
+        LDR      R0,[SP, #+4]
+        MOV      R1,SP
+        BL       SzReadByte
+        CMP      R0,#+0
+        BNE      ??SzReadBoolVector_0
+        MOVS     R6,#+128
+??SzReadBoolVector_5:
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        TST      R0,R6
+        BEQ      ??SzReadBoolVector_2
+        MOVS     R0,#+1
+        B        ??SzReadBoolVector_3
+??SzReadBoolVector_4:
+        MOVS     R0,#+0
+??SzReadBoolVector_0:
+        ADD      SP,SP,#+8
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock45
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock46 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadBoolVector2??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock46
+        REQUIRE SzReadBoolVector2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock47 Using cfiCommon1
+        CFI Function SzReadBoolVector2
+        THUMB
+SzReadBoolVector2:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+4
+        CFI CFA R13+24
+        MOVS     R4,R0
+        MOVS     R5,R1
+        MOVS     R6,R2
+        MOVS     R7,R3
+        MOV      R1,SP
+        BL       SzReadByte
+        CMP      R0,#+0
+        BNE      ??SzReadBoolVector2_0
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??SzReadBoolVector2_1
+        MOVS     R3,R7
+        MOVS     R2,R6
+        MOVS     R1,R5
+        MOVS     R0,R4
+        BL       SzReadBoolVector
+        B        ??SzReadBoolVector2_0
+??SzReadBoolVector2_1:
+        MOVS     R2,R7
+        MOVS     R1,R5
+        MOVS     R0,R6
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadBoolVector2_0
+        CMP      R5,#+0
+        BNE      ??SzReadBoolVector2_2
+        B        ??SzReadBoolVector2_3
+??SzReadBoolVector2_4:
+        LDR      R1,[R6, #+0]
+        MOVS     R2,#+1
+        STRB     R2,[R1, R0]
+        ADDS     R0,R0,#+1
+??SzReadBoolVector2_2:
+        CMP      R0,R5
+        BCC      ??SzReadBoolVector2_4
+??SzReadBoolVector2_3:
+        MOVS     R0,#+0
+??SzReadBoolVector2_0:
+        ADD      SP,SP,#+4
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock47
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock48 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadHashDigests??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock48
+        REQUIRE SzReadHashDigests
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock49 Using cfiCommon1
+        CFI Function SzReadHashDigests
+        THUMB
+SzReadHashDigests:
+        PUSH     {R0,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+24
+        LDR      R7,[SP, #+24]
+        MOVS     R4,R1
+        MOVS     R5,R2
+        MOVS     R6,R3
+        MOVS     R3,R7
+        BL       SzReadBoolVector2
+        CMP      R0,#+0
+        BNE      ??SzReadHashDigests_0
+        MOVS     R2,R7
+        LSLS     R1,R4,#+2
+        MOVS     R0,R6
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadHashDigests_0
+        MOVS     R7,#+0
+        B        ??SzReadHashDigests_1
+??SzReadHashDigests_2:
+        ADDS     R7,R7,#+1
+??SzReadHashDigests_1:
+        CMP      R7,R4
+        BCS      ??SzReadHashDigests_3
+        LDR      R0,[R5, #+0]
+        LDRB     R0,[R0, R7]
+        CMP      R0,#+0
+        BEQ      ??SzReadHashDigests_2
+        LDR      R1,[R6, #+0]
+        LSLS     R0,R7,#+2
+        ADDS     R1,R1,R0
+        LDR      R0,[SP, #+0]
+        BL       SzReadUInt32
+        CMP      R0,#+0
+        BEQ      ??SzReadHashDigests_2
+        B        ??SzReadHashDigests_0
+??SzReadHashDigests_3:
+        MOVS     R0,#+0
+??SzReadHashDigests_0:
+        ADD      SP,SP,#+4
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock49
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock50 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadPackInfo??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock50
+        REQUIRE SzReadPackInfo
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock51 Using cfiCommon1
+        CFI Function SzReadPackInfo
+        THUMB
+SzReadPackInfo:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        SUB      SP,SP,#+8
+        CFI CFA R13+28
+        MOVS     R4,R0
+        MOVS     R5,R2
+        MOVS     R6,R3
+        BL       SzReadSize
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_0
+        MOVS     R1,R5
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_0
+        MOVS     R1,#+9
+        MOVS     R2,#+0
+        MOVS     R0,R4
+        BL       SzWaitAttribute
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_0
+        LDR      R0,[R5, #+0]
+        LDR      R2,[SP, #+36]
+        LSLS     R1,R0,#+2
+        MOVS     R0,R6
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_0
+        MOVS     R7,#+0
+        B        ??SzReadPackInfo_1
+??SzReadPackInfo_2:
+        ADDS     R7,R7,#+1
+??SzReadPackInfo_1:
+        LDR      R0,[R5, #+0]
+        CMP      R7,R0
+        BCS      ??SzReadPackInfo_3
+        LDR      R1,[R6, #+0]
+        LSLS     R0,R7,#+2
+        ADDS     R1,R1,R0
+        MOVS     R0,R4
+        BL       SzReadSize
+        CMP      R0,#+0
+        BEQ      ??SzReadPackInfo_2
+        B        ??SzReadPackInfo_0
+??SzReadPackInfo_3:
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_0
+        MOV      R0,SP
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzReadPackInfo_4
+        CMP      R1,#+0
+        BNE      ??SzReadPackInfo_4
+        LDR      R0,[SP, #+28]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_5
+        LDR      R0,[SP, #+28]
+        LDR      R2,[SP, #+36]
+        LDR      R1,[R5, #+0]
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BEQ      ??SzReadPackInfo_6
+        B        ??SzReadPackInfo_0
+??SzReadPackInfo_4:
+        MOV      R0,SP
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzReadPackInfo_7
+        CMP      R1,#+10
+        BNE      ??SzReadPackInfo_7
+        LDR      R0,[SP, #+36]
+        PUSH     {R0}
+        CFI CFA R13+32
+        LDR      R3,[SP, #+36]
+        LDR      R2,[SP, #+32]
+        LDR      R1,[R5, #+0]
+        MOVS     R0,R4
+        BL       SzReadHashDigests
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+??SzReadPackInfo_8:
+        CMP      R0,#+0
+        BEQ      ??SzReadPackInfo_3
+        B        ??SzReadPackInfo_0
+??SzReadPackInfo_7:
+        MOVS     R0,R4
+        BL       SzSkeepData
+        B.N      ??SzReadPackInfo_8
+??SzReadPackInfo_6:
+        LDR      R0,[R5, #+0]
+        LDR      R2,[SP, #+36]
+        LSLS     R1,R0,#+2
+        LDR      R0,[SP, #+32]
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_0
+        LDR      R0,[R5, #+0]
+        MOVS     R7,#+0
+        CMP      R0,#+0
+        BNE      ??SzReadPackInfo_9
+        B        ??SzReadPackInfo_5
+??SzReadPackInfo_10:
+        LDR      R1,[SP, #+28]
+        MOVS     R0,#+0
+        LDR      R1,[R1, #+0]
+        STRB     R0,[R1, R7]
+        LDR      R2,[SP, #+32]
+        LSLS     R1,R7,#+2
+        LDR      R2,[R2, #+0]
+        ADDS     R7,R7,#+1
+        STR      R0,[R2, R1]
+??SzReadPackInfo_9:
+        LDR      R0,[R5, #+0]
+        CMP      R7,R0
+        BCC      ??SzReadPackInfo_10
+??SzReadPackInfo_5:
+        MOVS     R0,#+0
+??SzReadPackInfo_0:
+        ADD      SP,SP,#+8
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock51
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock52 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadSwitch??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock52
+        REQUIRE SzReadSwitch
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock53 Using cfiCommon1
+        CFI Function SzReadSwitch
+        THUMB
+SzReadSwitch:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+4
+        CFI CFA R13+8
+        MOV      R1,SP
+        BL       SzReadByte
+        CMP      R0,#+0
+        BNE      ??SzReadSwitch_0
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??SzReadSwitch_0
+        MOVS     R0,#+6
+??SzReadSwitch_0:
+        ADD      SP,SP,#+4
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock53
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock54 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzGetNextFolderItem??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock54
+        REQUIRE SzGetNextFolderItem
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock55 Using cfiCommon1
+        CFI Function SzGetNextFolderItem
+        THUMB
+SzGetNextFolderItem:
+        PUSH     {R1,R2,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+28
+        SUB      SP,SP,#+24
+        CFI CFA R13+52
+        MOVS     R4,R0
+        MOVS     R7,#+0
+        STR      R7,[SP, #+8]
+        ADD      R1,SP,#+4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzGetNextFolderItem_0
+        LDR      R0,[SP, #+24]
+        LDR      R1,[SP, #+4]
+        STR      R1,[R0, #+0]
+        LDR      R0,[SP, #+4]
+        LDR      R2,[SP, #+28]
+        LSLS     R1,R0,#+5
+        LDR      R0,[SP, #+24]
+        ADDS     R0,R0,#+4
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzGetNextFolderItem_0
+        LDR      R0,[SP, #+4]
+        MOVS     R5,#+0
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_1
+        B        ??SzGetNextFolderItem_2
+??SzGetNextFolderItem_3:
+        LDR      R1,[SP, #+24]
+        LSLS     R0,R5,#+5
+        LDR      R1,[R1, #+4]
+        ADDS     R5,R5,#+1
+        ADDS     R0,R1,R0
+        _BLF     SzCoderInfoInit,??SzCoderInfoInit??rT
+??SzGetNextFolderItem_1:
+        LDR      R0,[SP, #+4]
+        CMP      R5,R0
+        BCC      ??SzGetNextFolderItem_3
+??SzGetNextFolderItem_2:
+        MOVS     R5,#+0
+        B        ??SzGetNextFolderItem_4
+??SzGetNextFolderItem_5:
+        LDR      R0,[SP, #+8]
+        LDR      R1,[R6, #+0]
+        ADDS     R5,R5,#+1
+        ADDS     R0,R0,R1
+        STR      R0,[SP, #+8]
+        LDR      R0,[R6, #+4]
+        ADDS     R7,R7,R0
+??SzGetNextFolderItem_4:
+        LDR      R0,[SP, #+4]
+        CMP      R5,R0
+        BCC      .+5
+        B        ??SzGetNextFolderItem_6
+        LDR      R1,[SP, #+24]
+        LSLS     R0,R5,#+5
+        LDR      R1,[R1, #+4]
+        ADDS     R6,R1,R0
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadByte
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzGetNextFolderItem_0
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        MOVS     R2,#+15
+        MOVS     R1,R6
+        ANDS     R2,R2,R0
+        STRB     R2,[R6, #+23]
+        ADDS     R1,R1,#+8
+        MOVS     R0,R4
+        BL       SzReadBytes
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzGetNextFolderItem_0
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        MOVS     R1,#+16
+        TST      R0,R1
+        BEQ      ??SzGetNextFolderItem_7
+        MOVS     R1,R6
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzGetNextFolderItem_0
+        ADDS     R1,R6,#+4
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BEQ      ??SzGetNextFolderItem_8
+        B        ??SzGetNextFolderItem_0
+??SzGetNextFolderItem_7:
+        MOVS     R0,#+1
+        STR      R0,[R6, #+0]
+        STR      R0,[R6, #+4]
+??SzGetNextFolderItem_8:
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        LSLS     R0,R0,#+26
+        BPL      ??SzGetNextFolderItem_9
+        ADD      R0,SP,#+12
+        MOVS     R1,#+0
+        MOVS     R2,#+0
+        STM      R0!,{R1,R2}
+        MOVS     R0,R4
+        ADD      R1,SP,#+12
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzGetNextFolderItem_0
+        LDR      R0,[SP, #+28]
+        ADD      R1,SP,#+12
+        LDM      R1!,{R1,R2}
+        MOVS     R2,R0
+        MOVS     R0,R6
+        ADDS     R0,R0,#+24
+        _BLF     SzByteBufferCreate,??SzByteBufferCreate??rT
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_10
+        MOVS     R0,#+2
+        B        ??SzGetNextFolderItem_0
+??SzGetNextFolderItem_10:
+        ADD      R0,SP,#+12
+        LDM      R0!,{R1,R2}
+        MOVS     R2,R1
+        LDR      R1,[R6, #+28]
+        MOVS     R0,R4
+        BL       SzReadBytes
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+??SzGetNextFolderItem_9:
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        LSLS     R0,R0,#+24
+        BPL      ??SzGetNextFolderItem_5
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadByte
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        LSLS     R1,R0,#+28
+        LSRS     R1,R1,#+28
+        ASRS     R2,R1,#+31
+        MOVS     R0,R4
+        BL       SzSkeepDataSize
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        MOVS     R1,#+16
+        TST      R0,R1
+        BEQ      ??SzGetNextFolderItem_11
+        ADD      R1,SP,#+20
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+        ADD      R1,SP,#+20
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+??SzGetNextFolderItem_11:
+        MOV      R0,SP
+        LDRB     R0,[R0, #+0]
+        LSLS     R0,R0,#+26
+        BPL      ??SzGetNextFolderItem_9
+        ADD      R0,SP,#+12
+        MOVS     R1,#+0
+        MOVS     R2,#+0
+        STM      R0!,{R1,R2}
+        MOVS     R0,R4
+        ADD      R1,SP,#+12
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+        ADD      R0,SP,#+12
+        LDM      R0!,{R1,R2}
+        MOVS     R0,R4
+        BL       SzSkeepDataSize
+        CMP      R0,#+0
+        BEQ      ??SzGetNextFolderItem_9
+        B        ??SzGetNextFolderItem_0
+??SzGetNextFolderItem_6:
+        LDR      R0,[SP, #+24]
+        SUBS     R7,R7,#+1
+        STR      R7,[R0, #+8]
+        LDR      R0,[SP, #+24]
+        LDR      R2,[SP, #+28]
+        LSLS     R1,R7,#+3
+        ADDS     R0,R0,#+12
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+        MOVS     R5,#+0
+        B        ??SzGetNextFolderItem_12
+??SzGetNextFolderItem_13:
+        ADDS     R5,R5,#+1
+??SzGetNextFolderItem_12:
+        CMP      R5,R7
+        BCS      ??SzGetNextFolderItem_14
+        LDR      R1,[SP, #+24]
+        LSLS     R0,R5,#+3
+        LDR      R1,[R1, #+12]
+        ADDS     R6,R1,R0
+        MOVS     R1,R6
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+        ADDS     R1,R6,#+4
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BEQ      ??SzGetNextFolderItem_13
+        B        ??SzGetNextFolderItem_0
+??SzGetNextFolderItem_14:
+        LDR      R0,[SP, #+8]
+        SUBS     R6,R0,R7
+        LDR      R0,[SP, #+24]
+        LSLS     R1,R6,#+2
+        STR      R6,[R0, #+16]
+        LDR      R0,[SP, #+24]
+        LDR      R2,[SP, #+28]
+        ADDS     R0,R0,#+20
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzGetNextFolderItem_0
+        CMP      R6,#+1
+        BNE      ??SzGetNextFolderItem_15
+        MOVS     R4,#+0
+        B        ??SzGetNextFolderItem_16
+??SzGetNextFolderItem_17:
+        ADDS     R4,R4,#+1
+??SzGetNextFolderItem_16:
+        LDR      R0,[SP, #+8]
+        CMP      R4,R0
+        BCS      ??SzGetNextFolderItem_18
+        LDR      R0,[SP, #+24]
+        MOVS     R1,R4
+        _BLF     SzFolderFindBindPairForInStream,??SzFolderFindBindPairForInStream??rT
+        CMP      R0,#+0
+        BPL      ??SzGetNextFolderItem_17
+        LDR      R0,[SP, #+24]
+        LDR      R0,[R0, #+20]
+        STR      R4,[R0, #+0]
+??SzGetNextFolderItem_18:
+        MOVS     R0,#+0
+??SzGetNextFolderItem_0:
+        ADD      SP,SP,#+32
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI CFA R13+52
+??SzGetNextFolderItem_15:
+        MOVS     R5,#+0
+        B        ??SzGetNextFolderItem_19
+??SzGetNextFolderItem_20:
+        ADDS     R5,R5,#+1
+??SzGetNextFolderItem_19:
+        CMP      R5,R6
+        BCS      ??SzGetNextFolderItem_18
+        LDR      R1,[SP, #+24]
+        LSLS     R0,R5,#+2
+        LDR      R1,[R1, #+20]
+        ADDS     R1,R1,R0
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BEQ      ??SzGetNextFolderItem_20
+        B        ??SzGetNextFolderItem_0
+        CFI EndBlock cfiBlock55
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock56 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadUnPackInfo??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock56
+        REQUIRE SzReadUnPackInfo
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock57 Using cfiCommon1
+        CFI Function SzReadUnPackInfo
+        THUMB
+SzReadUnPackInfo:
+        PUSH     {R0,R2-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+32
+        SUB      SP,SP,#+16
+        CFI CFA R13+48
+        MOVS     R4,R1
+        MOVS     R1,#+11
+        MOVS     R2,#+0
+        BL       SzWaitAttribute
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzReadUnPackInfo_0
+        LDR      R0,[SP, #+16]
+        MOVS     R1,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzReadUnPackInfo_0
+        LDR      R0,[SP, #+16]
+        BL       SzReadSwitch
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzReadUnPackInfo_0
+        LDR      R1,[R4, #+0]
+        LDR      R2,[SP, #+24]
+        MOVS     R0,#+40
+        MULS     R1,R0,R1
+        LDR      R0,[SP, #+20]
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzReadUnPackInfo_0
+        LDR      R0,[R4, #+0]
+        MOVS     R5,#+0
+        CMP      R0,#+0
+        BNE      ??SzReadUnPackInfo_1
+        B        ??SzReadUnPackInfo_2
+??SzReadUnPackInfo_3:
+        LDR      R1,[SP, #+20]
+        MOVS     R0,#+40
+        LDR      R1,[R1, #+0]
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        _BLF     SzFolderInit,??SzFolderInit??rT
+        ADDS     R5,R5,#+1
+??SzReadUnPackInfo_1:
+        LDR      R0,[R4, #+0]
+        CMP      R5,R0
+        BCC      ??SzReadUnPackInfo_3
+??SzReadUnPackInfo_2:
+        MOVS     R5,#+0
+        B        ??SzReadUnPackInfo_4
+??SzReadUnPackInfo_5:
+        ADDS     R5,R5,#+1
+??SzReadUnPackInfo_4:
+        LDR      R0,[R4, #+0]
+        CMP      R5,R0
+        BCS      ??SzReadUnPackInfo_6
+        LDR      R1,[SP, #+20]
+        LDR      R2,[SP, #+24]
+        LDR      R1,[R1, #+0]
+        MOVS     R0,#+40
+        MULS     R0,R5,R0
+        ADDS     R1,R1,R0
+        LDR      R0,[SP, #+16]
+        BL       SzGetNextFolderItem
+        CMP      R0,#+0
+        BEQ      ??SzReadUnPackInfo_5
+        B        ??SzReadUnPackInfo_0
+??SzReadUnPackInfo_6:
+        LDR      R0,[SP, #+16]
+        MOVS     R1,#+12
+        MOVS     R2,#+0
+        BL       SzWaitAttribute
+        CMP      R0,#+0
+        BNE      ??SzReadUnPackInfo_0
+        MOVS     R5,#+0
+        B        ??SzReadUnPackInfo_7
+??SzReadUnPackInfo_8:
+        ADDS     R5,R5,#+1
+??SzReadUnPackInfo_7:
+        LDR      R0,[R4, #+0]
+        CMP      R5,R0
+        BCS      ??SzReadUnPackInfo_9
+        LDR      R1,[SP, #+20]
+        MOVS     R0,#+40
+        LDR      R1,[R1, #+0]
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        STR      R0,[SP, #+0]
+        _BLF     SzFolderGetNumOutStreams,??SzFolderGetNumOutStreams??rT
+        LDR      R2,[SP, #+24]
+        MOVS     R6,R0
+        LDR      R0,[SP, #+0]
+        LSLS     R1,R6,#+2
+        ADDS     R0,R0,#+24
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadUnPackInfo_0
+        MOVS     R7,#+0
+        B        ??SzReadUnPackInfo_10
+??SzReadUnPackInfo_11:
+        ADDS     R7,R7,#+1
+??SzReadUnPackInfo_10:
+        CMP      R7,R6
+        BCS      ??SzReadUnPackInfo_8
+        LDR      R1,[SP, #+0]
+        LSLS     R0,R7,#+2
+        LDR      R1,[R1, #+24]
+        ADDS     R1,R1,R0
+        LDR      R0,[SP, #+16]
+        BL       SzReadSize
+        CMP      R0,#+0
+        BEQ      ??SzReadUnPackInfo_11
+        B        ??SzReadUnPackInfo_0
+??SzReadUnPackInfo_9:
+        LDR      R0,[SP, #+16]
+        ADD      R1,SP,#+8
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadUnPackInfo_0
+        ADD      R0,SP,#+8
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzReadUnPackInfo_12
+        CMP      R1,#+0
+        BNE      ??SzReadUnPackInfo_12
+        MOVS     R0,#+0
+        B        ??SzReadUnPackInfo_0
+??SzReadUnPackInfo_12:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzReadUnPackInfo_13
+        CMP      R1,#+10
+        BNE      ??SzReadUnPackInfo_13
+        MOVS     R0,#+0
+        STR      R0,[SP, #+0]
+        STR      R0,[SP, #+4]
+        LDR      R0,[SP, #+48]
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+52
+        LDR      R1,[R4, #+0]
+        LDR      R0,[SP, #+20]
+        ADD      R3,SP,#+8
+        ADD      R2,SP,#+4
+        BL       SzReadHashDigests
+        MOVS     R6,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+48
+        BNE      ??SzReadUnPackInfo_14
+        LDR      R0,[R4, #+0]
+        MOVS     R5,#+0
+        CMP      R0,#+0
+        BNE      ??SzReadUnPackInfo_15
+        B        ??SzReadUnPackInfo_14
+??SzReadUnPackInfo_16:
+        LDR      R1,[SP, #+20]
+        MOVS     R0,#+40
+        LDR      R1,[R1, #+0]
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        LDR      R1,[SP, #+0]
+        LDRB     R1,[R1, R5]
+        STR      R1,[R0, #+28]
+        LDR      R2,[SP, #+4]
+        LSLS     R1,R5,#+2
+        LDR      R1,[R2, R1]
+        ADDS     R5,R5,#+1
+        STR      R1,[R0, #+32]
+??SzReadUnPackInfo_15:
+        LDR      R0,[R4, #+0]
+        CMP      R5,R0
+        BCC      ??SzReadUnPackInfo_16
+??SzReadUnPackInfo_14:
+        LDR      R1,[SP, #+48]
+        LDR      R0,[SP, #+4]
+        LDR      R1,[R1, #+4]
+        BLX      R1
+        LDR      R1,[SP, #+48]
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R1, #+4]
+        BLX      R1
+        CMP      R6,#+0
+        BEQ      ??SzReadUnPackInfo_9
+        MOVS     R0,R6
+        B        ??SzReadUnPackInfo_0
+??SzReadUnPackInfo_13:
+        LDR      R0,[SP, #+16]
+        BL       SzSkeepData
+        CMP      R0,#+0
+        BEQ      ??SzReadUnPackInfo_9
+??SzReadUnPackInfo_0:
+        ADD      SP,SP,#+28
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock57
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock58 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadSubStreamsInfo??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock58
+        REQUIRE SzReadSubStreamsInfo
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock59 Using cfiCommon1
+        CFI Function SzReadSubStreamsInfo
+        THUMB
+SzReadSubStreamsInfo:
+        PUSH     {R0-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+36
+        SUB      SP,SP,#+24
+        CFI CFA R13+60
+        ADD      R2,SP,#+8
+        MOVS     R0,#+0
+        MOVS     R1,#+0
+        STM      R2!,{R0,R1}
+        MOVS     R5,R0
+        MOVS     R4,R0
+        LDR      R0,[SP, #+28]
+        STR      R5,[SP, #+20]
+        CMP      R0,#+0
+        BNE      ??SzReadSubStreamsInfo_0
+        B        ??SzReadSubStreamsInfo_1
+??SzReadSubStreamsInfo_2:
+        LDR      R1,[SP, #+32]
+        MOVS     R0,#+40
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        MOVS     R1,#+1
+        STR      R1,[R0, #+36]
+        ADDS     R5,R5,#+1
+??SzReadSubStreamsInfo_0:
+        LDR      R0,[SP, #+28]
+        CMP      R5,R0
+        BCC      ??SzReadSubStreamsInfo_2
+??SzReadSubStreamsInfo_1:
+        LDR      R0,[SP, #+36]
+        LDR      R1,[SP, #+28]
+        STR      R1,[R0, #+0]
+??SzReadSubStreamsInfo_3:
+        LDR      R0,[SP, #+24]
+        ADD      R1,SP,#+8
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzReadSubStreamsInfo_4
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_5
+        CMP      R0,#+13
+        BNE      ??SzReadSubStreamsInfo_5
+        LDR      R0,[SP, #+36]
+        MOVS     R5,#+0
+        STR      R5,[R0, #+0]
+        B        ??SzReadSubStreamsInfo_6
+??SzReadSubStreamsInfo_7:
+        LDR      R1,[SP, #+32]
+        MOVS     R0,#+40
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        LDR      R1,[SP, #+0]
+        ADDS     R5,R5,#+1
+        STR      R1,[R0, #+36]
+        LDR      R0,[SP, #+36]
+        LDR      R2,[SP, #+0]
+        LDR      R1,[R0, #+0]
+        ADDS     R1,R1,R2
+        STR      R1,[R0, #+0]
+??SzReadSubStreamsInfo_6:
+        LDR      R0,[SP, #+28]
+        CMP      R5,R0
+        BCS      ??SzReadSubStreamsInfo_3
+        LDR      R0,[SP, #+24]
+        MOV      R1,SP
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_7
+        B        ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_5:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_8
+        CMP      R0,#+10
+        BEQ      ??SzReadSubStreamsInfo_9
+??SzReadSubStreamsInfo_8:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_10
+        CMP      R0,#+9
+        BEQ      ??SzReadSubStreamsInfo_9
+??SzReadSubStreamsInfo_10:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_11
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_9
+??SzReadSubStreamsInfo_11:
+        LDR      R0,[SP, #+24]
+        BL       SzSkeepData
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_3
+        B        ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_9:
+        LDR      R0,[SP, #+36]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??SzReadSubStreamsInfo_12
+        LDR      R0,[SP, #+60]
+        STR      R4,[R0, #+0]
+        LDR      R0,[SP, #+64]
+        STR      R4,[R0, #+0]
+        LDR      R0,[SP, #+68]
+        STR      R4,[R0, #+0]
+        B        ??SzReadSubStreamsInfo_13
+??SzReadSubStreamsInfo_12:
+        LDR      R0,[SP, #+36]
+        LDR      R1,[SP, #+72]
+        LDR      R0,[R0, #+0]
+        LDR      R1,[R1, #+0]
+        LSLS     R0,R0,#+2
+        BLX      R1
+        LDR      R1,[SP, #+60]
+        STR      R0,[R1, #+0]
+        LDR      R0,[SP, #+60]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BNE      ??SzReadSubStreamsInfo_14
+??SzReadSubStreamsInfo_15:
+        MOVS     R0,#+2
+        B        ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_14:
+        LDR      R0,[SP, #+36]
+        LDR      R1,[SP, #+72]
+        LDR      R0,[R0, #+0]
+        LDR      R1,[R1, #+0]
+        BLX      R1
+        LDR      R1,[SP, #+64]
+        STR      R0,[R1, #+0]
+        LDR      R0,[SP, #+64]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_15
+        LDR      R0,[SP, #+36]
+        LDR      R1,[SP, #+72]
+        LDR      R0,[R0, #+0]
+        LDR      R1,[R1, #+0]
+        LSLS     R0,R0,#+2
+        BLX      R1
+        LDR      R1,[SP, #+68]
+        STR      R0,[R1, #+0]
+        LDR      R0,[SP, #+68]
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_15
+??SzReadSubStreamsInfo_13:
+        MOVS     R5,#+0
+        B        ??SzReadSubStreamsInfo_16
+??SzReadSubStreamsInfo_17:
+        LDR      R1,[SP, #+32]
+        MOVS     R0,#+40
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        _BLF     SzFolderGetUnPackSize,??SzFolderGetUnPackSize??rT
+        LDR      R2,[SP, #+60]
+        LSLS     R1,R4,#+2
+        LDR      R2,[R2, #+0]
+        SUBS     R0,R0,R6
+        STR      R0,[R2, R1]
+        ADDS     R4,R4,#+1
+??SzReadSubStreamsInfo_18:
+        ADDS     R5,R5,#+1
+??SzReadSubStreamsInfo_16:
+        LDR      R0,[SP, #+28]
+        CMP      R5,R0
+        BCS      ??SzReadSubStreamsInfo_19
+        LDR      R1,[SP, #+32]
+        MOVS     R0,#+40
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        LDR      R0,[R0, #+36]
+        MOVS     R6,#+0
+        STR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_18
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_17
+        CMP      R0,#+9
+        BNE      ??SzReadSubStreamsInfo_17
+        MOVS     R7,#+1
+        B        ??SzReadSubStreamsInfo_20
+??SzReadSubStreamsInfo_21:
+        LDR      R1,[SP, #+60]
+        LDR      R2,[SP, #+4]
+        LDR      R1,[R1, #+0]
+        LSLS     R0,R4,#+2
+        STR      R2,[R1, R0]
+        LDR      R0,[SP, #+4]
+        ADDS     R4,R4,#+1
+        ADDS     R6,R6,R0
+        ADDS     R7,R7,#+1
+??SzReadSubStreamsInfo_20:
+        LDR      R0,[SP, #+0]
+        CMP      R7,R0
+        BCS      ??SzReadSubStreamsInfo_17
+        LDR      R0,[SP, #+24]
+        ADD      R1,SP,#+4
+        BL       SzReadSize
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_21
+        B        ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_19:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_22
+        CMP      R0,#+9
+        BNE      ??SzReadSubStreamsInfo_22
+        LDR      R0,[SP, #+24]
+        ADD      R1,SP,#+8
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_22:
+        LDR      R1,[SP, #+36]
+        MOVS     R0,#+0
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_23
+        B        ??SzReadSubStreamsInfo_24
+??SzReadSubStreamsInfo_25:
+        LDR      R1,[SP, #+64]
+        MOVS     R5,#+0
+        LDR      R1,[R1, #+0]
+        STRB     R5,[R1, R0]
+        LDR      R2,[SP, #+68]
+        LSLS     R1,R0,#+2
+        LDR      R2,[R2, #+0]
+        ADDS     R0,R0,#+1
+        STR      R5,[R2, R1]
+??SzReadSubStreamsInfo_23:
+        LDR      R1,[SP, #+36]
+        LDR      R1,[R1, #+0]
+        CMP      R0,R1
+        BCC      ??SzReadSubStreamsInfo_25
+??SzReadSubStreamsInfo_24:
+        LDR      R0,[SP, #+28]
+        MOVS     R5,#+0
+        CMP      R0,#+0
+        BNE      ??SzReadSubStreamsInfo_26
+        B        ??SzReadSubStreamsInfo_27
+??SzReadSubStreamsInfo_28:
+        LDR      R1,[SP, #+32]
+        MOVS     R0,#+40
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        LDR      R0,[R0, #+36]
+        CMP      R0,#+1
+        BNE      ??SzReadSubStreamsInfo_29
+        LDR      R2,[SP, #+32]
+        MOVS     R1,#+40
+        MULS     R1,R5,R1
+        ADDS     R1,R2,R1
+        LDR      R1,[R1, #+28]
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_30
+??SzReadSubStreamsInfo_29:
+        LDR      R1,[SP, #+20]
+        ADDS     R0,R1,R0
+        STR      R0,[SP, #+20]
+??SzReadSubStreamsInfo_30:
+        ADDS     R5,R5,#+1
+??SzReadSubStreamsInfo_26:
+        LDR      R0,[SP, #+28]
+        CMP      R5,R0
+        BCC      ??SzReadSubStreamsInfo_28
+??SzReadSubStreamsInfo_27:
+        MOVS     R4,#+0
+??SzReadSubStreamsInfo_31:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_32
+        CMP      R0,#+10
+        BNE      ??SzReadSubStreamsInfo_32
+        MOVS     R5,#+0
+        STR      R5,[SP, #+0]
+        STR      R5,[SP, #+4]
+        LDR      R0,[SP, #+72]
+        MOVS     R6,#+0
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+64
+        LDR      R1,[SP, #+24]
+        LDR      R0,[SP, #+28]
+        ADD      R3,SP,#+8
+        ADD      R2,SP,#+4
+        BL       SzReadHashDigests
+        STR      R0,[SP, #+20]
+        ADD      SP,SP,#+4
+        CFI CFA R13+60
+        CMP      R0,#+0
+        BNE      ??SzReadSubStreamsInfo_33
+        LDR      R0,[SP, #+28]
+        CMP      R0,#+0
+        BNE      ??SzReadSubStreamsInfo_34
+??SzReadSubStreamsInfo_33:
+        LDR      R1,[SP, #+72]
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R1, #+4]
+        BLX      R1
+        LDR      R1,[SP, #+72]
+        LDR      R0,[SP, #+4]
+        LDR      R1,[R1, #+4]
+        BLX      R1
+        LDR      R0,[SP, #+16]
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_35
+        B        ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_36:
+        LDR      R3,[SP, #+0]
+        LDR      R2,[SP, #+64]
+        LDRB     R3,[R3, R6]
+        LDR      R2,[R2, #+0]
+        LSLS     R7,R4,#+2
+        STRB     R3,[R2, R4]
+        LDR      R2,[SP, #+68]
+        ADDS     R4,R4,#+1
+        LDR      R3,[R2, #+0]
+        LDR      R2,[SP, #+4]
+        MOV      R12,R3
+        LSLS     R3,R6,#+2
+        LDR      R2,[R2, R3]
+        MOV      R3,R12
+        STR      R2,[R3, R7]
+        ADDS     R0,R0,#+1
+        ADDS     R6,R6,#+1
+??SzReadSubStreamsInfo_37:
+        CMP      R0,R1
+        BCC      ??SzReadSubStreamsInfo_36
+??SzReadSubStreamsInfo_38:
+        ADDS     R5,R5,#+1
+??SzReadSubStreamsInfo_34:
+        LDR      R0,[SP, #+28]
+        CMP      R5,R0
+        BCS      ??SzReadSubStreamsInfo_33
+        LDR      R1,[SP, #+32]
+        MOVS     R0,#+40
+        MULS     R0,R5,R0
+        ADDS     R0,R1,R0
+        LDR      R1,[R0, #+36]
+        CMP      R1,#+1
+        BNE      ??SzReadSubStreamsInfo_39
+        LDR      R2,[R0, #+28]
+        CMP      R2,#+0
+        BEQ      ??SzReadSubStreamsInfo_39
+        LDR      R1,[SP, #+64]
+        MOVS     R2,#+1
+        LDR      R1,[R1, #+0]
+        STRB     R2,[R1, R4]
+        LDR      R2,[SP, #+68]
+        LDR      R0,[R0, #+32]
+        LDR      R2,[R2, #+0]
+        LSLS     R1,R4,#+2
+        STR      R0,[R2, R1]
+        ADDS     R4,R4,#+1
+        B        ??SzReadSubStreamsInfo_38
+??SzReadSubStreamsInfo_39:
+        MOVS     R0,#+0
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_37
+        B        ??SzReadSubStreamsInfo_38
+??SzReadSubStreamsInfo_32:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R0,R1}
+        CMP      R1,#+0
+        BNE      ??SzReadSubStreamsInfo_40
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_40:
+        LDR      R0,[SP, #+24]
+        BL       SzSkeepData
+        CMP      R0,#+0
+        BNE      ??SzReadSubStreamsInfo_4
+??SzReadSubStreamsInfo_35:
+        LDR      R0,[SP, #+24]
+        ADD      R1,SP,#+8
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BEQ      ??SzReadSubStreamsInfo_31
+??SzReadSubStreamsInfo_4:
+        ADD      SP,SP,#+40
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock59
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock60 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadStreamsInfo??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock60
+        REQUIRE SzReadStreamsInfo
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock61 Using cfiCommon1
+        CFI Function SzReadStreamsInfo
+        THUMB
+SzReadStreamsInfo:
+        PUSH     {R1,R3-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+28
+        SUB      SP,SP,#+8
+        CFI CFA R13+36
+        LDR      R6,[SP, #+52]
+        LDR      R7,[SP, #+48]
+        MOVS     R4,R0
+        MOVS     R5,R2
+??SzReadStreamsInfo_0:
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadStreamsInfo_1
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        MOVS     R2,R0
+        ASRS     R3,R0,#+31
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        CMP      R3,R1
+        BNE      ??SzReadStreamsInfo_2
+        CMP      R2,R0
+        BEQ      ??SzReadStreamsInfo_3
+??SzReadStreamsInfo_2:
+        MOVS     R0,#+5
+        B        ??SzReadStreamsInfo_1
+??SzReadStreamsInfo_3:
+        MOV      R0,SP
+        LDM      R0!,{R0,R1}
+        CMP      R0,#+0
+        BEQ      ??SzReadStreamsInfo_1
+        CMP      R0,#+6
+        BEQ      ??SzReadStreamsInfo_4
+        CMP      R0,#+7
+        BEQ      ??SzReadStreamsInfo_5
+        CMP      R0,#+8
+        BEQ      ??SzReadStreamsInfo_6
+        B        ??SzReadStreamsInfo_2
+??SzReadStreamsInfo_4:
+        MOVS     R2,R7
+        MOVS     R1,R5
+        ADDS     R1,R1,#+12
+        MOVS     R0,R5
+        ADDS     R0,R0,#+8
+        PUSH     {R0-R2}
+        CFI CFA R13+48
+        LDR      R1,[SP, #+20]
+        ADDS     R3,R5,#+4
+        MOVS     R0,R4
+        MOVS     R2,R5
+        BL       SzReadPackInfo
+        ADD      SP,SP,#+12
+        CFI CFA R13+36
+??SzReadStreamsInfo_7:
+        CMP      R0,#+0
+        BEQ      ??SzReadStreamsInfo_0
+        B        ??SzReadStreamsInfo_1
+??SzReadStreamsInfo_5:
+        PUSH     {R6}
+        CFI CFA R13+40
+        MOVS     R3,R7
+        MOVS     R2,R5
+        ADDS     R2,R2,#+20
+        MOVS     R1,R5
+        ADDS     R1,R1,#+16
+        MOVS     R0,R4
+        BL       SzReadUnPackInfo
+        ADD      SP,SP,#+4
+        CFI CFA R13+36
+        B.N      ??SzReadStreamsInfo_7
+??SzReadStreamsInfo_6:
+        LDR      R0,[SP, #+36]
+        LDR      R2,[SP, #+44]
+        LDR      R1,[SP, #+40]
+        MOVS     R3,R6
+        PUSH     {R0-R3}
+        CFI CFA R13+52
+        LDR      R3,[SP, #+28]
+        LDR      R1,[R5, #+16]
+        LDR      R2,[R5, #+20]
+        MOVS     R0,R4
+        BL       SzReadSubStreamsInfo
+        ADD      SP,SP,#+16
+        CFI CFA R13+36
+        CMP      R0,#+0
+        BEQ      ??SzReadStreamsInfo_0
+??SzReadStreamsInfo_1:
+        ADD      SP,SP,#+16
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock61
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock62 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadFileNames??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock62
+        REQUIRE SzReadFileNames
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+kUtf8Limits:
+        DS8 8
+        REQUIRE `?<Initializer for kUtf8Limits>`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock63 Using cfiCommon1
+        CFI Function SzReadFileNames
+        THUMB
+SzReadFileNames:
+        PUSH     {R1-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+32
+        SUB      SP,SP,#+8
+        CFI CFA R13+40
+        MOVS     R6,R0
+        MOVS     R0,#+0
+        B.N      ??SzReadFileNames_0
+??SzReadFileNames_1:
+        MOVS     R0,#+216
+        LSLS     R0,R0,#+8
+        CMP      R4,R0
+        BCC      ??SzReadFileNames_2
+        MOVS     R0,#+224
+        LSLS     R0,R0,#+8
+        CMP      R4,R0
+        BCS      ??SzReadFileNames_2
+        LDR      R0,[R6, #+0]
+        MOVS     R2,#+0
+        LDRB     R1,[R0, #+0]
+        LDRB     R0,[R0, #+1]
+        LSLS     R0,R0,#+8
+        ORRS     R0,R0,R1
+        STR      R0,[SP, #+4]
+        MOVS     R1,#+2
+        MOVS     R0,R6
+        BL       SzSkeepDataSize
+        LDR      R0,??SzReadFileNames_3  ;; 0xffffffffffff2800
+        LDR      R1,[SP, #+4]
+        LDR      R2,??SzReadFileNames_3+0x4  ;; 0xffffffffffff2400
+        ADDS     R0,R4,R0
+        LSLS     R0,R0,#+10
+        ADDS     R4,R1,R2
+        ORRS     R4,R4,R0
+??SzReadFileNames_2:
+        MOVS     R1,#+1
+??SzReadFileNames_4:
+        MOVS     R0,#+1
+        MOVS     R2,#+5
+        MULS     R2,R1,R2
+        ADDS     R2,R2,#+6
+        LSLS     R0,R0,R2
+        CMP      R4,R0
+        BCC      ??SzReadFileNames_5
+        ADDS     R1,R1,#+1
+        CMP      R1,#+5
+        BLT      ??SzReadFileNames_4
+??SzReadFileNames_5:
+        LDR      R0,[R7, #+8]
+        MOVS     R2,R1
+        MOV      R12,R0
+        LDR      R0,??SzReadFileNames_3+0x8  ;; kUtf8Limits
+        ADDS     R0,R0,R1
+        SUBS     R0,R0,#+1
+        LDRB     R3,[R0, #+0]
+        MOVS     R0,#+6
+        MULS     R2,R0,R2
+        MOVS     R0,R4
+        LSRS     R0,R0,R2
+        ADDS     R2,R3,R0
+        MOV      R0,R12
+        STRB     R2,[R0, R5]
+        ADDS     R5,R5,#+1
+??SzReadFileNames_6:
+        LDR      R2,[R7, #+8]
+        SUBS     R1,R1,#+1
+        MOVS     R0,R1
+        MOVS     R3,#+6
+        MULS     R0,R3,R0
+        MOVS     R3,R4
+        LSRS     R3,R3,R0
+        LSLS     R0,R3,#+26
+        LSRS     R0,R0,#+26
+        ADDS     R0,R0,#+128
+        STRB     R0,[R2, R5]
+        ADDS     R5,R5,#+1
+        CMP      R1,#+1
+        BGE      ??SzReadFileNames_6
+        ADDS     R5,R5,R1
+??SzReadFileNames_7:
+        LDR      R0,[R6, #+4]
+        CMP      R0,#+2
+        BCC      ??SzReadFileNames_8
+        LDR      R0,[R6, #+0]
+        MOVS     R2,#+0
+        LDRB     R1,[R0, #+0]
+        LDRB     R0,[R0, #+1]
+        LSLS     R4,R0,#+8
+        ORRS     R4,R4,R1
+        MOVS     R1,#+2
+        MOVS     R0,R6
+        BL       SzSkeepDataSize
+        CMP      R4,#+128
+        BCS      ??SzReadFileNames_1
+        LDR      R0,[R7, #+8]
+        STRB     R4,[R0, R5]
+        ADDS     R5,R5,#+1
+        CMP      R4,#+0
+        BNE      ??SzReadFileNames_7
+??SzReadFileNames_8:
+        LDR      R0,[SP, #+0]
+        ADDS     R0,R0,#+1
+??SzReadFileNames_0:
+        STR      R0,[SP, #+0]
+        LDR      R0,[SP, #+0]
+        LDR      R1,[SP, #+8]
+        CMP      R0,R1
+        BCS      ??SzReadFileNames_9
+        LDR      R2,[SP, #+12]
+        MOVS     R5,#+0
+        MOVS     R1,#+0
+        LSLS     R0,R0,#+4
+        ADDS     R7,R2,R0
+        B        ??SzReadFileNames_10
+??SzReadFileNames_11:
+        LDR      R3,[R6, #+4]
+        ADDS     R0,R1,#+2
+        CMP      R3,R0
+        BCC      ??SzReadFileNames_12
+        LDR      R0,[R6, #+0]
+        ADDS     R3,R0,R1
+        LDRB     R0,[R3, #+0]
+        LDRB     R3,[R3, #+1]
+        ADDS     R1,R1,#+2
+        LSLS     R3,R3,#+8
+        ORRS     R3,R3,R0
+        MOVS     R0,#+220
+        LSLS     R0,R0,#+8
+        CMP      R3,R0
+        BCC      ??SzReadFileNames_12
+        MOVS     R0,#+224
+        LSLS     R0,R0,#+8
+        CMP      R3,R0
+        BCS      ??SzReadFileNames_12
+        LDR      R0,??SzReadFileNames_3  ;; 0xffffffffffff2800
+        ADDS     R0,R2,R0
+        LDR      R2,??SzReadFileNames_3+0x4  ;; 0xffffffffffff2400
+        LSLS     R0,R0,#+10
+        ADDS     R2,R3,R2
+        ORRS     R2,R2,R0
+??SzReadFileNames_13:
+        MOVS     R0,#+1
+??SzReadFileNames_14:
+        MOVS     R3,#+1
+        MOVS     R4,#+5
+        MULS     R4,R0,R4
+        ADDS     R4,R4,#+6
+        LSLS     R3,R3,R4
+        CMP      R2,R3
+        BCC      ??SzReadFileNames_15
+        ADDS     R0,R0,#+1
+        CMP      R0,#+5
+        BLT      ??SzReadFileNames_14
+??SzReadFileNames_15:
+        ADDS     R5,R5,R0
+??SzReadFileNames_10:
+        LDR      R2,[R6, #+4]
+        ADDS     R0,R1,#+2
+        CMP      R2,R0
+        BCC      ??SzReadFileNames_16
+        LDR      R0,[R6, #+0]
+        ADDS     R5,R5,#+1
+        ADDS     R0,R0,R1
+        LDRB     R3,[R0, #+0]
+        LDRB     R0,[R0, #+1]
+        ADDS     R1,R1,#+2
+        LSLS     R2,R0,#+8
+        ORRS     R2,R2,R3
+        CMP      R2,#+0
+        BEQ      ??SzReadFileNames_16
+        CMP      R2,#+128
+        BCC      ??SzReadFileNames_10
+        MOVS     R0,#+216
+        LSLS     R0,R0,#+8
+        CMP      R2,R0
+        BCC      ??SzReadFileNames_13
+        MOVS     R0,#+224
+        LSLS     R0,R0,#+8
+        CMP      R2,R0
+        BCS      ??SzReadFileNames_13
+        MOVS     R0,#+220
+        LSLS     R0,R0,#+8
+        CMP      R2,R0
+        BCC      ??SzReadFileNames_11
+??SzReadFileNames_12:
+        MOVS     R0,#+6
+        B        ??SzReadFileNames_17
+??SzReadFileNames_16:
+        LDR      R2,[SP, #+16]
+        MOVS     R1,R5
+        MOVS     R0,R7
+        ADDS     R0,R0,#+8
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadFileNames_17
+        MOVS     R5,#+0
+        B        ??SzReadFileNames_7
+??SzReadFileNames_9:
+        MOVS     R0,#+0
+??SzReadFileNames_17:
+        ADD      SP,SP,#+20
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        Nop      
+        DATA
+??SzReadFileNames_3:
+        DC32     0xffffffffffff2800
+        DC32     0xffffffffffff2400
+        DC32     kUtf8Limits
+        CFI EndBlock cfiBlock63
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock64 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadHeader2??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock64
+        REQUIRE SzReadHeader2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock65 Using cfiCommon1
+        CFI Function SzReadHeader2
+        THUMB
+SzReadHeader2:
+        PUSH     {R1-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+32
+        SUB      SP,SP,#+36
+        CFI CFA R13+68
+        MOVS     R4,R0
+        MOVS     R5,#+0
+        STR      R5,[SP, #+32]
+        STR      R5,[SP, #+0]
+        STR      R5,[SP, #+4]
+        ADD      R1,SP,#+8
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        ADD      R0,SP,#+8
+        LDM      R0!,{R6,R7}
+        CMP      R7,#+0
+        BNE      ??SzReadHeader2_1
+        CMP      R6,#+2
+        BNE      ??SzReadHeader2_1
+        MOVS     R0,R4
+        BL       SzReadArchiveProperties
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        ADD      R1,SP,#+8
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+??SzReadHeader2_1:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R6,R7}
+        CMP      R7,#+0
+        BNE      ??SzReadHeader2_2
+        CMP      R6,#+4
+        BNE      ??SzReadHeader2_2
+        LDR      R0,[SP, #+80]
+        LDR      R3,[SP, #+84]
+        LDR      R2,[R0, #+0]
+        LDR      R0,[SP, #+44]
+        LDR      R1,[SP, #+68]
+        PUSH     {R0-R3}
+        CFI CFA R13+84
+        LDR      R0,[SP, #+56]
+        PUSH     {R0}
+        CFI CFA R13+88
+        LDR      R2,[SP, #+56]
+        ADD      R3,SP,#+52
+        MOVS     R1,R2
+        ADDS     R1,R1,#+36
+        MOVS     R0,R4
+        BL       SzReadStreamsInfo
+        ADD      SP,SP,#+20
+        CFI CFA R13+68
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        LDR      R0,[SP, #+36]
+        LDR      R1,[R0, #+36]
+        LDR      R2,[R0, #+32]
+        ADDS     R1,R1,R2
+        STR      R1,[R0, #+36]
+        ADD      R1,SP,#+8
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+??SzReadHeader2_2:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R6,R7}
+        CMP      R7,#+0
+        BNE      ??SzReadHeader2_3
+        CMP      R6,#+0
+        BNE      ??SzReadHeader2_3
+        MOVS     R0,#+0
+        B        ??SzReadHeader2_0
+??SzReadHeader2_3:
+        ADD      R0,SP,#+8
+        LDM      R0!,{R6,R7}
+        CMP      R7,#+0
+        BNE      ??SzReadHeader2_4
+        CMP      R6,#+5
+        BEQ      ??SzReadHeader2_5
+??SzReadHeader2_4:
+        MOVS     R0,#+6
+        B        ??SzReadHeader2_0
+??SzReadHeader2_5:
+        MOV      R1,SP
+        MOVS     R0,R4
+        BL       SzReadNumber32
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        LDR      R0,[SP, #+36]
+        LDR      R1,[SP, #+0]
+        STR      R1,[R0, #+24]
+        LDR      R0,[SP, #+80]
+        LDR      R2,[R0, #+0]
+        LDR      R0,[SP, #+0]
+        LSLS     R1,R0,#+4
+        ADD      R0,SP,#+4
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        LDR      R0,[SP, #+36]
+        LDR      R1,[SP, #+4]
+        MOVS     R6,#+0
+        STR      R1,[R0, #+28]
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_6
+        B        ??SzReadHeader2_7
+??SzReadHeader2_8:
+        LDR      R1,[SP, #+4]
+        LSLS     R0,R6,#+4
+        ADDS     R0,R1,R0
+        _BLF     SzFileInit,??SzFileInit??rT
+        ADDS     R6,R6,#+1
+??SzReadHeader2_6:
+        LDR      R0,[SP, #+0]
+        CMP      R6,R0
+        BCC      ??SzReadHeader2_8
+??SzReadHeader2_7:
+        ADD      R1,SP,#+16
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        ADD      R0,SP,#+16
+        LDM      R0!,{R6,R7}
+        CMP      R7,#+0
+        BNE      ??SzReadHeader2_9
+        CMP      R6,#+0
+        BNE      ??SzReadHeader2_9
+        LDR      R2,[SP, #+0]
+        MOVS     R0,#+0
+        MOVS     R1,#+0
+        CMP      R2,#+0
+        BNE      ??SzReadHeader2_10
+??SzReadHeader2_11:
+        LDR      R0,[SP, #+80]
+        LDR      R1,[R0, #+0]
+        LDR      R0,[SP, #+36]
+        BL       SzArDbExFill
+??SzReadHeader2_0:
+        ADD      SP,SP,#+48
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI CFA R13+68
+??SzReadHeader2_9:
+        ADD      R1,SP,#+24
+        MOVS     R0,R4
+        BL       SzReadNumber
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        ADD      R0,SP,#+16
+        LDM      R0!,{R6,R7}
+        ADD      R0,SP,#+16
+        LDM      R0!,{R1,R2}
+        ASRS     R7,R6,#+31
+        CMP      R7,R2
+        BNE      ??SzReadHeader2_12
+        CMP      R6,R1
+        BEQ      ??SzReadHeader2_13
+??SzReadHeader2_12:
+        LDM      R0!,{R1,R2}
+        MOVS     R0,R4
+        BL       SzSkeepDataSize
+??SzReadHeader2_14:
+        CMP      R0,#+0
+        BEQ      ??SzReadHeader2_7
+        B        ??SzReadHeader2_0
+??SzReadHeader2_13:
+        ADD      R0,SP,#+16
+        LDM      R0!,{R6,R7}
+        CMP      R6,#+14
+        BEQ      ??SzReadHeader2_15
+        CMP      R6,#+15
+        BEQ      ??SzReadHeader2_16
+        CMP      R6,#+17
+        BNE      ??SzReadHeader2_17
+        MOVS     R0,R4
+        BL       SzReadSwitch
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        LDR      R0,[SP, #+80]
+        LDR      R2,[SP, #+4]
+        LDR      R3,[R0, #+0]
+        LDR      R1,[SP, #+0]
+        MOVS     R0,R4
+        BL       SzReadFileNames
+        B.N      ??SzReadHeader2_14
+??SzReadHeader2_15:
+        LDR      R0,[SP, #+84]
+        LDR      R2,[SP, #+72]
+        LDR      R3,[R0, #+0]
+        LDR      R1,[SP, #+0]
+        MOVS     R0,R4
+        BL       SzReadBoolVector
+        CMP      R0,#+0
+        BNE      ??SzReadHeader2_0
+        LDR      R0,[SP, #+0]
+        MOVS     R5,#+0
+        MOVS     R6,#+0
+        CMP      R0,#+0
+        BEQ      ??SzReadHeader2_7
+??SzReadHeader2_18:
+        LDR      R0,[SP, #+0]
+        CMP      R6,R0
+        BCS      ??SzReadHeader2_7
+        LDR      R0,[SP, #+72]
+        LDR      R0,[R0, #+0]
+        LDRB     R0,[R0, R6]
+        CMP      R0,#+0
+        BEQ      ??SzReadHeader2_19
+        ADDS     R5,R5,#+1
+??SzReadHeader2_19:
+        ADDS     R6,R6,#+1
+        B        ??SzReadHeader2_18
+??SzReadHeader2_16:
+        LDR      R0,[SP, #+84]
+        LDR      R2,[SP, #+76]
+        LDR      R3,[R0, #+0]
+        MOVS     R1,R5
+        MOVS     R0,R4
+        BL       SzReadBoolVector
+        B.N      ??SzReadHeader2_14
+??SzReadHeader2_17:
+        LDM      R0!,{R1,R2}
+        MOVS     R0,R4
+        BL       SzSkeepDataSize
+        CMP      R0,#+0
+        BEQ      ??SzReadHeader2_7
+        B        ??SzReadHeader2_0
+??SzReadHeader2_20:
+        MOVS     R3,#+1
+??SzReadHeader2_21:
+        STRB     R3,[R2, #+14]
+        ADDS     R0,R0,#+1
+        MOVS     R5,#+0
+        STR      R5,[R2, #+0]
+??SzReadHeader2_22:
+        STRB     R5,[R2, #+12]
+        ADDS     R6,R6,#+1
+??SzReadHeader2_10:
+        LDR      R2,[SP, #+0]
+        CMP      R6,R2
+        BCS      ??SzReadHeader2_11
+        LDR      R3,[SP, #+4]
+        LSLS     R2,R6,#+4
+        ADDS     R2,R3,R2
+        MOVS     R3,#+0
+        STRB     R3,[R2, #+15]
+        LDR      R3,[SP, #+72]
+        LDR      R3,[R3, #+0]
+        CMP      R3,#+0
+        BEQ      ??SzReadHeader2_23
+??SzReadHeader2_24:
+        LDR      R3,[SP, #+72]
+        LDR      R3,[R3, #+0]
+        LDRB     R3,[R3, R6]
+        CMP      R3,#+0
+        BEQ      ??SzReadHeader2_23
+        MOVS     R3,#+0
+        B        ??SzReadHeader2_25
+??SzReadHeader2_23:
+        MOVS     R3,#+1
+??SzReadHeader2_25:
+        STRB     R3,[R2, #+13]
+        CMP      R3,#+0
+        BEQ      ??SzReadHeader2_26
+        MOVS     R3,#+0
+        STRB     R3,[R2, #+14]
+        LDR      R4,[SP, #+40]
+        LSLS     R3,R1,#+2
+        LDR      R4,[R4, #+0]
+        LDR      R4,[R4, R3]
+        STR      R4,[R2, #+0]
+        LDR      R4,[SP, #+68]
+        LDR      R4,[R4, #+0]
+        LDR      R3,[R4, R3]
+        STR      R3,[R2, #+4]
+        LDR      R3,[SP, #+44]
+        LDR      R3,[R3, #+0]
+        LDRB     R5,[R3, R1]
+        ADDS     R1,R1,#+1
+        B        ??SzReadHeader2_22
+??SzReadHeader2_26:
+        LDR      R3,[SP, #+76]
+        LDR      R3,[R3, #+0]
+        CMP      R3,#+0
+        BEQ      ??SzReadHeader2_20
+??SzReadHeader2_27:
+        LDR      R3,[SP, #+76]
+        LDR      R3,[R3, #+0]
+        LDRB     R3,[R3, R0]
+        CMP      R3,#+0
+        BEQ      ??SzReadHeader2_20
+        MOVS     R3,#+0
+        B        ??SzReadHeader2_21
+        CFI EndBlock cfiBlock65
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock66 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadHeader??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock66
+        REQUIRE SzReadHeader
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock67 Using cfiCommon1
+        CFI Function SzReadHeader
+        THUMB
+SzReadHeader:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        SUB      SP,SP,#+20
+        CFI CFA R13+36
+        MOVS     R4,R0
+        MOVS     R5,R1
+        MOVS     R0,#+0
+        STR      R0,[SP, #+0]
+        STR      R0,[SP, #+4]
+        STR      R0,[SP, #+8]
+        STR      R0,[SP, #+12]
+        STR      R0,[SP, #+16]
+        ADD      R1,SP,#+16
+        ADD      R0,SP,#+12
+        PUSH     {R0-R3}
+        CFI CFA R13+52
+        ADD      R0,SP,#+24
+        PUSH     {R0}
+        CFI CFA R13+56
+        MOVS     R6,R3
+        ADD      R3,SP,#+24
+        ADD      R2,SP,#+20
+        MOVS     R1,R5
+        MOVS     R0,R4
+        BL       SzReadHeader2
+        LDR      R1,[R6, #+4]
+        MOVS     R4,R0
+        LDR      R0,[SP, #+20]
+        BLX      R1
+        LDR      R0,[SP, #+24]
+        LDR      R1,[R6, #+4]
+        BLX      R1
+        LDR      R0,[SP, #+28]
+        LDR      R1,[R6, #+4]
+        BLX      R1
+        LDR      R0,[SP, #+32]
+        LDR      R1,[R6, #+4]
+        BLX      R1
+        LDR      R0,[SP, #+36]
+        LDR      R1,[R6, #+4]
+        BLX      R1
+        MOVS     R0,R4
+        ADD      SP,SP,#+40
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock67
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock68 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadAndDecodePackedStreams2??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock68
+        REQUIRE SzReadAndDecodePackedStreams2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock69 Using cfiCommon1
+        CFI Function SzReadAndDecodePackedStreams2
+        THUMB
+SzReadAndDecodePackedStreams2:
+        PUSH     {R0-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+36
+        SUB      SP,SP,#+16
+        CFI CFA R13+52
+        LDR      R0,[SP, #+60]
+        LDR      R5,[SP, #+72]
+        LDR      R4,[SP, #+52]
+        LDR      R6,[SP, #+56]
+        LDR      R1,[SP, #+64]
+        MOVS     R7,#+0
+        STR      R7,[SP, #+12]
+        LDR      R2,[R5, #+0]
+        MOVS     R3,R5
+        PUSH     {R0-R3}
+        CFI CFA R13+68
+        PUSH     {R6}
+        CFI CFA R13+72
+        LDR      R0,[SP, #+40]
+        ADD      R3,SP,#+32
+        MOVS     R2,R4
+        ADD      R1,SP,#+20
+        BL       SzReadStreamsInfo
+        ADD      SP,SP,#+20
+        CFI CFA R13+52
+        CMP      R0,#+0
+        BNE      ??SzReadAndDecodePackedStreams2_0
+        LDR      R0,[SP, #+0]
+        LDR      R1,[SP, #+28]
+        ADDS     R0,R0,R1
+        STR      R0,[SP, #+0]
+        LDR      R0,[R4, #+16]
+        CMP      R0,#+1
+        BEQ      ??SzReadAndDecodePackedStreams2_1
+        MOVS     R0,#+6
+        B        ??SzReadAndDecodePackedStreams2_0
+??SzReadAndDecodePackedStreams2_1:
+        LDR      R0,[R4, #+20]
+        STR      R0,[SP, #+4]
+        _BLF     SzFolderGetUnPackSize,??SzFolderGetUnPackSize??rT
+        LDR      R1,[SP, #+0]
+        MOVS     R6,R0
+        LDR      R0,[SP, #+16]
+        LDR      R2,[R0, #+4]
+        BLX      R2
+        CMP      R0,#+0
+        BNE      ??SzReadAndDecodePackedStreams2_0
+        LDR      R1,[R4, #+0]
+        CMP      R1,#+0
+        BNE      ??SzReadAndDecodePackedStreams2_2
+        B        ??SzReadAndDecodePackedStreams2_3
+??SzReadAndDecodePackedStreams2_4:
+        LDR      R2,[R4, #+4]
+        LSLS     R1,R0,#+2
+        LDR      R1,[R2, R1]
+        ADDS     R0,R0,#+1
+        ADDS     R7,R7,R1
+??SzReadAndDecodePackedStreams2_2:
+        LDR      R1,[R4, #+0]
+        CMP      R0,R1
+        BCC      ??SzReadAndDecodePackedStreams2_4
+??SzReadAndDecodePackedStreams2_3:
+        LDR      R0,[SP, #+68]
+        LDR      R2,[R5, #+0]
+        MOVS     R1,R7
+        BL       MySzInAlloc
+        CMP      R0,#+0
+        BNE      ??SzReadAndDecodePackedStreams2_0
+        LDR      R0,[SP, #+68]
+        MOVS     R2,R7
+        LDR      R1,[R0, #+0]
+        LDR      R0,[SP, #+16]
+        BL       SafeReadDirect
+        CMP      R0,#+0
+        BNE      ??SzReadAndDecodePackedStreams2_0
+        LDR      R0,[SP, #+24]
+        LDR      R2,[R5, #+0]
+        MOVS     R1,R6
+        _BLF     SzByteBufferCreate,??SzByteBufferCreate??rT
+        CMP      R0,#+0
+        BNE      ??SzReadAndDecodePackedStreams2_5
+        MOVS     R0,#+2
+        B        ??SzReadAndDecodePackedStreams2_0
+??SzReadAndDecodePackedStreams2_5:
+        MOVS     R2,R5
+        ADD      R1,SP,#+8
+        MOVS     R0,R6
+        PUSH     {R0-R2}
+        CFI CFA R13+64
+        LDR      R0,[SP, #+36]
+        LDR      R1,[SP, #+16]
+        LDR      R3,[R0, #+4]
+        LDR      R0,[SP, #+80]
+        LDR      R2,[R0, #+0]
+        LDR      R0,[R4, #+4]
+        _BLF     SzDecode,??SzDecode??rT
+        ADD      SP,SP,#+12
+        CFI CFA R13+52
+        CMP      R0,#+0
+        BNE      ??SzReadAndDecodePackedStreams2_0
+        LDR      R0,[SP, #+8]
+        CMP      R0,R6
+        BEQ      ??SzReadAndDecodePackedStreams2_6
+??SzReadAndDecodePackedStreams2_7:
+        MOVS     R0,#+5
+        B        ??SzReadAndDecodePackedStreams2_0
+??SzReadAndDecodePackedStreams2_6:
+        LDR      R0,[SP, #+4]
+        LDR      R0,[R0, #+28]
+        CMP      R0,#+0
+        BEQ      ??SzReadAndDecodePackedStreams2_8
+        LDR      R0,[SP, #+24]
+        MOVS     R2,R6
+        LDR      R1,[R0, #+4]
+        LDR      R0,[SP, #+4]
+        LDR      R0,[R0, #+32]
+        _BLF     CrcVerifyDigest,??CrcVerifyDigest??rT
+        CMP      R0,#+0
+        BEQ      ??SzReadAndDecodePackedStreams2_7
+??SzReadAndDecodePackedStreams2_8:
+        MOVS     R0,#+0
+??SzReadAndDecodePackedStreams2_0:
+        ADD      SP,SP,#+32
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock69
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock70 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzReadAndDecodePackedStreams??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock70
+        REQUIRE SzReadAndDecodePackedStreams
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock71 Using cfiCommon1
+        CFI Function SzReadAndDecodePackedStreams
+        THUMB
+SzReadAndDecodePackedStreams:
+        PUSH     {R0,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+24
+        SUB      SP,SP,#+48
+        CFI CFA R13+72
+        LDR      R7,[SP, #+72]
+        MOVS     R4,R1
+        MOVS     R5,R2
+        MOVS     R6,R3
+        MOVS     R0,#+0
+        STR      R0,[SP, #+0]
+        STR      R0,[SP, #+4]
+        STR      R0,[SP, #+8]
+        STR      R0,[SP, #+12]
+        ADD      R0,SP,#+16
+        _BLF     SzArchiveDatabaseInit,??SzArchiveDatabaseInit??rT
+        MOVS     R2,R7
+        ADD      R1,SP,#+12
+        ADD      R0,SP,#+8
+        PUSH     {R0-R2}
+        CFI CFA R13+84
+        ADD      R2,SP,#+16
+        ADD      R0,SP,#+28
+        ADD      R1,SP,#+12
+        PUSH     {R0-R2}
+        CFI CFA R13+96
+        LDR      R0,[SP, #+72]
+        MOVS     R3,R6
+        MOVS     R1,R4
+        MOVS     R2,R5
+        BL       SzReadAndDecodePackedStreams2
+        LDR      R1,[R7, #+4]
+        MOVS     R4,R0
+        ADD      R0,SP,#+40
+        _BLF     SzArchiveDatabaseFree,??SzArchiveDatabaseFree??rT
+        LDR      R0,[SP, #+24]
+        LDR      R1,[R7, #+4]
+        BLX      R1
+        LDR      R0,[SP, #+28]
+        LDR      R1,[R7, #+4]
+        BLX      R1
+        LDR      R0,[SP, #+32]
+        LDR      R1,[R7, #+4]
+        BLX      R1
+        LDR      R0,[SP, #+36]
+        LDR      R1,[R7, #+4]
+        BLX      R1
+        MOVS     R0,R4
+        ADD      SP,SP,#+76
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock71
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock72 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzArchiveOpen2??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock72
+        REQUIRE SzArchiveOpen2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock73 Using cfiCommon1
+        CFI Function SzArchiveOpen2
+        THUMB
+SzArchiveOpen2:
+        PUSH     {R2,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+24
+        SUB      SP,SP,#+72
+        CFI CFA R13+96
+        MOVS     R5,R0
+        MOVS     R7,R1
+        MOVS     R4,R3
+        MOVS     R2,#+6
+        ADD      R1,SP,#+64
+        BL       SafeReadDirect
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzArchiveOpen2_0
+        ADD      R0,SP,#+64
+        BL       TestSignatureCandidate
+        CMP      R0,#+0
+        BNE      ??SzArchiveOpen2_1
+??SzArchiveOpen2_2:
+        MOVS     R0,#+6
+        B        ??SzArchiveOpen2_0
+??SzArchiveOpen2_1:
+        MOVS     R2,#+1
+        ADD      R1,SP,#+12
+        MOVS     R0,R5
+        BL       SafeReadDirect
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzArchiveOpen2_0
+        MOV      R0,SP
+        LDRB     R0,[R0, #+12]
+        CMP      R0,#+0
+        BNE      ??SzArchiveOpen2_2
+        MOVS     R2,#+1
+        ADD      R1,SP,#+12
+        MOVS     R0,R5
+        BL       SafeReadDirect
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzArchiveOpen2_0
+        ADD      R1,SP,#+36
+        MOVS     R0,R5
+        BL       SafeReadDirectUInt32
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzArchiveOpen2_0
+        MOV      R0,SP
+        _BLF     CrcInit,??CrcInit??rT
+        ADD      R1,SP,#+56
+        MOVS     R0,R5
+        BL       SafeReadDirectUInt64
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzArchiveOpen2_0
+        ADD      R0,SP,#+56
+        LDM      R0!,{R1,R2}
+        MOV      R0,SP
+        _BLF     CrcUpdateUInt64,??CrcUpdateUInt64??rT
+        ADD      R1,SP,#+20
+        MOVS     R0,R5
+        BL       SafeReadDirectUInt64
+        CMP      R0,#+0
+        BEQ      .+5
+        B        ??SzArchiveOpen2_0
+        ADD      R0,SP,#+20
+        LDM      R0!,{R1,R2}
+        MOV      R0,SP
+        _BLF     CrcUpdateUInt64,??CrcUpdateUInt64??rT
+        ADD      R1,SP,#+16
+        MOVS     R0,R5
+        BL       SafeReadDirectUInt32
+        CMP      R0,#+0
+        BNE      ??SzArchiveOpen2_0
+        LDR      R1,[SP, #+16]
+        MOV      R0,SP
+        _BLF     CrcUpdateUInt32,??CrcUpdateUInt32??rT
+        MOVS     R0,#+32
+        STR      R0,[R7, #+32]
+        MOV      R0,SP
+        _BLF     CrcGetDigest,??CrcGetDigest??rT
+        LDR      R1,[SP, #+36]
+        CMP      R0,R1
+        BNE      ??SzArchiveOpen2_2
+        ADD      R0,SP,#+20
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzArchiveOpen2_3
+        CMP      R1,#+0
+        BNE      ??SzArchiveOpen2_3
+        MOVS     R0,#+0
+        B        ??SzArchiveOpen2_0
+??SzArchiveOpen2_3:
+        ADD      R0,SP,#+56
+        LDM      R0!,{R1,R2}
+        LDR      R2,[R5, #+4]
+        ADDS     R1,R1,#+32
+        MOVS     R0,R5
+        BLX      R2
+        CMP      R0,#+0
+        BNE      ??SzArchiveOpen2_0
+        LDR      R0,[R4, #+0]
+        ADD      R1,SP,#+20
+        LDM      R1!,{R1,R2}
+        MOVS     R2,R0
+        ADD      R0,SP,#+4
+        _BLF     SzByteBufferCreate,??SzByteBufferCreate??rT
+        CMP      R0,#+0
+        BNE      ??SzArchiveOpen2_4
+        MOVS     R0,#+2
+        B        ??SzArchiveOpen2_0
+??SzArchiveOpen2_4:
+        ADD      R0,SP,#+20
+        LDM      R0!,{R1,R2}
+        MOVS     R2,R1
+        LDR      R1,[SP, #+8]
+        MOVS     R0,R5
+        BL       SafeReadDirect
+        MOVS     R6,R0
+        BNE      ??SzArchiveOpen2_5
+        ADD      R0,SP,#+20
+        LDM      R0!,{R1,R2}
+        LDR      R0,[SP, #+16]
+        MOVS     R2,R1
+        LDR      R1,[SP, #+8]
+        _BLF     CrcVerifyDigest,??CrcVerifyDigest??rT
+        CMP      R0,#+0
+        BNE      ??SzArchiveOpen2_6
+        B        ??SzArchiveOpen2_5
+??SzArchiveOpen2_7:
+        ADD      R0,SP,#+4
+        _BLF     SzByteBufferFree,??SzByteBufferFree??rT
+        LDR      R0,[SP, #+44]
+        STR      R0,[SP, #+8]
+        LDR      R0,[SP, #+40]
+        STR      R0,[SP, #+4]
+??SzArchiveOpen2_6:
+        LDR      R0,[SP, #+8]
+        ADD      R1,SP,#+48
+        STR      R0,[SP, #+28]
+        LDR      R0,[SP, #+4]
+        STR      R0,[SP, #+32]
+        ADD      R0,SP,#+28
+        BL       SzReadNumber
+        MOVS     R6,R0
+        BNE      ??SzArchiveOpen2_5
+        ADD      R0,SP,#+48
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzArchiveOpen2_8
+        CMP      R1,#+1
+        BNE      ??SzArchiveOpen2_8
+        LDR      R2,[SP, #+72]
+        MOVS     R3,R4
+        MOVS     R1,R7
+        ADD      R0,SP,#+28
+        BL       SzReadHeader
+        MOVS     R6,R0
+        B        ??SzArchiveOpen2_5
+??SzArchiveOpen2_8:
+        ADD      R0,SP,#+48
+        LDM      R0!,{R1,R2}
+        CMP      R2,#+0
+        BNE      ??SzArchiveOpen2_9
+        CMP      R1,#+23
+        BEQ      ??SzArchiveOpen2_10
+??SzArchiveOpen2_9:
+        MOVS     R6,#+6
+        B        ??SzArchiveOpen2_5
+??SzArchiveOpen2_10:
+        PUSH     {R4}
+        CFI CFA R13+100
+        LDR      R3,[R7, #+32]
+        ADD      R2,SP,#+44
+        ADD      R1,SP,#+32
+        MOVS     R0,R5
+        BL       SzReadAndDecodePackedStreams
+        MOVS     R6,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+96
+        LDR      R1,[R4, #+4]
+        BEQ      ??SzArchiveOpen2_7
+        ADD      R0,SP,#+40
+        _BLF     SzByteBufferFree,??SzByteBufferFree??rT
+??SzArchiveOpen2_5:
+        LDR      R1,[R4, #+4]
+        ADD      R0,SP,#+4
+        _BLF     SzByteBufferFree,??SzByteBufferFree??rT
+        MOVS     R0,R6
+??SzArchiveOpen2_0:
+        ADD      SP,SP,#+76
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock73
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock74 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SzArchiveOpen??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock74
+        REQUIRE SzArchiveOpen
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock75 Using cfiCommon1
+        CFI Function SzArchiveOpen
+        THUMB
+SzArchiveOpen:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOVS     R4,R1
+        MOVS     R5,R2
+        BL       SzArchiveOpen2
+        MOVS     R6,R0
+        BEQ      ??SzArchiveOpen_0
+        LDR      R1,[R5, #+4]
+        MOVS     R0,R4
+        BL       SzArDbExFree
+??SzArchiveOpen_0:
+        MOVS     R0,R6
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock75
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock76 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzArchiveDatabaseInit??rT:
+        LDR      R3,??Subroutine38_0  ;; SzArchiveDatabaseInit
+        BX       R3
+        DATA
+??Subroutine38_0:
+        DC32     SzArchiveDatabaseInit
+        CFI EndBlock cfiBlock76
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock77 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzArchiveDatabaseFree??rT:
+        LDR      R3,??Subroutine39_0  ;; SzArchiveDatabaseFree
+        BX       R3
+        DATA
+??Subroutine39_0:
+        DC32     SzArchiveDatabaseFree
+        CFI EndBlock cfiBlock77
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock78 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??rT??lllsl_t:
+        PUSH     {R3}
+        CFI CFA R13+4
+        LDR      R3,??Subroutine40_0  ;; ??lllsl_t
+        MOV      R12,R3
+        POP      {R3}
+        CFI CFA R13+0
+        BX       R12
+        Nop      
+        DATA
+??Subroutine40_0:
+        DC32     ??lllsl_t
+        CFI EndBlock cfiBlock78
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock79 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzCoderInfoInit??rT:
+        LDR      R3,??Subroutine41_0  ;; SzCoderInfoInit
+        BX       R3
+        DATA
+??Subroutine41_0:
+        DC32     SzCoderInfoInit
+        CFI EndBlock cfiBlock79
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock80 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzByteBufferCreate??rT:
+        LDR      R3,??Subroutine42_0  ;; SzByteBufferCreate
+        BX       R3
+        DATA
+??Subroutine42_0:
+        DC32     SzByteBufferCreate
+        CFI EndBlock cfiBlock80
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock81 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzFolderFindBindPairForInStream??rT:
+        LDR      R3,??Subroutine43_0  ;; SzFolderFindBindPairForInStream
+        BX       R3
+        DATA
+??Subroutine43_0:
+        DC32     SzFolderFindBindPairForInStream
+        CFI EndBlock cfiBlock81
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock82 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzFolderInit??rT:
+        LDR      R3,??Subroutine44_0  ;; SzFolderInit
+        BX       R3
+        DATA
+??Subroutine44_0:
+        DC32     SzFolderInit
+        CFI EndBlock cfiBlock82
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock83 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzFolderGetNumOutStreams??rT:
+        LDR      R3,??Subroutine45_0  ;; SzFolderGetNumOutStreams
+        BX       R3
+        DATA
+??Subroutine45_0:
+        DC32     SzFolderGetNumOutStreams
+        CFI EndBlock cfiBlock83
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock84 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzFolderGetUnPackSize??rT:
+        LDR      R3,??Subroutine46_0  ;; SzFolderGetUnPackSize
+        BX       R3
+        DATA
+??Subroutine46_0:
+        DC32     SzFolderGetUnPackSize
+        CFI EndBlock cfiBlock84
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock85 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzFileInit??rT:
+        LDR      R3,??Subroutine47_0  ;; SzFileInit
+        BX       R3
+        DATA
+??Subroutine47_0:
+        DC32     SzFileInit
+        CFI EndBlock cfiBlock85
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock86 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzDecode??rT:
+        PUSH     {R3}
+        CFI CFA R13+4
+        LDR      R3,??Subroutine48_0  ;; SzDecode
+        MOV      R12,R3
+        POP      {R3}
+        CFI CFA R13+0
+        BX       R12
+        Nop      
+        DATA
+??Subroutine48_0:
+        DC32     SzDecode
+        CFI EndBlock cfiBlock86
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock87 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CrcVerifyDigest??rT:
+        LDR      R3,??Subroutine49_0  ;; CrcVerifyDigest
+        BX       R3
+        DATA
+??Subroutine49_0:
+        DC32     CrcVerifyDigest
+        CFI EndBlock cfiBlock87
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock88 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CrcInit??rT:
+        LDR      R3,??Subroutine50_0  ;; CrcInit
+        BX       R3
+        DATA
+??Subroutine50_0:
+        DC32     CrcInit
+        CFI EndBlock cfiBlock88
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock89 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CrcUpdateUInt64??rT:
+        LDR      R3,??Subroutine51_0  ;; CrcUpdateUInt64
+        BX       R3
+        DATA
+??Subroutine51_0:
+        DC32     CrcUpdateUInt64
+        CFI EndBlock cfiBlock89
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock90 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CrcUpdateUInt32??rT:
+        LDR      R3,??Subroutine52_0  ;; CrcUpdateUInt32
+        BX       R3
+        DATA
+??Subroutine52_0:
+        DC32     CrcUpdateUInt32
+        CFI EndBlock cfiBlock90
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock91 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CrcGetDigest??rT:
+        LDR      R3,??Subroutine53_0  ;; CrcGetDigest
+        BX       R3
+        DATA
+??Subroutine53_0:
+        DC32     CrcGetDigest
+        CFI EndBlock cfiBlock91
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock92 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SzByteBufferFree??rT:
+        LDR      R3,??Subroutine54_0  ;; SzByteBufferFree
+        BX       R3
+        DATA
+??Subroutine54_0:
+        DC32     SzByteBufferFree
+        CFI EndBlock cfiBlock92
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for kUtf8Limits>`:
+        DATA
+        DC8 192, 224, 240, 248, 252, 0, 0, 0
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?*?DATA_ID`:
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_I:
+        DCD      sfe(DATA_I) - sfb(DATA_I), sfb(DATA_I), sfb(DATA_ID)
+
+        END
+// 
+// 5 656 bytes in segment CODE
+//     8 bytes in segment DATA_I
+//     8 bytes in segment DATA_ID
+//    12 bytes in segment INITTAB
+// 
+// 5 200 bytes of CODE  memory (+ 468 bytes shared)
+//     8 bytes of CONST memory
+//     8 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,312 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:51:25 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\draw. #
+#                       cpp                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\draw. #
+#                       cpp -D NDEBUG -lC Z:\home\perk11\www\perk11.info\svn #
+#                       \SE\SoftEdit\Release\List\ -o                        #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\List\draw.lst                                     #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\draw.r79                                      #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\draw.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      4          void DrawHighlightID(int font,int text,int CEN, int XPos, int YPos, int MaxXPos, int MaxYPos, int borderColor, int NormalColor)
+      5          {
+   \                     ??DrawHighlightID:
+   \   00000000   F84F2DE9           PUSH     {R3-R11,LR}
+   \   00000004   28609DE5           LDR      R6,[SP, #+40]
+   \   00000008   2C709DE5           LDR      R7,[SP, #+44]
+   \   0000000C   30809DE5           LDR      R8,[SP, #+48]
+   \   00000010   34909DE5           LDR      R9,[SP, #+52]
+   \   00000014   0140A0E1           MOV      R4,R1
+   \   00000018   0250A0E1           MOV      R5,R2
+      6            SetFont(font); //Устанавливаем шрифт из первого параметра функции.
+   \   0000001C   F10100EF           SWI      +497
+      7            //Рисуем текст n-ное количество раз с разными координатами:
+      8            DrawString(text,CEN,XPos-1,YPos-1,MaxXPos-1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   00000020   00009DE5           LDR      R0,[SP, #+0]
+   \   00000024   01B047E2           SUB      R11,R7,#+1
+   \   00000028   01A040E2           SUB      R10,R0,#+1
+   \   0000002C   0900A0E1           MOV      R0,R9
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   013046E2           SUB      R3,R6,#+1
+   \   0000003C   0A20A0E1           MOV      R2,R10
+   \   00000040   0510A0E1           MOV      R1,R5
+   \   00000044   0500A0E3           MOV      R0,#+5
+   \   00000048   01002DE9           PUSH     {R0}
+   \   0000004C   3C00A0E3           MOV      R0,#+60
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   0800A0E1           MOV      R0,R8
+   \   00000058   01002DE9           PUSH     {R0}
+   \   0000005C   0B00A0E1           MOV      R0,R11
+   \   00000060   01002DE9           PUSH     {R0}
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   ED0100EF           SWI      +493
+   \   0000006C   0900A0E1           MOV      R0,R9
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   013086E2           ADD      R3,R6,#+1
+   \   0000007C   0A20A0E1           MOV      R2,R10
+   \   00000080   0510A0E1           MOV      R1,R5
+   \   00000084   0500A0E3           MOV      R0,#+5
+   \   00000088   01002DE9           PUSH     {R0}
+   \   0000008C   3C00A0E3           MOV      R0,#+60
+   \   00000090   01002DE9           PUSH     {R0}
+   \   00000094   0800A0E1           MOV      R0,R8
+   \   00000098   01002DE9           PUSH     {R0}
+   \   0000009C   00082DE9           PUSH     {R11}
+   \   000000A0   0400A0E1           MOV      R0,R4
+      9            DrawString(text,CEN,XPos-1,YPos+1,MaxXPos-1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   000000A4   ED0100EF           SWI      +493
+   \   000000A8   30D08DE2           ADD      SP,SP,#+48
+     10            DrawString(text,CEN,XPos+1,YPos-1,MaxXPos+1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   000000AC   00009DE5           LDR      R0,[SP, #+0]
+   \   000000B0   01B087E2           ADD      R11,R7,#+1
+   \   000000B4   01A080E2           ADD      R10,R0,#+1
+   \   000000B8   0900A0E1           MOV      R0,R9
+   \   000000BC   01002DE9           PUSH     {R0}
+   \   000000C0   01002DE9           PUSH     {R0}
+   \   000000C4   013046E2           SUB      R3,R6,#+1
+   \   000000C8   0A20A0E1           MOV      R2,R10
+   \   000000CC   0510A0E1           MOV      R1,R5
+   \   000000D0   0500A0E3           MOV      R0,#+5
+   \   000000D4   01002DE9           PUSH     {R0}
+   \   000000D8   3C00A0E3           MOV      R0,#+60
+   \   000000DC   01002DE9           PUSH     {R0}
+   \   000000E0   0800A0E1           MOV      R0,R8
+   \   000000E4   01002DE9           PUSH     {R0}
+   \   000000E8   0B00A0E1           MOV      R0,R11
+   \   000000EC   01002DE9           PUSH     {R0}
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   ED0100EF           SWI      +493
+     11            DrawString(text,CEN,XPos+1,YPos+1,MaxXPos+1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   000000F8   0900A0E1           MOV      R0,R9
+   \   000000FC   01002DE9           PUSH     {R0}
+   \   00000100   00022DE9           PUSH     {R9}
+   \   00000104   013086E2           ADD      R3,R6,#+1
+   \   00000108   0500A0E3           MOV      R0,#+5
+   \   0000010C   01002DE9           PUSH     {R0}
+   \   00000110   0A20A0E1           MOV      R2,R10
+   \   00000114   0510A0E1           MOV      R1,R5
+   \   00000118   3C00A0E3           MOV      R0,#+60
+   \   0000011C   01002DE9           PUSH     {R0}
+   \   00000120   0800A0E1           MOV      R0,R8
+   \   00000124   01002DE9           PUSH     {R0}
+   \   00000128   00082DE9           PUSH     {R11}
+   \   0000012C   0400A0E1           MOV      R0,R4
+   \   00000130   ED0100EF           SWI      +493
+   \   00000134   30D08DE2           ADD      SP,SP,#+48
+     12            //Рисуем с основными координатами:
+     13            DrawString(text,CEN,XPos,YPos,MaxXPos,MaxYPos,60,0x05,NormalColor,NormalColor);
+   \   00000138   38009DE5           LDR      R0,[SP, #+56]
+   \   0000013C   0630A0E1           MOV      R3,R6
+   \   00000140   01002DE9           PUSH     {R0}
+   \   00000144   01002DE9           PUSH     {R0}
+   \   00000148   0510A0E1           MOV      R1,R5
+   \   0000014C   0500A0E3           MOV      R0,#+5
+   \   00000150   01002DE9           PUSH     {R0}
+   \   00000154   3C00A0E3           MOV      R0,#+60
+   \   00000158   01002DE9           PUSH     {R0}
+   \   0000015C   00012DE9           PUSH     {R8}
+   \   00000160   80002DE9           PUSH     {R7}
+   \   00000164   18209DE5           LDR      R2,[SP, #+24]
+   \   00000168   0400A0E1           MOV      R0,R4
+   \   0000016C   ED0100EF           SWI      +493
+     14          };
+   \   00000170   1CD08DE2           ADD      SP,SP,#+28
+   \   00000174   F08FBDE8           POP      {R4-R11,PC}      ;; return
+     15          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     16          void DrawHighlightID2(int font,int text,int ct, int XPos, int YPos, int borderColor, int NormalColor, bool clean)
+     17          {
+   \                     ??DrawHighlightID2:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   24609DE5           LDR      R6,[SP, #+36]
+   \   00000008   28709DE5           LDR      R7,[SP, #+40]
+   \   0000000C   3080DDE5           LDRB     R8,[SP, #+48]
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   0250A0E1           MOV      R5,R2
+   \   00000018   03A0A0E1           MOV      R10,R3
+     18            SetFont(font); //Устанавливаем шрифт из первого параметра функции.
+   \   0000001C   F10100EF           SWI      +497
+     19            int MaxXPos,MaxYPos;
+     20            if (ct==0)
+   \   00000020   000055E3           CMP      R5,#+0
+     21            {
+     22              MaxXPos=XPos+500;
+   \   00000024   7D9F8A02           ADDEQ    R9,R10,#+500
+   \   00000028   0B00000A           BEQ      ??DrawHighlightID2_1
+     23            }
+     24            else if (ct==1)
+   \   0000002C   010055E3           CMP      R5,#+1
+   \   00000030   0400001A           BNE      ??DrawHighlightID2_2
+     25            {
+     26              MaxXPos=XPos;
+   \   00000034   0A90A0E1           MOV      R9,R10
+     27              XPos=XPos-500;
+   \   00000038   F300E0E3           MVN      R0,#+243
+   \   0000003C   400FC0E3           BIC      R0,R0,#0x100
+   \   00000040   0AA080E0           ADD      R10,R0,R10
+   \   00000044   040000EA           B        ??DrawHighlightID2_1
+     28            }
+     29            else
+     30            {
+     31              MaxXPos=Display_GetWidth(0)+500;
+   \                     ??DrawHighlightID2_2:
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \   0000004C   590200EF           SWI      +601
+   \   00000050   7D9F80E2           ADD      R9,R0,#+500
+     32              XPos=-500;
+   \   00000054   F3A0E0E3           MVN      R10,#+243
+   \   00000058   40AFCAE3           BIC      R10,R10,#0x100
+   \                     ??DrawHighlightID2_1:
+   \   0000005C   0700A0E1           MOV      R0,R7
+   \   00000060   01002DE9           PUSH     {R0}
+   \   00000064   01002DE9           PUSH     {R0}
+   \   00000068   01B049E2           SUB      R11,R9,#+1
+   \   0000006C   013046E2           SUB      R3,R6,#+1
+   \   00000070   01204AE2           SUB      R2,R10,#+1
+   \   00000074   0500A0E3           MOV      R0,#+5
+   \   00000078   01002DE9           PUSH     {R0}
+   \   0000007C   0510A0E1           MOV      R1,R5
+   \   00000080   3C00A0E3           MOV      R0,#+60
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   7D0FA0E3           MOV      R0,#+500
+   \   0000008C   01002DE9           PUSH     {R0}
+   \   00000090   0B00A0E1           MOV      R0,R11
+   \   00000094   01002DE9           PUSH     {R0}
+   \   00000098   0400A0E1           MOV      R0,R4
+     33            }
+     34            MaxYPos=500;
+     35            //Рисуем текст n-ное количество раз с разными координатами:
+     36            DrawString(text,ct,XPos-1,YPos-1,MaxXPos-1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   0000009C   ED0100EF           SWI      +493
+   \   000000A0   0700A0E1           MOV      R0,R7
+   \   000000A4   01002DE9           PUSH     {R0}
+   \   000000A8   01002DE9           PUSH     {R0}
+   \   000000AC   013086E2           ADD      R3,R6,#+1
+   \   000000B0   01204AE2           SUB      R2,R10,#+1
+   \   000000B4   0510A0E1           MOV      R1,R5
+   \   000000B8   0500A0E3           MOV      R0,#+5
+   \   000000BC   01002DE9           PUSH     {R0}
+   \   000000C0   3C00A0E3           MOV      R0,#+60
+   \   000000C4   01002DE9           PUSH     {R0}
+   \   000000C8   7D0FA0E3           MOV      R0,#+500
+   \   000000CC   01002DE9           PUSH     {R0}
+   \   000000D0   00082DE9           PUSH     {R11}
+   \   000000D4   0400A0E1           MOV      R0,R4
+     37            DrawString(text,ct,XPos-1,YPos+1,MaxXPos-1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   000000D8   ED0100EF           SWI      +493
+   \   000000DC   30D08DE2           ADD      SP,SP,#+48
+   \   000000E0   0700A0E1           MOV      R0,R7
+   \   000000E4   01002DE9           PUSH     {R0}
+   \   000000E8   01002DE9           PUSH     {R0}
+   \   000000EC   01B089E2           ADD      R11,R9,#+1
+   \   000000F0   013046E2           SUB      R3,R6,#+1
+   \   000000F4   01208AE2           ADD      R2,R10,#+1
+   \   000000F8   0500A0E3           MOV      R0,#+5
+   \   000000FC   01002DE9           PUSH     {R0}
+   \   00000100   0510A0E1           MOV      R1,R5
+   \   00000104   3C00A0E3           MOV      R0,#+60
+   \   00000108   01002DE9           PUSH     {R0}
+   \   0000010C   7D0FA0E3           MOV      R0,#+500
+   \   00000110   01002DE9           PUSH     {R0}
+   \   00000114   0B00A0E1           MOV      R0,R11
+   \   00000118   01002DE9           PUSH     {R0}
+   \   0000011C   0400A0E1           MOV      R0,R4
+     38            DrawString(text,ct,XPos+1,YPos-1,MaxXPos+1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   00000120   ED0100EF           SWI      +493
+     39            DrawString(text,ct,XPos+1,YPos+1,MaxXPos+1,MaxYPos,60,0x05,borderColor,borderColor);
+   \   00000124   0700A0E1           MOV      R0,R7
+   \   00000128   01002DE9           PUSH     {R0}
+   \   0000012C   80002DE9           PUSH     {R7}
+   \   00000130   013086E2           ADD      R3,R6,#+1
+   \   00000134   0500A0E3           MOV      R0,#+5
+   \   00000138   01002DE9           PUSH     {R0}
+   \   0000013C   01208AE2           ADD      R2,R10,#+1
+   \   00000140   0510A0E1           MOV      R1,R5
+   \   00000144   3C00A0E3           MOV      R0,#+60
+   \   00000148   01002DE9           PUSH     {R0}
+   \   0000014C   7D0FA0E3           MOV      R0,#+500
+   \   00000150   01002DE9           PUSH     {R0}
+   \   00000154   00082DE9           PUSH     {R11}
+   \   00000158   0400A0E1           MOV      R0,R4
+   \   0000015C   ED0100EF           SWI      +493
+   \   00000160   30D08DE2           ADD      SP,SP,#+48
+     40            //Рисуем с основными координатами:
+     41            DrawString(text,ct,XPos,YPos,MaxXPos,MaxYPos,60,0x05,NormalColor,NormalColor);
+   \   00000164   2C009DE5           LDR      R0,[SP, #+44]
+   \   00000168   0630A0E1           MOV      R3,R6
+   \   0000016C   01002DE9           PUSH     {R0}
+   \   00000170   01002DE9           PUSH     {R0}
+   \   00000174   0A20A0E1           MOV      R2,R10
+   \   00000178   0510A0E1           MOV      R1,R5
+   \   0000017C   0500A0E3           MOV      R0,#+5
+   \   00000180   01002DE9           PUSH     {R0}
+   \   00000184   3C00A0E3           MOV      R0,#+60
+   \   00000188   01002DE9           PUSH     {R0}
+   \   0000018C   7D0FA0E3           MOV      R0,#+500
+   \   00000190   01002DE9           PUSH     {R0}
+   \   00000194   00022DE9           PUSH     {R9}
+   \   00000198   0400A0E1           MOV      R0,R4
+   \   0000019C   ED0100EF           SWI      +493
+     42            if (clean)TextID_Destroy(text);
+   \   000001A0   000058E3           CMP      R8,#+0
+   \   000001A4   18D08DE2           ADD      SP,SP,#+24
+   \   000001A8   F08FBD08           POPEQ    {R4-R11,PC}
+   \   000001AC   0400A0E1           MOV      R0,R4
+   \   000001B0   610100EF           SWI      +353
+     43          };
+   \   000001B4   F08FBDE8           POP      {R4-R11,PC}      ;; return
+     44          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     DrawHighlightID(int, int, int, int, int, int, int, int, int)
+                                       88
+     DrawHighlightID2(int, int, int, int, int, int, int, bool)
+                                       84
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     DrawHighlightID(int, int, int, int, int, int, int, int, int)
+                                     376
+     DrawHighlightID2(int, int, int, int, int, int, int, bool)
+                                     440
+      Others                           8
+
+ 
+ 824 bytes in segment CODE
+ 
+ 816 bytes of CODE memory (+ 8 bytes shared)
+
+Errors: none
+Warnings: none

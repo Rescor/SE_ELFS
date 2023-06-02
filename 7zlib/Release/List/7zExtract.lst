@@ -1,0 +1,167 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:44:38 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zExtrac #
+#                       t.c                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zExtrac #
+#                       t.c -D NDEBUG -D OLDFUNCTIONS -lcN                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7zli #
+#                       b\Release\List\ -o Z:\home\perk11\www\perk11.info\sv #
+#                       n\SE\7zlib\Release\Obj\ -s9 --no_unroll              #
+#                       --no_code_motion --cpu_mode thumb --endian little    #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --library_module -I                       #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\7zExtract.lst                                   #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       Obj\7zExtract.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zExtract.c
+      1          /* 7zExtract.c */
+      2          
+      3          #include "7zExtract.h"
+      4          #include "7zDecode.h"
+      5          #include "7zCrc.h"
+      6          
+      7          SZ_RESULT SzExtract(
+      8              ISzInStream *inStream, 
+      9              CArchiveDatabaseEx *db,
+     10              UInt32 fileIndex,
+     11              UInt32 *blockIndex,
+     12              Byte **outBuffer, 
+     13              size_t *outBufferSize,
+     14              size_t *offset, 
+     15              size_t *outSizeProcessed, 
+     16              ISzAlloc *allocMain,
+     17              ISzAlloc *allocTemp)
+     18          {
+     19            UInt32 folderIndex = db->FileIndexToFolderIndexMap[fileIndex];
+     20            SZ_RESULT res = SZ_OK;
+     21            *offset = 0;
+     22            *outSizeProcessed = 0;
+     23            if (folderIndex == (UInt32)-1)
+     24            {
+     25              allocMain->Free(*outBuffer);
+     26              *blockIndex = folderIndex;
+     27              *outBuffer = 0;
+     28              *outBufferSize = 0;
+     29              return SZ_OK;
+     30            }
+     31          
+     32            if (*outBuffer == 0 || *blockIndex != folderIndex)
+     33            {
+     34              CFolder *folder = db->Database.Folders + folderIndex;
+     35              CFileSize unPackSize = SzFolderGetUnPackSize(folder);
+     36              #ifndef _LZMA_IN_CB
+     37              CFileSize packSize = SzArDbGetFolderFullPackSize(db, folderIndex);
+     38              Byte *inBuffer = 0;
+     39              size_t processedSize;
+     40              #endif
+     41              *blockIndex = folderIndex;
+     42              allocMain->Free(*outBuffer);
+     43              *outBuffer = 0;
+     44              
+     45              RINOK(inStream->Seek(inStream, SzArDbGetFolderStreamPos(db, folderIndex, 0)));
+     46              
+     47              #ifndef _LZMA_IN_CB
+     48              if (packSize != 0)
+     49              {
+     50                inBuffer = (Byte *)allocTemp->Alloc((size_t)packSize);
+     51                if (inBuffer == 0)
+     52                  return SZE_OUTOFMEMORY;
+     53              }
+     54              res = inStream->Read(inStream, inBuffer, (size_t)packSize, &processedSize);
+     55              if (res == SZ_OK && processedSize != (size_t)packSize)
+     56                res = SZE_FAIL;
+     57              #endif
+     58              if (res == SZ_OK)
+     59              {
+     60                *outBufferSize = (size_t)unPackSize;
+     61                if (unPackSize != 0)
+     62                {
+     63                  *outBuffer = (Byte *)allocMain->Alloc((size_t)unPackSize);
+     64                  if (*outBuffer == 0)
+     65                    res = SZE_OUTOFMEMORY;
+     66                }
+     67                if (res == SZ_OK)
+     68                {
+     69                  size_t outRealSize;
+     70                  res = SzDecode(db->Database.PackSizes + 
+     71                    db->FolderStartPackStreamIndex[folderIndex], folder, 
+     72                    #ifdef _LZMA_IN_CB
+     73                    inStream,
+     74                    #else
+     75                    inBuffer, 
+     76                    #endif
+     77                    *outBuffer, (size_t)unPackSize, &outRealSize, allocTemp);
+     78                  if (res == SZ_OK)
+     79                  {
+     80                    if (outRealSize == (size_t)unPackSize)
+     81                    {
+     82                      if (folder->UnPackCRCDefined)
+     83                      {
+     84                        if (!CrcVerifyDigest(folder->UnPackCRC, *outBuffer, (size_t)unPackSize))
+     85                          res = SZE_FAIL;
+     86                      }
+     87                    }
+     88                    else
+     89                      res = SZE_FAIL;
+     90                  }
+     91                }
+     92              }
+     93              #ifndef _LZMA_IN_CB
+     94              allocTemp->Free(inBuffer);
+     95              #endif
+     96            }
+     97            if (res == SZ_OK)
+     98            {
+     99              UInt32 i; 
+    100              CFileItem *fileItem = db->Database.Files + fileIndex;
+    101              *offset = 0;
+    102              for(i = db->FolderStartFileIndex[folderIndex]; i < fileIndex; i++)
+    103                *offset += (UInt32)db->Database.Files[i].Size;
+    104              *outSizeProcessed = (size_t)fileItem->Size;
+    105              if (*offset + *outSizeProcessed > *outBufferSize)
+    106                return SZE_FAIL;
+    107              {
+    108                if (fileItem->IsFileCRCDefined)
+    109                {
+    110                  if (!CrcVerifyDigest(fileItem->FileCRC, *outBuffer + *offset, *outSizeProcessed))
+    111                    res = SZE_FAIL;
+    112                }
+    113              }
+    114            }
+    115            return res;
+    116          }
+
+   Maximum stack usage in bytes:
+
+     Function  CSTACK
+     --------  ------
+     SzExtract    64
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     SzExtract       404
+      Others          56
+
+ 
+ 460 bytes in segment CODE
+ 
+ 404 bytes of CODE memory (+ 56 bytes shared)
+
+Errors: none
+Warnings: none

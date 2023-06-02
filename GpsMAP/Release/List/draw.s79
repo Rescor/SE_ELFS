@@ -1,0 +1,501 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:41:21 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\draw.c /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\draw.c /
+//                        -D NDEBUG -D OLDFUNCTIONS -lCN                     /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Releas /
+//                       e\List\ -la Z:\home\perk11\www\perk11.info\svn\SE\G /
+//                       psMAP\Release\List\ -o Z:\home\perk11\www\perk11.in /
+//                       fo\svn\SE\GpsMAP\Release\Obj\ -s9 --no_unroll       /
+//                       --no_code_motion --cpu_mode arm --endian little     /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GpsMAP\Releas /
+//                       e\List\draw.s79                                     /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME draw
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??SetPixel
+        FUNCTION ??SetPixel,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??SetPixel??rT
+        PUBLIC ??drawcircle
+        FUNCTION ??drawcircle,0203H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??drawcircle??rT
+        PUBLIC ??drawfilledrect
+        FUNCTION ??drawfilledrect,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??drawfilledrect??rT
+        PUBLIC ??drawline
+        FUNCTION ??drawline,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??drawline??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??SetPixel??rT      SYMBOL "??rT", ??SetPixel
+
+??drawcircle??rT    SYMBOL "??rT", ??drawcircle
+
+??drawfilledrect??rT SYMBOL "??rT", ??drawfilledrect
+
+??drawline??rT      SYMBOL "??rT", ??drawline
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SetPixel??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??SetPixel
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??SetPixel
+        ARM
+??SetPixel:
+        PUSH     {R4}
+        CFI R4 Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R12,[SP, #+4]
+        LDR      R4,[SP, #+8]
+        CMP      R3,R1
+        BGE      ??SetPixel_1
+        CMP      R3,#+0
+        BMI      ??SetPixel_1
+        CMP      R12,R2
+        BGE      ??SetPixel_1
+        CMP      R12,#+0
+        MLAPL    R2,R1,R12,R3
+        STRPL    R4,[R0, +R2, LSL #+2]
+??SetPixel_1:
+        POP      {R4}
+        CFI R4 SameValue
+        CFI CFA R13+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??drawline??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??drawline
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??drawline
+        ARM
+??drawline:
+        PUSH     {R4-R11}
+        CFI R11 Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        LDR      R12,[SP, #+32]
+        LDR      R4,[SP, #+36]
+        LDR      R8,[SP, #+40]
+        LDR      R6,[SP, #+44]
+        SUBS     R5,R4,R3
+        MOVPL    R7,#+1
+        MVNMI    R7,#+0
+        RSBMI    R5,R5,#+0
+        SUBS     R4,R8,R12
+        MOVPL    R8,#+1
+        MVNMI    R8,#+0
+        RSBMI    R4,R4,#+0
+        CMP      R4,R5
+        MOVLT    R9,R5
+        MOVGE    R9,R4
+        CMP      R9,#+0
+        BNE      ??drawline_1
+        CMP      R3,R1
+        BGE      ??drawline_1
+        CMP      R3,#+0
+        BMI      ??drawline_1
+        CMP      R12,R2
+        BGE      ??drawline_1
+        CMP      R12,#+0
+        MLAPL    R10,R1,R12,R3
+        STRPL    R6,[R0, +R10, LSL #+2]
+??drawline_1:
+        CMP      R5,R4
+        BLT      ??drawline_2
+        MOV      R10,R5
+        RSB      R10,R10,#+0
+        ADD      R9,R9,#+1
+??drawline_3:
+        MOV      R11,R9
+        SUB      R9,R11,#+1
+        CMP      R11,#+0
+        BEQ      ??drawline_4
+        CMP      R3,R1
+        BGE      ??drawline_5
+        CMP      R3,#+0
+        BMI      ??drawline_5
+        CMP      R12,R2
+        BGE      ??drawline_5
+        CMP      R12,#+0
+        MLAPL    R11,R1,R12,R3
+        STRPL    R6,[R0, +R11, LSL #+2]
+??drawline_5:
+        ADD      R3,R7,R3
+        ADD      R10,R10,R4, LSL #+1
+        CMP      R10,#+1
+        BLT      ??drawline_3
+        SUB      R10,R10,R5, LSL #+1
+        ADD      R12,R8,R12
+        B        ??drawline_3
+??drawline_2:
+        MOV      R10,R4
+        RSB      R10,R10,#+0
+        ADD      R9,R9,#+1
+        B        ??drawline_6
+??drawline_7:
+        CMP      R3,R1
+        BGE      ??drawline_8
+        CMP      R3,#+0
+        BMI      ??drawline_8
+        CMP      R12,R2
+        BGE      ??drawline_8
+        CMP      R12,#+0
+        MLAPL    R11,R1,R12,R3
+        STRPL    R6,[R0, +R11, LSL #+2]
+??drawline_8:
+        ADD      R12,R8,R12
+        ADD      R10,R10,R5, LSL #+1
+        CMP      R10,#+1
+        SUBGE    R10,R10,R4, LSL #+1
+        ADDGE    R3,R7,R3
+??drawline_6:
+        MOV      R11,R9
+        SUB      R9,R11,#+1
+        CMP      R11,#+0
+        BNE      ??drawline_7
+??drawline_4:
+        POP      {R4-R11}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI CFA R13+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??drawcircle??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??drawcircle
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??drawcircle
+        ARM
+??drawcircle:
+        PUSH     {R4-R9}
+        CFI R9 Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        LDR      R12,[SP, #+24]
+        LDR      R7,[SP, #+28]
+        LDR      R4,[SP, #+32]
+        MOV      R5,#+3
+        SUB      R5,R5,R7, LSL #+1
+        MOV      R6,#+0
+        CMP      R7,#+0
+        BMI      ??drawcircle_1
+??drawcircle_2:
+        ADD      R8,R12,R7
+        ADD      R9,R3,R6
+        CMP      R9,R1
+        BGE      ??drawcircle_3
+        CMP      R9,#+0
+        BMI      ??drawcircle_3
+        CMP      R8,R2
+        BGE      ??drawcircle_3
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_3:
+        SUB      R8,R12,R7
+        CMP      R9,R1
+        BGE      ??drawcircle_4
+        CMP      R9,#+0
+        BMI      ??drawcircle_4
+        CMP      R8,R2
+        BGE      ??drawcircle_4
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_4:
+        ADD      R8,R12,R7
+        SUB      R9,R3,R6
+        CMP      R9,R1
+        BGE      ??drawcircle_5
+        CMP      R9,#+0
+        BMI      ??drawcircle_5
+        CMP      R8,R2
+        BGE      ??drawcircle_5
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_5:
+        SUB      R8,R12,R7
+        ADD      R9,R3,R6
+        CMP      R9,R1
+        BGE      ??drawcircle_6
+        CMP      R9,#+0
+        BMI      ??drawcircle_6
+        CMP      R8,R2
+        BGE      ??drawcircle_6
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_6:
+        ADD      R8,R12,R6
+        ADD      R9,R3,R7
+        CMP      R9,R1
+        BGE      ??drawcircle_7
+        CMP      R9,#+0
+        BMI      ??drawcircle_7
+        CMP      R8,R2
+        BGE      ??drawcircle_7
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_7:
+        SUB      R8,R12,R6
+        CMP      R9,R1
+        BGE      ??drawcircle_8
+        CMP      R9,#+0
+        BMI      ??drawcircle_8
+        CMP      R8,R2
+        BGE      ??drawcircle_8
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_8:
+        ADD      R8,R12,R6
+        SUB      R9,R3,R7
+        CMP      R9,R1
+        BGE      ??drawcircle_9
+        CMP      R9,#+0
+        BMI      ??drawcircle_9
+        CMP      R8,R2
+        BGE      ??drawcircle_9
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_9:
+        SUB      R8,R12,R6
+        CMP      R9,R1
+        BGE      ??drawcircle_10
+        CMP      R9,#+0
+        BMI      ??drawcircle_10
+        CMP      R8,R2
+        BGE      ??drawcircle_10
+        CMP      R8,#+0
+        MLAPL    R8,R1,R8,R9
+        STRPL    R4,[R0, +R8, LSL #+2]
+??drawcircle_10:
+        CMP      R5,#+0
+        BPL      ??drawcircle_11
+        MOV      R8,#+6
+        ADD      R8,R8,R6, LSL #+2
+        ADD      R5,R8,R5
+        B        ??drawcircle_12
+??drawcircle_11:
+        SUB      R8,R6,R7
+        MOV      R9,#+10
+        ADD      R8,R9,R8, LSL #+2
+        ADD      R5,R8,R5
+        SUB      R7,R7,#+1
+??drawcircle_12:
+        ADD      R6,R6,#+1
+        CMP      R7,R6
+        BGE      ??drawcircle_2
+??drawcircle_1:
+        POP      {R4-R9}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI CFA R13+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??drawfilledrect??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE ??drawfilledrect
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??drawfilledrect
+        ARM
+??drawfilledrect:
+        PUSH     {R4-R8}
+        CFI R8 Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        LDR      R4,[SP, #+24]
+        LDR      R12,[SP, #+20]
+        LDR      R5,[SP, #+28]
+        LDR      R6,[SP, #+32]
+        CMP      R4,R3
+        MVNLT    R7,#+0
+        MOVGE    R7,#+1
+        B        ??drawfilledrect_1
+??drawfilledrect_2:
+        CMP      R3,R1
+        BGE      ??drawfilledrect_3
+        CMP      R3,#+0
+        BMI      ??drawfilledrect_3
+        CMP      R12,R2
+        BGE      ??drawfilledrect_3
+        CMP      R12,#+0
+        MLAPL    R8,R1,R12,R3
+        STRPL    R6,[R0, +R8, LSL #+2]
+??drawfilledrect_3:
+        ADD      R3,R7,R3
+??drawfilledrect_4:
+        CMP      R3,R4
+        BNE      ??drawfilledrect_2
+        ADD      R12,R7,R12
+??drawfilledrect_1:
+        CMP      R12,R5
+        BNE      ??drawfilledrect_4
+        POP      {R4-R8}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI CFA R13+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock7
+
+        END
+// 
+// 920 bytes in segment CODE
+// 
+// 904 bytes of CODE memory (+ 16 bytes shared)
+//
+//Errors: none
+//Warnings: 1

@@ -1,0 +1,1189 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:45:23 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\LzmaDec /
+//                       ode.c                                               /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\LzmaDec /
+//                       ode.c -D NDEBUG -D OLDFUNCTIONS -lcN                /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7z /
+//                       lib\Release\List\ -o Z:\home\perk11\www\perk11.info /
+//                       \svn\SE\7zlib\Release\Obj\ -s9 --no_unroll          /
+//                       --no_code_motion --cpu_mode thumb --endian little   /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --library_module -I                      /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release /
+//                       \List\LzmaDecode.s79                                /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        MODULE LzmaDecode
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??LzmaDecode??rA
+        MULTWEAK ??LzmaDecodeProperties??rA
+        PUBLIC LzmaDecode
+        FUNCTION LzmaDecode,0203H
+        LOCFRAME CSTACK, 88, STACK
+        PUBLIC LzmaDecodeProperties
+        FUNCTION LzmaDecodeProperties,0203H
+        LOCFRAME CSTACK, 4, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+LzmaDecode          SYMBOL "LzmaDecode"
+??LzmaDecode??rA    SYMBOL "??rA", LzmaDecode
+LzmaDecodeProperties SYMBOL "LzmaDecodeProperties"
+??LzmaDecodeProperties??rA SYMBOL "??rA", LzmaDecodeProperties
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??LzmaDecodeProperties??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock0
+        REQUIRE LzmaDecodeProperties
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function LzmaDecodeProperties
+        THUMB
+LzmaDecodeProperties:
+        CMP      R2,#+5
+        BGE      ??LzmaDecodeProperties_0
+??LzmaDecodeProperties_1:
+        MOVS     R0,#+1
+        BX       LR
+??LzmaDecodeProperties_0:
+        LDRB     R1,[R1, #+0]
+        CMP      R1,#+225
+        BCS      ??LzmaDecodeProperties_1
+        MOVS     R2,#+0
+        STR      R2,[R0, #+8]
+        CMP      R1,#+45
+        BCC      ??LzmaDecodeProperties_2
+??LzmaDecodeProperties_3:
+        LDR      R2,[R0, #+8]
+        ADDS     R1,R1,#+211
+        ADDS     R2,R2,#+1
+        STR      R2,[R0, #+8]
+        LSLS     R1,R1,#+24
+        LSRS     R1,R1,#+24
+        CMP      R1,#+45
+        BCS      ??LzmaDecodeProperties_3
+??LzmaDecodeProperties_2:
+        MOVS     R2,#+0
+        STR      R2,[R0, #+4]
+        CMP      R1,#+9
+        BCC      ??LzmaDecodeProperties_4
+??LzmaDecodeProperties_5:
+        LDR      R2,[R0, #+4]
+        ADDS     R1,R1,#+247
+        ADDS     R2,R2,#+1
+        STR      R2,[R0, #+4]
+        LSLS     R1,R1,#+24
+        LSRS     R1,R1,#+24
+        CMP      R1,#+9
+        BCS      ??LzmaDecodeProperties_5
+??LzmaDecodeProperties_4:
+        STR      R1,[R0, #+0]
+        MOVS     R0,#+0
+        BX       LR
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??LzmaDecode??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock2
+        REQUIRE LzmaDecode
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function LzmaDecode
+        THUMB
+LzmaDecode:
+        PUSH     {R1,R3-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+28
+        SUB      SP,SP,#+60
+        CFI CFA R13+88
+        MOVS     R1,R0
+        MOVS     R0,R2
+        LDR      R2,[R1, #+12]
+        MOVS     R3,#+0
+        STR      R2,[SP, #+24]
+        STR      R3,[SP, #+12]
+        LDR      R5,[R1, #+8]
+        MOVS     R4,#+1
+        LSLS     R4,R4,R5
+        SUBS     R4,R4,#+1
+        STR      R4,[SP, #+52]
+        LDR      R4,[R1, #+4]
+        MOVS     R5,#+1
+        LSLS     R5,R5,R4
+        SUBS     R5,R5,#+1
+        STR      R5,[SP, #+56]
+        LDR      R1,[R1, #+0]
+        STR      R3,[SP, #+4]
+        STR      R1,[SP, #+44]
+        LDR      R1,[SP, #+64]
+        MOVS     R6,#+1
+        STR      R6,[SP, #+8]
+        STR      R6,[SP, #+32]
+        STR      R6,[SP, #+36]
+        STR      R6,[SP, #+48]
+        STR      R3,[R1, #+0]
+        LDR      R1,[SP, #+96]
+        MOVS     R2,#+0
+        STR      R3,[R1, #+0]
+        LDR      R5,[SP, #+44]
+        MOVS     R1,#+192
+        LSLS     R1,R1,#+2
+        ADDS     R4,R5,R4
+        LSLS     R1,R1,R4
+        LDR      R4,??LzmaDecode_0  ;; 0x736
+        ADDS     R1,R1,R4
+        BNE      ??LzmaDecode_1
+        B        ??LzmaDecode_2
+??LzmaDecode_3:
+        LDR      R5,[SP, #+24]
+        LSLS     R4,R3,#+1
+        MOVS     R6,#+128
+        LSLS     R6,R6,#+3
+        STRH     R6,[R5, R4]
+        ADDS     R3,R3,#+1
+??LzmaDecode_1:
+        CMP      R3,R1
+        BCC      ??LzmaDecode_3
+??LzmaDecode_2:
+        LDR      R4,[SP, #+60]
+        MOVS     R3,#+0
+        ADDS     R0,R4,R0
+        STR      R0,[SP, #+16]
+        MOVS     R5,#+0
+        MVNS     R5,R5
+        MOVS     R0,R2
+??LzmaDecode_4:
+        LDR      R1,[SP, #+16]
+        CMP      R4,R1
+        BNE      ??LzmaDecode_5
+??LzmaDecode_6:
+        MOVS     R0,#+1
+        B        ??LzmaDecode_7
+??LzmaDecode_5:
+        LSLS     R1,R3,#+8
+        LDRB     R3,[R4, #+0]
+        ADDS     R4,R4,#+1
+        ADDS     R0,R0,#+1
+        ORRS     R3,R3,R1
+        CMP      R0,#+5
+        BLT      ??LzmaDecode_4
+??LzmaDecode_8:
+        LDR      R0,[SP, #+12]
+        LDR      R1,[SP, #+92]
+        CMP      R0,R1
+        BCC      .+5
+        B        ??LzmaDecode_9
+        LDR      R1,[SP, #+52]
+        LDR      R6,[SP, #+24]
+        ANDS     R1,R1,R0
+        STR      R1,[SP, #+40]
+        LDR      R0,[SP, #+40]
+        LDR      R1,[SP, #+4]
+        LSLS     R0,R0,#+1
+        LSLS     R1,R1,#+5
+        ADDS     R1,R6,R1
+        ADDS     R1,R1,R0
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_10
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BEQ      ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_10:
+        LDRH     R0,[R1, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCC      .+5
+        B        ??LzmaDecode_11
+        LDRH     R6,[R1, #+0]
+        MOVS     R0,#+1
+        MOVS     R5,R7
+        LSLS     R7,R0,#+11
+        SUBS     R7,R7,R6
+        ASRS     R7,R7,#+5
+        ADDS     R6,R6,R7
+        STRH     R6,[R1, #+0]
+        LDR      R7,[SP, #+12]
+        LDR      R6,[SP, #+56]
+        LDR      R1,??LzmaDecode_0+0x4  ;; 0xe6c
+        ANDS     R6,R6,R7
+        LDR      R7,[SP, #+44]
+        MOV      R12,R2
+        LDR      R2,[SP, #+44]
+        LSLS     R6,R6,R7
+        MOVS     R7,#+8
+        SUBS     R2,R7,R2
+        MOV      R7,R12
+        ASRS     R7,R7,R2
+        ADDS     R2,R6,R7
+        MOVS     R6,#+192
+        LSLS     R6,R6,#+3
+        MULS     R2,R6,R2
+        LDR      R6,[SP, #+24]
+        ADDS     R2,R6,R2
+        ADDS     R1,R2,R1
+        LDR      R2,[SP, #+4]
+        CMP      R2,#+7
+        BLT      ??LzmaDecode_12
+        LDR      R2,[SP, #+12]
+        LDR      R6,[SP, #+8]
+        SUBS     R2,R2,R6
+        LDR      R6,[SP, #+88]
+        LDRB     R2,[R6, R2]
+        STR      R2,[SP, #+20]
+??LzmaDecode_13:
+        LDR      R2,[SP, #+20]
+        MOVS     R7,#+128
+        LSLS     R2,R2,#+1
+        STR      R2,[SP, #+20]
+        MOVS     R6,R2
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+1
+        ANDS     R2,R2,R6
+        LSLS     R7,R7,#+2
+        MOV      R12,R7
+        LSLS     R7,R0,#+1
+        LSLS     R6,R2,#+1
+        ADDS     R6,R1,R6
+        ADDS     R6,R6,R7
+        MOV      R7,R12
+        ADDS     R6,R6,R7
+        STR      R6,[SP, #+0]
+        LSLS     R6,R7,#+15
+        CMP      R5,R6
+        BCS      ??LzmaDecode_14
+        LDR      R6,[SP, #+16]
+        CMP      R4,R6
+        BEQ      ??LzmaDecode_6
+        LSLS     R6,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R6
+??LzmaDecode_14:
+        LDR      R6,[SP, #+0]
+        LSRS     R7,R5,#+11
+        LDRH     R6,[R6, #+0]
+        MULS     R7,R6,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_15
+        LDR      R6,[SP, #+0]
+        MOVS     R5,R7
+        LDRH     R6,[R6, #+0]
+        LDR      R7,[SP, #+0]
+        LSLS     R0,R0,#+1
+        MOV      R12,R7
+        MOVS     R7,#+128
+        LSLS     R7,R7,#+4
+        SUBS     R7,R7,R6
+        ASRS     R7,R7,#+5
+        ADDS     R6,R6,R7
+        MOV      R7,R12
+        STRH     R6,[R7, #+0]
+        CMP      R2,#+0
+        BNE      ??LzmaDecode_16
+        B        ??LzmaDecode_17
+??LzmaDecode_15:
+        LDR      R6,[SP, #+0]
+        SUBS     R5,R5,R7
+        LDRH     R6,[R6, #+0]
+        SUBS     R3,R3,R7
+        LDR      R7,[SP, #+0]
+        LSLS     R0,R0,#+1
+        MOV      R12,R7
+        LSRS     R7,R6,#+5
+        SUBS     R6,R6,R7
+        MOV      R7,R12
+        STRH     R6,[R7, #+0]
+        ADDS     R0,R0,#+1
+        CMP      R2,#+0
+        BEQ      ??LzmaDecode_16
+??LzmaDecode_17:
+        CMP      R0,#+255
+        BLE      ??LzmaDecode_13
+??LzmaDecode_16:
+        CMP      R0,#+255
+        BGT      ??LzmaDecode_18
+??LzmaDecode_12:
+        LSLS     R2,R0,#+1
+        ADDS     R2,R1,R2
+        MOVS     R6,#+128
+        LSLS     R6,R6,#+17
+        CMP      R5,R6
+        BCS      ??LzmaDecode_19
+        LDR      R6,[SP, #+16]
+        CMP      R4,R6
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R6,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R6
+??LzmaDecode_19:
+        LDRH     R6,[R2, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R6,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_20
+        MOVS     R5,R7
+        MOVS     R7,#+128
+        LSLS     R7,R7,#+4
+        SUBS     R7,R7,R6
+        ASRS     R7,R7,#+5
+        ADDS     R6,R6,R7
+        STRH     R6,[R2, #+0]
+        LSLS     R0,R0,#+1
+        B        ??LzmaDecode_16
+??LzmaDecode_20:
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        LSRS     R7,R6,#+5
+        SUBS     R6,R6,R7
+        STRH     R6,[R2, #+0]
+        LSLS     R0,R0,#+1
+        ADDS     R0,R0,#+1
+        B        ??LzmaDecode_16
+??LzmaDecode_18:
+        LDR      R1,[SP, #+88]
+        LSLS     R2,R0,#+24
+        LDR      R0,[SP, #+12]
+        LSRS     R2,R2,#+24
+        STRB     R2,[R1, R0]
+        LDR      R0,[SP, #+12]
+        ADDS     R0,R0,#+1
+        STR      R0,[SP, #+12]
+        LDR      R0,[SP, #+4]
+        CMP      R0,#+4
+        BGE      ??LzmaDecode_21
+        MOVS     R0,#+0
+??LzmaDecode_22:
+        STR      R0,[SP, #+4]
+        B        ??LzmaDecode_8
+??LzmaDecode_21:
+        CMP      R0,#+10
+        BGE      ??LzmaDecode_23
+        SUBS     R0,R0,#+3
+        B.N      ??LzmaDecode_22
+??LzmaDecode_23:
+        SUBS     R0,R0,#+6
+        STR      R0,[SP, #+4]
+        B        ??LzmaDecode_8
+??LzmaDecode_11:
+        MOVS     R6,R0
+        LSRS     R0,R6,#+5
+        SUBS     R0,R6,R0
+        STRH     R0,[R1, #+0]
+        LDR      R1,[SP, #+4]
+        LDR      R2,[SP, #+24]
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        MOVS     R0,#+192
+        LSLS     R0,R0,#+1
+        LSLS     R1,R1,#+1
+        ADDS     R1,R2,R1
+        ADDS     R1,R1,R0
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_24
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_24:
+        LDRH     R0,[R1, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_25
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+4
+        SUBS     R2,R2,R0
+        ASRS     R2,R2,#+5
+        ADDS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R0,[SP, #+36]
+        MOVS     R5,R7
+        STR      R0,[SP, #+48]
+        LDR      R0,[SP, #+32]
+        STR      R0,[SP, #+36]
+        LDR      R0,[SP, #+8]
+        STR      R0,[SP, #+32]
+        LDR      R0,[SP, #+4]
+        CMP      R0,#+7
+        BGE      ??LzmaDecode_26
+        MOVS     R0,#+0
+        B.N      ??LzmaDecode_27
+??LzmaDecode_26:
+        MOVS     R0,#+3
+??LzmaDecode_27:
+        STR      R0,[SP, #+4]
+        LDR      R0,??LzmaDecode_0+0x8  ;; 0x664
+        B.N      ??LzmaDecode_28
+??LzmaDecode_25:
+        LSRS     R2,R0,#+5
+        SUBS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R1,[SP, #+4]
+        LDR      R2,[SP, #+24]
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        MOVS     R0,#+204
+        LSLS     R0,R0,#+1
+        LSLS     R1,R1,#+1
+        ADDS     R1,R2,R1
+        ADDS     R1,R1,R0
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_29
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_29:
+        LDRH     R0,[R1, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_30
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+4
+        SUBS     R2,R2,R0
+        ASRS     R2,R2,#+5
+        ADDS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R1,[SP, #+40]
+        LDR      R2,[SP, #+4]
+        LDR      R6,[SP, #+24]
+        MOVS     R5,R7
+        MOVS     R0,#+240
+        LSLS     R0,R0,#+1
+        LSLS     R1,R1,#+1
+        LSLS     R2,R2,#+5
+        ADDS     R2,R6,R2
+        ADDS     R1,R2,R1
+        ADDS     R1,R1,R0
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_31
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_31:
+        LDRH     R0,[R1, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_32
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+4
+        SUBS     R2,R2,R0
+        ASRS     R2,R2,#+5
+        ADDS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R0,[SP, #+12]
+        MOVS     R5,R7
+        CMP      R0,#+0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LDR      R0,[SP, #+4]
+        CMP      R0,#+7
+        BGE      ??LzmaDecode_33
+        MOVS     R0,#+9
+        B.N      ??LzmaDecode_34
+??LzmaDecode_33:
+        MOVS     R0,#+11
+??LzmaDecode_34:
+        STR      R0,[SP, #+4]
+        LDR      R0,[SP, #+12]
+        LDR      R1,[SP, #+8]
+        SUBS     R0,R0,R1
+        LDR      R1,[SP, #+88]
+        LDRB     R2,[R1, R0]
+        LDR      R0,[SP, #+12]
+        STRB     R2,[R1, R0]
+        LDR      R0,[SP, #+12]
+        ADDS     R0,R0,#+1
+        STR      R0,[SP, #+12]
+        B        ??LzmaDecode_8
+??LzmaDecode_32:
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        LSRS     R2,R0,#+5
+        SUBS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        B        ??LzmaDecode_35
+        Nop      
+        DATA
+??LzmaDecode_0:
+        DC32     0x736
+        DC32     0xe6c
+        DC32     0x664
+        THUMB
+??LzmaDecode_30:
+        LSRS     R2,R0,#+5
+        SUBS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R1,[SP, #+4]
+        LDR      R2,[SP, #+24]
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        MOVS     R0,#+216
+        LSLS     R0,R0,#+1
+        LSLS     R1,R1,#+1
+        ADDS     R1,R2,R1
+        ADDS     R1,R1,R0
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_36
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_36:
+        LDRH     R0,[R1, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_37
+        MOVS     R5,R7
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+4
+        SUBS     R2,R2,R0
+        ASRS     R2,R2,#+5
+        ADDS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R0,[SP, #+32]
+        B        ??LzmaDecode_38
+??LzmaDecode_37:
+        LSRS     R2,R0,#+5
+        SUBS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R1,[SP, #+4]
+        LDR      R2,[SP, #+24]
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        MOVS     R0,#+228
+        LSLS     R0,R0,#+1
+        LSLS     R1,R1,#+1
+        ADDS     R1,R2,R1
+        ADDS     R1,R1,R0
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_39
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_39:
+        LDRH     R0,[R1, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_40
+        MOVS     R5,R7
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+4
+        SUBS     R2,R2,R0
+        ASRS     R2,R2,#+5
+        ADDS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R0,[SP, #+36]
+        B        ??LzmaDecode_41
+??LzmaDecode_40:
+        LSRS     R2,R0,#+5
+        SUBS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R1,[SP, #+36]
+        LDR      R0,[SP, #+48]
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        STR      R1,[SP, #+48]
+??LzmaDecode_41:
+        LDR      R1,[SP, #+32]
+        STR      R1,[SP, #+36]
+??LzmaDecode_38:
+        LDR      R1,[SP, #+8]
+        STR      R0,[SP, #+8]
+        STR      R1,[SP, #+32]
+??LzmaDecode_35:
+        LDR      R0,[SP, #+4]
+        CMP      R0,#+7
+        BGE      ??LzmaDecode_42
+        MOVS     R0,#+8
+        B.N      ??LzmaDecode_43
+??LzmaDecode_42:
+        MOVS     R0,#+11
+??LzmaDecode_43:
+        STR      R0,[SP, #+4]
+        LDR      R0,??LzmaDecode_44  ;; 0xa68
+??LzmaDecode_28:
+        LDR      R1,[SP, #+24]
+        ADDS     R1,R1,R0
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_45
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_45:
+        LDRH     R0,[R1, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_46
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+4
+        SUBS     R2,R2,R0
+        ASRS     R2,R2,#+5
+        ADDS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        LDR      R0,[SP, #+40]
+        MOVS     R5,R7
+        LSLS     R0,R0,#+4
+        ADDS     R0,R1,R0
+        ADDS     R0,R0,#+4
+        STR      R0,[SP, #+0]
+        MOVS     R0,#+0
+        STR      R0,[SP, #+20]
+        MOVS     R0,#+3
+        B.N      ??LzmaDecode_47
+??LzmaDecode_46:
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        LSRS     R2,R0,#+5
+        SUBS     R0,R0,R2
+        STRH     R0,[R1, #+0]
+        ADDS     R0,R1,#+2
+        STR      R0,[SP, #+0]
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_48
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R0,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R0
+??LzmaDecode_48:
+        LDR      R0,[SP, #+0]
+        LSRS     R7,R5,#+11
+        LDRH     R0,[R0, #+0]
+        MULS     R7,R0,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_49
+        LDR      R0,[SP, #+0]
+        LDR      R2,[SP, #+0]
+        LDRH     R0,[R0, #+0]
+        MOVS     R6,#+128
+        LSLS     R6,R6,#+4
+        SUBS     R6,R6,R0
+        ASRS     R6,R6,#+5
+        ADDS     R0,R0,R6
+        STRH     R0,[R2, #+0]
+        LDR      R2,[SP, #+40]
+        MOVS     R5,R7
+        MOVS     R0,#+130
+        LSLS     R0,R0,#+1
+        LSLS     R2,R2,#+4
+        ADDS     R1,R1,R2
+        ADDS     R0,R1,R0
+        STR      R0,[SP, #+0]
+        MOVS     R0,#+8
+        STR      R0,[SP, #+20]
+        MOVS     R0,#+3
+        B.N      ??LzmaDecode_47
+??LzmaDecode_49:
+        LDR      R0,[SP, #+0]
+        LDR      R2,[SP, #+0]
+        LDRH     R0,[R0, #+0]
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        LSRS     R6,R0,#+5
+        SUBS     R0,R0,R6
+        STRH     R0,[R2, #+0]
+        MOVS     R0,#+129
+        LSLS     R0,R0,#+2
+        ADDS     R0,R1,R0
+        STR      R0,[SP, #+0]
+        MOVS     R0,#+16
+        STR      R0,[SP, #+20]
+        MOVS     R0,#+8
+??LzmaDecode_47:
+        STR      R0,[SP, #+28]
+        LDR      R1,[SP, #+28]
+        MOVS     R0,#+1
+??LzmaDecode_50:
+        LDR      R6,[SP, #+0]
+        LSLS     R2,R0,#+1
+        ADDS     R2,R6,R2
+        MOVS     R6,#+128
+        LSLS     R6,R6,#+17
+        CMP      R5,R6
+        BCS      ??LzmaDecode_51
+        LDR      R6,[SP, #+16]
+        CMP      R4,R6
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R6,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R6
+??LzmaDecode_51:
+        LDRH     R6,[R2, #+0]
+        LSRS     R7,R5,#+11
+        MULS     R7,R6,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_52
+        MOVS     R5,R7
+        MOVS     R7,#+128
+        LSLS     R7,R7,#+4
+        SUBS     R7,R7,R6
+        ASRS     R7,R7,#+5
+        ADDS     R6,R6,R7
+        STRH     R6,[R2, #+0]
+        LSLS     R0,R0,#+1
+        B        ??LzmaDecode_53
+??LzmaDecode_52:
+        SUBS     R5,R5,R7
+        SUBS     R3,R3,R7
+        LSRS     R7,R6,#+5
+        SUBS     R6,R6,R7
+        STRH     R6,[R2, #+0]
+        LSLS     R0,R0,#+1
+        ADDS     R0,R0,#+1
+??LzmaDecode_53:
+        SUBS     R1,R1,#+1
+        BNE      ??LzmaDecode_50
+        LDR      R2,[SP, #+28]
+        MOVS     R1,#+1
+        LSLS     R1,R1,R2
+        SUBS     R0,R0,R1
+        LDR      R1,[SP, #+20]
+        ADDS     R0,R0,R1
+        LDR      R1,[SP, #+4]
+        CMP      R1,#+4
+        BLT      .+5
+        B        ??LzmaDecode_54
+        ADDS     R1,R1,#+7
+        STR      R1,[SP, #+4]
+        CMP      R0,#+4
+        BGE      ??LzmaDecode_55
+        MOVS     R2,R0
+        B        ??LzmaDecode_56
+??LzmaDecode_55:
+        MOVS     R2,#+3
+??LzmaDecode_56:
+        LDR      R6,[SP, #+24]
+        MOVS     R1,#+216
+        LSLS     R1,R1,#+2
+        LSLS     R2,R2,#+7
+        ADDS     R2,R6,R2
+        ADDS     R1,R2,R1
+        MOVS     R2,#+6
+        STR      R2,[SP, #+20]
+        MOVS     R6,#+1
+??LzmaDecode_57:
+        LSLS     R2,R6,#+1
+        ADDS     R2,R1,R2
+        STR      R2,[SP, #+0]
+        MOVS     R2,#+128
+        LSLS     R2,R2,#+17
+        CMP      R5,R2
+        BCS      ??LzmaDecode_58
+        LDR      R2,[SP, #+16]
+        CMP      R4,R2
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R2,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R2
+??LzmaDecode_58:
+        LDR      R2,[SP, #+0]
+        LSRS     R7,R5,#+11
+        LDRH     R2,[R2, #+0]
+        MULS     R7,R2,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_59
+        LDR      R2,[SP, #+0]
+        MOVS     R5,R7
+        LDRH     R2,[R2, #+0]
+        LDR      R7,[SP, #+0]
+        LSLS     R6,R6,#+1
+        MOV      R12,R7
+        MOVS     R7,#+128
+        LSLS     R7,R7,#+4
+        SUBS     R7,R7,R2
+        ASRS     R7,R7,#+5
+        ADDS     R2,R2,R7
+        MOV      R7,R12
+        STRH     R2,[R7, #+0]
+        B        ??LzmaDecode_60
+??LzmaDecode_59:
+        LDR      R2,[SP, #+0]
+        SUBS     R5,R5,R7
+        LDRH     R2,[R2, #+0]
+        SUBS     R3,R3,R7
+        LDR      R7,[SP, #+0]
+        LSLS     R6,R6,#+1
+        MOV      R12,R7
+        LSRS     R7,R2,#+5
+        SUBS     R2,R2,R7
+        MOV      R7,R12
+        STRH     R2,[R7, #+0]
+        ADDS     R6,R6,#+1
+??LzmaDecode_60:
+        LDR      R2,[SP, #+20]
+        SUBS     R2,R2,#+1
+        STR      R2,[SP, #+20]
+        BNE      ??LzmaDecode_57
+        SUBS     R6,R6,#+64
+        CMP      R6,#+4
+        BLT      ??LzmaDecode_61
+        ASRS     R2,R6,#+1
+        SUBS     R2,R2,#+1
+        MOVS     R7,#+1
+        ANDS     R7,R7,R6
+        MOVS     R1,#+2
+        ORRS     R1,R1,R7
+        STR      R1,[SP, #+8]
+        CMP      R6,#+14
+        BGE      ??LzmaDecode_62
+        LSLS     R1,R1,R2
+        STR      R1,[SP, #+8]
+        LDR      R1,??LzmaDecode_44+0x4  ;; 0x55e
+        LSLS     R6,R6,#+1
+        RSBS     R7,R6,#+0
+        LDR      R6,[SP, #+8]
+        MOV      R12,R7
+        LSLS     R7,R6,#+1
+        LDR      R6,[SP, #+24]
+        ADDS     R6,R6,R7
+        MOV      R7,R12
+        ADDS     R6,R6,R7
+        ADDS     R1,R6,R1
+        B        ??LzmaDecode_63
+??LzmaDecode_62:
+        SUBS     R2,R2,#+4
+??LzmaDecode_64:
+        MOVS     R1,#+128
+        LSLS     R1,R1,#+17
+        CMP      R5,R1
+        BCS      ??LzmaDecode_65
+        LDR      R1,[SP, #+16]
+        CMP      R4,R1
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R1,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R1
+??LzmaDecode_65:
+        LDR      R1,[SP, #+8]
+        LSRS     R5,R5,#+1
+        LSLS     R1,R1,#+1
+        STR      R1,[SP, #+8]
+        CMP      R3,R5
+        BCC      ??LzmaDecode_66
+        SUBS     R3,R3,R5
+        MOVS     R6,#+1
+        ORRS     R6,R6,R1
+        STR      R6,[SP, #+8]
+??LzmaDecode_66:
+        SUBS     R2,R2,#+1
+        BNE      ??LzmaDecode_64
+        LDR      R1,??LzmaDecode_44+0x8  ;; 0x644
+        LDR      R2,[SP, #+24]
+        ADDS     R1,R2,R1
+        LDR      R2,[SP, #+8]
+        LSLS     R2,R2,#+4
+        STR      R2,[SP, #+8]
+        MOVS     R2,#+4
+??LzmaDecode_63:
+        MOVS     R6,#+1
+        STR      R6,[SP, #+20]
+        STR      R6,[SP, #+28]
+        B        ??LzmaDecode_67
+??LzmaDecode_68:
+        LDR      R6,[SP, #+0]
+        SUBS     R5,R5,R7
+        LDRH     R6,[R6, #+0]
+        SUBS     R3,R3,R7
+        LDR      R7,[SP, #+0]
+        MOV      R12,R7
+        LSRS     R7,R6,#+5
+        SUBS     R6,R6,R7
+        MOV      R7,R12
+        STRH     R6,[R7, #+0]
+        LDR      R6,[SP, #+28]
+        LDR      R7,[SP, #+8]
+        LSLS     R6,R6,#+1
+        ADDS     R6,R6,#+1
+        STR      R6,[SP, #+28]
+        LDR      R6,[SP, #+20]
+        ORRS     R6,R6,R7
+        STR      R6,[SP, #+8]
+??LzmaDecode_69:
+        LDR      R6,[SP, #+20]
+        LSLS     R6,R6,#+1
+        STR      R6,[SP, #+20]
+        SUBS     R2,R2,#+1
+        BEQ      ??LzmaDecode_70
+??LzmaDecode_67:
+        LDR      R6,[SP, #+28]
+        LSLS     R6,R6,#+1
+        ADDS     R6,R1,R6
+        STR      R6,[SP, #+0]
+        MOVS     R6,#+128
+        LSLS     R6,R6,#+17
+        CMP      R5,R6
+        BCS      ??LzmaDecode_71
+        LDR      R6,[SP, #+16]
+        CMP      R4,R6
+        BNE      .+5
+        B        ??LzmaDecode_6
+        LSLS     R6,R3,#+8
+        LDRB     R3,[R4, #+0]
+        LSLS     R5,R5,#+8
+        ADDS     R4,R4,#+1
+        ORRS     R3,R3,R6
+??LzmaDecode_71:
+        LDR      R6,[SP, #+0]
+        LSRS     R7,R5,#+11
+        LDRH     R6,[R6, #+0]
+        MULS     R7,R6,R7
+        CMP      R3,R7
+        BCS      ??LzmaDecode_68
+        LDR      R6,[SP, #+0]
+        MOVS     R5,R7
+        LDRH     R6,[R6, #+0]
+        LDR      R7,[SP, #+0]
+        MOV      R12,R7
+        MOVS     R7,#+128
+        LSLS     R7,R7,#+4
+        SUBS     R7,R7,R6
+        ASRS     R7,R7,#+5
+        ADDS     R6,R6,R7
+        MOV      R7,R12
+        STRH     R6,[R7, #+0]
+        LDR      R6,[SP, #+28]
+        LSLS     R6,R6,#+1
+        STR      R6,[SP, #+28]
+        B        ??LzmaDecode_69
+??LzmaDecode_61:
+        STR      R6,[SP, #+8]
+??LzmaDecode_70:
+        LDR      R1,[SP, #+8]
+        ADDS     R1,R1,#+1
+        STR      R1,[SP, #+8]
+        BEQ      ??LzmaDecode_9
+??LzmaDecode_54:
+        LDR      R1,[SP, #+12]
+        LDR      R2,[SP, #+8]
+        ADDS     R0,R0,#+2
+        CMP      R1,R2
+        BCS      .+5
+        B        ??LzmaDecode_6
+??LzmaDecode_72:
+        LDR      R1,[SP, #+12]
+        LDR      R2,[SP, #+8]
+        LDR      R7,[SP, #+12]
+        SUBS     R1,R1,R2
+        LDR      R2,[SP, #+88]
+        SUBS     R0,R0,#+1
+        LDRB     R2,[R2, R1]
+        LDR      R1,[SP, #+88]
+        STRB     R2,[R1, R7]
+        LDR      R1,[SP, #+12]
+        ADDS     R1,R1,#+1
+        STR      R1,[SP, #+12]
+        CMP      R0,#+0
+        BNE      .+5
+        B        ??LzmaDecode_8
+        LDR      R6,[SP, #+92]
+        CMP      R1,R6
+        BCC      ??LzmaDecode_72
+        B        ??LzmaDecode_8
+??LzmaDecode_9:
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+17
+        CMP      R5,R0
+        BCS      ??LzmaDecode_73
+        LDR      R0,[SP, #+16]
+        CMP      R4,R0
+        BNE      .+5
+        B        ??LzmaDecode_6
+        ADDS     R4,R4,#+1
+??LzmaDecode_73:
+        LDR      R0,[SP, #+64]
+        LDR      R1,[SP, #+60]
+        SUBS     R1,R4,R1
+        STR      R1,[R0, #+0]
+        LDR      R0,[SP, #+96]
+        LDR      R1,[SP, #+12]
+        STR      R1,[R0, #+0]
+        MOVS     R0,#+0
+??LzmaDecode_7:
+        ADD      SP,SP,#+68
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        Nop      
+        DATA
+??LzmaDecode_44:
+        DC32     0xa68
+        DC32     0x55e
+        DC32     0x644
+        CFI EndBlock cfiBlock3
+
+        END
+// 
+// 1 924 bytes in segment CODE
+// 
+// 1 908 bytes of CODE memory (+ 16 bytes shared)
+//
+//Errors: none
+//Warnings: none

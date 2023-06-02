@@ -1,0 +1,564 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:09:12 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\conf_loader.cpp                                   /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\conf_loader.cpp -D NDEBUG -D RUS -D OLDFUNCTIONS  /
+//                       -lC Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDi /
+//                       splay\Release_RU\List\ -lA                          /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\Release_RU\List\ -o Z:\home\perk11\www\perk11.inf /
+//                       o\svn\SE\WalkmanDisplay\Release_RU\Obj\ -s9         /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --enable_multibytes  /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDispla /
+//                       y\Release_RU\List\conf_loader.s79                   /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME conf_loader
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CONFIG_C:DATA:REORDER:NOROOT(0)
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBWEAK `?*?DATA_ID`
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable2 EQU 0
+        PUBLIC ??InitConfig
+        FUNCTION ??InitConfig,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??InitConfig??rT
+        PUBLIC ??LoadConfigData
+        FUNCTION ??LoadConfigData,0203H
+        LOCFRAME CSTACK, 64, STACK
+        MULTWEAK ??LoadConfigData??rT
+        PUBLIC ??SaveConfigData
+        FUNCTION ??SaveConfigData,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??SaveConfigData??rT
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new[]??rA`
+        PUBWEAK ?init?tab?DATA_I
+        PUBLIC successed_config_name
+        PUBLIC successed_config_path
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+??InitConfig??rT    SYMBOL "??rT", ??InitConfig
+
+??LoadConfigData??rT SYMBOL "??rT", ??LoadConfigData
+
+??SaveConfigData??rT SYMBOL "??rT", ??SaveConfigData
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+
+// Z:\home\perk11\www\perk11.info\svn\SE\WalkmanDisplay\conf_loader.cpp
+//    1 #include "..\deleaker\mem2.h"
+//    2 #include "..\include\Lib_Clara.h"
+//    3 #include "..\include\Dir.h"
+//    4 #include "..\include\cfg_items.h"
+//    5 #include "header\conf_loader.h"
+//    6 
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+//    7 const wchar_t *successed_config_path=L"";
+successed_config_path:
+        DS8 4
+        REQUIRE `?<Initializer for successed_config_path>`
+//    8 const wchar_t *successed_config_name=L"";
+successed_config_name:
+        DS8 4
+        REQUIRE `?<Initializer for successed_config_name>`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??LoadConfigData??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??LoadConfigData
+//    9 
+//   10 #define BCFGLOADER_COMPLETE 0
+//   11 #define BCFGLOADER_CONFIG_OLD_OR_CORRUPTED -1
+//   12 #define BCFGLOADER_NOT_FOUND -2
+//   13 #define BCFGLOADER_MEMORY_NOT_ALLOCATED -3
+//   14 #define BCFGLOADER_PATH_OR_NAME_CORRUPTED -4
+//   15 #define BCFGLOADER_UNKNOWN_ERROR -5
+//   16 #define BCFGLOADER_SUCCESSED(a) a>=0 ? 1 : 0
+//   17 #define BCFGLOADER_FAILED(a) a<0 ? 1 : 0
+//   18 #pragma segment="CONFIG_C"
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??LoadConfigData
+        ARM
+//   19 int LoadConfigData(const wchar_t *path,const wchar_t *fname)
+//   20 {
+??LoadConfigData:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+//   21   int f;
+//   22   char *buf;
+//   23   int result=BCFGLOADER_UNKNOWN_ERROR;
+//   24   void *cfg;
+//   25   FSTAT _fstat;
+//   26   unsigned int rlen;
+//   27 
+//   28   cfg=(char *)__segment_begin("CONFIG_C");
+//   29 
+//   30   unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+        LDR      R7,??DataTable3  ;; SFB(CONFIG_C)
+        MOV      R4,R0
+        LDR      R0,??DataTable4  ;; SFE(CONFIG_C)
+        SUB      SP,SP,#+28
+        CFI CFA R13+60
+        MOV      R5,R1
+        MVN      R6,#+4
+        SUB      R8,R0,R7
+//   31 
+//   32   if ((buf=new char[len]))
+        MOV      R0,R8
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        MOVS     R9,R0
+        BEQ      ??LoadConfigData_1
+//   33   {
+//   34     if (fstat(path,fname,&_fstat)!=-1)
+        MOV      R2,SP
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +284
+        CMN      R0,#+1
+        BEQ      ??LoadConfigData_2
+//   35     {
+//   36       if ((f=_fopen(path,fname,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+64
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R5
+        MOV      R0,R4
+        SWI      +278
+        MOVS     R10,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+60
+        BMI      ??LoadConfigData_3
+//   37       {
+//   38         rlen=fread(f,buf,len);
+        MOV      R2,R8
+        MOV      R1,R9
+        SWI      +280
+        MOV      R6,R0
+//   39         fclose(f);
+        MOV      R0,R10
+        SWI      +279
+//   40         if (rlen!=_fstat.fsize || rlen!=len)  return BCFGLOADER_CONFIG_OLD_OR_CORRUPTED;
+        LDR      R0,[SP, #+8]
+        CMP      R6,R0
+        CMPEQ    R6,R8
+        MVNNE    R0,#+0
+        BNE      ??LoadConfigData_4
+//   41         memcpy(cfg,buf,len);
+        MOV      R2,R8
+        MOV      R1,R9
+        MOV      R0,R7
+        SWI      +275
+//   42         result=BCFGLOADER_COMPLETE;
+        MOV      R6,#+0
+        B        ??LoadConfigData_3
+//   43       }
+//   44     }
+//   45     else
+//   46     {
+//   47       result=BCFGLOADER_NOT_FOUND;
+??LoadConfigData_2:
+        ADD      R6,R6,#+3
+//   48     }
+//   49     delete buf;
+??LoadConfigData_3:
+        MOV      R0,R9
+        _BLF     `??operator delete`,`??operator delete??rA`
+//   50   }
+//   51   else
+//   52   {
+//   53     result=BCFGLOADER_MEMORY_NOT_ALLOCATED;
+//   54   }
+//   55   if (BCFGLOADER_SUCCESSED(result))
+        CMP      R6,#+0
+        BMI      ??LoadConfigData_5
+//   56   {
+//   57     successed_config_path=path;
+        LDR      R0,??DataTable5  ;; successed_config_path
+//   58     successed_config_name=fname;
+//   59     debug_printf("\nWalkmanDisplay: cfgdata loaded from %ls/%ls\n", successed_config_path, successed_config_name);
+        MOV      R2,R5
+        STR      R4,[R0, #+0]
+        STR      R5,[R0, #+4]
+        LDR      R0,??LoadConfigData_6  ;; `?<Constant "\\nWalkmanDisplay: cfgd...">`
+        MOV      R1,R4
+        SWI      +433
+//   60   }
+//   61   return(result);
+??LoadConfigData_5:
+        MOV      R0,R6
+??LoadConfigData_4:
+        ADD      SP,SP,#+28       ;; stack cleaning
+        CFI CFA R13+32
+        POP      {R4-R10,PC}      ;; return
+        CFI CFA R13+60
+??LoadConfigData_1:
+        ADD      R6,R6,#+2
+        B        ??LoadConfigData_5
+        DATA
+??LoadConfigData_6:
+        DC32     `?<Constant "\\nWalkmanDisplay: cfgd...">`
+        CFI EndBlock cfiBlock1
+//   62 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SaveConfigData??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??SaveConfigData
+//   63 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??SaveConfigData
+        ARM
+//   64 int SaveConfigData(const wchar_t *path,const wchar_t *fname)
+//   65 {
+??SaveConfigData:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        MOV      R4,R0
+        MOV      R5,R1
+//   66   int result=BCFGLOADER_PATH_OR_NAME_CORRUPTED;
+        MVN      R6,#+3
+//   67   if (path && fname)
+        CMP      R4,#+0
+        CMPNE    R5,#+0
+        BEQ      ??SaveConfigData_1
+//   68   {
+//   69     void *cfg=(char *)__segment_begin("CONFIG_C");
+//   70     
+//   71     unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+        LDR      R7,??DataTable3  ;; SFB(CONFIG_C)
+        LDR      R0,??DataTable4  ;; SFE(CONFIG_C)
+//   72     int f;
+//   73     
+//   74     if ((f=_fopen(path,fname,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+        MOV      R3,#+384
+        SUB      R8,R0,R7
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+32
+        MOV      R2,#+516
+        MOV      R0,R4
+        SWI      +278
+        MOVS     R9,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        BMI      ??SaveConfigData_1
+//   75     {
+//   76       if (fwrite(f,cfg,len)==len) result=0;
+        MOV      R2,R8
+        MOV      R1,R7
+        SWI      +281
+        CMP      R0,R8
+        MOVEQ    R6,#+0
+//   77       fclose(f);
+        MOV      R0,R9
+        SWI      +279
+//   78     }
+//   79     if (BCFGLOADER_SUCCESSED(result))
+        CMP      R6,#+0
+        BMI      ??SaveConfigData_1
+//   80     {
+//   81       successed_config_path=path;
+        LDR      R0,??DataTable5  ;; successed_config_path
+//   82       successed_config_name=fname;
+//   83       debug_printf("\nWalkmanDisplay: cfgdata saved to %ls/%ls\n", successed_config_path, successed_config_name);
+        MOV      R2,R5
+        STR      R4,[R0, #+0]
+        STR      R5,[R0, #+4]
+        LDR      R0,??SaveConfigData_2  ;; `?<Constant "\\nWalkmanDisplay: cfgd...">_1`
+        MOV      R1,R4
+        SWI      +433
+//   84     }
+//   85   }
+//   86   return result;
+??SaveConfigData_1:
+        MOV      R0,R6
+        POP      {R4-R9,PC}       ;; return
+        DATA
+??SaveConfigData_2:
+        DC32     `?<Constant "\\nWalkmanDisplay: cfgd...">_1`
+        CFI EndBlock cfiBlock3
+//   87 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable3:
+        DC32     SFB(CONFIG_C)
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable4:
+        DC32     SFE(CONFIG_C)
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable5:
+        DC32     successed_config_path
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InitConfig??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??InitConfig
+//   88 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??InitConfig
+        ARM
+//   89 void InitConfig(void)
+//   90 {
+??InitConfig:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   91   if (BCFGLOADER_FAILED( LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"WalkmanDisplay.bcfg") ))
+        LDR      R4,??InitConfig_1  ;; `?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`
+        MOV      R0,#+20
+        SWI      +261
+        MOV      R1,R4
+        BL       ??LoadConfigData
+        CMP      R0,#+0
+        POPPL    {R4,PC}
+//   92   {
+//   93     if (BCFGLOADER_FAILED( LoadConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"WalkmanDisplay.bcfg") ))
+        MOV      R0,#+21
+        SWI      +261
+        MOV      R1,R4
+        BL       ??LoadConfigData
+        CMP      R0,#+0
+        POPPL    {R4,PC}
+//   94     {
+//   95       if (BCFGLOADER_FAILED( SaveConfigData(GetDir(DIR_ELFS_CONFIG|MEM_EXTERNAL),L"WalkmanDisplay.bcfg") ))
+        MOV      R0,#+20
+        SWI      +261
+        MOV      R1,R4
+        BL       ??SaveConfigData
+        CMP      R0,#+0
+        POPPL    {R4,PC}
+//   96       {
+//   97         SaveConfigData(GetDir(DIR_ELFS_CONFIG|MEM_INTERNAL),L"WalkmanDisplay.bcfg");
+        MOV      R0,#+21
+        SWI      +261
+        MOV      R1,R4
+        BL       ??SaveConfigData
+//   98       }
+//   99     }
+//  100   }
+//  101 };
+        POP      {R4,PC}          ;; return
+        DATA
+??InitConfig_1:
+        DC32     `?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine3_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine3_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock6
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine4_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine4_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock7
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for successed_config_path>`:
+        DATA
+        DC32 `?<Constant L"">`
+`?<Initializer for successed_config_name>`:
+        DC32 `?<Constant L"">`
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?*?DATA_ID`:
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_I:
+        DCD      sfe(DATA_I) - sfb(DATA_I), sfb(DATA_I), sfb(DATA_ID)
+
+        RSEG CONFIG_C:DATA:REORDER:NOROOT(0)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(1)
+`?<Constant L"">`:
+        DATA
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\nWalkmanDisplay: cfgd...">`:
+        DATA
+        DC8 "\012WalkmanDisplay: cfgdata loaded from %ls/%ls\012"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\nWalkmanDisplay: cfgd...">_1`:
+        DATA
+        DC8 "\012WalkmanDisplay: cfgdata saved to %ls/%ls\012"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x57\\x61\\x6c\\x6b\\x6d\\x61\\x6e\\x44\\`:
+        DATA
+        DC8 57H, 0, 61H, 0, 6CH, 0, 6BH, 0
+        DC8 6DH, 0, 61H, 0, 6EH, 0, 44H, 0
+        DC8 69H, 0, 73H, 0, 70H, 0, 6CH, 0
+        DC8 61H, 0, 79H, 0, 2EH, 0, 62H, 0
+        DC8 63H, 0, 66H, 0, 67H, 0, 0, 0
+
+        END
+// 
+// 556 bytes in segment CODE
+// 134 bytes in segment DATA_C
+//   8 bytes in segment DATA_I
+//   8 bytes in segment DATA_ID
+//  12 bytes in segment INITTAB
+// 
+// 520 bytes of CODE  memory (+ 48 bytes shared)
+// 142 bytes of CONST memory
+//   8 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

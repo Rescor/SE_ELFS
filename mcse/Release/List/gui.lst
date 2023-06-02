@@ -1,0 +1,1974 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:47:13 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\gui.cpp   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\gui.cpp   #
+#                       -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN            #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\gui.lst                                          #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\gui.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\gui.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\gui.h"
+      3          #include "inc\lng.h"
+      4          #include "inc\zslib.h"
+      5          #include "inc\mui.h"
+      6          #include "inc\ColorMap.h"
+      7          
+      8          int scr_w;
+      9          int scr_h;
+     10          int txt_h;
+     11          int head_h;
+     12          int attr_h;
+     13          int ico_h;
+     14          int ico_w;
+     15          int itm_ch;
+     16          int itms_max;
+     17          int itms_bs;
+     18          
+     19          wchar_t gui_buf[MAX_PATH*2];
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          void InitScr()
+     22          {
+   \                     ??InitScr:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     23            int old_font;
+     24            int tmp;
+     25            scr_w = Display_GetWidth(0);
+   \   00000004   ........           LDR      R4,??DataTable62  ;; scr_w
+     26            scr_h = Display_GetHeight(0);
+     27            old_font=SetFont(CONFIG_FONT_FILES);
+     28            txt_h=GetImageHeight(L'A');
+     29            SetFont(CONFIG_FONT_HEADER);
+     30            head_h=GetImageHeight(L'A');
+     31            SetFont(CONFIG_FONT_ATTR);
+     32            attr_h=GetImageHeight(L'A');
+     33            
+     34            ico_h=GetImageHeight(STD_ICONS[ICN_FOLDER]);
+   \   00000008   38619FE5           LDR      R6,??InitScr_1   ;; STD_ICONS
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   590200EF           SWI      +601
+   \   00000014   000084E5           STR      R0,[R4, #+0]
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   580200EF           SWI      +600
+   \   00000020   040084E5           STR      R0,[R4, #+4]
+   \   00000024   ........           LDR      R0,??DataTable57  ;; CONFIG_FONT_FILES
+   \   00000028   000090E5           LDR      R0,[R0, #+0]
+   \   0000002C   F10100EF           SWI      +497
+   \   00000030   0050A0E1           MOV      R5,R0
+   \   00000034   4100A0E3           MOV      R0,#+65
+   \   00000038   940200EF           SWI      +660
+   \   0000003C   080084E5           STR      R0,[R4, #+8]
+   \   00000040   ........           LDR      R0,??DataTable33  ;; CONFIG_FONT_HEADER
+   \   00000044   000090E5           LDR      R0,[R0, #+0]
+   \   00000048   F10100EF           SWI      +497
+   \   0000004C   4100A0E3           MOV      R0,#+65
+   \   00000050   940200EF           SWI      +660
+   \   00000054   0C0084E5           STR      R0,[R4, #+12]
+   \   00000058   ........           LDR      R0,??DataTable53  ;; CONFIG_FONT_ATTR
+   \   0000005C   000090E5           LDR      R0,[R0, #+0]
+   \   00000060   F10100EF           SWI      +497
+   \   00000064   4100A0E3           MOV      R0,#+65
+   \   00000068   940200EF           SWI      +660
+   \   0000006C   100084E5           STR      R0,[R4, #+16]
+   \   00000070   B000D6E1           LDRH     R0,[R6, #+0]
+   \   00000074   940200EF           SWI      +660
+   \   00000078   140084E5           STR      R0,[R4, #+20]
+     35            ico_w=GetImageWidth(STD_ICONS[ICN_FOLDER]);
+   \   0000007C   B000D6E1           LDRH     R0,[R6, #+0]
+   \   00000080   930200EF           SWI      +659
+     36            tmp = ico_h - ITM_B * 2;
+     37            itm_ch = tmp > txt_h ? tmp : txt_h;
+   \   00000084   081094E5           LDR      R1,[R4, #+8]
+   \   00000088   180084E5           STR      R0,[R4, #+24]
+   \   0000008C   140094E5           LDR      R0,[R4, #+20]
+   \   00000090   020040E2           SUB      R0,R0,#+2
+   \   00000094   000051E1           CMP      R1,R0
+   \   00000098   0100A0A1           MOVGE    R0,R1
+   \   0000009C   1C0084E5           STR      R0,[R4, #+28]
+     38            SetFont(old_font);
+   \   000000A0   0500A0E1           MOV      R0,R5
+   \   000000A4   F10100EF           SWI      +497
+     39            int i=ITM_FH+ATTR_FH;
+   \   000000A8   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000AC   101094E5           LDR      R1,[R4, #+16]
+   \   000000B0   000081E0           ADD      R0,R1,R0
+   \   000000B4   060080E2           ADD      R0,R0,#+6
+     40            itms_max=1;
+   \   000000B8   0110A0E3           MOV      R1,#+1
+   \   000000BC   040000EA           B        ??InitScr_2
+     41            while((i+ITM_FH)<(FLS_H - ITM_S*2))
+     42            {
+     43              i+=ITM_FH;
+   \                     ??InitScr_3:
+   \   000000C0   1C1094E5           LDR      R1,[R4, #+28]
+   \   000000C4   031081E2           ADD      R1,R1,#+3
+   \   000000C8   000081E0           ADD      R0,R1,R0
+     44              itms_max++;
+   \   000000CC   201094E5           LDR      R1,[R4, #+32]
+   \   000000D0   011081E2           ADD      R1,R1,#+1
+     45            }
+   \                     ??InitScr_2:
+   \   000000D4   042094E5           LDR      R2,[R4, #+4]
+   \   000000D8   0C3094E5           LDR      R3,[R4, #+12]
+   \   000000DC   201084E5           STR      R1,[R4, #+32]
+   \   000000E0   1C1094E5           LDR      R1,[R4, #+28]
+   \   000000E4   012042E2           SUB      R2,R2,#+1
+   \   000000E8   001081E0           ADD      R1,R1,R0
+   \   000000EC   031081E2           ADD      R1,R1,#+3
+   \   000000F0   032042E0           SUB      R2,R2,R3
+   \   000000F4   092042E2           SUB      R2,R2,#+9
+   \   000000F8   020051E1           CMP      R1,R2
+   \   000000FC   EFFFFFBA           BLT      ??InitScr_3
+     46            //itms_max = ((FLS_H - ITM_S * 2) / ITM_FH)-1;
+     47            itms_bs = FLS_Y + ( ( (FLS_H - ITM_S * 2)-(itms_max * ITM_FH + ATTR_FH)) / 2 );
+   \   00000100   202094E5           LDR      R2,[R4, #+32]
+   \   00000104   041094E5           LDR      R1,[R4, #+4]
+   \   00000108   0300A0E1           MOV      R0,R3
+   \   0000010C   1C3094E5           LDR      R3,[R4, #+28]
+   \   00000110   011041E2           SUB      R1,R1,#+1
+   \   00000114   033083E2           ADD      R3,R3,#+3
+   \   00000118   930202E0           MUL      R2,R3,R2
+   \   0000011C   001041E0           SUB      R1,R1,R0
+   \   00000120   091041E2           SUB      R1,R1,#+9
+   \   00000124   021041E0           SUB      R1,R1,R2
+   \   00000128   102094E5           LDR      R2,[R4, #+16]
+   \   0000012C   021041E0           SUB      R1,R1,R2
+   \   00000130   031041E2           SUB      R1,R1,#+3
+   \   00000134   A11F81E0           ADD      R1,R1,R1, LSR #+31
+   \   00000138   C10080E0           ADD      R0,R0,R1, ASR #+1
+   \   0000013C   070080E2           ADD      R0,R0,#+7
+   \   00000140   240084E5           STR      R0,[R4, #+36]
+     48            //itms_bs = FLS_Y + ( ( (FLS_H - ITM_S * 2)-((itms_max + 1) * ITM_FH) ) / 2 );
+     49          }
+   \   00000144   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??InitScr_1:
+   \   00000148   ........           DC32     STD_ICONS
+     50          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     51          void DrwCurTab(GC *gc, RECT *rc)
+     52          {
+     53            TEXTID str=EMPTY_TEXTID;  
+     54            RECT rt;
+     55            rt.x1=TAB_X;
+   \                     ??DrwCurTab:
+   \   00000000   ........           LDR      R1,??DataTable62  ;; scr_w
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0C0091E5           LDR      R0,[R1, #+12]
+   \   00000014   001091E5           LDR      R1,[R1, #+0]
+   \   00000018   FC50A0E3           MOV      R5,#+252
+   \   0000001C   003041E0           SUB      R3,R1,R0
+   \   00000020   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000024   033085E0           ADD      R3,R5,R3
+   \   00000028   B030CDE1           STRH     R3,[SP, #+0]
+     56            rt.y1=TOP_Y;
+   \   0000002C   0230A0E3           MOV      R3,#+2
+   \   00000030   B430CDE1           STRH     R3,[SP, #+4]
+     57            rt.x2=TAB_X+TAB_W-1;
+   \   00000034   013085E3           ORR      R3,R5,#0x1
+     58            rt.y2=TOP_Y+TOP_H-1;
+     59            GC_SetPenColor(gc, Colors[clSlTabBD]);
+   \   00000038   ........           LDR      R5,??DataTable51  ;; Colors
+   \   0000003C   011083E0           ADD      R1,R3,R1
+   \   00000040   B210CDE1           STRH     R1,[SP, #+2]
+   \   00000044   481095E5           LDR      R1,[R5, #+72]
+   \   00000048   050080E2           ADD      R0,R0,#+5
+   \   0000004C   B600CDE1           STRH     R0,[SP, #+6]
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   600200EF           SWI      +608
+     60            GC_SetBrushColor(gc, Colors[clSlTabBG]);
+   \   00000058   441095E5           LDR      R1,[R5, #+68]
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   BE0200EF           SWI      +702
+     61            is_db2010?DrawRect(rt.x1,rt.y1,rt.x2,rt.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc)):GC_DrawRoundRect(gc ,&rt,4,4,1,1);
+   \   00000064   ........           LDR      R0,??DataTable52  ;; is_db2010
+   \   00000068   000090E5           LDR      R0,[R0, #+0]
+   \   0000006C   000050E3           CMP      R0,#+0
+   \   00000070   0C00000A           BEQ      ??DrwCurTab_1
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   BD0200EF           SWI      +701
+   \   0000007C   0050A0E1           MOV      R5,R0
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   5F0200EF           SWI      +607
+   \   00000088   20002DE9           PUSH     {R5}
+   \   0000008C   01002DE9           PUSH     {R0}
+   \   00000090   BE30DDE1           LDRH     R3,[SP, #+14]
+   \   00000094   BA20DDE1           LDRH     R2,[SP, #+10]
+   \   00000098   BC10DDE1           LDRH     R1,[SP, #+12]
+   \   0000009C   B800DDE1           LDRH     R0,[SP, #+8]
+   \   000000A0   EC0100EF           SWI      +492
+   \   000000A4   070000EA           B        ??DrwCurTab_2
+   \                     ??DrwCurTab_1:
+   \   000000A8   0100A0E3           MOV      R0,#+1
+   \   000000AC   01002DE9           PUSH     {R0}
+   \   000000B0   01002DE9           PUSH     {R0}
+   \   000000B4   0430A0E3           MOV      R3,#+4
+   \   000000B8   0420A0E3           MOV      R2,#+4
+   \   000000BC   08108DE2           ADD      R1,SP,#+8
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   BF0200EF           SWI      +703
+     62            
+     63            SetFont(CONFIG_FONT_HEADER);
+   \                     ??DrwCurTab_2:
+   \   000000C8   ........           LDR      R0,??DataTable33  ;; CONFIG_FONT_HEADER
+   \   000000CC   08D08DE2           ADD      SP,SP,#+8
+   \   000000D0   000090E5           LDR      R0,[R0, #+0]
+     64            str=curtab+'1'+0x78000000;
+     65            DrawString(str,2,TAB_X,TOP_Y+TOP_B,TAB_X+TAB_W-2,TOP_Y+TOP_B+TOP_H-1,0,0,Colors[clTabTxt],0);
+   \   000000D4   3140A0E3           MOV      R4,#+49
+   \   000000D8   F10100EF           SWI      +497
+   \   000000DC   ........           LDR      R1,??DataTable62  ;; scr_w
+   \   000000E0   0020A0E3           MOV      R2,#+0
+   \   000000E4   0C0091E5           LDR      R0,[R1, #+12]
+   \   000000E8   001091E5           LDR      R1,[R1, #+0]
+   \   000000EC   04002DE9           PUSH     {R2}
+   \   000000F0   ........           LDR      R2,??DataTable40  ;; Colors + 60
+   \   000000F4   021041E2           SUB      R1,R1,#+2
+   \   000000F8   002092E5           LDR      R2,[R2, #+0]
+   \   000000FC   001041E0           SUB      R1,R1,R0
+   \   00000100   04002DE9           PUSH     {R2}
+   \   00000104   0430A0E3           MOV      R3,#+4
+   \   00000108   784484E3           ORR      R4,R4,#0x78000000
+   \   0000010C   0020A0E3           MOV      R2,#+0
+   \   00000110   04002DE9           PUSH     {R2}
+   \   00000114   04002DE9           PUSH     {R2}
+   \   00000118   072080E2           ADD      R2,R0,#+7
+   \   0000011C   04002DE9           PUSH     {R2}
+   \   00000120   010080E0           ADD      R0,R0,R1
+   \   00000124   020040E2           SUB      R0,R0,#+2
+   \   00000128   01002DE9           PUSH     {R0}
+   \   0000012C   ........           LDR      R0,??DataTable58  ;; curtab
+   \   00000130   022041E2           SUB      R2,R1,#+2
+   \   00000134   000090E5           LDR      R0,[R0, #+0]
+   \   00000138   0210A0E3           MOV      R1,#+2
+   \   0000013C   000084E0           ADD      R0,R4,R0
+   \   00000140   ED0100EF           SWI      +493
+     66          }
+   \   00000144   20D08DE2           ADD      SP,SP,#+32
+   \   00000148   3080BDE8           POP      {R4,R5,PC}       ;; return
+     67          
+     68          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     69          void DrwDrvBg(int ind, GC *gc, RECT *rc)
+     70          {
+   \                     ??DrwDrvBg:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     71            int x = DRV_X+DRV_O*ind;
+     72            RECT rt;
+     73            rt.x1=x;
+     74            rt.y1=TOP_Y;
+     75            rt.x2=x+DRV_W-1;
+     76            rt.y2=TOP_Y+TOP_H-1;
+     77            GC_SetPenColor(gc, Colors[clUSTabBD]);
+   \   00000004   ........           LDR      R5,??DataTable51  ;; Colors
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   0210A0E3           MOV      R1,#+2
+   \   00000010   800081E0           ADD      R0,R1,R0, LSL #+1
+   \   00000014   ........           LDR      R1,??DataTable19  ;; scr_w + 12
+   \   00000018   08D04DE2           SUB      SP,SP,#+8
+   \   0000001C   001091E5           LDR      R1,[R1, #+0]
+   \   00000020   B000CDE1           STRH     R0,[SP, #+0]
+   \   00000024   0220A0E3           MOV      R2,#+2
+   \   00000028   B420CDE1           STRH     R2,[SP, #+4]
+   \   0000002C   812161E0           RSB      R2,R1,R1, LSL #+3
+   \   00000030   A22F82E0           ADD      R2,R2,R2, LSR #+31
+   \   00000034   C220A0E1           ASR      R2,R2,#+1
+   \   00000038   000082E0           ADD      R0,R2,R0
+   \   0000003C   FF20A0E3           MOV      R2,#+255
+   \   00000040   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000044   000082E0           ADD      R0,R2,R0
+   \   00000048   B200CDE1           STRH     R0,[SP, #+2]
+   \   0000004C   051081E2           ADD      R1,R1,#+5
+   \   00000050   B610CDE1           STRH     R1,[SP, #+6]
+   \   00000054   501095E5           LDR      R1,[R5, #+80]
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   600200EF           SWI      +608
+     78            GC_SetBrushColor(gc, Colors[clUSTabBG]);
+   \   00000060   4C1095E5           LDR      R1,[R5, #+76]
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   BE0200EF           SWI      +702
+     79            is_db2010?DrawRect(rt.x1,rt.y1,rt.x2,rt.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc)):GC_DrawRoundRect(gc ,&rt,4,4,1,1);
+   \   0000006C   ........           LDR      R0,??DataTable52  ;; is_db2010
+   \   00000070   000090E5           LDR      R0,[R0, #+0]
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0D00000A           BEQ      ??DrwDrvBg_1
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   BD0200EF           SWI      +701
+   \   00000084   0050A0E1           MOV      R5,R0
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   5F0200EF           SWI      +607
+   \   00000090   20002DE9           PUSH     {R5}
+   \   00000094   01002DE9           PUSH     {R0}
+   \   00000098   BE30DDE1           LDRH     R3,[SP, #+14]
+   \   0000009C   BA20DDE1           LDRH     R2,[SP, #+10]
+   \   000000A0   BC10DDE1           LDRH     R1,[SP, #+12]
+   \   000000A4   B800DDE1           LDRH     R0,[SP, #+8]
+   \   000000A8   EC0100EF           SWI      +492
+   \   000000AC   08D08DE2           ADD      SP,SP,#+8
+   \   000000B0   3380BDE8           POP      {R0,R1,R4,R5,PC}
+   \                     ??DrwDrvBg_1:
+   \   000000B4   0100A0E3           MOV      R0,#+1
+   \   000000B8   01002DE9           PUSH     {R0}
+   \   000000BC   01002DE9           PUSH     {R0}
+   \   000000C0   0430A0E3           MOV      R3,#+4
+   \   000000C4   0420A0E3           MOV      R2,#+4
+   \   000000C8   08108DE2           ADD      R1,SP,#+8
+   \   000000CC   0400A0E1           MOV      R0,R4
+   \   000000D0   BF0200EF           SWI      +703
+   \   000000D4   08D08DE2           ADD      SP,SP,#+8
+     80          }
+   \   000000D8   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+     81          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     82          const char stn[]={'n','e','s','d','?'};
+   \                     stn:
+   \   00000000   6E6573643F00       DC8 110, 101, 115, 100, 63, 0, 0, 0
+   \              0000        
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          void DrwSort(void *gc, RECT *rc)
+     85          {
+     86            int i = _CurTab->sort & STV_MASK;
+   \                     ??DrwSort:
+   \   00000000   ........           LDR      R0,??DataTable58  ;; curtab
+   \   00000004   ........           LDR      R1,??DataTable78  ;; tabs
+   \   00000008   30402DE9           PUSH     {R4,R5,LR}
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+     87            if (i > ST_DATE) i = 4;
+     88            
+     89            char s = stn[i];
+   \   00000014   A0109FE5           LDR      R1,??DrwSort_1   ;; stn
+   \   00000018   F200D0E1           LDRSH    R0,[R0, #+2]
+   \   0000001C   0F0000E2           AND      R0,R0,#0xF
+   \   00000020   040050E3           CMP      R0,#+4
+   \   00000024   0400A0A3           MOVGE    R0,#+4
+   \   00000028   0140D0E7           LDRB     R4,[R0, +R1]
+     90            if (_CurTab->sort & STD_MASK) s -= 'a' - 'A';
+   \   0000002C   ........           LDR      R0,??DataTable58  ;; curtab
+   \   00000030   ........           LDR      R1,??DataTable78  ;; tabs
+   \   00000034   000090E5           LDR      R0,[R0, #+0]
+   \   00000038   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   0000003C   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000040   400F10E3           TST      R0,#0x100
+     91            TEXTID str_id=s+0x78000000;
+     92            SetFont(CONFIG_FONT_HEADER);
+   \   00000044   ........           LDR      R0,??DataTable33  ;; CONFIG_FONT_HEADER
+   \   00000048   E0408412           ADDNE    R4,R4,#+224
+   \   0000004C   000090E5           LDR      R0,[R0, #+0]
+   \   00000050   FF400412           ANDNE    R4,R4,#0xFF
+   \   00000054   F10100EF           SWI      +497
+   \   00000058   ........           LDR      R0,??DataTable19  ;; scr_w + 12
+   \   0000005C   0020A0E3           MOV      R2,#+0
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   04002DE9           PUSH     {R2}
+   \   00000068   ........           LDR      R2,??DataTable27  ;; Colors + 52
+   \   0000006C   805160E0           RSB      R5,R0,R0, LSL #+3
+   \   00000070   002092E5           LDR      R2,[R2, #+0]
+   \   00000074   A51F85E0           ADD      R1,R5,R5, LSR #+31
+   \   00000078   04002DE9           PUSH     {R2}
+   \   0000007C   C110A0E1           ASR      R1,R1,#+1
+   \   00000080   0430A0E3           MOV      R3,#+4
+   \   00000084   0020A0E3           MOV      R2,#+0
+   \   00000088   04002DE9           PUSH     {R2}
+   \   0000008C   04002DE9           PUSH     {R2}
+   \   00000090   072080E2           ADD      R2,R0,#+7
+   \   00000094   04002DE9           PUSH     {R2}
+   \   00000098   010080E0           ADD      R0,R0,R1
+   \   0000009C   0A0080E2           ADD      R0,R0,#+10
+   \   000000A0   01002DE9           PUSH     {R0}
+   \   000000A4   082081E2           ADD      R2,R1,#+8
+   \   000000A8   0010A0E3           MOV      R1,#+0
+   \   000000AC   780484E2           ADD      R0,R4,#+2013265920
+     93            DrawString(str_id,0,SRT_X,TOP_Y+TOP_B,IND_X1,TOP_Y+TOP_B+TOP_H-1,0,0,
+     94          		Colors[clIndexTxt],0);
+   \   000000B0   ED0100EF           SWI      +493
+     95          }
+   \   000000B4   18D08DE2           ADD      SP,SP,#+24
+   \   000000B8   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??DrwSort_1:
+   \   000000BC   ........           DC32     stn
+     96          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     97          void DrwIndex(void *gc, RECT *rc)
+     98          {
+   \                     ??DrwIndex:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     99            int chkcnt = EnumChk(NULL,0);
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   ........           _BLF     ??EnumChk,??EnumChk??rA
+    100            TEXTID str=EMPTY_TEXTID;
+    101            if (chkcnt)
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0800000A           BEQ      ??DrwIndex_1
+    102              snwprintf(gui_buf,MAXELEMS(gui_buf)-1,L"%d(%d)", chkcnt, _CurCount);
+   \   00000018   ........           LDR      R1,??DataTable58  ;; curtab
+   \   0000001C   ........           LDR      R2,??DataTable78  ;; tabs
+   \   00000020   001091E5           LDR      R1,[R1, #+0]
+   \   00000024   0030A0E1           MOV      R3,R0
+   \   00000028   011192E7           LDR      R1,[R2, +R1, LSL #+2]
+   \   0000002C   E0209FE5           LDR      R2,??DrwIndex_2  ;; `?<Constant L"\\x25\\x64\\x28\\x25\\x64\\x29">`
+   \   00000030   F010D1E1           LDRSH    R1,[R1, #+0]
+   \   00000034   02002DE9           PUSH     {R1}
+   \   00000038   0A0000EA           B        ??DrwIndex_3
+   \                     ??DrwIndex_1:
+   \   0000003C   ........           LDR      R0,??DataTable58  ;; curtab
+   \   00000040   ........           LDR      R1,??DataTable78  ;; tabs
+   \   00000044   000090E5           LDR      R0,[R0, #+0]
+   \   00000048   C8209FE5           LDR      R2,??DrwIndex_2+0x4  ;; `?<Constant L"\\x25\\x64\\x28\\x25\\x64\\x29">` + 16
+   \   0000004C   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000050   F010D0E1           LDRSH    R1,[R0, #+0]
+   \   00000054   02002DE9           PUSH     {R1}
+   \   00000058   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   0000005C   810080E0           ADD      R0,R0,R1, LSL #+1
+   \   00000060   F600D0E1           LDRSH    R0,[R0, #+6]
+   \   00000064   013080E2           ADD      R3,R0,#+1
+   \                     ??DrwIndex_3:
+   \   00000068   AC009FE5           LDR      R0,??DrwIndex_2+0x8  ;; scr_w + 52
+    103            else
+    104              snwprintf(gui_buf,MAXELEMS(gui_buf)-1,L"%d/%d", _CurIndex+1, _CurCount);
+    105            str=TextID_Create(gui_buf,ENC_UCS2,TEXTID_ANY_LEN);  
+   \   0000006C   ........           LDR      R4,??DataTable62  ;; scr_w
+   \   00000070   FF10A0E3           MOV      R1,#+255
+   \   00000074   401F81E3           ORR      R1,R1,#0x100
+   \   00000078   150100EF           SWI      +277
+   \   0000007C   04D08DE2           ADD      SP,SP,#+4
+   \   00000080   FF20A0E3           MOV      R2,#+255
+   \   00000084   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   340084E2           ADD      R0,R4,#+52
+   \   00000090   5D0100EF           SWI      +349
+   \   00000094   0050A0E1           MOV      R5,R0
+    106            SetFont(CONFIG_FONT_HEADER);
+   \   00000098   ........           LDR      R0,??DataTable33  ;; CONFIG_FONT_HEADER
+   \   0000009C   000090E5           LDR      R0,[R0, #+0]
+   \   000000A0   F10100EF           SWI      +497
+    107            DrawString(str,2,IND_X1,TOP_Y+TOP_B,IND_X2-2,TOP_Y+TOP_B+TOP_H-1,0,0,
+    108                       Colors[clIndexTxt],0);
+   \   000000A4   0C0094E5           LDR      R0,[R4, #+12]
+   \   000000A8   0020A0E3           MOV      R2,#+0
+   \   000000AC   04002DE9           PUSH     {R2}
+   \   000000B0   ........           LDR      R2,??DataTable27  ;; Colors + 52
+   \   000000B4   801160E0           RSB      R1,R0,R0, LSL #+3
+   \   000000B8   002092E5           LDR      R2,[R2, #+0]
+   \   000000BC   0430A0E3           MOV      R3,#+4
+   \   000000C0   04002DE9           PUSH     {R2}
+   \   000000C4   A11F81E0           ADD      R1,R1,R1, LSR #+31
+   \   000000C8   0020A0E3           MOV      R2,#+0
+   \   000000CC   04002DE9           PUSH     {R2}
+   \   000000D0   04002DE9           PUSH     {R2}
+   \   000000D4   072080E2           ADD      R2,R0,#+7
+   \   000000D8   04002DE9           PUSH     {R2}
+   \   000000DC   002094E5           LDR      R2,[R4, #+0]
+   \   000000E0   022042E2           SUB      R2,R2,#+2
+   \   000000E4   002042E0           SUB      R2,R2,R0
+   \   000000E8   052042E2           SUB      R2,R2,#+5
+   \   000000EC   04002DE9           PUSH     {R2}
+   \   000000F0   C10080E0           ADD      R0,R0,R1, ASR #+1
+   \   000000F4   0210A0E3           MOV      R1,#+2
+   \   000000F8   0A2080E2           ADD      R2,R0,#+10
+   \   000000FC   0500A0E1           MOV      R0,R5
+   \   00000100   ED0100EF           SWI      +493
+    109            TextID_Destroy(str);
+   \   00000104   0500A0E1           MOV      R0,R5
+   \   00000108   610100EF           SWI      +353
+    110          }
+   \   0000010C   18D08DE2           ADD      SP,SP,#+24
+   \   00000110   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??DrwIndex_2:
+   \   00000114   ........           DC32     `?<Constant L"\\x25\\x64\\x28\\x25\\x64\\x29">`
+   \   00000118   ........           DC32     `?<Constant L"\\x25\\x64\\x28\\x25\\x64\\x29">` + 16
+   \   0000011C   ........           DC32     scr_w + 52
+    111          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    112          int GetSBY(RECT *rc, int i, int c)
+    113          {
+   \                     ??GetSBY:
+   \   00000000   00402DE9           PUSH     {LR}
+    114            return (c<=1)?0:((SB_H-SB_VS+1)*i/(c-1));
+   \   00000004   020052E3           CMP      R2,#+2
+   \   00000008   0000A0B3           MOVLT    R0,#+0
+   \   0000000C   0080BDB8           POPLT    {PC}
+   \   00000010   ........           LDR      R0,??DataTable71  ;; scr_w
+   \   00000014   043090E5           LDR      R3,[R0, #+4]
+   \   00000018   0C0090E5           LDR      R0,[R0, #+12]
+   \   0000001C   013043E2           SUB      R3,R3,#+1
+   \   00000020   000043E0           SUB      R0,R3,R0
+   \   00000024   093040E2           SUB      R3,R0,#+9
+   \   00000028   070040E2           SUB      R0,R0,#+7
+   \   0000002C   400243E0           SUB      R0,R3,R0, ASR #+4
+   \   00000030   010080E2           ADD      R0,R0,#+1
+   \   00000034   910000E0           MUL      R0,R1,R0
+   \   00000038   011042E2           SUB      R1,R2,#+1
+   \   0000003C   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000040   0100A0E1           MOV      R0,R1
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+    115          }
+    116          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    117          void DrwSB(GC *gc, RECT *rc)
+    118          {
+   \                     ??DrwSB:
+   \   00000000   ........           LDR      R2,??DataTable78  ;; tabs
+   \   00000004   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000008   ........           LDR      R5,??DataTable62  ;; scr_w
+    119            int sby = FLS_Y+1+GetSBY(rc, _CurIndex, _CurCount);
+    120            GC_SetPenColor(gc , Colors[clScBarBG]);
+   \   0000000C   ........           LDR      R7,??DataTable51  ;; Colors
+   \   00000010   0080A0E1           MOV      R8,R0
+   \   00000014   0100A0E1           MOV      R0,R1
+   \   00000018   ........           LDR      R1,??DataTable58  ;; curtab
+   \   0000001C   001091E5           LDR      R1,[R1, #+0]
+   \   00000020   011192E7           LDR      R1,[R2, +R1, LSL #+2]
+   \   00000024   F020D1E1           LDRSH    R2,[R1, #+0]
+   \   00000028   F430D1E1           LDRSH    R3,[R1, #+4]
+   \   0000002C   831081E0           ADD      R1,R1,R3, LSL #+1
+   \   00000030   F610D1E1           LDRSH    R1,[R1, #+6]
+   \   00000034   ........           BL       ??GetSBY
+   \   00000038   0C1095E5           LDR      R1,[R5, #+12]
+   \   0000003C   010080E0           ADD      R0,R0,R1
+   \   00000040   741097E5           LDR      R1,[R7, #+116]
+   \   00000044   086080E2           ADD      R6,R0,#+8
+   \   00000048   0800A0E1           MOV      R0,R8
+   \   0000004C   600200EF           SWI      +608
+    121            GC_DrawLine(gc,SB_X+SB_HS/2, FLS_Y+1+SB_B,SB_X+SB_HS/2, FLS_Y+SB_H-1);
+   \   00000050   000095E5           LDR      R0,[R5, #+0]
+   \   00000054   042095E5           LDR      R2,[R5, #+4]
+   \   00000058   801080E0           ADD      R1,R0,R0, LSL #+1
+   \   0000005C   C143A0E1           ASR      R4,R1,#+7
+   \   00000060   020040E2           SUB      R0,R0,#+2
+   \   00000064   040040E0           SUB      R0,R0,R4
+   \   00000068   A41F84E0           ADD      R1,R4,R4, LSR #+31
+   \   0000006C   C11080E0           ADD      R1,R0,R1, ASR #+1
+   \   00000070   0C0095E5           LDR      R0,[R5, #+12]
+   \   00000074   0130A0E1           MOV      R3,R1
+   \   00000078   002082E0           ADD      R2,R2,R0
+   \   0000007C   062082E2           ADD      R2,R2,#+6
+   \   00000080   002042E0           SUB      R2,R2,R0
+   \   00000084   0A2042E2           SUB      R2,R2,#+10
+   \   00000088   04002DE9           PUSH     {R2}
+   \   0000008C   092080E2           ADD      R2,R0,#+9
+   \   00000090   0800A0E1           MOV      R0,R8
+   \   00000094   620200EF           SWI      +610
+    122            DrawRect(SB_X,sby,SB_X+SB_HS-1,sby+SB_VS-1,Colors[clScBarBG],Colors[clScBarBG]);
+   \   00000098   742097E5           LDR      R2,[R7, #+116]
+   \   0000009C   000095E5           LDR      R0,[R5, #+0]
+   \   000000A0   0230A0E1           MOV      R3,R2
+   \   000000A4   08002DE9           PUSH     {R3}
+   \   000000A8   04002DE9           PUSH     {R2}
+   \   000000AC   042095E5           LDR      R2,[R5, #+4]
+   \   000000B0   0C3095E5           LDR      R3,[R5, #+12]
+   \   000000B4   801080E0           ADD      R1,R0,R0, LSL #+1
+   \   000000B8   C113A0E1           ASR      R1,R1,#+7
+   \   000000BC   020040E2           SUB      R0,R0,#+2
+   \   000000C0   010040E0           SUB      R0,R0,R1
+   \   000000C4   012042E2           SUB      R2,R2,#+1
+   \   000000C8   032042E0           SUB      R2,R2,R3
+   \   000000CC   072042E2           SUB      R2,R2,#+7
+   \   000000D0   422286E0           ADD      R2,R6,R2, ASR #+4
+   \   000000D4   013042E2           SUB      R3,R2,#+1
+   \   000000D8   001081E0           ADD      R1,R1,R0
+   \   000000DC   012041E2           SUB      R2,R1,#+1
+   \   000000E0   0610A0E1           MOV      R1,R6
+   \   000000E4   EC0100EF           SWI      +492
+    123          }
+   \   000000E8   F781BDE8           POP      {R0-R2,R4-R8,PC}  ;; return
+    124          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    125          void DrwDrvAc(int ind, GC *gc, RECT *rc)
+    126          {
+   \                     ??DrwDrvAc:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+    127            TEXTID str=EMPTY_TEXTID;
+    128            RECT rt;
+    129            wchar_t* name;
+    130            int x;	
+    131            SetFont(CONFIG_FONT_HEADER);
+   \   00000008   ........           LDR      R0,??DataTable33  ;; CONFIG_FONT_HEADER
+   \   0000000C   08D04DE2           SUB      SP,SP,#+8
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   0140A0E1           MOV      R4,R1
+   \   00000018   0270A0E1           MOV      R7,R2
+   \   0000001C   F10100EF           SWI      +497
+    132            if (curtab < MAX_TABS)
+   \   00000020   ........           LDR      R0,??DataTable58  ;; curtab
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   020050E3           CMP      R0,#+2
+   \   0000002C   0E0000AA           BGE      ??DrwDrvAc_1
+    133            {
+    134              x = DRV_X + DRV_O*ind;
+   \   00000030   0200A0E3           MOV      R0,#+2
+   \   00000034   858080E0           ADD      R8,R0,R5, LSL #+1
+    135              if (IsInArchive()==ZIP_ARCH)
+   \   00000038   ........           _BLF     ??IsInArchive,??IsInArchive??rA
+   \   0000003C   010050E3           CMP      R0,#+1
+    136                name = L"ZIP";
+   \   00000040   7C619F05           LDREQ    R6,??DrwDrvAc_2  ;; `?<Constant L"\\x5a\\x49\\x50">`
+   \   00000044   0D00000A           BEQ      ??DrwDrvAc_3
+    137              else if (IsInArchive()==_7Z_ARCH)
+   \   00000048   ........           _BLF     ??IsInArchive,??IsInArchive??rA
+   \   0000004C   020050E3           CMP      R0,#+2
+    138                name = L"7Z";
+   \   00000050   70619F05           LDREQ    R6,??DrwDrvAc_2+0x4  ;; `?<Constant L"\\x5a\\x49\\x50">` + 8
+   \   00000054   0900000A           BEQ      ??DrwDrvAc_3
+    139              else
+    140                name = Drives[ind].name;
+   \   00000058   6C119FE5           LDR      R1,??DrwDrvAc_2+0x8  ;; Drives
+   \   0000005C   1800A0E3           MOV      R0,#+24
+   \   00000060   901521E0           MLA      R1,R0,R5,R1
+   \   00000064   046081E2           ADD      R6,R1,#+4
+   \   00000068   040000EA           B        ??DrwDrvAc_3
+    141            }
+    142            else if (curtab == systab)
+   \                     ??DrwDrvAc_1:
+   \   0000006C   ........           LDR      R0,??DataTable58  ;; curtab
+   \   00000070   000090E5           LDR      R0,[R0, #+0]
+   \   00000074   020050E3           CMP      R0,#+2
+    143            {
+    144              x = DRV_X;
+    145              name = L"MC";
+   \   00000078   50619F05           LDREQ    R6,??DrwDrvAc_2+0xC  ;; `?<Constant L"\\x5a\\x49\\x50">` + 16
+   \   0000007C   0280A003           MOVEQ    R8,#+2
+    146            }
+    147            str=TextID_Create(name,ENC_UCS2,TEXTID_ANY_LEN);
+   \                     ??DrwDrvAc_3:
+   \   00000080   FF50A0E3           MOV      R5,#+255
+   \   00000084   FF5C85E3           ORR      R5,R5,#0xFF00
+   \   00000088   0520A0E1           MOV      R2,R5
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   0600A0E1           MOV      R0,R6
+   \   00000094   5D0100EF           SWI      +349
+   \   00000098   0060A0E1           MOV      R6,R0
+    148            x+=rc->x1;
+   \   0000009C   B000D7E1           LDRH     R0,[R7, #+0]
+    149            
+    150            rt.x1=x;
+    151            rt.y1=TOP_Y;
+   \   000000A0   0210A0E3           MOV      R1,#+2
+   \   000000A4   087080E0           ADD      R7,R0,R8
+    152            rt.x2=x+DRV_W-1;
+   \   000000A8   ........           LDR      R0,??DataTable71  ;; scr_w
+   \   000000AC   B070CDE1           STRH     R7,[SP, #+0]
+   \   000000B0   B410CDE1           STRH     R1,[SP, #+4]
+   \   000000B4   0C0090E5           LDR      R0,[R0, #+12]
+   \   000000B8   801160E0           RSB      R1,R0,R0, LSL #+3
+   \   000000BC   A11F81E0           ADD      R1,R1,R1, LSR #+31
+   \   000000C0   C110A0E1           ASR      R1,R1,#+1
+   \   000000C4   071081E0           ADD      R1,R1,R7
+   \   000000C8   011085E0           ADD      R1,R5,R1
+    153            rt.y2=TOP_Y+TOP_H-1;
+    154            GC_SetPenColor(gc, Colors[clSlTabBD]);
+   \   000000CC   ........           LDR      R5,??DataTable51  ;; Colors
+   \   000000D0   B210CDE1           STRH     R1,[SP, #+2]
+   \   000000D4   050080E2           ADD      R0,R0,#+5
+   \   000000D8   B600CDE1           STRH     R0,[SP, #+6]
+   \   000000DC   481095E5           LDR      R1,[R5, #+72]
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   600200EF           SWI      +608
+    155            GC_SetBrushColor(gc, Colors[clSlTabBG]);
+   \   000000E8   441095E5           LDR      R1,[R5, #+68]
+   \   000000EC   0400A0E1           MOV      R0,R4
+   \   000000F0   BE0200EF           SWI      +702
+    156            is_db2010?DrawRect(rt.x1,rt.y1,rt.x2,rt.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc)):GC_DrawRoundRect(gc ,&rt,4,4,1,1);
+   \   000000F4   ........           LDR      R0,??DataTable52  ;; is_db2010
+   \   000000F8   000090E5           LDR      R0,[R0, #+0]
+   \   000000FC   000050E3           CMP      R0,#+0
+   \   00000100   0C00000A           BEQ      ??DrwDrvAc_4
+   \   00000104   0400A0E1           MOV      R0,R4
+   \   00000108   BD0200EF           SWI      +701
+   \   0000010C   0050A0E1           MOV      R5,R0
+   \   00000110   0400A0E1           MOV      R0,R4
+   \   00000114   5F0200EF           SWI      +607
+   \   00000118   20002DE9           PUSH     {R5}
+   \   0000011C   01002DE9           PUSH     {R0}
+   \   00000120   BE30DDE1           LDRH     R3,[SP, #+14]
+   \   00000124   BA20DDE1           LDRH     R2,[SP, #+10]
+   \   00000128   BC10DDE1           LDRH     R1,[SP, #+12]
+   \   0000012C   B800DDE1           LDRH     R0,[SP, #+8]
+   \   00000130   EC0100EF           SWI      +492
+   \   00000134   070000EA           B        ??DrwDrvAc_5
+   \                     ??DrwDrvAc_4:
+   \   00000138   0100A0E3           MOV      R0,#+1
+   \   0000013C   01002DE9           PUSH     {R0}
+   \   00000140   01002DE9           PUSH     {R0}
+   \   00000144   0430A0E3           MOV      R3,#+4
+   \   00000148   0420A0E3           MOV      R2,#+4
+   \   0000014C   08108DE2           ADD      R1,SP,#+8
+   \   00000150   0400A0E1           MOV      R0,R4
+   \   00000154   BF0200EF           SWI      +703
+    157            
+    158            DrawString(str,2,x+1,TOP_Y+TOP_B,x+DRV_W-2,TOP_Y+TOP_B+TOP_H-1,0,0,
+    159                       Colors[clTabTxt],0);
+   \                     ??DrwDrvAc_5:
+   \   00000158   ........           LDR      R0,??DataTable71  ;; scr_w
+   \   0000015C   08D08DE2           ADD      SP,SP,#+8
+   \   00000160   0C0090E5           LDR      R0,[R0, #+12]
+   \   00000164   0020A0E3           MOV      R2,#+0
+   \   00000168   04002DE9           PUSH     {R2}
+   \   0000016C   ........           LDR      R2,??DataTable40  ;; Colors + 60
+   \   00000170   801160E0           RSB      R1,R0,R0, LSL #+3
+   \   00000174   002092E5           LDR      R2,[R2, #+0]
+   \   00000178   070080E2           ADD      R0,R0,#+7
+   \   0000017C   04002DE9           PUSH     {R2}
+   \   00000180   0430A0E3           MOV      R3,#+4
+   \   00000184   0020A0E3           MOV      R2,#+0
+   \   00000188   04002DE9           PUSH     {R2}
+   \   0000018C   04002DE9           PUSH     {R2}
+   \   00000190   01002DE9           PUSH     {R0}
+   \   00000194   A10F81E0           ADD      R0,R1,R1, LSR #+31
+   \   00000198   012087E2           ADD      R2,R7,#+1
+   \   0000019C   0210A0E3           MOV      R1,#+2
+   \   000001A0   C00087E0           ADD      R0,R7,R0, ASR #+1
+   \   000001A4   020040E2           SUB      R0,R0,#+2
+   \   000001A8   01002DE9           PUSH     {R0}
+   \   000001AC   0600A0E1           MOV      R0,R6
+   \   000001B0   ED0100EF           SWI      +493
+    160            TextID_Destroy(str);
+   \   000001B4   0600A0E1           MOV      R0,R6
+   \   000001B8   610100EF           SWI      +353
+    161          }
+   \   000001BC   20D08DE2           ADD      SP,SP,#+32
+   \   000001C0   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??DrwDrvAc_2:
+   \   000001C4   ........           DC32     `?<Constant L"\\x5a\\x49\\x50">`
+   \   000001C8   ........           DC32     `?<Constant L"\\x5a\\x49\\x50">` + 8
+   \   000001CC   ........           DC32     Drives
+   \   000001D0   ........           DC32     `?<Constant L"\\x5a\\x49\\x50">` + 16
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     scr_w:
+   \   00000000                      DS8 4
+   \                     scr_h:
+   \   00000004                      DS8 4
+   \                     txt_h:
+   \   00000008                      DS8 4
+   \                     head_h:
+   \   0000000C                      DS8 4
+   \                     attr_h:
+   \   00000010                      DS8 4
+   \                     ico_h:
+   \   00000014                      DS8 4
+   \                     ico_w:
+   \   00000018                      DS8 4
+   \                     itm_ch:
+   \   0000001C                      DS8 4
+   \                     itms_max:
+   \   00000020                      DS8 4
+   \                     itms_bs:
+   \   00000024                      DS8 4
+    162          
+    163          u16 sctm=0;
+    164          int max_scroll_disp;
+   \                     max_scroll_disp:
+   \   00000028                      DS8 4
+    165          int scroll_disp;
+   \                     scroll_disp:
+   \   0000002C                      DS8 4
+   \                     sctm:
+   \   00000030                      DS8 2
+   \   00000032                      DS8 2
+   \                     gui_buf:
+   \   00000034                      DS8 1024
+    166          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    167          void ScrollTimerProc (u16 tmr , LPARAM)
+    168          {
+    169            int time=CONFIG_SCROLL_TEXT_SPEED;
+   \                     ??ScrollTimerProc:
+   \   00000000   ........           LDR      R0,??DataTable60  ;; CONFIG_SCROLL_TEXT_SPEED
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+    170            int i=max_scroll_disp;
+   \   0000000C   ........           LDR      R0,??DataTable71  ;; scr_w
+   \   00000010   282090E5           LDR      R2,[R0, #+40]
+    171            if (i)
+   \   00000014   2C3090E5           LDR      R3,[R0, #+44]
+   \   00000018   000052E3           CMP      R2,#+0
+   \   0000001C   0600000A           BEQ      ??ScrollTimerProc_1
+    172            {
+    173              if (scroll_disp>=i)
+   \   00000020   020053E1           CMP      R3,R2
+    174              {
+    175                scroll_disp=0;
+   \   00000024   0030A0A3           MOVGE    R3,#+0
+   \   00000028   030000AA           BGE      ??ScrollTimerProc_1
+    176              }
+    177              else
+    178              {
+    179                scroll_disp++;
+   \   0000002C   013083E2           ADD      R3,R3,#+1
+    180                if (scroll_disp==i)
+   \   00000030   020053E1           CMP      R3,R2
+    181                {
+    182                  time=CONFIG_SCROLL_TEXT_WAIT;
+   \   00000034   28009F05           LDREQ    R0,??ScrollTimerProc_2  ;; CONFIG_SCROLL_TEXT_WAIT
+   \   00000038   00109005           LDREQ    R1,[R0, #+0]
+   \                     ??ScrollTimerProc_1:
+   \   0000003C   ........           LDR      R0,??DataTable71  ;; scr_w
+    183                }
+    184              }
+    185            }
+    186            RedrawGUI=1;
+   \   00000040   20209FE5           LDR      R2,??ScrollTimerProc_2+0x4  ;; RedrawGUI
+   \   00000044   2C3080E5           STR      R3,[R0, #+44]
+   \   00000048   0130A0E3           MOV      R3,#+1
+   \   0000004C   003082E5           STR      R3,[R2, #+0]
+    187            Timer_ReSet(&sctm, time, ScrollTimerProc, 0);
+   \   00000050   ........           LDR      R2,??DataTable61  ;; ??ScrollTimerProc
+   \   00000054   0030A0E3           MOV      R3,#+0
+   \   00000058   300080E2           ADD      R0,R0,#+48
+   \   0000005C   280100EF           SWI      +296
+    188          }
+   \   00000060   0080BDE8           POP      {PC}             ;; return
+   \                     ??ScrollTimerProc_2:
+   \   00000064   ........           DC32     CONFIG_SCROLL_TEXT_WAIT
+   \   00000068   ........           DC32     RedrawGUI
+    189          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    190          void DisableScroll ()
+    191          {
+   \                     ??DisableScroll:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    192            Timer_Kill(&sctm);
+   \   00000004   ........           LDR      R4,??DataTable71  ;; scr_w
+   \   00000008   300084E2           ADD      R0,R4,#+48
+   \   0000000C   2A0100EF           SWI      +298
+    193            max_scroll_disp=0;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   280084E5           STR      R0,[R4, #+40]
+    194            scroll_disp=0;
+   \   00000018   2C0084E5           STR      R0,[R4, #+44]
+    195          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+    196          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    197          void DrwFile(GC *gc, RECT *rc, int ind, FILEINF* file)
+    198          { 
+    199            int y_offs=ind>_CurIndex-_CurBase?ATTR_FH:0;
+   \                     ??DrwFile:
+   \   00000000   ........           LDR      R1,??DataTable78  ;; tabs
+   \   00000004   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   ........           LDR      R0,??DataTable58  ;; curtab
+   \   00000010   18D04DE2           SUB      SP,SP,#+24
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   0280A0E1           MOV      R8,R2
+   \   0000001C   000181E0           ADD      R0,R1,R0, LSL #+2
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   00000028   F420D0E1           LDRSH    R2,[R0, #+4]
+   \   0000002C   0370A0E1           MOV      R7,R3
+   \   00000030   811080E0           ADD      R1,R0,R1, LSL #+1
+   \   00000034   F610D1E1           LDRSH    R1,[R1, #+6]
+   \   00000038   820080E0           ADD      R0,R0,R2, LSL #+1
+   \   0000003C   FC00D0E1           LDRSH    R0,[R0, #+12]
+   \   00000040   000041E0           SUB      R0,R1,R0
+   \   00000044   080050E1           CMP      R0,R8
+   \   00000048   030000AA           BGE      ??DrwFile_1
+   \   0000004C   08059FE5           LDR      R0,??DrwFile_2   ;; scr_w + 16
+   \   00000050   000090E5           LDR      R0,[R0, #+0]
+   \   00000054   030080E2           ADD      R0,R0,#+3
+   \   00000058   000000EA           B        ??DrwFile_3
+   \                     ??DrwFile_1:
+   \   0000005C   0000A0E3           MOV      R0,#+0
+    200            int y = itms_bs + ind*ITM_FH+y_offs;
+   \                     ??DrwFile_3:
+   \   00000060   ........           LDR      R6,??DataTable62  ;; scr_w
+   \   00000064   241096E5           LDR      R1,[R6, #+36]
+   \   00000068   1C2096E5           LDR      R2,[R6, #+28]
+   \   0000006C   032082E2           ADD      R2,R2,#+3
+   \   00000070   921821E0           MLA      R1,R2,R8,R1
+   \   00000074   015080E0           ADD      R5,R0,R1
+    201            if (ind == _CurIndex-_CurBase) 
+   \   00000078   ........           LDR      R0,??DataTable58  ;; curtab
+   \   0000007C   ........           LDR      R1,??DataTable78  ;; tabs
+   \   00000080   000090E5           LDR      R0,[R0, #+0]
+   \   00000084   000181E0           ADD      R0,R1,R0, LSL #+2
+   \   00000088   000090E5           LDR      R0,[R0, #+0]
+   \   0000008C   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   00000090   F420D0E1           LDRSH    R2,[R0, #+4]
+   \   00000094   811080E0           ADD      R1,R0,R1, LSL #+1
+   \   00000098   F610D1E1           LDRSH    R1,[R1, #+6]
+   \   0000009C   820080E0           ADD      R0,R0,R2, LSL #+1
+   \   000000A0   FC00D0E1           LDRSH    R0,[R0, #+12]
+   \   000000A4   000041E0           SUB      R0,R1,R0
+   \   000000A8   000058E1           CMP      R8,R0
+   \   000000AC   9B00001A           BNE      ??DrwFile_4
+    202            {
+    203              RECT rect;
+    204              rect.x1=ITM_X1;
+    205              rect.y1=y;
+    206              rect.x2=ITM_X2;
+   \   000000B0   000096E5           LDR      R0,[R6, #+0]
+   \   000000B4   0210A0E3           MOV      R1,#+2
+   \   000000B8   022040E2           SUB      R2,R0,#+2
+   \   000000BC   800080E0           ADD      R0,R0,R0, LSL #+1
+   \   000000C0   C00342E0           SUB      R0,R2,R0, ASR #+7
+    207              rect.y2=y+ITM_FH+ATTR_FH-1;
+   \   000000C4   1C2096E5           LDR      R2,[R6, #+28]
+   \   000000C8   B010CDE1           STRH     R1,[SP, #+0]
+   \   000000CC   051082E0           ADD      R1,R2,R5
+   \   000000D0   102096E5           LDR      R2,[R6, #+16]
+    208              GC_SetPenColor(gc, Colors[clSelItemBD]);
+   \   000000D4   ........           LDR      R6,??DataTable51  ;; Colors
+   \   000000D8   B450CDE1           STRH     R5,[SP, #+4]
+   \   000000DC   B200CDE1           STRH     R0,[SP, #+2]
+   \   000000E0   011082E0           ADD      R1,R2,R1
+   \   000000E4   051081E2           ADD      R1,R1,#+5
+   \   000000E8   B610CDE1           STRH     R1,[SP, #+6]
+   \   000000EC   141096E5           LDR      R1,[R6, #+20]
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   600200EF           SWI      +608
+    209              GC_SetBrushColor(gc, Colors[clSelItemBG]);
+   \   000000F8   101096E5           LDR      R1,[R6, #+16]
+   \   000000FC   0400A0E1           MOV      R0,R4
+   \   00000100   BE0200EF           SWI      +702
+    210              is_db2010?DrawRect(rect.x1,rect.y1,rect.x2,rect.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc)):GC_DrawRoundRect(gc ,&rect,4,4,1,1);
+   \   00000104   ........           LDR      R0,??DataTable52  ;; is_db2010
+   \   00000108   000090E5           LDR      R0,[R0, #+0]
+   \   0000010C   000050E3           CMP      R0,#+0
+   \   00000110   0C00000A           BEQ      ??DrwFile_5
+   \   00000114   0400A0E1           MOV      R0,R4
+   \   00000118   BD0200EF           SWI      +701
+   \   0000011C   0060A0E1           MOV      R6,R0
+   \   00000120   0400A0E1           MOV      R0,R4
+   \   00000124   5F0200EF           SWI      +607
+   \   00000128   40002DE9           PUSH     {R6}
+   \   0000012C   01002DE9           PUSH     {R0}
+   \   00000130   BE30DDE1           LDRH     R3,[SP, #+14]
+   \   00000134   BA20DDE1           LDRH     R2,[SP, #+10]
+   \   00000138   BC10DDE1           LDRH     R1,[SP, #+12]
+   \   0000013C   B800DDE1           LDRH     R0,[SP, #+8]
+   \   00000140   EC0100EF           SWI      +492
+   \   00000144   070000EA           B        ??DrwFile_6
+   \                     ??DrwFile_5:
+   \   00000148   0100A0E3           MOV      R0,#+1
+   \   0000014C   01002DE9           PUSH     {R0}
+   \   00000150   01002DE9           PUSH     {R0}
+   \   00000154   0430A0E3           MOV      R3,#+4
+   \   00000158   0420A0E3           MOV      R2,#+4
+   \   0000015C   08108DE2           ADD      R1,SP,#+8
+   \   00000160   0400A0E1           MOV      R0,R4
+   \   00000164   BF0200EF           SWI      +703
+    211              
+    212              
+    213              SetFont(CONFIG_FONT_ATTR);  
+   \                     ??DrwFile_6:
+   \   00000168   ........           LDR      R0,??DataTable53  ;; CONFIG_FONT_ATTR
+    214              int y2 = itms_bs+(ind+1)*ITM_FH;
+   \   0000016C   ........           LDR      R6,??DataTable62  ;; scr_w
+   \   00000170   08D08DE2           ADD      SP,SP,#+8
+   \   00000174   000090E5           LDR      R0,[R0, #+0]
+   \   00000178   F10100EF           SWI      +497
+   \   0000017C   1C2096E5           LDR      R2,[R6, #+28]
+   \   00000180   240096E5           LDR      R0,[R6, #+36]
+   \   00000184   011088E2           ADD      R1,R8,#+1
+   \   00000188   032082E2           ADD      R2,R2,#+3
+   \   0000018C   920129E0           MLA      R9,R2,R1,R0
+    215              if (!(file->attr & FA_DIRECTORY))
+   \   00000190   B800D7E1           LDRH     R0,[R7, #+8]
+   \   00000194   400C10E3           TST      R0,#0x4000
+   \   00000198   4200001A           BNE      ??DrwFile_7
+    216              {
+    217                if (file->ws_size!=LGP_NULL)
+   \   0000019C   300097E5           LDR      R0,[R7, #+48]
+   \   000001A0   9014E0E3           MVN      R1,#-1879048192
+   \   000001A4   010050E1           CMP      R0,R1
+   \   000001A8   1800000A           BEQ      ??DrwFile_8
+    218                {
+    219                  DrawString(file->ws_size,0,TXT_X,y2+ITM_B+1,ITM_X2-ITM_B-2,y2+ITM_B+txt_h,0,0,
+    220                             Colors[clInfoTxt],0);
+   \   000001AC   000096E5           LDR      R0,[R6, #+0]
+   \   000001B0   0010A0E3           MOV      R1,#+0
+   \   000001B4   02002DE9           PUSH     {R1}
+   \   000001B8   A0139FE5           LDR      R1,??DrwFile_2+0x4  ;; Colors + 48
+   \   000001BC   023089E2           ADD      R3,R9,#+2
+   \   000001C0   001091E5           LDR      R1,[R1, #+0]
+   \   000001C4   02002DE9           PUSH     {R1}
+   \   000001C8   0010A0E3           MOV      R1,#+0
+   \   000001CC   02002DE9           PUSH     {R1}
+   \   000001D0   02002DE9           PUSH     {R1}
+   \   000001D4   081096E5           LDR      R1,[R6, #+8]
+   \   000001D8   091081E0           ADD      R1,R1,R9
+   \   000001DC   011081E2           ADD      R1,R1,#+1
+   \   000001E0   02002DE9           PUSH     {R1}
+   \   000001E4   021040E2           SUB      R1,R0,#+2
+   \   000001E8   800080E0           ADD      R0,R0,R0, LSL #+1
+   \   000001EC   C00341E0           SUB      R0,R1,R0, ASR #+7
+   \   000001F0   030040E2           SUB      R0,R0,#+3
+   \   000001F4   01002DE9           PUSH     {R0}
+   \   000001F8   140096E5           LDR      R0,[R6, #+20]
+   \   000001FC   0010A0E3           MOV      R1,#+0
+   \   00000200   032080E2           ADD      R2,R0,#+3
+   \   00000204   300097E5           LDR      R0,[R7, #+48]
+   \   00000208   ED0100EF           SWI      +493
+   \   0000020C   18D08DE2           ADD      SP,SP,#+24
+    221                }
+    222                if (file->ftype == TYPE_ZIP_FILE && file->ws_ratio!=LGP_NULL)
+   \                     ??DrwFile_8:
+   \   00000210   040097E5           LDR      R0,[R7, #+4]
+   \   00000214   020050E3           CMP      R0,#+2
+   \   00000218   2200001A           BNE      ??DrwFile_7
+   \   0000021C   380097E5           LDR      R0,[R7, #+56]
+   \   00000220   9014E0E3           MVN      R1,#-1879048192
+   \   00000224   010050E1           CMP      R0,R1
+   \   00000228   1E00000A           BEQ      ??DrwFile_7
+    223                {
+    224                  // рисовать будем посередине + отступ на 1/2 символа
+    225                  int posX = (ITM_X2 - ITM_B - 2 - TXT_X) / 2 + TXT_X + txt_h / 2;
+    226                  DrawString(file->ws_ratio, 0, posX ,y2+ITM_B+1,ITM_X2-ITM_B-2,y2+ITM_B+txt_h,0,0,
+    227                             Colors[clInfoTxt],0);
+   \   0000022C   000096E5           LDR      R0,[R6, #+0]
+   \   00000230   0030A0E3           MOV      R3,#+0
+   \   00000234   021040E2           SUB      R1,R0,#+2
+   \   00000238   800080E0           ADD      R0,R0,R0, LSL #+1
+   \   0000023C   C00341E0           SUB      R0,R1,R0, ASR #+7
+   \   00000240   031040E2           SUB      R1,R0,#+3
+   \   00000244   140096E5           LDR      R0,[R6, #+20]
+   \   00000248   086096E5           LDR      R6,[R6, #+8]
+   \   0000024C   08002DE9           PUSH     {R3}
+   \   00000250   08339FE5           LDR      R3,??DrwFile_2+0x4  ;; Colors + 48
+   \   00000254   002041E0           SUB      R2,R1,R0
+   \   00000258   003093E5           LDR      R3,[R3, #+0]
+   \   0000025C   032042E2           SUB      R2,R2,#+3
+   \   00000260   08002DE9           PUSH     {R3}
+   \   00000264   0030A0E3           MOV      R3,#+0
+   \   00000268   08002DE9           PUSH     {R3}
+   \   0000026C   08002DE9           PUSH     {R3}
+   \   00000270   093086E0           ADD      R3,R6,R9
+   \   00000274   013083E2           ADD      R3,R3,#+1
+   \   00000278   08002DE9           PUSH     {R3}
+   \   0000027C   02002DE9           PUSH     {R1}
+   \   00000280   023089E2           ADD      R3,R9,#+2
+   \   00000284   A21F82E0           ADD      R1,R2,R2, LSR #+31
+   \   00000288   C10080E0           ADD      R0,R0,R1, ASR #+1
+   \   0000028C   A61F86E0           ADD      R1,R6,R6, LSR #+31
+   \   00000290   C10080E0           ADD      R0,R0,R1, ASR #+1
+   \   00000294   032080E2           ADD      R2,R0,#+3
+   \   00000298   380097E5           LDR      R0,[R7, #+56]
+   \   0000029C   0010A0E3           MOV      R1,#+0
+   \   000002A0   ED0100EF           SWI      +493
+   \   000002A4   18D08DE2           ADD      SP,SP,#+24
+    228                }
+    229              }
+    230              if (file->ws_attr!=LGP_NULL)
+   \                     ??DrwFile_7:
+   \   000002A8   2C0097E5           LDR      R0,[R7, #+44]
+   \   000002AC   9014E0E3           MVN      R1,#-1879048192
+   \   000002B0   010050E1           CMP      R0,R1
+   \   000002B4   1900000A           BEQ      ??DrwFile_4
+    231              {
+    232                DrawString(file->ws_attr,1,TXT_X,y2+ITM_B+1,ITM_X2-ITM_B-2,y2+ITM_B+txt_h,0,0,
+    233                           Colors[clInfoTxt],0);
+   \   000002B8   ........           LDR      R6,??DataTable62  ;; scr_w
+   \   000002BC   0010A0E3           MOV      R1,#+0
+   \   000002C0   000096E5           LDR      R0,[R6, #+0]
+   \   000002C4   02002DE9           PUSH     {R1}
+   \   000002C8   90129FE5           LDR      R1,??DrwFile_2+0x4  ;; Colors + 48
+   \   000002CC   023089E2           ADD      R3,R9,#+2
+   \   000002D0   001091E5           LDR      R1,[R1, #+0]
+   \   000002D4   02002DE9           PUSH     {R1}
+   \   000002D8   0010A0E3           MOV      R1,#+0
+   \   000002DC   02002DE9           PUSH     {R1}
+   \   000002E0   02002DE9           PUSH     {R1}
+   \   000002E4   081096E5           LDR      R1,[R6, #+8]
+   \   000002E8   091081E0           ADD      R1,R1,R9
+   \   000002EC   011081E2           ADD      R1,R1,#+1
+   \   000002F0   02002DE9           PUSH     {R1}
+   \   000002F4   021040E2           SUB      R1,R0,#+2
+   \   000002F8   800080E0           ADD      R0,R0,R0, LSL #+1
+   \   000002FC   C00341E0           SUB      R0,R1,R0, ASR #+7
+   \   00000300   030040E2           SUB      R0,R0,#+3
+   \   00000304   01002DE9           PUSH     {R0}
+   \   00000308   140096E5           LDR      R0,[R6, #+20]
+   \   0000030C   0110A0E3           MOV      R1,#+1
+   \   00000310   032080E2           ADD      R2,R0,#+3
+   \   00000314   2C0097E5           LDR      R0,[R7, #+44]
+   \   00000318   ED0100EF           SWI      +493
+   \   0000031C   18D08DE2           ADD      SP,SP,#+24
+    234              }
+    235            }
+    236            
+    237            wchar_t icon=file->attr & FA_CHECK?STD_ICONS[ICN_CHMARK]:file->icon;
+   \                     ??DrwFile_4:
+   \   00000320   B800D7E1           LDRH     R0,[R7, #+8]
+    238            GC_PutChar(gc,ICO_X, y+ICO_DY, ico_w,ico_h,icon);
+   \   00000324   ........           LDR      R6,??DataTable62  ;; scr_w
+   \   00000328   400D10E3           TST      R0,#0x1000
+   \   0000032C   30029F15           LDRNE    R0,??DrwFile_2+0x8  ;; STD_ICONS + 2
+   \   00000330   141096E5           LDR      R1,[R6, #+20]
+   \   00000334   B000D011           LDRHNE   R0,[R0, #+0]
+   \   00000338   1C2096E5           LDR      R2,[R6, #+28]
+   \   0000033C   B802D701           LDRHEQ   R0,[R7, #+40]
+   \   00000340   022082E2           ADD      R2,R2,#+2
+   \   00000344   012042E0           SUB      R2,R2,R1
+   \   00000348   01002DE9           PUSH     {R0}
+   \   0000034C   02002DE9           PUSH     {R1}
+   \   00000350   183096E5           LDR      R3,[R6, #+24]
+   \   00000354   A20F82E0           ADD      R0,R2,R2, LSR #+31
+   \   00000358   C02085E0           ADD      R2,R5,R0, ASR #+1
+   \   0000035C   0310A0E3           MOV      R1,#+3
+   \   00000360   0400A0E1           MOV      R0,R4
+   \   00000364   400100EF           SWI      +320
+    239            
+    240            
+    241            int tc;
+    242            //if (file->attr & FA_HIDDEN)
+    243            //  tc=ind==_CurIndex-_CurBase?clSelFileHidden:clFileHidden;
+    244            //else
+    245            SetFont(CONFIG_FONT_FILES);
+   \   00000368   ........           LDR      R0,??DataTable57  ;; CONFIG_FONT_FILES
+   \   0000036C   000090E5           LDR      R0,[R0, #+0]
+   \   00000370   F10100EF           SWI      +497
+    246            RECT tmp_rc, txt_rc;
+    247            GC_GetRect(gc, &tmp_rc);
+   \   00000374   18108DE2           ADD      R1,SP,#+24
+   \   00000378   0400A0E1           MOV      R0,R4
+   \   0000037C   E70100EF           SWI      +487
+    248            txt_rc.x1=TXT_X;
+   \   00000380   141096E5           LDR      R1,[R6, #+20]
+    249            txt_rc.x2=ITM_X2-ITM_B-2;
+   \   00000384   FE30A0E3           MOV      R3,#+254
+   \   00000388   031081E2           ADD      R1,R1,#+3
+   \   0000038C   B011CDE1           STRH     R1,[SP, #+16]
+   \   00000390   000096E5           LDR      R0,[R6, #+0]
+   \   00000394   FF3C83E3           ORR      R3,R3,#0xFF00
+   \   00000398   002083E0           ADD      R2,R3,R0
+   \   0000039C   800080E0           ADD      R0,R0,R0, LSL #+1
+   \   000003A0   C003A0E1           ASR      R0,R0,#+7
+   \   000003A4   000042E0           SUB      R0,R2,R0
+   \   000003A8   012043E2           SUB      R2,R3,#+1
+   \   000003AC   000082E0           ADD      R0,R2,R0
+   \   000003B0   B201CDE1           STRH     R0,[SP, #+18]
+    250            txt_rc.y1=tmp_rc.y1;
+   \   000003B4   BC11DDE1           LDRH     R1,[SP, #+28]
+    251            txt_rc.y2=tmp_rc.y2;
+    252            GC_ValidateRect(gc, &txt_rc);
+   \   000003B8   0400A0E1           MOV      R0,R4
+   \   000003BC   B411CDE1           STRH     R1,[SP, #+20]
+   \   000003C0   BE11DDE1           LDRH     R1,[SP, #+30]
+   \   000003C4   B611CDE1           STRH     R1,[SP, #+22]
+   \   000003C8   10108DE2           ADD      R1,SP,#+16
+   \   000003CC   EA0100EF           SWI      +490
+    253            if (ind==_CurIndex-_CurBase)
+   \   000003D0   ........           LDR      R0,??DataTable58  ;; curtab
+   \   000003D4   ........           LDR      R1,??DataTable78  ;; tabs
+   \   000003D8   000090E5           LDR      R0,[R0, #+0]
+   \   000003DC   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   000003E0   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   000003E4   F420D0E1           LDRSH    R2,[R0, #+4]
+   \   000003E8   811080E0           ADD      R1,R0,R1, LSL #+1
+   \   000003EC   F610D1E1           LDRSH    R1,[R1, #+6]
+   \   000003F0   820080E0           ADD      R0,R0,R2, LSL #+1
+   \   000003F4   FC00D0E1           LDRSH    R0,[R0, #+12]
+   \   000003F8   08D08DE2           ADD      SP,SP,#+8
+   \   000003FC   000041E0           SUB      R0,R1,R0
+   \   00000400   000058E1           CMP      R8,R0
+   \   00000404   3300001A           BNE      ??DrwFile_9
+    254            {
+    255              tc=clSelFileNormal;
+    256              int d=Disp_GetStrIdWidth(file->sid_name,TextID_GetLength(file->sid_name));
+   \   00000408   400097E5           LDR      R0,[R7, #+64]
+   \   0000040C   600100EF           SWI      +352
+   \   00000410   0010A0E1           MOV      R1,R0
+   \   00000414   400097E5           LDR      R0,[R7, #+64]
+   \   00000418   000300EF           SWI      +768
+    257              d-=(ITM_X2-ITM_B-2-TXT_X);
+   \   0000041C   001096E5           LDR      R1,[R6, #+0]
+   \   00000420   010040E0           SUB      R0,R0,R1
+   \   00000424   811081E0           ADD      R1,R1,R1, LSL #+1
+   \   00000428   C10380E0           ADD      R0,R0,R1, ASR #+7
+   \   0000042C   141096E5           LDR      R1,[R6, #+20]
+   \   00000430   000081E0           ADD      R0,R1,R0
+   \   00000434   086090E2           ADDS     R6,R0,#+8
+    258              if (d<0)
+   \   00000438   0100005A           BPL      ??DrwFile_10
+    259              {
+    260                DisableScroll();
+   \   0000043C   ........           BL       ??DisableScroll
+   \   00000440   0A0000EA           B        ??DrwFile_11
+    261              }
+    262              else
+    263              {
+    264                if (!max_scroll_disp)
+   \                     ??DrwFile_10:
+   \   00000444   1C019FE5           LDR      R0,??DrwFile_2+0xC  ;; scr_w + 40
+   \   00000448   000090E5           LDR      R0,[R0, #+0]
+   \   0000044C   000050E3           CMP      R0,#+0
+   \   00000450   0400001A           BNE      ??DrwFile_12
+    265                {
+    266                  Timer_Set(CONFIG_SCROLL_TEXT_SPEED, ScrollTimerProc, 0);
+   \   00000454   ........           LDR      R0,??DataTable60  ;; CONFIG_SCROLL_TEXT_SPEED
+   \   00000458   ........           LDR      R1,??DataTable61  ;; ??ScrollTimerProc
+   \   0000045C   000090E5           LDR      R0,[R0, #+0]
+   \   00000460   0020A0E3           MOV      R2,#+0
+   \   00000464   290100EF           SWI      +297
+    267                }
+    268                max_scroll_disp=d;
+   \                     ??DrwFile_12:
+   \   00000468   F8009FE5           LDR      R0,??DrwFile_2+0xC  ;; scr_w + 40
+   \   0000046C   006080E5           STR      R6,[R0, #+0]
+    269              }
+    270              DrawString(file->sid_name,0, TXT_X-scroll_disp,y+ITM_B+1,ITM_X2-ITM_B-2,y+ITM_B+txt_h,0,0,
+    271                         Colors[tc],0);
+   \                     ??DrwFile_11:
+   \   00000470   ........           LDR      R6,??DataTable62  ;; scr_w
+   \   00000474   0010A0E3           MOV      R1,#+0
+   \   00000478   000096E5           LDR      R0,[R6, #+0]
+   \   0000047C   02002DE9           PUSH     {R1}
+   \   00000480   E4109FE5           LDR      R1,??DrwFile_2+0x10  ;; Colors + 28
+   \   00000484   023085E2           ADD      R3,R5,#+2
+   \   00000488   001091E5           LDR      R1,[R1, #+0]
+   \   0000048C   02002DE9           PUSH     {R1}
+   \   00000490   0010A0E3           MOV      R1,#+0
+   \   00000494   02002DE9           PUSH     {R1}
+   \   00000498   02002DE9           PUSH     {R1}
+   \   0000049C   081096E5           LDR      R1,[R6, #+8]
+   \   000004A0   051081E0           ADD      R1,R1,R5
+   \   000004A4   011081E2           ADD      R1,R1,#+1
+   \   000004A8   02002DE9           PUSH     {R1}
+   \   000004AC   021040E2           SUB      R1,R0,#+2
+   \   000004B0   800080E0           ADD      R0,R0,R0, LSL #+1
+   \   000004B4   C00341E0           SUB      R0,R1,R0, ASR #+7
+   \   000004B8   030040E2           SUB      R0,R0,#+3
+   \   000004BC   01002DE9           PUSH     {R0}
+   \   000004C0   2C1096E5           LDR      R1,[R6, #+44]
+   \   000004C4   140096E5           LDR      R0,[R6, #+20]
+   \   000004C8   030080E2           ADD      R0,R0,#+3
+   \   000004CC   012040E0           SUB      R2,R0,R1
+   \   000004D0   400097E5           LDR      R0,[R7, #+64]
+   \   000004D4   180000EA           B        ??DrwFile_13
+    272            }
+    273            else
+    274            {
+    275              tc=clFileNormal;
+    276              TEXTID  fn = (file->uccnt ? file->ws_short :file->sid_name );
+   \                     ??DrwFile_9:
+   \   000004D8   180097E5           LDR      R0,[R7, #+24]
+    277              DrawString(fn,0, TXT_X,y+ITM_B+1,ITM_X2-ITM_B-2,y+ITM_B+txt_h,0,0,
+    278                         Colors[tc],0);
+   \   000004DC   001096E5           LDR      R1,[R6, #+0]
+   \   000004E0   000050E3           CMP      R0,#+0
+   \   000004E4   3C009715           LDRNE    R0,[R7, #+60]
+   \   000004E8   0020A0E3           MOV      R2,#+0
+   \   000004EC   40009705           LDREQ    R0,[R7, #+64]
+   \   000004F0   04002DE9           PUSH     {R2}
+   \   000004F4   74209FE5           LDR      R2,??DrwFile_2+0x14  ;; Colors + 24
+   \   000004F8   023085E2           ADD      R3,R5,#+2
+   \   000004FC   002092E5           LDR      R2,[R2, #+0]
+   \   00000500   04002DE9           PUSH     {R2}
+   \   00000504   0020A0E3           MOV      R2,#+0
+   \   00000508   04002DE9           PUSH     {R2}
+   \   0000050C   04002DE9           PUSH     {R2}
+   \   00000510   082096E5           LDR      R2,[R6, #+8]
+   \   00000514   052082E0           ADD      R2,R2,R5
+   \   00000518   012082E2           ADD      R2,R2,#+1
+   \   0000051C   04002DE9           PUSH     {R2}
+   \   00000520   022041E2           SUB      R2,R1,#+2
+   \   00000524   811081E0           ADD      R1,R1,R1, LSL #+1
+   \   00000528   C11342E0           SUB      R1,R2,R1, ASR #+7
+   \   0000052C   031041E2           SUB      R1,R1,#+3
+   \   00000530   02002DE9           PUSH     {R1}
+   \   00000534   141096E5           LDR      R1,[R6, #+20]
+   \   00000538   032081E2           ADD      R2,R1,#+3
+   \                     ??DrwFile_13:
+   \   0000053C   0010A0E3           MOV      R1,#+0
+   \   00000540   ED0100EF           SWI      +493
+   \   00000544   18D08DE2           ADD      SP,SP,#+24
+    279            }
+    280            GC_ValidateRect(gc, &tmp_rc);
+   \   00000548   10108DE2           ADD      R1,SP,#+16
+   \   0000054C   0400A0E1           MOV      R0,R4
+   \   00000550   EA0100EF           SWI      +490
+    281          }
+   \   00000554   18D08DE2           ADD      SP,SP,#+24
+   \   00000558   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DrwFile_2:
+   \   0000055C   ........           DC32     scr_w + 16
+   \   00000560   ........           DC32     Colors + 48
+   \   00000564   ........           DC32     STD_ICONS + 2
+   \   00000568   ........           DC32     scr_w + 40
+   \   0000056C   ........           DC32     Colors + 28
+   \   00000570   ........           DC32     Colors + 24
+    282          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    283          void ShowFiles(GC *gc, RECT *rc)
+    284          { 
+   \                     ??ShowFiles:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0160A0E1           MOV      R6,R1
+    285            DrawRect(rc->x1,rc->y1,rc->x2,rc->y2,Colors[clBD],Colors[clBG]);
+   \   00000008   ........           LDR      R1,??DataTable80  ;; Colors
+   \   0000000C   0050A0E1           MOV      R5,R0
+   \   00000010   040091E5           LDR      R0,[R1, #+4]
+   \   00000014   01002DE9           PUSH     {R0}
+   \   00000018   000091E5           LDR      R0,[R1, #+0]
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   B630D6E1           LDRH     R3,[R6, #+6]
+   \   00000024   B220D6E1           LDRH     R2,[R6, #+2]
+   \   00000028   B410D6E1           LDRH     R1,[R6, #+4]
+   \   0000002C   B000D6E1           LDRH     R0,[R6, #+0]
+   \   00000030   EC0100EF           SWI      +492
+    286            
+    287            if (curtab < MAX_TABS) DrwCurTab(gc,rc);
+   \   00000034   ........           LDR      R0,??DataTable79  ;; curtab
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   08D08DE2           ADD      SP,SP,#+8
+   \   00000040   020050E3           CMP      R0,#+2
+   \   00000044   020000AA           BGE      ??ShowFiles_1
+   \   00000048   0610A0E1           MOV      R1,R6
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   ........           BL       ??DrwCurTab
+    288            for(int ii=0; ii<_CurDrv; ii++) DrwDrvBg(ii,gc,rc);
+   \                     ??ShowFiles_1:
+   \   00000054   ........           LDR      R0,??DataTable79  ;; curtab
+   \   00000058   ........           LDR      R1,??DataTable78  ;; tabs
+   \   0000005C   000090E5           LDR      R0,[R0, #+0]
+   \   00000060   0040A0E3           MOV      R4,#+0
+   \   00000064   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000068   F400D0E1           LDRSH    R0,[R0, #+4]
+   \   0000006C   010050E3           CMP      R0,#+1
+   \   00000070   050000AA           BGE      ??ShowFiles_2
+   \   00000074   0B0000EA           B        ??ShowFiles_3
+   \                     ??ShowFiles_4:
+   \   00000078   0620A0E1           MOV      R2,R6
+   \   0000007C   0510A0E1           MOV      R1,R5
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   ........           BL       ??DrwDrvBg
+   \   00000088   014084E2           ADD      R4,R4,#+1
+   \                     ??ShowFiles_2:
+   \   0000008C   ........           LDR      R0,??DataTable79  ;; curtab
+   \   00000090   ........           LDR      R1,??DataTable78  ;; tabs
+   \   00000094   000090E5           LDR      R0,[R0, #+0]
+   \   00000098   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   0000009C   F400D0E1           LDRSH    R0,[R0, #+4]
+   \   000000A0   000054E1           CMP      R4,R0
+   \   000000A4   F3FFFFBA           BLT      ??ShowFiles_4
+    289            
+    290            DrwDrvAc(_CurDrv,gc,rc);
+   \                     ??ShowFiles_3:
+   \   000000A8   ........           LDR      R7,??DataTable79  ;; curtab
+   \   000000AC   ........           LDR      R8,??DataTable78  ;; tabs
+   \   000000B0   000097E5           LDR      R0,[R7, #+0]
+    291            
+    292            DrawRect(rc->x1+FLS_B,FLS_Y,rc->x2-FLS_B-1,FLS_Y+FLS_H-1,Colors[clListBD],Colors[clListBG]);
+   \   000000B4   ........           LDR      R4,??DataTable71  ;; scr_w
+   \   000000B8   000198E7           LDR      R0,[R8, +R0, LSL #+2]
+   \   000000BC   0620A0E1           MOV      R2,R6
+   \   000000C0   F400D0E1           LDRSH    R0,[R0, #+4]
+   \   000000C4   0510A0E1           MOV      R1,R5
+   \   000000C8   ........           BL       ??DrwDrvAc
+   \   000000CC   ........           LDR      R1,??DataTable80  ;; Colors
+   \   000000D0   0C0094E5           LDR      R0,[R4, #+12]
+   \   000000D4   082091E5           LDR      R2,[R1, #+8]
+   \   000000D8   04002DE9           PUSH     {R2}
+   \   000000DC   0C1091E5           LDR      R1,[R1, #+12]
+   \   000000E0   02002DE9           PUSH     {R1}
+   \   000000E4   041094E5           LDR      R1,[R4, #+4]
+   \   000000E8   001081E0           ADD      R1,R1,R0
+   \   000000EC   061081E2           ADD      R1,R1,#+6
+   \   000000F0   001041E0           SUB      R1,R1,R0
+   \   000000F4   083041E2           SUB      R3,R1,#+8
+   \   000000F8   B210D6E1           LDRH     R1,[R6, #+2]
+   \   000000FC   022041E2           SUB      R2,R1,#+2
+   \   00000100   071080E2           ADD      R1,R0,#+7
+   \   00000104   B000D6E1           LDRH     R0,[R6, #+0]
+   \   00000108   010080E2           ADD      R0,R0,#+1
+   \   0000010C   EC0100EF           SWI      +492
+    293            
+    294            int ibase, icount;
+    295            if (_CurCount<=itms_max)
+   \   00000110   001097E5           LDR      R1,[R7, #+0]
+   \   00000114   200094E5           LDR      R0,[R4, #+32]
+   \   00000118   011198E7           LDR      R1,[R8, +R1, LSL #+2]
+   \   0000011C   F010D1E1           LDRSH    R1,[R1, #+0]
+   \   00000120   08D08DE2           ADD      SP,SP,#+8
+   \   00000124   010050E1           CMP      R0,R1
+   \   00000128   060000BA           BLT      ??ShowFiles_5
+    296            {
+    297              icount=_CurCount;
+   \   0000012C   ........           LDR      R0,??DataTable79  ;; curtab
+   \   00000130   ........           LDR      R1,??DataTable78  ;; tabs
+   \   00000134   000090E5           LDR      R0,[R0, #+0]
+   \   00000138   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   0000013C   F040D0E1           LDRSH    R4,[R0, #+0]
+    298              ibase=0;
+   \                     ??ShowFiles_6:
+   \   00000140   0000A0E3           MOV      R0,#+0
+   \   00000144   2A0000EA           B        ??ShowFiles_7
+    299            }
+    300            else
+    301            {
+    302              icount=itms_max;
+    303              ibase=_CurBase;
+   \                     ??ShowFiles_5:
+   \   00000148   003097E5           LDR      R3,[R7, #+0]
+   \   0000014C   0040A0E1           MOV      R4,R0
+   \   00000150   031188E0           ADD      R1,R8,R3, LSL #+2
+   \   00000154   001091E5           LDR      R1,[R1, #+0]
+   \   00000158   F400D1E1           LDRSH    R0,[R1, #+4]
+    304              
+    305              int idist = _CurIndex - _CurBase;
+   \   0000015C   F420D1E1           LDRSH    R2,[R1, #+4]
+   \   00000160   800081E0           ADD      R0,R1,R0, LSL #+1
+   \   00000164   FC00D0E1           LDRSH    R0,[R0, #+12]
+   \   00000168   822081E0           ADD      R2,R1,R2, LSL #+1
+   \   0000016C   F620D2E1           LDRSH    R2,[R2, #+6]
+    306              
+    307              if (idist >= itms_max-1) ibase += idist - itms_max + 2;
+   \   00000170   011044E2           SUB      R1,R4,#+1
+   \   00000174   002042E0           SUB      R2,R2,R0
+   \   00000178   010052E1           CMP      R2,R1
+   \   0000017C   030000BA           BLT      ??ShowFiles_8
+   \   00000180   000082E0           ADD      R0,R2,R0
+   \   00000184   040040E0           SUB      R0,R0,R4
+   \   00000188   020080E2           ADD      R0,R0,#+2
+   \   0000018C   080000EA           B        ??ShowFiles_9
+    308              else if (_CurIndex <= _CurBase) ibase += idist - 1;
+   \                     ??ShowFiles_8:
+   \   00000190   003097E5           LDR      R3,[R7, #+0]
+   \   00000194   031188E0           ADD      R1,R8,R3, LSL #+2
+   \   00000198   001091E5           LDR      R1,[R1, #+0]
+   \   0000019C   F470D1E1           LDRSH    R7,[R1, #+4]
+   \   000001A0   871081E0           ADD      R1,R1,R7, LSL #+1
+   \   000001A4   F610D1E1           LDRSH    R1,[R1, #+6]
+   \   000001A8   010050E1           CMP      R0,R1
+   \   000001AC   011042A2           SUBGE    R1,R2,#+1
+   \   000001B0   000081A0           ADDGE    R0,R1,R0
+    309              
+    310              if (ibase < 0) ibase = 0;
+   \                     ??ShowFiles_9:
+   \   000001B4   000050E3           CMP      R0,#+0
+   \   000001B8   E0FFFF4A           BMI      ??ShowFiles_6
+    311              else if (ibase > _CurCount - itms_max) ibase = _CurCount - itms_max;
+   \   000001BC   ........           LDR      R1,??DataTable79  ;; curtab
+   \   000001C0   ........           LDR      R2,??DataTable78  ;; tabs
+   \   000001C4   001091E5           LDR      R1,[R1, #+0]
+   \   000001C8   011192E7           LDR      R1,[R2, +R1, LSL #+2]
+   \   000001CC   F010D1E1           LDRSH    R1,[R1, #+0]
+   \   000001D0   041041E0           SUB      R1,R1,R4
+   \   000001D4   000051E1           CMP      R1,R0
+   \   000001D8   050000AA           BGE      ??ShowFiles_7
+   \   000001DC   ........           LDR      R0,??DataTable79  ;; curtab
+   \   000001E0   ........           LDR      R1,??DataTable78  ;; tabs
+   \   000001E4   000090E5           LDR      R0,[R0, #+0]
+   \   000001E8   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   000001EC   F000D0E1           LDRSH    R0,[R0, #+0]
+   \   000001F0   040040E0           SUB      R0,R0,R4
+    312            }
+    313            _CurBase = ibase;
+   \                     ??ShowFiles_7:
+   \   000001F4   ........           LDR      R7,??DataTable79  ;; curtab
+    314            
+    315            FILEINF *file = FileListBase[curtab];
+    316            
+    317            //skip
+    318            for(int ii=0; ii<ibase; ii++) file=(FILEINF *)file->next;
+   \   000001F8   010050E3           CMP      R0,#+1
+   \   000001FC   003097E5           LDR      R3,[R7, #+0]
+   \   00000200   031188E0           ADD      R1,R8,R3, LSL #+2
+   \   00000204   001091E5           LDR      R1,[R1, #+0]
+   \   00000208   F420D1E1           LDRSH    R2,[R1, #+4]
+   \   0000020C   821081E0           ADD      R1,R1,R2, LSL #+1
+   \   00000210   BC00C1E1           STRH     R0,[R1, #+12]
+   \   00000214   9C109FE5           LDR      R1,??ShowFiles_10  ;; FileListBase
+   \   00000218   037191E7           LDR      R7,[R1, +R3, LSL #+2]
+   \   0000021C   0010A0E3           MOV      R1,#+0
+   \   00000220   020000AA           BGE      ??ShowFiles_11
+   \   00000224   030000EA           B        ??ShowFiles_12
+   \                     ??ShowFiles_13:
+   \   00000228   447097E5           LDR      R7,[R7, #+68]
+   \   0000022C   011081E2           ADD      R1,R1,#+1
+   \                     ??ShowFiles_11:
+   \   00000230   000051E1           CMP      R1,R0
+   \   00000234   FBFFFFBA           BLT      ??ShowFiles_13
+    319            
+    320            for(int ii=0; ii<icount; ii++)
+   \                     ??ShowFiles_12:
+   \   00000238   0080A0E3           MOV      R8,#+0
+   \   0000023C   010054E3           CMP      R4,#+1
+   \   00000240   090000AA           BGE      ??ShowFiles_14
+   \   00000244   0A0000EA           B        ??ShowFiles_15
+    321            {
+    322              file = (FILEINF *)file->next;
+   \                     ??ShowFiles_16:
+   \   00000248   447097E5           LDR      R7,[R7, #+68]
+    323              FillFileInfo(file);
+   \   0000024C   0700A0E1           MOV      R0,R7
+   \   00000250   ........           _BLF     ??FillFileInfo,??FillFileInfo??rA
+    324              DrwFile(gc,rc,ii, file);
+   \   00000254   0730A0E1           MOV      R3,R7
+   \   00000258   0820A0E1           MOV      R2,R8
+   \   0000025C   0610A0E1           MOV      R1,R6
+   \   00000260   0500A0E1           MOV      R0,R5
+   \   00000264   ........           BL       ??DrwFile
+    325            }
+   \   00000268   018088E2           ADD      R8,R8,#+1
+   \                     ??ShowFiles_14:
+   \   0000026C   040058E1           CMP      R8,R4
+   \   00000270   F4FFFFBA           BLT      ??ShowFiles_16
+    326            DrwSB(gc,rc);
+   \                     ??ShowFiles_15:
+   \   00000274   0610A0E1           MOV      R1,R6
+   \   00000278   0500A0E1           MOV      R0,R5
+   \   0000027C   ........           BL       ??DrwSB
+    327            DrwSort(gc,rc);
+   \   00000280   0610A0E1           MOV      R1,R6
+   \   00000284   0500A0E1           MOV      R0,R5
+   \   00000288   ........           BL       ??DrwSort
+    328            DrwIndex(gc,rc);
+   \   0000028C   0610A0E1           MOV      R1,R6
+   \   00000290   0500A0E1           MOV      R0,R5
+   \   00000294   ........           BL       ??DrwIndex
+    329            if (progr_start) ShowProgr(gc, rc);
+   \   00000298   1C009FE5           LDR      R0,??ShowFiles_10+0x4  ;; progr_start
+   \   0000029C   000090E5           LDR      R0,[R0, #+0]
+   \   000002A0   000050E3           CMP      R0,#+0
+   \   000002A4   F081BD08           POPEQ    {R4-R8,PC}
+   \   000002A8   0610A0E1           MOV      R1,R6
+   \   000002AC   0500A0E1           MOV      R0,R5
+   \   000002B0   ........           BL       ??ShowProgr
+    330          }
+   \   000002B4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??ShowFiles_10:
+   \   000002B8   ........           DC32     FileListBase
+   \   000002BC   ........           DC32     progr_start
+    331          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    332          void ShowProgr(GC *gc, RECT *rc)
+    333          {
+   \                     ??ShowProgr:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    334            TEXTID str=LGP_NULL;
+    335            DrawRect(PRGB_X1,PRGB_Y,PRGB_X2,PRGB_Y+PRGB_H-1,Colors[clProgrBoxBD],Colors[clProgrBoxBG]);
+   \   00000004   ........           LDR      R5,??DataTable80  ;; Colors
+   \   00000008   ........           LDR      R4,??DataTable81  ;; scr_w
+   \   0000000C   5C0095E5           LDR      R0,[R5, #+92]
+   \   00000010   4710A0E3           MOV      R1,#+71
+   \   00000014   01002DE9           PUSH     {R0}
+   \   00000018   600095E5           LDR      R0,[R5, #+96]
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   080094E5           LDR      R0,[R4, #+8]
+   \   00000024   803081E0           ADD      R3,R1,R0, LSL #+1
+   \   00000028   000094E5           LDR      R0,[R4, #+0]
+   \   0000002C   3210A0E3           MOV      R1,#+50
+   \   00000030   062040E2           SUB      R2,R0,#+6
+   \   00000034   0500A0E3           MOV      R0,#+5
+   \   00000038   EC0100EF           SWI      +492
+    336          
+    337            int p = progr_cur * 100 / progr_max;
+   \   0000003C   7C029FE5           LDR      R0,??ShowProgr_1  ;; progr_cur
+   \   00000040   6410A0E3           MOV      R1,#+100
+   \   00000044   000090E5           LDR      R0,[R0, #+0]
+   \   00000048   910000E0           MUL      R0,R1,R0
+   \   0000004C   70129FE5           LDR      R1,??ShowProgr_1+0x4  ;; progr_max
+   \   00000050   001091E5           LDR      R1,[R1, #+0]
+   \   00000054   ........           _BLF     ??div32_a,??rA??div32_a
+    338            
+    339            if (progr_act)
+   \   00000058   68029FE5           LDR      R0,??ShowProgr_1+0x8  ;; progr_act
+   \   0000005C   0160A0E1           MOV      R6,R1
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   08D08DE2           ADD      SP,SP,#+8
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   2300000A           BEQ      ??ShowProgr_2
+    340            {
+    341              snwprintf(gui_buf,MAXELEMS(gui_buf)-1,L"%ls: ",muitxt(progr_act));
+   \   00000070   50029FE5           LDR      R0,??ShowProgr_1+0x8  ;; progr_act
+   \   00000074   000090E5           LDR      R0,[R0, #+0]
+   \   00000078   ........           _BLF     ??muitxt,??muitxt??rA
+   \   0000007C   48229FE5           LDR      R2,??ShowProgr_1+0xC  ;; `?<Constant L"\\x25\\x6c\\x73\\x3a\\x20">`
+   \   00000080   0030A0E1           MOV      R3,R0
+   \   00000084   FF10A0E3           MOV      R1,#+255
+   \   00000088   401F81E3           ORR      R1,R1,#0x100
+   \   0000008C   340084E2           ADD      R0,R4,#+52
+   \   00000090   150100EF           SWI      +277
+    342              str=TextID_Create(gui_buf,ENC_UCS2,TEXTID_ANY_LEN);
+   \   00000094   FF20A0E3           MOV      R2,#+255
+   \   00000098   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   0000009C   0010A0E3           MOV      R1,#+0
+   \   000000A0   340084E2           ADD      R0,R4,#+52
+   \   000000A4   5D0100EF           SWI      +349
+   \   000000A8   0070A0E1           MOV      R7,R0
+    343              DrawString(str,2,PRGB_X1+2,PRG_AT_Y,PRGB_X2-2,PRG_AT_Y+txt_h,0,0,Colors[clProgrTxt],Colors[clProgrTxtBD]);
+   \   000000AC   580095E5           LDR      R0,[R5, #+88]
+   \   000000B0   3430A0E3           MOV      R3,#+52
+   \   000000B4   01002DE9           PUSH     {R0}
+   \   000000B8   540095E5           LDR      R0,[R5, #+84]
+   \   000000BC   0720A0E3           MOV      R2,#+7
+   \   000000C0   01002DE9           PUSH     {R0}
+   \   000000C4   0210A0E3           MOV      R1,#+2
+   \   000000C8   0000A0E3           MOV      R0,#+0
+   \   000000CC   01002DE9           PUSH     {R0}
+   \   000000D0   01002DE9           PUSH     {R0}
+   \   000000D4   080094E5           LDR      R0,[R4, #+8]
+   \   000000D8   340080E2           ADD      R0,R0,#+52
+   \   000000DC   01002DE9           PUSH     {R0}
+   \   000000E0   000094E5           LDR      R0,[R4, #+0]
+   \   000000E4   080040E2           SUB      R0,R0,#+8
+   \   000000E8   01002DE9           PUSH     {R0}
+   \   000000EC   0700A0E1           MOV      R0,R7
+   \   000000F0   ED0100EF           SWI      +493
+    344              TextID_Destroy(str);
+   \   000000F4   0700A0E1           MOV      R0,R7
+   \   000000F8   610100EF           SWI      +353
+   \   000000FC   18D08DE2           ADD      SP,SP,#+24
+    345            }
+    346            
+    347            snwprintf(gui_buf,MAXELEMS(gui_buf)-1,L"%d%% %d/%d",p,progr_cur,progr_max);
+   \                     ??ShowProgr_2:
+   \   00000100   BC719FE5           LDR      R7,??ShowProgr_1+0x4  ;; progr_max
+   \   00000104   B4819FE5           LDR      R8,??ShowProgr_1  ;; progr_cur
+   \   00000108   000097E5           LDR      R0,[R7, #+0]
+   \   0000010C   BC219FE5           LDR      R2,??ShowProgr_1+0x10  ;; `?<Constant L"\\x25\\x6c\\x73\\x3a\\x20">` + 12
+   \   00000110   01002DE9           PUSH     {R0}
+   \   00000114   000098E5           LDR      R0,[R8, #+0]
+   \   00000118   0630A0E1           MOV      R3,R6
+   \   0000011C   01002DE9           PUSH     {R0}
+   \   00000120   FF10A0E3           MOV      R1,#+255
+   \   00000124   401F81E3           ORR      R1,R1,#0x100
+   \   00000128   340084E2           ADD      R0,R4,#+52
+   \   0000012C   150100EF           SWI      +277
+    348            str=TextID_Create(gui_buf,ENC_UCS2,TEXTID_ANY_LEN);  
+   \   00000130   FF20A0E3           MOV      R2,#+255
+   \   00000134   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000138   0010A0E3           MOV      R1,#+0
+   \   0000013C   340084E2           ADD      R0,R4,#+52
+   \   00000140   5D0100EF           SWI      +349
+    349            DrawString(str,2,PRGB_X1+2,PRG_PT_Y,PRGB_X2-2,PRG_PT_Y+txt_h,0,0,Colors[clProgrTxt],Colors[clProgrTxtBD]);
+   \   00000144   581095E5           LDR      R1,[R5, #+88]
+   \   00000148   0060A0E1           MOV      R6,R0
+   \   0000014C   080094E5           LDR      R0,[R4, #+8]
+   \   00000150   02002DE9           PUSH     {R1}
+   \   00000154   541095E5           LDR      R1,[R5, #+84]
+   \   00000158   363080E2           ADD      R3,R0,#+54
+   \   0000015C   02002DE9           PUSH     {R1}
+   \   00000160   0720A0E3           MOV      R2,#+7
+   \   00000164   0010A0E3           MOV      R1,#+0
+   \   00000168   02002DE9           PUSH     {R1}
+   \   0000016C   02002DE9           PUSH     {R1}
+   \   00000170   3610A0E3           MOV      R1,#+54
+   \   00000174   801081E0           ADD      R1,R1,R0, LSL #+1
+   \   00000178   02002DE9           PUSH     {R1}
+   \   0000017C   001094E5           LDR      R1,[R4, #+0]
+   \   00000180   0600A0E1           MOV      R0,R6
+   \   00000184   081041E2           SUB      R1,R1,#+8
+   \   00000188   02002DE9           PUSH     {R1}
+   \   0000018C   0210A0E3           MOV      R1,#+2
+   \   00000190   ED0100EF           SWI      +493
+    350            TextID_Destroy(str);
+   \   00000194   0600A0E1           MOV      R0,R6
+   \   00000198   610100EF           SWI      +353
+    351            
+    352            p = progr_cur * (PRGP_X2-PRGP_X1-2) / progr_max;
+   \   0000019C   002094E5           LDR      R2,[R4, #+0]
+   \   000001A0   000098E5           LDR      R0,[R8, #+0]
+   \   000001A4   151042E2           SUB      R1,R2,#+21
+   \   000001A8   910000E0           MUL      R0,R1,R0
+   \   000001AC   001097E5           LDR      R1,[R7, #+0]
+    353            DrawRect(PRGP_X1,PRG_B1_Y,PRGP_X2,PRG_B1_Y+PRGP_H,Colors[clProgrBD],Colors[clProgrBG]);
+   \   000001B0   0A2042E2           SUB      R2,R2,#+10
+   \   000001B4   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000001B8   080094E5           LDR      R0,[R4, #+8]
+   \   000001BC   0160A0E1           MOV      R6,R1
+   \   000001C0   641095E5           LDR      R1,[R5, #+100]
+   \   000001C4   8000A0E1           LSL      R0,R0,#+1
+   \   000001C8   02002DE9           PUSH     {R1}
+   \   000001CC   681095E5           LDR      R1,[R5, #+104]
+   \   000001D0   3D3080E2           ADD      R3,R0,#+61
+   \   000001D4   02002DE9           PUSH     {R1}
+   \   000001D8   381080E2           ADD      R1,R0,#+56
+   \   000001DC   0900A0E3           MOV      R0,#+9
+   \   000001E0   EC0100EF           SWI      +492
+   \   000001E4   28D08DE2           ADD      SP,SP,#+40
+    354            DrawRect(PRGP_X1+1,PRG_B1_Y+1,PRGP_X1+p+1,PRG_B1_Y-1+PRGP_H,Colors[clCurProgrBG],Colors[clCurProgrBG]);
+   \   000001E8   6C1095E5           LDR      R1,[R5, #+108]
+   \   000001EC   080094E5           LDR      R0,[R4, #+8]
+   \   000001F0   0120A0E1           MOV      R2,R1
+   \   000001F4   04002DE9           PUSH     {R2}
+   \   000001F8   02002DE9           PUSH     {R1}
+   \   000001FC   8000A0E1           LSL      R0,R0,#+1
+   \   00000200   3C3080E2           ADD      R3,R0,#+60
+   \   00000204   0A2086E2           ADD      R2,R6,#+10
+   \   00000208   391080E2           ADD      R1,R0,#+57
+   \   0000020C   0A00A0E3           MOV      R0,#+10
+   \   00000210   EC0100EF           SWI      +492
+    355            
+    356            if (progrsp_start)
+   \   00000214   B8009FE5           LDR      R0,??ShowProgr_1+0x14  ;; progrsp_start
+   \   00000218   000090E5           LDR      R0,[R0, #+0]
+   \   0000021C   08D08DE2           ADD      SP,SP,#+8
+   \   00000220   000050E3           CMP      R0,#+0
+   \   00000224   F081BD08           POPEQ    {R4-R8,PC}
+    357            {
+    358              DrawRect(PRGP_X1,PRG_B2_Y,PRGP_X2,PRG_B2_Y+PRGP_H,Colors[clProgrBD],Colors[clProgrBG]);
+   \   00000228   080094E5           LDR      R0,[R4, #+8]
+   \   0000022C   641095E5           LDR      R1,[R5, #+100]
+   \   00000230   8000A0E1           LSL      R0,R0,#+1
+   \   00000234   02002DE9           PUSH     {R1}
+   \   00000238   681095E5           LDR      R1,[R5, #+104]
+   \   0000023C   443080E2           ADD      R3,R0,#+68
+   \   00000240   02002DE9           PUSH     {R1}
+   \   00000244   001094E5           LDR      R1,[R4, #+0]
+   \   00000248   0A2041E2           SUB      R2,R1,#+10
+   \   0000024C   3F1080E2           ADD      R1,R0,#+63
+   \   00000250   0900A0E3           MOV      R0,#+9
+   \   00000254   EC0100EF           SWI      +492
+    359              if (progrsp_max)
+   \   00000258   78009FE5           LDR      R0,??ShowProgr_1+0x18  ;; progrsp_max
+   \   0000025C   000090E5           LDR      R0,[R0, #+0]
+   \   00000260   08D08DE2           ADD      SP,SP,#+8
+   \   00000264   000050E3           CMP      R0,#+0
+   \   00000268   F081BD08           POPEQ    {R4-R8,PC}
+    360              {
+    361                int p = progrsp_cur * (PRGP_X2-PRGP_X1-2) / progrsp_max;
+    362                DrawRect(PRGP_X1+1,PRG_B2_Y+1,PRGP_X1+p+1,PRG_B2_Y-1+PRGP_H,Colors[clCurProgrBG],Colors[clCurProgrBG]);
+   \   0000026C   080094E5           LDR      R0,[R4, #+8]
+   \   00000270   8060A0E1           LSL      R6,R0,#+1
+   \   00000274   6C0095E5           LDR      R0,[R5, #+108]
+   \   00000278   433086E2           ADD      R3,R6,#+67
+   \   0000027C   0010A0E1           MOV      R1,R0
+   \   00000280   02002DE9           PUSH     {R1}
+   \   00000284   01002DE9           PUSH     {R0}
+   \   00000288   4C009FE5           LDR      R0,??ShowProgr_1+0x1C  ;; progrsp_cur
+   \   0000028C   001094E5           LDR      R1,[R4, #+0]
+   \   00000290   000090E5           LDR      R0,[R0, #+0]
+   \   00000294   151041E2           SUB      R1,R1,#+21
+   \   00000298   910000E0           MUL      R0,R1,R0
+   \   0000029C   34109FE5           LDR      R1,??ShowProgr_1+0x18  ;; progrsp_max
+   \   000002A0   001091E5           LDR      R1,[R1, #+0]
+   \   000002A4   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000002A8   0A2081E2           ADD      R2,R1,#+10
+   \   000002AC   401086E2           ADD      R1,R6,#+64
+   \   000002B0   0A00A0E3           MOV      R0,#+10
+   \   000002B4   EC0100EF           SWI      +492
+   \   000002B8   08D08DE2           ADD      SP,SP,#+8
+    363              }
+    364            }
+    365          }
+   \   000002BC   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??ShowProgr_1:
+   \   000002C0   ........           DC32     progr_cur
+   \   000002C4   ........           DC32     progr_max
+   \   000002C8   ........           DC32     progr_act
+   \   000002CC   ........           DC32     `?<Constant L"\\x25\\x6c\\x73\\x3a\\x20">`
+   \   000002D0   ........           DC32     `?<Constant L"\\x25\\x6c\\x73\\x3a\\x20">` + 12
+   \   000002D4   ........           DC32     progrsp_start
+   \   000002D8   ........           DC32     progrsp_max
+   \   000002DC   ........           DC32     progrsp_cur
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable19:
+   \   00000000   ........           DC32     scr_w + 12
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable27:
+   \   00000000   ........           DC32     Colors + 52
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable33:
+   \   00000000   ........           DC32     CONFIG_FONT_HEADER
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable40:
+   \   00000000   ........           DC32     Colors + 60
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable51:
+   \   00000000   ........           DC32     Colors
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable52:
+   \   00000000   ........           DC32     is_db2010
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable53:
+   \   00000000   ........           DC32     CONFIG_FONT_ATTR
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable57:
+   \   00000000   ........           DC32     CONFIG_FONT_FILES
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable58:
+   \   00000000   ........           DC32     curtab
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable60:
+   \   00000000   ........           DC32     CONFIG_SCROLL_TEXT_SPEED
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable61:
+   \   00000000   ........           DC32     ??ScrollTimerProc
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable62:
+   \   00000000   ........           DC32     scr_w
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable71:
+   \   00000000   ........           DC32     scr_w
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable78:
+   \   00000000   ........           DC32     tabs
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable79:
+   \   00000000   ........           DC32     curtab
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable80:
+   \   00000000   ........           DC32     Colors
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable81:
+   \   00000000   ........           DC32     scr_w
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x64\\x28\\x25\\x64\\x29">`:
+   \   00000000   250064002800       DC8 25H, 0, 64H, 0, 28H, 0, 25H, 0
+   \              2500        
+   \   00000008   640029000000       DC8 64H, 0, 29H, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+   \   00000010   250064002F00       DC8 25H, 0, 64H, 0, 2FH, 0, 25H, 0
+   \              2500        
+   \   00000018   64000000           DC8 64H, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x5a\\x49\\x50">`:
+   \   00000000   5A0049005000       DC8 5AH, 0, 49H, 0, 50H, 0, 0, 0
+   \              0000        
+   \   00000008   37005A000000       DC8 37H, 0, 5AH, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+   \   00000010   4D0043000000       DC8 4DH, 0, 43H, 0, 0, 0
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x6c\\x73\\x3a\\x20">`:
+   \   00000000   25006C007300       DC8 25H, 0, 6CH, 0, 73H, 0, 3AH, 0
+   \              3A00        
+   \   00000008   20000000           DC8 20H, 0, 0, 0
+   \   0000000C   250064002500       DC8 25H, 0, 64H, 0, 25H, 0, 25H, 0
+   \              2500        
+   \   00000014   200025006400       DC8 20H, 0, 25H, 0, 64H, 0, 2FH, 0
+   \              2F00        
+   \   0000001C   250064000000       DC8 25H, 0, 64H, 0, 0, 0
+   \   00000022   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     DisableScroll()                    8
+     DrwCurTab(GC *, RECT *)           44
+     DrwDrvAc(int, GC *, RECT *)       56
+     DrwDrvBg(int, GC *, RECT *)       28
+     DrwFile(GC *, RECT *, int, FILEINF *)
+                                       76
+     DrwIndex(void *, RECT *)          36
+     DrwSB(GC *, RECT *)               36
+     DrwSort(void *, RECT *)           36
+     GetSBY(RECT *, int, int)           4
+     InitScr()                         16
+     ScrollTimerProc(u16, LPARAM)       4
+     ShowFiles(GC *, RECT *)           32
+     ShowProgr(GC *, RECT *)           64
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     InitScr()                       332
+     DrwCurTab(GC *, RECT *)         332
+     DrwDrvBg(int, GC *, RECT *)     220
+     stn                               8
+     DrwSort(void *, RECT *)         192
+     DrwIndex(void *, RECT *)        288
+     GetSBY(RECT *, int, int)         72
+     DrwSB(GC *, RECT *)             236
+     DrwDrvAc(int, GC *, RECT *)     468
+     scr_w                          1076
+     ScrollTimerProc(u16, LPARAM)    108
+     DisableScroll()                  32
+     DrwFile(GC *, RECT *, int, FILEINF *)
+                                    1396
+     ShowFiles(GC *, RECT *)         704
+     ShowProgr(GC *, RECT *)         736
+     ??DataTable19                     4
+     ??DataTable27                     4
+     ??DataTable33                     4
+     ??DataTable40                     4
+     ??DataTable51                     4
+     ??DataTable52                     4
+     ??DataTable53                     4
+     ??DataTable57                     4
+     ??DataTable58                     4
+     ??DataTable60                     4
+     ??DataTable61                     4
+     ??DataTable62                     4
+     ??DataTable71                     4
+     ??DataTable78                     4
+     ??DataTable79                     4
+     ??DataTable80                     4
+     ??DataTable81                     4
+     ?<Constant L"\x25\x64\x28\x25\x64\x29">
+                                      28
+     ?<Constant L"\x5a\x49\x50">      24
+     ?<Constant L"\x25\x6c\x73\x3a\x20">
+                                      36
+      Others                         124
+
+ 
+ 5 296 bytes in segment CODE
+    96 bytes in segment DATA_C
+ 1 076 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 5 184 bytes of CODE  memory (+ 124 bytes shared)
+    96 bytes of CONST memory
+ 1 076 bytes of DATA  memory
+
+Errors: none
+Warnings: none

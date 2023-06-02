@@ -1,0 +1,575 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:50:49 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\r /
+//                       edraw.cpp                                           /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\r /
+//                       edraw.cpp -D NDEBUG -D OLDFUNCTIONS -lC             /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\R /
+//                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn /
+//                       \SE\StatusClock\Release\List\ -o                    /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\R /
+//                       elease\Obj\ -s9 --cpu_mode arm --endian little      /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --eec++ --dlib_config                    /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I        /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\R /
+//                       elease\List\redraw.s79                              /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME redraw
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+        PUBLIC ??DispDraw
+        FUNCTION ??DispDraw,0603H
+        LOCFRAME CSTACK, 144, STACK
+        MULTWEAK ??DispDraw??rT
+        PUBLIC ??DrawHighlightID
+        FUNCTION ??DrawHighlightID,0203H
+        LOCFRAME CSTACK, 84, STACK
+        MULTWEAK ??DrawHighlightID??rT
+        PUBLIC ??redraw_init
+        FUNCTION ??redraw_init,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??redraw_init??rT
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC DREDRAW
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+??DispDraw??rT      SYMBOL "??rT", ??DispDraw
+
+??DrawHighlightID??rT SYMBOL "??rT", ??DrawHighlightID
+
+??redraw_init??rT   SYMBOL "??rT", ??redraw_init
+
+        EXTERN SYNC
+        EXTERN cfg_bg
+        EXTERN cfg_border
+        EXTERN cfg_bordsize
+        EXTERN cfg_color
+        EXTERN cfg_ct
+        EXTERN cfg_font
+        EXTERN cfg_rect
+        EXTERN cfg_shad
+        EXTERN cfg_shadow
+        EXTERN cfg_x
+        EXTERN cfg_y
+
+// Z:\home\perk11\www\perk11.info\svn\SE\StatusClock\redraw.cpp
+//    1 #include "..\include\Lib_Clara.h"
+//    2 #include "..\include\Dir.h"
+//    3 #include "config_data.h"
+//    4 
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//    5 DISP_OBJ_ONREDRAW_METHOD DREDRAW;
+DREDRAW:
+        DS8 4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DrawHighlightID??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??DrawHighlightID
+//    6 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??DrawHighlightID
+        ARM
+//    7 void DrawHighlightID(int font,int text,int ct, int XPos, int YPos, int borderColor, int shadowColor, int NormalColor)
+//    8 {
+??DrawHighlightID:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        LDR      R6,[SP, #+36]
+        LDR      R7,[SP, #+40]
+        LDR      R10,[SP, #+44]
+        MOV      R4,R1
+        MOV      R5,R2
+        MOV      R9,R3
+//    9   if (text && text!=EMPTY_TEXTID)
+        CMP      R4,#+0
+        MVNNE    R1,#-1879048192
+        CMPNE    R4,R1
+        POPEQ    {R4-R11,PC}
+//   10   {
+//   11     SetFont(font);
+        SWI      +497
+//   12     int MaxXPos,MaxYPos;
+//   13     if (ct==0)
+        CMP      R5,#+0
+//   14     {
+//   15       MaxXPos=XPos+500;
+        ADDEQ    R8,R9,#+500
+        BEQ      ??DrawHighlightID_1
+//   16     }
+//   17     else if (ct==1)
+        CMP      R5,#+1
+        BNE      ??DrawHighlightID_2
+//   18     {
+//   19       MaxXPos=XPos;
+        MOV      R8,R9
+//   20       XPos=XPos-500;
+        MVN      R0,#+243
+        BIC      R0,R0,#0x100
+        ADD      R9,R0,R9
+        B        ??DrawHighlightID_1
+//   21     }
+//   22     else
+//   23     {
+//   24       MaxXPos=Display_GetWidth(0)+500;
+??DrawHighlightID_2:
+        MOV      R0,#+0
+        SWI      +601
+        ADD      R8,R0,#+500
+//   25       XPos=-500;
+        MVN      R9,#+243
+        BIC      R9,R9,#0x100
+//   26     }
+//   27     MaxYPos=500;
+//   28     //мод функции для работы с тенью текста...
+//   29     DrawString(text,ct,XPos+cfg_shad,YPos+cfg_shad,MaxXPos+cfg_shad,MaxYPos+cfg_shad,60,0x05,shadowColor,shadowColor);
+??DrawHighlightID_1:
+        LDR      R0,??DrawHighlightID_3  ;; cfg_shad
+        MOV      R1,R10
+        LDR      R0,[R0, #+0]
+        PUSH     {R1}
+        CFI CFA R13+40
+        PUSH     {R10}
+        CFI CFA R13+44
+        ADD      R3,R0,R6
+        MOV      R1,#+5
+        PUSH     {R1}
+        CFI CFA R13+48
+        ADD      R2,R0,R9
+        MOV      R1,#+60
+        PUSH     {R1}
+        CFI CFA R13+52
+        ADD      R1,R0,#+500
+        PUSH     {R1}
+        CFI CFA R13+56
+        ADD      R1,R0,R8
+        PUSH     {R1}
+        CFI CFA R13+60
+        MOV      R0,R4
+        MOV      R1,R5
+        SWI      +493
+//   30     
+//   31     //Рисуем текст n-ное количество раз с разными координатами:
+//   32     DrawString(text,ct,XPos-cfg_bordsize,YPos-cfg_bordsize,MaxXPos-cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+        LDR      R0,??DrawHighlightID_3+0x4  ;; cfg_bordsize
+        MOV      R1,R5
+        LDR      R10,[R0, #+0]
+        MOV      R0,R7
+        PUSH     {R0}
+        CFI CFA R13+64
+        PUSH     {R0}
+        CFI CFA R13+68
+        SUB      R11,R8,R10
+        SUB      R3,R6,R10
+        SUB      R2,R9,R10
+        MOV      R0,#+5
+        PUSH     {R0}
+        CFI CFA R13+72
+        MOV      R0,#+60
+        PUSH     {R0}
+        CFI CFA R13+76
+        MOV      R0,#+500
+        PUSH     {R0}
+        CFI CFA R13+80
+        MOV      R0,R11
+        PUSH     {R0}
+        CFI CFA R13+84
+        MOV      R0,R4
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+36
+        MOV      R0,R7
+        PUSH     {R0}
+        CFI CFA R13+40
+        PUSH     {R0}
+        CFI CFA R13+44
+        ADD      R3,R10,R6
+        SUB      R2,R9,R10
+        MOV      R1,R5
+        MOV      R0,#+5
+        PUSH     {R0}
+        CFI CFA R13+48
+        MOV      R0,#+60
+        PUSH     {R0}
+        CFI CFA R13+52
+        MOV      R0,#+500
+        PUSH     {R0}
+        CFI CFA R13+56
+        PUSH     {R11}
+        CFI CFA R13+60
+        MOV      R0,R4
+//   33     DrawString(text,ct,XPos-cfg_bordsize,YPos+cfg_bordsize,MaxXPos-cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+        SWI      +493
+        MOV      R0,R7
+        PUSH     {R0}
+        CFI CFA R13+64
+        PUSH     {R0}
+        CFI CFA R13+68
+        ADD      R11,R10,R8
+        SUB      R3,R6,R10
+        ADD      R2,R10,R9
+        MOV      R0,#+5
+        PUSH     {R0}
+        CFI CFA R13+72
+        MOV      R1,R5
+        MOV      R0,#+60
+        PUSH     {R0}
+        CFI CFA R13+76
+        MOV      R0,#+500
+        PUSH     {R0}
+        CFI CFA R13+80
+        MOV      R0,R11
+        PUSH     {R0}
+        CFI CFA R13+84
+        MOV      R0,R4
+//   34     DrawString(text,ct,XPos+cfg_bordsize,YPos-cfg_bordsize,MaxXPos+cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+36
+//   35     DrawString(text,ct,XPos+cfg_bordsize,YPos+cfg_bordsize,MaxXPos+cfg_bordsize,MaxYPos,60,0x05,borderColor,borderColor);
+        MOV      R0,R7
+        PUSH     {R0}
+        CFI CFA R13+40
+        PUSH     {R7}
+        CFI CFA R13+44
+        ADD      R3,R10,R6
+        MOV      R0,#+5
+        PUSH     {R0}
+        CFI CFA R13+48
+        ADD      R2,R10,R9
+        MOV      R1,R5
+        MOV      R0,#+60
+        PUSH     {R0}
+        CFI CFA R13+52
+        MOV      R0,#+500
+        PUSH     {R0}
+        CFI CFA R13+56
+        PUSH     {R11}
+        CFI CFA R13+60
+        MOV      R0,R4
+        SWI      +493
+//   36     
+//   37     //Рисуем с основными координатами:
+//   38     DrawString(text,ct,XPos,YPos,MaxXPos,MaxYPos,60,0x05,NormalColor,NormalColor);
+        LDR      R0,[SP, #+72]
+        MOV      R3,R6
+        PUSH     {R0}
+        CFI CFA R13+64
+        PUSH     {R0}
+        CFI CFA R13+68
+        MOV      R2,R9
+        MOV      R1,R5
+        MOV      R0,#+5
+        PUSH     {R0}
+        CFI CFA R13+72
+        MOV      R0,#+60
+        PUSH     {R0}
+        CFI CFA R13+76
+        MOV      R0,#+500
+        PUSH     {R0}
+        CFI CFA R13+80
+        PUSH     {R8}
+        CFI CFA R13+84
+        MOV      R0,R4
+        SWI      +493
+        ADD      SP,SP,#+48
+        CFI CFA R13+36
+//   39   }
+//   40 };
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??DrawHighlightID_3:
+        DC32     cfg_shad
+        DC32     cfg_bordsize
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DispDraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??DispDraw
+//   41 
+//   42 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??DispDraw
+        ARM
+//   43 void DispDraw(DISP_OBJ* DO,int a,int b,int c)
+//   44 { 
+??DispDraw:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   45   DREDRAW(DO,a,b,c);
+        LDR      R4,??DataTable1  ;; DREDRAW
+        SUB      SP,SP,#+108
+        CFI CFA R13+116
+        LDR      R4,[R4, #+0]
+        BLX      R4
+//   46   DrawRect(cfg_rect.x1,cfg_rect.y1,cfg_rect.x2,cfg_rect.y2,cfg_bg,cfg_bg);
+        LDR      R0,??DispDraw_1  ;; cfg_bg
+        LDR      R4,??DispDraw_1+0x4  ;; cfg_rect
+        LDR      R0,[R0, #+0]
+        MOV      R1,R0
+        PUSH     {R1}
+        CFI CFA R13+120
+        PUSH     {R0}
+        CFI CFA R13+124
+        LDRH     R3,[R4, #+6]
+        LDRH     R2,[R4, #+2]
+        LDRH     R1,[R4, #+4]
+        LDRH     R0,[R4, #+0]
+        SWI      +492
+//   47   DATETIME dt;
+//   48   REQUEST_DATEANDTIME_GET(SYNC,&dt);
+        LDR      R0,??DispDraw_1+0x8  ;; SYNC
+        ADD      R1,SP,#+8
+        LDR      R0,[R0, #+0]
+        SWI      +366
+//   49   wchar_t str[50];
+//   50   snwprintf(str,49,L"%02d:%02d",dt.time.hour,dt.time.min);
+        LDRB     R0,[SP, #+13]
+        LDR      R2,??DispDraw_1+0xC  ;; `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+        MOV      R1,#+49
+        PUSH     {R0}
+        CFI CFA R13+128
+        LDRB     R3,[SP, #+16]
+        ADD      R0,SP,#+20
+        SWI      +277
+//   51   int time=TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN);
+        MOV      R2,#+255
+        ORR      R2,R2,#0xFF00
+        MOV      R1,#+0
+        ADD      R0,SP,#+20
+        SWI      +349
+        MOV      R4,R0
+//   52   DrawHighlightID(cfg_font, time, cfg_ct, cfg_x, cfg_y, cfg_border, cfg_shadow, cfg_color);
+        LDR      R0,??DispDraw_1+0x10  ;; cfg_color
+        MOV      R1,R4
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+132
+        LDR      R0,??DispDraw_1+0x14  ;; cfg_shadow
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+136
+        LDR      R0,??DispDraw_1+0x18  ;; cfg_border
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+140
+        LDR      R0,??DispDraw_1+0x1C  ;; cfg_y
+        LDR      R0,[R0, #+0]
+        PUSH     {R0}
+        CFI CFA R13+144
+        LDR      R0,??DispDraw_1+0x20  ;; cfg_x
+        LDR      R3,[R0, #+0]
+        LDR      R0,??DispDraw_1+0x24  ;; cfg_ct
+        LDR      R2,[R0, #+0]
+        LDR      R0,??DispDraw_1+0x28  ;; cfg_font
+        LDR      R0,[R0, #+0]
+        BL       ??DrawHighlightID
+//   53   TextID_Destroy(time);
+        MOV      R0,R4
+        SWI      +353
+//   54 };
+        ADD      SP,SP,#+136
+        CFI CFA R13+8
+        POP      {R4,PC}          ;; return
+        DATA
+??DispDraw_1:
+        DC32     cfg_bg
+        DC32     cfg_rect
+        DC32     SYNC
+        DC32     `?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`
+        DC32     cfg_color
+        DC32     cfg_shadow
+        DC32     cfg_border
+        DC32     cfg_y
+        DC32     cfg_x
+        DC32     cfg_ct
+        DC32     cfg_font
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??redraw_init??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??redraw_init
+//   55 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??redraw_init
+        ARM
+//   56 void redraw_init()
+//   57 {
+??redraw_init:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   58   DISP_OBJ *si=*StatusRow_p();
+        SWI      +33266
+        LDR      R4,[R0, #+0]
+//   59   if (si)
+        CMP      R4,#+0
+        POPEQ    {R4,PC}
+//   60   {
+//   61     DREDRAW=DispObject_GetOnRedraw(si);
+        MOV      R0,R4
+        SWI      +553
+        LDR      R1,??DataTable1  ;; DREDRAW
+        STR      R0,[R1, #+0]
+//   62     DISP_DESC_SetOnRedraw(DispObject_GetDESC(si), DispDraw);
+        MOV      R0,R4
+        SWI      +543
+        LDR      R1,??redraw_init_1  ;; ??DispDraw
+        SWI      +552
+//   63     //---------------------------------------------------------
+//   64   }
+//   65 };
+        POP      {R4,PC}          ;; return
+        DATA
+??redraw_init_1:
+        DC32     ??DispDraw
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable1:
+        DC32     DREDRAW
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x25\\x30\\x32\\x64\\x3a\\x25\\x30\\x32\\`:
+        DATA
+        DC8 25H, 0, 30H, 0, 32H, 0, 64H, 0
+        DC8 3AH, 0, 25H, 0, 30H, 0, 32H, 0
+        DC8 64H, 0, 0, 0
+
+        END
+// 
+// 876 bytes in segment CODE
+//  20 bytes in segment DATA_C
+//   4 bytes in segment DATA_Z
+//  12 bytes in segment INITTAB
+// 
+// 864 bytes of CODE  memory (+ 24 bytes shared)
+//  20 bytes of CONST memory
+//   4 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

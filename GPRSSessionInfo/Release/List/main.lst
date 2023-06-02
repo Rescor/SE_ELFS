@@ -1,0 +1,911 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:44:14 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInf #
+#                       o\main.cpp                                           #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInf #
+#                       o\main.cpp -D NDEBUG -lC Z:\home\perk11\www\perk11.i #
+#                       nfo\svn\SE\GPRSSessionInfo\Release\List\ -lA         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInf #
+#                       o\Release\List\ -o Z:\home\perk11\www\perk11.info\sv #
+#                       n\SE\GPRSSessionInfo\Release\Obj\ -s9 --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --eec++ --dlib_config    #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInf #
+#                       o\Release\List\main.lst                              #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInf #
+#                       o\Release\Obj\main.r79                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\GPRSSessionInfo\main.cpp
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "config_data.h"
+      4          #include "structs.h"
+      5          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          void get_nd_cost(int *costOut, int *costIn,int *length, int *cost)
+      7          {
+   \                     ??get_nd_cost:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+      8            DATETIME dt;
+      9            REQUEST_DATEANDTIME_GET(SYNC, &dt);
+   \   00000008   A4009FE5           LDR      R0,??get_nd_cost_1  ;; SYNC
+   \   0000000C   08D04DE2           SUB      SP,SP,#+8
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   0160A0E1           MOV      R6,R1
+   \   00000018   0270A0E1           MOV      R7,R2
+   \   0000001C   0340A0E1           MOV      R4,R3
+   \   00000020   0D10A0E1           MOV      R1,SP
+   \   00000024   6E0100EF           SWI      +366
+     10            char hour=dt.time.hour;
+     11            if (hour > DAY_TIME.hour && hour < NIGHT_TIME.hour)
+   \   00000028   88109FE5           LDR      R1,??get_nd_cost_1+0x4  ;; DAY_TIME
+   \   0000002C   0400DDE5           LDRB     R0,[SP, #+4]
+   \   00000030   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000034   000051E1           CMP      R1,R0
+   \   00000038   1000002A           BCS      ??get_nd_cost_2
+   \   0000003C   78109FE5           LDR      R1,??get_nd_cost_1+0x8  ;; NIGHT_TIME
+   \   00000040   0010D1E5           LDRB     R1,[R1, #+0]
+   \   00000044   010050E1           CMP      R0,R1
+   \   00000048   0C00002A           BCS      ??get_nd_cost_2
+     12            {
+     13              costOut[0]=cfgDayCostOut;
+   \   0000004C   6C009FE5           LDR      R0,??get_nd_cost_1+0xC  ;; cfgDayCostOut
+   \   00000050   000090E5           LDR      R0,[R0, #+0]
+   \   00000054   000085E5           STR      R0,[R5, #+0]
+     14              costIn[0]=cfgDayCostIn;
+   \   00000058   64009FE5           LDR      R0,??get_nd_cost_1+0x10  ;; cfgDayCostIn
+   \   0000005C   000090E5           LDR      R0,[R0, #+0]
+   \   00000060   000086E5           STR      R0,[R6, #+0]
+     15              length[0]=cfgDayLength;
+   \   00000064   5C009FE5           LDR      R0,??get_nd_cost_1+0x14  ;; cfgDayLength
+   \   00000068   000090E5           LDR      R0,[R0, #+0]
+   \   0000006C   000087E5           STR      R0,[R7, #+0]
+     16              cost[0]=cfgDayCost;
+   \   00000070   54009FE5           LDR      R0,??get_nd_cost_1+0x18  ;; cfgDayCost
+   \   00000074   000090E5           LDR      R0,[R0, #+0]
+   \   00000078   000084E5           STR      R0,[R4, #+0]
+   \   0000007C   F380BDE8           POP      {R0,R1,R4-R7,PC}
+     17            }
+     18            else
+     19            {
+     20              costOut[0]=cfgNightCostOut;
+   \                     ??get_nd_cost_2:
+   \   00000080   48009FE5           LDR      R0,??get_nd_cost_1+0x1C  ;; cfgNightCostOut
+   \   00000084   000090E5           LDR      R0,[R0, #+0]
+   \   00000088   000085E5           STR      R0,[R5, #+0]
+     21              costIn[0]=cfgNightCostIn;
+   \   0000008C   40009FE5           LDR      R0,??get_nd_cost_1+0x20  ;; cfgNightCostIn
+   \   00000090   000090E5           LDR      R0,[R0, #+0]
+   \   00000094   000086E5           STR      R0,[R6, #+0]
+     22              length[0]=cfgNightLength;
+   \   00000098   38009FE5           LDR      R0,??get_nd_cost_1+0x24  ;; cfgNightLength
+   \   0000009C   000090E5           LDR      R0,[R0, #+0]
+   \   000000A0   000087E5           STR      R0,[R7, #+0]
+     23              cost[0]=cfgNightCost;
+   \   000000A4   30009FE5           LDR      R0,??get_nd_cost_1+0x28  ;; cfgNightCost
+   \   000000A8   000090E5           LDR      R0,[R0, #+0]
+   \   000000AC   000084E5           STR      R0,[R4, #+0]
+     24            }
+     25          };
+   \   000000B0   F380BDE8           POP      {R0,R1,R4-R7,PC}  ;; return
+   \                     ??get_nd_cost_1:
+   \   000000B4   ........           DC32     SYNC
+   \   000000B8   ........           DC32     DAY_TIME
+   \   000000BC   ........           DC32     NIGHT_TIME
+   \   000000C0   ........           DC32     cfgDayCostOut
+   \   000000C4   ........           DC32     cfgDayCostIn
+   \   000000C8   ........           DC32     cfgDayLength
+   \   000000CC   ........           DC32     cfgDayCost
+   \   000000D0   ........           DC32     cfgNightCostOut
+   \   000000D4   ........           DC32     cfgNightCostIn
+   \   000000D8   ........           DC32     cfgNightLength
+   \   000000DC   ........           DC32     cfgNightCost
+     26          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     27          TRAF TrafCost_Get(int rcv, int sent)
+     28          {
+   \                     ??TrafCost_Get:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   24D04DE2           SUB      SP,SP,#+36
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+     29            int cfgLength, cfgCostOut, cfgCostIn, cfgCost;
+     30            get_nd_cost(&cfgCostOut, &cfgCostIn, &cfgLength, &cfgCost);
+   \   00000014   0C308DE2           ADD      R3,SP,#+12
+   \   00000018   0D20A0E1           MOV      R2,SP
+   \   0000001C   08108DE2           ADD      R1,SP,#+8
+   \   00000020   04008DE2           ADD      R0,SP,#+4
+   \   00000024   ........           BL       ??get_nd_cost
+     31            int full = rcv+sent;
+     32            TRAF traf;
+     33            traf.rtraf=full;
+     34            if (full<(cfgNotCountedTraf*1024))
+   \   00000028   28019FE5           LDR      R0,??TrafCost_Get_1  ;; cfgNotCountedTraf
+   \   0000002C   057086E0           ADD      R7,R6,R5
+   \   00000030   10708DE5           STR      R7,[SP, #+16]
+   \   00000034   000090E5           LDR      R0,[R0, #+0]
+   \   00000038   000557E1           CMP      R7,R0, LSL #+10
+   \   0000003C   030000AA           BGE      ??TrafCost_Get_2
+     35            {
+     36              traf.in=0;
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   1C008DE5           STR      R0,[SP, #+28]
+     37              traf.out=0;
+   \   00000048   20008DE5           STR      R0,[SP, #+32]
+     38              traf.cost=0;
+   \   0000004C   390000EA           B        ??TrafCost_Get_3
+     39            }
+     40            else
+     41            {
+     42              int cfgMinLength2=cfgMinLength*1024;
+   \                     ??TrafCost_Get_2:
+   \   00000050   04019FE5           LDR      R0,??TrafCost_Get_1+0x4  ;; cfgMinLength
+   \   00000054   000090E5           LDR      R0,[R0, #+0]
+   \   00000058   0025A0E1           LSL      R2,R0,#+10
+     43              if (full<=cfgMinLength2)
+   \   0000005C   070052E1           CMP      R2,R7
+     44              {
+     45                full=cfgMinLength2;
+   \   00000060   0270A0A1           MOVGE    R7,R2
+   \   00000064   050000AA           BGE      ??TrafCost_Get_4
+     46              }
+     47              else
+     48              {
+     49                if ((full%cfgMinLength2)>0)
+   \   00000068   0700A0E1           MOV      R0,R7
+   \   0000006C   0210A0E1           MOV      R1,R2
+   \   00000070   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000074   010050E3           CMP      R0,#+1
+     50                {
+     51                  full=full-(full%cfgMinLength2)+cfgMinLength2;
+   \   00000078   000047A0           SUBGE    R0,R7,R0
+   \   0000007C   007082A0           ADDGE    R7,R2,R0
+     52                }
+     53              }
+     54              float f_out, f_in, f_pkglen, f_costOut, f_costIn, f_length, f_full, f_cost;
+     55              f_out=(float)sent;
+     56              f_in=(float)rcv;
+     57              f_length=(float)cfgLength;
+     58              f_pkglen=f_length*1024.0;
+   \                     ??TrafCost_Get_4:
+   \   00000080   00009DE5           LDR      R0,[SP, #+0]
+   \   00000084   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   00000088   ........           _BLF     __floatToDouble,??__floatToDouble??rA
+   \   0000008C   0020A0E3           MOV      R2,#+0
+   \   00000090   4034A0E3           MOV      R3,#+1073741824
+   \   00000094   903883E3           ORR      R3,R3,#0x900000
+   \   00000098   ........           _BLF     __dMul,??__dMul??rA
+   \   0000009C   ........           _BLF     __doubleToFloat,??__doubleToFloat??rA
+   \   000000A0   0080A0E1           MOV      R8,R0
+     59              f_costOut=(float)cfgCostOut;
+     60              f_costIn=(float)cfgCostIn;
+     61              f_cost=(float)cfgCost;
+     62              f_full=(float)full;
+     63              traf.out=f_out/f_pkglen * f_costOut;
+   \   000000A4   0600A0E1           MOV      R0,R6
+   \   000000A8   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   000000AC   0810A0E1           MOV      R1,R8
+   \   000000B0   ........           _BLF     __fDiv,??__fDiv??rA
+   \   000000B4   0060A0E1           MOV      R6,R0
+   \   000000B8   04009DE5           LDR      R0,[SP, #+4]
+   \   000000BC   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   000000C0   0610A0E1           MOV      R1,R6
+   \   000000C4   ........           _BLF     __fMul,??__fMul??rA
+   \   000000C8   0060A0E1           MOV      R6,R0
+   \   000000CC   20608DE5           STR      R6,[SP, #+32]
+     64              traf.in=f_in/f_pkglen * f_costIn;
+   \   000000D0   0500A0E1           MOV      R0,R5
+   \   000000D4   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   000000D8   0810A0E1           MOV      R1,R8
+   \   000000DC   ........           _BLF     __fDiv,??__fDiv??rA
+   \   000000E0   0050A0E1           MOV      R5,R0
+   \   000000E4   08009DE5           LDR      R0,[SP, #+8]
+   \   000000E8   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   000000EC   0510A0E1           MOV      R1,R5
+   \   000000F0   ........           _BLF     __fMul,??__fMul??rA
+     65              if (cfgDivide)
+   \   000000F4   64109FE5           LDR      R1,??TrafCost_Get_1+0x8  ;; cfgDivide
+   \   000000F8   1C008DE5           STR      R0,[SP, #+28]
+   \   000000FC   001091E5           LDR      R1,[R1, #+0]
+   \   00000100   000051E3           CMP      R1,#+0
+   \   00000104   0200000A           BEQ      ??TrafCost_Get_5
+     66              {
+     67                traf.cost=traf.out+traf.in;
+   \   00000108   0610A0E1           MOV      R1,R6
+   \   0000010C   ........           _BLF     __fAdd,??__fAdd??rA
+   \   00000110   080000EA           B        ??TrafCost_Get_3
+     68              }
+     69              else
+     70              {
+     71                traf.cost=f_full/f_pkglen * f_cost;
+   \                     ??TrafCost_Get_5:
+   \   00000114   0700A0E1           MOV      R0,R7
+   \   00000118   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   0000011C   0810A0E1           MOV      R1,R8
+   \   00000120   ........           _BLF     __fDiv,??__fDiv??rA
+   \   00000124   0060A0E1           MOV      R6,R0
+   \   00000128   0C009DE5           LDR      R0,[SP, #+12]
+   \   0000012C   ........           _BLF     __longToFloat,??__longToFloat??rA
+   \   00000130   0610A0E1           MOV      R1,R6
+   \   00000134   ........           _BLF     __fMul,??__fMul??rA
+   \                     ??TrafCost_Get_3:
+   \   00000138   18008DE5           STR      R0,[SP, #+24]
+     72              }
+     73            }
+     74            traf.traf=full;
+   \   0000013C   14708DE5           STR      R7,[SP, #+20]
+     75            return traf;
+   \   00000140   10008DE2           ADD      R0,SP,#+16
+   \   00000144   6E0090E8           LDM      R0,{R1-R3,R5,R6}
+   \   00000148   0400A0E1           MOV      R0,R4
+   \   0000014C   6E0084E8           STM      R4,{R1-R3,R5,R6}
+   \   00000150   24D08DE2           ADD      SP,SP,#+36
+   \   00000154   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??TrafCost_Get_1:
+   \   00000158   ........           DC32     cfgNotCountedTraf
+   \   0000015C   ........           DC32     cfgMinLength
+   \   00000160   ........           DC32     cfgDivide
+     76          };
+     77          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     78          wchar_t *get_gprstxt(int stat)
+     79          {
+     80            if (stat) return L"disconnected";
+   \                     ??get_gprstxt:
+   \   00000000   ........           LDR      R1,??DataTable1  ;; `?<Constant L"\\x64\\x69\\x73\\x63\\x6f\\x6e\\x6e\\x65\\`
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   0100A011           MOVNE    R0,R1
+   \   0000000C   1EFF2F11           BXNE     LR
+     81            return L"last session";
+   \   00000010   1C0081E2           ADD      R0,R1,#+28
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+     82          }
+     83          
+     84          //____________________
+
+   \                                 In segment CODE, align 4, keep-with-next
+     85          void Feedback_OnClose(BOOK *bk)
+     86          {
+   \                     ??Feedback_OnClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     87            MyBOOK *mbk=(MyBOOK *)bk;
+     88            if (mbk->mbox)GUIObject_Destroy(mbk->mbox);
+   \   00000008   180094E5           LDR      R0,[R4, #+24]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??Feedback_OnClose_1
+   \   00000014   CE0100EF           SWI      +462
+     89            mbk->mbox=0;
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \                     ??Feedback_OnClose_1:
+   \   0000001C   180084E5           STR      R0,[R4, #+24]
+     90            if (!mbk->ShouldClose)
+   \   00000020   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0300001A           BNE      ??Feedback_OnClose_2
+     91            {
+     92              BookObj_Hide(bk,0);
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   710100EF           SWI      +369
+   \   00000038   1080BDE8           POP      {R4,PC}
+     93            }
+     94            else
+     95            {
+     96              FreeBook(bk);
+   \                     ??Feedback_OnClose_2:
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   2F0100EF           SWI      +303
+     97            }
+     98          }
+   \   00000044   1080BDE8           POP      {R4,PC}          ;; return
+     99          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    100          void Feedback_OnOK( BOOK* bk, GUI* )
+    101          {
+    102            Feedback_OnClose(bk);
+   \                     ??Feedback_OnOK:
+   \   00000000   ........           B        ??Feedback_OnClose  ;; tailcall
+    103          }
+    104          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    105          void mbox_Create(BOOK *bk, int type)
+    106          {
+   \                     ??mbox_Create:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    107            MyBOOK *mbk=(MyBOOK*)bk;
+    108            GPRS_SESSION_INFO gprs;
+    109            GPRS_GetLastSessionInfo(0,&gprs);
+    110            wchar_t str[512];
+    111            TRAF traf=TrafCost_Get(gprs.RcvBytes,gprs.SentBytes);
+    112            if (type)
+   \   00000004   ........           LDR      R5,??DataTable1  ;; `?<Constant L"\\x64\\x69\\x73\\x63\\x6f\\x6e\\x6e\\x65\\`
+   \   00000008   42DE4DE2           SUB      SP,SP,#+1056
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0160A0E1           MOV      R6,R1
+   \   00000014   0D10A0E1           MOV      R1,SP
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   990200EF           SWI      +665
+   \   00000020   04209DE5           LDR      R2,[SP, #+4]
+   \   00000024   08109DE5           LDR      R1,[SP, #+8]
+   \   00000028   0C008DE2           ADD      R0,SP,#+12
+   \   0000002C   ........           BL       ??TrafCost_Get
+   \   00000030   84229FE5           LDR      R2,??mbox_Create_1  ;; cfgCurrency
+   \   00000034   200094E5           LDR      R0,[R4, #+32]
+   \   00000038   000056E3           CMP      R6,#+0
+   \   0000003C   3200000A           BEQ      ??mbox_Create_2
+    113            {
+    114              snwprintf(str,512,L"GPRS %ls\n\nTime: %d:%02d\nSent: %d KB(%0.2f)\nRcvd: %d KB(%0.2f)\nTraf: %d (%d)KB\nCost: %0.2f %s", 
+    115                        get_gprstxt(mbk->stat),
+    116                        gprs.SesTime/60,
+    117                        gprs.SesTime%60, 
+    118                        gprs.SentBytes/1024,
+    119                        traf.out,
+    120                        gprs.RcvBytes/1024, 
+    121                        traf.in,
+    122                        traf.rtraf /1024, 
+    123                        traf.traf /1024,
+    124                        traf.cost, 
+    125                        cfgCurrency);
+   \   00000040   10709DE5           LDR      R7,[SP, #+16]
+   \   00000044   0C809DE5           LDR      R8,[SP, #+12]
+   \   00000048   08909DE5           LDR      R9,[SP, #+8]
+   \   0000004C   04A09DE5           LDR      R10,[SP, #+4]
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   14009DE5           LDR      R0,[SP, #+20]
+   \   00000058   0560A011           MOVNE    R6,R5
+   \   0000005C   1C608502           ADDEQ    R6,R5,#+28
+   \   00000060   02B0A0E1           MOV      R11,R2
+   \   00000064   ........           _BLF     __floatToDouble,??__floatToDouble??rA
+   \   00000068   0B20A0E1           MOV      R2,R11
+   \   0000006C   07002DE9           PUSH     {R0-R2}
+   \   00000070   C704A0E1           ASR      R0,R7,#+9
+   \   00000074   200B87E0           ADD      R0,R7,R0, LSR #+22
+   \   00000078   4035A0E1           ASR      R3,R0,#+10
+   \   0000007C   C804A0E1           ASR      R0,R8,#+9
+   \   00000080   200B88E0           ADD      R0,R8,R0, LSR #+22
+   \   00000084   4025A0E1           ASR      R2,R0,#+10
+   \   00000088   24009DE5           LDR      R0,[SP, #+36]
+   \   0000008C   0270A0E1           MOV      R7,R2
+   \   00000090   0380A0E1           MOV      R8,R3
+   \   00000094   ........           _BLF     __floatToDouble,??__floatToDouble??rA
+   \   00000098   0830A0E1           MOV      R3,R8
+   \   0000009C   0720A0E1           MOV      R2,R7
+   \   000000A0   0F002DE9           PUSH     {R0-R3}
+   \   000000A4   C904A0E1           ASR      R0,R9,#+9
+   \   000000A8   200B89E0           ADD      R0,R9,R0, LSR #+22
+   \   000000AC   4025A0E1           ASR      R2,R0,#+10
+   \   000000B0   38009DE5           LDR      R0,[SP, #+56]
+   \   000000B4   0270A0E1           MOV      R7,R2
+   \   000000B8   ........           _BLF     __floatToDouble,??__floatToDouble??rA
+   \   000000BC   0720A0E1           MOV      R2,R7
+   \   000000C0   07002DE9           PUSH     {R0-R2}
+   \   000000C4   F4119FE5           LDR      R1,??mbox_Create_1+0x4  ;; 0xffffffff88888889
+   \   000000C8   CA04A0E1           ASR      R0,R10,#+9
+   \   000000CC   200B8AE0           ADD      R0,R10,R0, LSR #+22
+   \   000000D0   4005A0E1           ASR      R0,R0,#+10
+   \   000000D4   01002DE9           PUSH     {R0}
+   \   000000D8   2C009DE5           LDR      R0,[SP, #+44]
+   \   000000DC   9021C3E0           SMULL    R2,R3,R0,R1
+   \   000000E0   3C20A0E3           MOV      R2,#+60
+   \   000000E4   003083E0           ADD      R3,R3,R0
+   \   000000E8   C332A0E1           ASR      R3,R3,#+5
+   \   000000EC   A03F83E0           ADD      R3,R3,R0, LSR #+31
+   \   000000F0   920303E0           MUL      R3,R2,R3
+   \   000000F4   030040E0           SUB      R0,R0,R3
+   \   000000F8   01002DE9           PUSH     {R0}
+   \   000000FC   30009DE5           LDR      R0,[SP, #+48]
+   \   00000100   9120C3E0           SMULL    R2,R3,R1,R0
+   \   00000104   382085E2           ADD      R2,R5,#+56
+   \   00000108   310000EA           B        ??mbox_Create_3
+    126            }
+    127            else
+    128            {
+    129              snwprintf(str,512,L"GPRS %ls\n\nTime: %d:%02d\nSent: %d KB(%0.2f)\nRcvd: %d KB(%0.2f)\nTraf: %d (%d)KB\nCost: %0.2f %s\n© UltraShot", 
+    130                        get_gprstxt(mbk->stat),
+    131                        gprs.SesTime/60,
+    132                        gprs.SesTime%60, 
+    133                        gprs.SentBytes/1024,
+    134                        traf.out,
+    135                        gprs.RcvBytes/1024, 
+    136                        traf.in,
+    137                        traf.rtraf /1024, 
+    138                        traf.traf /1024,
+    139                        traf.cost, 
+    140                        cfgCurrency);
+   \                     ??mbox_Create_2:
+   \   0000010C   10709DE5           LDR      R7,[SP, #+16]
+   \   00000110   0C809DE5           LDR      R8,[SP, #+12]
+   \   00000114   08909DE5           LDR      R9,[SP, #+8]
+   \   00000118   04A09DE5           LDR      R10,[SP, #+4]
+   \   0000011C   000050E3           CMP      R0,#+0
+   \   00000120   14009DE5           LDR      R0,[SP, #+20]
+   \   00000124   0560A011           MOVNE    R6,R5
+   \   00000128   1C608502           ADDEQ    R6,R5,#+28
+   \   0000012C   02B0A0E1           MOV      R11,R2
+   \   00000130   ........           _BLF     __floatToDouble,??__floatToDouble??rA
+   \   00000134   0B20A0E1           MOV      R2,R11
+   \   00000138   07002DE9           PUSH     {R0-R2}
+   \   0000013C   C704A0E1           ASR      R0,R7,#+9
+   \   00000140   200B87E0           ADD      R0,R7,R0, LSR #+22
+   \   00000144   4035A0E1           ASR      R3,R0,#+10
+   \   00000148   C804A0E1           ASR      R0,R8,#+9
+   \   0000014C   200B88E0           ADD      R0,R8,R0, LSR #+22
+   \   00000150   4025A0E1           ASR      R2,R0,#+10
+   \   00000154   24009DE5           LDR      R0,[SP, #+36]
+   \   00000158   0270A0E1           MOV      R7,R2
+   \   0000015C   0380A0E1           MOV      R8,R3
+   \   00000160   ........           _BLF     __floatToDouble,??__floatToDouble??rA
+   \   00000164   0830A0E1           MOV      R3,R8
+   \   00000168   0720A0E1           MOV      R2,R7
+   \   0000016C   0F002DE9           PUSH     {R0-R3}
+   \   00000170   C904A0E1           ASR      R0,R9,#+9
+   \   00000174   200B89E0           ADD      R0,R9,R0, LSR #+22
+   \   00000178   4025A0E1           ASR      R2,R0,#+10
+   \   0000017C   38009DE5           LDR      R0,[SP, #+56]
+   \   00000180   0270A0E1           MOV      R7,R2
+   \   00000184   ........           _BLF     __floatToDouble,??__floatToDouble??rA
+   \   00000188   0720A0E1           MOV      R2,R7
+   \   0000018C   07002DE9           PUSH     {R0-R2}
+   \   00000190   28119FE5           LDR      R1,??mbox_Create_1+0x4  ;; 0xffffffff88888889
+   \   00000194   CA04A0E1           ASR      R0,R10,#+9
+   \   00000198   200B8AE0           ADD      R0,R10,R0, LSR #+22
+   \   0000019C   4005A0E1           ASR      R0,R0,#+10
+   \   000001A0   01002DE9           PUSH     {R0}
+   \   000001A4   2C009DE5           LDR      R0,[SP, #+44]
+   \   000001A8   9021C3E0           SMULL    R2,R3,R0,R1
+   \   000001AC   3C20A0E3           MOV      R2,#+60
+   \   000001B0   003083E0           ADD      R3,R3,R0
+   \   000001B4   C332A0E1           ASR      R3,R3,#+5
+   \   000001B8   A03F83E0           ADD      R3,R3,R0, LSR #+31
+   \   000001BC   920303E0           MUL      R3,R2,R3
+   \   000001C0   030040E0           SUB      R0,R0,R3
+   \   000001C4   01002DE9           PUSH     {R0}
+   \   000001C8   30009DE5           LDR      R0,[SP, #+48]
+   \   000001CC   9120C3E0           SMULL    R2,R3,R1,R0
+   \   000001D0   F42085E2           ADD      R2,R5,#+244
+   \                     ??mbox_Create_3:
+   \   000001D4   003083E0           ADD      R3,R3,R0
+   \   000001D8   C332A0E1           ASR      R3,R3,#+5
+   \   000001DC   A00F83E0           ADD      R0,R3,R0, LSR #+31
+   \   000001E0   01002DE9           PUSH     {R0}
+   \   000001E4   0630A0E1           MOV      R3,R6
+   \   000001E8   801FA0E3           MOV      R1,#+512
+    141            }
+    142            mbk->mbox=TextFeedbackWindow(&mbk->book,0);
+    143            Feedback_SetTextExtended(mbk->mbox,TextID_Create(str,ENC_UCS2,TEXTID_ANY_LEN),0);
+    144            GUIObject_SetStyle(mbk->mbox,1);
+    145            GUIObject_SoftKeys_SetAction(mbk->mbox,ACTION_SELECT1,Feedback_OnOK);
+   \   000001EC   D0509FE5           LDR      R5,??mbox_Create_1+0x8  ;; ??Feedback_OnOK
+   \   000001F0   54008DE2           ADD      R0,SP,#+84
+   \   000001F4   150100EF           SWI      +277
+   \   000001F8   34D08DE2           ADD      SP,SP,#+52
+   \   000001FC   0010A0E3           MOV      R1,#+0
+   \   00000200   0400A0E1           MOV      R0,R4
+   \   00000204   C50200EF           SWI      +709
+   \   00000208   180084E5           STR      R0,[R4, #+24]
+   \   0000020C   FF20A0E3           MOV      R2,#+255
+   \   00000210   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000214   0010A0E3           MOV      R1,#+0
+   \   00000218   20008DE2           ADD      R0,SP,#+32
+   \   0000021C   5D0100EF           SWI      +349
+   \   00000220   0020A0E3           MOV      R2,#+0
+   \   00000224   0010A0E1           MOV      R1,R0
+   \   00000228   180094E5           LDR      R0,[R4, #+24]
+   \   0000022C   C90200EF           SWI      +713
+   \   00000230   180094E5           LDR      R0,[R4, #+24]
+   \   00000234   0110A0E3           MOV      R1,#+1
+   \   00000238   360100EF           SWI      +310
+   \   0000023C   84009FE5           LDR      R0,??mbox_Create_1+0xC  ;; ACTION_SELECT1
+   \   00000240   0520A0E1           MOV      R2,R5
+   \   00000244   001090E5           LDR      R1,[R0, #+0]
+   \   00000248   180094E5           LDR      R0,[R4, #+24]
+   \   0000024C   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000250   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000254   4B0100EF           SWI      +331
+    146            GUIObject_SoftKeys_SetAction(mbk->mbox,ACTION_BACK,Feedback_OnOK);
+   \   00000258   6C009FE5           LDR      R0,??mbox_Create_1+0x10  ;; ACTION_BACK
+   \   0000025C   0520A0E1           MOV      R2,R5
+   \   00000260   001090E5           LDR      R1,[R0, #+0]
+   \   00000264   180094E5           LDR      R0,[R4, #+24]
+   \   00000268   0118A0E1           MOV      R1,R1, LSL #+16
+   \   0000026C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000270   4B0100EF           SWI      +331
+    147            Feedback_SetOnClose(mbk->mbox,Feedback_OnClose);
+   \   00000274   54109FE5           LDR      R1,??mbox_Create_1+0x14  ;; ??Feedback_OnClose
+   \   00000278   180094E5           LDR      R0,[R4, #+24]
+   \   0000027C   C70200EF           SWI      +711
+    148            Feedback_SetTimeout(mbk->mbox,cfgTimeout * 1000);
+   \   00000280   4C009FE5           LDR      R0,??mbox_Create_1+0x18  ;; cfgTimeout
+   \   00000284   FA2FA0E3           MOV      R2,#+1000
+   \   00000288   000090E5           LDR      R0,[R0, #+0]
+   \   0000028C   920001E0           MUL      R1,R2,R0
+   \   00000290   180094E5           LDR      R0,[R4, #+24]
+   \   00000294   C80200EF           SWI      +712
+    149            GUIObject_Show(mbk->mbox);
+   \   00000298   180094E5           LDR      R0,[R4, #+24]
+   \   0000029C   340100EF           SWI      +308
+    150            BookObj_SetFocus(bk,0);
+   \   000002A0   0010A0E3           MOV      R1,#+0
+   \   000002A4   0400A0E1           MOV      R0,R4
+   \   000002A8   320100EF           SWI      +306
+    151            mbk->stat=0;
+   \   000002AC   0000A0E3           MOV      R0,#+0
+   \   000002B0   200084E5           STR      R0,[R4, #+32]
+    152          }
+   \   000002B4   42DE8DE2           ADD      SP,SP,#+1056
+   \   000002B8   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??mbox_Create_1:
+   \   000002BC   ........           DC32     cfgCurrency
+   \   000002C0   89888888           DC32     0xffffffff88888889
+   \   000002C4   ........           DC32     ??Feedback_OnOK
+   \   000002C8   ........           DC32     ACTION_SELECT1
+   \   000002CC   ........           DC32     ACTION_BACK
+   \   000002D0   ........           DC32     ??Feedback_OnClose
+   \   000002D4   ........           DC32     cfgTimeout
+    153          //______________
+
+   \                                 In segment CODE, align 4, keep-with-next
+    154          static int MainPageOnCreate(void *, BOOK *bk)
+    155          {
+   \                     ??MainPageOnCreate:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+    156            mbox_Create(bk, 1);
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   ........           BL       ??mbox_Create
+    157            return (1);
+   \   00000010   0100A0E3           MOV      R0,#+1
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    158          }
+    159          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    160          const PAGE_MSG bk_msglst_main[] @ "DYN_PAGE"  =
+   \                     bk_msglst_main:
+   \   00000000   42000000....       DC32 66, ??MainPageOnCreate, 64, 0H
+   \              ....40000000
+   \              00000000    
+    161          {
+    162            PAGE_ENTER_EVENT_TAG,    MainPageOnCreate,
+    163            NIL_EVENT_TAG,           NULL
+    164          };
+    165          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    166          const PAGE_DESC bk_main = {"GSI_Main_Page",0,bk_msglst_main};
+   \                     bk_main:
+   \   00000000   ........0000       DC32 `?<Constant "GSI_Main_Page">`, 0H, bk_msglst_main
+   \              0000........
+    167          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    168          void elf_exit(void)
+    169          {
+   \                     ??elf_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+    170            kill_data(&ELF_BEGIN, (void(*)(void*))mfree_adr());
+   \   00000004   048100EF           SWI      +33028
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??elf_exit_1  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??elf_exit_1:
+   \   00000018   ........           DC32     ELF_BEGIN
+    171          }
+    172          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    173          static void onMyBookClose(BOOK * book)
+    174          {
+    175            SUBPROC(elf_exit);
+   \                     ??onMyBookClose:
+   \   00000000   ........           LDR      R0,??DataTable5  ;; ??elf_exit
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   080100EF           SWI      +264
+    176          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    177          int isRealGSIBook(BOOK * struc)
+    178          {
+    179            return(struc->onClose == onMyBookClose);
+   \                     ??isRealGSIBook:
+   \   00000000   040090E5           LDR      R0,[R0, #+4]
+   \   00000004   ........           LDR      R1,??DataTable4  ;; ??onMyBookClose
+   \   00000008   010050E1           CMP      R0,R1
+   \   0000000C   0100A003           MOVEQ    R0,#+1
+   \   00000010   1EFF2F01           BXEQ     LR
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   1EFF2FE1           BX       LR               ;; return
+    180          }
+    181          //_____________________
+
+   \                                 In segment CODE, align 4, keep-with-next
+    182          int main()
+    183          {
+    184            int ShouldClose=false;
+    185            if (FindBook(isGSIBook))ShouldClose=true;
+   \                     main:
+   \   00000000   9C009FE5           LDR      R0,??main_0+0x4  ;; ??isGSIBook
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   0040A0E3           MOV      R4,#+0
+   \   0000000C   300100EF           SWI      +304
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0140A013           MOVNE    R4,#+1
+    186            MyBOOK * myBook=new MyBOOK;
+   \   00000018   2400A0E3           MOV      R0,#+36
+   \   0000001C   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000020   0050A0E1           MOV      R5,R0
+    187            memset(myBook,0,sizeof(MyBOOK));
+   \   00000024   2420A0E3           MOV      R2,#+36
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   120100EF           SWI      +274
+    188            if (!CreateBook(&myBook->book,onMyBookClose,&bk_base,"GSI",-1,0))
+   \   00000030   70209FE5           LDR      R2,??main_0+0x8  ;; bk_base
+   \   00000034   ........           LDR      R1,??DataTable4  ;; ??onMyBookClose
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   01002DE9           PUSH     {R0}
+   \   00000040   163F8FE2           ADR      R3,??main_0      ;; "GSI"
+   \   00000044   0000E0E1           MVN      R0,R0
+   \   00000048   01002DE9           PUSH     {R0}
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   2B0100EF           SWI      +299
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   08D08DE2           ADD      SP,SP,#+8
+   \   0000005C   0500001A           BNE      ??main_1
+    189            {
+    190              delete myBook;
+   \   00000060   0500A0E1           MOV      R0,R5
+   \   00000064   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    191              SUBPROC(elf_exit);
+   \   00000068   ........           LDR      R0,??DataTable5  ;; ??elf_exit
+   \   0000006C   080100EF           SWI      +264
+    192              return (0);
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   3080BDE8           POP      {R4,R5,PC}
+    193            }
+    194            InitConfig();
+   \                     ??main_1:
+   \   00000078   ........           _BLF     ??InitConfig,??InitConfig??rA
+    195            if (ShouldClose)
+   \   0000007C   000054E3           CMP      R4,#+0
+   \   00000080   0400000A           BEQ      ??main_2
+    196            {
+    197              myBook->ShouldClose=true;
+    198              BookObj_GotoPage(&myBook->book,&bk_main);
+   \   00000084   20109FE5           LDR      R1,??main_0+0xC  ;; bk_main
+   \   00000088   0100A0E3           MOV      R0,#+1
+   \   0000008C   1C0085E5           STR      R0,[R5, #+28]
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   2D0100EF           SWI      +301
+    199            }
+    200            return 0;
+   \                     ??main_2:
+   \   00000098   0000A0E3           MOV      R0,#+0
+   \   0000009C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??main_0:
+   \   000000A0   47534900           DC8      "GSI"
+   \   000000A4   ........           DC32     ??isGSIBook
+   \   000000A8   ........           DC32     bk_base
+   \   000000AC   ........           DC32     bk_main
+    201          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     `?<Constant L"\\x64\\x69\\x73\\x63\\x6f\\x6e\\x6e\\x65\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     ??onMyBookClose
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     ??elf_exit
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "GSI_Main_Page">`:
+   \   00000000   4753495F4D61       DC8 "GSI_Main_Page"
+   \              696E5F506167
+   \              6500        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x64\\x69\\x73\\x63\\x6f\\x6e\\x6e\\x65\\`:
+   \   00000000   640069007300       DC8 64H, 0, 69H, 0, 73H, 0, 63H, 0
+   \              6300        
+   \   00000008   6F006E006E00       DC8 6FH, 0, 6EH, 0, 6EH, 0, 65H, 0
+   \              6500        
+   \   00000010   630074006500       DC8 63H, 0, 74H, 0, 65H, 0, 64H, 0
+   \              6400        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+   \   0000001C   6C0061007300       DC8 6CH, 0, 61H, 0, 73H, 0, 74H, 0
+   \              7400        
+   \   00000024   200073006500       DC8 20H, 0, 73H, 0, 65H, 0, 73H, 0
+   \              7300        
+   \   0000002C   730069006F00       DC8 73H, 0, 69H, 0, 6FH, 0, 6EH, 0
+   \              6E00        
+   \   00000034   0000               DC8 0, 0
+   \   00000036   0000               DC8 0, 0
+   \   00000038   470050005200       DC8 47H, 0, 50H, 0, 52H, 0, 53H, 0
+   \              5300        
+   \   00000040   200025006C00       DC8 20H, 0, 25H, 0, 6CH, 0, 73H, 0
+   \              7300        
+   \   00000048   0A000A005400       DC8 0AH, 0, 0AH, 0, 54H, 0, 69H, 0
+   \              6900        
+   \   00000050   6D0065003A00       DC8 6DH, 0, 65H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000058   250064003A00       DC8 25H, 0, 64H, 0, 3AH, 0, 25H, 0
+   \              2500        
+   \   00000060   300032006400       DC8 30H, 0, 32H, 0, 64H, 0, 0AH, 0
+   \              0A00        
+   \   00000068   530065006E00       DC8 53H, 0, 65H, 0, 6EH, 0, 74H, 0
+   \              7400        
+   \   00000070   3A0020002500       DC8 3AH, 0, 20H, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000078   20004B004200       DC8 20H, 0, 4BH, 0, 42H, 0, 28H, 0
+   \              2800        
+   \   00000080   250030002E00       DC8 25H, 0, 30H, 0, 2EH, 0, 32H, 0
+   \              3200        
+   \   00000088   660029000A00       DC8 66H, 0, 29H, 0, 0AH, 0, 52H, 0
+   \              5200        
+   \   00000090   630076006400       DC8 63H, 0, 76H, 0, 64H, 0, 3AH, 0
+   \              3A00        
+   \   00000098   200025006400       DC8 20H, 0, 25H, 0, 64H, 0, 20H, 0
+   \              2000        
+   \   000000A0   4B0042002800       DC8 4BH, 0, 42H, 0, 28H, 0, 25H, 0
+   \              2500        
+   \   000000A8   30002E003200       DC8 30H, 0, 2EH, 0, 32H, 0, 66H, 0
+   \              6600        
+   \   000000B0   29000A005400       DC8 29H, 0, 0AH, 0, 54H, 0, 72H, 0
+   \              7200        
+   \   000000B8   610066003A00       DC8 61H, 0, 66H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   000000C0   250064002000       DC8 25H, 0, 64H, 0, 20H, 0, 28H, 0
+   \              2800        
+   \   000000C8   250064002900       DC8 25H, 0, 64H, 0, 29H, 0, 4BH, 0
+   \              4B00        
+   \   000000D0   42000A004300       DC8 42H, 0, 0AH, 0, 43H, 0, 6FH, 0
+   \              6F00        
+   \   000000D8   730074003A00       DC8 73H, 0, 74H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   000000E0   250030002E00       DC8 25H, 0, 30H, 0, 2EH, 0, 32H, 0
+   \              3200        
+   \   000000E8   660020002500       DC8 66H, 0, 20H, 0, 25H, 0, 73H, 0
+   \              7300        
+   \   000000F0   0000               DC8 0, 0
+   \   000000F2   0000               DC8 0, 0
+   \   000000F4   470050005200       DC8 47H, 0, 50H, 0, 52H, 0, 53H, 0
+   \              5300        
+   \   000000FC   200025006C00       DC8 20H, 0, 25H, 0, 6CH, 0, 73H, 0
+   \              7300        
+   \   00000104   0A000A005400       DC8 0AH, 0, 0AH, 0, 54H, 0, 69H, 0
+   \              6900        
+   \   0000010C   6D0065003A00       DC8 6DH, 0, 65H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   00000114   250064003A00       DC8 25H, 0, 64H, 0, 3AH, 0, 25H, 0
+   \              2500        
+   \   0000011C   300032006400       DC8 30H, 0, 32H, 0, 64H, 0, 0AH, 0
+   \              0A00        
+   \   00000124   530065006E00       DC8 53H, 0, 65H, 0, 6EH, 0, 74H, 0
+   \              7400        
+   \   0000012C   3A0020002500       DC8 3AH, 0, 20H, 0, 25H, 0, 64H, 0
+   \              6400        
+   \   00000134   20004B004200       DC8 20H, 0, 4BH, 0, 42H, 0, 28H, 0
+   \              2800        
+   \   0000013C   250030002E00       DC8 25H, 0, 30H, 0, 2EH, 0, 32H, 0
+   \              3200        
+   \   00000144   660029000A00       DC8 66H, 0, 29H, 0, 0AH, 0, 52H, 0
+   \              5200        
+   \   0000014C   630076006400       DC8 63H, 0, 76H, 0, 64H, 0, 3AH, 0
+   \              3A00        
+   \   00000154   200025006400       DC8 20H, 0, 25H, 0, 64H, 0, 20H, 0
+   \              2000        
+   \   0000015C   4B0042002800       DC8 4BH, 0, 42H, 0, 28H, 0, 25H, 0
+   \              2500        
+   \   00000164   30002E003200       DC8 30H, 0, 2EH, 0, 32H, 0, 66H, 0
+   \              6600        
+   \   0000016C   29000A005400       DC8 29H, 0, 0AH, 0, 54H, 0, 72H, 0
+   \              7200        
+   \   00000174   610066003A00       DC8 61H, 0, 66H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   0000017C   250064002000       DC8 25H, 0, 64H, 0, 20H, 0, 28H, 0
+   \              2800        
+   \   00000184   250064002900       DC8 25H, 0, 64H, 0, 29H, 0, 4BH, 0
+   \              4B00        
+   \   0000018C   42000A004300       DC8 42H, 0, 0AH, 0, 43H, 0, 6FH, 0
+   \              6F00        
+   \   00000194   730074003A00       DC8 73H, 0, 74H, 0, 3AH, 0, 20H, 0
+   \              2000        
+   \   0000019C   250030002E00       DC8 25H, 0, 30H, 0, 2EH, 0, 32H, 0
+   \              3200        
+   \   000001A4   660020002500       DC8 66H, 0, 20H, 0, 25H, 0, 73H, 0
+   \              7300        
+   \   000001AC   0A00A9002000       DC8 0AH, 0, 0A9H, 0, 20H, 0, 55H, 0
+   \              5500        
+   \   000001B4   6C0074007200       DC8 6CH, 0, 74H, 0, 72H, 0, 61H, 0
+   \              6100        
+   \   000001BC   530068006F00       DC8 53H, 0, 68H, 0, 6FH, 0, 74H, 0
+   \              7400        
+   \   000001C4   0000               DC8 0, 0
+   \   000001C6   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   47534900           DC8 "GSI"
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Feedback_OnClose(BOOK *)           8
+     Feedback_OnOK(BOOK *, GUI *)       4
+     MainPageOnCreate(void *, BOOK *)
+                                        4
+     TrafCost_Get(int, int)            60
+     elf_exit()                         4
+     get_gprstxt(int)                   0
+     get_nd_cost(int *, int *, int *, int *)
+                                       28
+     isRealGSIBook(BOOK *)              0
+     main()                            20
+     mbox_Create(BOOK *, int)        1144
+     onMyBookClose(BOOK *)              4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     get_nd_cost(int *, int *, int *, int *)
+                                     224
+     TrafCost_Get(int, int)          356
+     get_gprstxt(int)                 24
+     Feedback_OnClose(BOOK *)         72
+     Feedback_OnOK(BOOK *, GUI *)      4
+     mbox_Create(BOOK *, int)        728
+     MainPageOnCreate(void *, BOOK *)
+                                      24
+     bk_msglst_main                   16
+     bk_main                          12
+     elf_exit()                       28
+     onMyBookClose(BOOK *)            16
+     isRealGSIBook(BOOK *)            28
+     main()                          176
+     ??DataTable1                      4
+     ??DataTable4                      4
+     ??DataTable5                      4
+     ?<Constant "GSI_Main_Page">      16
+     ?<Constant L"\x64\x69\x73\x63\x6f\x6e\x6e\x65\
+                                     456
+     ?<Constant "GSI">                 4
+      Others                         188
+
+ 
+ 1 880 bytes in segment CODE
+   488 bytes in segment DATA_C
+    16 bytes in segment DYN_PAGE
+ 
+ 1 692 bytes of CODE  memory (+ 188 bytes shared)
+   504 bytes of CONST memory
+
+Errors: none
+Warnings: none

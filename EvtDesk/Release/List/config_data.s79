@@ -1,0 +1,298 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  22:54:24 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\confi /
+//                       g_data.c                                            /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\confi /
+//                       g_data.c -D NDEBUG -lC Z:\home\perk11\www\perk11.in /
+//                       fo\svn\SE\EvtDesk\Release\List\ -lA                 /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Relea /
+//                       se\List\ -o Z:\home\perk11\www\perk11.info\svn\SE\E /
+//                       vtDesk\Release\Obj\ -s9 --cpu_mode arm --endian     /
+//                       little --cpu ARM926EJ-S --stack_align 4             /
+//                       --interwork -e --fpu None --eec++ --dlib_config     /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h           /
+//                       --segment data=CONFIG -I                            /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\Relea /
+//                       se\List\config_data.s79                             /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC ev_color
+        PUBLIC ev_font
+        PUBLIC low_color
+        PUBLIC miss_color
+        PUBLIC rc
+        PUBLIC rc2
+        PUBLIC str_events
+        PUBLIC str_noevents
+        PUBLIC str_off
+        PUBLIC text_color
+        PUBLIC text_font
+        PUBLIC time_color
+        PUBLIC time_font
+        PUBLIC upp_color
+// Z:\home\perk11\www\perk11.info\svn\SE\EvtDesk\config_data.c
+//    1 #include "..\\include\cfg_items.h"
+//    2 #include "config_data.h"
+//    3 #include "..\\include\Colors.h"
+//    4 #pragma diag_suppress=Pe177
+//    5 
+//    6 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 14
+        DC8 "Events rect"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//    7 __root const CFG_HDR cfghdr0={CFG_RECT,"Events rect",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    8 __root const RECT rc={0,240,30,50};
+rc:
+        DATA
+        DC16 0, 240, 30, 50
+//    9 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 15
+        DC8 "Upper color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   10 __root const CFG_HDR cfghdr1={CFG_COLOR_INT,"Upper color",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   11 __root const unsigned int upp_color=0xFF000055;
+upp_color:
+        DATA
+        DC32 4278190165
+//   12 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 15
+        DC8 "Lower color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   13 __root const CFG_HDR cfghdr2={CFG_COLOR_INT,"Lower color",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   14 __root const unsigned int low_color=0x22000000;
+low_color:
+        DATA
+        DC32 570425344
+//   15 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 16
+        DC8 "Events font"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   16 __root const CFG_HDR cfghdr8={CFG_FONT,"Events font",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   17 __root const int ev_font=0x18;
+ev_font:
+        DATA
+        DC32 24
+//   18 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 15
+        DC8 "Events text color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   19 __root const CFG_HDR cfghdr9={CFG_COLOR_INT,"Events text color",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   20 __root const unsigned int ev_color=0xBBFFFFFF;
+ev_color:
+        DATA
+        DC32 3154116607
+//   21 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 14
+        DC8 "Default rect"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   22 __root const CFG_HDR cfghdr3={CFG_RECT,"Default rect",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   23 __root const RECT rc2={0,240,0,20};
+rc2:
+        DATA
+        DC16 0, 240, 0, 20
+//   24 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 16
+        DC8 "Text font"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   25 __root const CFG_HDR cfghdr4={CFG_FONT,"Text font",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   26 __root const int text_font=0x17;
+text_font:
+        DATA
+        DC32 23
+//   27 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 15
+        DC8 "Text color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   28 __root const CFG_HDR cfghdr5={CFG_COLOR_INT,"Text color",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   29 __root const unsigned int text_color=clWhite;
+text_color:
+        DATA
+        DC32 4294967295
+//   30 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 16
+        DC8 "Time font"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   31 __root const CFG_HDR cfghdr6={CFG_FONT,"Time font",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   32 __root const int time_font=0x18;
+time_font:
+        DATA
+        DC32 24
+//   33 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 15
+        DC8 "Time color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   34 __root const CFG_HDR cfghdr7={CFG_COLOR_INT,"Time color",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   35 __root const unsigned int time_color=clWhite;
+time_color:
+        DATA
+        DC32 4294967295
+//   36 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 15
+        DC8 "Missed bg color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   37 __root const CFG_HDR cfghdr10={CFG_COLOR_INT,"Missed bg color",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   38 __root const unsigned int miss_color=0x22772222;
+miss_color:
+        DATA
+        DC32 578232866
+//   39 
+//   40 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 18
+        DC8 "String - Turned off"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 49
+//   41 __root const CFG_HDR cfghdr11={CFG_UTF16_STRING,"String - Turned off",0,49};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   42 __root const wchar_t str_off[50]=L"EventControl turned off";
+str_off:
+        DATA
+        DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+        DC8 74H, 0, 43H, 0, 6FH, 0, 6EH, 0
+        DC8 74H, 0, 72H, 0, 6FH, 0, 6CH, 0
+        DC8 20H, 0, 74H, 0, 75H, 0, 72H, 0
+        DC8 6EH, 0, 65H, 0, 64H, 0, 20H, 0
+        DC8 6FH, 0, 66H, 0, 66H, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   43 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 18
+        DC8 "String - Events"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 49
+//   44 __root const CFG_HDR cfghdr12={CFG_UTF16_STRING,"String - Events",0,49};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   45 __root const wchar_t str_events[50]=L"Events";
+str_events:
+        DATA
+        DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+        DC8 74H, 0, 73H, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   46 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 18
+        DC8 "String - No events"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 49
+//   47 __root const CFG_HDR cfghdr13={CFG_UTF16_STRING,"String - No events",0,49};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   48 __root const wchar_t str_noevents[50]=L"No events today";
+str_noevents:
+        DATA
+        DC8 4EH, 0, 6FH, 0, 20H, 0, 65H, 0
+        DC8 76H, 0, 65H, 0, 6EH, 0, 74H, 0
+        DC8 73H, 0, 20H, 0, 74H, 0, 6FH, 0
+        DC8 64H, 0, 61H, 0, 79H, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        END
+// 
+// 968 bytes in segment CONFIG_C
+// 
+// 968 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

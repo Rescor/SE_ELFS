@@ -1,0 +1,3668 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  23:05:07 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\calc_ob #
+#                       ject.c                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\calc_ob #
+#                       ject.c -D NO_AP_ASSERT -D NDEBUG -D OLDFUNCTIONS     #
+#                       -lCN Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Re #
+#                       lease\List\ -la Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\SCalka\Release\List\ -o                            #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Release #
+#                       \Obj\ -s9 --no_unroll --no_code_motion --cpu_mode    #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --eec++ --dlib_config    #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Release #
+#                       \List\calc_object.lst                                #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SCalka\Release #
+#                       \Obj\calc_object.r79                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SCalka\calc_object.c
+      1          #include "..\\include\Lib_Clara.h"
+      2          #include "..\\include\Dir.h"
+      3          #include "main.h"
+      4          #include "calc_menu.h"
+      5          #include "calc_object.h"
+      6          #include "gammaf.h"
+      7          #include <math.h>
+      8          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+      9          static const char CalcGuiName[]="CalcGui";
+   \                     CalcGuiName:
+   \   00000000   43616C634775       DC8 "CalcGui"
+   \              6900        
+     10          #define MESSAGE(__STR__) MessageBox(EMPTY_TEXTID,__STR__,NOIMAGE, 1 ,11000,(BOOK*)NULL);
+     11          extern "C" {
+     12            double strtod(const char *_S, char **_Endptr);
+     13            int abs(int);
+     14          };
+     15            
+     16          #define PI_CONST 3.1415926535897932384626433832795
+     17          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     18          double vars['z'-'a'];
+   \                     vars:
+   \   00000000                      DS8 200
+     19          double d_answer=0;
+   \                     d_answer:
+   \   000000C8                      DS8 8
+     20          
+     21          char operation[256];
+     22          TEXTID op_str[256];
+     23          int op_len=0;
+   \                     op_len:
+   \   000000D0                      DS8 4
+     24          int op_pos=0;
+   \                     op_pos:
+   \   000000D4                      DS8 4
+     25          
+     26          int req_recalc;
+   \                     req_recalc:
+   \   000000D8                      DS8 4
+     27          
+     28          int FONTID;
+   \                     FONTID:
+   \   000000DC                      DS8 4
+     29          int FONTH;
+   \                     FONTH:
+   \   000000E0                      DS8 4
+   \                     operation:
+   \   000000E4                      DS8 256
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     op_str:
+   \   00000000                      DS8 1024
+     30          
+     31          #define GetFontStyle(a)  (a>>16)
+     32          #define GetFontSize(a)  (a&0xFFFF)
+     33          
+     34          enum FONT_STYLES {
+     35            FONT_R=1,
+     36            FONT_B=2,
+     37            FONT_I=4
+     38          };
+     39          
+     40          // имя вида E_24BI
+
+   \                                 In segment CODE, align 4, keep-with-next
+     41          int GetFontSizeStyle(wchar_t *name)
+     42          {
+   \                     ??GetFontSizeStyle:
+   \   00000000   10002DE9           PUSH     {R4}
+     43            int size=0;
+     44            int style=0;
+     45            int res=-1;
+     46            if (*name++=='E')
+   \   00000004   ........           LDRH     R12,[R0], #+2
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   0030A0E3           MOV      R3,#+0
+   \   00000010   45005CE3           CMP      R12,#+69
+     47            {
+     48              if (*name++=='_')
+   \   00000014   ........           LDRHEQ   R12,[R0], #+2
+   \   00000018   0210E0E1           MVN      R1,R2
+   \   0000001C   5F005C03           CMPEQ    R12,#+95
+   \   00000020   1900001A           BNE      ??GetFontSizeStyle_1
+   \   00000024   0AC0A0E3           MOV      R12,#+10
+   \   00000028   020000EA           B        ??GetFontSizeStyle_2
+     49              {
+     50                while(*name>='0' && *name<='9')  // пока цифры
+     51                {
+     52                  size*=10;
+     53                  size+=*name-'0';
+   \                     ??GetFontSizeStyle_3:
+   \   0000002C   ........           LDRH     R4,[R0], #+2
+   \   00000030   9C4222E0           MLA      R2,R12,R2,R4
+   \   00000034   302042E2           SUB      R2,R2,#+48
+     54                  name++;
+     55                }
+   \                     ??GetFontSizeStyle_2:
+   \   00000038   B040D0E1           LDRH     R4,[R0, #+0]
+   \   0000003C   300054E3           CMP      R4,#+48
+   \   00000040   0100003A           BCC      ??GetFontSizeStyle_4
+   \   00000044   3A0054E3           CMP      R4,#+58
+   \   00000048   F7FFFF3A           BCC      ??GetFontSizeStyle_3
+     56                int c;
+     57                while((c=*name++))
+   \                     ??GetFontSizeStyle_4:
+   \   0000004C   ........           LDRH     R12,[R0], #+2
+   \   00000050   00005CE3           CMP      R12,#+0
+   \   00000054   0900000A           BEQ      ??GetFontSizeStyle_5
+     58                {
+     59                  if (c=='R') style|=FONT_R;
+   \   00000058   52005CE3           CMP      R12,#+82
+   \   0000005C   01308303           ORREQ    R3,R3,#0x1
+   \   00000060   F9FFFF0A           BEQ      ??GetFontSizeStyle_4
+     60                  if (c=='B') style|=FONT_B;
+   \   00000064   42005CE3           CMP      R12,#+66
+   \   00000068   02308303           ORREQ    R3,R3,#0x2
+   \   0000006C   F6FFFF0A           BEQ      ??GetFontSizeStyle_4
+     61                  if (c=='I') style|=FONT_I;
+   \   00000070   49005CE3           CMP      R12,#+73
+   \   00000074   F4FFFF1A           BNE      ??GetFontSizeStyle_4
+   \   00000078   043083E3           ORR      R3,R3,#0x4
+   \   0000007C   F2FFFFEA           B        ??GetFontSizeStyle_4
+     62                }
+     63                if (style!=0 && size!=0)
+   \                     ??GetFontSizeStyle_5:
+   \   00000080   000053E3           CMP      R3,#+0
+   \   00000084   00005213           CMPNE    R2,#+0
+     64                  res=size|(style<<16);
+   \   00000088   03188211           ORRNE    R1,R2,R3, LSL #+16
+     65              }
+     66            }
+     67            return (res);
+   \                     ??GetFontSizeStyle_1:
+   \   0000008C   1000BDE8           POP      {R4}
+   \   00000090   0100A0E1           MOV      R0,R1
+   \   00000094   1EFF2FE1           BX       LR               ;; return
+     68          }
+     69          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     70          void InitFonts()
+     71          {
+   \                     ??InitFonts:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+     72            int scr_h=Display_GetHeight(0);
+   \   00000004   0000A0E3           MOV      R0,#+0
+     73            int total_fonts=*GetFontCount();
+     74            FONT_DESC *fnt=GetFontDesc();
+     75            int sfont=scr_h/12;
+     76            int dy=100;
+   \   00000008   6470A0E3           MOV      R7,#+100
+     77            for (int i=0; i<total_fonts; i++)
+   \   0000000C   0080A0E3           MOV      R8,#+0
+   \   00000010   580200EF           SWI      +600
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   BC8200EF           SWI      +33468
+   \   0000001C   004090E5           LDR      R4,[R0, #+0]
+   \   00000020   BB8200EF           SWI      +33467
+   \   00000024   0050A0E1           MOV      R5,R0
+   \   00000028   7C009FE5           LDR      R0,??InitFonts_1  ;; 0x2aaaaaab
+   \   0000002C   010054E3           CMP      R4,#+1
+   \   00000030   9016C2E0           SMULL    R1,R2,R0,R6
+   \   00000034   C220A0E1           ASR      R2,R2,#+1
+   \   00000038   A66F82E0           ADD      R6,R2,R6, LSR #+31
+   \   0000003C   170000AA           BGE      ??InitFonts_2
+   \   00000040   F083BDE8           POP      {R4-R9,PC}
+     78            {
+     79              int fss=GetFontSizeStyle(fnt->name);
+   \                     ??InitFonts_3:
+   \   00000044   020085E2           ADD      R0,R5,#+2
+   \   00000048   ........           BL       ??GetFontSizeStyle
+     80              if (fss!=-1)
+   \   0000004C   010070E3           CMN      R0,#+1
+   \   00000050   1000000A           BEQ      ??InitFonts_4
+     81              {
+     82                if (GetFontStyle(fss)==FONT_R)
+   \   00000054   4008A0E1           ASR      R0,R0,#+16
+   \   00000058   010050E3           CMP      R0,#+1
+   \   0000005C   0D00001A           BNE      ??InitFonts_4
+     83                {
+     84                  SetFont(fnt->id);
+   \   00000060   B000D5E1           LDRH     R0,[R5, #+0]
+   \   00000064   F10100EF           SWI      +497
+     85                  int fh=GetImageHeight(L'A');
+   \   00000068   4100A0E3           MOV      R0,#+65
+   \   0000006C   940200EF           SWI      +660
+   \   00000070   0090A0E1           MOV      R9,R0
+     86                  int a=abs(fh-sfont);
+   \   00000074   060049E0           SUB      R0,R9,R6
+   \   00000078   ........           _BLF     abs,??abs??rA
+     87                  if (a<dy)
+   \   0000007C   070050E1           CMP      R0,R7
+   \   00000080   040000AA           BGE      ??InitFonts_4
+     88                  {
+     89                    dy=a;
+     90                    FONTID=fnt->id;
+   \   00000084   B010D5E1           LDRH     R1,[R5, #+0]
+   \   00000088   0070A0E1           MOV      R7,R0
+   \   0000008C   ........           LDR      R0,??DataTable14  ;; vars
+   \   00000090   DC1080E5           STR      R1,[R0, #+220]
+     91                    FONTH=fh;
+   \   00000094   E09080E5           STR      R9,[R0, #+224]
+     92                  }
+     93                }
+     94              }
+     95              fnt++;
+   \                     ??InitFonts_4:
+   \   00000098   165085E2           ADD      R5,R5,#+22
+     96            }
+   \   0000009C   018088E2           ADD      R8,R8,#+1
+   \                     ??InitFonts_2:
+   \   000000A0   040058E1           CMP      R8,R4
+   \   000000A4   E6FFFFBA           BLT      ??InitFonts_3
+     97          }
+   \   000000A8   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??InitFonts_1:
+   \   000000AC   ABAAAA2A           DC32     0x2aaaaaab
+     98          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     99          const char *const keydesc[48]=
+   \                     keydesc:
+   \   00000000   ............       DC32 `?<Constant "1">`, `?<Constant "2">`, `?<Constant "3">`
+   \              ............
+   \   0000000C   ............       DC32 `?<Constant "4">`, `?<Constant "5">`, `?<Constant "6">`
+   \              ............
+   \   00000018   ............       DC32 `?<Constant "7">`, `?<Constant "8">`, `?<Constant "9">`
+   \              ............
+   \   00000024   ............       DC32 `?<Constant ".">`, `?<Constant "0">`, `?<Constant "#">`
+   \              ............
+   \   00000030   ............       DC32 `?<Constant "sin">`, `?<Constant "*">`, `?<Constant "/">`
+   \              ............
+   \   0000003C   ............       DC32 `?<Constant "cos">`, `?<Constant "+">`, `?<Constant "-">`
+   \              ............
+   \   00000048   ............       DC32 `?<Constant "tan">`, `?<Constant "(">`, `?<Constant ")">`
+   \              ............
+   \   00000054   ............       DC32 `?<Constant "^2">`, `?<Constant "sqrt">`, `?<Constant "#">`
+   \              ............
+   \   00000060   ............       DC32 `?<Constant "asin">`, `?<Constant "ln">`, `?<Constant "log">`
+   \              ............
+   \   0000006C   ............       DC32 `?<Constant "acos">`, `?<Constant "e^">`, `?<Constant "-">`
+   \              ............
+   \   00000078   ............       DC32 `?<Constant "atan">`, `?<Constant "10^">`, `?<Constant "pi">`
+   \              ............
+   \   00000084   ............       DC32 `?<Constant "^">`, `?<Constant "">`, `?<Constant "#">`
+   \              ............
+   \   00000090   ............       DC32 `?<Constant "sh">`, `?<Constant "ash">`, `?<Constant "ANS">`
+   \              ............
+   \   0000009C   ............       DC32 `?<Constant "ch">`, `?<Constant "ach">`, `?<Constant "abs">`
+   \              ............
+   \   000000A8   ............       DC32 `?<Constant "th">`, `?<Constant "ath">`, `?<Constant "!">`
+   \              ............
+   \   000000B4   ............       DC32 `?<Constant "X">`, `?<Constant "Y">`, `?<Constant "#">`
+   \              ............
+    100          {
+    101              "1"    ,"2"   ,"3",
+    102              "4"    ,"5"   ,"6",
+    103              "7"    ,"8"   ,"9",
+    104              "."    ,"0"   ,"#",
+    105              
+    106              "sin"  ,"*"   ,"/",
+    107              "cos"  ,"+"   ,"-",
+    108              "tan"  ,"("   ,")",
+    109              "^2"   ,"sqrt"   ,"#",
+    110            
+    111              "asin" ,"ln"  ,"log",
+    112              "acos" ,"e^"  ,"-",
+    113              "atan" ,"10^" ,"pi",
+    114              "^"    ,""    ,"#",
+    115            
+    116              "sh"   ,"ash" ,"ANS",
+    117              "ch"   ,"ach" ,"abs",
+    118              "th"   ,"ath" ,"!",
+    119              "X"    ,"Y"   ,"#"
+    120            
+    121          };
+    122          
+    123          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    124          int GetOperIndexByKey(int key)
+    125          {
+    126            if (key>KEY_DIGITAL_0&&key<=(KEY_DIGITAL_0+9))  return (key-KEY_DIGITAL_0-1);
+   \                     ??GetOperIndexByKey:
+   \   00000000   ........           LDR      R1,??DataTable3  ;; KEY_DIGITAL_0
+   \   00000004   001091E5           LDR      R1,[R1, #+0]
+   \   00000008   000051E1           CMP      R1,R0
+   \   0000000C   ........           LDR      R1,??DataTable3  ;; KEY_DIGITAL_0
+   \   00000010   001091E5           LDR      R1,[R1, #+0]
+   \   00000014   070000AA           BGE      ??GetOperIndexByKey_1
+   \   00000018   091081E2           ADD      R1,R1,#+9
+   \   0000001C   000051E1           CMP      R1,R0
+   \   00000020   070000BA           BLT      ??GetOperIndexByKey_2
+   \   00000024   ........           LDR      R1,??DataTable3  ;; KEY_DIGITAL_0
+   \   00000028   001091E5           LDR      R1,[R1, #+0]
+   \   0000002C   010040E0           SUB      R0,R0,R1
+   \   00000030   010040E2           SUB      R0,R0,#+1
+   \   00000034   1EFF2FE1           BX       LR
+    127            if (key==KEY_DIGITAL_0)   return (10);
+   \                     ??GetOperIndexByKey_1:
+   \   00000038   010050E1           CMP      R0,R1
+   \   0000003C   0A00A003           MOVEQ    R0,#+10
+   \   00000040   1EFF2F01           BXEQ     LR
+    128            if (key==KEY_STAR)   return (9);
+   \                     ??GetOperIndexByKey_2:
+   \   00000044   ........           LDR      R1,??DataTable4  ;; KEY_STAR
+   \   00000048   001091E5           LDR      R1,[R1, #+0]
+   \   0000004C   010050E1           CMP      R0,R1
+   \   00000050   0900A003           MOVEQ    R0,#+9
+   \   00000054   1EFF2F01           BXEQ     LR
+    129            return (11);
+   \   00000058   0B00A0E3           MOV      R0,#+11
+   \   0000005C   1EFF2FE1           BX       LR               ;; return
+    130          }
+    131          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    132          void insert_operation(int op)
+    133          {
+    134            if (op_len<sizeof(operation))
+   \                     ??insert_operation:
+   \   00000000   ........           LDR      R1,??DataTable30  ;; vars + 208
+   \   00000004   001091E5           LDR      R1,[R1, #+0]
+   \   00000008   400F51E3           CMP      R1,#+256
+   \   0000000C   1EFF2F21           BXCS     LR
+    135            {
+    136              for(int i=op_len; i>=op_pos; i--)
+   \   00000010   ........           LDR      R1,??DataTable14  ;; vars
+   \   00000014   D02091E5           LDR      R2,[R1, #+208]
+   \   00000018   D41091E5           LDR      R1,[R1, #+212]
+   \   0000001C   010052E1           CMP      R2,R1
+   \   00000020   080000BA           BLT      ??insert_operation_1
+    137              {
+    138                operation[i+1]=operation[i];
+   \                     ??insert_operation_2:
+   \   00000024   ........           LDR      R1,??DataTable14  ;; vars
+   \   00000028   013082E0           ADD      R3,R2,R1
+   \   0000002C   01C082E0           ADD      R12,R2,R1
+   \   00000030   E4C0DCE5           LDRB     R12,[R12, #+228]
+    139              }
+   \   00000034   012042E2           SUB      R2,R2,#+1
+   \   00000038   E5C0C3E5           STRB     R12,[R3, #+229]
+   \   0000003C   D41091E5           LDR      R1,[R1, #+212]
+   \   00000040   010052E1           CMP      R2,R1
+   \   00000044   F6FFFFAA           BGE      ??insert_operation_2
+    140              operation[op_pos++]=op;
+   \                     ??insert_operation_1:
+   \   00000048   ........           LDR      R1,??DataTable14  ;; vars
+   \   0000004C   D42091E5           LDR      R2,[R1, #+212]
+   \   00000050   013082E0           ADD      R3,R2,R1
+   \   00000054   E400C3E5           STRB     R0,[R3, #+228]
+   \   00000058   010082E2           ADD      R0,R2,#+1
+   \   0000005C   D40081E5           STR      R0,[R1, #+212]
+    141              op_len++;    
+   \   00000060   D00091E5           LDR      R0,[R1, #+208]
+   \   00000064   010080E2           ADD      R0,R0,#+1
+   \   00000068   D00081E5           STR      R0,[R1, #+208]
+    142            } 
+    143          }
+   \   0000006C   1EFF2FE1           BX       LR               ;; return
+    144          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    145          void remove_operation(void)
+    146          {
+    147            if (op_len && op_pos)
+   \                     ??remove_operation:
+   \   00000000   ........           LDR      R0,??DataTable30  ;; vars + 208
+   \   00000004   000090E5           LDR      R0,[R0, #+0]
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   1EFF2F01           BXEQ     LR
+   \   00000010   ........           LDR      R0,??DataTable35  ;; vars + 212
+   \   00000014   000090E5           LDR      R0,[R0, #+0]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1EFF2F01           BXEQ     LR
+    148            {
+    149              if (op_pos<=op_len)
+   \   00000020   ........           LDR      R0,??DataTable14  ;; vars
+   \   00000024   D01090E5           LDR      R1,[R0, #+208]
+   \   00000028   D40090E5           LDR      R0,[R0, #+212]
+   \   0000002C   000051E1           CMP      R1,R0
+   \   00000030   1EFF2FB1           BXLT     LR
+    150              {
+    151                int i=op_pos;
+   \   00000034   ........           LDR      R0,??DataTable14  ;; vars
+   \   00000038   D41090E5           LDR      R1,[R0, #+212]
+   \   0000003C   D00090E5           LDR      R0,[R0, #+208]
+   \   00000040   000051E1           CMP      R1,R0
+   \   00000044   080000AA           BGE      ??remove_operation_1
+    152                while(i<op_len)
+    153                {
+    154                  operation[i-1]=operation[i];
+   \                     ??remove_operation_2:
+   \   00000048   ........           LDR      R0,??DataTable14  ;; vars
+   \   0000004C   002081E0           ADD      R2,R1,R0
+   \   00000050   003081E0           ADD      R3,R1,R0
+   \   00000054   E430D3E5           LDRB     R3,[R3, #+228]
+    155                  i++;
+   \   00000058   011081E2           ADD      R1,R1,#+1
+   \   0000005C   E330C2E5           STRB     R3,[R2, #+227]
+    156                }
+   \   00000060   D00090E5           LDR      R0,[R0, #+208]
+   \   00000064   000051E1           CMP      R1,R0
+   \   00000068   F6FFFFBA           BLT      ??remove_operation_2
+    157                op_pos--;
+   \                     ??remove_operation_1:
+   \   0000006C   ........           LDR      R0,??DataTable14  ;; vars
+   \   00000070   D41090E5           LDR      R1,[R0, #+212]
+   \   00000074   011041E2           SUB      R1,R1,#+1
+   \   00000078   D41080E5           STR      R1,[R0, #+212]
+    158                op_len--;
+   \   0000007C   D01090E5           LDR      R1,[R0, #+208]
+   \   00000080   011041E2           SUB      R1,R1,#+1
+   \   00000084   D01080E5           STR      R1,[R0, #+208]
+    159              }    
+    160            }  
+    161          }
+   \   00000088   1EFF2FE1           BX       LR               ;; return
+    162          
+    163          
+    164          #pragma inline
+    165          int IsCharNumber(int c)
+    166          {
+    167            return ((c>=DIG_1 && c<=DIG_0) || c==OP_NEG);
+    168          }
+    169          
+    170          #pragma inline
+    171          int GetCharByIndex(int c)
+    172          {
+    173            return (c==OP_NEG?'-':c==DIG_POINT?'.':c==DIG_0?'0':c+'1');
+    174          }
+    175          
+    176          #pragma inline 
+
+   \                                 In segment CODE, align 4, keep-with-next
+    177          int IsMathFunc(int c)
+    178          {
+    179            return (c==OP_SIN ||
+    180                    c==OP_COS ||
+    181                    c==OP_TAN ||
+    182                    c==OP_ASIN ||
+    183                    c==OP_LN ||
+    184                    c==OP_LOG || 
+    185                    c==OP_ACOS ||
+    186                    c==OP_ATAN || 
+    187                    c==OP_SH ||
+    188                    c==OP_ASH || 
+    189                    c==OP_CH || 
+    190                    c==OP_ACH ||
+    191                    c==OP_ABS ||
+    192                    c==OP_TH ||
+    193                    c==OP_ATH ||
+    194                    c==OP_FAC);     
+   \                     ??IsMathFunc:
+   \   00000000   0C0050E3           CMP      R0,#+12
+   \   00000004   0F005013           CMPNE    R0,#+15
+   \   00000008   12005013           CMPNE    R0,#+18
+   \   0000000C   18005013           CMPNE    R0,#+24
+   \   00000010   19005013           CMPNE    R0,#+25
+   \   00000014   1A005013           CMPNE    R0,#+26
+   \   00000018   1B005013           CMPNE    R0,#+27
+   \   0000001C   1E005013           CMPNE    R0,#+30
+   \   00000020   24005013           CMPNE    R0,#+36
+   \   00000024   25005013           CMPNE    R0,#+37
+   \   00000028   27005013           CMPNE    R0,#+39
+   \   0000002C   28005013           CMPNE    R0,#+40
+   \   00000030   29005013           CMPNE    R0,#+41
+   \   00000034   2A005013           CMPNE    R0,#+42
+   \   00000038   2B005013           CMPNE    R0,#+43
+   \   0000003C   2C005013           CMPNE    R0,#+44
+   \   00000040   0100A003           MOVEQ    R0,#+1
+   \   00000044   1EFF2F01           BXEQ     LR
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \   0000004C   1EFF2FE1           BX       LR               ;; return
+    195          }
+    196          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    197          int IsPowFunc(int c)
+    198          {
+    199            return (c==OP_SQUARE || c==OP_SQRT || c==OP_EPOW || c==OP_TENPOW || c==OP_POW);
+   \                     ??IsPowFunc:
+   \   00000000   150050E3           CMP      R0,#+21
+   \   00000004   16005013           CMPNE    R0,#+22
+   \   00000008   1C005013           CMPNE    R0,#+28
+   \   0000000C   1F005013           CMPNE    R0,#+31
+   \   00000010   21005013           CMPNE    R0,#+33
+   \   00000014   0100A003           MOVEQ    R0,#+1
+   \   00000018   1EFF2F01           BXEQ     LR
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   1EFF2FE1           BX       LR               ;; return
+    200          }
+    201          
+    202          /* Функция PRIOR возвpащает пpиоpитет аpифм. опеpации */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    203          int PRIOR(int a)
+    204          {
+   \                     ??PRIOR:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    205            if (IsPowFunc(a)) return 5;
+   \   00000008   ........           BL       ??IsPowFunc
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0500A013           MOVNE    R0,#+5
+   \   00000014   1080BD18           POPNE    {R4,PC}
+    206            if (IsMathFunc(a)) return 4;
+   \   00000018   0400A0E1           MOV      R0,R4
+   \   0000001C   ........           _BLF     ??IsMathFunc,??IsMathFunc??rA
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0400A013           MOVNE    R0,#+4
+   \   00000028   1080BD18           POPNE    {R4,PC}
+    207            switch(a)
+   \   0000002C   0D4044E2           SUB      R4,R4,#+13
+   \   00000030   010054E3           CMP      R4,#+1
+   \   00000034   0500009A           BLS      ??PRIOR_1
+   \   00000038   034044E2           SUB      R4,R4,#+3
+   \   0000003C   010054E3           CMP      R4,#+1
+   \   00000040   0400009A           BLS      ??PRIOR_2
+   \   00000044   034054E2           SUBS     R4,R4,#+3
+   \   00000048   0400000A           BEQ      ??PRIOR_3
+   \   0000004C   1080BDE8           POP      {R4,PC}
+    208            {    
+    209            case OP_MULT:   // *
+    210            case OP_DIV:   // /
+    211              return 3;
+   \                     ??PRIOR_1:
+   \   00000050   0300A0E3           MOV      R0,#+3
+   \   00000054   1080BDE8           POP      {R4,PC}
+    212              
+    213            case OP_PLUS:  // +
+    214            case OP_MINUS:  // -
+    215              return 2;
+   \                     ??PRIOR_2:
+   \   00000058   0200A0E3           MOV      R0,#+2
+   \   0000005C   1080BDE8           POP      {R4,PC}
+    216              
+    217            case LEFTBRACKET:  // (
+    218                   return 1;
+   \                     ??PRIOR_3:
+   \   00000060   0100A0E3           MOV      R0,#+1
+   \   00000064   1080BDE8           POP      {R4,PC}
+    219            }
+    220            return (0);
+    221          }
+    222          
+    223          
+    224          typedef struct {
+    225            jmp_buf jmp;
+    226            double *stack;
+    227            int sp;
+    228            int st_size;
+    229          }DSTACK;
+    230          
+    231          #define DSTACK_SIZE 16
+
+   \                                 In segment CODE, align 4, keep-with-next
+    232          void PushDoubleStack(DSTACK *dstack, double value)
+    233          {
+   \                     ??PushDoubleStack:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+   \   00000008   0060A0E1           MOV      R6,R0
+    234            if (dstack->sp>=dstack->st_size)
+   \   0000000C   300096E5           LDR      R0,[R6, #+48]
+   \   00000010   341096E5           LDR      R1,[R6, #+52]
+   \   00000014   0250A0E1           MOV      R5,R2
+   \   00000018   010050E1           CMP      R0,R1
+   \   0000001C   0F0000BA           BLT      ??PushDoubleStack_1
+   \   00000020   100080E2           ADD      R0,R0,#+16
+   \   00000024   340086E5           STR      R0,[R6, #+52]
+    235            {
+    236              dstack->st_size=dstack->sp+DSTACK_SIZE;
+    237              double *d=new double[dstack->st_size];
+   \   00000028   8001A0E1           LSL      R0,R0,#+3
+   \   0000002C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000030   0070A0E1           MOV      R7,R0
+    238              if (dstack->stack)
+   \   00000034   2C0096E5           LDR      R0,[R6, #+44]
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0600000A           BEQ      ??PushDoubleStack_2
+    239              {
+    240                memcpy(d,dstack->stack,dstack->sp*sizeof(double));
+   \   00000040   300096E5           LDR      R0,[R6, #+48]
+   \   00000044   2C1096E5           LDR      R1,[R6, #+44]
+   \   00000048   8021A0E1           LSL      R2,R0,#+3
+   \   0000004C   0700A0E1           MOV      R0,R7
+   \   00000050   130100EF           SWI      +275
+    241                delete(dstack->stack);
+   \   00000054   2C0096E5           LDR      R0,[R6, #+44]
+   \   00000058   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    242              }
+    243              dstack->stack=d;
+   \                     ??PushDoubleStack_2:
+   \   0000005C   2C7086E5           STR      R7,[R6, #+44]
+    244            }
+    245            dstack->stack[dstack->sp]=value;
+   \                     ??PushDoubleStack_1:
+   \   00000060   300096E5           LDR      R0,[R6, #+48]
+   \   00000064   2C1096E5           LDR      R1,[R6, #+44]
+   \   00000068   801181E0           ADD      R1,R1,R0, LSL #+3
+   \   0000006C   300081E8           STM      R1,{R4,R5}
+    246            dstack->sp++;
+   \   00000070   010080E2           ADD      R0,R0,#+1
+   \   00000074   300086E5           STR      R0,[R6, #+48]
+    247          }
+   \   00000078   F080BDE8           POP      {R4-R7,PC}       ;; return
+    248          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    249          double PopDoubleStack(DSTACK *dstack)
+    250          {
+   \                     ??PopDoubleStack:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    251            double a=0;
+    252            if (dstack->sp)
+   \   00000004   301090E5           LDR      R1,[R0, #+48]
+   \   00000008   0040A0E3           MOV      R4,#+0
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   000051E3           CMP      R1,#+0
+   \   00000014   0700000A           BEQ      ??PopDoubleStack_1
+   \   00000018   011041E2           SUB      R1,R1,#+1
+   \   0000001C   301080E5           STR      R1,[R0, #+48]
+   \   00000020   2C0090E5           LDR      R0,[R0, #+44]
+   \   00000024   810180E0           ADD      R0,R0,R1, LSL #+3
+   \   00000028   300090E8           LDM      R0,{R4,R5}
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   0510A0E1           MOV      R1,R5
+   \   00000034   3080BDE8           POP      {R4,R5,PC}
+    253            {
+    254              a=dstack->stack[--dstack->sp];    
+    255            }
+    256            else
+    257            {
+    258              longjmp(dstack->jmp, 1);
+   \                     ??PopDoubleStack_1:
+   \   00000038   0110A0E3           MOV      R1,#+1
+   \   0000003C   790200EF           SWI      +633
+    259            }
+    260            return a;  
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   0510A0E1           MOV      R1,R5
+   \   00000048   3080BDE8           POP      {R4,R5,PC}       ;; return
+    261          }
+    262          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    263          void ConstructDStackStruct(DSTACK *dstack)
+    264          {
+    265            dstack->stack=NULL;
+   \                     ??ConstructDStackStruct:
+   \   00000000   0010A0E3           MOV      R1,#+0
+   \   00000004   2C1080E5           STR      R1,[R0, #+44]
+    266            dstack->sp=0;
+   \   00000008   301080E5           STR      R1,[R0, #+48]
+    267            dstack->st_size=0;
+   \   0000000C   341080E5           STR      R1,[R0, #+52]
+    268          }
+   \   00000010   1EFF2FE1           BX       LR               ;; return
+    269          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    270          void DestructDStackStruct(DSTACK *dstack)
+    271          {
+    272            delete (dstack->stack);
+   \                     ??DestructDStackStruct:
+   \   00000000   2C0090E5           LDR      R0,[R0, #+44]
+   \   00000004   ........           _BF      `??operator delete`,`??operator delete??rA`  ;; tailcall
+    273          }
+    274          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    275          double FacN(double n)
+    276          {
+   \                     ??FacN:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+    277            double ans;
+    278            double frac, integer;
+    279            frac=modf(n,&integer);
+   \   00000008   0D20A0E1           MOV      R2,SP
+   \   0000000C   ........           _BLF     modf,??modf??rA
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0150A0E1           MOV      R5,R1
+    280            if (frac==0)
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   0420A0E1           MOV      R2,R4
+   \   00000024   0530A0E1           MOV      R3,R5
+   \   00000028   ........           _BLF     __dEqual,??__dEqual??rA
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   2200000A           BEQ      ??FacN_1
+    281            {
+    282              ans=1;
+   \   00000034   0040A0E3           MOV      R4,#+0
+   \   00000038   C055A0E3           MOV      R5,#+805306368
+   \   0000003C   FF5685E3           ORR      R5,R5,#0xFF00000
+    283              while(integer>1 && ans!=INFINITY)
+   \                     ??FacN_2:
+   \   00000040   0D00A0E1           MOV      R0,SP
+   \   00000044   030090E8           LDM      R0,{R0,R1}
+   \   00000048   0120A0E3           MOV      R2,#+1
+   \   0000004C   C035A0E3           MOV      R3,#+805306368
+   \   00000050   FF3683E3           ORR      R3,R3,#0xFF00000
+   \   00000054   ........           _BLF     __dGreaterEqual,??__dGreaterEqual??rA
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   2E00000A           BEQ      ??FacN_3
+   \   00000060   0000A0E3           MOV      R0,#+0
+   \   00000064   7014A0E3           MOV      R1,#+1879048192
+   \   00000068   FF1681E3           ORR      R1,R1,#0xFF00000
+   \   0000006C   0420A0E1           MOV      R2,R4
+   \   00000070   0530A0E1           MOV      R3,R5
+   \   00000074   ........           _BLF     __dNotEqual,??__dNotEqual??rA
+   \   00000078   000050E3           CMP      R0,#+0
+   \   0000007C   2600000A           BEQ      ??FacN_3
+    284              {
+    285                ans*=--integer;
+   \   00000080   0D80A0E1           MOV      R8,SP
+   \   00000084   0D00A0E1           MOV      R0,SP
+   \   00000088   030090E8           LDM      R0,{R0,R1}
+   \   0000008C   0020A0E3           MOV      R2,#+0
+   \   00000090   B034A0E3           MOV      R3,#-1342177280
+   \   00000094   FF3683E3           ORR      R3,R3,#0xFF00000
+   \   00000098   ........           _BLF     __dAdd,??__dAdd??rA
+   \   0000009C   030088E8           STM      R8,{R0,R1}
+   \   000000A0   0420A0E1           MOV      R2,R4
+   \   000000A4   0530A0E1           MOV      R3,R5
+   \   000000A8   0D00A0E1           MOV      R0,SP
+   \   000000AC   030090E8           LDM      R0,{R0,R1}
+   \   000000B0   ........           _BLF     __dMul,??__dMul??rA
+   \   000000B4   0040A0E1           MOV      R4,R0
+   \   000000B8   0150A0E1           MOV      R5,R1
+   \   000000BC   DFFFFFEA           B        ??FacN_2
+    286              }
+    287            }
+    288            else
+    289            {
+    290              ans=log(FacN(integer))+frac*log(integer+1);
+   \                     ??FacN_1:
+   \   000000C0   0D00A0E1           MOV      R0,SP
+   \   000000C4   030090E8           LDM      R0,{R0,R1}
+   \   000000C8   CCFFFFEB           BL       ??FacN
+   \   000000CC   0020A0E3           MOV      R2,#+0
+   \   000000D0   ........           _BLF     _Log,??_Log??rA
+   \   000000D4   0060A0E1           MOV      R6,R0
+   \   000000D8   0170A0E1           MOV      R7,R1
+   \   000000DC   0D00A0E1           MOV      R0,SP
+   \   000000E0   0C0090E8           LDM      R0,{R2,R3}
+   \   000000E4   0000A0E3           MOV      R0,#+0
+   \   000000E8   C015A0E3           MOV      R1,#+805306368
+   \   000000EC   FF1681E3           ORR      R1,R1,#0xFF00000
+   \   000000F0   ........           _BLF     __dAdd,??__dAdd??rA
+   \   000000F4   0020A0E3           MOV      R2,#+0
+   \   000000F8   ........           _BLF     _Log,??_Log??rA
+   \   000000FC   0420A0E1           MOV      R2,R4
+   \   00000100   0530A0E1           MOV      R3,R5
+   \   00000104   ........           _BLF     __dMul,??__dMul??rA
+   \   00000108   0620A0E1           MOV      R2,R6
+   \   0000010C   0730A0E1           MOV      R3,R7
+   \   00000110   ........           _BLF     __dAdd,??__dAdd??rA
+   \   00000114   0040A0E1           MOV      R4,R0
+   \   00000118   0150A0E1           MOV      R5,R1
+    291            }
+    292            return ans;  
+   \                     ??FacN_3:
+   \   0000011C   0400A0E1           MOV      R0,R4
+   \   00000120   0510A0E1           MOV      R1,R5
+   \   00000124   FC81BDE8           POP      {R2-R8,PC}       ;; return
+    293          }
+    294          
+    295          
+    296          
+    297          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    298          double ConvertAngleToRadians(double angle)
+    299          {
+    300            double a=0;
+    301            switch(calc_set.drg)
+   \                     ??ConvertAngleToRadians:
+   \   00000000   ........           LDR      R2,??DataTable19  ;; calc_set + 32
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0020D2E5           LDRB     R2,[R2, #+0]
+   \   0000000C   012052E2           SUBS     R2,R2,#+1
+   \   00000010   0080BD08           POPEQ    {PC}
+   \   00000014   ........           LDR      R3,??DataTable25  ;; 0x400921fb
+   \   00000018   012052E2           SUBS     R2,R2,#+1
+   \   0000001C   ........           LDR      R2,??DataTable24  ;; 0x54442d18
+   \   00000020   0300000A           BEQ      ??ConvertAngleToRadians_1
+    302            {
+    303            case DEGREES:
+    304            default:
+    305              a=angle*PI_CONST/180;
+   \   00000024   ........           _BLF     __dMul,??__dMul??rA
+   \   00000028   ........           LDR      R3,??DataTable20  ;; 0x40668000
+   \   0000002C   0020A0E3           MOV      R2,#+0
+   \   00000030   030000EA           B        ??ConvertAngleToRadians_2
+    306              break;
+    307            case RADIANS:
+    308              a=angle;
+    309              break;
+    310            case GRADS:
+    311              a=angle*PI_CONST/200;
+   \                     ??ConvertAngleToRadians_1:
+   \   00000034   ........           _BLF     __dMul,??__dMul??rA
+   \   00000038   0020A0E3           MOV      R2,#+0
+   \   0000003C   4034A0E3           MOV      R3,#+1073741824
+   \   00000040   693883E3           ORR      R3,R3,#0x690000
+   \                     ??ConvertAngleToRadians_2:
+   \   00000044   0040BDE8           POP      {LR}             ;; Pop
+   \   00000048   ........           _BF      __dDiv,??__dDiv??rA  ;; tailcall
+    312              break;
+    313            }
+    314            return (a);
+    315          }
+    316          
+    317          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    318          double ConvertRadiansToAngle(double radian)
+    319          {
+    320            double a=0;
+    321            switch(calc_set.drg)
+   \                     ??ConvertRadiansToAngle:
+   \   00000000   ........           LDR      R2,??DataTable19  ;; calc_set + 32
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0020D2E5           LDRB     R2,[R2, #+0]
+   \   0000000C   012052E2           SUBS     R2,R2,#+1
+   \   00000010   0080BD08           POPEQ    {PC}
+   \   00000014   012052E2           SUBS     R2,R2,#+1
+   \   00000018   0020A0E3           MOV      R2,#+0
+   \   0000001C   0100000A           BEQ      ??ConvertRadiansToAngle_1
+    322            {
+    323            case DEGREES:
+    324            default:
+    325              a=radian*180/PI_CONST;
+   \   00000020   ........           LDR      R3,??DataTable20  ;; 0x40668000
+   \   00000024   010000EA           B        ??ConvertRadiansToAngle_2
+    326              break;
+    327            case RADIANS:
+    328              a=radian;
+    329              break;
+    330            case GRADS:
+    331              a=radian*200/PI_CONST;
+   \                     ??ConvertRadiansToAngle_1:
+   \   00000028   4034A0E3           MOV      R3,#+1073741824
+   \   0000002C   693883E3           ORR      R3,R3,#0x690000
+   \                     ??ConvertRadiansToAngle_2:
+   \   00000030   ........           _BLF     __dMul,??__dMul??rA
+   \   00000034   ........           LDR      R2,??DataTable24  ;; 0x54442d18
+   \   00000038   ........           LDR      R3,??DataTable25  ;; 0x400921fb
+   \   0000003C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000040   ........           _BF      __dDiv,??__dDiv??rA  ;; tailcall
+    332              break;
+    333            }
+    334            return (a);
+    335          }
+    336          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    337          double asinh(double a)
+    338          {
+   \                     ??asinh:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0080A0E1           MOV      R8,R0
+   \   00000008   0190A0E1           MOV      R9,R1
+    339            return log(a+sqrt(pow(a,2)+1));
+   \   0000000C   0860A0E1           MOV      R6,R8
+   \   00000010   0970A0E1           MOV      R7,R9
+   \   00000014   02A0A0E3           MOV      R10,#+2
+   \   00000018   0040A0E3           MOV      R4,#+0
+   \   0000001C   C055A0E3           MOV      R5,#+805306368
+   \   00000020   FF5685E3           ORR      R5,R5,#0xFF00000
+   \   00000024   0F0000EA           B        ??asinh_1
+   \                     ??asinh_2:
+   \   00000028   0620A0E1           MOV      R2,R6
+   \   0000002C   0730A0E1           MOV      R3,R7
+   \   00000030   0600A0E1           MOV      R0,R6
+   \   00000034   0710A0E1           MOV      R1,R7
+   \   00000038   ........           _BLF     __dMul,??__dMul??rA
+   \   0000003C   0060A0E1           MOV      R6,R0
+   \   00000040   0170A0E1           MOV      R7,R1
+   \   00000044   01001AE3           TST      R10,#0x1
+   \   00000048   0600000A           BEQ      ??asinh_1
+   \   0000004C   0620A0E1           MOV      R2,R6
+   \   00000050   0730A0E1           MOV      R3,R7
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   0510A0E1           MOV      R1,R5
+   \   0000005C   ........           _BLF     __dMul,??__dMul??rA
+   \   00000060   0040A0E1           MOV      R4,R0
+   \   00000064   0150A0E1           MOV      R5,R1
+   \                     ??asinh_1:
+   \   00000068   AAA0B0E1           LSRS     R10,R10,#+1
+   \   0000006C   EDFFFF1A           BNE      ??asinh_2
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   C015A0E3           MOV      R1,#+805306368
+   \   00000078   FF1681E3           ORR      R1,R1,#0xFF00000
+   \   0000007C   0420A0E1           MOV      R2,R4
+   \   00000080   0530A0E1           MOV      R3,R5
+   \   00000084   ........           _BLF     __dAdd,??__dAdd??rA
+   \   00000088   ........           _BLF     sqrt,??sqrt??rA
+   \   0000008C   0820A0E1           MOV      R2,R8
+   \   00000090   0930A0E1           MOV      R3,R9
+   \   00000094   ........           _BLF     __dAdd,??__dAdd??rA
+   \   00000098   0020A0E3           MOV      R2,#+0
+   \   0000009C   ........           _BLF     _Log,??_Log??rA
+   \   000000A0   F087BDE8           POP      {R4-R10,PC}      ;; return
+    340          }
+    341          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    342          double acosh(double a)
+    343          {
+   \                     ??acosh:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0080A0E1           MOV      R8,R0
+   \   00000008   0190A0E1           MOV      R9,R1
+    344            return a>=1?log(a+sqrt(pow(a,2)-1)):NAN;
+   \   0000000C   0020A0E3           MOV      R2,#+0
+   \   00000010   C035A0E3           MOV      R3,#+805306368
+   \   00000014   FF3683E3           ORR      R3,R3,#0xFF00000
+   \   00000018   ........           _BLF     __dGreaterEqual,??__dGreaterEqual??rA
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   2500000A           BEQ      ??acosh_1
+   \   00000024   0860A0E1           MOV      R6,R8
+   \   00000028   0970A0E1           MOV      R7,R9
+   \   0000002C   02A0A0E3           MOV      R10,#+2
+   \   00000030   0040A0E3           MOV      R4,#+0
+   \   00000034   C055A0E3           MOV      R5,#+805306368
+   \   00000038   FF5685E3           ORR      R5,R5,#0xFF00000
+   \   0000003C   0F0000EA           B        ??acosh_2
+   \                     ??acosh_3:
+   \   00000040   0620A0E1           MOV      R2,R6
+   \   00000044   0730A0E1           MOV      R3,R7
+   \   00000048   0600A0E1           MOV      R0,R6
+   \   0000004C   0710A0E1           MOV      R1,R7
+   \   00000050   ........           _BLF     __dMul,??__dMul??rA
+   \   00000054   0060A0E1           MOV      R6,R0
+   \   00000058   0170A0E1           MOV      R7,R1
+   \   0000005C   01001AE3           TST      R10,#0x1
+   \   00000060   0600000A           BEQ      ??acosh_2
+   \   00000064   0620A0E1           MOV      R2,R6
+   \   00000068   0730A0E1           MOV      R3,R7
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   0510A0E1           MOV      R1,R5
+   \   00000074   ........           _BLF     __dMul,??__dMul??rA
+   \   00000078   0040A0E1           MOV      R4,R0
+   \   0000007C   0150A0E1           MOV      R5,R1
+   \                     ??acosh_2:
+   \   00000080   AAA0B0E1           LSRS     R10,R10,#+1
+   \   00000084   EDFFFF1A           BNE      ??acosh_3
+   \   00000088   0000A0E3           MOV      R0,#+0
+   \   0000008C   B014A0E3           MOV      R1,#-1342177280
+   \   00000090   FF1681E3           ORR      R1,R1,#0xFF00000
+   \   00000094   0420A0E1           MOV      R2,R4
+   \   00000098   0530A0E1           MOV      R3,R5
+   \   0000009C   ........           _BLF     __dAdd,??__dAdd??rA
+   \   000000A0   ........           _BLF     sqrt,??sqrt??rA
+   \   000000A4   0820A0E1           MOV      R2,R8
+   \   000000A8   0930A0E1           MOV      R3,R9
+   \   000000AC   ........           _BLF     __dAdd,??__dAdd??rA
+   \   000000B0   0020A0E3           MOV      R2,#+0
+   \   000000B4   ........           _BLF     _Log,??_Log??rA
+   \   000000B8   F087BDE8           POP      {R4-R10,PC}
+   \                     ??acosh_1:
+   \   000000BC   0000E0E3           MVN      R0,#+0
+   \   000000C0   8014C0E3           BIC      R1,R0,#0x80000000
+   \   000000C4   F087BDE8           POP      {R4-R10,PC}      ;; return
+    345          }
+    346          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    347          double athh(double a)
+    348          {
+   \                     ??athh:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    349            return log((1+a)/(1-a))/2;
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   C015A0E3           MOV      R1,#+805306368
+   \   00000014   FF1681E3           ORR      R1,R1,#0xFF00000
+   \   00000018   0420A0E1           MOV      R2,R4
+   \   0000001C   0530A0E1           MOV      R3,R5
+   \   00000020   ........           _BLF     __dSub,??__dSub??rA
+   \   00000024   0060A0E1           MOV      R6,R0
+   \   00000028   0170A0E1           MOV      R7,R1
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   C015A0E3           MOV      R1,#+805306368
+   \   00000034   FF1681E3           ORR      R1,R1,#0xFF00000
+   \   00000038   0420A0E1           MOV      R2,R4
+   \   0000003C   0530A0E1           MOV      R3,R5
+   \   00000040   ........           _BLF     __dAdd,??__dAdd??rA
+   \   00000044   0620A0E1           MOV      R2,R6
+   \   00000048   0730A0E1           MOV      R3,R7
+   \   0000004C   ........           _BLF     __dDiv,??__dDiv??rA
+   \   00000050   0020A0E3           MOV      R2,#+0
+   \   00000054   ........           _BLF     _Log,??_Log??rA
+   \   00000058   0020A0E3           MOV      R2,#+0
+   \   0000005C   4034A0E3           MOV      R3,#+1073741824
+   \   00000060   ........           _BLF     __dDiv,??__dDiv??rA
+   \   00000064   F080BDE8           POP      {R4-R7,PC}
+    350          }
+    351          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    352          void ParseOperation(DSTACK *dstack, int operation)
+    353          {
+   \                     ??ParseOperation:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0060A0E1           MOV      R6,R0
+    354            double a, b, ans;
+    355            switch (operation)
+   \   00000008   0C1041E2           SUB      R1,R1,#+12
+   \   0000000C   200051E3           CMP      R1,#+32
+   \   00000010   F083BD88           POPHI    {R4-R9,PC}
+   \   00000014   010F8FE2           ADR      R0,??ParseOperation_1
+   \   00000018   0100D0E7           LDRB     R0,[R0, R1]
+   \   0000001C   00F18FE0           ADD      PC,PC,R0, LSL #+2
+   \                     ??ParseOperation_1:
+   \   00000020   080D1721           DC8      +8,+13,+23,+33
+   \   00000024   2B353FC8           DC8      +43,+53,+63,+200
+   \   00000028   C84464C8           DC8      +200,+68,+100,+200
+   \   0000002C   686D7276           DC8      +104,+109,+114,+118
+   \   00000030   7AC87E82           DC8      +122,+200,+126,+130
+   \   00000034   C88BC8C8           DC8      +200,+139,+200,+200
+   \   00000038   949CC8A0           DC8      +148,+156,+200,+160
+   \   0000003C   A8B5ACB1           DC8      +168,+181,+172,+177
+   \   00000040   B9000000           DC8      +185,+0,+0,+0
+    356            {
+    357            case OP_SIN:    // sin
+    358              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_2:
+   \   00000044   0600A0E1           MOV      R0,R6
+   \   00000048   ........           BL       ??PopDoubleStack
+    359              ans=sin(ConvertAngleToRadians(a));
+   \   0000004C   ........           BL       ??ConvertAngleToRadians
+   \   00000050   0020A0E3           MOV      R2,#+0
+   \   00000054   170000EA           B        ??ParseOperation_3
+    360              PushDoubleStack(dstack, ans);
+    361              break;
+    362            case OP_MULT:    // *
+    363              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_4:
+   \   00000058   0600A0E1           MOV      R0,R6
+   \   0000005C   ........           BL       ??PopDoubleStack
+   \   00000060   0040A0E1           MOV      R4,R0
+   \   00000064   0150A0E1           MOV      R5,R1
+    364              b=PopDoubleStack(dstack);
+   \   00000068   0600A0E1           MOV      R0,R6
+   \   0000006C   ........           BL       ??PopDoubleStack
+    365              ans=b*a;
+    366              PushDoubleStack(dstack, ans);
+   \   00000070   0420A0E1           MOV      R2,R4
+   \   00000074   0530A0E1           MOV      R3,R5
+   \   00000078   ........           _BLF     __dMul,??__dMul??rA
+   \   0000007C   0E0000EA           B        ??ParseOperation_5
+    367              break;
+    368            case OP_DIV:    // /
+    369              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_6:
+   \   00000080   0600A0E1           MOV      R0,R6
+   \   00000084   ........           BL       ??PopDoubleStack
+   \   00000088   0040A0E1           MOV      R4,R0
+   \   0000008C   0150A0E1           MOV      R5,R1
+    370              b=PopDoubleStack(dstack);
+   \   00000090   0600A0E1           MOV      R0,R6
+   \   00000094   ........           BL       ??PopDoubleStack
+    371              ans=b/a;
+    372              PushDoubleStack(dstack, ans);
+   \   00000098   0420A0E1           MOV      R2,R4
+   \   0000009C   0530A0E1           MOV      R3,R5
+   \   000000A0   ........           _BLF     __dDiv,??__dDiv??rA
+   \   000000A4   040000EA           B        ??ParseOperation_5
+    373              break;
+    374            case OP_COS:    // cos
+    375              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_7:
+   \   000000A8   0600A0E1           MOV      R0,R6
+   \   000000AC   ........           BL       ??PopDoubleStack
+    376              ans=cos(ConvertAngleToRadians(a));
+   \   000000B0   ........           BL       ??ConvertAngleToRadians
+   \   000000B4   0120A0E3           MOV      R2,#+1
+   \                     ??ParseOperation_3:
+   \   000000B8   ........           _BLF     _Sin,??_Sin??rA
+    377              PushDoubleStack(dstack, ans);
+   \                     ??ParseOperation_5:
+   \   000000BC   0120A0E1           MOV      R2,R1
+   \   000000C0   0010A0E1           MOV      R1,R0
+   \   000000C4   0600A0E1           MOV      R0,R6
+   \   000000C8   ........           BL       ??PushDoubleStack
+   \   000000CC   F083BDE8           POP      {R4-R9,PC}
+    378              break;
+    379            case OP_PLUS:    // +
+    380              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_8:
+   \   000000D0   0600A0E1           MOV      R0,R6
+   \   000000D4   ........           BL       ??PopDoubleStack
+   \   000000D8   0040A0E1           MOV      R4,R0
+   \   000000DC   0150A0E1           MOV      R5,R1
+    381              b=PopDoubleStack(dstack);
+   \   000000E0   0600A0E1           MOV      R0,R6
+   \   000000E4   ........           BL       ??PopDoubleStack
+    382              ans=b+a;
+    383              PushDoubleStack(dstack, ans);
+   \   000000E8   0420A0E1           MOV      R2,R4
+   \   000000EC   0530A0E1           MOV      R3,R5
+   \   000000F0   ........           _BLF     __dAdd,??__dAdd??rA
+   \   000000F4   F0FFFFEA           B        ??ParseOperation_5
+    384              break;    
+    385            case OP_MINUS:    // -
+    386              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_9:
+   \   000000F8   0600A0E1           MOV      R0,R6
+   \   000000FC   ........           BL       ??PopDoubleStack
+   \   00000100   0040A0E1           MOV      R4,R0
+   \   00000104   0150A0E1           MOV      R5,R1
+    387              b=PopDoubleStack(dstack);
+   \   00000108   0600A0E1           MOV      R0,R6
+   \   0000010C   ........           BL       ??PopDoubleStack
+    388              ans=b-a;
+    389              PushDoubleStack(dstack, ans);
+   \   00000110   0420A0E1           MOV      R2,R4
+   \   00000114   0530A0E1           MOV      R3,R5
+   \   00000118   ........           _BLF     __dSub,??__dSub??rA
+   \   0000011C   E6FFFFEA           B        ??ParseOperation_5
+    390              break;
+    391            case OP_TAN:    // tan
+    392              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_10:
+   \   00000120   0600A0E1           MOV      R0,R6
+   \   00000124   ........           BL       ??PopDoubleStack
+    393              ans=tan(ConvertAngleToRadians(a));
+   \   00000128   ........           BL       ??ConvertAngleToRadians
+   \   0000012C   ........           _BLF     tan,??tan??rA
+    394              PushDoubleStack(dstack, ans);
+   \   00000130   E1FFFFEA           B        ??ParseOperation_5
+    395              break;
+    396            case OP_SQUARE:    // ^2
+    397              a=PopDoubleStack(dstack);
+    398              ans=pow(a, 2);
+   \                     ??ParseOperation_11:
+   \   00000134   0600A0E1           MOV      R0,R6
+   \   00000138   ........           BL       ??PopDoubleStack
+   \   0000013C   0040A0E1           MOV      R4,R0
+   \   00000140   0150A0E1           MOV      R5,R1
+   \   00000144   0270A0E3           MOV      R7,#+2
+   \   00000148   0080A0E3           MOV      R8,#+0
+   \   0000014C   C095A0E3           MOV      R9,#+805306368
+   \   00000150   FF9689E3           ORR      R9,R9,#0xFF00000
+   \   00000154   0F0000EA           B        ??ParseOperation_12
+   \                     ??ParseOperation_13:
+   \   00000158   0420A0E1           MOV      R2,R4
+   \   0000015C   0530A0E1           MOV      R3,R5
+   \   00000160   0400A0E1           MOV      R0,R4
+   \   00000164   0510A0E1           MOV      R1,R5
+   \   00000168   ........           _BLF     __dMul,??__dMul??rA
+   \   0000016C   0040A0E1           MOV      R4,R0
+   \   00000170   0150A0E1           MOV      R5,R1
+   \   00000174   010017E3           TST      R7,#0x1
+   \   00000178   0600000A           BEQ      ??ParseOperation_12
+   \   0000017C   0420A0E1           MOV      R2,R4
+   \   00000180   0530A0E1           MOV      R3,R5
+   \   00000184   0800A0E1           MOV      R0,R8
+   \   00000188   0910A0E1           MOV      R1,R9
+   \   0000018C   ........           _BLF     __dMul,??__dMul??rA
+   \   00000190   0080A0E1           MOV      R8,R0
+   \   00000194   0190A0E1           MOV      R9,R1
+   \                     ??ParseOperation_12:
+   \   00000198   A770B0E1           LSRS     R7,R7,#+1
+   \   0000019C   EDFFFF1A           BNE      ??ParseOperation_13
+    399              PushDoubleStack(dstack, ans);
+   \   000001A0   0920A0E1           MOV      R2,R9
+   \   000001A4   0810A0E1           MOV      R1,R8
+   \   000001A8   0600A0E1           MOV      R0,R6
+   \   000001AC   ........           BL       ??PushDoubleStack
+   \   000001B0   F083BDE8           POP      {R4-R9,PC}
+    400              break;
+    401            case OP_SQRT:    // sqrt
+    402              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_14:
+   \   000001B4   0600A0E1           MOV      R0,R6
+   \   000001B8   ........           BL       ??PopDoubleStack
+    403              ans=sqrt(a);
+   \   000001BC   ........           _BLF     sqrt,??sqrt??rA
+    404              PushDoubleStack(dstack, ans);
+   \   000001C0   BDFFFFEA           B        ??ParseOperation_5
+    405              break;
+    406            case OP_ASIN:    // asin
+    407              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_15:
+   \   000001C4   0600A0E1           MOV      R0,R6
+   \   000001C8   ........           BL       ??PopDoubleStack
+    408              ans=ConvertRadiansToAngle(asin(a));
+   \   000001CC   ........           _BLF     asin,??asin??rA
+   \                     ??ParseOperation_16:
+   \   000001D0   ........           BL       ??ConvertRadiansToAngle
+    409              PushDoubleStack(dstack, ans);
+   \   000001D4   B8FFFFEA           B        ??ParseOperation_5
+    410              break;
+    411            case OP_LN:   // ln
+    412              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_17:
+   \   000001D8   0600A0E1           MOV      R0,R6
+   \   000001DC   ........           BL       ??PopDoubleStack
+    413              ans=log(a);
+   \   000001E0   0020A0E3           MOV      R2,#+0
+   \                     ??ParseOperation_18:
+   \   000001E4   ........           _BLF     _Log,??_Log??rA
+    414              PushDoubleStack(dstack, ans);
+   \   000001E8   B3FFFFEA           B        ??ParseOperation_5
+    415              break;
+    416            case OP_LOG:   // log 10
+    417              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_19:
+   \   000001EC   0600A0E1           MOV      R0,R6
+   \   000001F0   ........           BL       ??PopDoubleStack
+    418              ans=log10(a);
+   \   000001F4   0120A0E3           MOV      R2,#+1
+   \   000001F8   F9FFFFEA           B        ??ParseOperation_18
+    419              PushDoubleStack(dstack, ans);
+    420              break;
+    421            case OP_ACOS:   // acos
+    422              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_20:
+   \   000001FC   0600A0E1           MOV      R0,R6
+   \   00000200   ........           BL       ??PopDoubleStack
+    423              ans=ConvertRadiansToAngle(acos(a));
+   \   00000204   ........           _BLF     acos,??acos??rA
+   \   00000208   F0FFFFEA           B        ??ParseOperation_16
+    424              PushDoubleStack(dstack, ans);
+    425              break;
+    426            case OP_EPOW:    // e^
+    427              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_21:
+   \   0000020C   0600A0E1           MOV      R0,R6
+   \   00000210   ........           BL       ??PopDoubleStack
+    428              ans=exp(a);
+   \   00000214   ........           _BLF     exp,??exp??rA
+    429              PushDoubleStack(dstack, ans);
+   \   00000218   A7FFFFEA           B        ??ParseOperation_5
+    430              break;
+    431            case OP_ATAN:    // atan
+    432              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_22:
+   \   0000021C   0600A0E1           MOV      R0,R6
+   \   00000220   ........           BL       ??PopDoubleStack
+    433              ans=ConvertRadiansToAngle(atan(a));
+   \   00000224   ........           _BLF     atan,??atan??rA
+   \   00000228   E8FFFFEA           B        ??ParseOperation_16
+    434              PushDoubleStack(dstack, ans);
+    435              break;
+    436            case OP_TENPOW:    // 10^
+    437              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_23:
+   \   0000022C   0600A0E1           MOV      R0,R6
+   \   00000230   ........           BL       ??PopDoubleStack
+    438              ans=pow(10, a);
+   \   00000234   0020A0E1           MOV      R2,R0
+   \   00000238   0130A0E1           MOV      R3,R1
+   \   0000023C   0000A0E3           MOV      R0,#+0
+   \   00000240   4014A0E3           MOV      R1,#+1073741824
+   \   00000244   901981E3           ORR      R1,R1,#0x240000
+   \                     ??ParseOperation_24:
+   \   00000248   ........           _BLF     pow,??pow??rA
+    439              PushDoubleStack(dstack, ans);
+   \   0000024C   9AFFFFEA           B        ??ParseOperation_5
+    440              break;
+    441            case OP_POW:     // ^
+    442              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_25:
+   \   00000250   0600A0E1           MOV      R0,R6
+   \   00000254   ........           BL       ??PopDoubleStack
+   \   00000258   0040A0E1           MOV      R4,R0
+   \   0000025C   0150A0E1           MOV      R5,R1
+    443              b=PopDoubleStack(dstack);
+   \   00000260   0600A0E1           MOV      R0,R6
+   \   00000264   ........           BL       ??PopDoubleStack
+    444              ans=pow(b, a);
+   \   00000268   0420A0E1           MOV      R2,R4
+   \   0000026C   0530A0E1           MOV      R3,R5
+   \   00000270   F4FFFFEA           B        ??ParseOperation_24
+    445              PushDoubleStack(dstack, ans);
+    446              break;
+    447            case OP_SH:    // sinh
+    448              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_26:
+   \   00000274   0600A0E1           MOV      R0,R6
+   \   00000278   ........           BL       ??PopDoubleStack
+    449              ans=sinh(ConvertAngleToRadians(a));
+   \   0000027C   ........           BL       ??ConvertAngleToRadians
+   \   00000280   0020A0E3           MOV      R2,#+0
+   \   00000284   C035A0E3           MOV      R3,#+805306368
+   \   00000288   FF3683E3           ORR      R3,R3,#0xFF00000
+   \   0000028C   ........           _BLF     _Sinh,??_Sinh??rA
+    450              PushDoubleStack(dstack, ans);
+   \   00000290   89FFFFEA           B        ??ParseOperation_5
+    451              break;
+    452            case OP_ASH:    // asinh
+    453              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_27:
+   \   00000294   0600A0E1           MOV      R0,R6
+   \   00000298   ........           BL       ??PopDoubleStack
+    454              ans=ConvertRadiansToAngle(asinh(a));
+   \   0000029C   ........           BL       ??asinh
+   \   000002A0   CAFFFFEA           B        ??ParseOperation_16
+    455              PushDoubleStack(dstack, ans);
+    456              break;
+    457            case OP_CH:    // cosh
+    458              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_28:
+   \   000002A4   0600A0E1           MOV      R0,R6
+   \   000002A8   ........           BL       ??PopDoubleStack
+    459              ans=cosh(ConvertAngleToRadians(a));
+   \   000002AC   ........           BL       ??ConvertAngleToRadians
+   \   000002B0   0020A0E3           MOV      R2,#+0
+   \   000002B4   C035A0E3           MOV      R3,#+805306368
+   \   000002B8   FF3683E3           ORR      R3,R3,#0xFF00000
+   \   000002BC   ........           _BLF     _Cosh,??_Cosh??rA
+    460              PushDoubleStack(dstack, ans);
+   \   000002C0   7DFFFFEA           B        ??ParseOperation_5
+    461              break;
+    462            case OP_ACH:    // acosh
+    463              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_29:
+   \   000002C4   0600A0E1           MOV      R0,R6
+   \   000002C8   ........           BL       ??PopDoubleStack
+    464              ans=ConvertRadiansToAngle(acosh(a));
+   \   000002CC   ........           BL       ??acosh
+   \   000002D0   BEFFFFEA           B        ??ParseOperation_16
+    465              PushDoubleStack(dstack, ans);
+    466              break;
+    467            case OP_TH:    // tanh
+    468              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_30:
+   \   000002D4   0600A0E1           MOV      R0,R6
+   \   000002D8   ........           BL       ??PopDoubleStack
+    469              ans=tanh(ConvertAngleToRadians(a));
+   \   000002DC   ........           BL       ??ConvertAngleToRadians
+   \   000002E0   ........           _BLF     tanh,??tanh??rA
+    470              PushDoubleStack(dstack, ans);
+   \   000002E4   74FFFFEA           B        ??ParseOperation_5
+    471              break;
+    472            case OP_ATH:    // atanh
+    473              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_31:
+   \   000002E8   0600A0E1           MOV      R0,R6
+   \   000002EC   ........           BL       ??PopDoubleStack
+    474              ans=ConvertRadiansToAngle(athh(a));
+   \   000002F0   ........           BL       ??athh
+   \   000002F4   B5FFFFEA           B        ??ParseOperation_16
+    475              PushDoubleStack(dstack, ans);
+    476              break;
+    477            case OP_ABS:    // abs
+    478              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_32:
+   \   000002F8   0600A0E1           MOV      R0,R6
+   \   000002FC   ........           BL       ??PopDoubleStack
+    479              ans=fabs(a);
+   \   00000300   8014C1E3           BIC      R1,R1,#0x80000000
+    480              PushDoubleStack(dstack, ans);
+   \   00000304   6CFFFFEA           B        ??ParseOperation_5
+    481              break;
+    482            case OP_FAC:   // !
+    483              a=PopDoubleStack(dstack);
+   \                     ??ParseOperation_33:
+   \   00000308   0600A0E1           MOV      R0,R6
+   \   0000030C   ........           BL       ??PopDoubleStack
+   \   00000310   0040A0E1           MOV      R4,R0
+   \   00000314   0150A0E1           MOV      R5,R1
+    484              ans=gamma(a+1);
+   \   00000318   0000A0E3           MOV      R0,#+0
+   \   0000031C   C015A0E3           MOV      R1,#+805306368
+   \   00000320   FF1681E3           ORR      R1,R1,#0xFF00000
+   \   00000324   0420A0E1           MOV      R2,R4
+   \   00000328   0530A0E1           MOV      R3,R5
+   \   0000032C   ........           _BLF     __dAdd,??__dAdd??rA
+   \   00000330   ........           _BLF     ??gamma,??gamma??rA
+    485              PushDoubleStack(dstack, ans);
+   \   00000334   0120A0E1           MOV      R2,R1
+   \   00000338   0010A0E1           MOV      R1,R0
+   \   0000033C   0600A0E1           MOV      R0,R6
+   \   00000340   ........           BL       ??PushDoubleStack
+    486              break;
+    487            }
+    488          }
+   \                     ??ParseOperation_34:
+   \   00000344   F083BDE8           POP      {R4-R9,PC}       ;; return
+    489          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    490          void calc_answer()
+    491          {
+    492            char *s;
+    493            int c;
+    494            int i=op_len;
+   \                     ??calc_answer:
+   \   00000000   ........           LDR      R0,??DataTable27  ;; vars
+   \   00000004   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000008   8FDF4DE2           SUB      SP,SP,#+572
+   \   0000000C   D06090E5           LDR      R6,[R0, #+208]
+    495            char stack[256];
+    496            int stack_depth=0;
+   \   00000010   0070A0E3           MOV      R7,#+0
+    497            s=operation;
+   \   00000014   E48080E2           ADD      R8,R0,#+228
+    498            DSTACK dstack;
+    499            char *d,value[260];
+    500            double ans=0;
+   \   00000018   0040A0E3           MOV      R4,#+0
+   \   0000001C   0450A0E1           MOV      R5,R4
+    501            ConstructDStackStruct(&dstack);
+   \   00000020   0D00A0E1           MOV      R0,SP
+   \   00000024   ........           BL       ??ConstructDStackStruct
+    502            if (i)
+   \   00000028   000056E3           CMP      R6,#+0
+   \   0000002C   9900000A           BEQ      ??calc_answer_1
+    503            {
+    504              if (setjmp(dstack.jmp))
+   \   00000030   0D00A0E1           MOV      R0,SP
+   \   00000034   780200EF           SWI      +632
+   \   00000038   000050E3           CMP      R0,#+0
+    505              {
+    506                ans=NAN;
+   \   0000003C   0440E011           MVNNE    R4,R4
+   \   00000040   8054C413           BICNE    R5,R4,#0x80000000
+    507                goto L_ERROR;
+   \   00000044   9300001A           BNE      ??calc_answer_1
+    508              }
+    509              do 
+    510              {
+    511                c=*s++;
+   \                     ??calc_answer_2:
+   \   00000048   ........           LDRB     R4,[R8], #+1
+    512                if (IsCharNumber(c))
+   \   0000004C   000054E3           CMP      R4,#+0
+   \   00000050   0100004A           BMI      ??calc_answer_3
+   \   00000054   0B0054E3           CMP      R4,#+11
+   \   00000058   010000BA           BLT      ??calc_answer_4
+   \                     ??calc_answer_3:
+   \   0000005C   1D0054E3           CMP      R4,#+29
+   \   00000060   1E00001A           BNE      ??calc_answer_5
+    513                {
+    514                  double a;
+    515                  d=value;
+   \                     ??calc_answer_4:
+   \   00000064   38008DE2           ADD      R0,SP,#+56
+    516                  do {
+    517                    *d++=GetCharByIndex(c);
+   \                     ??calc_answer_6:
+   \   00000068   1D0054E3           CMP      R4,#+29
+   \   0000006C   2D10A003           MOVEQ    R1,#+45
+   \   00000070   0500000A           BEQ      ??calc_answer_7
+   \   00000074   090054E3           CMP      R4,#+9
+   \   00000078   2E10A003           MOVEQ    R1,#+46
+   \   0000007C   0200000A           BEQ      ??calc_answer_7
+   \   00000080   0A0054E3           CMP      R4,#+10
+   \   00000084   3010A003           MOVEQ    R1,#+48
+   \   00000088   31108412           ADDNE    R1,R4,#+49
+   \                     ??calc_answer_7:
+   \   0000008C   ........           STRB     R1,[R0], #+1
+    518                    i--;
+    519                    c=*s++;
+   \   00000090   ........           LDRB     R4,[R8], #+1
+   \   00000094   016046E2           SUB      R6,R6,#+1
+    520                  } while (IsCharNumber(c) && i);
+   \   00000098   000054E3           CMP      R4,#+0
+   \   0000009C   0100004A           BMI      ??calc_answer_8
+   \   000000A0   0B0054E3           CMP      R4,#+11
+   \   000000A4   010000BA           BLT      ??calc_answer_9
+   \                     ??calc_answer_8:
+   \   000000A8   1D0054E3           CMP      R4,#+29
+   \   000000AC   0100001A           BNE      ??calc_answer_10
+   \                     ??calc_answer_9:
+   \   000000B0   000056E3           CMP      R6,#+0
+   \   000000B4   EBFFFF1A           BNE      ??calc_answer_6
+    521                  *d=0;
+   \                     ??calc_answer_10:
+   \   000000B8   0010A0E3           MOV      R1,#+0
+   \   000000BC   0010C0E5           STRB     R1,[R0, #+0]
+    522                  a=strtod(value, NULL);
+   \   000000C0   38008DE2           ADD      R0,SP,#+56
+   \   000000C4   ........           _BLF     strtod,??strtod??rA
+    523                  PushDoubleStack(&dstack, a);
+   \   000000C8   0120A0E1           MOV      R2,R1
+   \   000000CC   0010A0E1           MOV      R1,R0
+   \   000000D0   0D00A0E1           MOV      R0,SP
+   \   000000D4   ........           BL       ??PushDoubleStack
+    524                  if (!i) break;
+   \   000000D8   000056E3           CMP      R6,#+0
+   \   000000DC   0900000A           BEQ      ??calc_answer_11
+    525                }
+    526                if (c==NUM_PI)  // пи
+   \                     ??calc_answer_5:
+   \   000000E0   200054E3           CMP      R4,#+32
+   \   000000E4   0F00001A           BNE      ??calc_answer_12
+    527                {
+    528                  double a=PI_CONST;
+    529                  PushDoubleStack(&dstack, a);
+   \   000000E8   ........           LDR      R0,??DataTable24  ;; 0x54442d18
+   \   000000EC   ........           LDR      R1,??DataTable25  ;; 0x400921fb
+   \                     ??calc_answer_13:
+   \   000000F0   0120A0E1           MOV      R2,R1
+   \   000000F4   0010A0E1           MOV      R1,R0
+   \                     ??calc_answer_14:
+   \   000000F8   0D00A0E1           MOV      R0,SP
+   \   000000FC   ........           BL       ??PushDoubleStack
+    530                }
+    531                else if (c==NUM_ANS)   // ANS
+    532                {
+    533                  PushDoubleStack(&dstack, d_answer);
+    534                }
+    535                else if (c==NUM_A)   // X
+    536                {
+    537                  PushDoubleStack(&dstack, calc_set.x);
+    538                }
+    539                else if (c==NUM_B)   // Y
+    540                {
+    541                  PushDoubleStack(&dstack, calc_set.y);
+    542                }
+    543                else if (c>=VAR_A && c<=VAR_Z)
+    544                {
+    545                  PushDoubleStack(&dstack, vars[c-VAR_A]);
+    546                }
+    547                else if (c==RIGHTBRACKET)   // Закрывающаяся скобка
+    548                {
+    549                  while(stack_depth && stack[--stack_depth]!=LEFTBRACKET)
+    550                  {
+    551                    ParseOperation(&dstack, stack[stack_depth]);
+    552                  }
+    553                }
+    554                else if (c==LEFTBRACKET)  // Открывающаяся скобка
+    555                {
+    556                  stack[stack_depth++]=c;
+    557                }
+    558                else if (c==OP_MULT || c==OP_DIV || c==OP_PLUS || c==OP_MINUS || IsMathFunc(c) || IsPowFunc(c))  // Если знак операции
+    559                {
+    560                  if (!stack_depth)  // Если стек пуст
+    561                  {
+    562                    stack[stack_depth++]=c;
+    563                  }
+    564                  else if (PRIOR(c)>PRIOR(stack[stack_depth-1]))  // Если приоритет поступившей операции больше того что на вершине стека
+    565                  {
+    566                    stack[stack_depth++]=c;
+    567                  }
+    568                  else
+    569                  {
+    570                    while(stack_depth && (PRIOR(stack[stack_depth-1])>=PRIOR(c)))
+    571                    {
+    572                      ParseOperation(&dstack, stack[--stack_depth]);
+    573                    }
+    574                    stack[stack_depth++]=c;
+    575                  }
+    576                }
+    577              }
+    578              while(--i);
+   \                     ??calc_answer_15:
+   \   00000100   016056E2           SUBS     R6,R6,#+1
+   \   00000104   CFFFFF1A           BNE      ??calc_answer_2
+    579              while(stack_depth)
+   \                     ??calc_answer_11:
+   \   00000108   000057E3           CMP      R7,#+0
+   \   0000010C   5D00000A           BEQ      ??calc_answer_16
+    580              {
+    581                ParseOperation(&dstack, stack[--stack_depth]);
+   \   00000110   017047E2           SUB      R7,R7,#+1
+   \   00000114   4F0F8DE2           ADD      R0,SP,#+316
+   \   00000118   0010D7E7           LDRB     R1,[R7, +R0]
+   \   0000011C   0D00A0E1           MOV      R0,SP
+   \   00000120   ........           BL       ??ParseOperation
+   \   00000124   F7FFFFEA           B        ??calc_answer_11
+    582              }
+   \                     ??calc_answer_12:
+   \   00000128   260054E3           CMP      R4,#+38
+   \   0000012C   7C019F05           LDREQ    R0,??calc_answer_17  ;; vars + 200
+   \   00000130   03009008           LDMEQ    R0,{R0,R1}
+   \   00000134   EDFFFF0A           BEQ      ??calc_answer_13
+   \   00000138   2D0054E3           CMP      R4,#+45
+   \   0000013C   70019F05           LDREQ    R0,??calc_answer_17+0x4  ;; calc_set
+   \   00000140   03009008           LDMEQ    R0,{R0,R1}
+   \   00000144   E9FFFF0A           BEQ      ??calc_answer_13
+   \   00000148   2E0054E3           CMP      R4,#+46
+   \   0000014C   64019F05           LDREQ    R0,??calc_answer_17+0x8  ;; calc_set + 8
+   \   00000150   03009008           LDMEQ    R0,{R0,R1}
+   \   00000154   E5FFFF0A           BEQ      ??calc_answer_13
+   \   00000158   300054E3           CMP      R4,#+48
+   \   0000015C   060000BA           BLT      ??calc_answer_18
+   \   00000160   4A0054E3           CMP      R4,#+74
+   \   00000164   1E0000AA           BGE      ??calc_answer_19
+   \   00000168   ........           LDR      R0,??DataTable27  ;; vars
+   \   0000016C   842180E0           ADD      R2,R0,R4, LSL #+3
+   \   00000170   801112E5           LDR      R1,[R2, #-384]
+   \   00000174   7C2112E5           LDR      R2,[R2, #-380]
+   \   00000178   DEFFFFEA           B        ??calc_answer_14
+   \                     ??calc_answer_18:
+   \   0000017C   140054E3           CMP      R4,#+20
+   \   00000180   0B00001A           BNE      ??calc_answer_20
+   \                     ??calc_answer_21:
+   \   00000184   000057E3           CMP      R7,#+0
+   \   00000188   DCFFFF0A           BEQ      ??calc_answer_15
+   \   0000018C   017047E2           SUB      R7,R7,#+1
+   \   00000190   4F0F8DE2           ADD      R0,SP,#+316
+   \   00000194   0000D7E7           LDRB     R0,[R7, +R0]
+   \   00000198   130050E3           CMP      R0,#+19
+   \   0000019C   D7FFFF0A           BEQ      ??calc_answer_15
+   \   000001A0   4F0F8DE2           ADD      R0,SP,#+316
+   \   000001A4   0010D7E7           LDRB     R1,[R7, +R0]
+   \   000001A8   0D00A0E1           MOV      R0,SP
+   \   000001AC   ........           BL       ??ParseOperation
+   \   000001B0   F3FFFFEA           B        ??calc_answer_21
+   \                     ??calc_answer_20:
+   \   000001B4   130054E3           CMP      R4,#+19
+   \   000001B8   0400001A           BNE      ??calc_answer_22
+   \   000001BC   4F0F8DE2           ADD      R0,SP,#+316
+   \   000001C0   1310A0E3           MOV      R1,#+19
+   \   000001C4   0010C7E7           STRB     R1,[R7, +R0]
+   \                     ??calc_answer_23:
+   \   000001C8   017087E2           ADD      R7,R7,#+1
+   \   000001CC   CBFFFFEA           B        ??calc_answer_15
+   \                     ??calc_answer_22:
+   \   000001D0   0D0054E3           CMP      R4,#+13
+   \   000001D4   0E005413           CMPNE    R4,#+14
+   \   000001D8   10005413           CMPNE    R4,#+16
+   \   000001DC   11005413           CMPNE    R4,#+17
+   \   000001E0   0700000A           BEQ      ??calc_answer_24
+   \                     ??calc_answer_19:
+   \   000001E4   0400A0E1           MOV      R0,R4
+   \   000001E8   ........           _BLF     ??IsMathFunc,??IsMathFunc??rA
+   \   000001EC   000050E3           CMP      R0,#+0
+   \   000001F0   0300001A           BNE      ??calc_answer_24
+   \   000001F4   0400A0E1           MOV      R0,R4
+   \   000001F8   ........           BL       ??IsPowFunc
+   \   000001FC   000050E3           CMP      R0,#+0
+   \   00000200   BEFFFF0A           BEQ      ??calc_answer_15
+   \                     ??calc_answer_24:
+   \   00000204   000057E3           CMP      R7,#+0
+   \   00000208   3C41CD05           STRBEQ   R4,[SP, #+316]
+   \   0000020C   0170A003           MOVEQ    R7,#+1
+   \   00000210   BAFFFF0A           BEQ      ??calc_answer_15
+   \   00000214   4F0F8DE2           ADD      R0,SP,#+316
+   \   00000218   000087E0           ADD      R0,R7,R0
+   \   0000021C   010050E5           LDRB     R0,[R0, #-1]
+   \   00000220   ........           BL       ??PRIOR
+   \   00000224   0050A0E1           MOV      R5,R0
+   \   00000228   0400A0E1           MOV      R0,R4
+   \   0000022C   ........           BL       ??PRIOR
+   \   00000230   000055E1           CMP      R5,R0
+   \   00000234   020000AA           BGE      ??calc_answer_25
+   \                     ??calc_answer_26:
+   \   00000238   4F0F8DE2           ADD      R0,SP,#+316
+   \   0000023C   0040C7E7           STRB     R4,[R7, +R0]
+   \   00000240   E0FFFFEA           B        ??calc_answer_23
+   \                     ??calc_answer_25:
+   \   00000244   4F0F8DE2           ADD      R0,SP,#+316
+   \   00000248   000087E0           ADD      R0,R7,R0
+   \   0000024C   010050E5           LDRB     R0,[R0, #-1]
+   \   00000250   ........           BL       ??PRIOR
+   \   00000254   0050A0E1           MOV      R5,R0
+   \   00000258   0400A0E1           MOV      R0,R4
+   \   0000025C   ........           BL       ??PRIOR
+   \   00000260   000055E1           CMP      R5,R0
+   \   00000264   F3FFFFBA           BLT      ??calc_answer_26
+   \   00000268   017047E2           SUB      R7,R7,#+1
+   \   0000026C   4F0F8DE2           ADD      R0,SP,#+316
+   \   00000270   0010D7E7           LDRB     R1,[R7, +R0]
+   \   00000274   0D00A0E1           MOV      R0,SP
+   \   00000278   ........           BL       ??ParseOperation
+   \   0000027C   000057E3           CMP      R7,#+0
+   \   00000280   EFFFFF1A           BNE      ??calc_answer_25
+   \   00000284   EBFFFFEA           B        ??calc_answer_26
+    583              ans=PopDoubleStack(&dstack);
+   \                     ??calc_answer_16:
+   \   00000288   0D00A0E1           MOV      R0,SP
+   \   0000028C   ........           BL       ??PopDoubleStack
+   \   00000290   0040A0E1           MOV      R4,R0
+   \   00000294   0150A0E1           MOV      R5,R1
+    584            }
+    585          L_ERROR:
+    586            DestructDStackStruct(&dstack);
+   \                     ??calc_answer_1:
+   \   00000298   2C009DE5           LDR      R0,[SP, #+44]
+   \   0000029C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    587            d_answer=ans;
+   \   000002A0   08009FE5           LDR      R0,??calc_answer_17  ;; vars + 200
+   \   000002A4   300080E8           STM      R0,{R4,R5}
+    588          }
+   \   000002A8   8FDF8DE2           ADD      SP,SP,#+572
+   \   000002AC   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??calc_answer_17:
+   \   000002B0   ........           DC32     vars + 200
+   \   000002B4   ........           DC32     calc_set
+   \   000002B8   ........           DC32     calc_set + 8
+    589          
+    590          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    591          int CalcGuiOnCreate(DISP_OBJ_CALC *db)
+    592          {
+   \                     ??CalcGuiOnCreate:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    593            InitFonts();
+    594            db->answer_sid=LGP_NULL;
+    595            int font=SetFont(FONTID);
+    596            db->maxintab=0;
+    597            for (int x=0; x<=DIEZ_4; x++)
+   \   00000008   0060A0E3           MOV      R6,#+0
+   \   0000000C   ........           BL       ??InitFonts
+   \   00000010   9004E0E3           MVN      R0,#-1879048192
+   \   00000014   780184E5           STR      R0,[R4, #+376]
+   \   00000018   04019FE5           LDR      R0,??CalcGuiOnCreate_1  ;; vars + 220
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   F10100EF           SWI      +497
+   \   00000024   0050A0E1           MOV      R5,R0
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   900184E5           STR      R0,[R4, #+400]
+    598            {
+    599              int w;
+    600              TEXTID text;
+    601              const char *txt=keydesc[x];
+   \                     ??CalcGuiOnCreate_2:
+   \   00000030   F0009FE5           LDR      R0,??CalcGuiOnCreate_1+0x4  ;; keydesc
+   \   00000034   060190E7           LDR      R0,[R0, +R6, LSL #+2]
+    602              if (!txt[1])
+   \   00000038   0110D0E5           LDRB     R1,[R0, #+1]
+   \   0000003C   000051E3           CMP      R1,#+0
+    603                text=0x78000000|txt[0];
+   \   00000040   0000D005           LDRBEQ   R0,[R0, #+0]
+   \   00000044   78748003           ORREQ    R7,R0,#0x78000000
+   \   00000048   0400000A           BEQ      ??CalcGuiOnCreate_3
+    604              else
+    605                text=TextID_Create(txt,ENC_LAT1,TEXTID_ANY_LEN);
+   \   0000004C   FF20A0E3           MOV      R2,#+255
+   \   00000050   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000054   0610A0E3           MOV      R1,#+6
+   \   00000058   5D0100EF           SWI      +349
+   \   0000005C   0070A0E1           MOV      R7,R0
+    606              db->yx[x]=text;
+   \                     ??CalcGuiOnCreate_3:
+   \   00000060   068184E0           ADD      R8,R4,R6, LSL #+2
+   \   00000064   947188E5           STR      R7,[R8, #+404]
+    607              w=db->names_len[x]=Disp_GetTextIDWidth(text,TextID_GetLength(text));
+   \   00000068   0700A0E1           MOV      R0,R7
+   \   0000006C   600100EF           SWI      +352
+   \   00000070   0010A0E1           MOV      R1,R0
+   \   00000074   0700A0E1           MOV      R0,R7
+   \   00000078   000300EF           SWI      +768
+   \   0000007C   BC0288E5           STR      R0,[R8, #+700]
+    608              if (w>db->maxintab) db->maxintab=w;    
+   \   00000080   901194E5           LDR      R1,[R4, #+400]
+    609            }
+   \   00000084   016086E2           ADD      R6,R6,#+1
+   \   00000088   000051E1           CMP      R1,R0
+   \   0000008C   900184B5           STRLT    R0,[R4, #+400]
+   \   00000090   300056E3           CMP      R6,#+48
+   \   00000094   E5FFFFBA           BLT      ??CalcGuiOnCreate_2
+    610            for (int x=VAR_A, a='a'; x<TOTAL_OPS; x++, a++)
+   \   00000098   3060A0E3           MOV      R6,#+48
+   \   0000009C   6170A0E3           MOV      R7,#+97
+    611            {
+    612              TEXTID text=0x78000000|a;
+   \                     ??CalcGuiOnCreate_4:
+   \   000000A0   788487E3           ORR      R8,R7,#0x78000000
+    613              db->yx[x]=text;
+   \   000000A4   069184E0           ADD      R9,R4,R6, LSL #+2
+   \   000000A8   948189E5           STR      R8,[R9, #+404]
+    614              db->names_len[x]=Disp_GetTextIDWidth(text,TextID_GetLength(text));
+   \   000000AC   0800A0E1           MOV      R0,R8
+   \   000000B0   600100EF           SWI      +352
+   \   000000B4   0010A0E1           MOV      R1,R0
+   \   000000B8   0800A0E1           MOV      R0,R8
+   \   000000BC   000300EF           SWI      +768
+   \   000000C0   BC0289E5           STR      R0,[R9, #+700]
+    615            }
+   \   000000C4   016086E2           ADD      R6,R6,#+1
+   \   000000C8   017087E2           ADD      R7,R7,#+1
+   \   000000CC   4A0056E3           CMP      R6,#+74
+   \   000000D0   F2FFFFBA           BLT      ??CalcGuiOnCreate_4
+    616            SetFont(font);
+   \   000000D4   0500A0E1           MOV      R0,R5
+   \   000000D8   F10100EF           SWI      +497
+    617            db->current_tab=0;
+   \   000000DC   0000A0E3           MOV      R0,#+0
+   \   000000E0   6C0184E5           STR      R0,[R4, #+364]
+    618            db->cur_base=0;
+   \   000000E4   8C0184E5           STR      R0,[R4, #+396]
+    619            req_recalc=1;
+   \   000000E8   3C009FE5           LDR      R0,??CalcGuiOnCreate_1+0x8  ;; vars + 216
+   \   000000EC   0110A0E3           MOV      R1,#+1
+   \   000000F0   001080E5           STR      R1,[R0, #+0]
+    620            for (int i=0; i<MAXELEMS(vars);i++) vars[i]=NAN;
+   \   000000F4   0000A0E3           MOV      R0,#+0
+   \   000000F8   0020E0E1           MVN      R2,R0
+   \   000000FC   8034C2E3           BIC      R3,R2,#0x80000000
+   \   00000100   030000EA           B        ??CalcGuiOnCreate_5
+   \                     ??CalcGuiOnCreate_6:
+   \   00000104   ........           LDR      R1,??DataTable27  ;; vars
+   \   00000108   801181E0           ADD      R1,R1,R0, LSL #+3
+   \   0000010C   0C0081E8           STM      R1,{R2,R3}
+   \   00000110   010080E2           ADD      R0,R0,#+1
+   \                     ??CalcGuiOnCreate_5:
+   \   00000114   190050E3           CMP      R0,#+25
+   \   00000118   F9FFFF3A           BCC      ??CalcGuiOnCreate_6
+    621            return (1);
+   \   0000011C   0100A0E3           MOV      R0,#+1
+   \   00000120   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??CalcGuiOnCreate_1:
+   \   00000124   ........           DC32     vars + 220
+   \   00000128   ........           DC32     keydesc
+   \   0000012C   ........           DC32     vars + 216
+    622          }
+    623          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    624          void CalcGuiOnClose(DISP_OBJ_CALC *db)
+    625          {
+   \                     ??CalcGuiOnClose:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    626            TextID_Destroy(db->answer_sid);
+   \   00000008   780194E5           LDR      R0,[R4, #+376]
+    627            for (int x=0; x<TOTAL_OPS; x++)
+   \   0000000C   0050A0E3           MOV      R5,#+0
+   \   00000010   610100EF           SWI      +353
+    628            {
+    629              TextID_Destroy(db->yx[x]); 
+   \                     ??CalcGuiOnClose_1:
+   \   00000014   050184E0           ADD      R0,R4,R5, LSL #+2
+   \   00000018   940190E5           LDR      R0,[R0, #+404]
+    630            }
+   \   0000001C   015085E2           ADD      R5,R5,#+1
+   \   00000020   610100EF           SWI      +353
+   \   00000024   4A0055E3           CMP      R5,#+74
+   \   00000028   F9FFFFBA           BLT      ??CalcGuiOnClose_1
+    631          }
+   \   0000002C   3080BDE8           POP      {R4,R5,PC}       ;; return
+    632          
+    633          extern "C" void DrawUnk(void *gc, int x, int y, int unk, int unk2, int pic);
+    634          
+    635          enum TEXT_ALIGN {
+    636            TA_LEFT=0,
+    637            TA_RIGHT=1,
+    638            TA_CENTER=2,
+    639          };
+    640          
+    641          enum GC_XX {
+    642            GC_XX_WITH_BRUSH=1,
+    643            GC_XX_WITHOUT_BRUSH=2,
+    644          };
+    645          
+    646          #define COLOR(R,G,B,A) ((B&0xFF)|((G&0xFF)<<8)|((R&0xFF)<<16)|((A&0xFF)<<24))
+    647          
+    648          
+    649          #define SB_W            (scr_w>>6)
+    650          #define SB_X1(x2abs)    (x2abs-(scr_h>>6)-SB_W)
+    651          #define SB_X2(x2abs)    (x2abs-(scr_h>>6))
+    652          
+    653          #define ANS_B 1
+    654          #define ANS_H (FONTH+ANS_B*2)
+    655          #define ANS_X (scr_h>>6)
+    656          #define ANS_Y (scr_h>>6)
+    657          
+    658          #define INP_H          (FONTH+ANS_B*2)
+    659          #define INP_YD         (scr_h>>6)
+    660          #define INP_Y          (ANS_Y+ANS_H+(scr_h>>5))
+    661          #define INP_X1(x1abs)  (x1abs+(scr_h>>6))
+    662          #define INP_X2(x2abs)  (x2abs-(scr_h>>6)-1-SB_W)
+    663          #define INP_Y1(y1abs)  (y1abs+INP_Y)
+    664          #define INP_Y2(y2abs)  (y2abs-INP_YD)
+    665          
+    666          
+    667          
+    668          #define INP_MAXITEM(rc) ((INP_Y2(rc->y2)-INP_Y1(rc->y1))/INP_H)
+    669          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    670          int GetMaxCurRow(DISP_OBJ_CALC *db, int *max, int *cur)
+    671          {
+   \                     ??GetMaxCurRow:
+   \   00000000   F0072DE9           PUSH     {R4-R10}
+    672            int scr_h=db->y2-db->y1;
+    673            int scr_w=db->x2-db->x1;
+    674            int inp_w=INP_X2(db->x2)-INP_X1(db->x1)-4;
+   \   00000004   803190E5           LDR      R3,[R0, #+384]
+   \   00000008   804190E5           LDR      R4,[R0, #+384]
+   \   0000000C   7C5190E5           LDR      R5,[R0, #+380]
+   \   00000010   013043E2           SUB      R3,R3,#+1
+   \   00000014   054044E0           SUB      R4,R4,R5
+   \   00000018   443343E0           SUB      R3,R3,R4, ASR #+6
+   \   0000001C   884190E5           LDR      R4,[R0, #+392]
+   \   00000020   053043E0           SUB      R3,R3,R5
+   \   00000024   845190E5           LDR      R5,[R0, #+388]
+    675            int tx=0;
+    676            int f=0;
+   \   00000028   0060A0E3           MOV      R6,#+0
+   \   0000002C   054044E0           SUB      R4,R4,R5
+   \   00000030   4443A0E1           ASR      R4,R4,#+6
+   \   00000034   843043E0           SUB      R3,R3,R4, LSL #+1
+   \   00000038   04C043E2           SUB      R12,R3,#+4
+   \   0000003C   0040A0E3           MOV      R4,#+0
+    677            int drow=0;
+   \   00000040   0450A0E1           MOV      R5,R4
+    678            int pos=0;
+   \   00000044   0430A0E1           MOV      R3,R4
+    679            if (max) *max=0;
+   \   00000048   000051E3           CMP      R1,#+0
+   \   0000004C   0070A013           MOVNE    R7,#+0
+   \   00000050   00708115           STRNE    R7,[R1, #+0]
+    680            if (cur) *cur=0;
+   \   00000054   000052E3           CMP      R2,#+0
+   \   00000058   0070A013           MOVNE    R7,#+0
+   \   0000005C   00708215           STRNE    R7,[R2, #+0]
+    681            for (int i=0; i<=op_len;i++)
+   \   00000060   0070A0E3           MOV      R7,#+0
+   \   00000064   120000EA           B        ??GetMaxCurRow_1
+    682            {
+    683              if (i==op_pos)
+    684              {
+    685                if (cur) *cur=drow;
+    686                if (!max) break;
+    687                pos=tx;
+   \                     ??GetMaxCurRow_2:
+   \   00000068   0430A0E1           MOV      R3,R4
+    688                f=2;
+   \   0000006C   0260A0E3           MOV      R6,#+2
+    689              }
+    690              if (i<op_len)
+   \                     ??GetMaxCurRow_3:
+   \   00000070   ........           LDR      R8,??DataTable30  ;; vars + 208
+   \   00000074   008098E5           LDR      R8,[R8, #+0]
+   \   00000078   080057E1           CMP      R7,R8
+   \   0000007C   0B0000AA           BGE      ??GetMaxCurRow_4
+    691              {
+    692                int tlen=db->names_len[operation[i]];
+   \   00000080   ........           LDR      R8,??DataTable57  ;; vars
+    693                if (tx+tlen>inp_w+f)
+   \   00000084   0C9086E0           ADD      R9,R6,R12
+   \   00000088   088087E0           ADD      R8,R7,R8
+   \   0000008C   E480D8E5           LDRB     R8,[R8, #+228]
+   \   00000090   088180E0           ADD      R8,R0,R8, LSL #+2
+   \   00000094   BC8298E5           LDR      R8,[R8, #+700]
+   \   00000098   04A088E0           ADD      R10,R8,R4
+   \   0000009C   0A0059E1           CMP      R9,R10
+    694                {
+    695                  drow++;
+   \   000000A0   015085B2           ADDLT    R5,R5,#+1
+    696                  tx=0;
+   \   000000A4   0040A0B3           MOVLT    R4,#+0
+    697                  f=0;
+   \   000000A8   0060A0B3           MOVLT    R6,#+0
+    698                }
+    699                tx+=tlen;
+   \   000000AC   044088E0           ADD      R4,R8,R4
+    700              }
+   \                     ??GetMaxCurRow_4:
+   \   000000B0   017087E2           ADD      R7,R7,#+1
+   \                     ??GetMaxCurRow_1:
+   \   000000B4   ........           LDR      R8,??DataTable30  ;; vars + 208
+   \   000000B8   008098E5           LDR      R8,[R8, #+0]
+   \   000000BC   070058E1           CMP      R8,R7
+   \   000000C0   070000BA           BLT      ??GetMaxCurRow_5
+   \   000000C4   ........           LDR      R8,??DataTable35  ;; vars + 212
+   \   000000C8   008098E5           LDR      R8,[R8, #+0]
+   \   000000CC   080057E1           CMP      R7,R8
+   \   000000D0   E6FFFF1A           BNE      ??GetMaxCurRow_3
+   \   000000D4   000052E3           CMP      R2,#+0
+   \   000000D8   00508215           STRNE    R5,[R2, #+0]
+   \   000000DC   000051E3           CMP      R1,#+0
+   \   000000E0   E0FFFF1A           BNE      ??GetMaxCurRow_2
+    701            }
+    702            if (max) *max=drow;
+   \                     ??GetMaxCurRow_5:
+   \   000000E4   000051E3           CMP      R1,#+0
+   \   000000E8   00508115           STRNE    R5,[R1, #+0]
+    703            return (pos);
+   \   000000EC   F007BDE8           POP      {R4-R10}
+   \   000000F0   0300A0E1           MOV      R0,R3
+   \   000000F4   1EFF2FE1           BX       LR               ;; return
+    704          }
+    705          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    706          void SetCursPos(DISP_OBJ_CALC *db, int cur, int pos)
+    707          {
+   \                     ??SetCursPos:
+   \   00000000   F0032DE9           PUSH     {R4-R9}
+    708            int scr_h=db->y2-db->y1;
+    709            int scr_w=db->x2-db->x1;
+    710            int inp_w=INP_X2(db->x2)-INP_X1(db->x1)-4;
+   \   00000004   803190E5           LDR      R3,[R0, #+384]
+   \   00000008   804190E5           LDR      R4,[R0, #+384]
+   \   0000000C   7C5190E5           LDR      R5,[R0, #+380]
+   \   00000010   013043E2           SUB      R3,R3,#+1
+   \   00000014   054044E0           SUB      R4,R4,R5
+   \   00000018   443343E0           SUB      R3,R3,R4, ASR #+6
+   \   0000001C   884190E5           LDR      R4,[R0, #+392]
+   \   00000020   053043E0           SUB      R3,R3,R5
+   \   00000024   845190E5           LDR      R5,[R0, #+388]
+    711            int tx=0;
+   \   00000028   00C0A0E3           MOV      R12,#+0
+   \   0000002C   054044E0           SUB      R4,R4,R5
+   \   00000030   4443A0E1           ASR      R4,R4,#+6
+   \   00000034   843043E0           SUB      R3,R3,R4, LSL #+1
+   \   00000038   043043E2           SUB      R3,R3,#+4
+    712            int f=0;
+   \   0000003C   0040A0E3           MOV      R4,#+0
+    713            int drow=0;
+   \   00000040   0450A0E1           MOV      R5,R4
+    714            for (int i=0; i<=op_len;i++)
+   \   00000044   0460A0E1           MOV      R6,R4
+   \   00000048   038084E0           ADD      R8,R4,R3
+   \   0000004C   0D0000EA           B        ??SetCursPos_1
+    715            {
+    716              if ((drow==cur && tx>=pos) || i==op_len)
+    717              {
+    718                op_pos=i;
+    719                f=2;
+    720                break;
+    721              }
+    722              if (i<op_len)
+    723              {
+    724                int tlen=db->names_len[operation[i]];
+   \                     ??SetCursPos_2:
+   \   00000050   ........           LDR      R7,??DataTable57  ;; vars
+   \   00000054   077086E0           ADD      R7,R6,R7
+   \   00000058   E470D7E5           LDRB     R7,[R7, #+228]
+   \   0000005C   077180E0           ADD      R7,R0,R7, LSL #+2
+   \   00000060   BC7297E5           LDR      R7,[R7, #+700]
+    725                if (tx+tlen>inp_w+f)
+   \   00000064   0C9087E0           ADD      R9,R7,R12
+   \   00000068   090058E1           CMP      R8,R9
+   \   0000006C   030000AA           BGE      ??SetCursPos_3
+    726                {
+    727                  if (cur==drow) 
+   \   00000070   050051E1           CMP      R1,R5
+   \   00000074   0F00000A           BEQ      ??SetCursPos_4
+    728                  {
+    729                    op_pos=i;
+    730                    break;
+    731                  }
+    732                  drow++;
+   \   00000078   015085E2           ADD      R5,R5,#+1
+    733                  tx=0;
+   \   0000007C   00C0A0E3           MOV      R12,#+0
+    734                  f=0;
+    735                }
+    736                tx+=tlen;
+   \                     ??SetCursPos_3:
+   \   00000080   0CC087E0           ADD      R12,R7,R12
+    737              }
+   \   00000084   016086E2           ADD      R6,R6,#+1
+   \                     ??SetCursPos_1:
+   \   00000088   ........           LDR      R7,??DataTable55  ;; vars + 208
+   \   0000008C   007097E5           LDR      R7,[R7, #+0]
+   \   00000090   060057E1           CMP      R7,R6
+   \   00000094   090000BA           BLT      ??SetCursPos_5
+   \   00000098   010055E1           CMP      R5,R1
+   \   0000009C   0100001A           BNE      ??SetCursPos_6
+   \   000000A0   02005CE1           CMP      R12,R2
+   \   000000A4   030000AA           BGE      ??SetCursPos_4
+   \                     ??SetCursPos_6:
+   \   000000A8   ........           LDR      R7,??DataTable55  ;; vars + 208
+   \   000000AC   007097E5           LDR      R7,[R7, #+0]
+   \   000000B0   070056E1           CMP      R6,R7
+   \   000000B4   E5FFFF1A           BNE      ??SetCursPos_2
+   \                     ??SetCursPos_4:
+   \   000000B8   ........           LDR      R0,??DataTable35  ;; vars + 212
+   \   000000BC   006080E5           STR      R6,[R0, #+0]
+    738            }
+    739          }
+   \                     ??SetCursPos_5:
+   \   000000C0   F003BDE8           POP      {R4-R9}
+   \   000000C4   1EFF2FE1           BX       LR               ;; return
+    740          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    741          void CalcGuiOnRedraw(DISP_OBJ_CALC *db,int ,RECT *cur_rc,int)
+    742          {
+   \                     ??CalcGuiOnRedraw:
+   \   00000000   F44F2DE9           PUSH     {R2,R4-R11,LR}
+   \   00000004   58D04DE2           SUB      SP,SP,#+88
+   \   00000008   0040A0E1           MOV      R4,R0
+    743            GC *gc=get_DisplayGC();
+   \   0000000C   E50100EF           SWI      +485
+   \   00000010   0050A0E1           MOV      R5,R0
+    744            int gc_xx, font;
+    745            int scr_h, scr_w;
+    746            db->x1=cur_rc->x1;
+   \   00000014   58009DE5           LDR      R0,[SP, #+88]
+   \   00000018   B000D0E1           LDRH     R0,[R0, #+0]
+   \   0000001C   7C0184E5           STR      R0,[R4, #+380]
+    747            db->x2=cur_rc->x2;
+   \   00000020   58009DE5           LDR      R0,[SP, #+88]
+   \   00000024   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000028   800184E5           STR      R0,[R4, #+384]
+    748            db->y1=cur_rc->y1;
+   \   0000002C   58009DE5           LDR      R0,[SP, #+88]
+   \   00000030   B400D0E1           LDRH     R0,[R0, #+4]
+   \   00000034   840184E5           STR      R0,[R4, #+388]
+    749            db->y2=cur_rc->y2;
+   \   00000038   58009DE5           LDR      R0,[SP, #+88]
+   \   0000003C   B600D0E1           LDRH     R0,[R0, #+6]
+   \   00000040   880184E5           STR      R0,[R4, #+392]
+    750            scr_h=db->y2-db->y1;
+   \   00000044   842194E5           LDR      R2,[R4, #+388]
+   \   00000048   021040E0           SUB      R1,R0,R2
+   \   0000004C   0C108DE5           STR      R1,[SP, #+12]
+    751            scr_w=db->x2-db->x1;
+   \   00000050   801194E5           LDR      R1,[R4, #+384]
+   \   00000054   7C2194E5           LDR      R2,[R4, #+380]
+    752          
+    753            gc_xx=GC_GetXX(gc);
+   \   00000058   0500A0E1           MOV      R0,R5
+   \   0000005C   021041E0           SUB      R1,R1,R2
+   \   00000060   04108DE5           STR      R1,[SP, #+4]
+   \   00000064   E80100EF           SWI      +488
+   \   00000068   30008DE5           STR      R0,[SP, #+48]
+    754            GC_SetXX(gc,2);
+   \   0000006C   0210A0E3           MOV      R1,#+2
+   \   00000070   0500A0E1           MOV      R0,R5
+   \   00000074   E90100EF           SWI      +489
+    755            DrawRect(db->x1,db->y1,db->x2,db->y2,clWhite,COLOR(0xC0,0xC0,0xC0,0xFF));
+   \   00000078   30089FE5           LDR      R0,??CalcGuiOnRedraw_1  ;; 0xffffffffffc0c0c0
+   \   0000007C   01002DE9           PUSH     {R0}
+   \   00000080   0000E0E3           MVN      R0,#+0
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   883194E5           LDR      R3,[R4, #+392]
+   \   0000008C   802194E5           LDR      R2,[R4, #+384]
+   \   00000090   841194E5           LDR      R1,[R4, #+388]
+   \   00000094   7C0194E5           LDR      R0,[R4, #+380]
+   \   00000098   EC0100EF           SWI      +492
+    756            
+    757            if (req_recalc)
+   \   0000009C   ........           LDR      R0,??DataTable54  ;; vars + 216
+   \   000000A0   000090E5           LDR      R0,[R0, #+0]
+   \   000000A4   08D08DE2           ADD      SP,SP,#+8
+   \   000000A8   000050E3           CMP      R0,#+0
+   \   000000AC   1000000A           BEQ      ??CalcGuiOnRedraw_2
+    758            {
+    759              char revpn[32];
+    760              req_recalc=0;
+   \   000000B0   ........           LDR      R9,??DataTable57  ;; vars
+   \   000000B4   0000A0E3           MOV      R0,#+0
+   \   000000B8   D80089E5           STR      R0,[R9, #+216]
+    761              calc_answer();
+   \   000000BC   ........           BL       ??calc_answer
+    762              sprintf(revpn, "%1.10lg", d_answer);
+   \   000000C0   C82099E5           LDR      R2,[R9, #+200]
+   \   000000C4   CC3099E5           LDR      R3,[R9, #+204]
+   \   000000C8   E4179FE5           LDR      R1,??CalcGuiOnRedraw_1+0x4  ;; `?<Constant "%1.10lg">`
+   \   000000CC   38008DE2           ADD      R0,SP,#+56
+   \   000000D0   140100EF           SWI      +276
+    763              TextID_Destroy(db->answer_sid);
+   \   000000D4   780194E5           LDR      R0,[R4, #+376]
+   \   000000D8   610100EF           SWI      +353
+    764              db->answer_sid=TextID_Create(revpn,ENC_LAT1,TEXTID_ANY_LEN);
+   \   000000DC   FF20A0E3           MOV      R2,#+255
+   \   000000E0   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   000000E4   0610A0E3           MOV      R1,#+6
+   \   000000E8   38008DE2           ADD      R0,SP,#+56
+   \   000000EC   5D0100EF           SWI      +349
+   \   000000F0   780184E5           STR      R0,[R4, #+376]
+    765            }
+    766            RECT rt;
+    767            //RECT *rtp=&rt;
+    768            rt.x1=db->x1+ANS_X;
+   \                     ??CalcGuiOnRedraw_2:
+   \   000000F4   0C009DE5           LDR      R0,[SP, #+12]
+   \   000000F8   7C1194E5           LDR      R1,[R4, #+380]
+    769            rt.y1=db->y1+ANS_Y;
+    770            rt.x2=db->x2-ANS_X-1;
+    771            rt.y2=rt.y1+ANS_H;
+   \   000000FC   ........           LDR      R9,??DataTable57  ;; vars
+   \   00000100   4083A0E1           ASR      R8,R0,#+6
+   \   00000104   011088E0           ADD      R1,R8,R1
+   \   00000108   B812CDE1           STRH     R1,[SP, #+40]
+   \   0000010C   840194E5           LDR      R0,[R4, #+388]
+   \   00000110   FF10A0E3           MOV      R1,#+255
+   \   00000114   006088E0           ADD      R6,R8,R0
+   \   00000118   800194E5           LDR      R0,[R4, #+384]
+   \   0000011C   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000120   080040E0           SUB      R0,R0,R8
+   \   00000124   007081E0           ADD      R7,R1,R0
+   \   00000128   E00099E5           LDR      R0,[R9, #+224]
+    772            GC_SetPenColor(gc, clBlack);
+   \   0000012C   FF14A0E3           MOV      R1,#-16777216
+   \   00000130   060080E0           ADD      R0,R0,R6
+   \   00000134   02A080E2           ADD      R10,R0,#+2
+   \   00000138   0500A0E1           MOV      R0,R5
+   \   0000013C   600200EF           SWI      +608
+    773            GC_SetBrushColor(gc, clWhite);
+   \   00000140   0010E0E3           MVN      R1,#+0
+   \   00000144   0500A0E1           MOV      R0,R5
+   \   00000148   BE0200EF           SWI      +702
+    774            DrawRect(rt.x1,rt.y1,rt.x2,rt.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc));
+   \   0000014C   0500A0E1           MOV      R0,R5
+   \   00000150   BD0200EF           SWI      +701
+   \   00000154   00B0A0E1           MOV      R11,R0
+   \   00000158   0500A0E1           MOV      R0,R5
+   \   0000015C   5F0200EF           SWI      +607
+   \   00000160   00082DE9           PUSH     {R11}
+   \   00000164   01002DE9           PUSH     {R0}
+   \   00000168   B003DDE1           LDRH     R0,[SP, #+48]
+   \   0000016C   0A38A0E1           MOV      R3,R10, LSL #+16
+   \   00000170   2338A0E1           MOV      R3,R3, LSR #+16
+   \   00000174   0728A0E1           MOV      R2,R7, LSL #+16
+   \   00000178   2228A0E1           MOV      R2,R2, LSR #+16
+   \   0000017C   0618A0E1           MOV      R1,R6, LSL #+16
+   \   00000180   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000184   EC0100EF           SWI      +492
+    775            //GC_DrawRoundRect(gc ,&rt,4,4,2,1);  // Рамка для ответа
+    776              
+    777            rt.x1=INP_X1(db->x1);
+   \   00000188   7C0194E5           LDR      R0,[R4, #+380]
+    778            rt.y1=INP_Y1(db->y1);
+   \   0000018C   14109DE5           LDR      R1,[SP, #+20]
+   \   00000190   00A088E0           ADD      R10,R8,R0
+   \   00000194   C112A0E1           ASR      R1,R1,#+5
+   \   00000198   10108DE5           STR      R1,[SP, #+16]
+   \   0000019C   840194E5           LDR      R0,[R4, #+388]
+   \   000001A0   E01099E5           LDR      R1,[R9, #+224]
+   \   000001A4   000088E0           ADD      R0,R8,R0
+   \   000001A8   000081E0           ADD      R0,R1,R0
+   \   000001AC   10109DE5           LDR      R1,[SP, #+16]
+   \   000001B0   000081E0           ADD      R0,R1,R0
+    779            rt.x2=INP_X2(db->x2);
+   \   000001B4   0C109DE5           LDR      R1,[SP, #+12]
+   \   000001B8   02B080E2           ADD      R11,R0,#+2
+   \   000001BC   800194E5           LDR      R0,[R4, #+384]
+   \   000001C0   080040E0           SUB      R0,R0,R8
+   \   000001C4   010040E2           SUB      R0,R0,#+1
+   \   000001C8   416340E0           SUB      R6,R0,R1, ASR #+6
+    780            rt.y2=INP_Y2(db->y2);
+   \   000001CC   880194E5           LDR      R0,[R4, #+392]
+    781            GC_SetPenColor(gc, clBlack);
+   \   000001D0   FF14A0E3           MOV      R1,#-16777216
+   \   000001D4   087040E0           SUB      R7,R0,R8
+   \   000001D8   0500A0E1           MOV      R0,R5
+   \   000001DC   600200EF           SWI      +608
+    782            GC_SetBrushColor(gc, clWhite);
+   \   000001E0   0010E0E3           MVN      R1,#+0
+   \   000001E4   0500A0E1           MOV      R0,R5
+   \   000001E8   BE0200EF           SWI      +702
+    783            DrawRect(rt.x1,rt.y1,rt.x2,rt.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc));
+   \   000001EC   0500A0E1           MOV      R0,R5
+   \   000001F0   BD0200EF           SWI      +701
+   \   000001F4   18008DE5           STR      R0,[SP, #+24]
+   \   000001F8   0500A0E1           MOV      R0,R5
+   \   000001FC   5F0200EF           SWI      +607
+   \   00000200   18109DE5           LDR      R1,[SP, #+24]
+   \   00000204   0738A0E1           MOV      R3,R7, LSL #+16
+   \   00000208   02002DE9           PUSH     {R1}
+   \   0000020C   01002DE9           PUSH     {R0}
+   \   00000210   2338A0E1           MOV      R3,R3, LSR #+16
+   \   00000214   0628A0E1           MOV      R2,R6, LSL #+16
+   \   00000218   2228A0E1           MOV      R2,R2, LSR #+16
+   \   0000021C   0B18A0E1           MOV      R1,R11, LSL #+16
+   \   00000220   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000224   0A08A0E1           MOV      R0,R10, LSL #+16
+   \   00000228   2008A0E1           MOV      R0,R0, LSR #+16
+   \   0000022C   EC0100EF           SWI      +492
+    784            //GC_DrawRoundRect(gc ,&rt,4,4,2,1);  // Рамка для вводимых чисел
+    785            
+    786            font=SetFont(FONTID);
+   \   00000230   DC0099E5           LDR      R0,[R9, #+220]
+    787            DrawString(db->answer_sid,0,db->x1+ANS_X+1,db->y1+ANS_Y+ANS_B, db->x2-ANS_X-2, db->y1+ANS_Y+ANS_H+ANS_B*2,0,0,clBlack,0);  // ответ
+    788            
+    789            // формула
+    790            int drow=0;
+   \   00000234   0060A0E3           MOV      R6,#+0
+   \   00000238   F10100EF           SWI      +497
+   \   0000023C   44008DE5           STR      R0,[SP, #+68]
+   \   00000240   0000A0E3           MOV      R0,#+0
+   \   00000244   01002DE9           PUSH     {R0}
+   \   00000248   FF04A0E3           MOV      R0,#-16777216
+   \   0000024C   01002DE9           PUSH     {R0}
+   \   00000250   0000A0E3           MOV      R0,#+0
+   \   00000254   01002DE9           PUSH     {R0}
+   \   00000258   01002DE9           PUSH     {R0}
+   \   0000025C   E01099E5           LDR      R1,[R9, #+224]
+   \   00000260   840194E5           LDR      R0,[R4, #+388]
+   \   00000264   000088E0           ADD      R0,R8,R0
+   \   00000268   000081E0           ADD      R0,R1,R0
+   \   0000026C   040080E2           ADD      R0,R0,#+4
+   \   00000270   01002DE9           PUSH     {R0}
+   \   00000274   800194E5           LDR      R0,[R4, #+384]
+   \   00000278   0010A0E3           MOV      R1,#+0
+   \   0000027C   080040E0           SUB      R0,R0,R8
+   \   00000280   020040E2           SUB      R0,R0,#+2
+   \   00000284   01002DE9           PUSH     {R0}
+   \   00000288   840194E5           LDR      R0,[R4, #+388]
+   \   0000028C   000088E0           ADD      R0,R8,R0
+   \   00000290   013080E2           ADD      R3,R0,#+1
+   \   00000294   7C0194E5           LDR      R0,[R4, #+380]
+   \   00000298   000088E0           ADD      R0,R8,R0
+   \   0000029C   012080E2           ADD      R2,R0,#+1
+   \   000002A0   780194E5           LDR      R0,[R4, #+376]
+   \   000002A4   ED0100EF           SWI      +493
+   \   000002A8   28D08DE2           ADD      SP,SP,#+40
+    791            int cur_row, max_row;
+    792            int cur_base, cur_count;
+    793            int maxitem=INP_MAXITEM(cur_rc);
+   \   000002AC   58009DE5           LDR      R0,[SP, #+88]
+   \   000002B0   58309DE5           LDR      R3,[SP, #+88]
+   \   000002B4   B600D0E1           LDRH     R0,[R0, #+6]
+   \   000002B8   B430D3E1           LDRH     R3,[R3, #+4]
+   \   000002BC   E01099E5           LDR      R1,[R9, #+224]
+    794            GetMaxCurRow(db,&max_row,&cur_row);
+   \   000002C0   18208DE2           ADD      R2,SP,#+24
+   \   000002C4   030040E0           SUB      R0,R0,R3
+   \   000002C8   08309DE5           LDR      R3,[SP, #+8]
+   \   000002CC   880040E0           SUB      R0,R0,R8, LSL #+1
+   \   000002D0   010040E0           SUB      R0,R0,R1
+   \   000002D4   030040E0           SUB      R0,R0,R3
+   \   000002D8   020040E2           SUB      R0,R0,#+2
+   \   000002DC   021081E2           ADD      R1,R1,#+2
+   \   000002E0   ........           _BLF     ??div32_a,??rA??div32_a
+   \   000002E4   00108DE5           STR      R1,[SP, #+0]
+   \   000002E8   14108DE2           ADD      R1,SP,#+20
+   \   000002EC   0400A0E1           MOV      R0,R4
+   \   000002F0   ........           BL       ??GetMaxCurRow
+    795            max_row++;
+   \   000002F4   14109DE5           LDR      R1,[SP, #+20]
+   \   000002F8   011081E2           ADD      R1,R1,#+1
+   \   000002FC   14108DE5           STR      R1,[SP, #+20]
+    796            if (max_row<=maxitem)
+   \   00000300   00009DE5           LDR      R0,[SP, #+0]
+   \   00000304   010050E1           CMP      R0,R1
+    797            {
+    798              cur_base=0;
+   \   00000308   0070A0A3           MOVGE    R7,#+0
+    799              cur_count=max_row;
+   \   0000030C   20108DA5           STRGE    R1,[SP, #+32]
+   \   00000310   1A0000AA           BGE      ??CalcGuiOnRedraw_3
+    800            }
+    801            else
+    802            {
+    803              cur_count=maxitem;
+   \   00000314   0010A0E1           MOV      R1,R0
+   \   00000318   20108DE5           STR      R1,[SP, #+32]
+    804              cur_base=db->cur_base;
+   \   0000031C   8C7194E5           LDR      R7,[R4, #+396]
+    805              
+    806              int idist=cur_row-db->cur_base;
+   \   00000320   18009DE5           LDR      R0,[SP, #+24]
+    807              if (idist >= maxitem-1) cur_base += idist - maxitem + 2;
+   \   00000324   00109DE5           LDR      R1,[SP, #+0]
+   \   00000328   070040E0           SUB      R0,R0,R7
+   \   0000032C   011041E2           SUB      R1,R1,#+1
+   \   00000330   010050E1           CMP      R0,R1
+   \   00000334   040000BA           BLT      ??CalcGuiOnRedraw_4
+   \   00000338   00109DE5           LDR      R1,[SP, #+0]
+   \   0000033C   070080E0           ADD      R0,R0,R7
+   \   00000340   010040E0           SUB      R0,R0,R1
+   \   00000344   027080E2           ADD      R7,R0,#+2
+   \   00000348   030000EA           B        ??CalcGuiOnRedraw_5
+    808              else if (cur_row <= db->cur_base) cur_base += idist - 1;
+   \                     ??CalcGuiOnRedraw_4:
+   \   0000034C   18209DE5           LDR      R2,[SP, #+24]
+   \   00000350   020057E1           CMP      R7,R2
+   \   00000354   010040A2           SUBGE    R0,R0,#+1
+   \   00000358   077080A0           ADDGE    R7,R0,R7
+    809              
+    810              if (cur_base < 0) cur_base = 0;
+   \                     ??CalcGuiOnRedraw_5:
+   \   0000035C   000057E3           CMP      R7,#+0
+   \   00000360   0070A043           MOVMI    R7,#+0
+   \   00000364   0500004A           BMI      ??CalcGuiOnRedraw_3
+    811              else if (cur_base > max_row - maxitem) cur_base = max_row - maxitem;
+   \   00000368   14009DE5           LDR      R0,[SP, #+20]
+   \   0000036C   00109DE5           LDR      R1,[SP, #+0]
+   \   00000370   010040E0           SUB      R0,R0,R1
+   \   00000374   070050E1           CMP      R0,R7
+   \   00000378   14009DB5           LDRLT    R0,[SP, #+20]
+   \   0000037C   017040B0           SUBLT    R7,R0,R1
+    812            }
+    813            db->cur_base=cur_base;
+   \                     ??CalcGuiOnRedraw_3:
+   \   00000380   8C7184E5           STR      R7,[R4, #+396]
+    814            {
+    815              SetFont(FONTID);
+   \   00000384   DC0099E5           LDR      R0,[R9, #+220]
+    816              int tx=0;
+   \   00000388   00A0A0E3           MOV      R10,#+0
+   \   0000038C   F10100EF           SWI      +497
+    817              int inp_w=INP_X2(db->x2)-INP_X1(db->x1)-4;
+   \   00000390   801194E5           LDR      R1,[R4, #+384]
+   \   00000394   04209DE5           LDR      R2,[SP, #+4]
+   \   00000398   0C009DE5           LDR      R0,[SP, #+12]
+   \   0000039C   011041E2           SUB      R1,R1,#+1
+   \   000003A0   421341E0           SUB      R1,R1,R2, ASR #+6
+   \   000003A4   7C2194E5           LDR      R2,[R4, #+380]
+   \   000003A8   4083A0E1           ASR      R8,R0,#+6
+   \   000003AC   021041E0           SUB      R1,R1,R2
+   \   000003B0   881041E0           SUB      R1,R1,R8, LSL #+1
+   \   000003B4   041041E2           SUB      R1,R1,#+4
+   \   000003B8   2C108DE5           STR      R1,[SP, #+44]
+    818              int x_offs=INP_X1(db->x1)+1;
+   \   000003BC   7C1194E5           LDR      R1,[R4, #+380]
+    819              int y_offs=INP_Y1(db->y1);
+    820              int f=0;
+   \   000003C0   06B0A0E1           MOV      R11,R6
+   \   000003C4   011088E0           ADD      R1,R8,R1
+   \   000003C8   011081E2           ADD      R1,R1,#+1
+   \   000003CC   24108DE5           STR      R1,[SP, #+36]
+   \   000003D0   841194E5           LDR      R1,[R4, #+388]
+   \   000003D4   E02099E5           LDR      R2,[R9, #+224]
+   \   000003D8   011088E0           ADD      R1,R8,R1
+   \   000003DC   011082E0           ADD      R1,R2,R1
+   \   000003E0   C01281E0           ADD      R1,R1,R0, ASR #+5
+   \   000003E4   021081E2           ADD      R1,R1,#+2
+   \   000003E8   1C108DE5           STR      R1,[SP, #+28]
+    821              for (int i=0; i<=op_len;i++)
+   \   000003EC   D00099E5           LDR      R0,[R9, #+208]
+   \   000003F0   0680A0E1           MOV      R8,R6
+   \   000003F4   000050E3           CMP      R0,#+0
+   \   000003F8   4900005A           BPL      ??CalcGuiOnRedraw_6
+   \   000003FC   4C0000EA           B        ??CalcGuiOnRedraw_7
+    822              {
+    823                if (i==op_pos)
+   \                     ??CalcGuiOnRedraw_8:
+   \   00000400   ........           LDR      R0,??DataTable56  ;; vars + 212
+   \   00000404   000090E5           LDR      R0,[R0, #+0]
+   \   00000408   000058E1           CMP      R8,R0
+   \   0000040C   1000001A           BNE      ??CalcGuiOnRedraw_9
+    824                {
+    825                  DrawRect(x_offs+tx,y_offs+INP_H*(drow-cur_base),x_offs+tx+2,y_offs+INP_H*(drow-cur_base)+FONTH,clBlack,clBlack);
+   \   00000410   ........           LDR      R9,??DataTable57  ;; vars
+   \   00000414   1C009DE5           LDR      R0,[SP, #+28]
+   \   00000418   E02099E5           LDR      R2,[R9, #+224]
+   \   0000041C   073046E0           SUB      R3,R6,R7
+   \   00000420   021082E2           ADD      R1,R2,#+2
+   \   00000424   930121E0           MLA      R1,R3,R1,R0
+   \   00000428   24009DE5           LDR      R0,[SP, #+36]
+   \   0000042C   FF34A0E3           MOV      R3,#-16777216
+   \   00000430   08002DE9           PUSH     {R3}
+   \   00000434   08002DE9           PUSH     {R3}
+   \   00000438   00008AE0           ADD      R0,R10,R0
+    826                  tx+=2;
+   \   0000043C   02A08AE2           ADD      R10,R10,#+2
+    827                  f=2;
+   \   00000440   02B0A0E3           MOV      R11,#+2
+   \   00000444   013082E0           ADD      R3,R2,R1
+   \   00000448   022080E2           ADD      R2,R0,#+2
+   \   0000044C   EC0100EF           SWI      +492
+   \   00000450   08D08DE2           ADD      SP,SP,#+8
+    828                }
+    829                if (i<op_len)
+   \                     ??CalcGuiOnRedraw_9:
+   \   00000454   ........           LDR      R0,??DataTable55  ;; vars + 208
+   \   00000458   000090E5           LDR      R0,[R0, #+0]
+   \   0000045C   000058E1           CMP      R8,R0
+   \   00000460   2E0000AA           BGE      ??CalcGuiOnRedraw_10
+    830                {
+    831                  TEXTID text=db->yx[operation[i]];
+   \   00000464   ........           LDR      R9,??DataTable57  ;; vars
+   \   00000468   090088E0           ADD      R0,R8,R9
+   \   0000046C   E400D0E5           LDRB     R0,[R0, #+228]
+   \   00000470   001184E0           ADD      R1,R4,R0, LSL #+2
+   \   00000474   940191E5           LDR      R0,[R1, #+404]
+    832                  int tlen=db->names_len[operation[i]];
+   \   00000478   BC1291E5           LDR      R1,[R1, #+700]
+   \   0000047C   10108DE5           STR      R1,[SP, #+16]
+    833                  if (tx+tlen>(inp_w+f))
+   \   00000480   2C109DE5           LDR      R1,[SP, #+44]
+   \   00000484   10209DE5           LDR      R2,[SP, #+16]
+   \   00000488   01108BE0           ADD      R1,R11,R1
+   \   0000048C   0A2082E0           ADD      R2,R2,R10
+   \   00000490   020051E1           CMP      R1,R2
+    834                  {
+    835                    drow++;
+   \   00000494   016086B2           ADDLT    R6,R6,#+1
+    836                    tx=0;
+   \   00000498   00A0A0B3           MOVLT    R10,#+0
+    837                    f=0;
+   \   0000049C   00B0A0B3           MOVLT    R11,#+0
+    838                  }
+    839                  if (drow>=cur_base && drow<(cur_base+cur_count))
+   \   000004A0   070056E1           CMP      R6,R7
+   \   000004A4   1B0000BA           BLT      ??CalcGuiOnRedraw_11
+   \   000004A8   20109DE5           LDR      R1,[SP, #+32]
+   \   000004AC   071081E0           ADD      R1,R1,R7
+   \   000004B0   010056E1           CMP      R6,R1
+   \   000004B4   170000AA           BGE      ??CalcGuiOnRedraw_11
+    840                    DrawString(text,0,x_offs+tx,y_offs+INP_H*(drow-cur_base), x_offs+tx+tlen, y_offs+INP_H*(drow-cur_base+1),0,0,clBlack,0);  // ответ
+   \   000004B8   E01099E5           LDR      R1,[R9, #+224]
+   \   000004BC   24209DE5           LDR      R2,[SP, #+36]
+   \   000004C0   0030A0E3           MOV      R3,#+0
+   \   000004C4   08002DE9           PUSH     {R3}
+   \   000004C8   021081E2           ADD      R1,R1,#+2
+   \   000004CC   079046E0           SUB      R9,R6,R7
+   \   000004D0   01C089E2           ADD      R12,R9,#+1
+   \   000004D4   FF34A0E3           MOV      R3,#-16777216
+   \   000004D8   08002DE9           PUSH     {R3}
+   \   000004DC   02208AE0           ADD      R2,R10,R2
+   \   000004E0   0030A0E3           MOV      R3,#+0
+   \   000004E4   08002DE9           PUSH     {R3}
+   \   000004E8   08002DE9           PUSH     {R3}
+   \   000004EC   2C309DE5           LDR      R3,[SP, #+44]
+   \   000004F0   9C3123E0           MLA      R3,R12,R1,R3
+   \   000004F4   08002DE9           PUSH     {R3}
+   \   000004F8   24309DE5           LDR      R3,[SP, #+36]
+   \   000004FC   023083E0           ADD      R3,R3,R2
+   \   00000500   08002DE9           PUSH     {R3}
+   \   00000504   34309DE5           LDR      R3,[SP, #+52]
+   \   00000508   993123E0           MLA      R3,R9,R1,R3
+   \   0000050C   0010A0E3           MOV      R1,#+0
+   \   00000510   ED0100EF           SWI      +493
+   \   00000514   18D08DE2           ADD      SP,SP,#+24
+    841                  tx+=tlen;
+   \                     ??CalcGuiOnRedraw_11:
+   \   00000518   10009DE5           LDR      R0,[SP, #+16]
+   \   0000051C   0AA080E0           ADD      R10,R0,R10
+    842                }
+    843              }
+   \                     ??CalcGuiOnRedraw_10:
+   \   00000520   018088E2           ADD      R8,R8,#+1
+   \                     ??CalcGuiOnRedraw_6:
+   \   00000524   ........           LDR      R0,??DataTable55  ;; vars + 208
+   \   00000528   000090E5           LDR      R0,[R0, #+0]
+   \   0000052C   080050E1           CMP      R0,R8
+   \   00000530   B2FFFFAA           BGE      ??CalcGuiOnRedraw_8
+    844            }
+    845            
+    846            // скролл бар
+    847            if (max_row>maxitem)
+   \                     ??CalcGuiOnRedraw_7:
+   \   00000534   00009DE5           LDR      R0,[SP, #+0]
+   \   00000538   14109DE5           LDR      R1,[SP, #+20]
+   \   0000053C   010050E1           CMP      R0,R1
+   \   00000540   340000AA           BGE      ??CalcGuiOnRedraw_12
+    848            {
+    849              int inp_h=INP_Y2(db->y2)-INP_Y1(db->y1);
+   \   00000544   ........           LDR      R9,??DataTable57  ;; vars
+   \   00000548   0C109DE5           LDR      R1,[SP, #+12]
+   \   0000054C   E06099E5           LDR      R6,[R9, #+224]
+   \   00000550   C112A0E1           ASR      R1,R1,#+5
+   \   00000554   08108DE5           STR      R1,[SP, #+8]
+   \   00000558   0C009DE5           LDR      R0,[SP, #+12]
+   \   0000055C   841194E5           LDR      R1,[R4, #+388]
+   \   00000560   4083A0E1           ASR      R8,R0,#+6
+   \   00000564   880194E5           LDR      R0,[R4, #+392]
+   \   00000568   010040E0           SUB      R0,R0,R1
+   \   0000056C   08109DE5           LDR      R1,[SP, #+8]
+   \   00000570   880040E0           SUB      R0,R0,R8, LSL #+1
+   \   00000574   060040E0           SUB      R0,R0,R6
+   \   00000578   010040E0           SUB      R0,R0,R1
+   \   0000057C   022040E2           SUB      R2,R0,#+2
+    850              int sb_h=maxitem*inp_h/(max_row-1);
+   \   00000580   14009DE5           LDR      R0,[SP, #+20]
+   \   00000584   013040E2           SUB      R3,R0,#+1
+   \   00000588   00009DE5           LDR      R0,[SP, #+0]
+   \   0000058C   0310A0E1           MOV      R1,R3
+   \   00000590   920000E0           MUL      R0,R2,R0
+   \   00000594   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000598   0170A0E1           MOV      R7,R1
+    851              int sb_y=(inp_h-sb_h)*cur_row/(max_row-1);
+   \   0000059C   18109DE5           LDR      R1,[SP, #+24]
+   \   000005A0   070042E0           SUB      R0,R2,R7
+   \   000005A4   910000E0           MUL      R0,R1,R0
+   \   000005A8   0310A0E1           MOV      R1,R3
+   \   000005AC   ........           _BLF     ??div32_a,??rA??div32_a
+    852              DrawRect(SB_X1(db->x2),INP_Y1(db->y1)+sb_y,SB_X2(db->x2),INP_Y1(db->y1)+sb_y+sb_h,clBlack,clBlack);
+   \   000005B0   FF04A0E3           MOV      R0,#-16777216
+   \   000005B4   01002DE9           PUSH     {R0}
+   \   000005B8   01002DE9           PUSH     {R0}
+   \   000005BC   10209DE5           LDR      R2,[SP, #+16]
+   \   000005C0   840194E5           LDR      R0,[R4, #+388]
+   \   000005C4   000088E0           ADD      R0,R8,R0
+   \   000005C8   000086E0           ADD      R0,R6,R0
+   \   000005CC   000082E0           ADD      R0,R2,R0
+   \   000005D0   000081E0           ADD      R0,R1,R0
+   \   000005D4   000087E0           ADD      R0,R7,R0
+   \   000005D8   023080E2           ADD      R3,R0,#+2
+   \   000005DC   800194E5           LDR      R0,[R4, #+384]
+   \   000005E0   082040E0           SUB      R2,R0,R8
+   \   000005E4   840194E5           LDR      R0,[R4, #+388]
+   \   000005E8   000088E0           ADD      R0,R8,R0
+   \   000005EC   000086E0           ADD      R0,R6,R0
+   \   000005F0   10609DE5           LDR      R6,[SP, #+16]
+   \   000005F4   000086E0           ADD      R0,R6,R0
+   \   000005F8   0C609DE5           LDR      R6,[SP, #+12]
+   \   000005FC   000081E0           ADD      R0,R1,R0
+   \   00000600   021080E2           ADD      R1,R0,#+2
+   \   00000604   800194E5           LDR      R0,[R4, #+384]
+   \   00000608   080040E0           SUB      R0,R0,R8
+   \   0000060C   460340E0           SUB      R0,R0,R6, ASR #+6
+   \   00000610   EC0100EF           SWI      +492
+   \   00000614   08D08DE2           ADD      SP,SP,#+8
+    853            }
+    854            
+    855            
+    856            
+    857            if (db->current_tab!=0) // Если это не первый там рисуем подсказку
+   \                     ??CalcGuiOnRedraw_12:
+   \   00000618   6C0194E5           LDR      R0,[R4, #+364]
+   \   0000061C   000050E3           CMP      R0,#+0
+   \   00000620   9B00000A           BEQ      ??CalcGuiOnRedraw_13
+    858            {
+    859              int dx=0;
+    860              int need_height=FONTH*4+5*2*4;
+   \   00000624   8C029FE5           LDR      R0,??CalcGuiOnRedraw_1+0x8  ;; vars + 224
+   \   00000628   0010A0E3           MOV      R1,#+0
+   \   0000062C   00108DE5           STR      R1,[SP, #+0]
+   \   00000630   000090E5           LDR      R0,[R0, #+0]
+    861              int need_width=db->maxintab*3;
+    862              
+    863              if ((scr_w-need_width)>3)
+   \   00000634   04209DE5           LDR      R2,[SP, #+4]
+   \   00000638   2810A0E3           MOV      R1,#+40
+   \   0000063C   000181E0           ADD      R0,R1,R0, LSL #+2
+   \   00000640   901194E5           LDR      R1,[R4, #+400]
+   \   00000644   811081E0           ADD      R1,R1,R1, LSL #+1
+   \   00000648   012042E0           SUB      R2,R2,R1
+   \   0000064C   040052E3           CMP      R2,#+4
+   \   00000650   050000BA           BLT      ??CalcGuiOnRedraw_14
+    864              {
+    865                dx=(scr_w-need_width)>>2;
+   \   00000654   04309DE5           LDR      R3,[SP, #+4]
+   \   00000658   013043E0           SUB      R3,R3,R1
+   \   0000065C   4331A0E1           ASR      R3,R3,#+2
+   \   00000660   00308DE5           STR      R3,[SP, #+0]
+    866                need_width+=dx*3;
+   \   00000664   832083E0           ADD      R2,R3,R3, LSL #+1
+   \   00000668   011082E0           ADD      R1,R2,R1
+    867              }
+    868                  
+    869              int start_y=need_height<scr_h?(scr_h-need_height)>>1:0;
+   \                     ??CalcGuiOnRedraw_14:
+   \   0000066C   0C209DE5           LDR      R2,[SP, #+12]
+   \   00000670   020050E1           CMP      R0,R2
+   \   00000674   003042B0           SUBLT    R3,R2,R0
+   \   00000678   C330A0B1           ASRLT    R3,R3,#+1
+   \   0000067C   0030A0A3           MOVGE    R3,#+0
+   \   00000680   08308DE5           STR      R3,[SP, #+8]
+    870              int start_x=need_width<scr_w?(scr_w-need_width)>>1:0;
+   \   00000684   04209DE5           LDR      R2,[SP, #+4]
+   \   00000688   020051E1           CMP      R1,R2
+   \   0000068C   013042B0           SUBLT    R3,R2,R1
+   \   00000690   C330A0B1           ASRLT    R3,R3,#+1
+   \   00000694   0030A0A3           MOVGE    R3,#+0
+   \   00000698   10308DE5           STR      R3,[SP, #+16]
+    871          
+    872              rt.x1=db->x1+start_x;
+   \   0000069C   7C2194E5           LDR      R2,[R4, #+380]
+   \   000006A0   10309DE5           LDR      R3,[SP, #+16]
+   \   000006A4   02A083E0           ADD      R10,R3,R2
+    873              rt.y1=db->y1+start_y;
+   \   000006A8   842194E5           LDR      R2,[R4, #+388]
+   \   000006AC   08309DE5           LDR      R3,[SP, #+8]
+   \   000006B0   02B083E0           ADD      R11,R3,R2
+    874              rt.x2=db->x1+start_x+need_width;
+   \   000006B4   7C2194E5           LDR      R2,[R4, #+380]
+   \   000006B8   10309DE5           LDR      R3,[SP, #+16]
+   \   000006BC   022083E0           ADD      R2,R3,R2
+   \   000006C0   026081E0           ADD      R6,R1,R2
+    875              rt.y2=db->y1+start_y+need_height;
+   \   000006C4   841194E5           LDR      R1,[R4, #+388]
+   \   000006C8   08209DE5           LDR      R2,[SP, #+8]
+   \   000006CC   011082E0           ADD      R1,R2,R1
+   \   000006D0   017080E0           ADD      R7,R0,R1
+    876              GC_SetPenColor(gc, clBlack);
+   \   000006D4   FF14A0E3           MOV      R1,#-16777216
+   \   000006D8   0500A0E1           MOV      R0,R5
+   \   000006DC   600200EF           SWI      +608
+    877              GC_SetBrushColor(gc, clWhite);
+   \   000006E0   0010E0E3           MVN      R1,#+0
+   \   000006E4   0500A0E1           MOV      R0,R5
+   \   000006E8   BE0200EF           SWI      +702
+    878              DrawRect(rt.x1,rt.y1,rt.x2,rt.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc));
+   \   000006EC   0500A0E1           MOV      R0,R5
+   \   000006F0   BD0200EF           SWI      +701
+   \   000006F4   0080A0E1           MOV      R8,R0
+   \   000006F8   0500A0E1           MOV      R0,R5
+   \   000006FC   5F0200EF           SWI      +607
+   \   00000700   00012DE9           PUSH     {R8}
+   \   00000704   01002DE9           PUSH     {R0}
+   \   00000708   0738A0E1           MOV      R3,R7, LSL #+16
+   \   0000070C   2338A0E1           MOV      R3,R3, LSR #+16
+   \   00000710   0628A0E1           MOV      R2,R6, LSL #+16
+   \   00000714   2228A0E1           MOV      R2,R2, LSR #+16
+   \   00000718   0B18A0E1           MOV      R1,R11, LSL #+16
+   \   0000071C   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000720   0A08A0E1           MOV      R0,R10, LSL #+16
+   \   00000724   2008A0E1           MOV      R0,R0, LSR #+16
+   \   00000728   EC0100EF           SWI      +492
+    879              //GC_DrawRoundRect(gc ,&rt,4,4,2,1);  // Рамка для вводимых чисел
+    880              for (int y=0; y<4; y++)
+   \   0000072C   0010A0E3           MOV      R1,#+0
+   \   00000730   0C108DE5           STR      R1,[SP, #+12]
+   \   00000734   08D08DE2           ADD      SP,SP,#+8
+    881              {
+    882                for (int x=0; x<3; x++)
+   \                     ??CalcGuiOnRedraw_15:
+   \   00000738   0080A0E3           MOV      R8,#+0
+    883                {
+    884                  unsigned int x_frame=start_x+db->maxintab*x+dx*x;
+   \                     ??CalcGuiOnRedraw_16:
+   \   0000073C   901194E5           LDR      R1,[R4, #+400]
+   \   00000740   00209DE5           LDR      R2,[SP, #+0]
+    885                  unsigned int y_frame=start_y+FONTH*y+5*2*y;
+   \   00000744   ........           LDR      R9,??DataTable57  ;; vars
+   \   00000748   10009DE5           LDR      R0,[SP, #+16]
+    886                  TEXTID text=db->yx[db->current_tab*12+y*3+x];
+   \   0000074C   04309DE5           LDR      R3,[SP, #+4]
+   \   00000750   011082E0           ADD      R1,R2,R1
+   \   00000754   E02099E5           LDR      R2,[R9, #+224]
+   \   00000758   910826E0           MLA      R6,R1,R8,R0
+   \   0000075C   04109DE5           LDR      R1,[SP, #+4]
+   \   00000760   08009DE5           LDR      R0,[SP, #+8]
+   \   00000764   0A2082E2           ADD      R2,R2,#+10
+   \   00000768   920127E0           MLA      R7,R2,R1,R0
+   \   0000076C   6C1194E5           LDR      R1,[R4, #+364]
+   \   00000770   0C20A0E3           MOV      R2,#+12
+   \   00000774   833083E0           ADD      R3,R3,R3, LSL #+1
+   \   00000778   923121E0           MLA      R1,R2,R1,R3
+   \   0000077C   011088E0           ADD      R1,R8,R1
+   \   00000780   011184E0           ADD      R1,R4,R1, LSL #+2
+   \   00000784   941191E5           LDR      R1,[R1, #+404]
+    887                  SetFont(FONTID);    
+    888                  //unsigned int str_width=db->names_len[db->current_tab][y*3+x];
+    889                  rt.x1=db->x1+x_frame;
+    890                  rt.y1=db->y1+y_frame;
+    891                  rt.x2=db->x1+x_frame+db->maxintab+dx;
+    892                  rt.y2=db->y1+y_frame+FONTH+5*2;
+    893                  GC_SetPenColor(gc, clBlack);
+    894                  GC_SetBrushColor(gc, COLOR(0xC0,0xC0,0xC0,0xFF));
+    895                  DrawRect(rt.x1,rt.y1,rt.x2,rt.y2,GC_GetPenColor(gc),GC_GetBrushColor(gc));
+    896                  //GC_DrawRoundRect(gc ,&rt,3,3,2,1);  // Рамка для вводимых чисел
+    897                  DrawString(text,2,rt.x1,rt.y1+5,rt.x2,rt.y2,
+    898                             0,0,clBlack,0);
+    899                }
+   \   00000788   018088E2           ADD      R8,R8,#+1
+   \   0000078C   0C108DE5           STR      R1,[SP, #+12]
+   \   00000790   DC0099E5           LDR      R0,[R9, #+220]
+   \   00000794   F10100EF           SWI      +497
+   \   00000798   7C0194E5           LDR      R0,[R4, #+380]
+   \   0000079C   901194E5           LDR      R1,[R4, #+400]
+   \   000007A0   00A086E0           ADD      R10,R6,R0
+   \   000007A4   840194E5           LDR      R0,[R4, #+388]
+   \   000007A8   0AA8A0E1           MOV      R10,R10, LSL #+16
+   \   000007AC   00B087E0           ADD      R11,R7,R0
+   \   000007B0   7C0194E5           LDR      R0,[R4, #+380]
+   \   000007B4   2AA8A0E1           MOV      R10,R10, LSR #+16
+   \   000007B8   000086E0           ADD      R0,R6,R0
+   \   000007BC   000081E0           ADD      R0,R1,R0
+   \   000007C0   00109DE5           LDR      R1,[SP, #+0]
+   \   000007C4   0BB8A0E1           MOV      R11,R11, LSL #+16
+   \   000007C8   006081E0           ADD      R6,R1,R0
+   \   000007CC   840194E5           LDR      R0,[R4, #+388]
+   \   000007D0   E01099E5           LDR      R1,[R9, #+224]
+   \   000007D4   000087E0           ADD      R0,R7,R0
+   \   000007D8   000081E0           ADD      R0,R1,R0
+   \   000007DC   0A7080E2           ADD      R7,R0,#+10
+   \   000007E0   FF14A0E3           MOV      R1,#-16777216
+   \   000007E4   0500A0E1           MOV      R0,R5
+   \   000007E8   600200EF           SWI      +608
+   \   000007EC   BC109FE5           LDR      R1,??CalcGuiOnRedraw_1  ;; 0xffffffffffc0c0c0
+   \   000007F0   0500A0E1           MOV      R0,R5
+   \   000007F4   BE0200EF           SWI      +702
+   \   000007F8   0500A0E1           MOV      R0,R5
+   \   000007FC   BD0200EF           SWI      +701
+   \   00000800   0090A0E1           MOV      R9,R0
+   \   00000804   0500A0E1           MOV      R0,R5
+   \   00000808   5F0200EF           SWI      +607
+   \   0000080C   00022DE9           PUSH     {R9}
+   \   00000810   01002DE9           PUSH     {R0}
+   \   00000814   2BB8A0E1           MOV      R11,R11, LSR #+16
+   \   00000818   0668A0E1           MOV      R6,R6, LSL #+16
+   \   0000081C   2668A0E1           MOV      R6,R6, LSR #+16
+   \   00000820   0778A0E1           MOV      R7,R7, LSL #+16
+   \   00000824   2778A0E1           MOV      R7,R7, LSR #+16
+   \   00000828   0730A0E1           MOV      R3,R7
+   \   0000082C   0620A0E1           MOV      R2,R6
+   \   00000830   0B10A0E1           MOV      R1,R11
+   \   00000834   0A00A0E1           MOV      R0,R10
+   \   00000838   EC0100EF           SWI      +492
+   \   0000083C   0000A0E3           MOV      R0,#+0
+   \   00000840   01002DE9           PUSH     {R0}
+   \   00000844   05308BE2           ADD      R3,R11,#+5
+   \   00000848   0A20A0E1           MOV      R2,R10
+   \   0000084C   0210A0E3           MOV      R1,#+2
+   \   00000850   FF04A0E3           MOV      R0,#-16777216
+   \   00000854   01002DE9           PUSH     {R0}
+   \   00000858   0000A0E3           MOV      R0,#+0
+   \   0000085C   01002DE9           PUSH     {R0}
+   \   00000860   01002DE9           PUSH     {R0}
+   \   00000864   80002DE9           PUSH     {R7}
+   \   00000868   40002DE9           PUSH     {R6}
+   \   0000086C   2C009DE5           LDR      R0,[SP, #+44]
+   \   00000870   ED0100EF           SWI      +493
+   \   00000874   030058E3           CMP      R8,#+3
+   \   00000878   20D08DE2           ADD      SP,SP,#+32
+   \   0000087C   AEFFFFBA           BLT      ??CalcGuiOnRedraw_16
+    900              }
+   \   00000880   04109DE5           LDR      R1,[SP, #+4]
+   \   00000884   011081E2           ADD      R1,R1,#+1
+   \   00000888   04108DE5           STR      R1,[SP, #+4]
+   \   0000088C   040051E3           CMP      R1,#+4
+   \   00000890   A8FFFFBA           BLT      ??CalcGuiOnRedraw_15
+    901            }
+    902            SetFont(font);
+   \                     ??CalcGuiOnRedraw_13:
+   \   00000894   34009DE5           LDR      R0,[SP, #+52]
+   \   00000898   F10100EF           SWI      +497
+    903            GC_SetXX(gc,gc_xx);
+   \   0000089C   30109DE5           LDR      R1,[SP, #+48]
+   \   000008A0   0500A0E1           MOV      R0,R5
+   \   000008A4   E90100EF           SWI      +489
+    904          }
+   \   000008A8   5CD08DE2           ADD      SP,SP,#+92
+   \   000008AC   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??CalcGuiOnRedraw_1:
+   \   000008B0   C0C0C0FF           DC32     0xffffffffffc0c0c0
+   \   000008B4   ........           DC32     `?<Constant "%1.10lg">`
+   \   000008B8   ........           DC32     vars + 224
+    905          
+    906          
+    907          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    908          void CalcGuiOnKey(DISP_OBJ_CALC *db,int key,int a,int b,int type)
+    909          {
+   \                     ??CalcGuiOnKey:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   14009DE5           LDR      R0,[SP, #+20]
+   \   00000010   0150A0E1           MOV      R5,R1
+    910            int reset_pos=0;
+    911            if (type==KBD_SHORT_RELEASE || type==KBD_REPEAT)
+   \   00000014   74129FE5           LDR      R1,??CalcGuiOnKey_1  ;; KBD_SHORT_RELEASE
+   \   00000018   001091E5           LDR      R1,[R1, #+0]
+   \   0000001C   010050E1           CMP      R0,R1
+   \   00000020   0300000A           BEQ      ??CalcGuiOnKey_2
+   \   00000024   68129FE5           LDR      R1,??CalcGuiOnKey_1+0x4  ;; KBD_REPEAT
+   \   00000028   001091E5           LDR      R1,[R1, #+0]
+   \   0000002C   010050E1           CMP      R0,R1
+   \   00000030   2900001A           BNE      ??CalcGuiOnKey_3
+    912            {
+    913              if (key==KEY_DIEZ)
+   \                     ??CalcGuiOnKey_2:
+   \   00000034   5C029FE5           LDR      R0,??CalcGuiOnKey_1+0x8  ;; KEY_DIEZ
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   000055E1           CMP      R5,R0
+   \   00000040   0700001A           BNE      ??CalcGuiOnKey_4
+    914              {
+    915                if (++db->current_tab>3) db->current_tab=0;
+   \   00000044   6C5194E5           LDR      R5,[R4, #+364]
+   \   00000048   010085E2           ADD      R0,R5,#+1
+   \   0000004C   6C0184E5           STR      R0,[R4, #+364]
+   \   00000050   040050E3           CMP      R0,#+4
+   \   00000054   200000BA           BLT      ??CalcGuiOnKey_3
+   \                     ??CalcGuiOnKey_5:
+   \   00000058   0000A0E3           MOV      R0,#+0
+   \   0000005C   6C0184E5           STR      R0,[R4, #+364]
+   \   00000060   1D0000EA           B        ??CalcGuiOnKey_3
+    916              }
+    917              else if ((key>=KEY_DIGITAL_0 && key<=(KEY_DIGITAL_0+9)) || key==KEY_STAR)
+   \                     ??CalcGuiOnKey_4:
+   \   00000064   ........           LDR      R0,??DataTable47  ;; KEY_DIGITAL_0
+   \   00000068   000090E5           LDR      R0,[R0, #+0]
+   \   0000006C   000055E1           CMP      R5,R0
+   \   00000070   040000BA           BLT      ??CalcGuiOnKey_6
+   \   00000074   ........           LDR      R0,??DataTable47  ;; KEY_DIGITAL_0
+   \   00000078   000090E5           LDR      R0,[R0, #+0]
+   \   0000007C   090080E2           ADD      R0,R0,#+9
+   \   00000080   050050E1           CMP      R0,R5
+   \   00000084   030000AA           BGE      ??CalcGuiOnKey_7
+   \                     ??CalcGuiOnKey_6:
+   \   00000088   ........           LDR      R0,??DataTable48  ;; KEY_STAR
+   \   0000008C   000090E5           LDR      R0,[R0, #+0]
+   \   00000090   000055E1           CMP      R5,R0
+   \   00000094   1400001A           BNE      ??CalcGuiOnKey_8
+    918              {
+    919                insert_operation(GetOperIndexByKey(key)+((db->current_tab)*12));
+   \                     ??CalcGuiOnKey_7:
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   ........           BL       ??GetOperIndexByKey
+   \   000000A0   6C5194E5           LDR      R5,[R4, #+364]
+   \   000000A4   0C10A0E3           MOV      R1,#+12
+   \   000000A8   910520E0           MLA      R0,R1,R5,R0
+   \   000000AC   ........           BL       ??insert_operation
+    920                if (db->current_tab!=0) db->current_tab=0;
+   \   000000B0   000055E3           CMP      R5,#+0
+   \   000000B4   0000A013           MOVNE    R0,#+0
+   \   000000B8   6C018415           STRNE    R0,[R4, #+364]
+    921                if (calc_set.auto_recalc) req_recalc=1;
+   \                     ??CalcGuiOnKey_9:
+   \   000000BC   D8019FE5           LDR      R0,??CalcGuiOnKey_1+0xC  ;; calc_set + 33
+   \   000000C0   0000D0E5           LDRB     R0,[R0, #+0]
+   \   000000C4   000050E3           CMP      R0,#+0
+   \   000000C8   ........           LDRNE    R0,??DataTable54  ;; vars + 216
+   \   000000CC   0110A013           MOVNE    R1,#+1
+   \   000000D0   00108015           STRNE    R1,[R0, #+0]
+    922                reset_pos=1;
+    923              }
+    924              else if (key==KEY_DEL)
+    925              {
+    926                remove_operation();
+    927                if (calc_set.auto_recalc) req_recalc=1;
+    928                reset_pos=1;
+    929              }
+    930              else if (key==KEY_LEFT)
+    931              {
+    932                if (op_pos) op_pos--;
+    933                reset_pos=1;
+    934              }
+    935              else if (key==KEY_RIGHT)
+    936              {
+    937                if (op_pos<op_len) op_pos++;
+    938                reset_pos=1;
+    939              }
+    940              else if (key==KEY_UP || key==KEY_DOWN)
+    941              {
+    942                int max, cur, pos;
+    943                pos=GetMaxCurRow(db,&max,&cur);
+    944                if (db->curx_pos==-1) db->curx_pos=pos;
+    945          
+    946                if (key==KEY_UP)
+    947                {
+    948                  if (cur>0) cur--;
+    949                }
+    950                else
+    951                {
+    952                  if (cur<max) cur++;
+    953                }
+    954                SetCursPos(db,cur,db->curx_pos);
+    955              }
+    956              else if (key==KEY_RIGHT_SOFT)
+    957              {
+    958                CreateCalcMenu();
+    959              }
+    960              else if (key==KEY_LEFT_SOFT)
+    961              {
+    962                req_recalc=1;
+    963              }
+    964              else if (key==KEY_ESC)
+    965              {
+    966                if (db->current_tab!=0) db->current_tab=0;
+    967                else if (op_len || op_pos)
+    968                {
+    969                  op_len=op_pos=0;
+    970                  req_recalc=1;
+    971                  reset_pos=1;
+    972                }
+    973                else
+    974                {
+    975                  FreeBook(FindBook(isScalkaBook));
+    976                  return;
+    977                }
+    978              }
+    979            }
+    980            if (reset_pos) db->curx_pos=-1;
+   \                     ??CalcGuiOnKey_10:
+   \   000000D4   0000E0E3           MVN      R0,#+0
+   \   000000D8   740184E5           STR      R0,[R4, #+372]
+    981            DispObject_InvalidateRect(&db->dsp_obj,0);
+   \                     ??CalcGuiOnKey_3:
+   \   000000DC   0010A0E3           MOV      R1,#+0
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   EF0100EF           SWI      +495
+    982          }
+   \   000000E8   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+   \                     ??CalcGuiOnKey_8:
+   \   000000EC   AC019FE5           LDR      R0,??CalcGuiOnKey_1+0x10  ;; KEY_DEL
+   \   000000F0   000090E5           LDR      R0,[R0, #+0]
+   \   000000F4   000055E1           CMP      R5,R0
+   \   000000F8   0100001A           BNE      ??CalcGuiOnKey_11
+   \   000000FC   ........           BL       ??remove_operation
+   \   00000100   EDFFFFEA           B        ??CalcGuiOnKey_9
+   \                     ??CalcGuiOnKey_11:
+   \   00000104   98019FE5           LDR      R0,??CalcGuiOnKey_1+0x14  ;; KEY_LEFT
+   \   00000108   000090E5           LDR      R0,[R0, #+0]
+   \   0000010C   000055E1           CMP      R5,R0
+   \   00000110   0800001A           BNE      ??CalcGuiOnKey_12
+   \   00000114   ........           LDR      R0,??DataTable56  ;; vars + 212
+   \   00000118   000090E5           LDR      R0,[R0, #+0]
+   \   0000011C   000050E3           CMP      R0,#+0
+   \   00000120   EBFFFF0A           BEQ      ??CalcGuiOnKey_10
+   \   00000124   ........           LDR      R0,??DataTable57  ;; vars
+   \   00000128   D41090E5           LDR      R1,[R0, #+212]
+   \   0000012C   011041E2           SUB      R1,R1,#+1
+   \                     ??CalcGuiOnKey_13:
+   \   00000130   D41080E5           STR      R1,[R0, #+212]
+   \   00000134   E6FFFFEA           B        ??CalcGuiOnKey_10
+   \                     ??CalcGuiOnKey_12:
+   \   00000138   68019FE5           LDR      R0,??CalcGuiOnKey_1+0x18  ;; KEY_RIGHT
+   \   0000013C   000090E5           LDR      R0,[R0, #+0]
+   \   00000140   000055E1           CMP      R5,R0
+   \   00000144   0700001A           BNE      ??CalcGuiOnKey_14
+   \   00000148   ........           LDR      R0,??DataTable57  ;; vars
+   \   0000014C   D41090E5           LDR      R1,[R0, #+212]
+   \   00000150   D00090E5           LDR      R0,[R0, #+208]
+   \   00000154   000051E1           CMP      R1,R0
+   \   00000158   DDFFFFAA           BGE      ??CalcGuiOnKey_10
+   \   0000015C   ........           LDR      R0,??DataTable57  ;; vars
+   \   00000160   011081E2           ADD      R1,R1,#+1
+   \   00000164   F1FFFFEA           B        ??CalcGuiOnKey_13
+   \                     ??CalcGuiOnKey_14:
+   \   00000168   3C019FE5           LDR      R0,??CalcGuiOnKey_1+0x1C  ;; KEY_UP
+   \   0000016C   000090E5           LDR      R0,[R0, #+0]
+   \   00000170   000055E1           CMP      R5,R0
+   \   00000174   0300000A           BEQ      ??CalcGuiOnKey_15
+   \   00000178   30019FE5           LDR      R0,??CalcGuiOnKey_1+0x20  ;; KEY_DOWN
+   \   0000017C   000090E5           LDR      R0,[R0, #+0]
+   \   00000180   000055E1           CMP      R5,R0
+   \   00000184   1900001A           BNE      ??CalcGuiOnKey_16
+   \                     ??CalcGuiOnKey_15:
+   \   00000188   0D20A0E1           MOV      R2,SP
+   \   0000018C   04108DE2           ADD      R1,SP,#+4
+   \   00000190   0400A0E1           MOV      R0,R4
+   \   00000194   ........           BL       ??GetMaxCurRow
+   \   00000198   741194E5           LDR      R1,[R4, #+372]
+   \   0000019C   010071E3           CMN      R1,#+1
+   \   000001A0   74018405           STREQ    R0,[R4, #+372]
+   \   000001A4   00019FE5           LDR      R0,??CalcGuiOnKey_1+0x1C  ;; KEY_UP
+   \   000001A8   000090E5           LDR      R0,[R0, #+0]
+   \   000001AC   000055E1           CMP      R5,R0
+   \   000001B0   00009DE5           LDR      R0,[SP, #+0]
+   \   000001B4   0300001A           BNE      ??CalcGuiOnKey_17
+   \   000001B8   010050E3           CMP      R0,#+1
+   \   000001BC   060000BA           BLT      ??CalcGuiOnKey_18
+   \   000001C0   011040E2           SUB      R1,R0,#+1
+   \   000001C4   030000EA           B        ??CalcGuiOnKey_19
+   \                     ??CalcGuiOnKey_17:
+   \   000001C8   04109DE5           LDR      R1,[SP, #+4]
+   \   000001CC   010050E1           CMP      R0,R1
+   \   000001D0   010000AA           BGE      ??CalcGuiOnKey_18
+   \   000001D4   011080E2           ADD      R1,R0,#+1
+   \                     ??CalcGuiOnKey_19:
+   \   000001D8   00108DE5           STR      R1,[SP, #+0]
+   \                     ??CalcGuiOnKey_18:
+   \   000001DC   742194E5           LDR      R2,[R4, #+372]
+   \   000001E0   00109DE5           LDR      R1,[SP, #+0]
+   \   000001E4   0400A0E1           MOV      R0,R4
+   \   000001E8   ........           BL       ??SetCursPos
+   \   000001EC   BAFFFFEA           B        ??CalcGuiOnKey_3
+   \                     ??CalcGuiOnKey_16:
+   \   000001F0   BC009FE5           LDR      R0,??CalcGuiOnKey_1+0x24  ;; KEY_RIGHT_SOFT
+   \   000001F4   000090E5           LDR      R0,[R0, #+0]
+   \   000001F8   000055E1           CMP      R5,R0
+   \   000001FC   0100001A           BNE      ??CalcGuiOnKey_20
+   \   00000200   ........           _BLF     ??CreateCalcMenu,??CreateCalcMenu??rA
+   \   00000204   B4FFFFEA           B        ??CalcGuiOnKey_3
+   \                     ??CalcGuiOnKey_20:
+   \   00000208   A8009FE5           LDR      R0,??CalcGuiOnKey_1+0x28  ;; KEY_LEFT_SOFT
+   \   0000020C   000090E5           LDR      R0,[R0, #+0]
+   \   00000210   000055E1           CMP      R5,R0
+   \   00000214   0300001A           BNE      ??CalcGuiOnKey_21
+   \   00000218   ........           LDR      R0,??DataTable54  ;; vars + 216
+   \   0000021C   0110A0E3           MOV      R1,#+1
+   \   00000220   001080E5           STR      R1,[R0, #+0]
+   \   00000224   ACFFFFEA           B        ??CalcGuiOnKey_3
+   \                     ??CalcGuiOnKey_21:
+   \   00000228   8C009FE5           LDR      R0,??CalcGuiOnKey_1+0x2C  ;; KEY_ESC
+   \   0000022C   000090E5           LDR      R0,[R0, #+0]
+   \   00000230   000055E1           CMP      R5,R0
+   \   00000234   A8FFFF1A           BNE      ??CalcGuiOnKey_3
+   \   00000238   6C0194E5           LDR      R0,[R4, #+364]
+   \   0000023C   000050E3           CMP      R0,#+0
+   \   00000240   84FFFF1A           BNE      ??CalcGuiOnKey_5
+   \   00000244   ........           LDR      R0,??DataTable55  ;; vars + 208
+   \   00000248   000090E5           LDR      R0,[R0, #+0]
+   \   0000024C   000050E3           CMP      R0,#+0
+   \   00000250   0300001A           BNE      ??CalcGuiOnKey_22
+   \   00000254   ........           LDR      R0,??DataTable56  ;; vars + 212
+   \   00000258   000090E5           LDR      R0,[R0, #+0]
+   \   0000025C   000050E3           CMP      R0,#+0
+   \   00000260   0600000A           BEQ      ??CalcGuiOnKey_23
+   \                     ??CalcGuiOnKey_22:
+   \   00000264   ........           LDR      R0,??DataTable57  ;; vars
+   \   00000268   0010A0E3           MOV      R1,#+0
+   \   0000026C   D41080E5           STR      R1,[R0, #+212]
+   \   00000270   D01080E5           STR      R1,[R0, #+208]
+   \   00000274   0110A0E3           MOV      R1,#+1
+   \   00000278   D81080E5           STR      R1,[R0, #+216]
+   \   0000027C   94FFFFEA           B        ??CalcGuiOnKey_10
+   \                     ??CalcGuiOnKey_23:
+   \   00000280   38009FE5           LDR      R0,??CalcGuiOnKey_1+0x30  ;; ??isScalkaBook
+   \   00000284   300100EF           SWI      +304
+   \   00000288   2F0100EF           SWI      +303
+   \   0000028C   3380BDE8           POP      {R0,R1,R4,R5,PC}
+   \                     ??CalcGuiOnKey_1:
+   \   00000290   ........           DC32     KBD_SHORT_RELEASE
+   \   00000294   ........           DC32     KBD_REPEAT
+   \   00000298   ........           DC32     KEY_DIEZ
+   \   0000029C   ........           DC32     calc_set + 33
+   \   000002A0   ........           DC32     KEY_DEL
+   \   000002A4   ........           DC32     KEY_LEFT
+   \   000002A8   ........           DC32     KEY_RIGHT
+   \   000002AC   ........           DC32     KEY_UP
+   \   000002B0   ........           DC32     KEY_DOWN
+   \   000002B4   ........           DC32     KEY_RIGHT_SOFT
+   \   000002B8   ........           DC32     KEY_LEFT_SOFT
+   \   000002BC   ........           DC32     KEY_ESC
+   \   000002C0   ........           DC32     ??isScalkaBook
+    983          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    984          void CalcGui_constr(DISP_DESC *desc)
+    985          {
+    986            DISP_DESC_SetName(desc,CalcGuiName);
+   \                     ??CalcGui_constr:
+   \   00000000   48109FE5           LDR      R1,??CalcGui_constr_1  ;; CalcGuiName
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   200200EF           SWI      +544
+    987            DISP_DESC_SetSize(desc,sizeof(DISP_OBJ_CALC));
+   \   00000010   F91FA0E3           MOV      R1,#+996
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   220200EF           SWI      +546
+    988            DISP_DESC_SetOnCreate(desc,(DISP_OBJ_ONCREATE_METHOD)CalcGuiOnCreate);
+   \   0000001C   30109FE5           LDR      R1,??CalcGui_constr_1+0x4  ;; ??CalcGuiOnCreate
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   240200EF           SWI      +548
+    989            DISP_DESC_SetOnClose(desc,(DISP_OBJ_ONCLOSE_METHOD)CalcGuiOnClose);
+   \   00000028   28109FE5           LDR      R1,??CalcGui_constr_1+0x8  ;; ??CalcGuiOnClose
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   260200EF           SWI      +550
+    990            DISP_DESC_SetOnRedraw(desc,(DISP_OBJ_ONREDRAW_METHOD)CalcGuiOnRedraw);
+   \   00000034   20109FE5           LDR      R1,??CalcGui_constr_1+0xC  ;; ??CalcGuiOnRedraw
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   280200EF           SWI      +552
+    991            DISP_DESC_SetOnKey(desc,(DISP_OBJ_ONKEY_METHOD)CalcGuiOnKey);
+   \   00000040   18109FE5           LDR      R1,??CalcGui_constr_1+0x10  ;; ??CalcGuiOnKey
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   2A0200EF           SWI      +554
+    992          }
+   \   0000004C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??CalcGui_constr_1:
+   \   00000050   ........           DC32     CalcGuiName
+   \   00000054   ........           DC32     ??CalcGuiOnCreate
+   \   00000058   ........           DC32     ??CalcGuiOnClose
+   \   0000005C   ........           DC32     ??CalcGuiOnRedraw
+   \   00000060   ........           DC32     ??CalcGuiOnKey
+    993          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    994          void CalcGui_destr( GUI* )
+    995          {
+    996          }
+   \                     ??CalcGui_destr:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    997          
+    998          enum GUI_STYLES {
+    999            NO_ICONBAR=3,
+   1000            NO_SOFTKEYS_ICONBAR=4,
+   1001            SMALL_WINDOW=5,
+   1002            SMALL_WITH_FRAME=7,
+   1003            SMALL_WITHOUT_BGROUND=8,
+   1004            SMALL_WITHOUT_BGROUND_HEADER=9,
+   1005          };
+   1006          
+   1007          enum TITLE_TYPE {
+   1008            TITLE_NO=1,
+   1009            TITLE_SMALL=3,
+   1010            TITLE_LARGE=5
+   1011          };
+   1012          
+
+   \                                 In segment CODE, align 4, keep-with-next
+   1013          GUI_CALC *CreateCalkGUI(BOOK *bk)
+   1014          {
+   \                     ??CreateCalkGUI:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   1015            GUI_CALC *gui_calc=new GUI_CALC;
+   \   00000008   9000A0E3           MOV      R0,#+144
+   \   0000000C   ........           _BLF     `??operator new`,`??operator new??rA`
+   1016            if (!GUIObject_Create(gui_calc,CalcGui_destr,CalcGui_constr, bk,0,0,0))
+   \   00000010   78209FE5           LDR      R2,??CreateCalkGUI_1  ;; ??CalcGui_constr
+   \   00000014   78109FE5           LDR      R1,??CreateCalkGUI_1+0x4  ;; ??CalcGui_destr
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0430A0E1           MOV      R3,R4
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   F00100EF           SWI      +496
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0CD08DE2           ADD      SP,SP,#+12
+   \   00000040   0300001A           BNE      ??CreateCalkGUI_2
+   1017            {
+   1018              delete gui_calc;
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   1019              return 0;    
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   3080BDE8           POP      {R4,R5,PC}
+   1020            }
+   1021            if (bk) BookObj_AddGUIObject(bk,gui_calc);
+   \                     ??CreateCalkGUI_2:
+   \   00000054   000054E3           CMP      R4,#+0
+   \   00000058   0200000A           BEQ      ??CreateCalkGUI_3
+   \   0000005C   0510A0E1           MOV      R1,R5
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   EB0100EF           SWI      +491
+   1022            GUIObject_SetStyle(gui_calc,4);
+   \                     ??CreateCalkGUI_3:
+   \   00000068   0410A0E3           MOV      R1,#+4
+   \   0000006C   0500A0E1           MOV      R0,R5
+   \   00000070   360100EF           SWI      +310
+   1023            GUIObject_SetTitleType(gui_calc, 1);
+   \   00000074   0110A0E3           MOV      R1,#+1
+   \   00000078   0500A0E1           MOV      R0,R5
+   \   0000007C   810200EF           SWI      +641
+   1024            GUIObject_SoftKeys_Hide(gui_calc);
+   \   00000080   0500A0E1           MOV      R0,R5
+   \   00000084   A10200EF           SWI      +673
+   1025            return gui_calc;
+   \   00000088   0500A0E1           MOV      R0,R5
+   \   0000008C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??CreateCalkGUI_1:
+   \   00000090   ........           DC32     ??CalcGui_constr
+   \   00000094   ........           DC32     ??CalcGui_destr
+   1026          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     KEY_DIGITAL_0
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     KEY_STAR
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     vars
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable19:
+   \   00000000   ........           DC32     calc_set + 32
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable20:
+   \   00000000   00806640           DC32     0x40668000
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable24:
+   \   00000000   182D4454           DC32     0x54442d18
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable25:
+   \   00000000   FB210940           DC32     0x400921fb
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable27:
+   \   00000000   ........           DC32     vars
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable30:
+   \   00000000   ........           DC32     vars + 208
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable35:
+   \   00000000   ........           DC32     vars + 212
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable47:
+   \   00000000   ........           DC32     KEY_DIGITAL_0
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable48:
+   \   00000000   ........           DC32     KEY_STAR
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable54:
+   \   00000000   ........           DC32     vars + 216
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable55:
+   \   00000000   ........           DC32     vars + 208
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable56:
+   \   00000000   ........           DC32     vars + 212
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable57:
+   \   00000000   ........           DC32     vars
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "4">`:
+   \   00000000   3400               DC8 "4"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ash">`:
+   \   00000000   61736800           DC8 "ash"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ANS">`:
+   \   00000000   414E5300           DC8 "ANS"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "ch">`:
+   \   00000000   636800             DC8 "ch"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "abs">`:
+   \   00000000   61627300           DC8 "abs"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "th">`:
+   \   00000000   746800             DC8 "th"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ath">`:
+   \   00000000   61746800           DC8 "ath"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "-">`:
+   \   00000000   2D00               DC8 "-"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "!">`:
+   \   00000000   2100               DC8 "!"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "X">`:
+   \   00000000   5800               DC8 "X"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "Y">`:
+   \   00000000   5900               DC8 "Y"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "1">`:
+   \   00000000   3100               DC8 "1"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "2">`:
+   \   00000000   3200               DC8 "2"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "3">`:
+   \   00000000   3300               DC8 "3"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%1.10lg">`:
+   \   00000000   25312E31306C       DC8 "%1.10lg"
+   \              6700        
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "5">`:
+   \   00000000   3500               DC8 "5"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "6">`:
+   \   00000000   3600               DC8 "6"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "7">`:
+   \   00000000   3700               DC8 "7"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "8">`:
+   \   00000000   3800               DC8 "8"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "9">`:
+   \   00000000   3900               DC8 "9"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant ".">`:
+   \   00000000   2E00               DC8 "."
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "0">`:
+   \   00000000   3000               DC8 "0"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "#">`:
+   \   00000000   2300               DC8 "#"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sin">`:
+   \   00000000   73696E00           DC8 "sin"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "*">`:
+   \   00000000   2A00               DC8 "*"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "/">`:
+   \   00000000   2F00               DC8 "/"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "cos">`:
+   \   00000000   636F7300           DC8 "cos"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "+">`:
+   \   00000000   2B00               DC8 "+"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ach">`:
+   \   00000000   61636800           DC8 "ach"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "tan">`:
+   \   00000000   74616E00           DC8 "tan"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "(">`:
+   \   00000000   2800               DC8 "("
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant ")">`:
+   \   00000000   2900               DC8 ")"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "^2">`:
+   \   00000000   5E3200             DC8 "^2"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "sqrt">`:
+   \   00000000   7371727400         DC8 "sqrt"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "asin">`:
+   \   00000000   6173696E00         DC8 "asin"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "ln">`:
+   \   00000000   6C6E00             DC8 "ln"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "log">`:
+   \   00000000   6C6F6700           DC8 "log"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "acos">`:
+   \   00000000   61636F7300         DC8 "acos"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "e^">`:
+   \   00000000   655E00             DC8 "e^"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "atan">`:
+   \   00000000   6174616E00         DC8 "atan"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "10^">`:
+   \   00000000   31305E00           DC8 "10^"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "pi">`:
+   \   00000000   706900             DC8 "pi"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "^">`:
+   \   00000000   5E00               DC8 "^"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "">`:
+   \   00000000   00                 DC8 ""
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "sh">`:
+   \   00000000   736800             DC8 "sh"
+   1027          
+   1028          
+   1029          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CalcGuiOnClose(DISP_OBJ_CALC *)
+                                       12
+     CalcGuiOnCreate(DISP_OBJ_CALC *)
+                                       28
+     CalcGuiOnKey(DISP_OBJ_CALC *, int, int, int, int)
+                                       20
+     CalcGuiOnRedraw(DISP_OBJ_CALC *, int, RECT *, int)
+                                      168
+     CalcGui_constr(DISP_DESC *)        8
+     CalcGui_destr(GUI *)               0
+     ConstructDStackStruct(DSTACK *)
+                                        0
+     ConvertAngleToRadians(double)      4
+     ConvertRadiansToAngle(double)      4
+     CreateCalkGUI(BOOK *)             24
+     DestructDStackStruct(DSTACK *)     4
+     FacN(double)                      32
+     GetFontSizeStyle(wchar_t *)        4
+     GetMaxCurRow(DISP_OBJ_CALC *, int *, int *)
+                                       28
+     GetOperIndexByKey(int)             0
+     InitFonts()                       28
+     IsMathFunc(int)                    0
+     IsPowFunc(int)                     0
+     PRIOR(int)                         8
+     ParseOperation(DSTACK *, int)     28
+     PopDoubleStack(DSTACK *)          12
+     PushDoubleStack(DSTACK *, double)
+                                       20
+     SetCursPos(DISP_OBJ_CALC *, int, int)
+                                       24
+     acosh(double)                     32
+     asinh(double)                     32
+     athh(double)                      24
+     calc_answer()                    596
+     insert_operation(int)              0
+     remove_operation()                 0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     CalcGuiName                       8
+     vars                            484
+     op_str                         1024
+     GetFontSizeStyle(wchar_t *)     152
+     InitFonts()                     176
+     keydesc                         192
+     GetOperIndexByKey(int)           96
+     insert_operation(int)           112
+     remove_operation()              140
+     IsMathFunc(int)                  80
+     IsPowFunc(int)                   36
+     PRIOR(int)                      104
+     PushDoubleStack(DSTACK *, double)
+                                     124
+     PopDoubleStack(DSTACK *)         76
+     ConstructDStackStruct(DSTACK *)
+                                      20
+     DestructDStackStruct(DSTACK *)    8
+     FacN(double)                    296
+     ConvertAngleToRadians(double)    76
+     ConvertRadiansToAngle(double)    68
+     asinh(double)                   164
+     acosh(double)                   200
+     athh(double)                    104
+     ParseOperation(DSTACK *, int)   840
+     calc_answer()                   700
+     CalcGuiOnCreate(DISP_OBJ_CALC *)
+                                     304
+     CalcGuiOnClose(DISP_OBJ_CALC *)
+                                      48
+     GetMaxCurRow(DISP_OBJ_CALC *, int *, int *)
+                                     248
+     SetCursPos(DISP_OBJ_CALC *, int, int)
+                                     200
+     CalcGuiOnRedraw(DISP_OBJ_CALC *, int, RECT *, int)
+                                    2236
+     CalcGuiOnKey(DISP_OBJ_CALC *, int, int, int, int)
+                                     708
+     CalcGui_constr(DISP_DESC *)     100
+     CalcGui_destr(GUI *)              4
+     CreateCalkGUI(BOOK *)           152
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ??DataTable14                     4
+     ??DataTable19                     4
+     ??DataTable20                     4
+     ??DataTable24                     4
+     ??DataTable25                     4
+     ??DataTable27                     4
+     ??DataTable30                     4
+     ??DataTable35                     4
+     ??DataTable47                     4
+     ??DataTable48                     4
+     ??DataTable54                     4
+     ??DataTable55                     4
+     ??DataTable56                     4
+     ??DataTable57                     4
+     ?<Constant "4">                   2
+     ?<Constant "ash">                 4
+     ?<Constant "ANS">                 4
+     ?<Constant "ch">                  3
+     ?<Constant "abs">                 4
+     ?<Constant "th">                  3
+     ?<Constant "ath">                 4
+     ?<Constant "-">                   2
+     ?<Constant "!">                   2
+     ?<Constant "X">                   2
+     ?<Constant "Y">                   2
+     ?<Constant "1">                   2
+     ?<Constant "2">                   2
+     ?<Constant "3">                   2
+     ?<Constant "%1.10lg">             8
+     ?<Constant "5">                   2
+     ?<Constant "6">                   2
+     ?<Constant "7">                   2
+     ?<Constant "8">                   2
+     ?<Constant "9">                   2
+     ?<Constant ".">                   2
+     ?<Constant "0">                   2
+     ?<Constant "#">                   2
+     ?<Constant "sin">                 4
+     ?<Constant "*">                   2
+     ?<Constant "/">                   2
+     ?<Constant "cos">                 4
+     ?<Constant "+">                   2
+     ?<Constant "ach">                 4
+     ?<Constant "tan">                 4
+     ?<Constant "(">                   2
+     ?<Constant ")">                   2
+     ?<Constant "^2">                  3
+     ?<Constant "sqrt">                8
+     ?<Constant "asin">                8
+     ?<Constant "ln">                  3
+     ?<Constant "log">                 4
+     ?<Constant "acos">                8
+     ?<Constant "e^">                  3
+     ?<Constant "atan">                8
+     ?<Constant "10^">                 4
+     ?<Constant "pi">                  3
+     ?<Constant "^">                   2
+     ?<Constant "">                    1
+     ?<Constant "sh">                  3
+      Others                         472
+
+ 
+ 8 096 bytes in segment CODE
+   346 bytes in segment DATA_C
+ 1 508 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 7 556 bytes of CODE  memory (+ 552 bytes shared)
+   346 bytes of CONST memory
+ 1 508 bytes of DATA  memory
+
+Errors: none
+Warnings: none

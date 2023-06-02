@@ -1,0 +1,1964 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:04:08 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\Indication    /
+//                       Of Call\config_data.c                               /
+//    Command line    =  "Z:\home\perk11\www\perk11.info\svn\SE\Indication   /
+//                       Of Call\config_data.c" -D NDEBUG -lC                /
+//                       "Z:\home\perk11\www\perk11.info\svn\SE\Indication   /
+//                       Of Call\Release\List\" -lA                          /
+//                       "Z:\home\perk11\www\perk11.info\svn\SE\Indication   /
+//                       Of Call\Release\List\" -o                           /
+//                       "Z:\home\perk11\www\perk11.info\svn\SE\Indication   /
+//                       Of Call\Release\Obj\" -s9 --cpu_mode arm --endian   /
+//                       little --cpu ARM926EJ-S --stack_align 4             /
+//                       --interwork -e --fpu None --eec++ --dlib_config     /
+//                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h           /
+//                       --segment code=CONFIG --segment data=CONFIG -I      /
+//                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2   /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\Indication    /
+//                       Of Call\Release\List\config_data.s79                /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC cfg_flash
+        PUBLIC cfg_flash_blink_speed
+        PUBLIC cfg_flash_silent
+        PUBLIC cfg_flash_time
+        PUBLIC cfg_flashcon
+        PUBLIC cfg_flashcon_time
+        PUBLIC cfg_flashend
+        PUBLIC cfg_flashend_time
+        PUBLIC cfg_flashon
+        PUBLIC cfg_flashon_time
+        PUBLIC cfg_flashring
+        PUBLIC cfg_flashring_time
+        PUBLIC cfg_led
+        PUBLIC cfg_led580_blink_mode
+        PUBLIC cfg_led580_color
+        PUBLIC cfg_led_blink_mode
+        PUBLIC cfg_led_blink_speed
+        PUBLIC cfg_led_silent
+        PUBLIC cfg_led_time
+        PUBLIC cfg_ledcon
+        PUBLIC cfg_ledcon_time
+        PUBLIC cfg_ledend
+        PUBLIC cfg_ledend_time
+        PUBLIC cfg_ledon
+        PUBLIC cfg_ledon_time
+        PUBLIC cfg_ledring
+        PUBLIC cfg_ledring_time
+        PUBLIC cfg_mute_time
+        PUBLIC cfg_phone_type
+        PUBLIC cfg_redled
+        PUBLIC cfg_redled_offtime
+        PUBLIC cfg_redled_ontime
+        PUBLIC cfg_redled_silent
+        PUBLIC cfg_redled_time
+        PUBLIC cfg_redledcon
+        PUBLIC cfg_redledcon_time
+        PUBLIC cfg_redledend
+        PUBLIC cfg_redledend_time
+        PUBLIC cfg_redledon
+        PUBLIC cfg_redledon_time
+        PUBLIC cfg_redledring
+        PUBLIC cfg_redledring_time
+        PUBLIC cfg_reject_time
+        PUBLIC cfg_screen
+        PUBLIC cfg_screen_blink_speed
+        PUBLIC cfg_screen_level
+        PUBLIC cfg_screen_silent
+        PUBLIC cfg_screen_time
+        PUBLIC cfg_screencon
+        PUBLIC cfg_screencon_time
+        PUBLIC cfg_screenend
+        PUBLIC cfg_screenend_time
+        PUBLIC cfg_screenon
+        PUBLIC cfg_screenon_time
+        PUBLIC cfg_screenring
+        PUBLIC cfg_screenring_time
+        PUBLIC cfg_vibra
+        PUBLIC cfg_vibra_at_minute_end
+        PUBLIC cfg_vibra_at_minute_end_lead
+        PUBLIC cfg_vibra_at_minute_end_time
+        PUBLIC cfg_vibra_at_n_minute_end
+        PUBLIC cfg_vibra_at_n_minute_end_lead
+        PUBLIC cfg_vibra_at_n_minute_end_time
+        PUBLIC cfg_vibracon
+        PUBLIC cfg_vibracon_time
+        PUBLIC cfg_vibraend
+        PUBLIC cfg_vibraend_time
+        PUBLIC cfg_vibraon
+        PUBLIC cfg_vibraon_time
+        PUBLIC cfg_vibraring
+        PUBLIC cfg_vibraring_time
+// Z:\home\perk11\www\perk11.info\svn\SE\Indication Of Call\config_data.c
+//    1 #include "..\\include\Lib_Clara.h"
+//    2 #include "..\\include\cfg_items.h"
+//    3 #include "config_data.h"
+//    4 
+//    5 #pragma diag_suppress=Pe177
+//    6 
+//    7 #ifndef ENG
+//    8   #define BLINK_SPEED_MSG "Скорость миг."
+//    9   #define PRESS_CALL_MSG "При нажатии 'вызвать'"
+//   10   #define INCOMING_CALL_MSG "При входящем вызове"
+//   11   #define CONNECT_MSG "При соединении"
+//   12   #define TAKE_A_CALL_MSG "При поднятии трубки"
+//   13   #define END_CONVERSATION_MSG "При окончании разг."
+//   14   #define AT_MINUTE_END_MSG "В конце минуты"
+//   15   #define AT_N_MINUTE_END_MSG "В конце N-ой минуты"
+//   16   #define LAMP_ON_MUTE_MSG "Фонарик при выкл. зв."
+//   17   #define BLINK_LAMP_MSG "Миг. фонариком"
+//   18   #define BLINK_TIME_MSG "Длит. миг.(сек)"
+//   19   #define VIBRA_MSG "Вибра"
+//   20   #define VIBRA_TIME_MSG "Длит. вибры(мсек)"
+//   21   #define BLINK_SCREEN_MSG "Миг. экраном"
+//   22   #define BLINK_LED_MSG "Миг. светодиодами"
+//   23   #define VIBRA_MSG_OF "В конце какой мин."
+//   24   #define VIBRA_TIME_LEAD_MSG "За сколько до окон.(сек)"
+//   25   #define OPTIONS_MSG "Настройки..."
+//   26   #define LAMP_MSG "Фонарик"
+//   27   #define LED_MSG "Светодиоды"
+//   28   #define LED_MODE_MSG "Режим мигания"
+//   29   #define ONE_LED_MSG "Одним светодиодом"
+//   30   #define ALL_LEDS_MSG "Всеми светодиодами"
+//   31   #define SCREEN_MSG "Экран"
+//   32   #define SCREEN_LEVEL_MSG "Уровень подсветки экрана"
+//   33   #define BLINK_MSG "Мигать"
+//   34   #define VIBRATE_MSG "Вибрировать"
+//   35   #define PHONE_TYPE_MSG "Телефон"
+//   36   #define PHONE_TYPE0_MSG "Без светодиодов"
+//   37   #define PHONE_TYPE1_MSG "W580"
+//   38   #define PHONE_TYPE2_MSG "Другой"
+//   39   #define PHONE_W580_MSG "Только для W580..."
+//   40   #define LEFT_LED_MSG "Левым светодиодом"
+//   41   #define RIGHT_LED_MSG "Правым светодиодом"
+//   42   #define COLOR_MSG "Цвет"
+//   43   #define BRIGHTNESS_MSG "Яркость"
+//   44   #define DELAY_MSG "Задержка включения"
+//   45   #define BLINK_ON_MUTE_MSG "Мигать при выкл. зв."
+//   46   #define REDLED_MSG "Красный светодиод"
+//   47   #define ONTIME_MSG "Время во вкл. сост.(мсек)"
+//   48   #define OFFTIME_MSG "Время в выкл. сост.(мсек)"
+//   49   #define TIMERS_MSG "Таймеры"
+//   50   #define AUTO_REJECT_MSG "Aвтосброс (сек)"
+//   51   #define AUTO_MUTE_MSG "Aвтоотключение звука (сек)"
+//   52 #else // ENG
+//   53   #define BLINK_SPEED_MSG "Blink speed"
+//   54   #define PRESS_CALL_MSG "On press 'CALL'"
+//   55   #define INCOMING_CALL_MSG "Incoming call"
+//   56   #define CONNECT_MSG "Connect"
+//   57   #define TAKE_A_CALL_MSG "Take a call"
+//   58   #define END_CONVERSATION_MSG "End conversation"
+//   59   #define AT_MINUTE_END_MSG "At minute end"
+//   60   #define AT_N_MINUTE_END_MSG "At N minutes end"
+//   61   #define LAMP_ON_MUTE_MSG "Lamp on mute"
+//   62   #define BLINK_LAMP_MSG "Blink lamp"
+//   63   #define BLINK_TIME_MSG "Blinking time(sec)"
+//   64   #define VIBRA_MSG "Vibration"
+//   65   #define VIBRA_TIME_MSG "Vibr. time(msec)"
+//   66   #define BLINK_SCREEN_MSG "Blink screen"
+//   67   #define BLINK_LED_MSG "Blink leds"
+//   68   #define VIBRA_MSG_OF "At the end of minutes"
+//   69   #define VIBRA_TIME_LEAD_MSG "Lead time(sec)"
+//   70   #define OPTIONS_MSG "Options..."
+//   71   #define LAMP_MSG "Lamp"
+//   72   #define LED_MSG "Leds"
+//   73   #define LED_MODE_MSG "Blink mode"
+//   74   #define ONE_LED_MSG "One led"
+//   75   #define ALL_LEDS_MSG "All leds"
+//   76   #define SCREEN_MSG "Screen"
+//   77   #define SCREEN_LEVEL_MSG "Backlight max level"
+//   78   #define BLINK_MSG "Blink"
+//   79   #define VIBRATE_MSG "Vibrate"
+//   80   #define PHONE_TYPE_MSG "Phone"
+//   81   #define PHONE_TYPE0_MSG "Without leds"
+//   82   #define PHONE_TYPE1_MSG "W580"
+//   83   #define PHONE_TYPE2_MSG "Other"
+//   84   #define PHONE_W580_MSG "For W580 only..."
+//   85   #define LEFT_LED_MSG "Left led"
+//   86   #define RIGHT_LED_MSG "Right led"
+//   87   #define COLOR_MSG "Color"
+//   88   #define BRIGHTNESS_MSG "Brightness"
+//   89   #define DELAY_MSG "Turn-on delay"
+//   90   #define BLINK_ON_MUTE_MSG "Blink on mute"
+//   91   #define REDLED_MSG "Red LED"
+//   92   #define ONTIME_MSG "On time (ms)"
+//   93   #define OFFTIME_MSG "Off time (ms)"
+//   94   #define TIMERS_MSG "Timers"
+//   95   #define AUTO_REJECT_MSG "Auto-reject (sec)"
+//   96   #define AUTO_MUTE_MSG "Auto-mute (sec)"
+//   97 #endif //ENG
+//   98 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\317\360\350 \355\340\346\340\362\350\350 '\342\373\347\342\340\362\374'"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   99 __root const CFG_HDR cfghdr_press_call={CFG_LEVEL,PRESS_CALL_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\324\356\355\340\360\350\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  100     __root const CFG_HDR cfghdr_lamp_0={CFG_LEVEL,LAMP_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  101 	__root const CFG_HDR cfghdr_blink_lamp_0={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  102 	__root const int cfg_flashon = 0;
+cfg_flashon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  103 	__root const CFG_HDR cfghdr_blink_time_0={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  104 	__root const int cfg_flashon_time = 1;
+cfg_flashon_time:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  105     __root const CFG_HDR cfghdr_lamp_0x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302\350\341\360\340"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  106     __root const CFG_HDR cfghdr_vibra_0={CFG_LEVEL,VIBRA_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\350\341\360\350\360\356\342\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  107 	__root const CFG_HDR cfghdr_blink_vibra_0={CFG_CHECKBOX,VIBRATE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  108 	__root const int cfg_vibraon = 0;
+cfg_vibraon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \342\350\341\360\373(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 50, 100000
+//  109 	__root const CFG_HDR cfghdr_vibra_time_0={CFG_UINT,VIBRA_TIME_MSG,50,100000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  110 	__root const int cfg_vibraon_time = 1000;
+cfg_vibraon_time:
+        DATA
+        DC32 1000
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  111     __root const CFG_HDR cfghdr_vibra_0x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  112     __root const CFG_HDR cfghdr_redled_0={CFG_LEVEL,REDLED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  113 	__root const CFG_HDR cfghdr_blink_redled_0={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  114 	__root const int cfg_redledon = 0;
+cfg_redledon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  115 	__root const CFG_HDR cfghdr_blink_redled_time_0={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  116 	__root const int cfg_redledon_time = 2;
+cfg_redledon_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  117     __root const CFG_HDR cfghdr_redled_0x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\321\342\345\362\356\344\350\356\344\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  118     __root const CFG_HDR cfghdr_led_0={CFG_LEVEL,LED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  119 	__root const CFG_HDR cfghdr_blink_led_0={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  120 	__root const int cfg_ledon = 0;
+cfg_ledon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  121 	__root const CFG_HDR cfghdr_blink_led_time_0={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  122 	__root const int cfg_ledon_time = 2;
+cfg_ledon_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  123     __root const CFG_HDR cfghdr_led_0x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\335\352\360\340\355"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  124     __root const CFG_HDR cfghdr_screen_0={CFG_LEVEL,SCREEN_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  125 	__root const CFG_HDR cfghdr_blink_screen_0={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  126 	__root const int cfg_screenon = 0;
+cfg_screenon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  127 	__root const CFG_HDR cfghdr_blink_screen_time_0={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  128 	__root const int cfg_screenon_time = 2;
+cfg_screenon_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  129     __root const CFG_HDR cfghdr_screen_0x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  130 __root const CFG_HDR cfghdr_0x={CFG_LEVEL,"",0,0};
+//  131 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\317\360\350 \342\365\356\344\377\371\345\354 \342\373\347\356\342\345"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  132 __root const CFG_HDR cfghdr_incoming_call={CFG_LEVEL,INCOMING_CALL_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\324\356\355\340\360\350\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  133     __root const CFG_HDR cfghdr_lamp_1={CFG_LEVEL,LAMP_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  134 	__root const CFG_HDR cfghdr_blink_lamp_1={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  135 	__root const int cfg_flash = 0;
+cfg_flash:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  136 	__root const CFG_HDR cfghdr_blink_time_1={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  137 	__root const int cfg_flash_time = 1;
+cfg_flash_time:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\324\356\355\340\360\350\352 \357\360\350 \342\373\352\353. \347\342."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  138 	__root const CFG_HDR cfghdr_13={CFG_CHECKBOX,LAMP_ON_MUTE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  139 	__root const int cfg_flash_silent = 0;
+cfg_flash_silent:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  140     __root const CFG_HDR cfghdr_lamp_1x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302\350\341\360\340"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  141     __root const CFG_HDR cfghdr_vibra_1={CFG_LEVEL,VIBRA_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\350\341\360\350\360\356\342\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  142 	__root const CFG_HDR cfghdr_blink_vibra_1={CFG_CHECKBOX,VIBRATE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  143 	__root const int cfg_vibra = 0;
+cfg_vibra:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  144     __root const CFG_HDR cfghdr_vibra_1x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  145     __root const CFG_HDR cfghdr_redled_1={CFG_LEVEL,REDLED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  146 	__root const CFG_HDR cfghdr_blink_redled_1={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  147 	__root const int cfg_redled = 0;
+cfg_redled:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  148 	__root const CFG_HDR cfghdr_blink_redled_time_1={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  149 	__root const int cfg_redled_time = 2;
+cfg_redled_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374 \357\360\350 \342\373\352\353. \347\342."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  150 	__root const CFG_HDR cfghdr_redled_silent_1={CFG_CHECKBOX,BLINK_ON_MUTE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  151 	__root const int cfg_redled_silent = 0;
+cfg_redled_silent:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  152     __root const CFG_HDR cfghdr_redled_1x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\321\342\345\362\356\344\350\356\344\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  153     __root const CFG_HDR cfghdr_led_1={CFG_LEVEL,LED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  154 	__root const CFG_HDR cfghdr_blink_led_1={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  155 	__root const int cfg_led = 0;
+cfg_led:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  156 	__root const CFG_HDR cfghdr_blink_led_time_1={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  157 	__root const int cfg_led_time = 2;
+cfg_led_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374 \357\360\350 \342\373\352\353. \347\342."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  158 	__root const CFG_HDR cfghdr_led_silent_1={CFG_CHECKBOX,BLINK_ON_MUTE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  159 	__root const int cfg_led_silent = 0;
+cfg_led_silent:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  160     __root const CFG_HDR cfghdr_led_1x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\335\352\360\340\355"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  161     __root const CFG_HDR cfghdr_screen_1={CFG_LEVEL,SCREEN_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  162 	__root const CFG_HDR cfghdr_blink_screen_1={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  163 	__root const int cfg_screen = 0;
+cfg_screen:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  164 	__root const CFG_HDR cfghdr_blink_screen_time_1={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  165 	__root const int cfg_screen_time = 2;
+cfg_screen_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374 \357\360\350 \342\373\352\353. \347\342."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  166 	__root const CFG_HDR cfghdr_screen_silent_1={CFG_CHECKBOX,BLINK_ON_MUTE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  167 	__root const int cfg_screen_silent = 0;
+cfg_screen_silent:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  168     __root const CFG_HDR cfghdr_screen_1x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\322\340\351\354\345\360\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  169     __root const CFG_HDR cfghdr_timers_1={CFG_LEVEL,TIMERS_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "A\342\362\356\361\341\360\356\361 (\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 100000
+//  170 	__root const CFG_HDR cfghdr_timers_time_1={CFG_UINT,AUTO_REJECT_MSG,0,100000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  171 	__root const int cfg_reject_time = 0;
+cfg_reject_time:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "A\342\362\356\356\362\352\353\376\367\345\355\350\345 \347\342\363\352\340 (\361\345\352)"
+        DC8 0, 0, 0, 0, 0
+        DC32 0, 100000
+//  172 	__root const CFG_HDR cfghdr_timers_time_2={CFG_UINT,AUTO_MUTE_MSG,0,100000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  173 	__root const int cfg_mute_time = 0;
+cfg_mute_time:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  174     __root const CFG_HDR cfghdr_timers_1x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  175 __root const CFG_HDR cfghdr_1x={CFG_LEVEL,"",0,0};
+//  176 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\317\360\350 \361\356\345\344\350\355\345\355\350\350"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  177 __root const CFG_HDR cfghdr_connect={CFG_LEVEL,CONNECT_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\324\356\355\340\360\350\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  178     __root const CFG_HDR cfghdr_lamp_2={CFG_LEVEL,LAMP_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  179 	__root const CFG_HDR cfghdr_blink_lamp_2={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  180 	__root const int cfg_flashring = 0;
+cfg_flashring:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  181 	__root const CFG_HDR cfghdr_blink_time_2={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  182 	__root const int cfg_flashring_time = 1;
+cfg_flashring_time:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  183     __root const CFG_HDR cfghdr_lamp_2x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302\350\341\360\340"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  184     __root const CFG_HDR cfghdr_vibra_2={CFG_LEVEL,VIBRA_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\350\341\360\350\360\356\342\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  185 	__root const CFG_HDR cfghdr_blink_vibra_2={CFG_CHECKBOX,VIBRATE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  186 	__root const int cfg_vibraring = 0;
+cfg_vibraring:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \342\350\341\360\373(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 50, 100000
+//  187 	__root const CFG_HDR cfghdr_vibra_time_2={CFG_UINT,VIBRA_TIME_MSG,50,100000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  188 	__root const int cfg_vibraring_time = 1000;
+cfg_vibraring_time:
+        DATA
+        DC32 1000
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  189     __root const CFG_HDR cfghdr_vibra_2x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  190     __root const CFG_HDR cfghdr_redled_2={CFG_LEVEL,REDLED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  191 	__root const CFG_HDR cfghdr_blink_redled_2={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  192 	__root const int cfg_redledring = 0;
+cfg_redledring:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  193 	__root const CFG_HDR cfghdr_blink_redled_time_2={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  194 	__root const int cfg_redledring_time = 2;
+cfg_redledring_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  195     __root const CFG_HDR cfghdr_redled_2x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\321\342\345\362\356\344\350\356\344\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  196     __root const CFG_HDR cfghdr_led_2={CFG_LEVEL,LED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  197 	__root const CFG_HDR cfghdr_blink_led_2={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  198 	__root const int cfg_ledring = 0;
+cfg_ledring:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  199 	__root const CFG_HDR cfghdr_blink_led_time_2={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  200 	__root const int cfg_ledring_time = 2;
+cfg_ledring_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  201     __root const CFG_HDR cfghdr_led_2x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\335\352\360\340\355"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  202     __root const CFG_HDR cfghdr_screen_2={CFG_LEVEL,SCREEN_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  203 	__root const CFG_HDR cfghdr_blink_screen_2={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  204 	__root const int cfg_screenring = 0;
+cfg_screenring:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  205 	__root const CFG_HDR cfghdr_blink_screen_time_2={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  206 	__root const int cfg_screenring_time = 2;
+cfg_screenring_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  207     __root const CFG_HDR cfghdr_screen_2x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  208 __root const CFG_HDR cfghdr_2x={CFG_LEVEL,"",0,0};
+//  209 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\317\360\350 \357\356\344\355\377\362\350\350 \362\360\363\341\352\350"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  210 __root const CFG_HDR cfghdr_take_call={CFG_LEVEL,TAKE_A_CALL_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\324\356\355\340\360\350\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  211     __root const CFG_HDR cfghdr_lamp_3={CFG_LEVEL,LAMP_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  212 	__root const CFG_HDR cfghdr_blink_lamp_3={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  213 	__root const int cfg_flashcon = 0;
+cfg_flashcon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  214 	__root const CFG_HDR cfghdr_blink_time_3={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  215 	__root const int cfg_flashcon_time = 1;
+cfg_flashcon_time:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  216     __root const CFG_HDR cfghdr_lamp_3x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302\350\341\360\340"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  217     __root const CFG_HDR cfghdr_vibra_3={CFG_LEVEL,VIBRA_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\350\341\360\350\360\356\342\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  218 	__root const CFG_HDR cfghdr_blink_vibra_3={CFG_CHECKBOX,VIBRATE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  219 	__root const int cfg_vibracon = 0;
+cfg_vibracon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \342\350\341\360\373(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 50, 100000
+//  220 	__root const CFG_HDR cfghdr_vibra_time_3={CFG_UINT,VIBRA_TIME_MSG,50,100000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  221 	__root const int cfg_vibracon_time = 1000;
+cfg_vibracon_time:
+        DATA
+        DC32 1000
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  222     __root const CFG_HDR cfghdr_vibra_3x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  223     __root const CFG_HDR cfghdr_redled_3={CFG_LEVEL,REDLED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  224 	__root const CFG_HDR cfghdr_blink_redled_3={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  225 	__root const int cfg_redledcon = 0;
+cfg_redledcon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  226 	__root const CFG_HDR cfghdr_blink_redled_time_3={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  227 	__root const int cfg_redledcon_time = 2;
+cfg_redledcon_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  228     __root const CFG_HDR cfghdr_redled_3x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\321\342\345\362\356\344\350\356\344\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  229     __root const CFG_HDR cfghdr_led_3={CFG_LEVEL,LED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  230 	__root const CFG_HDR cfghdr_blink_led_3={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  231 	__root const int cfg_ledcon = 0;
+cfg_ledcon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  232 	__root const CFG_HDR cfghdr_blink_led_time_3={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  233 	__root const int cfg_ledcon_time = 2;
+cfg_ledcon_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  234     __root const CFG_HDR cfghdr_led_3x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\335\352\360\340\355"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  235     __root const CFG_HDR cfghdr_screen_3={CFG_LEVEL,SCREEN_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  236 	__root const CFG_HDR cfghdr_blink_screen_3={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  237 	__root const int cfg_screencon = 0;
+cfg_screencon:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  238 	__root const CFG_HDR cfghdr_blink_screen_time_3={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  239 	__root const int cfg_screencon_time = 2;
+cfg_screencon_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  240     __root const CFG_HDR cfghdr_screen_3x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  241 __root const CFG_HDR cfghdr_3x={CFG_LEVEL,"",0,0};
+//  242 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\317\360\350 \356\352\356\355\367\340\355\350\350 \360\340\347\343."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  243 __root const CFG_HDR cfghdr_end_conversation={CFG_LEVEL,END_CONVERSATION_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\324\356\355\340\360\350\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  244     __root const CFG_HDR cfghdr_lamp_4={CFG_LEVEL,LAMP_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  245 	__root const CFG_HDR cfghdr_blink_lamp_4={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  246 	__root const int cfg_flashend = 0;
+cfg_flashend:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  247 	__root const CFG_HDR cfghdr_blink_time_4={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  248 	__root const int cfg_flashend_time = 1;
+cfg_flashend_time:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  249     __root const CFG_HDR cfghdr_lamp_4x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302\350\341\360\340"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  250     __root const CFG_HDR cfghdr_vibra_4={CFG_LEVEL,VIBRA_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\350\341\360\350\360\356\342\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  251 	__root const CFG_HDR cfghdr_blink_vibra_4={CFG_CHECKBOX,VIBRATE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  252 	__root const int cfg_vibraend = 0;
+cfg_vibraend:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \342\350\341\360\373(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 50, 100000
+//  253 	__root const CFG_HDR cfghdr_vibra_time_4={CFG_UINT,VIBRA_TIME_MSG,50,100000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  254 	__root const int cfg_vibraend_time = 1000;
+cfg_vibraend_time:
+        DATA
+        DC32 1000
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  255     __root const CFG_HDR cfghdr_vibra_4x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  256     __root const CFG_HDR cfghdr_redled_4={CFG_LEVEL,REDLED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  257 	__root const CFG_HDR cfghdr_blink_redled_4={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  258 	__root const int cfg_redledend = 0;
+cfg_redledend:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  259 	__root const CFG_HDR cfghdr_blink_redled_time_4={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  260 	__root const int cfg_redledend_time = 2;
+cfg_redledend_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  261     __root const CFG_HDR cfghdr_redled_4x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\321\342\345\362\356\344\350\356\344\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  262     __root const CFG_HDR cfghdr_led_4={CFG_LEVEL,LED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  263 	__root const CFG_HDR cfghdr_blink_led_4={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  264 	__root const int cfg_ledend = 0;
+cfg_ledend:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  265 	__root const CFG_HDR cfghdr_blink_led_time_4={CFG_UINT,BLINK_TIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  266 	__root const int cfg_ledend_time = 2;
+cfg_ledend_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  267     __root const CFG_HDR cfghdr_led_4x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\335\352\360\340\355"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  268     __root const CFG_HDR cfghdr_screen_4={CFG_LEVEL,SCREEN_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\314\350\343\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  269 	__root const CFG_HDR cfghdr_blink_screen_4={CFG_CHECKBOX,BLINK_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  270 	__root const int cfg_screenend = 0;
+cfg_screenend:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \354\350\343.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 10000
+//  271 	__root const CFG_HDR cfghdr_blink_screen_time_4={CFG_UINT,BLINK_TIME_MSG,0,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  272 	__root const int cfg_screenend_time = 2;
+cfg_screenend_time:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  273     __root const CFG_HDR cfghdr_screen_4x={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  274 __root const CFG_HDR cfghdr_4x={CFG_LEVEL,"",0,0};
+//  275 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302 \352\356\355\366\345 \354\350\355\363\362\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  276 __root const CFG_HDR cfghdr_at_minute_end={CFG_LEVEL,AT_MINUTE_END_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 11
+        DC8 "\302\350\341\360\350\360\356\342\340\362\374"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  277 	__root const CFG_HDR cfghdr_vibra_5={CFG_CHECKBOX,VIBRATE_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  278 	__root const int cfg_vibra_at_minute_end = 0;
+cfg_vibra_at_minute_end:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \342\350\341\360\373(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 50, 3540
+//  279 	__root const CFG_HDR cfghdr_vibra_time_5={CFG_UINT,VIBRA_TIME_MSG,50,3540};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  280 	__root const int cfg_vibra_at_minute_end_time = 500;
+cfg_vibra_at_minute_end_time:
+        DATA
+        DC32 500
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\307\340 \361\352\356\353\374\352\356 \344\356 \356\352\356\355.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 59
+//  281 	__root const CFG_HDR cfghdr_53={CFG_UINT,VIBRA_TIME_LEAD_MSG,1,59};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  282 	__root const int cfg_vibra_at_minute_end_lead = 10;
+cfg_vibra_at_minute_end_lead:
+        DATA
+        DC32 10
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  283 __root const CFG_HDR cfghdr_5x={CFG_LEVEL,"",0,0};
+//  284 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\302 \352\356\355\366\345 N-\356\351 \354\350\355\363\362\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  285 __root const CFG_HDR cfghdr_at_n_minute_end={CFG_LEVEL,AT_N_MINUTE_END_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\302 \352\356\355\366\345 \352\340\352\356\351 \354\350\355."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 60
+//  286 	__root const CFG_HDR cfghdr_vibra_6={CFG_UINT,VIBRA_MSG_OF,0,60};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  287 	__root const int cfg_vibra_at_n_minute_end = 0;
+cfg_vibra_at_n_minute_end:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\304\353\350\362. \342\350\341\360\373(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 50, 3540
+//  288 	__root const CFG_HDR cfghdr_vibra_time_6={CFG_UINT,VIBRA_TIME_MSG,50,3540};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  289 	__root const int cfg_vibra_at_n_minute_end_time = 1000;
+cfg_vibra_at_n_minute_end_time:
+        DATA
+        DC32 1000
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\307\340 \361\352\356\353\374\352\356 \344\356 \356\352\356\355.(\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 59
+//  290 	__root const CFG_HDR cfghdr_63={CFG_UINT,VIBRA_TIME_LEAD_MSG,1,59};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  291 	__root const int cfg_vibra_at_n_minute_end_lead = 20;
+cfg_vibra_at_n_minute_end_lead:
+        DATA
+        DC32 20
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  292 __root const CFG_HDR cfghdr_6x={CFG_LEVEL,"",0,0};
+//  293 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\315\340\361\362\360\356\351\352\350..."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  294 __root const CFG_HDR cfghdr_options={CFG_LEVEL,OPTIONS_MSG,1,0};
+//  295 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\324\356\355\340\360\350\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  296   __root const CFG_HDR cfghdr_options_1={CFG_LEVEL,LAMP_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\321\352\356\360\356\361\362\374 \354\350\343."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 25, 125
+//  297     __root const CFG_HDR cfghdr_blink_speed={CFG_UINT,BLINK_SPEED_MSG,25,125};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  298     __root const int cfg_flash_blink_speed = 75;
+cfg_flash_blink_speed:
+        DATA
+        DC32 75
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  299   __root const CFG_HDR cfghdr_options_2={CFG_LEVEL,"",0,0};
+//  300 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\312\360\340\361\355\373\351 \361\342\345\362\356\344\350\356\344"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  301   __root const CFG_HDR cfghdr_options_9={CFG_LEVEL,REDLED_MSG,1,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\302\360\345\354\377 \342\356 \342\352\353. \361\356\361\362.(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  302     __root const CFG_HDR cfghdr_opt_redled_1={CFG_UINT,ONTIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  303     __root const int cfg_redled_ontime = 250;
+cfg_redled_ontime:
+        DATA
+        DC32 250
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\302\360\345\354\377 \342 \342\373\352\353. \361\356\361\362.(\354\361\345\352)"
+        DC8 0, 0, 0, 0, 0, 0
+        DC32 1, 10000
+//  304     __root const CFG_HDR cfghdr_opt_redled_2={CFG_UINT,OFFTIME_MSG,1,10000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  305     __root const int cfg_redled_offtime = 250;
+cfg_redled_offtime:
+        DATA
+        DC32 250
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  306   __root const CFG_HDR cfghdr_options_10={CFG_LEVEL,"",0,0};
+//  307 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\321\342\345\362\356\344\350\356\344\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  308   __root const CFG_HDR cfghdr_options_3={CFG_LEVEL,LED_MSG,1,0};
+//  309     //Тип телефона
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\322\345\353\345\364\356\355"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//  310     __root const CFG_HDR cfghdr_phone_type={CFG_CBOX,PHONE_TYPE_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  311     __root const int cfg_phone_type=0;
+cfg_phone_type:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\301\345\347 \361\342\345\362\356\344\350\356\344\356\342"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "W580"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\304\360\363\343\356\351"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+//  312     __root const CFG_CBOX_ITEM cfgcbox_phone_type[3]={PHONE_TYPE0_MSG,PHONE_TYPE1_MSG,PHONE_TYPE2_MSG};
+//  313     //;Как мигать
+//  314     // 0 - одним светодиодом, 1 - всеми.
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\320\345\346\350\354 \354\350\343\340\355\350\377"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+//  315     __root const CFG_HDR cfghdr_opt_led_3={CFG_CBOX,LED_MODE_MSG,0,2};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  316     __root const int cfg_led_blink_mode = 0;
+cfg_led_blink_mode:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\316\344\355\350\354 \361\342\345\362\356\344\350\356\344\356\354"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\302\361\345\354\350 \361\342\345\362\356\344\350\356\344\340\354\350"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//  317     __root const CFG_CBOX_ITEM cfgcbox_led_4[2]={ONE_LED_MSG,ALL_LEDS_MSG};
+//  318     //Скорость мигания
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\321\352\356\360\356\361\362\374 \354\350\343."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 1000
+//  319     __root const CFG_HDR cfghdr_opt_led_5={CFG_UINT,BLINK_SPEED_MSG,1,1000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  320     __root const int cfg_led_blink_speed = 100;
+cfg_led_blink_speed:
+        DATA
+        DC32 100
+//  321 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\322\356\353\374\352\356 \344\353\377 W580..."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  322     __root const CFG_HDR cfghdr_options_7={CFG_LEVEL,PHONE_W580_MSG,1,0};
+//  323       // 0 - левым, 1 - правым, 2 - всеми.
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 5
+        DC8 "\320\345\346\350\354 \354\350\343\340\355\350\377"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+//  324       __root const CFG_HDR cfghdr_opt_led580_3={CFG_CBOX,LED_MODE_MSG,0,3};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  325       __root const int cfg_led580_blink_mode = 2;
+cfg_led580_blink_mode:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC8 "\313\345\342\373\354 \361\342\345\362\356\344\350\356\344\356\354"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\317\360\340\342\373\354 \361\342\345\362\356\344\350\356\344\356\354"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "\302\361\345\354\350 \361\342\345\362\356\344\350\356\344\340\354\350"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//  326       __root const CFG_CBOX_ITEM cfgcbox_led580_4[3]={LEFT_LED_MSG,RIGHT_LED_MSG,ALL_LEDS_MSG};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 15
+        DC8 "\326\342\345\362"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  327       __root const CFG_HDR cfghdr_led580_5={CFG_COLOR_INT,COLOR_MSG,0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  328       __root const unsigned int cfg_led580_color=0xFFFFFFFF;
+cfg_led580_color:
+        DATA
+        DC32 4294967295
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  329     __root const CFG_HDR cfghdr_options_8={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  330   __root const CFG_HDR cfghdr_options_4={CFG_LEVEL,"",0,0};
+//  331 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 "\335\352\360\340\355"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//  332   __root const CFG_HDR cfghdr_options_5={CFG_LEVEL,SCREEN_MSG,1,0};
+//  333     //Скорость мигания
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\321\352\356\360\356\361\362\374 \354\350\343."
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 20, 1000
+//  334     __root const CFG_HDR cfghdr_screen_blink_speed={CFG_UINT,BLINK_SPEED_MSG,20,1000};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  335     __root const int cfg_screen_blink_speed = 500;
+cfg_screen_blink_speed:
+        DATA
+        DC32 500
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 1
+        DC8 "\323\360\356\342\345\355\374 \357\356\344\361\342\345\362\352\350 \375\352\360\340\355\340"
+        DC8 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 100
+//  336     __root const CFG_HDR cfghdr_screen_level={CFG_UINT,SCREEN_LEVEL_MSG,0,100};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//  337     __root const int cfg_screen_level = 30;
+cfg_screen_level:
+        DATA
+        DC32 30
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//  338   __root const CFG_HDR cfghdr_options_6={CFG_LEVEL,"",0,0};
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        END
+//  339 __root const CFG_HDR cfghdr_options_x={CFG_LEVEL,"",0,0};
+//  340 
+// 
+// 7 096 bytes in segment CONFIG_C
+// 
+// 7 096 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

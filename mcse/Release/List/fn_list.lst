@@ -1,0 +1,472 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:46:58 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\fn_list.c #
+#                       pp                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\fn_list.c #
+#                       pp -D NDEBUG -D USEZLIB -D OLDFUNCTIONS -lCN         #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\ -la Z:\home\perk11\www\perk11.info\svn\SE\mcse\ #
+#                       Release\List\ -o Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\Release\Obj\ -s9 --no_unroll                 #
+#                       --no_code_motion --cpu_mode arm --endian little      #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h --preinclude Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\mcse\..\deleaker\mem2.h -I                        #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\L #
+#                       ist\fn_list.lst                                      #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\mcse\Release\O #
+#                       bj\fn_list.r79                                       #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\mcse\fn_list.cpp
+      1          #include "inc\mc.h"
+      2          #include "inc\file_op.h"
+      3          #include "inc\fn_list.h"
+      4          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      5          static wchar_t *st_pathbuf_fn=NULL;
+   \                     st_pathbuf_fn:
+   \   00000000                      DS8 4
+      6          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      7          wchar_t *GetPathBuf(void)
+      8          {
+      9            return (st_pathbuf_fn?st_pathbuf_fn:(st_pathbuf_fn=new wchar_t[MAX_PATH]));
+   \                     ??GetPathBuf:
+   \   00000000   ........           LDR      R0,??DataTable4  ;; st_pathbuf_fn
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   ........           LDRNE    R0,??DataTable4  ;; st_pathbuf_fn
+   \   00000014   00009015           LDRNE    R0,[R0, #+0]
+   \   00000018   1080BD18           POPNE    {R4,PC}
+   \   0000001C   ........           LDR      R4,??DataTable4  ;; st_pathbuf_fn
+   \   00000020   800FA0E3           MOV      R0,#+512
+   \   00000024   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000028   000084E5           STR      R0,[R4, #+0]
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+     10          }
+     11          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          void DestroyPathBuf(void)
+     13          {
+     14            if (st_pathbuf_fn) {delete st_pathbuf_fn; st_pathbuf_fn=NULL;};
+   \                     ??DestroyPathBuf:
+   \   00000000   ........           LDR      R0,??DataTable4  ;; st_pathbuf_fn
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+   \   00000014   ........           LDR      R4,??DataTable4  ;; st_pathbuf_fn
+   \   00000018   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   000084E5           STR      R0,[R4, #+0]
+     15          }
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+     16          
+     17          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     18          void fn_zero(FN_LIST *list)
+     19          {
+   \                     ??fn_zero:
+   \   00000000   00402DE9           PUSH     {LR}
+     20            memset(list, 0, sizeof(FN_LIST));
+   \   00000004   0C20A0E3           MOV      R2,#+12
+   \   00000008   0010A0E3           MOV      R1,#+0
+   \   0000000C   120100EF           SWI      +274
+     21          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     22          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     23          void fn_free(FN_LIST *list)
+     24          {
+   \                     ??fn_free:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+     25            if (list)
+   \   00000008   3080BD08           POPEQ    {R4,R5,PC}
+     26            {
+     27              if (list->count)
+   \   0000000C   000094E5           LDR      R0,[R4, #+0]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1000001A           BNE      ??fn_free_1
+   \   00000018   3080BDE8           POP      {R4,R5,PC}
+     28              {
+     29                while(list->items)
+     30                {
+     31                  FN_ITM *itm = list->items;
+   \                     ??fn_free_2:
+   \   0000001C   0050A0E1           MOV      R5,R0
+     32                  list->items = (FN_ITM *)itm->next;
+   \   00000020   0C0095E5           LDR      R0,[R5, #+12]
+   \   00000024   080084E5           STR      R0,[R4, #+8]
+     33                
+     34                  if (itm->full) delete(itm->full);
+   \   00000028   080095E5           LDR      R0,[R5, #+8]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0000000A           BEQ      ??fn_free_3
+   \   00000034   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     35                  if (itm->zipPath) delete(itm->zipPath);
+   \                     ??fn_free_3:
+   \   00000038   100095E5           LDR      R0,[R5, #+16]
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   0000000A           BEQ      ??fn_free_4
+   \   00000044   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     36                  delete(itm);
+   \                     ??fn_free_4:
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     37                  list->count--;
+   \   00000050   000094E5           LDR      R0,[R4, #+0]
+   \   00000054   010040E2           SUB      R0,R0,#+1
+   \   00000058   000084E5           STR      R0,[R4, #+0]
+     38                }
+   \                     ??fn_free_1:
+   \   0000005C   080094E5           LDR      R0,[R4, #+8]
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   ECFFFF1A           BNE      ??fn_free_2
+     39              }
+     40            }
+     41          }
+   \   00000068   3080BDE8           POP      {R4,R5,PC}       ;; return
+     42          
+     43          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          void fn_rev(FN_LIST *list)
+     45          {
+     46            if (list==NULL) return;
+   \                     ??fn_rev:
+   \   00000000   000050E3           CMP      R0,#+0
+     47            
+     48            if (list->count)
+   \   00000004   00109015           LDRNE    R1,[R0, #+0]
+   \   00000008   00005113           CMPNE    R1,#+0
+   \   0000000C   1EFF2F01           BXEQ     LR
+     49            {
+     50              FN_ITM *itm = list->items;
+   \   00000010   081090E5           LDR      R1,[R0, #+8]
+     51              FN_ITM *next = (FN_ITM *)itm->next;
+   \   00000014   0C2091E5           LDR      R2,[R1, #+12]
+   \   00000018   000052E3           CMP      R2,#+0
+   \   0000001C   1EFF2F01           BXEQ     LR
+     52              while(next)
+     53              {
+     54                itm->next=next->next;
+   \                     ??fn_rev_1:
+   \   00000020   0C3092E5           LDR      R3,[R2, #+12]
+   \   00000024   0C3081E5           STR      R3,[R1, #+12]
+     55                next->next=list->items;
+   \   00000028   083090E5           LDR      R3,[R0, #+8]
+   \   0000002C   0C3082E5           STR      R3,[R2, #+12]
+     56                list->items = next;
+   \   00000030   082080E5           STR      R2,[R0, #+8]
+     57                next = (FN_ITM *)itm->next;
+   \   00000034   0C2091E5           LDR      R2,[R1, #+12]
+     58              }
+   \   00000038   000052E3           CMP      R2,#+0
+   \   0000003C   F7FFFF1A           BNE      ??fn_rev_1
+   \   00000040   1EFF2FE1           BX       LR               ;; return
+     59            }
+     60          }
+     61          
+     62          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          int fn_inlist(FN_LIST *list, wchar_t *full)
+     64          {
+   \                     ??fn_inlist:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     65            if (list==NULL || !list->count) return 0;
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   3080BD08           POPEQ    {R4,R5,PC}
+   \   00000010   001090E5           LDR      R1,[R0, #+0]
+   \   00000014   000051E3           CMP      R1,#+0
+   \   00000018   0100001A           BNE      ??fn_inlist_1
+   \                     ??fn_inlist_2:
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   3080BDE8           POP      {R4,R5,PC}
+     66            
+     67            FN_ITM *itm = list->items;
+   \                     ??fn_inlist_1:
+   \   00000024   085090E5           LDR      R5,[R0, #+8]
+   \   00000028   000000EA           B        ??fn_inlist_3
+     68            while(itm)
+     69            {
+     70              if (!wstrcmp(itm->full, full)) return 1;  
+     71              itm=(FN_ITM *)itm->next;
+   \                     ??fn_inlist_4:
+   \   0000002C   0C5095E5           LDR      R5,[R5, #+12]
+   \                     ??fn_inlist_3:
+   \   00000030   000055E3           CMP      R5,#+0
+   \   00000034   F8FFFF0A           BEQ      ??fn_inlist_2
+   \   00000038   080095E5           LDR      R0,[R5, #+8]
+   \   0000003C   0410A0E1           MOV      R1,R4
+   \   00000040   560100EF           SWI      +342
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   F7FFFF1A           BNE      ??fn_inlist_4
+   \   0000004C   0100A0E3           MOV      R0,#+1
+   \   00000050   3080BDE8           POP      {R4,R5,PC}       ;; return
+     72            }
+     73            return 0;
+     74          }
+     75          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     76          void fn_add(FN_LIST* list, int type, int ftype, int pname, wchar_t* full, wchar_t* zipPath)
+     77          {
+   \                     ??fn_add:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   1C809DE5           LDR      R8,[SP, #+28]
+   \   0000000C   20909DE5           LDR      R9,[SP, #+32]
+   \   00000010   0170A0E1           MOV      R7,R1
+   \   00000014   0250A0E1           MOV      R5,R2
+   \   00000018   0360A0E1           MOV      R6,R3
+     78            if (list==NULL) return;
+   \   0000001C   000054E3           CMP      R4,#+0
+   \   00000020   F083BD08           POPEQ    {R4-R9,PC}
+     79            
+     80            if (type!=list->type)
+   \   00000024   040094E5           LDR      R0,[R4, #+4]
+   \   00000028   000057E1           CMP      R7,R0
+   \   0000002C   0500000A           BEQ      ??fn_add_1
+     81            {
+     82              if (list->count) fn_free(list);
+   \   00000030   000094E5           LDR      R0,[R4, #+0]
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0100000A           BEQ      ??fn_add_2
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   ........           BL       ??fn_free
+     83              list->type = type;
+   \                     ??fn_add_2:
+   \   00000044   047084E5           STR      R7,[R4, #+4]
+     84            }
+     85            
+     86            if (!fn_inlist(list, full))
+   \                     ??fn_add_1:
+   \   00000048   0810A0E1           MOV      R1,R8
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   ........           BL       ??fn_inlist
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   F083BD18           POPNE    {R4-R9,PC}
+     87            {
+     88              FN_ITM *itm = new FN_ITM;
+   \   0000005C   1400A0E3           MOV      R0,#+20
+   \   00000060   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000064   0070A0E1           MOV      R7,R0
+     89              
+     90              itm->ftype = ftype;
+   \   00000068   005087E5           STR      R5,[R7, #+0]
+     91              itm->pname = pname;
+   \   0000006C   046087E5           STR      R6,[R7, #+4]
+     92              itm->full = new wchar_t[wstrlen(full)+1];
+   \   00000070   0800A0E1           MOV      R0,R8
+   \   00000074   570100EF           SWI      +343
+   \   00000078   010080E2           ADD      R0,R0,#+1
+   \   0000007C   8000A0E1           LSL      R0,R0,#+1
+   \   00000080   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000084   080087E5           STR      R0,[R7, #+8]
+     93              wstrcpy(itm->full, full);
+   \   00000088   0810A0E1           MOV      R1,R8
+   \   0000008C   520100EF           SWI      +338
+     94              if (zipPath != NULL)
+   \   00000090   000059E3           CMP      R9,#+0
+   \   00000094   0800000A           BEQ      ??fn_add_3
+     95              {
+     96                itm->zipPath = new wchar_t[wstrlen(zipPath)+1];
+   \   00000098   0900A0E1           MOV      R0,R9
+   \   0000009C   570100EF           SWI      +343
+   \   000000A0   010080E2           ADD      R0,R0,#+1
+   \   000000A4   8000A0E1           LSL      R0,R0,#+1
+   \   000000A8   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000AC   100087E5           STR      R0,[R7, #+16]
+     97                wstrcpy(itm->zipPath, zipPath);
+   \   000000B0   0910A0E1           MOV      R1,R9
+   \   000000B4   520100EF           SWI      +338
+   \   000000B8   010000EA           B        ??fn_add_4
+     98              }
+     99              else
+    100              {
+    101                itm->zipPath = NULL;
+   \                     ??fn_add_3:
+   \   000000BC   0000A0E3           MOV      R0,#+0
+   \   000000C0   100087E5           STR      R0,[R7, #+16]
+    102              }
+    103              itm->next  = list->items;
+   \                     ??fn_add_4:
+   \   000000C4   080094E5           LDR      R0,[R4, #+8]
+   \   000000C8   0C0087E5           STR      R0,[R7, #+12]
+    104              list->items = itm;
+   \   000000CC   087084E5           STR      R7,[R4, #+8]
+    105              list->count++;
+   \   000000D0   000094E5           LDR      R0,[R4, #+0]
+   \   000000D4   010080E2           ADD      R0,R0,#+1
+   \   000000D8   000084E5           STR      R0,[R4, #+0]
+   \   000000DC   F083BDE8           POP      {R4-R9,PC}       ;; return
+    106            }
+    107          }
+    108          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    109          int _fn_fill(wchar_t *path, wchar_t *name, W_FSTAT *fs, int param)
+    110          {
+   \                     ??_fn_fill:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+    111            wchar_t *p=GetPathBuf();
+   \   00000014   ........           BL       ??GetPathBuf
+   \   00000018   0080B0E1           MOVS     R8,R0
+    112            if (p)
+   \   0000001C   1400000A           BEQ      ??_fn_fill_1
+    113            {
+    114              int ftype = fs->attr & FA_DIRECTORY ? TYPE_COMMON_DIR : TYPE_COMMON_FILE;
+   \   00000020   000096E5           LDR      R0,[R6, #+0]
+    115              FN_LIST *list = (FN_LIST *) param;
+    116              snwprintf(p, MAX_PATH-1, _ls_ls, path, name);
+   \   00000024   50209FE5           LDR      R2,??_fn_fill_2  ;; _ls_ls
+   \   00000028   400C10E3           TST      R0,#0x4000
+   \   0000002C   0160A013           MOVNE    R6,#+1
+   \   00000030   0060A003           MOVEQ    R6,#+0
+   \   00000034   20002DE9           PUSH     {R5}
+   \   00000038   0430A0E1           MOV      R3,R4
+   \   0000003C   FF10A0E3           MOV      R1,#+255
+   \   00000040   0800A0E1           MOV      R0,R8
+   \   00000044   150100EF           SWI      +277
+    117              fn_add(list, FNT_NONE, ftype, 0, p, NULL);
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \   0000004C   01002DE9           PUSH     {R0}
+   \   00000050   00012DE9           PUSH     {R8}
+   \   00000054   0030A0E3           MOV      R3,#+0
+   \   00000058   0620A0E1           MOV      R2,R6
+   \   0000005C   0110A0E3           MOV      R1,#+1
+   \   00000060   0700A0E1           MOV      R0,R7
+   \   00000064   ........           BL       ??fn_add
+    118              return 1;
+   \   00000068   0100A0E3           MOV      R0,#+1
+   \   0000006C   0CD08DE2           ADD      SP,SP,#+12
+   \   00000070   F081BDE8           POP      {R4-R8,PC}
+    119            }
+    120            return 0;
+   \                     ??_fn_fill_1:
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??_fn_fill_2:
+   \   0000007C   ........           DC32     _ls_ls
+    121          }
+    122          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    123          void fn_fill(FN_LIST *list, wchar_t *path)
+    124          {
+   \                     ??fn_fill:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    125            if (list==NULL) return;
+   \   0000000C   000054E3           CMP      R4,#+0
+   \   00000010   7080BD08           POPEQ    {R4-R6,PC}
+    126            
+    127            int ftype = isdir(path) ? TYPE_COMMON_DIR : TYPE_COMMON_FILE;
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   ........           _BLF     ??isdir,??isdir??rA
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0500000A           BEQ      ??fn_fill_1
+    128            if (ftype == TYPE_COMMON_DIR)
+    129              EnumFiles(path, _fn_fill, (int)list);
+   \   00000024   3C109FE5           LDR      R1,??fn_fill_2   ;; ??_fn_fill
+   \   00000028   0420A0E1           MOV      R2,R4
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   ........           _BLF     ??EnumFiles,??EnumFiles??rA
+   \   00000034   0160A0E3           MOV      R6,#+1
+   \   00000038   000000EA           B        ??fn_fill_3
+   \                     ??fn_fill_1:
+   \   0000003C   0060A0E3           MOV      R6,#+0
+    130            fn_add(list, FNT_NONE, ftype, 0, path, NULL);
+   \                     ??fn_fill_3:
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   20002DE9           PUSH     {R5}
+   \   0000004C   0030A0E3           MOV      R3,#+0
+   \   00000050   0620A0E1           MOV      R2,R6
+   \   00000054   0110A0E3           MOV      R1,#+1
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   ........           BL       ??fn_add
+    131          }
+   \   00000060   08D08DE2           ADD      SP,SP,#+8
+   \   00000064   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??fn_fill_2:
+   \   00000068   ........           DC32     ??_fn_fill
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     st_pathbuf_fn
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     DestroyPathBuf()                   8
+     GetPathBuf()                       8
+     _fn_fill(wchar_t *, wchar_t *, W_FSTAT *, int)
+                                       36
+     fn_add(FN_LIST *, int, int, int, wchar_t *, wchar_t *)
+                                       28
+     fn_fill(FN_LIST *, wchar_t *)     24
+     fn_free(FN_LIST *)                12
+     fn_inlist(FN_LIST *, wchar_t *)
+                                       12
+     fn_rev(FN_LIST *)                  0
+     fn_zero(FN_LIST *)                 4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     st_pathbuf_fn                     4
+     GetPathBuf()                     48
+     DestroyPathBuf()                 40
+     fn_zero(FN_LIST *)               20
+     fn_free(FN_LIST *)              108
+     fn_rev(FN_LIST *)                68
+     fn_inlist(FN_LIST *, wchar_t *)
+                                      84
+     fn_add(FN_LIST *, int, int, int, wchar_t *, wchar_t *)
+                                     224
+     _fn_fill(wchar_t *, wchar_t *, W_FSTAT *, int)
+                                     128
+     fn_fill(FN_LIST *, wchar_t *)   108
+     ??DataTable4                      4
+      Others                         108
+
+ 
+ 928 bytes in segment CODE
+   4 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 832 bytes of CODE memory (+ 108 bytes shared)
+   4 bytes of DATA memory
+
+Errors: none
+Warnings: none

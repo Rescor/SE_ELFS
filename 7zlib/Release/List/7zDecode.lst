@@ -1,0 +1,211 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:44:35 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zDecode #
+#                       .c                                                   #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zDecode #
+#                       .c -D NDEBUG -D OLDFUNCTIONS -lcN                    #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7zli #
+#                       b\Release\List\ -o Z:\home\perk11\www\perk11.info\sv #
+#                       n\SE\7zlib\Release\Obj\ -s9 --no_unroll              #
+#                       --no_code_motion --cpu_mode thumb --endian little    #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --library_module -I                       #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\7zDecode.lst                                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       Obj\7zDecode.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zDecode.c
+      1          /* 7zDecode.c */
+      2          
+      3          #define _SZ_ONE_DIRECTORY
+      4          
+      5          #include "7zDecode.h"
+      6          
+      7          #ifdef _SZ_ONE_DIRECTORY
+      8          #include "LzmaDecode.h"
+      9          #else
+     10          #include "../../Compress/LZMA_C/LzmaDecode.h"
+     11          #endif
+     12          
+     13          CMethodID k_Copy = { { 0x0 }, 1 };
+     14          CMethodID k_LZMA = { { 0x3, 0x1, 0x1 }, 3 };
+     15          
+     16          #ifdef _LZMA_IN_CB
+     17          
+     18          typedef struct _CLzmaInCallbackImp
+     19          {
+     20            ILzmaInCallback InCallback;
+     21            ISzInStream *InStream;
+     22            size_t Size;
+     23          } CLzmaInCallbackImp;
+     24          
+     25          int LzmaReadImp(void *object, const unsigned char **buffer, SizeT *size)
+     26          {
+     27            CLzmaInCallbackImp *cb = (CLzmaInCallbackImp *)object;
+     28            size_t processedSize;
+     29            SZ_RESULT res;
+     30            *size = 0;
+     31            res = cb->InStream->Read((void *)cb->InStream, (void **)buffer, cb->Size, &processedSize);
+     32            *size = (SizeT)processedSize;
+     33            if (processedSize > cb->Size)
+     34              return (int)SZE_FAIL;
+     35            cb->Size -= processedSize;
+     36            if (res == SZ_OK)
+     37              return 0;
+     38            return (int)res;
+     39          }
+     40          
+     41          #endif
+     42          
+     43          SZ_RESULT SzDecode(const CFileSize *packSizes, const CFolder *folder,
+     44              #ifdef _LZMA_IN_CB
+     45              ISzInStream *inStream,
+     46              #else
+     47              const Byte *inBuffer,
+     48              #endif
+     49              Byte *outBuffer, size_t outSize, 
+     50              size_t *outSizeProcessed, ISzAlloc *allocMain)
+     51          {
+     52            UInt32 si;
+     53            size_t inSize = 0;
+     54            CCoderInfo *coder;
+     55            if (folder->NumPackStreams != 1)
+     56              return SZE_NOTIMPL;
+     57            if (folder->NumCoders != 1)
+     58              return SZE_NOTIMPL;
+     59            coder = folder->Coders;
+     60            *outSizeProcessed = 0;
+     61          
+     62            for (si = 0; si < folder->NumPackStreams; si++)
+     63              inSize += (size_t)packSizes[si];
+     64          
+     65            if (AreMethodsEqual(&coder->MethodID, &k_Copy))
+     66            {
+     67              size_t i;
+     68              if (inSize != outSize)
+     69                return SZE_DATA_ERROR;
+     70              #ifdef _LZMA_IN_CB
+     71              for (i = 0; i < inSize;)
+     72              {
+     73                size_t j;
+     74                Byte *inBuffer;
+     75                size_t bufferSize;
+     76                RINOK(inStream->Read((void *)inStream,  (void **)&inBuffer, inSize - i, &bufferSize));
+     77                if (bufferSize == 0)
+     78                  return SZE_DATA_ERROR;
+     79                if (bufferSize > inSize - i)
+     80                  return SZE_FAIL;
+     81                *outSizeProcessed += bufferSize;
+     82                for (j = 0; j < bufferSize && i < inSize; j++, i++)
+     83                  outBuffer[i] = inBuffer[j];
+     84              }
+     85              #else
+     86              for (i = 0; i < inSize; i++)
+     87                outBuffer[i] = inBuffer[i];
+     88              *outSizeProcessed = inSize;
+     89              #endif
+     90              return SZ_OK;
+     91            }
+     92          
+     93            if (AreMethodsEqual(&coder->MethodID, &k_LZMA))
+     94            {
+     95              #ifdef _LZMA_IN_CB
+     96              CLzmaInCallbackImp lzmaCallback;
+     97              #else
+     98              SizeT inProcessed;
+     99              #endif
+    100          
+    101              CLzmaDecoderState state;  /* it's about 24-80 bytes structure, if int is 32-bit */
+    102              int result;
+    103              SizeT outSizeProcessedLoc;
+    104          
+    105              #ifdef _LZMA_IN_CB
+    106              lzmaCallback.Size = inSize;
+    107              lzmaCallback.InStream = inStream;
+    108              lzmaCallback.InCallback.Read = LzmaReadImp;
+    109              #endif
+    110          
+    111              if (LzmaDecodeProperties(&state.Properties, coder->Properties.Items, 
+    112                  coder->Properties.Capacity) != LZMA_RESULT_OK)
+    113                return SZE_FAIL;
+    114          
+    115              state.Probs = (CProb *)allocMain->Alloc(LzmaGetNumProbs(&state.Properties) * sizeof(CProb));
+    116              if (state.Probs == 0)
+    117                return SZE_OUTOFMEMORY;
+    118          
+    119              #ifdef _LZMA_OUT_READ
+    120              if (state.Properties.DictionarySize == 0)
+    121                state.Dictionary = 0;
+    122              else
+    123              {
+    124                state.Dictionary = (unsigned char *)allocMain->Alloc(state.Properties.DictionarySize);
+    125                if (state.Dictionary == 0)
+    126                {
+    127                  allocMain->Free(state.Probs);
+    128                  return SZE_OUTOFMEMORY;
+    129                }
+    130              }
+    131              LzmaDecoderInit(&state);
+    132              #endif
+    133          
+    134              result = LzmaDecode(&state,
+    135                  #ifdef _LZMA_IN_CB
+    136                  &lzmaCallback.InCallback,
+    137                  #else
+    138                  inBuffer, (SizeT)inSize, &inProcessed,
+    139                  #endif
+    140                  outBuffer, (SizeT)outSize, &outSizeProcessedLoc);
+    141              *outSizeProcessed = (size_t)outSizeProcessedLoc;
+    142              allocMain->Free(state.Probs);
+    143              #ifdef _LZMA_OUT_READ
+    144              allocMain->Free(state.Dictionary);
+    145              #endif
+    146              if (result == LZMA_RESULT_DATA_ERROR)
+    147                return SZE_DATA_ERROR;
+    148              if (result != LZMA_RESULT_OK)
+    149                return SZE_FAIL;
+    150              return SZ_OK;
+    151            }
+    152            return SZE_NOTIMPL;
+    153          }
+
+   Maximum stack usage in bytes:
+
+     Function CSTACK
+     -------- ------
+     SzDecode    68
+
+
+   Segment part sizes:
+
+     Function/Label            Bytes
+     --------------            -----
+     k_Copy                      32
+     SzDecode                   232
+     ?<Initializer for k_Copy>   32
+      Others                     52
+
+ 
+ 272 bytes in segment CODE
+  32 bytes in segment DATA_I
+  32 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 232 bytes of CODE  memory (+ 52 bytes shared)
+  32 bytes of CONST memory
+  32 bytes of DATA  memory
+
+Errors: none
+Warnings: none

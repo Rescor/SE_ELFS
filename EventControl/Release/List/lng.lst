@@ -1,0 +1,944 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:53:19 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\l #
+#                       ng.cpp                                               #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\l #
+#                       ng.cpp -D NDEBUG -D OLDFUNCTIONS -lC                 #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\ -lA Z:\home\perk11\www\perk11.info\svn\ #
+#                       SE\EventControl\Release\List\ -o                     #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\ -s9 --cpu_mode arm --endian little       #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --enable_multibytes --fpu None --eec++               #
+#                       --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8 #
+#                       n.h -I Z:\home\perk11\IAR2\arm\INC\                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\List\lng.lst                                  #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EventControl\R #
+#                       elease\Obj\lng.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EventControl\lng.cpp
+      1          /*
+      2          *===========================================================================
+      3          *                       Модуль поддержки разных языков
+      4          *===========================================================================
+      5          */
+      6          #include "..\deleaker\mem2.h"
+      7          #include "..\include\Lib_Clara.h" 
+      8          #include "..\include\Dir.h" 
+      9          #include "header\structs.h"
+     10          #include "header\lng.h"
+     11          #include "header\string.h"
+     12          extern wchar_t *items[];
+     13          
+     14          char *getparam2(char *buf, char *mask, char end, int fsize);
+     15          void char2unicode(wchar_t *ws, char const *s, int len);
+     16          void Lang_Initialize();
+     17          void Lang_Remove();
+     18          
+     19          #define DEFAULT_RU
+     20          #ifdef DEFAULT_RU
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     21          wchar_t *lng[]={
+   \                     lng:
+   \   00000000                      DS8 60
+   \   0000003C                      REQUIRE `?<Initializer for lng>`
+     22            L"Приложение уже запущено",
+     23            L"Тест событий",
+     24            L"Информ.",
+     25            L"Не удалось прочитать файл событий.",
+     26            L" минут осталось",
+     27            L" минут назад",
+     28            L"%d минут осталось",
+     29            L"%d минут назад",
+     30            L"Важное событие",
+     31            L"Все важные события и напоминания появляются в данном окне. Чтобы пометить напоминание как прочитанное, нажмите 'C'. Если вы закроете окно, не отметив все напоминания, то будет отображаться иконка в статусной строке. Для повторного открытия окна нажмите 'About' в BookManager",
+     32            L"ОК",
+     33            L"Отмет.",
+     34            0,0,0
+     35          };
+     36          #else
+     37          wchar_t *lng[]={
+     38            L"EventControl is already runned",
+     39            L"Events test",
+     40            L"Info",
+     41            L"Can't read any Events file!",
+     42            L" minutes remain",
+     43            L" minutes ago",
+     44            L"%d minutes remain",
+     45            L"%d minutes ago",
+     46            L"Important event",
+     47            L"All important events and reminds are showing in this window. To mark event as 'readed' press 'C'. If you close window with not marked events, you will see icon in status bar. To open this window again press 'About' in BookManager",
+     48            L"OK",
+     49            L"Mark",
+     50            0,0,0
+     51          };
+     52          #endif
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     53          int fsize=0;
+   \                     fsize:
+   \   00000000                      DS8 4
+     54          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     55          bool isbetween(int f, int f1, int f2)
+     56          {
+     57            if (f>=f1 && f<=f2)return true;
+   \                     ??isbetween:
+   \   00000000   010050E1           CMP      R0,R1
+   \   00000004   000052A1           CMPGE    R2,R0
+   \   00000008   0100A0A3           MOVGE    R0,#+1
+   \   0000000C   1EFF2FA1           BXGE     LR
+     58            return false;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   1EFF2FE1           BX       LR               ;; return
+     59          };
+     60          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     61          bool isNative(void *f)
+     62          {
+     63            return isbetween((int)f, (int)&ELF_BEGIN, ((int)&ELF_BEGIN)+fsize);
+   \                     ??isNative:
+   \   00000000   2C109FE5           LDR      R1,??isNative_1  ;; ELF_BEGIN
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   010050E1           CMP      R0,R1
+   \   0000000C   050000BA           BLT      ??isNative_2
+   \   00000010   20209FE5           LDR      R2,??isNative_1+0x4  ;; fsize
+   \   00000014   002092E5           LDR      R2,[R2, #+0]
+   \   00000018   011082E0           ADD      R1,R2,R1
+   \   0000001C   000051E1           CMP      R1,R0
+   \   00000020   0100A0A3           MOVGE    R0,#+1
+   \   00000024   000000AA           BGE      ??isNative_3
+   \                     ??isNative_2:
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \                     ??isNative_3:
+   \   0000002C   0200BDE8           POP      {R1}
+   \   00000030   1EFF2FE1           BX       LR               ;; return
+   \                     ??isNative_1:
+   \   00000034   ........           DC32     ELF_BEGIN
+   \   00000038   ........           DC32     fsize
+     64          };
+     65          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          int lng_load(wchar_t *path, wchar_t *name)
+     67          {
+   \                     ??lng_load:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   9CD04DE2           SUB      SP,SP,#+156
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+     68            Lang_Initialize();
+   \   00000010   ........           BL       ??Lang_Initialize
+     69            int res=1;
+   \   00000014   0150A0E3           MOV      R5,#+1
+     70            int file;
+     71            FSTAT fst;
+     72            if (fstat(path,name,&fst)==0)
+   \   00000018   0D20A0E1           MOV      R2,SP
+   \   0000001C   0610A0E1           MOV      R1,R6
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   1C0100EF           SWI      +284
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   6800001A           BNE      ??lng_load_1
+     73            {
+     74              res=0;
+     75              if ((file=_fopen(path,name,FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   0050A0E3           MOV      R5,#+0
+   \   00000038   603FA0E3           MOV      R3,#+384
+   \   0000003C   0120A0E3           MOV      R2,#+1
+   \   00000040   0610A0E1           MOV      R1,R6
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   160100EF           SWI      +278
+   \   0000004C   0060B0E1           MOVS     R6,R0
+   \   00000050   04D08DE2           ADD      SP,SP,#+4
+   \   00000054   5E00004A           BMI      ??lng_load_1
+     76              {
+     77                char * buf;
+     78                char * param;
+     79                buf=new char[fst.fsize+1];
+   \   00000058   08009DE5           LDR      R0,[SP, #+8]
+     80                fread(file,buf,fst.fsize);
+     81                int x=0;
+     82                char endsymbol=';';
+   \   0000005C   7C919FE5           LDR      R9,??lng_load_2  ;; `?<Constant "lng_%d)">`
+   \   00000060   ........           LDR      R10,??DataTable3  ;; lng
+   \   00000064   010080E2           ADD      R0,R0,#+1
+   \   00000068   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   0000006C   08209DE5           LDR      R2,[SP, #+8]
+   \   00000070   0070A0E1           MOV      R7,R0
+   \   00000074   0710A0E1           MOV      R1,R7
+   \   00000078   0600A0E1           MOV      R0,R6
+   \   0000007C   180100EF           SWI      +280
+   \   00000080   0080A0E3           MOV      R8,#+0
+   \   00000084   120000EA           B        ??lng_load_3
+     83                
+     84                while (1)
+     85                {
+     86                  char pattern[128];
+     87                  sprintf(pattern,"lng_%d)",x);
+     88                  if (param=getparam(buf,pattern,endsymbol, fst.fsize))
+     89                  {
+     90                    
+     91                    if (lng[x])
+     92                    {
+     93                      if (!isNative(lng[x]))
+   \                     ??lng_load_4:
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   0100001A           BNE      ??lng_load_5
+     94                      {
+     95                        delete(lng[x]);
+   \   00000090   0B00A0E1           MOV      R0,R11
+   \   00000094   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     96                      }
+     97                    }
+     98                    
+     99                    lng[x]=new wchar_t[strlen(param)+1];
+   \                     ??lng_load_5:
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   5A0100EF           SWI      +346
+   \   000000A0   010080E2           ADD      R0,R0,#+1
+   \   000000A4   8000A0E1           LSL      R0,R0,#+1
+   \   000000A8   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   000000AC   08018AE7           STR      R0,[R10, +R8, LSL #+2]
+    100                    char2unicode(lng[x], param, strlen(param));
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   5A0100EF           SWI      +346
+   \   000000B8   0020A0E1           MOV      R2,R0
+   \   000000BC   08019AE7           LDR      R0,[R10, +R8, LSL #+2]
+   \   000000C0   0410A0E1           MOV      R1,R4
+   \   000000C4   ........           BL       ??char2unicode
+    101                    delete(param);
+   \   000000C8   0400A0E1           MOV      R0,R4
+   \   000000CC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    102                  }
+    103                  else break;
+    104                  x++;
+   \   000000D0   018088E2           ADD      R8,R8,#+1
+   \                     ??lng_load_3:
+   \   000000D4   0820A0E1           MOV      R2,R8
+   \   000000D8   0910A0E1           MOV      R1,R9
+   \   000000DC   1C008DE2           ADD      R0,SP,#+28
+   \   000000E0   140100EF           SWI      +276
+   \   000000E4   08309DE5           LDR      R3,[SP, #+8]
+   \   000000E8   3B20A0E3           MOV      R2,#+59
+   \   000000EC   1C108DE2           ADD      R1,SP,#+28
+   \   000000F0   0700A0E1           MOV      R0,R7
+   \   000000F4   ........           _BLF     ??getparam,??getparam??rA
+   \   000000F8   0040B0E1           MOVS     R4,R0
+   \   000000FC   0800000A           BEQ      ??lng_load_6
+   \   00000100   08B19AE7           LDR      R11,[R10, +R8, LSL #+2]
+   \   00000104   00005BE3           CMP      R11,#+0
+   \   00000108   E2FFFF0A           BEQ      ??lng_load_5
+   \   0000010C   0B00A0E1           MOV      R0,R11
+   \   00000110   ........           BL       ??isNative
+   \   00000114   000050E3           CMP      R0,#+0
+   \   00000118   DAFFFF0A           BEQ      ??lng_load_4
+   \   0000011C   0100A0E3           MOV      R0,#+1
+   \   00000120   D8FFFFEA           B        ??lng_load_4
+    105                }
+    106                x=0;
+   \                     ??lng_load_6:
+   \   00000124   ........           LDR      R10,??DataTable2  ;; items
+   \   00000128   0080A0E3           MOV      R8,#+0
+   \   0000012C   120000EA           B        ??lng_load_7
+    107                while (1)
+    108                {
+    109                  char pattern[128];
+    110                  sprintf(pattern,"items_%d)",x);
+    111                  if (param=getparam(buf,pattern,endsymbol, fst.fsize))
+    112                  {
+    113                    if (items[x])
+    114                    {      
+    115                      if (!isNative(items[x]))
+   \                     ??lng_load_8:
+   \   00000130   000050E3           CMP      R0,#+0
+   \   00000134   0100001A           BNE      ??lng_load_9
+    116                      {
+    117                        delete(items[x]);
+   \   00000138   0B00A0E1           MOV      R0,R11
+   \   0000013C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    118                      }
+    119                    }
+    120                    items[x]=new wchar_t[strlen(param)+1];
+   \                     ??lng_load_9:
+   \   00000140   0400A0E1           MOV      R0,R4
+   \   00000144   5A0100EF           SWI      +346
+   \   00000148   010080E2           ADD      R0,R0,#+1
+   \   0000014C   8000A0E1           LSL      R0,R0,#+1
+   \   00000150   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000154   08018AE7           STR      R0,[R10, +R8, LSL #+2]
+    121                    char2unicode(items[x], param, strlen(param));
+   \   00000158   0400A0E1           MOV      R0,R4
+   \   0000015C   5A0100EF           SWI      +346
+   \   00000160   0020A0E1           MOV      R2,R0
+   \   00000164   08019AE7           LDR      R0,[R10, +R8, LSL #+2]
+   \   00000168   0410A0E1           MOV      R1,R4
+   \   0000016C   ........           BL       ??char2unicode
+    122                    delete(param);
+   \   00000170   0400A0E1           MOV      R0,R4
+   \   00000174   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    123                  }
+    124                  else 
+    125                    goto L_away;
+    126                  x++;
+   \   00000178   018088E2           ADD      R8,R8,#+1
+   \                     ??lng_load_7:
+   \   0000017C   0820A0E1           MOV      R2,R8
+   \   00000180   081089E2           ADD      R1,R9,#+8
+   \   00000184   1C008DE2           ADD      R0,SP,#+28
+   \   00000188   140100EF           SWI      +276
+   \   0000018C   08309DE5           LDR      R3,[SP, #+8]
+   \   00000190   3B20A0E3           MOV      R2,#+59
+   \   00000194   1C108DE2           ADD      R1,SP,#+28
+   \   00000198   0700A0E1           MOV      R0,R7
+   \   0000019C   ........           _BLF     ??getparam,??getparam??rA
+   \   000001A0   0040B0E1           MOVS     R4,R0
+   \   000001A4   0800000A           BEQ      ??lng_load_10
+   \   000001A8   08B19AE7           LDR      R11,[R10, +R8, LSL #+2]
+   \   000001AC   00005BE3           CMP      R11,#+0
+   \   000001B0   E2FFFF0A           BEQ      ??lng_load_9
+   \   000001B4   0B00A0E1           MOV      R0,R11
+   \   000001B8   ........           BL       ??isNative
+   \   000001BC   000050E3           CMP      R0,#+0
+   \   000001C0   DAFFFF0A           BEQ      ??lng_load_8
+   \   000001C4   0100A0E3           MOV      R0,#+1
+   \   000001C8   D8FFFFEA           B        ??lng_load_8
+    127                }
+    128              L_away:
+    129                ;
+    130                fclose(file);
+   \                     ??lng_load_10:
+   \   000001CC   0600A0E1           MOV      R0,R6
+   \   000001D0   170100EF           SWI      +279
+    131              }
+    132            }
+    133            return res;
+   \                     ??lng_load_1:
+   \   000001D4   0500A0E1           MOV      R0,R5
+   \   000001D8   9CD08DE2           ADD      SP,SP,#+156
+   \   000001DC   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??lng_load_2:
+   \   000001E0   ........           DC32     `?<Constant "lng_%d)">`
+    134          };
+    135          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    136          void destroy_innative_lng()
+    137          {
+   \                     ??destroy_innative_lng:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    138            Lang_Remove();
+    139            int x=0;
+   \   00000004   ........           LDR      R5,??DataTable2  ;; items
+   \   00000008   0040A0E3           MOV      R4,#+0
+   \   0000000C   ........           BL       ??Lang_Remove
+   \   00000010   000095E5           LDR      R0,[R5, #+0]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0500001A           BNE      ??destroy_innative_lng_1
+   \   0000001C   070000EA           B        ??destroy_innative_lng_2
+    140            while (1)
+    141            {
+    142              if (!items[x])break;
+    143              if (!isNative(items[x]))
+   \                     ??destroy_innative_lng_3:
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0100001A           BNE      ??destroy_innative_lng_4
+    144              {
+    145                delete(items[x]);
+   \   00000028   0600A0E1           MOV      R0,R6
+   \   0000002C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    146              }
+    147              x++;
+   \                     ??destroy_innative_lng_4:
+   \   00000030   014084E2           ADD      R4,R4,#+1
+   \                     ??destroy_innative_lng_1:
+   \   00000034   046195E7           LDR      R6,[R5, +R4, LSL #+2]
+   \   00000038   000056E3           CMP      R6,#+0
+   \   0000003C   0500001A           BNE      ??destroy_innative_lng_5
+    148            };
+    149            x=0;
+   \                     ??destroy_innative_lng_2:
+   \   00000040   ........           LDR      R5,??DataTable3  ;; lng
+   \   00000044   0040A0E3           MOV      R4,#+0
+   \   00000048   000095E5           LDR      R0,[R5, #+0]
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   0B00001A           BNE      ??destroy_innative_lng_6
+   \   00000054   7080BDE8           POP      {R4-R6,PC}
+   \                     ??destroy_innative_lng_5:
+   \   00000058   0600A0E1           MOV      R0,R6
+   \   0000005C   ........           BL       ??isNative
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   EDFFFF0A           BEQ      ??destroy_innative_lng_3
+   \   00000068   0100A0E3           MOV      R0,#+1
+   \   0000006C   EBFFFFEA           B        ??destroy_innative_lng_3
+    150            while (1)
+    151            {
+    152              if (!lng[x])return;
+    153              if (!isNative(lng[x]))
+   \                     ??destroy_innative_lng_7:
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   0100001A           BNE      ??destroy_innative_lng_8
+    154              {
+    155                delete(lng[x]);
+   \   00000078   0600A0E1           MOV      R0,R6
+   \   0000007C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    156              }
+    157              x++;
+   \                     ??destroy_innative_lng_8:
+   \   00000080   014084E2           ADD      R4,R4,#+1
+   \                     ??destroy_innative_lng_6:
+   \   00000084   046195E7           LDR      R6,[R5, +R4, LSL #+2]
+   \   00000088   000056E3           CMP      R6,#+0
+   \   0000008C   7080BD08           POPEQ    {R4-R6,PC}
+   \   00000090   0600A0E1           MOV      R0,R6
+   \   00000094   ........           BL       ??isNative
+   \   00000098   000050E3           CMP      R0,#+0
+   \   0000009C   F3FFFF0A           BEQ      ??destroy_innative_lng_7
+   \   000000A0   0100A0E3           MOV      R0,#+1
+   \   000000A4   F1FFFFEA           B        ??destroy_innative_lng_7
+    158            };
+    159          };
+    160          
+    161          wchar_t *checkfile(wchar_t*);
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    162          char *fbuf=0;
+   \                     fbuf:
+   \   00000000                      DS8 4
+    163          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    164          void char2unicode(wchar_t *ws, char const *s, int len) 
+    165          {
+    166            if (fbuf)
+   \                     ??char2unicode:
+   \   00000000   ........           LDR      R3,??DataTable6  ;; fbuf
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   003093E5           LDR      R3,[R3, #+0]
+   \   0000000C   000053E3           CMP      R3,#+0
+   \   00000010   1100000A           BEQ      ??char2unicode_1
+    167            {
+    168              int c;
+    169              char * buf=fbuf;
+   \   00000014   060000EA           B        ??char2unicode_2
+    170              while((c = *s++) && ((len--) > 0))   
+    171              {
+    172                if (c == 0x7E) c = 0x0A;
+   \                     ??char2unicode_3:
+   \   00000018   7E005CE3           CMP      R12,#+126
+   \   0000001C   0AC0A003           MOVEQ    R12,#+10
+    173                if (fbuf) c = (buf[2 * c] << 8)  | buf[2 * c + 1];
+    174                *ws++ = c;
+   \   00000020   8CC083E0           ADD      R12,R3,R12, LSL #+1
+   \   00000024   0040DCE5           LDRB     R4,[R12, #+0]
+   \   00000028   01C0DCE5           LDRB     R12,[R12, #+1]
+   \   0000002C   04448CE1           ORR      R4,R12,R4, LSL #+8
+   \   00000030   ........           STRH     R4,[R0], #+2
+    175            
+    176              }
+   \                     ??char2unicode_2:
+   \   00000034   ........           LDRB     R12,[R1], #+1
+   \   00000038   00005CE3           CMP      R12,#+0
+   \   0000003C   0300000A           BEQ      ??char2unicode_4
+   \   00000040   0240A0E1           MOV      R4,R2
+   \   00000044   012044E2           SUB      R2,R4,#+1
+   \   00000048   010054E3           CMP      R4,#+1
+   \   0000004C   F1FFFFAA           BGE      ??char2unicode_3
+    177              *ws=0;
+   \                     ??char2unicode_4:
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   B010C0E1           STRH     R1,[R0, #+0]
+   \   00000058   1080BDE8           POP      {R4,PC}
+    178            }
+    179            else
+    180            {
+    181              str2wstr(ws, s);
+   \                     ??char2unicode_1:
+   \   0000005C   580100EF           SWI      +344
+    182            }
+    183          };
+   \   00000060   1080BDE8           POP      {R4,PC}          ;; return
+    184          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    185          void Lang_Initialize()
+    186          {
+   \                     ??Lang_Initialize:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    187            fbuf=0;
+   \   00000004   ........           LDR      R4,??DataTable6  ;; fbuf
+    188            int file;
+    189            FSTAT fst;
+    190            if(fstat(checkfile(L"encoding.bin"), L"encoding.bin", &fst) == 0)
+   \   00000008   84509FE5           LDR      R5,??Lang_Initialize_1  ;; `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`
+   \   0000000C   1CD04DE2           SUB      SP,SP,#+28
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   000084E5           STR      R0,[R4, #+0]
+   \   00000018   0500A0E1           MOV      R0,R5
+   \   0000001C   ........           _BLF     ??checkfile,??checkfile??rA
+   \   00000020   0D20A0E1           MOV      R2,SP
+   \   00000024   0510A0E1           MOV      R1,R5
+   \   00000028   1C0100EF           SWI      +284
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   1500001A           BNE      ??Lang_Initialize_2
+    191            {
+    192              if( ((file = _fopen(checkfile(L"encoding.bin"), L"encoding.bin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0) && fst.fsize == 512 )
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           _BLF     ??checkfile,??checkfile??rA
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   02002DE9           PUSH     {R1}
+   \   00000044   603FA0E3           MOV      R3,#+384
+   \   00000048   0120A0E3           MOV      R2,#+1
+   \   0000004C   0510A0E1           MOV      R1,R5
+   \   00000050   160100EF           SWI      +278
+   \   00000054   0050B0E1           MOVS     R5,R0
+   \   00000058   04D08DE2           ADD      SP,SP,#+4
+   \   0000005C   0A00004A           BMI      ??Lang_Initialize_2
+   \   00000060   08009DE5           LDR      R0,[SP, #+8]
+   \   00000064   800F50E3           CMP      R0,#+512
+   \   00000068   0700001A           BNE      ??Lang_Initialize_2
+    193              {
+    194                fbuf = new char[512];
+   \   0000006C   ........           _BLF     `??operator new[]`,`??operator new[]??rA`
+   \   00000070   000084E5           STR      R0,[R4, #+0]
+    195                fread(file, fbuf, 512);
+   \   00000074   802FA0E3           MOV      R2,#+512
+   \   00000078   0010A0E1           MOV      R1,R0
+   \   0000007C   0500A0E1           MOV      R0,R5
+   \   00000080   180100EF           SWI      +280
+    196                fclose(file);
+   \   00000084   0500A0E1           MOV      R0,R5
+   \   00000088   170100EF           SWI      +279
+    197              }
+    198            }
+    199          };
+   \                     ??Lang_Initialize_2:
+   \   0000008C   1CD08DE2           ADD      SP,SP,#+28       ;; stack cleaning
+   \   00000090   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??Lang_Initialize_1:
+   \   00000094   ........           DC32     `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`
+    200          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    201          void Lang_Remove()
+    202          {
+   \                     ??Lang_Remove:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    203            if (fbuf)
+   \   00000004   ........           LDR      R4,??DataTable6  ;; fbuf
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    204            {
+    205              delete(fbuf);
+   \   00000014   ........           _BLF     `??operator delete`,`??operator delete??rA`
+    206              fbuf=0;
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   000084E5           STR      R0,[R4, #+0]
+    207            }
+    208          };
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     items
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     lng
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     fbuf
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for lng>`:
+   \   00000000   ........           DC32 `?<Constant L"\\x41f\\x440\\x438\\x43b\\x43e\\x436\\x4`
+   \   00000004   ........           DC32 `?<Constant L"\\x422\\x435\\x441\\x442\\x20\\x441\\x43`
+   \   00000008   ........           DC32 `?<Constant L"\\x418\\x43d\\x444\\x43e\\x440\\x43c\\x2`
+   \   0000000C   ........           DC32 `?<Constant L"\\x41d\\x435\\x20\\x443\\x434\\x430\\x43`
+   \   00000010   ........           DC32 `?<Constant L"\\x20\\x43c\\x438\\x43d\\x443\\x442\\x20`
+   \   00000014   ........           DC32 `?<Constant L"\\x20\\x43c\\x438\\x43d\\x443\\x442\\x20_1`
+   \   00000018   ........           DC32 `?<Constant L"\\x25\\x64\\x20\\x43c\\x438\\x43d\\x443\\`
+   \   0000001C   ........           DC32 `?<Constant L"\\x25\\x64\\x20\\x43c\\x438\\x43d\\x443\\_1`
+   \   00000020   ........           DC32 `?<Constant L"\\x412\\x430\\x436\\x43d\\x43e\\x435\\x2`
+   \   00000024   ........           DC32 `?<Constant L"\\x412\\x441\\x435\\x20\\x432\\x430\\x43`
+   \   00000028   ........           DC32 `?<Constant L"\\x41e\\x41a">`
+   \   0000002C   ........0000       DC32 `?<Constant L"\\x41e\\x442\\x43c\\x435\\x442\\x2e">`, 0H, 0H, 0H
+   \              000000000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41f\\x440\\x438\\x43b\\x43e\\x436\\x4`:
+   \   00000000   1F0440043804       DC8 1FH, 4, 40H, 4, 38H, 4, 3BH, 4
+   \              3B04        
+   \   00000008   3E0436043504       DC8 3EH, 4, 36H, 4, 35H, 4, 3DH, 4
+   \              3D04        
+   \   00000010   380435042000       DC8 38H, 4, 35H, 4, 20H, 0, 43H, 4
+   \              4304        
+   \   00000018   360435042000       DC8 36H, 4, 35H, 4, 20H, 0, 37H, 4
+   \              3704        
+   \   00000020   30043F044304       DC8 30H, 4, 3FH, 4, 43H, 4, 49H, 4
+   \              4904        
+   \   00000028   35043D043E04       DC8 35H, 4, 3DH, 4, 3EH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x422\\x435\\x441\\x442\\x20\\x441\\x43`:
+   \   00000000   220435044104       DC8 22H, 4, 35H, 4, 41H, 4, 42H, 4
+   \              4204        
+   \   00000008   200041043E04       DC8 20H, 0, 41H, 4, 3EH, 4, 31H, 4
+   \              3104        
+   \   00000010   4B0442043804       DC8 4BH, 4, 42H, 4, 38H, 4, 39H, 4
+   \              3904        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x418\\x43d\\x444\\x43e\\x440\\x43c\\x2`:
+   \   00000000   18043D044404       DC8 18H, 4, 3DH, 4, 44H, 4, 3EH, 4
+   \              3E04        
+   \   00000008   40043C042E00       DC8 40H, 4, 3CH, 4, 2EH, 0, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41d\\x435\\x20\\x443\\x434\\x430\\x43`:
+   \   00000000   1D0435042000       DC8 1DH, 4, 35H, 4, 20H, 0, 43H, 4
+   \              4304        
+   \   00000008   340430043B04       DC8 34H, 4, 30H, 4, 3BH, 4, 3EH, 4
+   \              3E04        
+   \   00000010   41044C042000       DC8 41H, 4, 4CH, 4, 20H, 0, 3FH, 4
+   \              3F04        
+   \   00000018   40043E044704       DC8 40H, 4, 3EH, 4, 47H, 4, 38H, 4
+   \              3804        
+   \   00000020   420430044204       DC8 42H, 4, 30H, 4, 42H, 4, 4CH, 4
+   \              4C04        
+   \   00000028   200044043004       DC8 20H, 0, 44H, 4, 30H, 4, 39H, 4
+   \              3904        
+   \   00000030   3B0420004104       DC8 3BH, 4, 20H, 0, 41H, 4, 3EH, 4
+   \              3E04        
+   \   00000038   31044B044204       DC8 31H, 4, 4BH, 4, 42H, 4, 38H, 4
+   \              3804        
+   \   00000040   39042E000000       DC8 39H, 4, 2EH, 0, 0, 0
+   \   00000046   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x20\\x43c\\x438\\x43d\\x443\\x442\\x20`:
+   \   00000000   20003C043804       DC8 20H, 0, 3CH, 4, 38H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   430442042000       DC8 43H, 4, 42H, 4, 20H, 0, 3EH, 4
+   \              3E04        
+   \   00000010   410442043004       DC8 41H, 4, 42H, 4, 30H, 4, 3BH, 4
+   \              3B04        
+   \   00000018   3E0441044C04       DC8 3EH, 4, 41H, 4, 4CH, 4, 0, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x20\\x43c\\x438\\x43d\\x443\\x442\\x20_1`:
+   \   00000000   20003C043804       DC8 20H, 0, 3CH, 4, 38H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   430442042000       DC8 43H, 4, 42H, 4, 20H, 0, 3DH, 4
+   \              3D04        
+   \   00000010   300437043004       DC8 30H, 4, 37H, 4, 30H, 4, 34H, 4
+   \              3404        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x64\\x20\\x43c\\x438\\x43d\\x443\\`:
+   \   00000000   250064002000       DC8 25H, 0, 64H, 0, 20H, 0, 3CH, 4
+   \              3C04        
+   \   00000008   38043D044304       DC8 38H, 4, 3DH, 4, 43H, 4, 42H, 4
+   \              4204        
+   \   00000010   20003E044104       DC8 20H, 0, 3EH, 4, 41H, 4, 42H, 4
+   \              4204        
+   \   00000018   30043B043E04       DC8 30H, 4, 3BH, 4, 3EH, 4, 41H, 4
+   \              4104        
+   \   00000020   4C040000           DC8 4CH, 4, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x25\\x64\\x20\\x43c\\x438\\x43d\\x443\\_1`:
+   \   00000000   250064002000       DC8 25H, 0, 64H, 0, 20H, 0, 3CH, 4
+   \              3C04        
+   \   00000008   38043D044304       DC8 38H, 4, 3DH, 4, 43H, 4, 42H, 4
+   \              4204        
+   \   00000010   20003D043004       DC8 20H, 0, 3DH, 4, 30H, 4, 37H, 4
+   \              3704        
+   \   00000018   300434040000       DC8 30H, 4, 34H, 4, 0, 0
+   \   0000001E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x430\\x436\\x43d\\x43e\\x435\\x2`:
+   \   00000000   120430043604       DC8 12H, 4, 30H, 4, 36H, 4, 3DH, 4
+   \              3D04        
+   \   00000008   3E0435042000       DC8 3EH, 4, 35H, 4, 20H, 0, 41H, 4
+   \              4104        
+   \   00000010   3E0431044B04       DC8 3EH, 4, 31H, 4, 4BH, 4, 42H, 4
+   \              4204        
+   \   00000018   380435040000       DC8 38H, 4, 35H, 4, 0, 0
+   \   0000001E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x412\\x441\\x435\\x20\\x432\\x430\\x43`:
+   \   00000000   120441043504       DC8 12H, 4, 41H, 4, 35H, 4, 20H, 0
+   \              2000        
+   \   00000008   320430043604       DC8 32H, 4, 30H, 4, 36H, 4, 3DH, 4
+   \              3D04        
+   \   00000010   4B0435042000       DC8 4BH, 4, 35H, 4, 20H, 0, 41H, 4
+   \              4104        
+   \   00000018   3E0431044B04       DC8 3EH, 4, 31H, 4, 4BH, 4, 42H, 4
+   \              4204        
+   \   00000020   38044F042000       DC8 38H, 4, 4FH, 4, 20H, 0, 38H, 4
+   \              3804        
+   \   00000028   20003D043004       DC8 20H, 0, 3DH, 4, 30H, 4, 3FH, 4
+   \              3F04        
+   \   00000030   3E043C043804       DC8 3EH, 4, 3CH, 4, 38H, 4, 3DH, 4
+   \              3D04        
+   \   00000038   30043D043804       DC8 30H, 4, 3DH, 4, 38H, 4, 4FH, 4
+   \              4F04        
+   \   00000040   20003F043E04       DC8 20H, 0, 3FH, 4, 3EH, 4, 4FH, 4
+   \              4F04        
+   \   00000048   32043B044F04       DC8 32H, 4, 3BH, 4, 4FH, 4, 4EH, 4
+   \              4E04        
+   \   00000050   420441044F04       DC8 42H, 4, 41H, 4, 4FH, 4, 20H, 0
+   \              2000        
+   \   00000058   320420003404       DC8 32H, 4, 20H, 0, 34H, 4, 30H, 4
+   \              3004        
+   \   00000060   3D043D043E04       DC8 3DH, 4, 3DH, 4, 3EH, 4, 3CH, 4
+   \              3C04        
+   \   00000068   20003E043A04       DC8 20H, 0, 3EH, 4, 3AH, 4, 3DH, 4
+   \              3D04        
+   \   00000070   35042E002000       DC8 35H, 4, 2EH, 0, 20H, 0, 27H, 4
+   \              2704        
+   \   00000078   42043E043104       DC8 42H, 4, 3EH, 4, 31H, 4, 4BH, 4
+   \              4B04        
+   \   00000080   20003F043E04       DC8 20H, 0, 3FH, 4, 3EH, 4, 3CH, 4
+   \              3C04        
+   \   00000088   350442043804       DC8 35H, 4, 42H, 4, 38H, 4, 42H, 4
+   \              4204        
+   \   00000090   4C0420003D04       DC8 4CH, 4, 20H, 0, 3DH, 4, 30H, 4
+   \              3004        
+   \   00000098   3F043E043C04       DC8 3FH, 4, 3EH, 4, 3CH, 4, 38H, 4
+   \              3804        
+   \   000000A0   3D0430043D04       DC8 3DH, 4, 30H, 4, 3DH, 4, 38H, 4
+   \              3804        
+   \   000000A8   350420003A04       DC8 35H, 4, 20H, 0, 3AH, 4, 30H, 4
+   \              3004        
+   \   000000B0   3A0420003F04       DC8 3AH, 4, 20H, 0, 3FH, 4, 40H, 4
+   \              4004        
+   \   000000B8   3E0447043804       DC8 3EH, 4, 47H, 4, 38H, 4, 42H, 4
+   \              4204        
+   \   000000C0   30043D043D04       DC8 30H, 4, 3DH, 4, 3DH, 4, 3EH, 4
+   \              3E04        
+   \   000000C8   35042C002000       DC8 35H, 4, 2CH, 0, 20H, 0, 3DH, 4
+   \              3D04        
+   \   000000D0   300436043C04       DC8 30H, 4, 36H, 4, 3CH, 4, 38H, 4
+   \              3804        
+   \   000000D8   420435042000       DC8 42H, 4, 35H, 4, 20H, 0, 27H, 0
+   \              2700        
+   \   000000E0   430027002E00       DC8 43H, 0, 27H, 0, 2EH, 0, 20H, 0
+   \              2000        
+   \   000000E8   150441043B04       DC8 15H, 4, 41H, 4, 3BH, 4, 38H, 4
+   \              3804        
+   \   000000F0   200032044B04       DC8 20H, 0, 32H, 4, 4BH, 4, 20H, 0
+   \              2000        
+   \   000000F8   370430043A04       DC8 37H, 4, 30H, 4, 3AH, 4, 40H, 4
+   \              4004        
+   \   00000100   3E0435044204       DC8 3EH, 4, 35H, 4, 42H, 4, 35H, 4
+   \              3504        
+   \   00000108   20003E043A04       DC8 20H, 0, 3EH, 4, 3AH, 4, 3DH, 4
+   \              3D04        
+   \   00000110   3E042C002000       DC8 3EH, 4, 2CH, 0, 20H, 0, 3DH, 4
+   \              3D04        
+   \   00000118   350420003E04       DC8 35H, 4, 20H, 0, 3EH, 4, 42H, 4
+   \              4204        
+   \   00000120   3C0435044204       DC8 3CH, 4, 35H, 4, 42H, 4, 38H, 4
+   \              3804        
+   \   00000128   320420003204       DC8 32H, 4, 20H, 0, 32H, 4, 41H, 4
+   \              4104        
+   \   00000130   350420003D04       DC8 35H, 4, 20H, 0, 3DH, 4, 30H, 4
+   \              3004        
+   \   00000138   3F043E043C04       DC8 3FH, 4, 3EH, 4, 3CH, 4, 38H, 4
+   \              3804        
+   \   00000140   3D0430043D04       DC8 3DH, 4, 30H, 4, 3DH, 4, 38H, 4
+   \              3804        
+   \   00000148   4F042C002000       DC8 4FH, 4, 2CH, 0, 20H, 0, 42H, 4
+   \              4204        
+   \   00000150   3E0420003104       DC8 3EH, 4, 20H, 0, 31H, 4, 43H, 4
+   \              4304        
+   \   00000158   340435044204       DC8 34H, 4, 35H, 4, 42H, 4, 20H, 0
+   \              2000        
+   \   00000160   3E0442043E04       DC8 3EH, 4, 42H, 4, 3EH, 4, 31H, 4
+   \              3104        
+   \   00000168   400430043604       DC8 40H, 4, 30H, 4, 36H, 4, 30H, 4
+   \              3004        
+   \   00000170   42044C044104       DC8 42H, 4, 4CH, 4, 41H, 4, 4FH, 4
+   \              4F04        
+   \   00000178   200038043A04       DC8 20H, 0, 38H, 4, 3AH, 4, 3EH, 4
+   \              3E04        
+   \   00000180   3D043A043004       DC8 3DH, 4, 3AH, 4, 30H, 4, 20H, 0
+   \              2000        
+   \   00000188   320420004104       DC8 32H, 4, 20H, 0, 41H, 4, 42H, 4
+   \              4204        
+   \   00000190   300442044304       DC8 30H, 4, 42H, 4, 43H, 4, 41H, 4
+   \              4104        
+   \   00000198   3D043E043904       DC8 3DH, 4, 3EH, 4, 39H, 4, 20H, 0
+   \              2000        
+   \   000001A0   410442044004       DC8 41H, 4, 42H, 4, 40H, 4, 3EH, 4
+   \              3E04        
+   \   000001A8   3A0435042E00       DC8 3AH, 4, 35H, 4, 2EH, 0, 20H, 0
+   \              2000        
+   \   000001B0   14043B044F04       DC8 14H, 4, 3BH, 4, 4FH, 4, 20H, 0
+   \              2000        
+   \   000001B8   3F043E043204       DC8 3FH, 4, 3EH, 4, 32H, 4, 42H, 4
+   \              4204        
+   \   000001C0   3E0440043D04       DC8 3EH, 4, 40H, 4, 3DH, 4, 3EH, 4
+   \              3E04        
+   \   000001C8   33043E042000       DC8 33H, 4, 3EH, 4, 20H, 0, 3EH, 4
+   \              3E04        
+   \   000001D0   42043A044004       DC8 42H, 4, 3AH, 4, 40H, 4, 4BH, 4
+   \              4B04        
+   \   000001D8   420438044F04       DC8 42H, 4, 38H, 4, 4FH, 4, 20H, 0
+   \              2000        
+   \   000001E0   3E043A043D04       DC8 3EH, 4, 3AH, 4, 3DH, 4, 30H, 4
+   \              3004        
+   \   000001E8   20003D043004       DC8 20H, 0, 3DH, 4, 30H, 4, 36H, 4
+   \              3604        
+   \   000001F0   3C0438044204       DC8 3CH, 4, 38H, 4, 42H, 4, 35H, 4
+   \              3504        
+   \   000001F8   200027004100       DC8 20H, 0, 27H, 0, 41H, 0, 62H, 0
+   \              6200        
+   \   00000200   6F0075007400       DC8 6FH, 0, 75H, 0, 74H, 0, 27H, 0
+   \              2700        
+   \   00000208   200032042000       DC8 20H, 0, 32H, 4, 20H, 0, 42H, 0
+   \              4200        
+   \   00000210   6F006F006B00       DC8 6FH, 0, 6FH, 0, 6BH, 0, 4DH, 0
+   \              4D00        
+   \   00000218   61006E006100       DC8 61H, 0, 6EH, 0, 61H, 0, 67H, 0
+   \              6700        
+   \   00000220   650072000000       DC8 65H, 0, 72H, 0, 0, 0
+   \   00000226   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x41a">`:
+   \   00000000   1E041A040000       DC8 1EH, 4, 1AH, 4, 0, 0
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x41e\\x442\\x43c\\x435\\x442\\x2e">`:
+   \   00000000   1E0442043C04       DC8 1EH, 4, 42H, 4, 3CH, 4, 35H, 4
+   \              3504        
+   \   00000008   42042E000000       DC8 42H, 4, 2EH, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "lng_%d)">`:
+   \   00000000   6C6E675F2564       DC8 "lng_%d)"
+   \              2900        
+   \   00000008   6974656D735F       DC8 "items_%d)"
+   \              25642900    
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`:
+   \   00000000   65006E006300       DC8 65H, 0, 6EH, 0, 63H, 0, 6FH, 0
+   \              6F00        
+   \   00000008   640069006E00       DC8 64H, 0, 69H, 0, 6EH, 0, 67H, 0
+   \              6700        
+   \   00000010   2E0062006900       DC8 2EH, 0, 62H, 0, 69H, 0, 6EH, 0
+   \              6E00        
+   \   00000018   0000               DC8 0, 0
+   \   0000001A   0000               DC8 0, 0
+    209          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Lang_Initialize()                 44
+     Lang_Remove()                      8
+     char2unicode(wchar_t *, char const *, int)
+                                        8
+     destroy_innative_lng()            16
+     isNative(void *)                   4
+     isbetween(int, int, int)           0
+     lng_load(wchar_t *, wchar_t *)   196
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     lng                              60
+     fsize                             4
+     isbetween(int, int, int)         24
+     isNative(void *)                 60
+     lng_load(wchar_t *, wchar_t *)  484
+     destroy_innative_lng()          168
+     fbuf                              4
+     char2unicode(wchar_t *, char const *, int)
+                                     100
+     Lang_Initialize()               152
+     Lang_Remove()                    36
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ??DataTable6                      4
+     ?<Initializer for lng>           60
+     ?<Constant L"\x41f\x440\x438\x43b\x43e\x436\x4
+                                      48
+     ?<Constant L"\x422\x435\x441\x442\x20\x441\x43
+                                      28
+     ?<Constant L"\x418\x43d\x444\x43e\x440\x43c\x2
+                                      16
+     ?<Constant L"\x41d\x435\x20\x443\x434\x430\x43
+                                      72
+     ?<Constant L"\x20\x43c\x438\x43d\x443\x442\x20
+                                      32
+     ?<Constant L"\x20\x43c\x438\x43d\x443\x442\x20_1
+                                      28
+     ?<Constant L"\x25\x64\x20\x43c\x438\x43d\x443\
+                                      36
+     ?<Constant L"\x25\x64\x20\x43c\x438\x43d\x443\_1
+                                      32
+     ?<Constant L"\x412\x430\x436\x43d\x43e\x435\x2
+                                      32
+     ?<Constant L"\x412\x441\x435\x20\x432\x430\x43
+                                     552
+     ?<Constant L"\x41e\x41a">         8
+     ?<Constant L"\x41e\x442\x43c\x435\x442\x2e">
+                                      16
+     ?<Constant "lng_%d)">            20
+     ?<Constant L"\x65\x6e\x63\x6f\x64\x69\x6e\x67\
+                                      28
+      Others                         100
+
+ 
+ 1 112 bytes in segment CODE
+   948 bytes in segment DATA_C
+    60 bytes in segment DATA_I
+    60 bytes in segment DATA_ID
+     8 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 1 036 bytes of CODE  memory (+ 100 bytes shared)
+ 1 008 bytes of CONST memory
+    68 bytes of DATA  memory
+
+Errors: none
+Warnings: none

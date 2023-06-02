@@ -1,0 +1,728 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:51:33 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\list. #
+#                       cpp                                                  #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\list. #
+#                       cpp -D NDEBUG -lC Z:\home\perk11\www\perk11.info\svn #
+#                       \SE\SoftEdit\Release\List\ -o                        #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\ -s9 --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\List\list.lst                                     #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\Relea #
+#                       se\Obj\list.r79                                      #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\SoftEdit\list.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h" 
+      3          #include "header\structs.h"
+      4          #include "header\extern.h"
+      5          #include "header\string.h"
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      6          LIST *customsofts=0;
+   \                     customsofts:
+   \   00000000                      DS8 4
+      7          int set_ui(char *buf, int fsize);
+      8          
+      9          extern UI_SOFTKEY sk[3];
+     10          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          void addline(char *line)
+     12          {
+   \                     ??addline:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0050A0E1           MOV      R5,R0
+     13            char between=0xFF;
+     14            ITEM *it=new ITEM;
+   \   0000000C   1800A0E3           MOV      R0,#+24
+   \   00000010   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000014   0040A0E1           MOV      R4,R0
+     15            memset(it,0,sizeof(ITEM));
+   \   00000018   1820A0E3           MOV      R2,#+24
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   120100EF           SWI      +274
+     16            int x=0;
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   00108DE5           STR      R1,[SP, #+0]
+     17            it->name=getwchr(line,&x,between);
+   \   0000002C   FF20A0E3           MOV      R2,#+255
+   \   00000030   0D10A0E1           MOV      R1,SP
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           _BLF     ??getwchr,??getwchr??rA
+   \   0000003C   000084E5           STR      R0,[R4, #+0]
+     18            it->lsi=getwchr(line,&x,between);
+   \   00000040   FF20A0E3           MOV      R2,#+255
+   \   00000044   0D10A0E1           MOV      R1,SP
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   ........           _BLF     ??getwchr,??getwchr??rA
+   \   00000050   040084E5           STR      R0,[R4, #+4]
+     19            it->msi=getwchr(line,&x,between);
+   \   00000054   FF20A0E3           MOV      R2,#+255
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   ........           _BLF     ??getwchr,??getwchr??rA
+   \   00000064   080084E5           STR      R0,[R4, #+8]
+     20            it->rsi=getwchr(line,&x,between);
+   \   00000068   FF20A0E3           MOV      R2,#+255
+   \   0000006C   0D10A0E1           MOV      R1,SP
+   \   00000070   0500A0E1           MOV      R0,R5
+   \   00000074   ........           _BLF     ??getwchr,??getwchr??rA
+   \   00000078   0C0084E5           STR      R0,[R4, #+12]
+     21            it->style=getint(line,&x,':');
+   \   0000007C   3A20A0E3           MOV      R2,#+58
+   \   00000080   0D10A0E1           MOV      R1,SP
+   \   00000084   0500A0E1           MOV      R0,R5
+   \   00000088   ........           _BLF     ??getint,??getint??rA
+   \   0000008C   100084E5           STR      R0,[R4, #+16]
+     22            int howmany=getint(line,&x,':');
+   \   00000090   3A20A0E3           MOV      R2,#+58
+   \   00000094   0D10A0E1           MOV      R1,SP
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   ........           _BLF     ??getint,??getint??rA
+   \   000000A0   0060A0E1           MOV      R6,R0
+     23            if (howmany>0)
+   \   000000A4   010056E3           CMP      R6,#+1
+   \   000000A8   1D0000BA           BLT      ??addline_1
+     24            {
+     25              int j;
+     26              for (j=0;j<howmany;j++)
+   \   000000AC   0070A0E3           MOV      R7,#+0
+   \                     ??addline_2:
+   \   000000B0   060057E1           CMP      R7,R6
+   \   000000B4   1C0000AA           BGE      ??addline_3
+     27              {
+     28                if (line[x]==';')break;
+   \   000000B8   00009DE5           LDR      R0,[SP, #+0]
+   \   000000BC   0500D0E7           LDRB     R0,[R0, +R5]
+   \   000000C0   3B0050E3           CMP      R0,#+59
+   \   000000C4   1800000A           BEQ      ??addline_3
+     29                KEY *key=new KEY;
+   \   000000C8   0800A0E3           MOV      R0,#+8
+   \   000000CC   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   000000D0   0080A0E1           MOV      R8,R0
+     30                key->oldkey=getint(line,&x,'-');
+   \   000000D4   2D20A0E3           MOV      R2,#+45
+   \   000000D8   0D10A0E1           MOV      R1,SP
+   \   000000DC   0500A0E1           MOV      R0,R5
+   \   000000E0   ........           _BLF     ??getint,??getint??rA
+   \   000000E4   000088E5           STR      R0,[R8, #+0]
+     31                key->newkey=getint(line,&x,':');
+   \   000000E8   3A20A0E3           MOV      R2,#+58
+   \   000000EC   0D10A0E1           MOV      R1,SP
+   \   000000F0   0500A0E1           MOV      R0,R5
+   \   000000F4   ........           _BLF     ??getint,??getint??rA
+   \   000000F8   040088E5           STR      R0,[R8, #+4]
+     32                if (!it->keys)it->keys=List_Create();
+   \   000000FC   140094E5           LDR      R0,[R4, #+20]
+   \   00000100   000050E3           CMP      R0,#+0
+   \   00000104   0100001A           BNE      ??addline_4
+   \   00000108   690100EF           SWI      +361
+   \   0000010C   140084E5           STR      R0,[R4, #+20]
+     33                List_InsertLast(it->keys, key);
+   \                     ??addline_4:
+   \   00000110   140094E5           LDR      R0,[R4, #+20]
+   \   00000114   0810A0E1           MOV      R1,R8
+   \   00000118   B00100EF           SWI      +432
+     34              }
+   \   0000011C   017087E2           ADD      R7,R7,#+1
+   \   00000120   E2FFFFEA           B        ??addline_2
+     35            }
+     36            else
+     37            {
+     38              it->keys=List_Create();
+   \                     ??addline_1:
+   \   00000124   690100EF           SWI      +361
+   \   00000128   140084E5           STR      R0,[R4, #+20]
+     39            }
+     40            if (!customsofts)customsofts=List_Create();
+   \                     ??addline_3:
+   \   0000012C   ........           LDR      R5,??DataTable3  ;; customsofts
+   \   00000130   000095E5           LDR      R0,[R5, #+0]
+   \   00000134   000050E3           CMP      R0,#+0
+   \   00000138   0100001A           BNE      ??addline_5
+   \   0000013C   690100EF           SWI      +361
+   \   00000140   000085E5           STR      R0,[R5, #+0]
+     41            List_InsertLast(customsofts, it);
+   \                     ??addline_5:
+   \   00000144   000095E5           LDR      R0,[R5, #+0]
+   \   00000148   0410A0E1           MOV      R1,R4
+   \   0000014C   B00100EF           SWI      +432
+     42          };
+   \   00000150   F181BDE8           POP      {R0,R4-R8,PC}    ;; return
+     43          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          void destroylists()
+     45          {
+     46            LIST *csofts=customsofts;
+   \                     ??destroylists:
+   \   00000000   ........           LDR      R0,??DataTable3  ;; customsofts
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   004090E5           LDR      R4,[R0, #+0]
+     47            if (csofts)
+   \   0000000C   000054E3           CMP      R4,#+0
+   \   00000010   7080BD08           POPEQ    {R4-R6,PC}
+   \   00000014   0060A0E3           MOV      R6,#+0
+   \   00000018   0E0000EA           B        ??destroylists_1
+     48            {
+     49              while (csofts->FirstFree)
+     50              {
+     51                ITEM *it=(ITEM*)List_RemoveAt(csofts,0);
+     52                DELETE(it->name);
+     53                DELETE(it->lsi);
+     54                DELETE(it->msi);
+     55                DELETE(it->rsi);
+     56                if (it->keys)
+     57                {
+     58                  while (it->keys->FirstFree)
+     59                  {
+     60                    KEY *k=(KEY*)List_RemoveAt(it->keys,0);
+   \                     ??destroylists_2:
+   \   0000001C   0010A0E3           MOV      R1,#+0
+   \   00000020   790100EF           SWI      +377
+     61                    DELETE(k);
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0000000A           BEQ      ??destroylists_3
+   \   0000002C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     62                  }
+   \                     ??destroylists_3:
+   \   00000030   140095E5           LDR      R0,[R5, #+20]
+   \   00000034   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000038   000051E3           CMP      R1,#+0
+   \   0000003C   F6FFFF1A           BNE      ??destroylists_2
+     63                  List_Destroy(it->keys);
+   \   00000040   6A0100EF           SWI      +362
+     64                  it->keys=0;
+   \   00000044   146085E5           STR      R6,[R5, #+20]
+     65                }
+     66                DELETE(it);
+   \                     ??destroylists_4:
+   \   00000048   000055E3           CMP      R5,#+0
+   \   0000004C   0100000A           BEQ      ??destroylists_1
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \                     ??destroylists_1:
+   \   00000058   B200D4E1           LDRH     R0,[R4, #+2]
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   1B00000A           BEQ      ??destroylists_5
+   \   00000064   0010A0E3           MOV      R1,#+0
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   790100EF           SWI      +377
+   \   00000070   0050A0E1           MOV      R5,R0
+   \   00000074   000095E5           LDR      R0,[R5, #+0]
+   \   00000078   000050E3           CMP      R0,#+0
+   \   0000007C   0100000A           BEQ      ??destroylists_6
+   \   00000080   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000084   006085E5           STR      R6,[R5, #+0]
+   \                     ??destroylists_6:
+   \   00000088   040095E5           LDR      R0,[R5, #+4]
+   \   0000008C   000050E3           CMP      R0,#+0
+   \   00000090   0100000A           BEQ      ??destroylists_7
+   \   00000094   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000098   046085E5           STR      R6,[R5, #+4]
+   \                     ??destroylists_7:
+   \   0000009C   080095E5           LDR      R0,[R5, #+8]
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   0100000A           BEQ      ??destroylists_8
+   \   000000A8   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   000000AC   086085E5           STR      R6,[R5, #+8]
+   \                     ??destroylists_8:
+   \   000000B0   0C0095E5           LDR      R0,[R5, #+12]
+   \   000000B4   000050E3           CMP      R0,#+0
+   \   000000B8   0100000A           BEQ      ??destroylists_9
+   \   000000BC   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   000000C0   0C6085E5           STR      R6,[R5, #+12]
+   \                     ??destroylists_9:
+   \   000000C4   140095E5           LDR      R0,[R5, #+20]
+   \   000000C8   000050E3           CMP      R0,#+0
+   \   000000CC   DDFFFF0A           BEQ      ??destroylists_4
+   \   000000D0   D6FFFFEA           B        ??destroylists_3
+     67              }
+     68              List_Destroy(csofts);
+   \                     ??destroylists_5:
+   \   000000D4   0400A0E1           MOV      R0,R4
+   \   000000D8   6A0100EF           SWI      +362
+     69              csofts=0;
+     70            }
+     71          };
+   \   000000DC   7080BDE8           POP      {R4-R6,PC}       ;; return
+     72          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     73          int readcustomcfg(wchar_t *path, wchar_t *name)
+     74          {
+   \                     ??readcustomcfg:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   84D04DE2           SUB      SP,SP,#+132
+     75            int fsize=0;
+   \   00000008   0030A0E3           MOV      R3,#+0
+   \   0000000C   00308DE5           STR      R3,[SP, #+0]
+     76            char *buf=file_read(path, name, &fsize);
+   \   00000010   0D20A0E1           MOV      R2,SP
+   \   00000014   ........           _BLF     ??file_read,??file_read??rA
+   \   00000018   0040B0E1           MOVS     R4,R0
+     77            if (buf)
+   \   0000001C   1E00000A           BEQ      ??readcustomcfg_1
+     78            {
+     79              char *param=0;
+     80              int x=0;
+     81              if (!customsofts)customsofts=List_Create();
+   \   00000020   ........           LDR      R6,??DataTable3  ;; customsofts
+   \   00000024   0050A0E3           MOV      R5,#+0
+   \   00000028   000096E5           LDR      R0,[R6, #+0]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0600001A           BNE      ??readcustomcfg_2
+   \   00000034   690100EF           SWI      +361
+   \   00000038   000086E5           STR      R0,[R6, #+0]
+   \   0000003C   030000EA           B        ??readcustomcfg_2
+     82              while (1)
+     83              {
+     84                char pattern[128];
+     85                sprintf(pattern,"%d)",x);
+     86                if (param=getparam(buf,pattern,0xFE, fsize))
+     87                {
+     88                  addline(param);
+   \                     ??readcustomcfg_3:
+   \   00000040   ........           BL       ??addline
+     89                  delete(param);
+   \   00000044   0600A0E1           MOV      R0,R6
+   \   00000048   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     90                }
+     91                else
+     92                {
+     93                  break;
+     94                }
+     95                x++;
+   \   0000004C   015085E2           ADD      R5,R5,#+1
+   \                     ??readcustomcfg_2:
+   \   00000050   0520A0E1           MOV      R2,R5
+   \   00000054   131F8FE2           ADR      R1,??readcustomcfg_4  ;; "%d)"
+   \   00000058   04008DE2           ADD      R0,SP,#+4
+   \   0000005C   140100EF           SWI      +276
+   \   00000060   00309DE5           LDR      R3,[SP, #+0]
+   \   00000064   FE20A0E3           MOV      R2,#+254
+   \   00000068   04108DE2           ADD      R1,SP,#+4
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   ........           _BLF     ??getparam,??getparam??rA
+   \   00000074   0060B0E1           MOVS     R6,R0
+   \   00000078   F0FFFF1A           BNE      ??readcustomcfg_3
+     96              }
+     97              set_ui(buf,fsize);
+   \   0000007C   00109DE5           LDR      R1,[SP, #+0]
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   ........           _BLF     ??set_ui,??set_ui??rA
+     98              delete(buf);
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     99              return 0;
+   \   00000090   0000A0E3           MOV      R0,#+0
+   \   00000094   84D08DE2           ADD      SP,SP,#+132
+   \   00000098   7080BDE8           POP      {R4-R6,PC}
+    100            }
+    101            return -1;
+   \                     ??readcustomcfg_1:
+   \   0000009C   0000E0E3           MVN      R0,#+0
+   \   000000A0   84D08DE2           ADD      SP,SP,#+132
+   \   000000A4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??readcustomcfg_4:
+   \   000000A8   25642900           DC8      "%d)"
+    102          };
+    103          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    104          void savecustomcfg(wchar_t *path, wchar_t *name)
+    105          {
+   \                     ??savecustomcfg:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   FEDF4DE2           SUB      SP,SP,#+1016
+    106            int file;
+    107            char cr=0x0D;
+   \   00000008   0D30A0E3           MOV      R3,#+13
+   \   0000000C   0130CDE5           STRB     R3,[SP, #+1]
+    108            char lf=0x0A;
+   \   00000010   0A30A0E3           MOV      R3,#+10
+   \   00000014   0230CDE5           STRB     R3,[SP, #+2]
+    109            char endstr=0xFE;
+   \   00000018   FE30A0E3           MOV      R3,#+254
+   \   0000001C   0330CDE5           STRB     R3,[SP, #+3]
+    110            char between=0xFF;
+   \   00000020   FF30A0E3           MOV      R3,#+255
+   \   00000024   0030CDE5           STRB     R3,[SP, #+0]
+    111            if ((file=_fopen(path,name,FSX_O_RDWR|FSX_O_TRUNC,FSX_S_IREAD|FSX_S_IWRITE,0))>=0)
+   \   00000028   0020A0E3           MOV      R2,#+0
+   \   0000002C   04002DE9           PUSH     {R2}
+   \   00000030   603FA0E3           MOV      R3,#+384
+   \   00000034   812FA0E3           MOV      R2,#+516
+   \   00000038   160100EF           SWI      +278
+   \   0000003C   0040B0E1           MOVS     R4,R0
+   \   00000040   04D08DE2           ADD      SP,SP,#+4
+   \   00000044   3000004A           BMI      ??savecustomcfg_1
+    112            {
+    113              int x=0;
+    114              if (customsofts)
+   \   00000048   ........           LDR      R6,??DataTable3  ;; customsofts
+   \   0000004C   04539FE5           LDR      R5,??savecustomcfg_2+0x8  ;; `?<Constant "%d): ">`
+   \   00000050   000096E5           LDR      R0,[R6, #+0]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   0300000A           BEQ      ??savecustomcfg_3
+    115              {
+    116                for (x=0;x<customsofts->FirstFree;x++)
+   \   0000005C   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000060   0070A0E3           MOV      R7,#+0
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   3C00001A           BNE      ??savecustomcfg_4
+    117                {
+    118                  //Запишем в файлик объекты, парся их в чар, перекодируя в вин1251
+    119                  ITEM *it=(ITEM*)List_Get(customsofts,x);
+    120                  if (it)
+    121                  {
+    122                    char pattern[512];
+    123                    sprintf(pattern,"%d): ", x);
+    124                    fwrite(file,pattern, strlen(pattern));
+    125                    if (it->name)
+    126                    {
+    127                      fwrite(file,it->name, wstrlen(it->name)*2);
+    128                    }
+    129                    fwrite(file,&between,1);
+    130                    if (it->lsi)
+    131                    {
+    132                      fwrite(file,it->lsi, wstrlen(it->lsi)*2);
+    133                    }
+    134                    fwrite(file,&between,1);
+    135                    if (it->msi)
+    136                    {
+    137                      fwrite(file,it->msi, wstrlen(it->msi)*2);
+    138                    }
+    139                    fwrite(file,&between,1);
+    140                    if (it->rsi)
+    141                    {
+    142                      fwrite(file,it->rsi, wstrlen(it->rsi)*2);
+    143                    }
+    144                    fwrite(file,&between,1);
+    145                    sprintf(pattern,"%d:",it->style);
+    146                    fwrite(file,pattern, strlen(pattern));
+    147                    if (it->keys)
+    148                    {
+    149                      sprintf(pattern,"%d:",it->keys->FirstFree);
+    150                      fwrite(file,pattern, strlen(pattern));
+    151                      int y=0;
+    152                      LIST *lst=it->keys;
+    153                      for (y=0;y<lst->FirstFree;y++)
+    154                      {
+    155                        KEY *key=(KEY*)List_Get(lst,y);
+    156                        if (key && key->oldkey>0 && key->oldkey<100 && key->newkey>0 && key->newkey<100)
+    157                        {
+    158                          char pat[500];
+    159                          sprintf(pat,"%d-%d:", key->oldkey, key->newkey);
+    160                          fwrite(file,pat, strlen(pat));
+    161                        }
+    162                      }
+    163                    }
+    164                    else fwrite(file,"0:", 2);
+    165                    fwrite(file,&endstr,1);
+    166                    fwrite(file,&cr,1);
+    167                    fwrite(file,&lf,1);
+    168                  }
+    169                }
+    170              }
+    171              int z;
+    172              for (z=0;z<3;z++)
+   \                     ??savecustomcfg_3:
+   \   0000006C   0060A0E3           MOV      R6,#+0
+    173              {
+    174                char pat[500];
+    175                sprintf(pat,"%dsk): %d:%d:%d:%d:%d:%d:%d:%d;", z, sk[z].x,sk[z].y,sk[z].ct,sk[z].font,sk[z].hx,sk[z].hy,sk[z].hct,sk[z].hfont);
+   \                     ??savecustomcfg_5:
+   \   00000070   E4029FE5           LDR      R0,??savecustomcfg_2+0xC  ;; sk
+   \   00000074   861280E0           ADD      R1,R0,R6, LSL #+5
+   \   00000078   1C2091E5           LDR      R2,[R1, #+28]
+   \   0000007C   04002DE9           PUSH     {R2}
+   \   00000080   182091E5           LDR      R2,[R1, #+24]
+   \   00000084   04002DE9           PUSH     {R2}
+   \   00000088   142091E5           LDR      R2,[R1, #+20]
+   \   0000008C   04002DE9           PUSH     {R2}
+   \   00000090   102091E5           LDR      R2,[R1, #+16]
+   \   00000094   04002DE9           PUSH     {R2}
+   \   00000098   0C2091E5           LDR      R2,[R1, #+12]
+   \   0000009C   04002DE9           PUSH     {R2}
+   \   000000A0   082091E5           LDR      R2,[R1, #+8]
+   \   000000A4   04002DE9           PUSH     {R2}
+   \   000000A8   041091E5           LDR      R1,[R1, #+4]
+   \   000000AC   0620A0E1           MOV      R2,R6
+   \   000000B0   02002DE9           PUSH     {R1}
+   \   000000B4   863290E7           LDR      R3,[R0, +R6, LSL #+5]
+   \   000000B8   880F8DE2           ADD      R0,SP,#+544
+    176                fwrite(file,pat, strlen(pat));
+    177                fwrite(file,&cr,1);
+    178                fwrite(file,&lf,1);
+    179              }
+   \   000000BC   016086E2           ADD      R6,R6,#+1
+   \   000000C0   101085E2           ADD      R1,R5,#+16
+   \   000000C4   140100EF           SWI      +276
+   \   000000C8   880F8DE2           ADD      R0,SP,#+544
+   \   000000CC   5A0100EF           SWI      +346
+   \   000000D0   0020A0E1           MOV      R2,R0
+   \   000000D4   881F8DE2           ADD      R1,SP,#+544
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   190100EF           SWI      +281
+   \   000000E0   0120A0E3           MOV      R2,#+1
+   \   000000E4   1D108DE2           ADD      R1,SP,#+29
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   190100EF           SWI      +281
+   \   000000F0   0120A0E3           MOV      R2,#+1
+   \   000000F4   1E108DE2           ADD      R1,SP,#+30
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   190100EF           SWI      +281
+   \   00000100   030056E3           CMP      R6,#+3
+   \   00000104   1CD08DE2           ADD      SP,SP,#+28
+   \   00000108   D8FFFFBA           BLT      ??savecustomcfg_5
+    180            }
+    181            fclose(file);
+   \                     ??savecustomcfg_1:
+   \   0000010C   0400A0E1           MOV      R0,R4
+   \   00000110   170100EF           SWI      +279
+    182          };
+   \   00000114   FEDF8DE2           ADD      SP,SP,#+1016
+   \   00000118   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??savecustomcfg_6:
+   \   0000011C   0220A0E3           MOV      R2,#+2
+   \   00000120   8A1F8FE2           ADR      R1,??savecustomcfg_2  ;; "0:"
+   \   00000124   0400A0E1           MOV      R0,R4
+   \   00000128   190100EF           SWI      +281
+   \                     ??savecustomcfg_7:
+   \   0000012C   0120A0E3           MOV      R2,#+1
+   \   00000130   03108DE2           ADD      R1,SP,#+3
+   \   00000134   0400A0E1           MOV      R0,R4
+   \   00000138   190100EF           SWI      +281
+   \   0000013C   0120A0E3           MOV      R2,#+1
+   \   00000140   01108DE2           ADD      R1,SP,#+1
+   \   00000144   0400A0E1           MOV      R0,R4
+   \   00000148   190100EF           SWI      +281
+   \   0000014C   0120A0E3           MOV      R2,#+1
+   \   00000150   02108DE2           ADD      R1,SP,#+2
+   \   00000154   0400A0E1           MOV      R0,R4
+   \   00000158   190100EF           SWI      +281
+   \                     ??savecustomcfg_8:
+   \   0000015C   017087E2           ADD      R7,R7,#+1
+   \                     ??savecustomcfg_4:
+   \   00000160   000096E5           LDR      R0,[R6, #+0]
+   \   00000164   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000168   010057E1           CMP      R7,R1
+   \   0000016C   BEFFFFAA           BGE      ??savecustomcfg_3
+   \   00000170   0710A0E1           MOV      R1,R7
+   \   00000174   AD0100EF           SWI      +429
+   \   00000178   0080B0E1           MOVS     R8,R0
+   \   0000017C   F6FFFF0A           BEQ      ??savecustomcfg_8
+   \   00000180   0720A0E1           MOV      R2,R7
+   \   00000184   0510A0E1           MOV      R1,R5
+   \   00000188   04008DE2           ADD      R0,SP,#+4
+   \   0000018C   140100EF           SWI      +276
+   \   00000190   04008DE2           ADD      R0,SP,#+4
+   \   00000194   5A0100EF           SWI      +346
+   \   00000198   0020A0E1           MOV      R2,R0
+   \   0000019C   04108DE2           ADD      R1,SP,#+4
+   \   000001A0   0400A0E1           MOV      R0,R4
+   \   000001A4   190100EF           SWI      +281
+   \   000001A8   000098E5           LDR      R0,[R8, #+0]
+   \   000001AC   000050E3           CMP      R0,#+0
+   \   000001B0   0400000A           BEQ      ??savecustomcfg_9
+   \   000001B4   570100EF           SWI      +343
+   \   000001B8   001098E5           LDR      R1,[R8, #+0]
+   \   000001BC   8020A0E1           LSL      R2,R0,#+1
+   \   000001C0   0400A0E1           MOV      R0,R4
+   \   000001C4   190100EF           SWI      +281
+   \                     ??savecustomcfg_9:
+   \   000001C8   0120A0E3           MOV      R2,#+1
+   \   000001CC   0D10A0E1           MOV      R1,SP
+   \   000001D0   0400A0E1           MOV      R0,R4
+   \   000001D4   190100EF           SWI      +281
+   \   000001D8   040098E5           LDR      R0,[R8, #+4]
+   \   000001DC   000050E3           CMP      R0,#+0
+   \   000001E0   0400000A           BEQ      ??savecustomcfg_10
+   \   000001E4   570100EF           SWI      +343
+   \   000001E8   041098E5           LDR      R1,[R8, #+4]
+   \   000001EC   8020A0E1           LSL      R2,R0,#+1
+   \   000001F0   0400A0E1           MOV      R0,R4
+   \   000001F4   190100EF           SWI      +281
+   \                     ??savecustomcfg_10:
+   \   000001F8   0120A0E3           MOV      R2,#+1
+   \   000001FC   0D10A0E1           MOV      R1,SP
+   \   00000200   0400A0E1           MOV      R0,R4
+   \   00000204   190100EF           SWI      +281
+   \   00000208   080098E5           LDR      R0,[R8, #+8]
+   \   0000020C   000050E3           CMP      R0,#+0
+   \   00000210   0400000A           BEQ      ??savecustomcfg_11
+   \   00000214   570100EF           SWI      +343
+   \   00000218   081098E5           LDR      R1,[R8, #+8]
+   \   0000021C   8020A0E1           LSL      R2,R0,#+1
+   \   00000220   0400A0E1           MOV      R0,R4
+   \   00000224   190100EF           SWI      +281
+   \                     ??savecustomcfg_11:
+   \   00000228   0120A0E3           MOV      R2,#+1
+   \   0000022C   0D10A0E1           MOV      R1,SP
+   \   00000230   0400A0E1           MOV      R0,R4
+   \   00000234   190100EF           SWI      +281
+   \   00000238   0C0098E5           LDR      R0,[R8, #+12]
+   \   0000023C   000050E3           CMP      R0,#+0
+   \   00000240   0400000A           BEQ      ??savecustomcfg_12
+   \   00000244   570100EF           SWI      +343
+   \   00000248   0C1098E5           LDR      R1,[R8, #+12]
+   \   0000024C   8020A0E1           LSL      R2,R0,#+1
+   \   00000250   0400A0E1           MOV      R0,R4
+   \   00000254   190100EF           SWI      +281
+   \                     ??savecustomcfg_12:
+   \   00000258   0120A0E3           MOV      R2,#+1
+   \   0000025C   0D10A0E1           MOV      R1,SP
+   \   00000260   0400A0E1           MOV      R0,R4
+   \   00000264   190100EF           SWI      +281
+   \   00000268   102098E5           LDR      R2,[R8, #+16]
+   \   0000026C   389F8FE2           ADR      R9,??savecustomcfg_2+0x4  ;; "%d:"
+   \   00000270   0910A0E1           MOV      R1,R9
+   \   00000274   04008DE2           ADD      R0,SP,#+4
+   \   00000278   140100EF           SWI      +276
+   \   0000027C   04008DE2           ADD      R0,SP,#+4
+   \   00000280   5A0100EF           SWI      +346
+   \   00000284   0020A0E1           MOV      R2,R0
+   \   00000288   04108DE2           ADD      R1,SP,#+4
+   \   0000028C   0400A0E1           MOV      R0,R4
+   \   00000290   190100EF           SWI      +281
+   \   00000294   140098E5           LDR      R0,[R8, #+20]
+   \   00000298   000050E3           CMP      R0,#+0
+   \   0000029C   9EFFFF0A           BEQ      ??savecustomcfg_6
+   \   000002A0   B220D0E1           LDRH     R2,[R0, #+2]
+   \   000002A4   0910A0E1           MOV      R1,R9
+   \   000002A8   04008DE2           ADD      R0,SP,#+4
+   \   000002AC   140100EF           SWI      +276
+   \   000002B0   04008DE2           ADD      R0,SP,#+4
+   \   000002B4   5A0100EF           SWI      +346
+   \   000002B8   0020A0E1           MOV      R2,R0
+   \   000002BC   04108DE2           ADD      R1,SP,#+4
+   \   000002C0   0400A0E1           MOV      R0,R4
+   \   000002C4   190100EF           SWI      +281
+   \   000002C8   148098E5           LDR      R8,[R8, #+20]
+   \   000002CC   0090A0E3           MOV      R9,#+0
+   \   000002D0   B200D8E1           LDRH     R0,[R8, #+2]
+   \   000002D4   000050E3           CMP      R0,#+0
+   \   000002D8   93FFFF0A           BEQ      ??savecustomcfg_7
+   \                     ??savecustomcfg_13:
+   \   000002DC   B200D8E1           LDRH     R0,[R8, #+2]
+   \   000002E0   000059E1           CMP      R9,R0
+   \   000002E4   90FFFFAA           BGE      ??savecustomcfg_7
+   \   000002E8   0910A0E1           MOV      R1,R9
+   \   000002EC   0800A0E1           MOV      R0,R8
+   \   000002F0   AD0100EF           SWI      +429
+   \   000002F4   000050E3           CMP      R0,#+0
+   \   000002F8   1200000A           BEQ      ??savecustomcfg_14
+   \   000002FC   002090E5           LDR      R2,[R0, #+0]
+   \   00000300   010052E3           CMP      R2,#+1
+   \   00000304   0F0000BA           BLT      ??savecustomcfg_14
+   \   00000308   640052E3           CMP      R2,#+100
+   \   0000030C   0D0000AA           BGE      ??savecustomcfg_14
+   \   00000310   043090E5           LDR      R3,[R0, #+4]
+   \   00000314   010053E3           CMP      R3,#+1
+   \   00000318   0A0000BA           BLT      ??savecustomcfg_14
+   \   0000031C   640053E3           CMP      R3,#+100
+   \   00000320   080000AA           BGE      ??savecustomcfg_14
+   \   00000324   081085E2           ADD      R1,R5,#+8
+   \   00000328   810F8DE2           ADD      R0,SP,#+516
+   \   0000032C   140100EF           SWI      +276
+   \   00000330   810F8DE2           ADD      R0,SP,#+516
+   \   00000334   5A0100EF           SWI      +346
+   \   00000338   0020A0E1           MOV      R2,R0
+   \   0000033C   811F8DE2           ADD      R1,SP,#+516
+   \   00000340   0400A0E1           MOV      R0,R4
+   \   00000344   190100EF           SWI      +281
+   \                     ??savecustomcfg_14:
+   \   00000348   019089E2           ADD      R9,R9,#+1
+   \   0000034C   E2FFFFEA           B        ??savecustomcfg_13
+   \                     ??savecustomcfg_2:
+   \   00000350   303A0000           DC8      "0:",+0
+   \   00000354   25643A00           DC8      "%d:"
+   \   00000358   ........           DC32     `?<Constant "%d): ">`
+   \   0000035C   ........           DC32     sk
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     customsofts
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   25642900           DC8 "%d)"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%d): ">`:
+   \   00000000   2564293A2000       DC8 "%d): "
+   \   00000006   0000               DC8 0, 0
+   \   00000008   25642D25643A       DC8 "%d-%d:"
+   \              00          
+   \   0000000F   00                 DC8 0
+   \   00000010   2564736B293A       DC8 "%dsk): %d:%d:%d:%d:%d:%d:%d:%d;"
+   \              2025643A2564
+   \              3A25643A2564
+   \              3A25643A2564
+   \              3A25643A2564
+   \              3B00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   25643A00           DC8 "%d:"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   303A00             DC8 "0:"
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     addline(char *)                   28
+     destroylists()                    16
+     readcustomcfg(wchar_t *, wchar_t *)
+                                      148
+     savecustomcfg(wchar_t *, wchar_t *)
+                                     1072
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     customsofts                       4
+     addline(char *)                 340
+     destroylists()                  224
+     readcustomcfg(wchar_t *, wchar_t *)
+                                     172
+     savecustomcfg(wchar_t *, wchar_t *)
+                                     864
+     ??DataTable3                      4
+     ?<Constant "%d)">                 4
+     ?<Constant "%d): ">              48
+     ?<Constant "%d:">                 4
+     ?<Constant "0:">                  3
+      Others                         112
+
+ 
+ 1 704 bytes in segment CODE
+    59 bytes in segment DATA_C
+     4 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 1 604 bytes of CODE  memory (+ 112 bytes shared)
+    59 bytes of CONST memory
+     4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

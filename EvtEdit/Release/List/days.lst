@@ -1,0 +1,885 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:55:35 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\days.c #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\days.c #
+#                        -D NDEBUG -D OLDFUNCTIONS -lC                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Ev #
+#                       tEdit\Release\List\ -o Z:\home\perk11\www\perk11.inf #
+#                       o\svn\SE\EvtEdit\Release\Obj\ -s9 --cpu_mode arm     #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --enable_multibytes --fpu None        #
+#                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\dl #
+#                       5tpainl8n.h -I Z:\home\perk11\IAR2\arm\INC\          #
+#                       --inline_threshold=2                                 #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\List\days.lst                                      #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\Releas #
+#                       e\Obj\days.r79                                       #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\EvtEdit\days.c
+      1          #include "..\deleaker\mem2.h"
+      2          #include "..\include\Lib_Clara.h" 
+      3          #include "..\include\Dir.h" 
+      4          #include "header\structs.h"
+      5          #include "header\pages.h"
+      6          #include "header\externals.h"
+      7          #include "header\lng.h"
+      8          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      9          int LastIndex=0;
+   \                     LastIndex:
+   \   00000000                      DS8 4
+     10          
+     11          int isEvtEditBook(BOOK *);
+     12          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          void Days_OnSelect2(BOOK *bk, GUI* )
+     14          {
+   \                     ??Days_OnSelect2:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     15            MyBOOK *mbk=(MyBOOK *)bk;
+     16            int item=ListMenu_GetSelectedItem(mbk->days);
+   \   00000008   5C0094E5           LDR      R0,[R4, #+92]
+   \   0000000C   3E0100EF           SWI      +318
+     17            LastIndex=item;
+   \   00000010   ........           LDR      R1,??DataTable11  ;; LastIndex
+     18            if (item==0)
+   \   00000014   0130A0E3           MOV      R3,#+1
+   \   00000018   000081E5           STR      R0,[R1, #+0]
+   \   0000001C   0020A0E3           MOV      R2,#+0
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   0E00001A           BNE      ??Days_OnSelect2_1
+     19            {
+     20              if (mbk->selev->isMinusInBefore==true)
+   \   00000028   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000002C   0800D0E5           LDRB     R0,[R0, #+8]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   1C0094E5           LDR      R0,[R4, #+28]
+     21              {
+     22                mbk->selev->isMinusInBefore=false;
+   \   00000038   0010A013           MOVNE    R1,#+0
+   \   0000003C   0810C015           STRBNE   R1,[R0, #+8]
+     23              }
+     24              else
+     25              {
+     26                mbk->selev->isMinusInBefore=true;
+   \   00000040   0830C005           STRBEQ   R3,[R0, #+8]
+     27              }
+     28              BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+   \                     ??Days_OnSelect2_2:
+   \   00000044   80009FE5           LDR      R0,??Days_OnSelect2_3  ;; PREVIOUS_EVENT
+   \   00000048   001090E5           LDR      R1,[R0, #+0]
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   2E0100EF           SWI      +302
+     29              BookObj_CallPage(bk,&bk_days);
+   \   00000054   ........           LDR      R1,??DataTable9  ;; bk_days
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   B80200EF           SWI      +696
+   \   00000060   1080BDE8           POP      {R4,PC}
+     30            }
+     31            else if (item==1)
+   \                     ??Days_OnSelect2_1:
+   \   00000064   64109FE5           LDR      R1,??Days_OnSelect2_3+0x4  ;; bk_StringInput
+   \   00000068   FACFA0E3           MOV      R12,#+1000
+   \   0000006C   09E0A0E3           MOV      LR,#+9
+   \   00000070   010050E3           CMP      R0,#+1
+   \   00000074   0100001A           BNE      ??Days_OnSelect2_4
+     32            {
+     33              mbk->TextInputType=2;
+   \   00000078   0200A0E3           MOV      R0,#+2
+   \   0000007C   0B0000EA           B        ??Days_OnSelect2_5
+     34              mbk->inputType=IT_UNSIGNED_DIGIT;
+     35              mbk->minint=0;
+     36              mbk->maxint=1000;
+     37              BookObj_CallPage(bk,&bk_StringInput);
+     38            }
+     39            else if (item==2)
+   \                     ??Days_OnSelect2_4:
+   \   00000080   020050E3           CMP      R0,#+2
+   \   00000084   0700001A           BNE      ??Days_OnSelect2_6
+     40            {
+     41              if (mbk->selev->isMinusInAfter==true)
+   \   00000088   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000008C   1100D0E5           LDRB     R0,[R0, #+17]
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   1C0094E5           LDR      R0,[R4, #+28]
+     42              {
+     43                mbk->selev->isMinusInAfter=false;
+   \   00000098   0010A013           MOVNE    R1,#+0
+   \   0000009C   1130C005           STRBEQ   R3,[R0, #+17]
+   \   000000A0   1110C015           STRBNE   R1,[R0, #+17]
+   \   000000A4   E6FFFFEA           B        ??Days_OnSelect2_2
+     44              }
+     45              else
+     46              {
+     47                mbk->selev->isMinusInAfter=true;
+     48              }
+     49              BookObj_ReturnPage(bk, PREVIOUS_EVENT);
+     50              BookObj_CallPage(bk,&bk_days);
+     51            }
+     52            else if (item==3)
+   \                     ??Days_OnSelect2_6:
+   \   000000A8   030050E3           CMP      R0,#+3
+   \   000000AC   1080BD18           POPNE    {R4,PC}
+     53            {
+     54              mbk->TextInputType=3;
+   \                     ??Days_OnSelect2_5:
+   \   000000B0   400084E5           STR      R0,[R4, #+64]
+     55              mbk->inputType=IT_UNSIGNED_DIGIT;
+   \   000000B4   44E084E5           STR      LR,[R4, #+68]
+     56              mbk->minint=0;
+   \   000000B8   382084E5           STR      R2,[R4, #+56]
+     57              mbk->maxint=1000;
+   \   000000BC   3CC084E5           STR      R12,[R4, #+60]
+     58              BookObj_CallPage(bk,&bk_StringInput);
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   B80200EF           SWI      +696
+     59            }
+     60          };
+   \   000000C8   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??Days_OnSelect2_3:
+   \   000000CC   ........           DC32     PREVIOUS_EVENT
+   \   000000D0   ........           DC32     bk_StringInput
+     61          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     62          void Days_OnSelect(BOOK *bk, GUI* )
+     63          {
+   \                     ??Days_OnSelect:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     64            MyBOOK *mbk=(MyBOOK *)bk;
+     65            bool b=false;
+     66            int item=ListMenu_GetSelectedItem(mbk->days);
+   \   00000008   5C0094E5           LDR      R0,[R4, #+92]
+   \   0000000C   3E0100EF           SWI      +318
+     67            if (mbk->curdays[item]==false)
+   \   00000010   641094E5           LDR      R1,[R4, #+100]
+   \   00000014   0110D0E7           LDRB     R1,[R0, +R1]
+   \   00000018   000051E3           CMP      R1,#+0
+   \   0000001C   641094E5           LDR      R1,[R4, #+100]
+   \   00000020   0300001A           BNE      ??Days_OnSelect_1
+     68            {
+     69              mbk->curdays[item]=true;
+   \   00000024   0120A0E3           MOV      R2,#+1
+   \   00000028   0120C0E7           STRB     R2,[R0, +R1]
+     70              b=true;
+     71            }
+     72            else
+     73            {
+     74              mbk->curdays[item]=false;
+     75              b=false;
+     76            }
+     77          
+     78            int strid;
+     79            if (b==true)
+     80            {
+     81              strid=mbk->check_box_checked;
+   \   0000002C   B62AD4E1           LDRH     R2,[R4, #+166]
+   \   00000030   020000EA           B        ??Days_OnSelect_2
+     82            }
+   \                     ??Days_OnSelect_1:
+   \   00000034   0020A0E3           MOV      R2,#+0
+   \   00000038   0120C0E7           STRB     R2,[R0, +R1]
+     83            else
+     84            {
+     85              strid=mbk->check_box_unchecked;
+   \   0000003C   B42AD4E1           LDRH     R2,[R4, #+164]
+     86            }
+     87            ListMenu_SetSecondLineText((GUI_LIST *)mbk->days,item,strid);
+   \                     ??Days_OnSelect_2:
+   \   00000040   0010A0E1           MOV      R1,R0
+   \   00000044   5C0094E5           LDR      R0,[R4, #+92]
+   \   00000048   A60200EF           SWI      +678
+     88          };
+   \   0000004C   1080BDE8           POP      {R4,PC}          ;; return
+     89          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     90          int Days_onLBMessage(GUI_MESSAGE * msg)
+     91          {
+   \                     ??Days_onLBMessage:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     92            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   1600001A           BNE      ??Days_onLBMessage_1
+     93            {
+     94            case 1:
+     95              MyBOOK *mbk=(MyBOOK*)FindBook(isEvtEditBook);
+   \   00000014   ........           LDR      R0,??DataTable4  ;; ??isEvtEditBook
+   \   00000018   300100EF           SWI      +304
+   \   0000001C   0050A0E1           MOV      R5,R0
+     96              int item=GUIonMessage_GetCreatedItemIndex(msg);
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   370100EF           SWI      +311
+   \   00000028   0060A0E1           MOV      R6,R0
+     97              int strid;
+     98              GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_WEEK+item],ENC_UCS2,TEXTID_ANY_LEN));
+   \   0000002C   ........           LDR      R0,??DataTable10  ;; lng
+   \   00000030   FF20A0E3           MOV      R2,#+255
+   \   00000034   060180E0           ADD      R0,R0,R6, LSL #+2
+   \   00000038   280090E5           LDR      R0,[R0, #+40]
+   \   0000003C   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   5D0100EF           SWI      +349
+   \   00000048   0010A0E1           MOV      R1,R0
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   380100EF           SWI      +312
+     99              if (mbk->curdays[item])
+   \   00000054   640095E5           LDR      R0,[R5, #+100]
+   \   00000058   0000D6E7           LDRB     R0,[R6, +R0]
+   \   0000005C   000050E3           CMP      R0,#+0
+    100              {
+    101                 strid=mbk->check_box_checked;
+   \   00000060   B61AD511           LDRHNE   R1,[R5, #+166]
+    102              }
+    103              else
+    104              {
+    105                 strid=mbk->check_box_unchecked;
+    106              }
+    107              GUIonMessage_SetMenuItemSecondLineText(msg,strid);
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   B41AD501           LDRHEQ   R1,[R5, #+164]
+   \   0000006C   390100EF           SWI      +313
+    108            }
+    109            return(1);
+   \                     ??Days_onLBMessage_1:
+   \   00000070   0100A0E3           MOV      R0,#+1
+   \   00000074   7080BDE8           POP      {R4-R6,PC}       ;; return
+    110          };
+    111          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    112          int Days_onLBMessage2(GUI_MESSAGE * msg)
+    113          {
+   \                     ??Days_onLBMessage2:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    114            switch( GUIonMessage_GetMsg(msg) )
+   \   00000008   740300EF           SWI      +884
+   \   0000000C   010050E3           CMP      R0,#+1
+   \   00000010   2400001A           BNE      ??Days_onLBMessage2_1
+    115            {
+    116            case 1:
+    117              MyBOOK *mbk=(MyBOOK*)FindBook(isEvtEditBook);
+   \   00000014   ........           LDR      R0,??DataTable4  ;; ??isEvtEditBook
+   \   00000018   300100EF           SWI      +304
+   \   0000001C   0050A0E1           MOV      R5,R0
+    118              int item=GUIonMessage_GetCreatedItemIndex(msg);
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   370100EF           SWI      +311
+    119              if (item==0)
+   \   00000028   ........           LDR      R3,??DataTable10  ;; lng
+   \   0000002C   0010B0E1           MOVS     R1,R0
+   \   00000030   FF20A0E3           MOV      R2,#+255
+   \   00000034   FF2C82E3           ORR      R2,R2,#0xFF00
+   \   00000038   0600001A           BNE      ??Days_onLBMessage2_2
+    120              {
+    121                if (mbk->selev->isMinusInBefore==true)
+   \   0000003C   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   0800D0E5           LDRB     R0,[R0, #+8]
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   54009305           LDREQ    R0,[R3, #+84]
+    122                {
+    123                  GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_REMINDS + REM_BEFORE],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000050   50009315           LDRNE    R0,[R3, #+80]
+   \   00000054   0F0000EA           B        ??Days_onLBMessage2_3
+    124                }
+    125                else
+    126                {
+    127                  GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_REMINDS + REM_AFTER],ENC_UCS2,TEXTID_ANY_LEN));
+    128                }
+    129              }
+    130              else if (item==1)
+   \                     ??Days_onLBMessage2_2:
+   \   00000058   600093E5           LDR      R0,[R3, #+96]
+   \   0000005C   010051E3           CMP      R1,#+1
+    131              {
+    132                GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_REMINDS + REM_MINUTES],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000060   0010A003           MOVEQ    R1,#+0
+   \   00000064   0B00000A           BEQ      ??Days_onLBMessage2_3
+    133              }
+    134              else if (item==2)
+   \   00000068   020051E3           CMP      R1,#+2
+   \   0000006C   0600001A           BNE      ??Days_onLBMessage2_4
+    135              {
+    136                if (mbk->selev->isMinusInAfter==true)
+   \   00000070   1C0095E5           LDR      R0,[R5, #+28]
+   \   00000074   0010A0E3           MOV      R1,#+0
+   \   00000078   1100D0E5           LDRB     R0,[R0, #+17]
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   5C009305           LDREQ    R0,[R3, #+92]
+    137                {
+    138                  GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_REMINDS + REM_BEFOREEND],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000084   58009315           LDRNE    R0,[R3, #+88]
+   \   00000088   020000EA           B        ??Days_onLBMessage2_3
+    139                }
+    140                else
+    141                {
+    142                  GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_REMINDS + REM_AFTEREND],ENC_UCS2,TEXTID_ANY_LEN));
+    143                }
+    144              }
+    145              else if (item==3)
+   \                     ??Days_onLBMessage2_4:
+   \   0000008C   030051E3           CMP      R1,#+3
+   \   00000090   0400001A           BNE      ??Days_onLBMessage2_1
+    146              {
+    147                GUIonMessage_SetMenuItemText(msg,TextID_Create(lng[LNG_REMINDS + REM_MINUTES],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \                     ??Days_onLBMessage2_3:
+   \   00000098   5D0100EF           SWI      +349
+   \   0000009C   0010A0E1           MOV      R1,R0
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   380100EF           SWI      +312
+    148              }
+    149            }
+    150            return(1);
+   \                     ??Days_onLBMessage2_1:
+   \   000000A8   0100A0E3           MOV      R0,#+1
+   \   000000AC   3080BDE8           POP      {R4,R5,PC}       ;; return
+    151          };
+    152          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    153          void Days_OnBack(BOOK *bk, GUI* )
+    154          {
+    155            LastIndex=0;
+   \                     ??Days_OnBack:
+   \   00000000   ........           LDR      R1,??DataTable11  ;; LastIndex
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   002081E5           STR      R2,[R1, #+0]
+    156            BookObj_GotoPage(bk, &bk_main);
+   \   00000010   04109FE5           LDR      R1,??Days_OnBack_1  ;; bk_main
+   \   00000014   2D0100EF           SWI      +301
+    157          };
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+   \                     ??Days_OnBack_1:
+   \   0000001C   ........           DC32     bk_main
+    158          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    159          void Days_OnWorkdays(BOOK *bk, GUI* )
+    160          {
+   \                     ??Days_OnWorkdays:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+    161            MyBOOK *mbk=(MyBOOK*)bk;
+    162            bool days[7];
+    163            memcpy(days, mbk->selev->days, 7*sizeof(bool));
+   \   00000008   0720A0E3           MOV      R2,#+7
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000014   201080E2           ADD      R1,R0,#+32
+   \   00000018   0D00A0E1           MOV      R0,SP
+   \   0000001C   130100EF           SWI      +275
+    164            if (days[0] && days[1] && days[2] && days[3] && days[4])
+   \   00000020   0000DDE5           LDRB     R0,[SP, #+0]
+    165            {
+    166              mbk->selev->days[0]=0;
+    167              mbk->selev->days[1]=0;
+    168              mbk->selev->days[2]=0;
+    169              mbk->selev->days[3]=0;
+    170              mbk->selev->days[4]=0;
+    171            }
+    172            else
+    173            {
+    174              mbk->selev->days[0]=1;
+   \   00000024   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0100DD15           LDRBNE   R0,[SP, #+1]
+   \   00000030   00005013           CMPNE    R0,#+0
+   \   00000034   0200DD15           LDRBNE   R0,[SP, #+2]
+   \   00000038   00005013           CMPNE    R0,#+0
+   \   0000003C   0300DD15           LDRBNE   R0,[SP, #+3]
+   \   00000040   00005013           CMPNE    R0,#+0
+   \   00000044   0400DD15           LDRBNE   R0,[SP, #+4]
+   \   00000048   00005013           CMPNE    R0,#+0
+   \   0000004C   0000A013           MOVNE    R0,#+0
+   \   00000050   0100A003           MOVEQ    R0,#+1
+   \   00000054   2000C1E5           STRB     R0,[R1, #+32]
+    175              mbk->selev->days[1]=1;
+   \   00000058   1C1094E5           LDR      R1,[R4, #+28]
+   \   0000005C   2100C1E5           STRB     R0,[R1, #+33]
+    176              mbk->selev->days[2]=1;
+   \   00000060   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000064   2200C1E5           STRB     R0,[R1, #+34]
+    177              mbk->selev->days[3]=1;
+   \   00000068   1C1094E5           LDR      R1,[R4, #+28]
+   \   0000006C   2300C1E5           STRB     R0,[R1, #+35]
+    178              mbk->selev->days[4]=1;
+   \   00000070   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000074   2400C1E5           STRB     R0,[R1, #+36]
+    179            }
+    180            BookObj_GotoPage(bk, &bk_days);
+   \   00000078   ........           LDR      R1,??DataTable9  ;; bk_days
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   2D0100EF           SWI      +301
+    181          };
+   \   00000084   1380BDE8           POP      {R0,R1,R4,PC}    ;; return
+    182          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    183          void Days_OnWeekend(BOOK *bk, GUI* )
+    184          {
+   \                     ??Days_OnWeekend:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+    185            MyBOOK *mbk=(MyBOOK*)bk;
+    186            bool days[7];
+    187            memcpy(days, mbk->selev->days, 7*sizeof(bool));
+   \   00000008   0720A0E3           MOV      R2,#+7
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000014   201080E2           ADD      R1,R0,#+32
+   \   00000018   0D00A0E1           MOV      R0,SP
+   \   0000001C   130100EF           SWI      +275
+    188            if (days[5] && days[6])
+   \   00000020   0500DDE5           LDRB     R0,[SP, #+5]
+    189            {
+    190              mbk->selev->days[5]=0;
+    191              mbk->selev->days[6]=0;
+    192            }
+    193            else
+    194            {
+    195              mbk->selev->days[5]=1;
+   \   00000024   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0600DD15           LDRBNE   R0,[SP, #+6]
+   \   00000030   00005013           CMPNE    R0,#+0
+   \   00000034   0000A013           MOVNE    R0,#+0
+   \   00000038   0100A003           MOVEQ    R0,#+1
+   \   0000003C   2500C1E5           STRB     R0,[R1, #+37]
+    196              mbk->selev->days[6]=1;
+   \   00000040   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000044   2600C1E5           STRB     R0,[R1, #+38]
+    197            }
+    198            BookObj_GotoPage(bk, &bk_days);
+   \   00000048   ........           LDR      R1,??DataTable9  ;; bk_days
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   2D0100EF           SWI      +301
+    199          };
+   \   00000054   1380BDE8           POP      {R0,R1,R4,PC}    ;; return
+    200          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    201          void Days_OnEveryday(BOOK *bk, GUI* )
+    202          {
+   \                     ??Days_OnEveryday:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+    203            MyBOOK *mbk=(MyBOOK*)bk;
+    204            bool days[7];
+    205            memcpy(days, mbk->selev->days, 7*sizeof(bool));
+   \   00000008   0720A0E3           MOV      R2,#+7
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000014   201080E2           ADD      R1,R0,#+32
+   \   00000018   0D00A0E1           MOV      R0,SP
+   \   0000001C   130100EF           SWI      +275
+    206            if (days[0] && days[1] && days[2] && days[3] && days[4] && days[5] && days[6])
+   \   00000020   0000DDE5           LDRB     R0,[SP, #+0]
+    207            {
+    208              mbk->selev->days[0]=0;
+    209              mbk->selev->days[1]=0;
+    210              mbk->selev->days[2]=0;
+    211              mbk->selev->days[3]=0;
+    212              mbk->selev->days[4]=0;
+    213              mbk->selev->days[5]=0;
+    214              mbk->selev->days[6]=0;
+    215            }
+    216            else
+    217            {
+    218              mbk->selev->days[0]=1;
+   \   00000024   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0100DD15           LDRBNE   R0,[SP, #+1]
+   \   00000030   00005013           CMPNE    R0,#+0
+   \   00000034   0200DD15           LDRBNE   R0,[SP, #+2]
+   \   00000038   00005013           CMPNE    R0,#+0
+   \   0000003C   0300DD15           LDRBNE   R0,[SP, #+3]
+   \   00000040   00005013           CMPNE    R0,#+0
+   \   00000044   0400DD15           LDRBNE   R0,[SP, #+4]
+   \   00000048   00005013           CMPNE    R0,#+0
+   \   0000004C   0500DD15           LDRBNE   R0,[SP, #+5]
+   \   00000050   00005013           CMPNE    R0,#+0
+   \   00000054   0600DD15           LDRBNE   R0,[SP, #+6]
+   \   00000058   00005013           CMPNE    R0,#+0
+   \   0000005C   0000A013           MOVNE    R0,#+0
+   \   00000060   0100A003           MOVEQ    R0,#+1
+   \   00000064   2000C1E5           STRB     R0,[R1, #+32]
+    219              mbk->selev->days[1]=1;
+   \   00000068   1C1094E5           LDR      R1,[R4, #+28]
+   \   0000006C   2100C1E5           STRB     R0,[R1, #+33]
+    220              mbk->selev->days[2]=1;
+   \   00000070   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000074   2200C1E5           STRB     R0,[R1, #+34]
+    221              mbk->selev->days[3]=1;
+   \   00000078   1C1094E5           LDR      R1,[R4, #+28]
+   \   0000007C   2300C1E5           STRB     R0,[R1, #+35]
+    222              mbk->selev->days[4]=1;
+   \   00000080   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000084   2400C1E5           STRB     R0,[R1, #+36]
+    223              mbk->selev->days[5]=1;
+   \   00000088   1C1094E5           LDR      R1,[R4, #+28]
+   \   0000008C   2500C1E5           STRB     R0,[R1, #+37]
+    224              mbk->selev->days[6]=1;
+   \   00000090   1C1094E5           LDR      R1,[R4, #+28]
+   \   00000094   2600C1E5           STRB     R0,[R1, #+38]
+    225            }
+    226            BookObj_GotoPage(bk, &bk_days);
+   \   00000098   ........           LDR      R1,??DataTable9  ;; bk_days
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   2D0100EF           SWI      +301
+    227          };
+   \   000000A4   1380BDE8           POP      {R0,R1,R4,PC}    ;; return
+    228          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    229          GUI_LIST * Days_CreateGuiList(BOOK * book)
+    230          {
+   \                     ??Days_CreateGuiList:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    231            GUI_LIST * lo=0;
+    232            if (lo=CreateListMenu(book,0))
+   \   00000004   0010A0E3           MOV      R1,#+0
+   \   00000008   0070A0E1           MOV      R7,R0
+   \   0000000C   C00100EF           SWI      +448
+   \   00000010   0040B0E1           MOVS     R4,R0
+   \   00000014   6D00000A           BEQ      ??Days_CreateGuiList_1
+    233            {
+    234              MyBOOK *mbk=(MyBOOK*)book;
+    235              if (mbk->daystype==0)
+   \   00000018   600097E5           LDR      R0,[R7, #+96]
+   \   0000001C   B4819FE5           LDR      R8,??Days_CreateGuiList_2  ;; ??Days_OnBack
+   \   00000020   ........           LDR      R5,??DataTable10  ;; lng
+   \   00000024   FF60A0E3           MOV      R6,#+255
+   \   00000028   FF6C86E3           ORR      R6,R6,#0xFF00
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0620A0E1           MOV      R2,R6
+   \   00000034   0010A0E3           MOV      R1,#+0
+   \   00000038   4400001A           BNE      ??Days_CreateGuiList_3
+    236              {
+    237                GUIObject_SetTitleText(lo,TextID_Create(lng[DAYS],ENC_UCS2,TEXTID_ANY_LEN));
+   \   0000003C   000195E5           LDR      R0,[R5, #+256]
+   \   00000040   5D0100EF           SWI      +349
+   \   00000044   0010A0E1           MOV      R1,R0
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   330100EF           SWI      +307
+    238                ListMenu_SetItemCount(lo,7);
+   \   00000050   0710A0E3           MOV      R1,#+7
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   C10100EF           SWI      +449
+    239                ListMenu_SetCursorToItem(lo,0);
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   350100EF           SWI      +309
+    240                ListMenu_SetOnMessage(lo,Days_onLBMessage);
+   \   00000068   6C119FE5           LDR      R1,??Days_CreateGuiList_2+0x4  ;; ??Days_onLBMessage
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   740100EF           SWI      +372
+    241                ListMenu_SetItemStyle(lo,2);
+   \   00000074   0210A0E3           MOV      R1,#+2
+   \   00000078   0400A0E1           MOV      R0,R4
+   \   0000007C   3F0100EF           SWI      +319
+    242                GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, Days_OnBack);
+   \   00000080   58019FE5           LDR      R0,??Days_CreateGuiList_2+0x8  ;; ACTION_BACK
+   \   00000084   0820A0E1           MOV      R2,R8
+   \   00000088   001090E5           LDR      R1,[R0, #+0]
+   \   0000008C   0400A0E1           MOV      R0,R4
+   \   00000090   0118A0E1           MOV      R1,R1, LSL #+16
+   \   00000094   2118A0E1           MOV      R1,R1, LSR #+16
+   \   00000098   4B0100EF           SWI      +331
+    243                GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,Days_OnSelect);
+   \   0000009C   40019FE5           LDR      R0,??Days_CreateGuiList_2+0xC  ;; ACTION_SELECT1
+   \   000000A0   40219FE5           LDR      R2,??Days_CreateGuiList_2+0x10  ;; ??Days_OnSelect
+   \   000000A4   001090E5           LDR      R1,[R0, #+0]
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000000B0   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000000B4   4B0100EF           SWI      +331
+    244                GUIObject_SoftKeys_SetAction(lo,0, Days_OnWorkdays);
+   \   000000B8   2C219FE5           LDR      R2,??Days_CreateGuiList_2+0x14  ;; ??Days_OnWorkdays
+   \   000000BC   0010A0E3           MOV      R1,#+0
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   4B0100EF           SWI      +331
+    245                GUIObject_SoftKeys_SetText(lo,0,TextID_Create(lng[LNG_WORKDAYS],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000C8   440095E5           LDR      R0,[R5, #+68]
+   \   000000CC   0620A0E1           MOV      R2,R6
+   \   000000D0   0010A0E3           MOV      R1,#+0
+   \   000000D4   5D0100EF           SWI      +349
+   \   000000D8   0020A0E1           MOV      R2,R0
+   \   000000DC   0010A0E3           MOV      R1,#+0
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   4C0100EF           SWI      +332
+    246                GUIObject_SoftKeys_SetAction(lo,1, Days_OnWeekend);
+   \   000000E8   00219FE5           LDR      R2,??Days_CreateGuiList_2+0x18  ;; ??Days_OnWeekend
+   \   000000EC   0110A0E3           MOV      R1,#+1
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   4B0100EF           SWI      +331
+    247                GUIObject_SoftKeys_SetText(lo,1,TextID_Create(lng[LNG_WEEKEND],ENC_UCS2,TEXTID_ANY_LEN));
+   \   000000F8   480095E5           LDR      R0,[R5, #+72]
+   \   000000FC   0620A0E1           MOV      R2,R6
+   \   00000100   0010A0E3           MOV      R1,#+0
+   \   00000104   5D0100EF           SWI      +349
+   \   00000108   0020A0E1           MOV      R2,R0
+   \   0000010C   0110A0E3           MOV      R1,#+1
+   \   00000110   0400A0E1           MOV      R0,R4
+   \   00000114   4C0100EF           SWI      +332
+    248                GUIObject_SoftKeys_SetAction(lo,2, Days_OnEveryday);
+   \   00000118   D4209FE5           LDR      R2,??Days_CreateGuiList_2+0x1C  ;; ??Days_OnEveryday
+   \   0000011C   0210A0E3           MOV      R1,#+2
+   \   00000120   0400A0E1           MOV      R0,R4
+   \   00000124   4B0100EF           SWI      +331
+    249                GUIObject_SoftKeys_SetText(lo,2,TextID_Create(lng[LNG_ALLDAYS],ENC_UCS2,TEXTID_ANY_LEN));
+   \   00000128   4C0095E5           LDR      R0,[R5, #+76]
+   \   0000012C   0620A0E1           MOV      R2,R6
+   \   00000130   0010A0E3           MOV      R1,#+0
+   \   00000134   5D0100EF           SWI      +349
+   \   00000138   0020A0E1           MOV      R2,R0
+   \   0000013C   0210A0E3           MOV      R1,#+2
+   \   00000140   0400A0E1           MOV      R0,R4
+   \   00000144   4C0100EF           SWI      +332
+   \   00000148   0400A0E1           MOV      R0,R4
+   \   0000014C   F081BDE8           POP      {R4-R8,PC}
+    250              }
+    251              else
+    252              {
+    253                GUIObject_SetTitleText(lo,TextID_Create(lng[LNG_REMINDS],ENC_UCS2,TEXTID_ANY_LEN));
+   \                     ??Days_CreateGuiList_3:
+   \   00000150   500095E5           LDR      R0,[R5, #+80]
+   \   00000154   5D0100EF           SWI      +349
+   \   00000158   0010A0E1           MOV      R1,R0
+   \   0000015C   0400A0E1           MOV      R0,R4
+   \   00000160   330100EF           SWI      +307
+    254                ListMenu_SetItemCount(lo,4);
+   \   00000164   0410A0E3           MOV      R1,#+4
+   \   00000168   0400A0E1           MOV      R0,R4
+   \   0000016C   C10100EF           SWI      +449
+    255                ListMenu_SetCursorToItem(lo,LastIndex);
+   \   00000170   ........           LDR      R0,??DataTable11  ;; LastIndex
+   \   00000174   001090E5           LDR      R1,[R0, #+0]
+   \   00000178   0400A0E1           MOV      R0,R4
+   \   0000017C   350100EF           SWI      +309
+    256                ListMenu_SetOnMessage(lo,Days_onLBMessage2);
+   \   00000180   70109FE5           LDR      R1,??Days_CreateGuiList_2+0x20  ;; ??Days_onLBMessage2
+   \   00000184   0400A0E1           MOV      R0,R4
+   \   00000188   740100EF           SWI      +372
+    257                ListMenu_SetItemStyle(lo,0);
+   \   0000018C   0010A0E3           MOV      R1,#+0
+   \   00000190   0400A0E1           MOV      R0,R4
+   \   00000194   3F0100EF           SWI      +319
+    258                GUIObject_SoftKeys_SetAction(lo,ACTION_BACK, Days_OnBack);
+   \   00000198   40009FE5           LDR      R0,??Days_CreateGuiList_2+0x8  ;; ACTION_BACK
+   \   0000019C   0820A0E1           MOV      R2,R8
+   \   000001A0   001090E5           LDR      R1,[R0, #+0]
+   \   000001A4   0400A0E1           MOV      R0,R4
+   \   000001A8   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000001AC   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000001B0   4B0100EF           SWI      +331
+    259                GUIObject_SoftKeys_SetAction(lo,ACTION_SELECT1,Days_OnSelect2);
+   \   000001B4   28009FE5           LDR      R0,??Days_CreateGuiList_2+0xC  ;; ACTION_SELECT1
+   \   000001B8   3C209FE5           LDR      R2,??Days_CreateGuiList_2+0x24  ;; ??Days_OnSelect2
+   \   000001BC   001090E5           LDR      R1,[R0, #+0]
+   \   000001C0   0400A0E1           MOV      R0,R4
+   \   000001C4   0118A0E1           MOV      R1,R1, LSL #+16
+   \   000001C8   2118A0E1           MOV      R1,R1, LSR #+16
+   \   000001CC   4B0100EF           SWI      +331
+    260              }
+    261            }
+    262            return(lo);
+   \                     ??Days_CreateGuiList_1:
+   \   000001D0   0400A0E1           MOV      R0,R4
+   \   000001D4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??Days_CreateGuiList_2:
+   \   000001D8   ........           DC32     ??Days_OnBack
+   \   000001DC   ........           DC32     ??Days_onLBMessage
+   \   000001E0   ........           DC32     ACTION_BACK
+   \   000001E4   ........           DC32     ACTION_SELECT1
+   \   000001E8   ........           DC32     ??Days_OnSelect
+   \   000001EC   ........           DC32     ??Days_OnWorkdays
+   \   000001F0   ........           DC32     ??Days_OnWeekend
+   \   000001F4   ........           DC32     ??Days_OnEveryday
+   \   000001F8   ........           DC32     ??Days_onLBMessage2
+   \   000001FC   ........           DC32     ??Days_OnSelect2
+    263          };
+    264          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    265          GUI_LIST *create_days(BOOK *book)
+    266          {
+   \                     ??create_days:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    267            MyBOOK *mbk=(MyBOOK *)book;
+    268            mbk->days=Days_CreateGuiList(book);
+   \   00000008   ........           BL       ??Days_CreateGuiList
+   \   0000000C   5C0084E5           STR      R0,[R4, #+92]
+    269            GUIObject_Show(mbk->days);
+   \   00000010   340100EF           SWI      +308
+    270            return(mbk->days);
+   \   00000014   5C0094E5           LDR      R0,[R4, #+92]
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+    271          };
+    272          
+    273          
+    274          
+    275          //------------------------------------------------------------------------------
+
+   \                                 In segment CODE, align 4, keep-with-next
+    276          static int Days_OnEnter(void *, BOOK * bk)
+    277          {
+   \                     ??Days_OnEnter:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0100A0E1           MOV      R0,R1
+    278            create_days(bk);
+   \   00000008   ........           BL       ??create_days
+    279            return 1;
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    280          };
+    281          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    282          static int Days_OnExit(void *, BOOK * bk)
+    283          {
+   \                     ??Days_OnExit:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    284            MyBOOK *mbk=(MyBOOK *)bk;
+    285            FREE_GUI(mbk->days);
+   \   00000008   5C0094E5           LDR      R0,[R4, #+92]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0100000A           BEQ      ??Days_OnExit_1
+   \   00000014   CE0100EF           SWI      +462
+   \   00000018   5C0084E5           STR      R0,[R4, #+92]
+    286            return (1);  
+   \                     ??Days_OnExit_1:
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   1080BDE8           POP      {R4,PC}          ;; return
+    287          };
+    288          
+    289          
+
+   \                                 In segment DYN_PAGE, align 4, align-sorted
+    290          const PAGE_MSG bk_msglst_days[] @ "DYN_PAGE"  = 
+   \                     bk_msglst_days:
+   \   00000000   42000000....       DC32 66, ??Days_OnEnter, 67, ??Days_OnExit, 64, 0H
+   \              ....43000000
+   \              ........4000
+   \              000000000000
+    291          {
+    292            PAGE_ENTER_EVENT_TAG,    Days_OnEnter,
+    293            PAGE_EXIT_EVENT_TAG,     Days_OnExit,
+    294            NIL_EVENT_TAG,           NULL
+    295          };
+    296          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    297          const PAGE_DESC bk_days = {"EvtEdit_Days_Page",0,bk_msglst_days};
+   \                     bk_days:
+   \   00000000   ........0000       DC32 `?<Constant "EvtEdit_Days_Page">`, 0H, bk_msglst_days
+   \              0000........
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     ??isEvtEditBook
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     bk_days
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     lng
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     LastIndex
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EvtEdit_Days_Page">`:
+   \   00000000   457674456469       DC8 "EvtEdit_Days_Page"
+   \              745F44617973
+   \              5F5061676500
+   \   00000012   0000               DC8 0, 0
+    298          //------------------------------------------------------------------------------
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     Days_CreateGuiList(BOOK *)        24
+     Days_OnBack(BOOK *, GUI *)         4
+     Days_OnEnter(void *, BOOK *)       4
+     Days_OnEveryday(BOOK *, GUI *)    16
+     Days_OnExit(void *, BOOK *)        8
+     Days_OnSelect(BOOK *, GUI *)       8
+     Days_OnSelect2(BOOK *, GUI *)      8
+     Days_OnWeekend(BOOK *, GUI *)     16
+     Days_OnWorkdays(BOOK *, GUI *)    16
+     Days_onLBMessage(GUI_MESSAGE *)
+                                       16
+     Days_onLBMessage2(GUI_MESSAGE *)
+                                       12
+     create_days(BOOK *)                8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     LastIndex                         4
+     Days_OnSelect2(BOOK *, GUI *)   212
+     Days_OnSelect(BOOK *, GUI *)     80
+     Days_onLBMessage(GUI_MESSAGE *)
+                                     120
+     Days_onLBMessage2(GUI_MESSAGE *)
+                                     176
+     Days_OnBack(BOOK *, GUI *)       32
+     Days_OnWorkdays(BOOK *, GUI *)  136
+     Days_OnWeekend(BOOK *, GUI *)    88
+     Days_OnEveryday(BOOK *, GUI *)  168
+     Days_CreateGuiList(BOOK *)      512
+     create_days(BOOK *)              28
+     Days_OnEnter(void *, BOOK *)     20
+     Days_OnExit(void *, BOOK *)      36
+     bk_msglst_days                   24
+     bk_days                          12
+     ??DataTable4                      4
+     ??DataTable9                      4
+     ??DataTable10                     4
+     ??DataTable11                     4
+     ?<Constant "EvtEdit_Days_Page">
+                                      20
+      Others                          60
+
+ 
+ 1 672 bytes in segment CODE
+    32 bytes in segment DATA_C
+     4 bytes in segment DATA_Z
+    24 bytes in segment DYN_PAGE
+    12 bytes in segment INITTAB
+ 
+ 1 624 bytes of CODE  memory (+ 60 bytes shared)
+    56 bytes of CONST memory
+     4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

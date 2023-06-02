@@ -1,0 +1,314 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:49:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\ui #
+#                       .cpp                                                 #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\ui #
+#                       .cpp -D NDEBUG -D OLDFUNCTIONS -lC                   #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ -lA Z:\home\perk11\www\perk11.info\svn\S #
+#                       E\AdvSoftkeys\Release\List\ -o                       #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --eec++ --dlib_config                           #
+#                       Z:\home\perk11\IAR2\arm\LIB\dl5tpainl8n.h -I         #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\List\ui.lst                                    #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\Re #
+#                       lease\Obj\ui.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\AdvSoftkeys\ui.cpp
+      1          #include "..\\include\Lib_Clara.h" 
+      2          #include "..\\include\Dir.h"
+      3          #include "header\string.h"
+      4          
+      5          typedef struct
+      6          {
+      7            int x;
+      8            int y;
+      9            int ct;
+     10            int font;
+     11            int hx;
+     12            int hy;
+     13            int hct;
+     14            int hfont;
+     15          }UI_SOFTKEY;
+     16          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     17          UI_SOFTKEY sk[3]={ {0,296,0,0x18,320,220,1,0x12} , {0,293,2,0x2C,320,115,1,0x2C} , {240,296,1,0x18,320,0,1,0x12} };
+   \                     sk:
+   \   00000000                      DS8 96
+   \   00000060                      REQUIRE `?<Initializer for sk>`
+     18          int sk240[24]=   {  0,296,0,0x18,320,220,1,0x12  ,  0,293,2,0x2C,320,115,1,0x2C  ,  240,296,1,0x18,320,0,1,0x12 };
+   \                     sk240:
+   \   00000060                      DS8 96
+   \   000000C0                      REQUIRE `?<Initializer for sk240>`
+     19          int sk176[24]=   {  0,198,0,0x18,220,156,1,0x12  ,  0,193,2,0x2C,220,80 ,1,0x2C  ,  176,198,1,0x18,220,0,1,0x12 };
+   \                     sk176:
+   \   000000C0                      DS8 96
+   \   00000120                      REQUIRE `?<Initializer for sk176>`
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          void auto_select()
+     22          {
+   \                     ??auto_select:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     23            int a=Display_GetHeight(0);
+     24            switch (a)
+   \   00000004   ........           LDR      R4,??DataTable1  ;; sk
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   580200EF           SWI      +600
+   \   00000010   500F50E3           CMP      R0,#+320
+   \   00000014   6020A0E3           MOV      R2,#+96
+     25            {
+     26            case 320:
+     27              memcpy(&sk[0], &sk240[0], 96);
+   \   00000018   60108402           ADDEQ    R1,R4,#+96
+     28              break;
+     29            case 220:
+     30              memcpy(&sk[0], &sk176[0], 96);
+   \   0000001C   C0108412           ADDNE    R1,R4,#+192
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   130100EF           SWI      +275
+     31              break;
+     32            default:
+     33              memcpy(&sk[0], &sk176[0], 96);
+     34              break;
+     35            }
+     36          };
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     37          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     38          void addui(char *line,int elem)
+     39          {
+   \                     ??addui:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     40            int x=0;
+     41            //--------------------
+     42            sk[elem].x=getint(line, &x,':');
+   \   00000004   ........           LDR      R6,??DataTable1  ;; sk
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   00108DE5           STR      R1,[SP, #+0]
+   \   0000001C   3A20A0E3           MOV      R2,#+58
+   \   00000020   0D10A0E1           MOV      R1,SP
+   \   00000024   ........           _BLF     ??getint,??getint??rA
+   \   00000028   850286E7           STR      R0,[R6, +R5, LSL #+5]
+     43            sk[elem].y=getint(line, &x,':');
+   \   0000002C   855286E0           ADD      R5,R6,R5, LSL #+5
+   \   00000030   3A20A0E3           MOV      R2,#+58
+   \   00000034   0D10A0E1           MOV      R1,SP
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   ........           _BLF     ??getint,??getint??rA
+   \   00000040   040085E5           STR      R0,[R5, #+4]
+     44            sk[elem].ct=getint(line, &x,':');
+   \   00000044   3A20A0E3           MOV      R2,#+58
+   \   00000048   0D10A0E1           MOV      R1,SP
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   ........           _BLF     ??getint,??getint??rA
+   \   00000054   080085E5           STR      R0,[R5, #+8]
+     45            sk[elem].font=getint(line, &x,':');
+   \   00000058   3A20A0E3           MOV      R2,#+58
+   \   0000005C   0D10A0E1           MOV      R1,SP
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   ........           _BLF     ??getint,??getint??rA
+   \   00000068   0C0085E5           STR      R0,[R5, #+12]
+     46            sk[elem].hx=getint(line, &x,':');
+   \   0000006C   3A20A0E3           MOV      R2,#+58
+   \   00000070   0D10A0E1           MOV      R1,SP
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   ........           _BLF     ??getint,??getint??rA
+   \   0000007C   100085E5           STR      R0,[R5, #+16]
+     47            sk[elem].hy=getint(line, &x,':');
+   \   00000080   3A20A0E3           MOV      R2,#+58
+   \   00000084   0D10A0E1           MOV      R1,SP
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   ........           _BLF     ??getint,??getint??rA
+   \   00000090   140085E5           STR      R0,[R5, #+20]
+     48            sk[elem].hct=getint(line, &x,':');
+   \   00000094   3A20A0E3           MOV      R2,#+58
+   \   00000098   0D10A0E1           MOV      R1,SP
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   ........           _BLF     ??getint,??getint??rA
+   \   000000A4   180085E5           STR      R0,[R5, #+24]
+     49            sk[elem].hfont=getint(line, &x,';');
+   \   000000A8   3B20A0E3           MOV      R2,#+59
+   \   000000AC   0D10A0E1           MOV      R1,SP
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   ........           _BLF     ??getint,??getint??rA
+   \   000000B8   1C0085E5           STR      R0,[R5, #+28]
+     50            //--------------------
+     51          };
+   \   000000BC   7180BDE8           POP      {R0,R4-R6,PC}    ;; return
+     52          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     53          int set_ui(char *buf, int fsize)
+     54          {
+   \                     ??set_ui:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   80D04DE2           SUB      SP,SP,#+128
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+     55            auto_select();
+   \   00000010   ........           BL       ??auto_select
+     56            int x;
+     57            for (x=0;x<3;x++)
+   \   00000014   0060A0E3           MOV      R6,#+0
+     58            {
+     59              char pattern[128];
+     60              sprintf(pattern,"%dsk)",x);
+   \                     ??set_ui_1:
+   \   00000018   4C109FE5           LDR      R1,??set_ui_2    ;; `?<Constant "%dsk)">`
+   \   0000001C   0620A0E1           MOV      R2,R6
+   \   00000020   0D00A0E1           MOV      R0,SP
+   \   00000024   140100EF           SWI      +276
+     61              char *param;
+     62              if (param=getparam(buf,pattern,';', fsize))
+   \   00000028   0530A0E1           MOV      R3,R5
+   \   0000002C   3B20A0E3           MOV      R2,#+59
+   \   00000030   0D10A0E1           MOV      R1,SP
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   ........           _BLF     ??getparam,??getparam??rA
+   \   0000003C   0070B0E1           MOVS     R7,R0
+   \   00000040   0600000A           BEQ      ??set_ui_3
+     63              {
+     64                addui(param,x);
+   \   00000044   0610A0E1           MOV      R1,R6
+   \   00000048   ........           BL       ??addui
+     65                delete(param);
+   \   0000004C   0700A0E1           MOV      R0,R7
+   \   00000050   ........           _BLF     `??operator delete`,`??operator delete??rA`
+     66              }
+     67              else
+     68              {
+     69                break;
+     70              }
+     71            }
+   \   00000054   016086E2           ADD      R6,R6,#+1
+   \   00000058   030056E3           CMP      R6,#+3
+   \   0000005C   EDFFFFBA           BLT      ??set_ui_1
+     72            return 1;
+   \                     ??set_ui_3:
+   \   00000060   0100A0E3           MOV      R0,#+1
+   \   00000064   80D08DE2           ADD      SP,SP,#+128
+   \   00000068   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??set_ui_2:
+   \   0000006C   ........           DC32     `?<Constant "%dsk)">`
+     73          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   ........           DC32     sk
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for sk>`:
+   \   00000000   000000002801       DC32 0, 296, 0, 24, 320, 220, 1, 18, 0, 293, 2, 44, 320, 115, 1, 44
+   \              000000000000
+   \              180000004001
+   \              0000DC000000
+   \              010000001200
+   \              000000000000
+   \              250100000200
+   \              00002C000000
+   \              400100007300
+   \              000001000000
+   \              2C000000    
+   \   00000040   F00000002801       DC32 240, 296, 1, 24, 320, 0, 1, 18
+   \              000001000000
+   \              180000004001
+   \              000000000000
+   \              010000001200
+   \              0000        
+   \                     `?<Initializer for sk240>`:
+   \   00000060   000000002801       DC32 0, 296, 0, 24, 320, 220, 1, 18, 0, 293, 2, 44, 320, 115, 1, 44
+   \              000000000000
+   \              180000004001
+   \              0000DC000000
+   \              010000001200
+   \              000000000000
+   \              250100000200
+   \              00002C000000
+   \              400100007300
+   \              000001000000
+   \              2C000000    
+   \   000000A0   F00000002801       DC32 240, 296, 1, 24, 320, 0, 1, 18
+   \              000001000000
+   \              180000004001
+   \              000000000000
+   \              010000001200
+   \              0000        
+   \                     `?<Initializer for sk176>`:
+   \   000000C0   00000000C600       DC32 0, 198, 0, 24, 220, 156, 1, 18, 0, 193, 2, 44, 220, 80, 1, 44, 176
+   \              000000000000
+   \              18000000DC00
+   \              00009C000000
+   \              010000001200
+   \              000000000000
+   \              C10000000200
+   \              00002C000000
+   \              DC0000005000
+   \              000001000000
+   \              2C000000B000
+   \              0000        
+   \   00000104   C60000000100       DC32 198, 1, 24, 220, 0, 1, 18
+   \              000018000000
+   \              DC0000000000
+   \              000001000000
+   \              12000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%dsk)">`:
+   \   00000000   2564736B2900       DC8 "%dsk)"
+   \   00000006   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function            CSTACK
+     --------            ------
+     addui(char *, int)     20
+     auto_select()           8
+     set_ui(char *, int)   148
+
+
+   Segment part sizes:
+
+     Function/Label        Bytes
+     --------------        -----
+     sk                     288
+     auto_select()           44
+     addui(char *, int)     192
+     set_ui(char *, int)    112
+     ??DataTable1             4
+     ?<Initializer for sk>  288
+     ?<Constant "%dsk)">      8
+      Others                 60
+
+ 
+ 400 bytes in segment CODE
+   8 bytes in segment DATA_C
+ 288 bytes in segment DATA_I
+ 288 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 352 bytes of CODE  memory (+ 60 bytes shared)
+ 296 bytes of CONST memory
+ 288 bytes of DATA  memory
+
+Errors: none
+Warnings: none

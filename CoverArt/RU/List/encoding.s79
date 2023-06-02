@@ -1,0 +1,413 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   10/Jun/2013  23:02:19 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\enco /
+//                       ding.c                                              /
+//    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\enco /
+//                       ding.c -D NDEBUG -D OLDFUNCTIONS -lC                /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\L /
+//                       ist\ -lA Z:\home\perk11\www\perk11.info\svn\SE\Cove /
+//                       rArt\RU\List\ -o Z:\home\perk11\www\perk11.info\svn /
+//                       \SE\CoverArt\RU\Obj\ -s9 --cpu_mode arm --endian    /
+//                       little --cpu ARM926EJ-S --stack_align 4             /
+//                       --interwork -e --enable_multibytes --fpu None       /
+//                       --eec++ --dlib_config Z:\home\perk11\IAR2\arm\LIB\d /
+//                       l5tpainl8n.h --preinclude                           /
+//                       Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\LNG- /
+//                       RU.h -I Z:\home\perk11\IAR2\arm\INC\                /
+//                       --inline_threshold=2                                /
+//    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\RU\L /
+//                       ist\encoding.s79                                    /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME encoding
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+        PUBLIC ??Lang_Initialize
+        FUNCTION ??Lang_Initialize,0203H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??Lang_Initialize??rT
+        PUBLIC ??Lang_Remove
+        FUNCTION ??Lang_Remove,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Lang_Remove??rT
+        PUBLIC ??char2unicode
+        FUNCTION ??char2unicode,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??char2unicode??rT
+        MULTWEAK ??checkfile??rA
+        MULTWEAK `??operator delete??rA`
+        MULTWEAK `??operator new[]??rA`
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC fbuf
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+??Lang_Initialize??rT SYMBOL "??rT", ??Lang_Initialize
+
+??Lang_Remove??rT   SYMBOL "??rT", ??Lang_Remove
+
+??char2unicode??rT  SYMBOL "??rT", ??char2unicode
+??checkfile??rA     SYMBOL "??rA", ??checkfile
+`??operator delete??rA` SYMBOL "??rA", `??operator delete`
+`??operator new[]??rA` SYMBOL "??rA", `??operator new[]`
+
+        EXTERN ??checkfile
+        FUNCTION ??checkfile,0202H
+        EXTERN `??operator delete`
+        FUNCTION `??operator delete`,0202H
+        EXTERN `??operator new[]`
+        FUNCTION `??operator new[]`,0202H
+
+// Z:\home\perk11\www\perk11.info\svn\SE\CoverArt\encoding.c
+//    1 #include "..\include\Lib_Clara.h"
+//    2 #include "..\include\dir.h"
+//    3 #include "Externals.h"
+//    4 
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//    5 char *fbuf=0;
+fbuf:
+        DS8 4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??char2unicode??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??char2unicode
+//    6 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??char2unicode
+        ARM
+//    7 void char2unicode(wchar_t *ws, char const *s, int len) 
+//    8 {
+//    9   if (fbuf)
+??char2unicode:
+        LDR      R3,??DataTable2  ;; fbuf
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R3,[R3, #+0]
+        CMP      R3,#+0
+        BEQ      ??char2unicode_1
+//   10   {
+//   11     int c;
+//   12     char * buf=fbuf;
+        B        ??char2unicode_2
+//   13     while((c = *s++) && ((len--) > 0))   
+//   14     {
+//   15       if (c == 0x7E) c = 0x0A;
+??char2unicode_3:
+        CMP      R12,#+126
+        MOVEQ    R12,#+10
+//   16       if (fbuf) c = (buf[2 * c] << 8)  | buf[2 * c + 1];
+//   17       *ws++ = c;
+        ADD      R12,R3,R12, LSL #+1
+        LDRB     R4,[R12, #+0]
+        LDRB     R12,[R12, #+1]
+        ORR      R4,R12,R4, LSL #+8
+        STRH     R4,[R0], #+2
+//   18   
+//   19     }
+??char2unicode_2:
+        LDRB     R12,[R1], #+1
+        CMP      R12,#+0
+        BEQ      ??char2unicode_4
+        MOV      R4,R2
+        SUB      R2,R4,#+1
+        CMP      R4,#+1
+        BGE      ??char2unicode_3
+//   20     *ws=0;
+??char2unicode_4:
+        MOV      R1,#+0
+        STRH     R1,[R0, #+0]
+        POP      {R4,PC}
+//   21   }
+//   22   else
+//   23   {
+//   24     str2wstr(ws, s);
+??char2unicode_1:
+        SWI      +344
+//   25   }
+//   26 };
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Lang_Initialize??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ??Lang_Initialize
+//   27 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??Lang_Initialize
+        ARM
+//   28 void Lang_Initialize()
+//   29 {
+??Lang_Initialize:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//   30   // Открываем лэнг и читаем в FBUF
+//   31   fbuf=0;
+        LDR      R4,??DataTable2  ;; fbuf
+//   32   int file;
+//   33   FSTAT fst;
+//   34   if(fstat(checkfile(L"encoding.bin"), L"encoding.bin", &fst) == 0)
+        LDR      R5,??Lang_Initialize_1  ;; `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`
+        SUB      SP,SP,#+28
+        CFI CFA R13+40
+        MOV      R0,#+0
+        STR      R0,[R4, #+0]
+        MOV      R0,R5
+        _BLF     ??checkfile,??checkfile??rA
+        MOV      R2,SP
+        MOV      R1,R5
+        SWI      +284
+        CMP      R0,#+0
+        BNE      ??Lang_Initialize_2
+//   35   {
+//   36     if( ((file = _fopen(checkfile(L"encoding.bin"), L"encoding.bin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0) && fst.fsize == 512 )
+        MOV      R0,R5
+        _BLF     ??checkfile,??checkfile??rA
+        MOV      R1,#+0
+        PUSH     {R1}
+        CFI CFA R13+44
+        MOV      R3,#+384
+        MOV      R2,#+1
+        MOV      R1,R5
+        SWI      +278
+        MOVS     R5,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+40
+        BMI      ??Lang_Initialize_3
+        LDR      R0,[SP, #+8]
+        CMP      R0,#+512
+        BNE      ??Lang_Initialize_3
+//   37     {
+//   38       fbuf = new char[512];
+        _BLF     `??operator new[]`,`??operator new[]??rA`
+        STR      R0,[R4, #+0]
+//   39       fread(file, fbuf, 512);
+        MOV      R2,#+512
+        MOV      R1,R0
+        MOV      R0,R5
+        SWI      +280
+//   40     }
+//   41     fclose(file);
+??Lang_Initialize_3:
+        MOV      R0,R5
+        SWI      +279
+//   42   }
+//   43 };
+??Lang_Initialize_2:
+        ADD      SP,SP,#+28       ;; stack cleaning
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??Lang_Initialize_1:
+        DC32     `?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Lang_Remove??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE ??Lang_Remove
+//   44 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??Lang_Remove
+        ARM
+//   45 void Lang_Remove()
+//   46 {
+??Lang_Remove:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   47   if (fbuf)
+        LDR      R4,??DataTable2  ;; fbuf
+        LDR      R0,[R4, #+0]
+        CMP      R0,#+0
+        POPEQ    {R4,PC}
+//   48   {
+//   49     delete(fbuf);
+        _BLF     `??operator delete`,`??operator delete??rA`
+//   50     fbuf=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+0]
+//   51   }
+//   52 };
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     fbuf
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??checkfile??rA:
+        LDR      R12,??Subroutine3_0  ;; ??checkfile
+        BX       R12
+        DATA
+??Subroutine3_0:
+        DC32     ??checkfile
+        CFI EndBlock cfiBlock6
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator new[]??rA`:
+        LDR      R12,??Subroutine4_0  ;; `??operator new[]`
+        BX       R12
+        DATA
+??Subroutine4_0:
+        DC32     `??operator new[]`
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon1
+        CFI NoFunction
+        ARM
+`??operator delete??rA`:
+        LDR      R12,??Subroutine5_0  ;; `??operator delete`
+        BX       R12
+        DATA
+??Subroutine5_0:
+        DC32     `??operator delete`
+        CFI EndBlock cfiBlock8
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x65\\x6e\\x63\\x6f\\x64\\x69\\x6e\\x67\\`:
+        DATA
+        DC8 65H, 0, 6EH, 0, 63H, 0, 6FH, 0
+        DC8 64H, 0, 69H, 0, 6EH, 0, 67H, 0
+        DC8 2EH, 0, 62H, 0, 69H, 0, 6EH, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        END
+// 
+// 340 bytes in segment CODE
+//  28 bytes in segment DATA_C
+//   4 bytes in segment DATA_Z
+//  12 bytes in segment INITTAB
+// 
+// 292 bytes of CODE  memory (+ 60 bytes shared)
+//  28 bytes of CONST memory
+//   4 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

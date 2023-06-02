@@ -1,0 +1,209 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Jun/2013  22:45:05 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zItem.c #
+#    Command line    =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zItem.c #
+#                        -D NDEBUG -D OLDFUNCTIONS -lcN                      #
+#                       Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\ -la Z:\home\perk11\www\perk11.info\svn\SE\7zli #
+#                       b\Release\List\ -o Z:\home\perk11\www\perk11.info\sv #
+#                       n\SE\7zlib\Release\Obj\ -s9 --no_unroll              #
+#                       --no_code_motion --cpu_mode thumb --endian little    #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --library_module -I                       #
+#                       Z:\home\perk11\IAR2\arm\INC\ --inline_threshold=2    #
+#    List file       =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       List\7zItem.lst                                      #
+#    Object file     =  Z:\home\perk11\www\perk11.info\svn\SE\7zlib\Release\ #
+#                       Obj\7zItem.r79                                       #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+Z:\home\perk11\www\perk11.info\svn\SE\7zlib\7zItem.c
+      1          /* 7zItem.c */
+      2          
+      3          #include "7zItem.h"
+      4          #include "7zAlloc.h"
+      5          
+      6          void SzCoderInfoInit(CCoderInfo *coder)
+      7          {
+      8            SzByteBufferInit(&coder->Properties);
+      9          }
+     10          
+     11          void SzCoderInfoFree(CCoderInfo *coder, void (*freeFunc)(void *p))
+     12          {
+     13            SzByteBufferFree(&coder->Properties, freeFunc);
+     14            SzCoderInfoInit(coder);
+     15          }
+     16          
+     17          void SzFolderInit(CFolder *folder)
+     18          {
+     19            folder->NumCoders = 0;
+     20            folder->Coders = 0;
+     21            folder->NumBindPairs = 0;
+     22            folder->BindPairs = 0;
+     23            folder->NumPackStreams = 0;
+     24            folder->PackStreams = 0;
+     25            folder->UnPackSizes = 0;
+     26            folder->UnPackCRCDefined = 0;
+     27            folder->UnPackCRC = 0;
+     28            folder->NumUnPackStreams = 0;
+     29          }
+     30          
+     31          void SzFolderFree(CFolder *folder, void (*freeFunc)(void *p))
+     32          {
+     33            UInt32 i;
+     34            for (i = 0; i < folder->NumCoders; i++)
+     35              SzCoderInfoFree(&folder->Coders[i], freeFunc);
+     36            freeFunc(folder->Coders);
+     37            freeFunc(folder->BindPairs);
+     38            freeFunc(folder->PackStreams);
+     39            freeFunc(folder->UnPackSizes);
+     40            SzFolderInit(folder);
+     41          }
+     42          
+     43          UInt32 SzFolderGetNumOutStreams(CFolder *folder)
+     44          {
+     45            UInt32 result = 0;
+     46            UInt32 i;
+     47            for (i = 0; i < folder->NumCoders; i++)
+     48              result += folder->Coders[i].NumOutStreams;
+     49            return result;
+     50          }
+     51          
+     52          int SzFolderFindBindPairForInStream(CFolder *folder, UInt32 inStreamIndex)
+     53          {
+     54            UInt32 i;
+     55            for(i = 0; i < folder->NumBindPairs; i++)
+     56              if (folder->BindPairs[i].InIndex == inStreamIndex)
+     57                return i;
+     58            return -1;
+     59          }
+     60          
+     61          
+     62          int SzFolderFindBindPairForOutStream(CFolder *folder, UInt32 outStreamIndex)
+     63          {
+     64            UInt32 i;
+     65            for(i = 0; i < folder->NumBindPairs; i++)
+     66              if (folder->BindPairs[i].OutIndex == outStreamIndex)
+     67                return i;
+     68            return -1;
+     69          }
+     70          
+     71          CFileSize SzFolderGetUnPackSize(CFolder *folder)
+     72          { 
+     73            int i = (int)SzFolderGetNumOutStreams(folder);
+     74            if (i == 0)
+     75              return 0;
+     76            for (i--; i >= 0; i--)
+     77              if (SzFolderFindBindPairForOutStream(folder, i) < 0)
+     78                return folder->UnPackSizes[i];
+     79            /* throw 1; */
+     80            return 0;
+     81          }
+     82          
+     83          /*
+     84          int FindPackStreamArrayIndex(int inStreamIndex) const
+     85          {
+     86            for(int i = 0; i < PackStreams.Size(); i++)
+     87            if (PackStreams[i] == inStreamIndex)
+     88              return i;
+     89            return -1;
+     90          }
+     91          */
+     92          
+     93          void SzFileInit(CFileItem *fileItem)
+     94          {
+     95            fileItem->IsFileCRCDefined = 0;
+     96            fileItem->HasStream = 1;
+     97            fileItem->IsDirectory = 0;
+     98            fileItem->IsAnti = 0;
+     99            fileItem->Name = 0;
+    100          }
+    101          
+    102          void SzFileFree(CFileItem *fileItem, void (*freeFunc)(void *p))
+    103          {
+    104            freeFunc(fileItem->Name);
+    105            SzFileInit(fileItem);
+    106          }
+    107          
+    108          void SzArchiveDatabaseInit(CArchiveDatabase *db)
+    109          {
+    110            db->NumPackStreams = 0;
+    111            db->PackSizes = 0;
+    112            db->PackCRCsDefined = 0;
+    113            db->PackCRCs = 0;
+    114            db->NumFolders = 0;
+    115            db->Folders = 0;
+    116            db->NumFiles = 0;
+    117            db->Files = 0;
+    118          }
+    119          
+    120          void SzArchiveDatabaseFree(CArchiveDatabase *db, void (*freeFunc)(void *))
+    121          {
+    122            UInt32 i;
+    123            for (i = 0; i < db->NumFolders; i++)
+    124              SzFolderFree(&db->Folders[i], freeFunc);
+    125            for (i = 0; i < db->NumFiles; i++)
+    126              SzFileFree(&db->Files[i], freeFunc);
+    127            freeFunc(db->PackSizes);
+    128            freeFunc(db->PackCRCsDefined);
+    129            freeFunc(db->PackCRCs);
+    130            freeFunc(db->Folders);
+    131            freeFunc(db->Files);
+    132            SzArchiveDatabaseInit(db);
+    133          }
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     SzArchiveDatabaseFree             20
+     SzArchiveDatabaseInit              0
+     SzCoderInfoFree                    8
+     SzCoderInfoInit                    4
+     SzFileFree                         8
+     SzFileInit                         0
+     SzFolderFindBindPairForInStream
+                                        8
+     SzFolderFindBindPairForOutStream
+                                        8
+     SzFolderFree                      16
+     SzFolderGetNumOutStreams           8
+     SzFolderGetUnPackSize             12
+     SzFolderInit                       0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     SzCoderInfoInit                  10
+     SzCoderInfoFree                  20
+     SzFolderInit                     24
+     SzFolderFree                     60
+     SzFolderGetNumOutStreams         40
+     SzFolderFindBindPairForInStream
+                                      38
+     SzFolderFindBindPairForOutStream
+                                      40
+     SzFolderGetUnPackSize            40
+     SzFileInit                       16
+     SzFileFree                       16
+     SzArchiveDatabaseInit            20
+     SzArchiveDatabaseFree           100
+      Others                         112
+
+ 
+ 536 bytes in segment CODE
+ 
+ 424 bytes of CODE memory (+ 112 bytes shared)
+
+Errors: none
+Warnings: none
